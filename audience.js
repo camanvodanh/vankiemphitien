@@ -2,7 +2,7 @@
 "use strict";
 
 // =====================================================
-// HÀO QUANG VÀ VÒNG LINH KHÍ
+// NHÂN VẬT CỔ VŨ THEO CẤP BẬC
 // =====================================================
 
 function drawAura(x, y, radius, color, time, phase = 0) {
@@ -22,7 +22,6 @@ function drawAura(x, y, radius, color, time, phase = 0) {
   gradient.addColorStop(1, color + "00");
 
   ctx.fillStyle = gradient;
-
   ctx.beginPath();
   ctx.arc(x, y, radius * pulse, 0, Math.PI * 2);
   ctx.fill();
@@ -34,7 +33,6 @@ function drawEnergyRings(x, y, scale, color, time, phase) {
   if (!color) return;
 
   ctx.save();
-
   ctx.translate(x, y);
   ctx.scale(scale, scale);
 
@@ -46,13 +44,9 @@ function drawEnergyRings(x, y, scale, color, time, phase) {
 
   ctx.beginPath();
   ctx.ellipse(
-    0,
-    13,
+    0, 13,
     25 + Math.sin(time * .002 + phase) * 2,
-    7,
-    0,
-    0,
-    Math.PI * 2
+    7, 0, 0, Math.PI * 2
   );
   ctx.stroke();
 
@@ -64,19 +58,13 @@ function drawEnergyRings(x, y, scale, color, time, phase) {
 }
 
 // =====================================================
-// ĐỆ TỬ ĐỨNG CỔ VŨ
+// VẼ ĐỆ TỬ, TRƯỞNG LÃO, MÔN CHỦ
 // =====================================================
 
-function drawSpectator(
-  x,
-  y,
-  scale,
-  roleName,
-  time,
-  phase = 0
-) {
+function drawSpectator(x, y, scale, roleName, time, phase = 0) {
   const role = ROLE[roleName] || ROLE.outer;
 
+  const wave = Math.sin(time * .006 + phase);
   const armWave = Math.sin(time * .008 + phase);
 
   ctx.save();
@@ -90,12 +78,14 @@ function drawSpectator(
   ctx.ellipse(0, 22, 14, 4, 0, 0, Math.PI * 2);
   ctx.fill();
 
-  // Hào quang cấp cao
+  // Hào quang
   if (role.aura) {
     drawAura(
       0,
       -10,
-      roleName === "core" ? 31 : 25,
+      roleName === "master" ? 43 :
+      roleName === "elder" ? 35 :
+      roleName === "disciple" ? 31 : 27,
       role.aura,
       time,
       phase
@@ -152,9 +142,23 @@ function drawSpectator(
   ctx.fillRect(-8, 7, 16, 3);
 
   // Ngọc bội
-  if (["inner", "core"].includes(roleName)) {
+  if (["inner", "core", "disciple", "elder", "master"].includes(roleName)) {
     ctx.fillStyle = "#f1d98b";
     ctx.fillRect(3, 9, 3, 5);
+  }
+
+  // Hoa văn trên áo thân truyền
+  if (roleName === "disciple") {
+    ctx.strokeStyle = "#e8d8a3";
+    ctx.lineWidth = 1.5;
+
+    ctx.beginPath();
+    ctx.moveTo(0, -2);
+    ctx.lineTo(-3, 5);
+    ctx.lineTo(0, 9);
+    ctx.lineTo(3, 5);
+    ctx.closePath();
+    ctx.stroke();
   }
 
   // Cổ áo
@@ -166,7 +170,11 @@ function drawSpectator(
   ctx.fillRect(-6, -20, 12, 13);
 
   // Tóc
-  ctx.fillStyle = "#29252a";
+  const hair = ["elder", "master"].includes(roleName)
+    ? "#e6e0d3"
+    : "#29252a";
+
+  ctx.fillStyle = hair;
   ctx.fillRect(-7, -24, 14, 6);
   ctx.fillRect(-6, -27, 12, 4);
   ctx.fillRect(-8, -19, 3, 8);
@@ -177,7 +185,39 @@ function drawSpectator(
   ctx.fillRect(-3, -15, 2, 2);
   ctx.fillRect(2, -15, 2, 2);
 
-  // Tay vẫy
+  // Râu trưởng lão và môn chủ
+  if (roleName === "elder" || roleName === "master") {
+    ctx.fillStyle = "#e2ded1";
+
+    ctx.beginPath();
+    ctx.moveTo(-4, -8);
+    ctx.lineTo(4, -8);
+    ctx.lineTo(2, 2);
+    ctx.lineTo(0, 5);
+    ctx.lineTo(-2, 2);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillRect(-3, -32, 6, 7);
+
+    ctx.fillStyle = "#d6b86f";
+    ctx.fillRect(-4, -31, 8, 2);
+  }
+
+  // Thân truyền: phát quan, trâm ngọc
+  if (roleName === "disciple") {
+    ctx.fillStyle = "#e8d18d";
+
+    ctx.fillRect(-4, -30, 8, 3);
+    ctx.fillRect(-2, -35, 4, 6);
+
+    ctx.fillStyle = "#b9d8ff";
+    ctx.beginPath();
+    ctx.arc(0, -36, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Tay và động tác vẫy
   ctx.strokeStyle = "#efc39b";
   ctx.lineWidth = 3;
   ctx.lineCap = "round";
@@ -196,7 +236,7 @@ function drawSpectator(
   ctx.fillRect(-19, leftArmY - 4, 8, 7);
   ctx.fillRect(11, rightArmY - 4, 8, 7);
 
-  // Trang sức đệ tử nòng cốt
+  // Trang sức nòng cốt
   if (roleName === "core") {
     ctx.fillStyle = "#f5d984";
     ctx.fillRect(-2, -28, 4, 4);
@@ -204,6 +244,56 @@ function drawSpectator(
     ctx.fillRect(8, -5, 3, 3);
   }
 
+  // Trượng trưởng lão
+  if (roleName === "elder") {
+    ctx.strokeStyle = "#e2c783";
+    ctx.lineWidth = 3;
+
+    ctx.beginPath();
+    ctx.moveTo(20, -22);
+    ctx.lineTo(20, 23);
+    ctx.stroke();
+
+    ctx.fillStyle = "#e6d08f";
+    ctx.beginPath();
+    ctx.arc(20, -25, 5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Môn chủ
+  if (roleName === "master") {
+    ctx.fillStyle = "#e8c36e";
+
+    ctx.beginPath();
+    ctx.moveTo(-7, -26);
+    ctx.lineTo(-5, -36);
+    ctx.lineTo(0, -30);
+    ctx.lineTo(5, -36);
+    ctx.lineTo(7, -26);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.strokeStyle = "#e6cb88";
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+    ctx.moveTo(20, -29);
+    ctx.lineTo(20, 21);
+    ctx.stroke();
+
+    ctx.fillStyle = "#b43e35";
+
+    ctx.beginPath();
+    ctx.moveTo(22, -28);
+    ctx.lineTo(42 + wave * 3, -22);
+    ctx.lineTo(22, -15);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.strokeStyle = "#f2d48b";
+    ctx.stroke();
+  }
+
   ctx.restore();
 
   if (role.aura) {
@@ -219,345 +309,276 @@ function drawSpectator(
 }
 
 // =====================================================
-// NGỌC ĐÀI VÀ NGỌA THẤT
+// ĐÀI NGỌC NHIỀU TẦNG
 // =====================================================
 
 function drawAudiencePlatform(x, y, width) {
   ctx.save();
 
-  // Bệ đá nhiều tầng
-  ctx.fillStyle = "#62513d";
-  ctx.fillRect(x - width / 2, y, width, 13);
+  // Bệ móng
+  ctx.fillStyle = "#514333";
+  ctx.fillRect(x - width / 2 - 15, y + 22, width + 30, 14);
 
-  ctx.fillStyle = "#b99a62";
-  ctx.fillRect(x - width / 2 - 7, y - 5, width + 14, 6);
+  // Tầng đá thứ nhất
+  ctx.fillStyle = "#806b4d";
+  ctx.fillRect(x - width / 2 - 17, y + 15, width + 34, 9);
 
-  ctx.fillStyle = "#e4ca8c";
-  ctx.fillRect(x - width / 2, y + 13, width, 3);
+  // Viền ngọc
+  ctx.fillStyle = "#c7a970";
+  ctx.fillRect(x - width / 2 - 20, y + 8, width + 40, 8);
 
-  ctx.fillStyle = "#8e744b";
+  ctx.fillStyle = "#e2c98f";
+  ctx.fillRect(x - width / 2 - 17, y + 3, width + 34, 6);
 
+  // Mặt sàn
+  ctx.fillStyle = "#8e7048";
+  ctx.fillRect(x - width / 2 - 10, y - 2, width + 20, 7);
+
+  ctx.fillStyle = "#f1d99d";
+  ctx.fillRect(x - width / 2 - 16, y - 7, width + 32, 6);
+
+  // Hoa văn mặt tiền
+  ctx.strokeStyle = "#e6c77f";
+  ctx.lineWidth = 2;
+
+  ctx.strokeRect(
+    x - width / 2 + 4,
+    y + 10,
+    width - 8,
+    17
+  );
+
+  // Họa tiết sen
   for (
-    let px = x - width / 2 + 18;
+    let px = x - width / 2 + 12;
     px < x + width / 2;
-    px += 38
+    px += 24
   ) {
-    ctx.fillRect(px, y + 16, 5, 12);
+    ctx.fillStyle = "#d8bd80";
+    ctx.fillRect(px, y - 17, 4, 18);
+
+    ctx.fillStyle = "#f0d99c";
+    ctx.beginPath();
+    ctx.arc(px + 2, y - 19, 3, 0, Math.PI * 2);
+    ctx.fill();
   }
 
-  // Hoa văn mặt trước
-  ctx.strokeStyle = "rgba(255,225,158,.7)";
-  ctx.lineWidth = 1;
+  // Trụ sen phát sáng
+  [-width / 2 - 12, width / 2 + 12].forEach(px => {
+    ctx.fillStyle = "#d9bb75";
+    ctx.fillRect(x + px - 2, y - 27, 4, 28);
 
-  ctx.strokeRect(
-    x - width / 2 + 5,
-    y + 2,
-    width - 10,
-    8
-  );
-
-  ctx.restore();
-}
-
-function drawAudienceThrone(
-  x,
-  y,
-  width,
-  height,
-  grand = false
-) {
-  ctx.save();
-
-  const left = -width / 2;
-  const backWidth = width * .66;
-
-  // Bóng ngai
-  ctx.fillStyle = "rgba(20,25,20,.25)";
-  ctx.fillRect(left - 7, y - 5, width + 14, 12);
-
-  // Tựa lưng
-  ctx.fillStyle = grand ? "#54251f" : "#44334d";
-  ctx.fillRect(
-    -backWidth / 2,
-    y - height,
-    backWidth,
-    height - 8
-  );
-
-  ctx.fillStyle = grand ? "#9d3d30" : "#70558b";
-  ctx.fillRect(
-    -backWidth / 2 + 5,
-    y - height + 6,
-    backWidth - 10,
-    height - 20
-  );
-
-  // Viền vàng
-  ctx.strokeStyle = "#e7c77b";
-  ctx.lineWidth = grand ? 4 : 3;
-  ctx.strokeRect(
-    -backWidth / 2 + 3,
-    y - height + 3,
-    backWidth - 6,
-    height - 15
-  );
-
-  // Hoa văn trên tựa lưng
-  ctx.fillStyle = "#f1d78c";
-
-  ctx.beginPath();
-  ctx.moveTo(0, y - height + 10);
-  ctx.lineTo(12, y - height + 27);
-  ctx.lineTo(0, y - height + 43);
-  ctx.lineTo(-12, y - height + 27);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.fillStyle = grand ? "#9b352c" : "#59416c";
-  ctx.fillRect(-5, y - height + 22, 10, 10);
-
-  // Mặt ghế
-  ctx.fillStyle = "#4c3028";
-  ctx.fillRect(-width / 2, y - 13, width, 13);
-
-  ctx.fillStyle = grand ? "#d0a64d" : "#b79b6b";
-  ctx.fillRect(-width / 2, y - 15, width, 5);
-
-  // Tay vịn hai bên
-  [-1, 1].forEach(side => {
-    const px = side * (width / 2 - 8);
-
-    ctx.fillStyle = grand ? "#7f3029" : "#55415e";
-    ctx.fillRect(px - 5, y - 28, 10, 28);
-
-    ctx.fillStyle = "#e5c477";
-    ctx.fillRect(px - 8, y - 30, 16, 5);
-
+    ctx.fillStyle = "#fff0b8";
     ctx.beginPath();
-    ctx.arc(px, y - 32, 5, 0, Math.PI * 2);
+    ctx.arc(x + px, y - 30, 5, 0, Math.PI * 2);
     ctx.fill();
   });
 
-  // Chân ngai
-  ctx.fillStyle = "#6c4c30";
-  ctx.fillRect(-width * .34, y - 2, 9, 14);
-  ctx.fillRect(width * .34 - 9, y - 2, 9, 14);
+  ctx.restore();
+}
+
+// =====================================================
+// BIỂN TÊN CẤP BẬC
+// =====================================================
+
+function drawRoleLabel(x, y, text, color, scale = 1) {
+  ctx.save();
+
+  ctx.font = `bold ${Math.max(7, 9 * scale)}px Arial`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  const width = ctx.measureText(text).width + 16;
+  const height = 17 * scale;
+
+  // Bóng bảng
+  ctx.fillStyle = "rgba(20,22,20,.4)";
+  ctx.fillRect(
+    x - width / 2 + 2,
+    y - height / 2 + 3,
+    width,
+    height
+  );
+
+  // Khung ngoài
+  ctx.fillStyle = "#8d7049";
+  ctx.fillRect(
+    x - width / 2 - 3,
+    y - height / 2 - 3,
+    width + 6,
+    height + 6
+  );
+
+  // Viền vàng
+  ctx.fillStyle = "#e5cb8a";
+  ctx.fillRect(
+    x - width / 2 - 1,
+    y - height / 2 - 1,
+    width + 2,
+    height + 2
+  );
+
+  // Nền bảng
+  ctx.fillStyle = "rgba(39,35,29,.96)";
+  ctx.fillRect(
+    x - width / 2,
+    y - height / 2,
+    width,
+    height
+  );
+
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1;
+  ctx.strokeRect(
+    x - width / 2 + 2,
+    y - height / 2 + 2,
+    width - 4,
+    height - 4
+  );
+
+  ctx.fillStyle = "#fff0c5";
+  ctx.shadowColor = color;
+  ctx.shadowBlur = 4;
+  ctx.fillText(text, x, y);
 
   ctx.restore();
 }
 
 // =====================================================
-// MÔN CHỦ VÀ TRƯỞNG LÃO NGỒI
+// GHẾ NGỒI THÂN TRUYỀN
 // =====================================================
 
-function drawSeatedSpectator(
-  x,
-  y,
-  scale,
-  roleName,
-  time,
-  phase = 0
-) {
-  const role = ROLE[roleName] || ROLE.elder;
-  const isMaster = roleName === "master";
+function drawDiscipleSeats(time) {
+  const positions = [
+    [395, 638], [450, 634], [505, 631],
+    [560, 631], [615, 634], [670, 638],
+    [725, 638]
+  ];
 
+  positions.forEach(([x, y], i) => {
+    ctx.save();
+
+    // Ghế ngọc riêng
+    ctx.fillStyle = "#806543";
+    ctx.fillRect(x - 17, y + 12, 34, 8);
+
+    ctx.fillStyle = "#d8bd83";
+    ctx.fillRect(x - 19, y + 7, 38, 5);
+
+    ctx.fillStyle = "#a98b5c";
+    ctx.fillRect(x - 14, y - 2, 28, 12);
+
+    ctx.fillStyle = "#e7d09a";
+    ctx.fillRect(x - 13, y - 4, 26, 3);
+
+    // Họa tiết lưng ghế
+    ctx.strokeStyle = "#e8cf91";
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(x - 12, y - 2, 24, 11);
+
+    ctx.fillStyle = "#b9d8ff";
+    ctx.beginPath();
+    ctx.arc(x, y + 3, 2, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.restore();
+  });
+}
+
+// =====================================================
+// GHẾ TRƯỞNG LÃO
+// =====================================================
+
+function drawElderSeats() {
+  const positions = [
+    [145, 672], [195, 668], [245, 668], [295, 672],
+    [755, 672], [805, 668], [855, 668], [905, 672]
+  ];
+
+  positions.forEach(([x, y]) => {
+    ctx.save();
+
+    ctx.fillStyle = "#5e4659";
+    ctx.fillRect(x - 19, y + 10, 38, 9);
+
+    ctx.fillStyle = "#c1a16d";
+    ctx.fillRect(x - 21, y + 5, 42, 5);
+
+    ctx.fillStyle = "#84678a";
+    ctx.fillRect(x - 16, y - 8, 32, 17);
+
+    ctx.fillStyle = "#d8c18b";
+    ctx.fillRect(x - 17, y - 10, 34, 3);
+
+    ctx.strokeStyle = "#e3c88e";
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(x - 13, y - 6, 26, 12);
+
+    ctx.restore();
+  });
+}
+
+// =====================================================
+// GHẾ MÔN CHỦ
+// =====================================================
+
+function drawMasterThrone() {
   ctx.save();
 
-  ctx.translate(
-    x,
-    y + Math.sin(time * .002 + phase) * 1.2
-  );
+  // Bậc ngai
+  ctx.fillStyle = "#59402e";
+  ctx.fillRect(465, 689, 170, 17);
 
-  ctx.scale(scale * role.scale, scale * role.scale);
+  ctx.fillStyle = "#d4b16f";
+  ctx.fillRect(455, 682, 190, 8);
 
-  // Hào quang
-  if (role.aura) {
-    const radius = isMaster ? 55 : 37;
+  // Lưng ngai
+  ctx.fillStyle = "#6c2929";
+  ctx.fillRect(493, 640, 114, 43);
 
-    const aura = ctx.createRadialGradient(
-      0, -28, 3,
-      0, -28, radius
-    );
+  ctx.fillStyle = "#e4c77d";
+  ctx.fillRect(489, 635, 122, 7);
 
-    aura.addColorStop(0, role.aura + "55");
-    aura.addColorStop(.5, role.aura + "22");
-    aura.addColorStop(1, role.aura + "00");
+  ctx.strokeStyle = "#f2d48b";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(500, 646, 100, 32);
 
-    ctx.fillStyle = aura;
-    ctx.fillRect(-65, -90, 130, 120);
-  }
-
-  // Áo choàng rộng phía sau
-  ctx.fillStyle = role.dark;
-
-  ctx.beginPath();
-  ctx.moveTo(-12, -30);
-  ctx.lineTo(12, -30);
-  ctx.lineTo(26, 15);
-  ctx.lineTo(17, 22);
-  ctx.lineTo(-17, 22);
-  ctx.lineTo(-26, 15);
-  ctx.closePath();
-  ctx.fill();
-
-  // Thân áo chính
-  ctx.fillStyle = role.robe;
-
-  ctx.beginPath();
-  ctx.moveTo(-10, -29);
-  ctx.lineTo(10, -29);
-  ctx.lineTo(19, 13);
-  ctx.lineTo(13, 20);
-  ctx.lineTo(-13, 20);
-  ctx.lineTo(-19, 13);
-  ctx.closePath();
-  ctx.fill();
-
-  // Vạt áo phủ ngang đầu gối
-  ctx.fillStyle = role.dark;
-  ctx.fillRect(-20, 8, 40, 12);
-
-  ctx.fillStyle = role.robe;
-  ctx.fillRect(-17, 6, 34, 10);
-
-  // Đường viền áo
-  ctx.strokeStyle = isMaster ? "#f7d77e" : "#d8c18b";
+  // Họa tiết kiếm
+  ctx.strokeStyle = "#f1d58e";
   ctx.lineWidth = 2;
 
   ctx.beginPath();
-  ctx.moveTo(-10, -26);
-  ctx.lineTo(-17, 14);
-  ctx.moveTo(10, -26);
-  ctx.lineTo(17, 14);
+  ctx.moveTo(550, 650);
+  ctx.lineTo(550, 673);
+  ctx.moveTo(538, 659);
+  ctx.lineTo(550, 650);
+  ctx.lineTo(562, 659);
   ctx.stroke();
 
-  // Đai lưng
-  ctx.fillStyle = role.belt;
-  ctx.fillRect(-11, -4, 22, 4);
-
-  // Ngọc bội
-  ctx.fillStyle = "#ffe8a0";
-  ctx.fillRect(5, -1, 4, 8);
-
-  // Hai chân ngồi xếp bằng
-  ctx.fillStyle = role.dark;
+  // Đỉnh ngai
+  ctx.fillStyle = "#e9cc82";
 
   ctx.beginPath();
-  ctx.ellipse(-9, 17, 15, 5, -.15, 0, Math.PI * 2);
-  ctx.ellipse(9, 17, 15, 5, .15, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.fillStyle = isMaster ? "#c9a34f" : "#a58b64";
-  ctx.fillRect(-18, 19, 14, 3);
-  ctx.fillRect(4, 19, 14, 3);
-
-  // Hai tay đặt trên tay vịn
-  ctx.strokeStyle = "#efc39b";
-  ctx.lineWidth = 4;
-  ctx.lineCap = "round";
-
-  ctx.beginPath();
-  ctx.moveTo(-9, -22);
-  ctx.lineTo(-21, -7);
-  ctx.lineTo(-25, -5);
-
-  ctx.moveTo(9, -22);
-  ctx.lineTo(21, -7);
-  ctx.lineTo(25, -5);
-  ctx.stroke();
-
-  // Tay áo
-  ctx.fillStyle = role.robe;
-  ctx.fillRect(-25, -12, 10, 8);
-  ctx.fillRect(15, -12, 10, 8);
-
-  // Mặt
-  ctx.fillStyle = "#efc39b";
-  ctx.fillRect(-7, -48, 14, 15);
-
-  // Tóc bạc trưởng lão, tóc môn chủ
-  ctx.fillStyle = isMaster ? "#28232b" : "#e5dfd1";
-  ctx.fillRect(-8, -52, 16, 6);
-  ctx.fillRect(-7, -56, 14, 5);
-  ctx.fillRect(-9, -47, 3, 9);
-  ctx.fillRect(6, -47, 3, 9);
-
-  // Mắt
-  ctx.fillStyle = "#392b26";
-  ctx.fillRect(-4, -42, 2, 2);
-  ctx.fillRect(3, -42, 2, 2);
-
-  // Râu
-  ctx.fillStyle = isMaster ? "#d9d4c9" : "#f0eadc";
-
-  ctx.beginPath();
-  ctx.moveTo(-4, -34);
-  ctx.lineTo(4, -34);
-  ctx.lineTo(3, -23);
-  ctx.lineTo(0, -19);
-  ctx.lineTo(-3, -23);
+  ctx.moveTo(493, 641);
+  ctx.lineTo(500, 625);
+  ctx.lineTo(520, 637);
+  ctx.lineTo(550, 616);
+  ctx.lineTo(580, 637);
+  ctx.lineTo(600, 625);
+  ctx.lineTo(607, 641);
   ctx.closePath();
   ctx.fill();
 
-  // Mũ miện môn chủ
-  if (isMaster) {
-    ctx.fillStyle = "#e8c36e";
-
-    ctx.beginPath();
-    ctx.moveTo(-10, -51);
-    ctx.lineTo(-8, -65);
-    ctx.lineTo(-3, -58);
-    ctx.lineTo(0, -70);
-    ctx.lineTo(4, -58);
-    ctx.lineTo(9, -65);
-    ctx.lineTo(11, -51);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.strokeStyle = "#fff0b5";
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-
-    ctx.fillStyle = "#b83d35";
-    ctx.fillRect(-3, -61, 6, 5);
-
-    ctx.fillStyle = "#ffe8a0";
-    ctx.fillRect(-2, -69, 4, 4);
-
-    // Họa tiết rồng trên ngực
-    ctx.strokeStyle = "#f4d47d";
-    ctx.lineWidth = 2;
-
-    ctx.beginPath();
-    ctx.moveTo(-7, -20);
-    ctx.quadraticCurveTo(0, -13, 7, -20);
-    ctx.stroke();
-
-    ctx.fillStyle = "#f8df9a";
-    ctx.fillRect(-2, -17, 4, 4);
-  } else {
-    // Trâm ngọc trưởng lão
-    ctx.fillStyle = "#e6d08f";
-    ctx.fillRect(-3, -59, 6, 8);
-    ctx.fillRect(-5, -56, 10, 2);
-  }
+  ctx.fillStyle = "#a63c32";
+  ctx.beginPath();
+  ctx.arc(550, 635, 6, 0, Math.PI * 2);
+  ctx.fill();
 
   ctx.restore();
-
-  if (role.aura) {
-    drawEnergyRings(
-      x,
-      y,
-      scale * role.scale,
-      role.aura,
-      time,
-      phase
-    );
-  }
 }
 
 // =====================================================
-// CỜ HIỆU CỔ VŨ
+// CỜ NGHI LỄ
 // =====================================================
 
 function drawCrowdFlag(x, y, color, time) {
@@ -585,120 +606,181 @@ function drawCrowdFlag(x, y, color, time) {
 }
 
 // =====================================================
-// BỐ TRÍ KHÁN GIẢ THEO CẤP BẬC
+// TỔNG HỢP KHÁN GIẢ VÀ KHU VỰC DANH DỰ
 // =====================================================
 
 function drawCrowd(time) {
-  // ---------------------------------------------------
-  // TẦNG CAO NHẤT: MÔN CHỦ NGỒI CHỦ TỌA
-  // ---------------------------------------------------
+  // ==========================================
+  // 1. TẠP DỊCH - HÀNG DƯỚI CÙNG
+  // ==========================================
 
-  drawAudiencePlatform(550, 607, 190);
-  drawAudienceThrone(550, 590, 150, 84, true);
+  for (let i = 0; i < 15; i++) {
+    const x = 22 + i * 34;
+    const y = 752 + (i % 2) * 5;
 
-  drawAura(550, 550, 88, "#ffe6a0", time, 0);
+    drawSpectator(
+      x, y, .72, "servant", time, i * .55
+    );
+  }
 
-  drawSeatedSpectator(
-    550, 580, 1.05,
+  // ==========================================
+  // 2. NGOẠI MÔN
+  // ==========================================
+
+  for (let i = 0; i < 15; i++) {
+    const x = 570 + i * 34;
+    const y = 752 + (i % 2) * 5;
+
+    drawSpectator(
+      x, y, .78, "outer", time, i * .6
+    );
+  }
+
+  // ==========================================
+  // 3. NỘI MÔN
+  // ==========================================
+
+  for (let i = 0; i < 10; i++) {
+    const x = 35 + i * 43;
+    const y = 704 + (i % 2) * 4;
+
+    drawSpectator(
+      x, y, .84, "inner", time, i * .7
+    );
+  }
+
+  for (let i = 0; i < 10; i++) {
+    const x = 675 + i * 43;
+    const y = 704 + (i % 2) * 4;
+
+    drawSpectator(
+      x, y, .84, "inner", time, i * .7
+    );
+  }
+
+  // ==========================================
+  // 4. NÒNG CỐT
+  // ==========================================
+
+  for (let i = 0; i < 7; i++) {
+    drawSpectator(
+      180 + i * 37,
+      687 + (i % 2) * 3,
+      .94,
+      "core",
+      time,
+      i * .65
+    );
+  }
+
+  for (let i = 0; i < 7; i++) {
+    drawSpectator(
+      700 + i * 37,
+      687 + (i % 2) * 3,
+      .94,
+      "core",
+      time,
+      i * .65
+    );
+  }
+
+  // ==========================================
+  // 5. KHU GHẾ THÂN TRUYỀN
+  // ĐỊA VỊ CAO HƠN NÒNG CỐT
+  // ==========================================
+
+  drawAudiencePlatform(550, 644, 410);
+
+  drawDiscipleSeats(time);
+
+  const disciples = [
+    [395, 629], [450, 625], [505, 622],
+    [560, 622], [615, 625], [670, 629],
+    [725, 629]
+  ];
+
+  disciples.forEach((p, i) => {
+    drawSpectator(
+      p[0], p[1], 1.02,
+      "disciple", time, i * .8
+    );
+  });
+
+  drawRoleLabel(
+    550, 591,
+    "THÂN TRUYỀN ĐỆ TỬ",
+    "#a9c9f0",
+    1.05
+  );
+
+  // ==========================================
+  // 6. TÁM TRƯỞNG LÃO
+  // ==========================================
+
+  drawAudiencePlatform(245, 680, 235);
+  drawAudiencePlatform(855, 680, 235);
+
+  drawElderSeats();
+
+  const elders = [
+    [145, 665], [195, 661],
+    [245, 661], [295, 665],
+    [755, 665], [805, 661],
+    [855, 661], [905, 665]
+  ];
+
+  elders.forEach((p, i) => {
+    drawSpectator(
+      p[0], p[1],
+      i % 2 ? 1.0 : 1.04,
+      "elder", time, i * .9
+    );
+  });
+
+  drawRoleLabel(
+    245, 625,
+    "ĐẠI TRƯỞNG LÃO",
+    "#d4b5fa",
+    1.05
+  );
+
+  drawRoleLabel(
+    855, 625,
+    "TRƯỞNG LÃO",
+    "#d4b5fa",
+    1.05
+  );
+
+  // ==========================================
+  // 7. ĐÀI MÔN CHỦ
+  // ==========================================
+
+  drawAudiencePlatform(550, 696, 200);
+  drawMasterThrone();
+
+  drawAura(
+    550, 650, 90,
+    "#ffe6a0", time, 0
+  );
+
+  drawSpectator(
+    550, 664, 1.28,
     "master", time, 0
   );
 
-  // ---------------------------------------------------
-  // TẦNG THẤP HƠN: HAI VỊ TRÍ TRƯỞNG LÃO
-  // ---------------------------------------------------
-
-  drawAudiencePlatform(380, 623, 112);
-  drawAudienceThrone(380, 610, 100, 59, false);
-
-  drawSeatedSpectator(
-    380, 601, .83,
-    "elder", time, 1
+  drawRoleLabel(
+    550, 615,
+    "CHƯỞNG MÔN",
+    "#f2d17d",
+    1.2
   );
 
-  drawAudiencePlatform(720, 623, 112);
-  drawAudienceThrone(720, 610, 100, 59, false);
+  // ==========================================
+  // 8. CỜ NGHI LỄ
+  // ==========================================
 
-  drawSeatedSpectator(
-    720, 601, .83,
-    "elder", time, 2
-  );
-
-  // ---------------------------------------------------
-  // TẦNG KẾ TIẾP: ĐỆ TỬ NÒNG CỐT ĐỨNG
-  // ---------------------------------------------------
-
-  const core = [
-    [265, 619],
-    [470, 619],
-    [630, 619],
-    [835, 619]
-  ];
-
-  core.forEach((p, i) => {
-    drawSpectator(
-      p[0], p[1], .68,
-      "core", time, i * .8
-    );
-  });
-
-  // ---------------------------------------------------
-  // NỘI MÔN ĐỨNG Ở HÀNG PHÍA DƯỚI
-  // ---------------------------------------------------
-
-  const inner = [
-    [165, 632],
-    [325, 632],
-    [550, 632],
-    [775, 632],
-    [935, 632]
-  ];
-
-  inner.forEach((p, i) => {
-    drawSpectator(
-      p[0], p[1], .57,
-      "inner", time, i * .9
-    );
-  });
-
-  // ---------------------------------------------------
-  // NGOẠI MÔN ĐỨNG Ở HAI CÁNH
-  // ---------------------------------------------------
-
-  const outer = [
-    [45, 637],
-    [105, 637],
-    [225, 637],
-    [875, 637],
-    [995, 637],
-    [1055, 637]
-  ];
-
-  outer.forEach((p, i) => {
-    drawSpectator(
-      p[0], p[1], .53,
-      "outer", time, i * .7
-    );
-  });
-
-  // ---------------------------------------------------
-  // TẠP DỊCH ĐỨNG Ở MÉP NGOÀI
-  // ---------------------------------------------------
-
-  const servants = [
-    [18, 642],
-    [145, 642],
-    [955, 642],
-    [1080, 642]
-  ];
-
-  servants.forEach((p, i) => {
-    drawSpectator(
-      p[0], p[1], .47,
-      "servant", time, i * .8
-    );
-  });
-
-  // Cờ hiệu hai bên
-  drawCrowdFlag(15, 596, "#a53f36", time);
-  drawCrowdFlag(1080, 596, "#b18a43", time);
+  drawCrowdFlag(18, 710, "#a53f36", time);
+  drawCrowdFlag(1080, 710, "#b18a43", time);
+  drawCrowdFlag(105, 665, "#426f8a", time);
+  drawCrowdFlag(995, 665, "#8e4f83", time);
 }
