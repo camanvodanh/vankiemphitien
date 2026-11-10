@@ -805,7 +805,7 @@ function drawScenery(time) {
   drawPalace(790,354,.78,false);drawPalace(970,405,.54,false);
 
   // Vạn Kiếm Điện ở ranh giới rừng và quảng trường.
-  drawFloatingPlatform(178,510,.92);drawPalace(178,505,.76,true);
+  drawFloatingPlatform(178,445,.92);drawPalace(178,440,.76,true);
 
   // Cây ở bìa rừng; nền quảng trường sẽ che phần gốc phía dưới đường biên.
   drawPine(24,535,1.05,"#294f3d");drawPine(78,532,.96,"#315b45");
