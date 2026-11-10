@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -7,10 +6,8 @@
   <title>Vạn Kiếm Phi Tiên</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
   <main class="page">
-
     <header class="hero">
       <div class="logo">御</div>
       <div>
@@ -20,46 +17,24 @@
       </div>
     </header>
 
-    <!-- TRIỆU HỒI TIÊN NHÂN -->
     <section class="panel summon-panel">
       <h2>✦ Triệu hồi tiên nhân</h2>
-
-      <label for="names">
-        Danh sách tiên nhân — mỗi dòng một tên
-      </label>
-
-      <textarea
-        id="names"
-        rows="4"
-        placeholder="Diệp Phong&#10;Linh Nhi&#10;Thanh Vân"
-      ></textarea>
+      <label for="names">Danh sách tiên nhân — mỗi dòng một tên</label>
+      <textarea id="names" rows="4"
+        placeholder="Diệp Phong&#10;Linh Nhi&#10;Thanh Vân"></textarea>
 
       <div class="summon-footer">
         <div class="random-setting">
           <label for="quantity">Số lượng</label>
-          <input
-            id="quantity"
-            type="number"
-            min="2"
-            max="100"
-            value="10"
-          >
+          <input id="quantity" type="number" min="2" max="100" value="10">
         </div>
-
-        <button id="summon" class="btn primary">
-          ✦ Triệu hồi
-        </button>
-
-        <button id="reset" class="btn muted">
-          Làm mới
-        </button>
+        <button id="summon" class="btn primary">✦ Triệu hồi</button>
+        <button id="reset" class="btn muted">Làm mới</button>
       </div>
     </section>
 
-    <!-- THIẾT LẬP ĐẠI HỘI -->
     <section class="panel settings-panel">
       <h2>☯ Thiết lập đại hội</h2>
-
       <div class="settings-row">
         <div class="field">
           <label for="speed">Thời gian cuộc đua</label>
@@ -82,85 +57,59 @@
         </div>
 
         <div class="race-buttons">
-          <button
-            id="start"
-            class="btn primary"
-            disabled
-          >
-            Bắt đầu đua
-          </button>
-
-          <button
-            id="pause"
-            class="btn muted"
-            disabled
-          >
-            Tạm dừng
-          </button>
+          <button id="start" class="btn primary" disabled>Bắt đầu đua</button>
+          <button id="pause" class="btn muted" disabled>Tạm dừng</button>
         </div>
       </div>
-
       <p id="lockNotice" class="lock-notice">
         Nhập danh sách hoặc chọn số lượng để triệu hồi.
       </p>
     </section>
 
-    <!-- KHU VỰC ĐƯỜNG ĐUA -->
     <section class="race-section">
       <div class="race-heading">
-        <span id="status" class="status">
-          Chờ triệu hồi
-        </span>
+        <span id="status" class="status">Chờ triệu hồi</span>
       </div>
 
       <div class="race-layout">
-
-        <!-- SÂN ĐUA VÀ CAMERA -->
         <div class="arena-column">
           <div class="arena-frame">
-            <canvas
-              id="game"
-              width="1100"
-              height="650"
-            ></canvas>
+            <canvas id="game" width="1100" height="800"></canvas>
           </div>
 
-          <!-- CAMERA NGƯỜI DẪN ĐẦU -->
           <div class="camera panel">
             <div class="camera-heading">
               <h3>Người dẫn đầu</h3>
-
-              <span class="camera-live">
-                <i></i> TRỰC TIẾP
-              </span>
+              <span class="camera-live"><i></i> TRỰC TIẾP</span>
             </div>
 
             <div class="camera-screen">
-              <canvas
-                id="leaderCanvas"
-                width="420"
-                height="190"
-              ></canvas>
+              <canvas id="leaderCanvas" width="420" height="190"></canvas>
             </div>
 
             <div class="camera-info">
-              <strong id="leaderName">
-                Đang chờ cuộc đua
-              </strong>
-
-              <span id="leaderProgress">
-                Chưa bắt đầu
-              </span>
+              <strong id="leaderName">Đang chờ cuộc đua</strong>
+              <span id="leaderProgress">Chưa bắt đầu</span>
             </div>
           </div>
         </div>
 
-        <!-- TIÊN BẢNG -->
         <aside class="ranking panel">
           <div class="ranking-heading">
             <div>
               <p class="eyebrow">BẢNG XẾP HẠNG</p>
               <h3>Tiên bảng</h3>
+            </div>
+          </div>
+
+          <div class="summary">
+            <div>
+              <small>Tham gia</small>
+              <strong id="totalCount">0</strong>
+            </div>
+            <div>
+              <small>Về đích</small>
+              <strong id="finishedCount">0</strong>
             </div>
           </div>
 
@@ -173,34 +122,22 @@
                   <th>Tiến độ</th>
                 </tr>
               </thead>
-
               <tbody id="rankBody">
                 <tr>
-                  <td colspan="3" class="empty">
-                    Chưa có tiên nhân
-                  </td>
+                  <td colspan="3" class="empty">Chưa có tiên nhân</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </aside>
-
       </div>
     </section>
 
-    <footer>
-      VẠN KIẾM PHI TIÊN · THIÊN ĐỊA TRANH PHONG
-    </footer>
+    <footer>VẠN KIẾM PHI TIÊN · THIÊN ĐỊA TRANH PHONG</footer>
 
-    <div
-      id="event"
-      class="sr-only"
-      aria-live="polite"
-    ></div>
-
+    <div id="event" class="sr-only" aria-live="polite"></div>
   </main>
 
-  <!-- JAVASCRIPT: GIỮ ĐÚNG THỨ TỰ -->
   <script src="core.js"></script>
   <script src="scenery.js"></script>
   <script src="audience.js"></script>
