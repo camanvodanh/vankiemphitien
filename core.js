@@ -1,4 +1,3 @@
-
 "use strict";
 
 const $ = id => document.getElementById(id);
@@ -11,11 +10,13 @@ const cameraCtx = cameraCanvas.getContext("2d");
 const W = canvas.width;
 const H = canvas.height;
 
+// Khu vực đua được đặt cao hơn.
+// Phía dưới dành riêng cho quảng trường và khán đài.
 const TRACK = {
   left: 100,
   right: 1000,
-  top: 145,
-  bottom: 590
+  top: 125,
+  bottom: 475
 };
 
 const palette = [
@@ -40,6 +41,7 @@ const ROLE = {
     aura: null,
     scale: .72
   },
+
   outer: {
     name: "Ngoại môn",
     robe: "#4d83a1",
@@ -48,6 +50,7 @@ const ROLE = {
     aura: null,
     scale: .8
   },
+
   inner: {
     name: "Nội môn",
     robe: "#d8dfd0",
@@ -56,6 +59,7 @@ const ROLE = {
     aura: "#b5e5d8",
     scale: .88
   },
+
   core: {
     name: "Nòng cốt",
     robe: "#d6b45e",
@@ -64,6 +68,16 @@ const ROLE = {
     aura: "#ffe3a0",
     scale: .98
   },
+
+  disciple: {
+    name: "Thân truyền",
+    robe: "#c9d7e8",
+    dark: "#526d91",
+    belt: "#f3d88b",
+    aura: "#b9d8ff",
+    scale: 1.08
+  },
+
   elder: {
     name: "Trưởng lão",
     robe: "#755b91",
@@ -72,6 +86,7 @@ const ROLE = {
     aura: "#d8c2ff",
     scale: 1.15
   },
+
   master: {
     name: "Môn chủ",
     robe: "#a83f36",
