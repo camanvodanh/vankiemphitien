@@ -1116,9 +1116,9 @@ function drawCrowd(time) {
   drawRoleLabel(255,644,"ĐẠI TRƯỞNG LÃO","#d4b5fa",1.02);
   drawRoleLabel(845,644,"TRƯỞNG LÃO","#d4b5fa",1.02);
 
-  drawAudiencePlatform(550,770,260);
-  [[445,741],[495,741],[545,741],[595,741],[645,741]].forEach((p,i)=>drawFormalSpectator(p[0],p[1],.82,"disciple",time,i));
-  drawRoleLabel(550,704,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.94);
+  drawAudiencePlatform(550,750,260);
+  [[445,721],[495,721],[545,721],[595,721],[645,721]].forEach((p,i)=>drawFormalSpectator(p[0],p[1],.82,"disciple",time,i));
+  drawRoleLabel(550,684,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.94);
 
   // Đệ tử phổ thông phân bố cân hai cánh, chừa lề an toàn cho nhân vật và HUD.
   const bands=[
