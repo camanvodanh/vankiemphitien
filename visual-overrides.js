@@ -172,12 +172,11 @@ function drawCrowd(time) {
 
   // Dãy đệ tử thường ở xa khu vực danh dự, chia hai cánh.
   const rows = [
-    { y: 755, count: 17, start: 18, step: 32, role: "servant", scale: .67 },
-    { y: 724, count: 13, start: 20, step: 38, role: "outer", scale: .72 },
-    { y: 755, count: 17, start: 538, step: 32, role: "outer", scale: .69 },
-    { y: 724, count: 13, start: 600, step: 38, role: "inner", scale: .75 },
-    { y: 695, count: 6, start: 25, step: 43, role: "inner", scale: .78 },
-    { y: 695, count: 6, start: 815, step: 43, role: "core", scale: .82 }
+    { y: 760, count: 17, start: 18, step: 32, role: "servant", scale: .67 },
+    { y: 760, count: 17, start: 538, step: 32, role: "outer", scale: .69 },
+    { y: 730, count: 7, start: 18, step: 40, role: "inner", scale: .76 },
+    { y: 730, count: 7, start: 842, step: 40, role: "core", scale: .80 },
+    { y: 790, count: 17, start: 18, step: 32, role: "outer", scale: .66 }
   ];
 
   rows.forEach((row, ri) => {
@@ -239,7 +238,7 @@ function drawCrowd(time) {
   personal.forEach((p, i) => {
     drawFormalSpectator(p[0], p[1], .88, "disciple", time, i);
   });
-  drawRoleLabel(550, 678, "THÂN TRUYỀN ĐỆ TỬ", "#a9c9f0", .98);
+  drawRoleLabel(550, 674, "THÂN TRUYỀN ĐỆ TỬ", "#a9c9f0", .98);
 
   // Cờ nghi lễ ở hai rìa, không chắn nhân vật.
   drawCrowdFlag(12, 710, "#a53f36", time);
