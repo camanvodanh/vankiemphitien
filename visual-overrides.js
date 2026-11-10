@@ -429,35 +429,31 @@ function drawRacer(target, racer, x, y, scale, time) {
 // =====================================================
 
 function drawRiver(time) {
-  const g=ctx.createLinearGradient(0,370,0,H);
-  g.addColorStop(0,"#d9c79d"); g.addColorStop(.25,"#c7b184");
-  g.addColorStop(.7,"#927c5b"); g.addColorStop(1,"#5d503d");
-  ctx.fillStyle=g; ctx.beginPath();
-  ctx.moveTo(0,390); ctx.quadraticCurveTo(270,365,550,382);
-  ctx.quadraticCurveTo(830,365,1100,390); ctx.lineTo(1100,H);
-  ctx.lineTo(0,H); ctx.closePath(); ctx.fill();
-  ctx.save(); ctx.beginPath(); ctx.moveTo(0,390);
-  ctx.quadraticCurveTo(270,365,550,382); ctx.quadraticCurveTo(830,365,1100,390);
-  ctx.lineTo(1100,H); ctx.lineTo(0,H); ctx.closePath(); ctx.clip();
-  for(let y=405;y<H+24;y+=32){
-    ctx.strokeStyle="rgba(255,239,199,.30)"; ctx.lineWidth=2;
-    ctx.beginPath(); ctx.moveTo(-30-(y-390)*.18,y);
-    ctx.lineTo(1130+(y-390)*.18,y); ctx.stroke();
+  // Quảng trường chỉ chiếm phần trung tâm, chừa hai sườn núi và hàng cây hai bên.
+  const left=225, right=875, top=405;
+  const floor=ctx.createLinearGradient(0,top,0,H);
+  floor.addColorStop(0,"#d9c79d");floor.addColorStop(.28,"#c7b184");
+  floor.addColorStop(.72,"#927c5b");floor.addColorStop(1,"#5d503d");
+  ctx.fillStyle=floor;ctx.beginPath();
+  ctx.moveTo(left,top+8);ctx.quadraticCurveTo(550,top-18,right,top+8);
+  ctx.lineTo(930,H);ctx.lineTo(170,H);ctx.closePath();ctx.fill();
+  ctx.save();ctx.beginPath();ctx.moveTo(left,top+8);
+  ctx.quadraticCurveTo(550,top-18,right,top+8);
+  ctx.lineTo(930,H);ctx.lineTo(170,H);ctx.closePath();ctx.clip();
+  for(let y=430;y<H+20;y+=32){
+    ctx.strokeStyle="rgba(255,239,199,.28)";ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(185-(y-top)*.16,y);ctx.lineTo(915+(y-top)*.16,y);ctx.stroke();
   }
-  for(let x=-400;x<1500;x+=92){
-    ctx.strokeStyle="rgba(75,59,39,.17)"; ctx.lineWidth=1;
-    ctx.beginPath(); ctx.moveTo(550+(x-550)*.12,382); ctx.lineTo(x,H); ctx.stroke();
+  for(let x=210;x<=890;x+=78){
+    ctx.strokeStyle="rgba(75,59,39,.16)";ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(550+(x-550)*.12,top);ctx.lineTo(x,H);ctx.stroke();
   }
-  ctx.strokeStyle="rgba(255,225,164,.22)"; ctx.lineWidth=2;
-  for(let i=0;i<5;i++){ctx.beginPath();ctx.ellipse(550,675,105+i*43,24+i*9,0,0,Math.PI*2);ctx.stroke();}
+  ctx.strokeStyle="rgba(255,225,164,.2)";ctx.lineWidth=2;
+  for(let i=0;i<5;i++){ctx.beginPath();ctx.ellipse(550,690,85+i*36,20+i*8,0,0,Math.PI*2);ctx.stroke();}
   ctx.restore();
-  ctx.fillStyle="#8c7654"; ctx.beginPath();
-  ctx.moveTo(0,387);ctx.quadraticCurveTo(550,360,1100,387);
-  ctx.lineTo(1100,400);ctx.quadraticCurveTo(550,374,0,400);ctx.closePath();ctx.fill();
   ctx.strokeStyle="#ead39c";ctx.lineWidth=3;ctx.beginPath();
-  ctx.moveTo(0,386);ctx.quadraticCurveTo(550,359,1100,386);ctx.stroke();
+  ctx.moveTo(left,top+7);ctx.quadraticCurveTo(550,top-20,right,top+7);ctx.stroke();
 }
-
 function drawCrowd(time) {
   // Đệ tử phổ thông được đẩy ra xa hai cánh và hàng dưới.
   const rows=[
@@ -495,35 +491,8 @@ function drawCrowd(time) {
 }
 
 function drawPalaceWithSign(x,y,scale,grand=false) {
-  // Gọi hàm drawPalace gốc trong scenery.js, không ghi đè chính nó.
+  // Chỉ dùng một bảng hiệu gốc do scenery.js vẽ; không chồng thêm bảng thứ hai.
   drawPalace(x,y,scale,grand);
-  // Bảng hiệu thứ hai lớn, đặt thấp hơn đỉnh mái, chữ có dấu rõ ràng.
-  const w=(grand?190:150), py=y-111*scale;
-  ctx.save();ctx.translate(x,py);
-  ctx.fillStyle="#38251b";ctx.fillRect(-w/2-5,-17*scale,w+10,34*scale);
-  ctx.fillStyle="#e8c77c";ctx.fillRect(-w/2,-14*scale,w,28*scale);
-  ctx.fillStyle="#74352b";ctx.fillRect(-w/2+4,-10*scale,w-8,20*scale);
-  ctx.strokeStyle="#fff0bd";ctx.lineWidth=Math.max(1,1.6*scale);
-  ctx.strokeRect(-w/2+6,-8*scale,w-12,16*scale);
-  ctx.fillStyle="#fff4d1";ctx.textAlign="center";ctx.textBaseline="middle";
-  ctx.font="bold "+Math.round((grand?18:16)*scale)+"px serif";
-  ctx.shadowColor="#ffe29b";ctx.shadowBlur=5*scale;
-  ctx.fillText(grand?"VẠN KIẾM ĐIỆN":"TIÊN ĐIỆN",0,0,w-16*scale);
-  ctx.restore();
-
-  // Trang trí nóc điện: sống mái, đầu đao và bảo châu.
-  ctx.save();ctx.translate(x,y);ctx.scale(scale,scale);
-  ctx.strokeStyle="#f1d38a";ctx.lineWidth=3;
-  ctx.beginPath();ctx.moveTo(-w/2,-143);ctx.quadraticCurveTo(0,-177,w/2,-143);ctx.stroke();
-  for(const side of [-1,1]){
-    ctx.fillStyle="#e7c779";ctx.beginPath();
-    ctx.moveTo(side*(grand?162:112),-108);
-    ctx.quadraticCurveTo(side*(grand?190:135),-126,side*(grand?204:145),-151);
-    ctx.lineTo(side*(grand?178:125),-138);ctx.closePath();ctx.fill();
-    ctx.fillStyle="#fff0bd";ctx.beginPath();ctx.arc(side*(grand?178:125),-143,4,0,Math.PI*2);ctx.fill();
-  }
-  ctx.fillStyle="#f5d994";ctx.beginPath();ctx.arc(0,-171,5,0,Math.PI*2);ctx.fill();
-  ctx.restore();
 }
 
 function drawScenery(time) {
@@ -532,8 +501,8 @@ function drawScenery(time) {
   // Nâng toàn bộ tiên môn, đỉnh mái và bảng hiệu vượt rõ đường đua trên cùng.
   drawFloatingPlatform(150,220,.92);drawFloatingPlatform(950,210,.90);
   drawPagoda(150,235,1.02,"#554335");drawPagoda(950,220,1.06,"#584333");
-  drawPalaceWithSign(270,270,.70,false);drawPalaceWithSign(830,265,.72,false);
-  drawPalaceWithSign(550,205,1.48,true);
+  drawPalaceWithSign(270,270,.52,false);drawPalaceWithSign(830,265,.52,false);
+  drawPalaceWithSign(550,220,1.08,true);
   drawWaterfall(900,255,34,145,time);drawWaterfall(105,300,24,105,time);
   // Cây nằm trên sườn núi hai bên, không mọc trên sân lát đá.
   drawPine(18,470,1.16);drawPine(65,480,.98);drawPine(112,470,.86);
@@ -619,4 +588,50 @@ function drawRacer(target,racer,x,y,scale,time) {
   target.fillStyle="#392a26";target.fillRect(-4,-17,2,2);target.fillRect(3,-17,2,2);
   target.fillStyle="#e8cb83";target.fillRect(-8,5,16,2);
   target.restore();
+}
+
+
+// =====================================================
+// REVISION 3 — thác nghiêng, HUD cân giữa và tinh chỉnh cảnh
+// =====================================================
+function drawWaterfall(x,y,width,height,time) {
+  ctx.save();
+  const dx=width*.42;
+  ctx.fillStyle="#476c5a";ctx.beginPath();
+  ctx.moveTo(x-18,y-4);ctx.lineTo(x+width+12,y+2);
+  ctx.lineTo(x+width+dx+22,y+height);ctx.lineTo(x+dx-22,y+height-2);
+  ctx.closePath();ctx.fill();
+  ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+width,y+2);
+  ctx.lineTo(x+width+dx,y+height);ctx.lineTo(x+dx,y+height);ctx.closePath();ctx.clip();
+  const water=ctx.createLinearGradient(x,y,x+dx,y+height);
+  water.addColorStop(0,"#e4f3df");water.addColorStop(.34,"#a9d9d2");
+  water.addColorStop(.72,"#68b4b0");water.addColorStop(1,"#438f8c");
+  ctx.fillStyle=water;ctx.fillRect(x-8,y-4,width+dx+16,height+10);
+  const drift=(time*.006)%34;
+  for(let i=-2;i<Math.ceil(height/25)+3;i++){
+    const yy=y+i*25+drift,xx=x+(yy-y)*.42;
+    ctx.strokeStyle="rgba(255,255,230,.48)";ctx.lineWidth=1.7;
+    ctx.beginPath();ctx.moveTo(xx+4,yy);ctx.lineTo(xx+width*.55,yy+7);ctx.stroke();
+  }
+  ctx.restore();
+  ctx.fillStyle="rgba(226,246,231,.42)";
+  ctx.beginPath();ctx.ellipse(x+dx+width*.52,y+height,width*1.65,8,.04,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle="rgba(231,249,235,.65)";ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(x+dx+width*.15,y+height-3);
+  ctx.quadraticCurveTo(x+dx+width*.55,y+height+5,x+dx+width,y+height-2);ctx.stroke();
+}
+function drawRaceHud() {
+  const remaining=Math.max(0,duration-elapsed),completed=racers.filter(r=>r.finished).length;
+  const gap=14,leftWidth=220,rightWidth=190,total=220+14+190;
+  const left=(W-total)/2,y=14,h=52;
+  function centeredBox(x,w,label,value) {
+    ctx.save();ctx.fillStyle="rgba(20,48,39,.9)";ctx.fillRect(x,y,w,h);
+    ctx.strokeStyle="rgba(224,194,126,.85)";ctx.lineWidth=1;ctx.strokeRect(x+.5,y+.5,w-1,h-1);
+    ctx.textAlign="center";ctx.textBaseline="middle";
+    ctx.fillStyle="#e0c991";ctx.font="bold 10px Arial";ctx.fillText(label,x+w/2,y+13,w-12);
+    ctx.fillStyle="#fff0c7";ctx.font="bold 21px Arial";ctx.fillText(value,x+w/2,y+37,w-12);
+    ctx.restore();
+  }
+  centeredBox(left,leftWidth,"THỜI GIAN CÒN LẠI",timeText(remaining));
+  centeredBox(left+leftWidth+gap,rightWidth,"HOÀN THÀNH",`${completed} / ${racers.length}`);
 }
