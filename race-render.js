@@ -103,7 +103,7 @@ function drawRaceHud() {
 
 function drawImmortalFinishGate() {
   const x = TRACK.right;
-  const top = TRACK.top + 8;
+  const top = TRACK.top - 55;
   const bottom = TRACK.bottom;
 
   ctx.save();
