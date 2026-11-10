@@ -222,19 +222,28 @@ function drawSpectator(x, y, scale, roleName, time, phase = 0) {
   ctx.lineWidth = 3;
   ctx.lineCap = "round";
 
-  const leftArmY = -8 + armWave * 5;
-  const rightArmY = -15 - armWave * 8;
+  const pose = Math.floor(Math.abs(Math.sin(phase * 1.71)) * 5);
+  const leftArmY = pose === 0 ? -24 + armWave * 3 :
+                   pose === 1 ? -4 + armWave * 4 :
+                   pose === 2 ? -17 + armWave * 5 :
+                   pose === 3 ? -29 + armWave * 2 : -10 + armWave * 6;
+  const rightArmY = pose === 0 ? -5 - armWave * 4 :
+                    pose === 1 ? -28 - armWave * 3 :
+                    pose === 2 ? -23 - armWave * 4 :
+                    pose === 3 ? -8 - armWave * 5 : -31 - armWave * 2;
+  const leftArmX = pose === 4 ? -20 : -15;
+  const rightArmX = pose === 1 ? 20 : 15;
 
   ctx.beginPath();
   ctx.moveTo(-7, 0);
-  ctx.lineTo(-15, leftArmY);
+  ctx.lineTo(leftArmX, leftArmY);
   ctx.moveTo(7, 0);
-  ctx.lineTo(15, rightArmY);
+  ctx.lineTo(rightArmX, rightArmY);
   ctx.stroke();
 
   ctx.fillStyle = role.robe;
-  ctx.fillRect(-19, leftArmY - 4, 8, 7);
-  ctx.fillRect(11, rightArmY - 4, 8, 7);
+  ctx.fillRect(leftArmX - 4, leftArmY - 4, 8, 7);
+  ctx.fillRect(rightArmX - 4, rightArmY - 4, 8, 7);
 
   // Trang sức nòng cốt
   if (roleName === "core") {
