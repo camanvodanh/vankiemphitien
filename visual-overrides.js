@@ -494,11 +494,11 @@ function drawCrowd(time) {
   drawCrowdFlag(12,700,"#a53f36",time);drawCrowdFlag(1085,700,"#b18a43",time);
 }
 
-const drawPalaceBase = drawPalace;
-function drawPalace(x,y,scale,grand=false) {
-  drawPalaceBase(x,y,scale,grand);
+function drawPalaceWithSign(x,y,scale,grand=false) {
+  // Gọi hàm drawPalace gốc trong scenery.js, không ghi đè chính nó.
+  drawPalace(x,y,scale,grand);
   // Bảng hiệu thứ hai lớn, đặt thấp hơn đỉnh mái, chữ có dấu rõ ràng.
-  const w=(grand?190:150)*scale, py=y-111*scale;
+  const w=(grand?190:150), py=y-111*scale;
   ctx.save();ctx.translate(x,py);
   ctx.fillStyle="#38251b";ctx.fillRect(-w/2-5,-17*scale,w+10,34*scale);
   ctx.fillStyle="#e8c77c";ctx.fillRect(-w/2,-14*scale,w,28*scale);
@@ -532,8 +532,8 @@ function drawScenery(time) {
   // Nâng toàn bộ tiên môn, đỉnh mái và bảng hiệu vượt rõ đường đua trên cùng.
   drawFloatingPlatform(150,220,.92);drawFloatingPlatform(950,210,.90);
   drawPagoda(150,235,1.02,"#554335");drawPagoda(950,220,1.06,"#584333");
-  drawPalace(270,270,.70,false);drawPalace(830,265,.72,false);
-  drawPalace(550,205,1.48,true);
+  drawPalaceWithSign(270,270,.70,false);drawPalaceWithSign(830,265,.72,false);
+  drawPalaceWithSign(550,205,1.48,true);
   drawWaterfall(900,255,34,145,time);drawWaterfall(105,300,24,105,time);
   // Cây nằm trên sườn núi hai bên, không mọc trên sân lát đá.
   drawPine(18,470,1.16);drawPine(65,480,.98);drawPine(112,470,.86);
