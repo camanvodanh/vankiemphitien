@@ -801,11 +801,11 @@ function drawScenery(time) {
   drawWaterfall(890,250,30,205,time);drawWaterfall(112,315,22,145,time);
 
   // Tiên Điện nằm trên các sườn núi cao.
-  drawFloatingPlatform(790,355,.92);drawFloatingPlatform(970,405,.62);
+  drawFloatingPlatform(790,397,.92);drawFloatingPlatform(970,435,.62);
   drawPalace(790,354,.78,false);drawPalace(970,405,.54,false);
 
   // Vạn Kiếm Điện ở ranh giới rừng và quảng trường.
-  drawFloatingPlatform(178,445,.92);drawPalace(178,440,.76,true);
+  drawFloatingPlatform(178,482,.92);drawPalace(178,440,.76,true);
 
   // Cây ở bìa rừng; nền quảng trường sẽ che phần gốc phía dưới đường biên.
   drawPine(24,535,1.05,"#294f3d");drawPine(78,532,.96,"#315b45");
