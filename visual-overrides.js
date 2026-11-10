@@ -842,3 +842,403 @@ function drawRaceHud() {
     ctx.fillText(item.value,x+boxW/2,y+34,boxW-8);ctx.restore();
   });
 }
+
+
+// =====================================================
+// REVISION 5 — quảng trường gọn, tiên sơn, hồ suối và khán đài
+// =====================================================
+
+function drawRiver(time) {
+  const edgeY=610;
+  const g=ctx.createLinearGradient(0,edgeY,0,H);
+  g.addColorStop(0,"#d9c99f");g.addColorStop(.25,"#c6b38a");
+  g.addColorStop(.68,"#947d59");g.addColorStop(1,"#62503a");
+  ctx.fillStyle=g;ctx.beginPath();ctx.moveTo(0,edgeY);
+  ctx.quadraticCurveTo(W*.5,590,W,edgeY);ctx.lineTo(W,H);ctx.lineTo(0,H);
+  ctx.closePath();ctx.fill();
+
+  ctx.save();ctx.beginPath();ctx.moveTo(0,edgeY);
+  ctx.quadraticCurveTo(W*.5,590,W,edgeY);ctx.lineTo(W,H);ctx.lineTo(0,H);
+  ctx.closePath();ctx.clip();
+  for(let y=625;y<H+20;y+=35){
+    const spread=(y-600)*.42;
+    ctx.strokeStyle="rgba(255,239,199,.28)";ctx.lineWidth=1.6;
+    ctx.beginPath();ctx.moveTo(-spread,y);ctx.lineTo(W+spread,y);ctx.stroke();
+  }
+  for(let x=-380;x<W+400;x+=90){
+    ctx.strokeStyle="rgba(75,58,37,.17)";ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(W*.5+(x-W*.5)*.13,595);ctx.lineTo(x,H);ctx.stroke();
+  }
+  ctx.strokeStyle="rgba(255,226,167,.19)";ctx.lineWidth=2;
+  for(let i=0;i<4;i++){
+    ctx.beginPath();ctx.ellipse(W*.5,715,70+i*34,14+i*6,0,0,Math.PI*2);ctx.stroke();
+  }
+  ctx.restore();
+  ctx.strokeStyle="#e7d19d";ctx.lineWidth=4;
+  ctx.beginPath();ctx.moveTo(0,edgeY);ctx.quadraticCurveTo(W*.5,590,W,edgeY);ctx.stroke();
+  ctx.strokeStyle="rgba(85,65,42,.42)";ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(0,edgeY+8);ctx.quadraticCurveTo(W*.5,599,W,edgeY+8);ctx.stroke();
+}
+
+// Suối núi uốn quanh chân núi, đổ xuống hồ xanh ngọc dưới chân thác.
+function drawMountainStream(time) {
+  ctx.save();
+  // Bờ đá tối, nhiều lớp bờ cát và rêu.
+  ctx.lineCap="round";ctx.lineJoin="round";
+  ctx.strokeStyle="#455c4b";ctx.lineWidth=43;
+  ctx.beginPath();ctx.moveTo(70,520);ctx.bezierCurveTo(190,490,250,565,370,548);
+  ctx.bezierCurveTo(485,530,520,480,650,500);ctx.bezierCurveTo(740,515,790,485,880,480);ctx.stroke();
+  ctx.strokeStyle="#9b9a70";ctx.lineWidth=34;ctx.stroke();
+  const water=ctx.createLinearGradient(0,475,0,570);
+  water.addColorStop(0,"#bce6dc");water.addColorStop(.42,"#65b8b0");water.addColorStop(1,"#267e82");
+  ctx.strokeStyle=water;ctx.lineWidth=25;
+  ctx.beginPath();ctx.moveTo(70,518);ctx.bezierCurveTo(190,488,250,562,370,545);
+  ctx.bezierCurveTo(485,526,520,477,650,497);ctx.bezierCurveTo(740,512,790,482,880,478);ctx.stroke();
+
+  // Vân nước chuyển động chậm theo dòng.
+  const shift=(time*.018)%70;
+  for(let i=0;i<9;i++){
+    const t=(i/9+shift/70)%1;
+    const x=90+t*760,y=514+Math.sin(t*8)*23;
+    ctx.strokeStyle="rgba(240,255,239,.52)";ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(x-12,y-2);ctx.quadraticCurveTo(x,y-6,x+14,y+1);ctx.stroke();
+  }
+
+  // Hồ nước chân thác: lòng hồ sâu, bờ đá, gợn sóng và bọt trắng.
+  const lx=895,ly=493;
+  const lake=ctx.createRadialGradient(lx-20,ly-12,5,lx,ly,125);
+  lake.addColorStop(0,"#c4eee0");lake.addColorStop(.42,"#62b8ad");lake.addColorStop(1,"#285f60");
+  ctx.fillStyle="#465d4d";ctx.beginPath();ctx.ellipse(lx,ly+7,125,48,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle=lake;ctx.beginPath();ctx.ellipse(lx,ly,116,39,-.04,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle="rgba(230,255,238,.58)";ctx.lineWidth=2;
+  for(let i=0;i<4;i++){
+    ctx.beginPath();ctx.ellipse(lx-4,ly+2,26+i*19,7+i*4,-.05,0,Math.PI*2);ctx.stroke();
+  }
+  ctx.fillStyle="rgba(242,255,239,.48)";
+  for(let i=0;i<8;i++){
+    const a=i*.78+time*.0002;
+    ctx.beginPath();ctx.ellipse(lx+Math.cos(a)*38,ly+Math.sin(a)*13,3,1.5,a,0,Math.PI*2);ctx.fill();
+  }
+  // Mỏm đá và rêu hai bờ.
+  for(let i=0;i<9;i++){
+    const x=785+i*26,y=475+(i%3)*12;
+    ctx.fillStyle=i%2?"#68765a":"#817b60";
+    ctx.beginPath();ctx.ellipse(x,y,13,7,-.3,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle="rgba(102,151,99,.75)";
+    ctx.beginPath();ctx.ellipse(x-2,y-5,8,3,-.4,0,Math.PI*2);ctx.fill();
+  }
+  ctx.restore();
+}
+
+// Tăng chiều sâu địa hình núi: vân đá, sườn gãy, tuyết và thảm cây.
+function drawMountainRange() {
+  function layer(points,top,bottom){
+    const grad=ctx.createLinearGradient(0,90,0,570);
+    grad.addColorStop(0,top);grad.addColorStop(1,bottom);
+    ctx.fillStyle=grad;ctx.beginPath();ctx.moveTo(0,H);
+    points.forEach(p=>ctx.lineTo(p[0],p[1]));ctx.lineTo(W,H);ctx.closePath();ctx.fill();
+  }
+  layer([[0,350],[70,245],[125,282],[210,112],[270,215],[350,145],[430,260],[515,170],[600,250],[680,100],[745,208],[820,135],[905,250],[990,145],[1050,235],[W,190]],"#c9d5c4","#839b88");
+  layer([[0,420],[80,310],[150,350],[235,210],[310,320],[395,225],[480,360],[565,235],[655,340],[750,205],[830,320],[920,215],[1005,335],[W,290]],"#819b82","#4e7059");
+  layer([[0,505],[85,390],[165,445],[255,305],[345,415],[435,315],[525,455],[615,315],[705,430],[800,295],[885,420],[975,310],[1050,410],[W,365]],"#4d7358","#294b3c");
+
+  // Mặt đá bắt sáng trên các đỉnh cao.
+  const faces=[
+    [[210,112],[228,188],[270,215],[247,163]],
+    [[350,145],[372,211],[430,260],[390,185]],
+    [[680,100],[706,178],[745,208],[716,151]],
+    [[820,135],[850,210],[905,250],[865,174]],
+    [[990,145],[1015,205],[1050,235],[1028,182]]
+  ];
+  faces.forEach((p,i)=>{
+    ctx.fillStyle=i%2?"rgba(231,237,211,.32)":"rgba(247,245,218,.62)";
+    ctx.beginPath();p.forEach((v,j)=>j?ctx.lineTo(v[0],v[1]):ctx.moveTo(v[0],v[1]));ctx.closePath();ctx.fill();
+  });
+
+  // Khe nứt và tầng đá theo sườn núi.
+  ctx.lineCap="round";
+  for(let i=0;i<22;i++){
+    const x=40+i*49,y=330+(i%4)*28;
+    ctx.strokeStyle=i%2?"rgba(27,55,43,.22)":"rgba(230,229,194,.22)";
+    ctx.lineWidth=i%3===0?3:1.5;ctx.beginPath();
+    ctx.moveTo(x,y);ctx.lineTo(x+10+(i%3)*7,y+17+(i%4)*5);
+    ctx.lineTo(x+24+(i%2)*8,y+24+(i%3)*6);ctx.stroke();
+  }
+
+  // Rừng tùng thu nhỏ thành từng cụm trên các sườn xa.
+  for(let i=0;i<30;i++){
+    const x=18+i*38,y=420+(i%4)*18;
+    ctx.fillStyle=i%2?"rgba(32,77,57,.72)":"rgba(45,91,65,.76)";
+    ctx.beginPath();ctx.moveTo(x,y-15);ctx.lineTo(x-9,y+8);ctx.lineTo(x+9,y+8);ctx.closePath();ctx.fill();
+  }
+  const haze=ctx.createLinearGradient(0,365,0,570);
+  haze.addColorStop(0,"rgba(220,237,218,0)");haze.addColorStop(.55,"rgba(215,235,218,.19)");
+  haze.addColorStop(1,"rgba(215,235,218,0)");ctx.fillStyle=haze;ctx.fillRect(0,360,W,210);
+}
+
+// Tiên hạc và linh điểu có thân, cổ, đuôi, lông cánh và nhịp bay riêng.
+function drawSpiritBirds(time) {
+  const cranes=[[315,145,.95,.3],[710,105,1.16,1.8],[955,180,.78,3.2]];
+  cranes.forEach((b,index)=>{
+    const phase=b[3],x=b[0]+Math.sin(time*.00042+phase)*27;
+    const y=b[1]+Math.sin(time*.001+phase)*8,flap=Math.sin(time*.0032+phase);
+    ctx.save();ctx.translate(x,y);ctx.scale(b[2],b[2]);
+    // Thân hạc và cổ cong thanh thoát.
+    ctx.fillStyle="#f7f4e5";ctx.beginPath();ctx.ellipse(0,0,19,6,-.08,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle="#f7f4e5";ctx.lineWidth=3;ctx.lineCap="round";
+    ctx.beginPath();ctx.moveTo(12,-1);ctx.bezierCurveTo(23,-10,23,-23,16,-27);ctx.stroke();
+    ctx.fillStyle="#f7f4e5";ctx.beginPath();ctx.arc(15,-28,4,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle="#c65b42";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(18,-28);ctx.lineTo(27,-26);ctx.stroke();
+    // Cánh xòe nhiều lớp lông.
+    ctx.fillStyle="#fffdf0";ctx.beginPath();
+    ctx.moveTo(-3,0);ctx.quadraticCurveTo(-22,-12,-31,-(10+flap*8));
+    ctx.quadraticCurveTo(-21,-2,-4,4);ctx.quadraticCurveTo(12,-13,32,-(10+flap*8));
+    ctx.quadraticCurveTo(18,-1,-3,0);ctx.fill();
+    ctx.strokeStyle="rgba(202,211,194,.9)";ctx.lineWidth=1.1;
+    for(let f=0;f<6;f++){
+      const t=f/5;
+      ctx.beginPath();ctx.moveTo(-5-t*3,1-t*2);ctx.quadraticCurveTo(-18-t*2,-5-flap*5,-28-t*1.5,-8-flap*8);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(3+t*2,1-t*2);ctx.quadraticCurveTo(18+t*2,-5-flap*5,29+t*1.5,-8-flap*8);ctx.stroke();
+    }
+    // Đuôi dài và chân đỏ.
+    ctx.strokeStyle="#f7f4e5";ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(-15,1);ctx.lineTo(-31,-4);ctx.moveTo(-15,3);ctx.lineTo(-29,5);ctx.stroke();
+    ctx.strokeStyle="#b94f40";ctx.lineWidth=1.7;ctx.beginPath();
+    ctx.moveTo(-5,5);ctx.lineTo(-8,15);ctx.moveTo(3,5);ctx.lineTo(1,15);ctx.stroke();
+    ctx.restore();
+  });
+
+  // Linh điểu nhỏ bay theo đàn, cánh có độ cong và lệch nhịp.
+  for(let i=0;i<12;i++){
+    const x=(i*113+time*(.009+(i%4)*.002))%(W+100)-50;
+    const y=225+Math.sin(time*.0012+i*1.4)*38+(i%3)*13;
+    const f=Math.sin(time*.004+i)*5;
+    ctx.save();ctx.translate(x,y);ctx.scale(.65+(i%3)*.12,.65+(i%3)*.12);
+    ctx.strokeStyle=i%4===0?"#d7c99b":"rgba(43,69,58,.86)";
+    ctx.lineWidth=2.2;ctx.lineCap="round";ctx.beginPath();
+    ctx.moveTo(-13,f);ctx.quadraticCurveTo(-7,-10-f,0,0);
+    ctx.quadraticCurveTo(7,-10-f,13,f);ctx.stroke();ctx.restore();
+  }
+}
+
+// Mái ngói cong sát thân điện, diềm mái liền nhà; biển hiệu treo ở mặt trước,
+// đúng khoảng giữa mép mái và thân điện.
+function drawPalace(x,y,scale,grand=false) {
+  ctx.save();ctx.translate(x,y);ctx.scale(scale,scale);
+  const bw=grand?250:184,half=bw*.76;
+  const aura=ctx.createRadialGradient(0,-65,5,0,-65,grand?220:155);
+  aura.addColorStop(0,"rgba(255,225,157,.24)");aura.addColorStop(1,"rgba(255,225,157,0)");
+  ctx.fillStyle=aura;ctx.fillRect(-bw*1.4,-225,bw*2.8,280);
+
+  // Bệ đá.
+  ctx.fillStyle="#5d5747";ctx.fillRect(-bw*.72,30,bw*1.44,14);
+  ctx.fillStyle="#d1b77e";ctx.fillRect(-bw*.82,40,bw*1.64,7);
+  ctx.fillStyle="#ead5a2";ctx.fillRect(-bw*.9,48,bw*1.8,7);
+
+  // Thân điện.
+  ctx.fillStyle="#d9c69a";ctx.fillRect(-bw/2,-70,bw,104);
+  ctx.fillStyle="#684b39";ctx.fillRect(-bw/2+10,-60,bw-20,94);
+  ctx.fillStyle="#a84337";ctx.fillRect(-bw/2+12,-54,bw-24,8);
+  const door=grand?50:36;
+  ctx.fillStyle="#302923";ctx.fillRect(-door/2,-38,door,72);
+  ctx.fillStyle="#c39a59";ctx.fillRect(-door/2+4,-34,door-8,68);
+  ctx.fillStyle="#302923";ctx.fillRect(-door/2+8,-30,door-16,64);
+  ctx.strokeStyle="#ebcf8a";ctx.lineWidth=2;ctx.strokeRect(-door/2+8,-30,door-16,64);
+  ctx.beginPath();ctx.moveTo(0,-30);ctx.lineTo(0,34);ctx.stroke();
+
+  [-.42,-.25,.25,.42].forEach(k=>{
+    const px=bw*k;ctx.fillStyle="#a84337";ctx.fillRect(px-5,-66,10,101);
+    ctx.fillStyle="#e6c77f";ctx.fillRect(px-7,-64,14,4);ctx.fillRect(px-7,29,14,5);
+  });
+  [-.34,.34].forEach(k=>{
+    const px=bw*k;ctx.fillStyle="#d7b66e";ctx.fillRect(px-12,-41,24,37);
+    ctx.fillStyle="#29463e";ctx.fillRect(px-8,-37,16,29);
+    ctx.strokeStyle="#e8c97d";ctx.lineWidth=2;ctx.beginPath();
+    ctx.moveTo(px,-37);ctx.lineTo(px,-8);ctx.moveTo(px-8,-22);ctx.lineTo(px+8,-22);ctx.stroke();
+  });
+
+  // Mái liền khối với đầu đao, mặt dưới chạm sát đỉnh thân nhà.
+  ctx.fillStyle="#302b29";ctx.beginPath();ctx.moveTo(-half-22,-73);
+  ctx.quadraticCurveTo(-half*.78,-84,0,-142);
+  ctx.quadraticCurveTo(half*.78,-84,half+22,-73);
+  ctx.lineTo(half+8,-62);ctx.quadraticCurveTo(0,-119,-half-8,-62);
+  ctx.closePath();ctx.fill();
+  const roof=ctx.createLinearGradient(0,-140,0,-63);
+  roof.addColorStop(0,"#c5a15e");roof.addColorStop(.42,"#87623d");roof.addColorStop(1,"#47372e");
+  ctx.fillStyle=roof;ctx.beginPath();ctx.moveTo(-half-14,-76);
+  ctx.quadraticCurveTo(-half*.73,-86,0,-136);
+  ctx.quadraticCurveTo(half*.73,-86,half+14,-76);
+  ctx.lineTo(half,-68);ctx.quadraticCurveTo(0,-119,-half,-68);
+  ctx.closePath();ctx.fill();
+  // Diềm gỗ chạy sát nóc thân nhà.
+  ctx.fillStyle="#49352b";ctx.fillRect(-bw*.53,-73,bw*1.06,8);
+  ctx.strokeStyle="#edcf87";ctx.lineWidth=3;ctx.beginPath();
+  ctx.moveTo(-half-19,-74);ctx.quadraticCurveTo(0,-149,half+19,-74);ctx.stroke();
+  ctx.strokeStyle="rgba(255,231,177,.42)";ctx.lineWidth=1;
+  for(let i=-6;i<=6;i++){
+    const px=i*half*.12;ctx.beginPath();ctx.moveTo(px,-132+Math.abs(i)*2.5);ctx.lineTo(px*1.5,-76);ctx.stroke();
+  }
+  // Đầu đao cong và chuông mái.
+  ctx.strokeStyle="#e7c67e";ctx.lineWidth=5;ctx.lineCap="round";ctx.beginPath();
+  ctx.moveTo(-half-15,-75);ctx.quadraticCurveTo(-half-38,-81,-half-32,-102);
+  ctx.moveTo(half+15,-75);ctx.quadraticCurveTo(half+38,-81,half+32,-102);ctx.stroke();
+  ctx.fillStyle="#f4d994";ctx.beginPath();ctx.arc(0,-139,5,0,Math.PI*2);ctx.fill();
+
+  // Bảng hiệu ở mặt trước, giữa mái và thân, không đặt lên đỉnh mái.
+  const pw=grand?168:118,py=-76;
+  ctx.fillStyle="#33241c";ctx.fillRect(-pw/2-5,py-5,pw+10,31);
+  ctx.fillStyle="#d9b66e";ctx.fillRect(-pw/2-2,py-2,pw+4,25);
+  ctx.fillStyle="#71312a";ctx.fillRect(-pw/2+2,py+2,pw-4,17);
+  ctx.strokeStyle="#fff0bd";ctx.lineWidth=1.5;ctx.strokeRect(-pw/2+4,py+3,pw-8,15);
+  ctx.fillStyle="#fff1c8";ctx.font="bold "+(grand?15:13)+"px serif";
+  ctx.textAlign="center";ctx.textBaseline="middle";ctx.shadowColor="#ffe3a0";ctx.shadowBlur=4;
+  ctx.fillText(grand?"VẠN KIẾM ĐIỆN":"TIÊN ĐIỆN",0,py+10,pw-13);ctx.shadowBlur=0;
+
+  // Huy hiệu, cột đỡ và cờ gọn.
+  [-bw*.78,bw*.78].forEach(px=>{
+    ctx.fillStyle="#d8bb78";ctx.fillRect(px,-112,3,50);
+    ctx.fillStyle="#a64035";ctx.beginPath();ctx.moveTo(px+3,-110);
+    ctx.lineTo(px+30,-101);ctx.lineTo(px+3,-92);ctx.closePath();ctx.fill();
+  });
+  ctx.restore();
+}
+
+function drawCrowd(time) {
+  // Dãy danh dự chia thành ba cụm có khoảng trống rõ ràng.
+  drawAudiencePlatform(550,682,142);
+  drawFormalSpectator(550,654,1.25,"master",time,0);
+  drawRoleLabel(550,617,"CHƯỞNG MÔN","#f2d17d",1.25);
+
+  drawAudiencePlatform(255,710,188);
+  drawAudiencePlatform(845,710,188);
+  [[190,682],[255,682],[320,682]].forEach((p,i)=>drawFormalSpectator(p[0],p[1],.96,"elder",time,i));
+  [[780,682],[845,682],[910,682]].forEach((p,i)=>drawFormalSpectator(p[0],p[1],.96,"elder",time,i+3));
+  drawRoleLabel(255,644,"ĐẠI TRƯỞNG LÃO","#d4b5fa",1.02);
+  drawRoleLabel(845,644,"TRƯỞNG LÃO","#d4b5fa",1.02);
+
+  drawAudiencePlatform(550,770,260);
+  [[445,741],[495,741],[545,741],[595,741],[645,741]].forEach((p,i)=>drawFormalSpectator(p[0],p[1],.82,"disciple",time,i));
+  drawRoleLabel(550,704,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.94);
+
+  // Đệ tử phổ thông phân bố cân hai cánh, chừa lề an toàn cho nhân vật và HUD.
+  const bands=[
+    {x:28,y:670,n:8,role:"servant",s:.66},
+    {x:28,y:720,n:8,role:"outer",s:.68},
+    {x:28,y:775,n:8,role:"inner",s:.64},
+    {x:724,y:670,n:8,role:"outer",s:.68},
+    {x:724,y:720,n:8,role:"servant",s:.66},
+    {x:724,y:775,n:8,role:"core",s:.64}
+  ];
+  bands.forEach((row,r)=>{
+    for(let i=0;i<row.n;i++){
+      const x=row.x+i*48+(i%2)*3;
+      const y=row.y+Math.sin(i*1.7+r)*3;
+      drawSpectator(x,y,row.s,row.role,time,i*.71+r*1.3);
+    }
+  });
+  drawCrowdFlag(18,690,"#a53f36",time);
+  drawCrowdFlag(W-18,690,"#b18a43",time);
+}
+
+function drawScenery(time) {
+  drawSky(time);drawMountainRange();drawMovingClouds(time);drawSpiritBirds(time);
+  drawWaterfall(890,250,30,205,time);
+  drawWaterfall(112,315,22,145,time);
+  drawMountainStream(time);
+
+  // Các điện nhỏ bám sát mỏm núi.
+  drawFloatingPlatform(790,397,.92);drawFloatingPlatform(970,435,.62);
+  drawPalace(790,354,.78,false);drawPalace(970,405,.54,false);
+
+  // Vạn Kiếm Điện ở chính giữa quảng trường, phía trước khu chưởng môn.
+  drawPalace(550,574,.70,true);
+
+  // Cây rừng chỉ đứng ở bìa, phía trên đường biên quảng trường.
+  drawPine(24,565,1.02,"#294f3d");drawPine(78,560,.94,"#315b45");
+  drawTree(132,555,.80,"#426b4c");drawPine(250,545,.72,"#315b45");
+  drawTree(315,548,.64,"#426b4c");drawTree(850,548,.64,"#426b4c");
+  drawPine(920,545,.72,"#315b45");drawPine(1020,560,.94,"#315b45");
+  drawPine(1075,565,1.02,"#294f3d");
+
+  drawRiver(time);
+  drawCrowd(time);
+}
+
+// HUD ở hai góc trên, nền xanh ôm vừa nội dung.
+function drawRaceHud() {
+  const remaining=Math.max(0,duration-elapsed);
+  const completed=racers.filter(r=>r.finished).length;
+  const items=[
+    {x:12,label:"THỜI GIAN",value:timeText(remaining),align:"left"},
+    {x:W-12,label:"HOÀN THÀNH",value:String(completed)+" / "+String(racers.length),align:"right"}
+  ];
+  items.forEach(item=>{
+    ctx.save();ctx.font="bold 10px Arial";
+    const labelW=ctx.measureText(item.label).width;
+    ctx.font="bold 20px Arial";const valueW=ctx.measureText(item.value).width;
+    const boxW=Math.ceil(Math.max(labelW,valueW)+22),boxH=49;
+    const x=item.align==="left"?item.x:item.x-boxW,y=12;
+    ctx.fillStyle="rgba(20,48,39,.92)";ctx.fillRect(x,y,boxW,boxH);
+    ctx.strokeStyle="rgba(224,194,126,.88)";ctx.lineWidth=1;
+    ctx.strokeRect(x+.5,y+.5,boxW-1,boxH-1);
+    ctx.textAlign="center";ctx.textBaseline="middle";
+    ctx.fillStyle="#e0c991";ctx.font="bold 10px Arial";ctx.fillText(item.label,x+boxW/2,y+12,boxW-8);
+    ctx.fillStyle="#fff0c7";ctx.font="bold 20px Arial";ctx.fillText(item.value,x+boxW/2,y+34,boxW-8);
+    ctx.restore();
+  });
+}
+
+// Cổng tiên môn mở rộng ngang, vòm và biển hiệu cân xứng.
+function drawImmortalFinishGate() {
+  const x=TRACK.right,top=TRACK.top-55,bottom=TRACK.bottom;
+  ctx.save();
+  const aura=ctx.createRadialGradient(x,top+65,5,x,top+65,145);
+  aura.addColorStop(0,"rgba(255,231,160,.30)");aura.addColorStop(1,"rgba(255,231,160,0)");
+  ctx.fillStyle=aura;ctx.fillRect(x-150,top-35,300,220);
+
+  [-48,48].forEach(offset=>{
+    const px=x+offset;
+    const grad=ctx.createLinearGradient(px-10,0,px+10,0);
+    grad.addColorStop(0,"#65472d");grad.addColorStop(.35,"#f2d99a");
+    grad.addColorStop(.7,"#b88d4c");grad.addColorStop(1,"#59402b");
+    ctx.fillStyle=grad;ctx.fillRect(px-9,top+29,18,bottom-top-29);
+    ctx.strokeStyle="#f3d78e";ctx.lineWidth=2;ctx.strokeRect(px-9,top+29,18,bottom-top-29);
+    ctx.fillStyle="#765332";ctx.fillRect(px-18,bottom-18,36,18);
+    ctx.fillStyle="#e2c17b";ctx.fillRect(px-21,bottom-22,42,5);
+    ctx.fillStyle="#9c713b";ctx.fillRect(px-15,top+18,30,12);
+    ctx.fillStyle="#f1d58b";ctx.fillRect(px-19,top+13,38,6);
+    ctx.fillStyle="#fff0b5";ctx.beginPath();ctx.arc(px,top+9,5,0,Math.PI*2);ctx.fill();
+  });
+
+  // Vòm đại môn rộng, cong vút như cổng sơn môn.
+  ctx.beginPath();ctx.moveTo(x-65,top+35);
+  ctx.bezierCurveTo(x-58,top-18,x-24,top-35,x,top-35);
+  ctx.bezierCurveTo(x+24,top-35,x+58,top-18,x+65,top+35);
+  ctx.strokeStyle="#65452b";ctx.lineWidth=17;ctx.stroke();
+  ctx.strokeStyle="#e9c77b";ctx.lineWidth=8;ctx.stroke();
+  ctx.strokeStyle="rgba(255,245,193,.8)";ctx.lineWidth=2;ctx.stroke();
+
+  // Mái ngói cong trên vòm.
+  ctx.fillStyle="#47382e";ctx.beginPath();ctx.moveTo(x-76,top+24);
+  ctx.quadraticCurveTo(x,top-52,x+76,top+24);
+  ctx.lineTo(x+62,top+31);ctx.quadraticCurveTo(x,top-31,x-62,top+31);
+  ctx.closePath();ctx.fill();
+  ctx.strokeStyle="#e8c87d";ctx.lineWidth=3;ctx.beginPath();
+  ctx.moveTo(x-76,top+24);ctx.quadraticCurveTo(x,top-52,x+76,top+24);ctx.stroke();
+
+  // Biển hiệu rộng vừa dòng chữ.
+  ctx.fillStyle="#6a3028";ctx.fillRect(x-52,top-2,104,27);
+  ctx.strokeStyle="#f0d28a";ctx.lineWidth=2;ctx.strokeRect(x-52,top-2,104,27);
+  ctx.fillStyle="#ffe9ad";ctx.font="bold 13px serif";ctx.textAlign="center";
+  ctx.textBaseline="middle";ctx.fillText("TIÊN MÔN",x,top+11);
+
+  const glow=ctx.createLinearGradient(0,top+45,0,bottom-20);
+  glow.addColorStop(0,"rgba(255,245,190,.05)");
+  glow.addColorStop(.5,"rgba(255,238,166,.8)");
+  glow.addColorStop(1,"rgba(255,245,190,.05)");
+  ctx.fillStyle=glow;ctx.fillRect(x-1,top+45,2,bottom-top-65);
+  ctx.strokeStyle="rgba(255,224,145,.5)";ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(x-13,top+48);ctx.lineTo(x-13,bottom-18);
+  ctx.moveTo(x+13,top+48);ctx.lineTo(x+13,bottom-18);ctx.stroke();
+  ctx.restore();
+}
