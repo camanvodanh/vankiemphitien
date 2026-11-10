@@ -725,43 +725,47 @@ function drawPalace(x, y, scale, grand = false) {
     "#b28a45"
   );
 
+  // Mái chuyển tiếp liền khối phía sau bảng, che khe giữa hai tầng mái.
+  drawRoof(bodyWidth * .48, -116, 27, "#463c32", "#d5b36d");
+  drawRoof(bodyWidth * .44, -121, 23, "#a47b3d", "#f0d18a");
+
   // BẢNG HIỆU CÓ KHUNG BAO PHỦ
-  const plaqueW = grand ? 174 : 132;
+  const plaqueW = grand ? 148 : 92;
   const plaqueY = -124;
 
   // Khung ngoài
   ctx.fillStyle = "#35251c";
   ctx.fillRect(
     -plaqueW / 2 - 8,
-    plaqueY - 8,
-    plaqueW + 16,
-    42
+    plaqueY - 7,
+    plaqueW + 14,
+    36
   );
 
   // Viền vàng
   ctx.fillStyle = "#e7c77d";
   ctx.fillRect(
     -plaqueW / 2 - 4,
-    plaqueY - 4,
-    plaqueW + 8,
-    34
+    plaqueY - 3,
+    plaqueW + 6,
+    28
   );
 
   // Nền bảng
   ctx.fillStyle = "#493323";
   ctx.fillRect(
     -plaqueW / 2,
-    plaqueY,
+    plaqueY + 1,
     plaqueW,
-    26
+    24
   );
 
   ctx.fillStyle = "#8e302b";
   ctx.fillRect(
     -plaqueW / 2 + 5,
-    plaqueY + 4,
+    plaqueY + 5,
     plaqueW - 10,
-    18
+    14
   );
 
   // Viền chữ bên trong
@@ -772,7 +776,7 @@ function drawPalace(x, y, scale, grand = false) {
     -plaqueW / 2 + 6,
     plaqueY + 5,
     plaqueW - 12,
-    16
+    14
   );
 
   // Chữ trên bảng
