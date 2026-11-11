@@ -164,7 +164,7 @@ function laneY(index) {
 function racerScale() {
   // Tăng kích thước nhân vật để dễ quan sát; giữ cố định theo số lượng triệu hồi.
   // laneGap() chỉ thay đổi vị trí theo chiều dọc, không làm nhân vật tự thu nhỏ.
-  return 0.48;
+  return 0.62;
 }
 
 function progressOf(racer) {
