@@ -208,15 +208,6 @@ textarea:focus, input:focus, select:focus {
   margin-bottom: 13px;
 }
 
-.status {
-  padding: 7px 12px;
-  border: 1px solid #b7cfb6;
-  border-radius: 30px;
-  background: #dce9d9;
-  color: var(--jade);
-  font: bold 11px Arial, sans-serif;
-}
-
 .race-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 310px;
