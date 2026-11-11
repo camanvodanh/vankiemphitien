@@ -22,10 +22,9 @@
       <label for="names">Danh sách tiên nhân — mỗi dòng một tên (để trống để tạo tên ngẫu nhiên)</label>
       <textarea id="names" rows="3" placeholder="Diệp Trường Phong&#10;Tô Thanh Huyền&#10;Mộ Dung Vô Trần"></textarea>
       <div class="summon-footer">
-        <div class="random-setting"><label for="quantity">Số lượng ngẫu nhiên</label><input id="quantity" type="number" min="2" max="100" value="10"></div>
-        <div class="field compact-field"><label for="speed">Thời gian đua</label><select id="speed"><option value="30">30 giây</option><option value="60" selected>60 giây</option><option value="120">120 giây</option><option value="180">180 giây</option><option value="300">300 giây</option></select></div>
-        <div class="field compact-field"><label for="distance">Cự ly</label><select id="distance"><option value="5000">5.000 mét</option><option value="10000" selected>10.000 mét</option><option value="20000">20.000 mét</option></select></div>
-        <button id="summon" class="btn primary">✦ Triệu hồi danh sách</button><button id="reset" class="btn muted">Làm mới</button>
+        <div class="random-setting"><label for="quantity">Số lượng</label><input id="quantity" type="number" min="2" max="100" value="10"></div>
+        <div class="field compact-field"><label for="speed">Thời gian</label><select id="speed"><option value="30">30 giây</option><option value="60" selected>60 giây</option><option value="120">120 giây</option><option value="180">180 giây</option><option value="300">300 giây</option></select></div>
+        <button id="summon" class="btn primary">Triệu hồi</button><button id="reset" class="btn muted">Làm mới</button>
       </div>
       <p id="lockNotice" class="lock-notice">Nhập danh sách tên hoặc chọn số lượng để tạo ngẫu nhiên.</p>
     </section>
@@ -39,7 +38,7 @@
         <div class="arena-column">
           <div class="arena-frame">
             <canvas id="game" width="1100" height="800"></canvas>
-            <button id="start" class="btn primary arena-start" disabled>Bắt đầu vào trường đua</button><button id="pause" hidden disabled>Tạm dừng</button>
+            <button id="start" class="btn primary arena-start" disabled>Bắt đầu</button><button id="pause" hidden disabled>Tạm dừng</button>
           </div>
 
           <div class="camera panel">
@@ -54,7 +53,7 @@
 
             <div class="camera-info">
               <strong id="leaderName">Đang chờ cuộc đua</strong>
-              <span id="leaderProgress">Chưa bắt đầu</span>
+              <span id="leaderProgress">Thời gian về đích: --:--</span>
             </div>
           </div>
         </div>
@@ -73,7 +72,7 @@
                 <tr>
                   <th>Hạng</th>
                   <th>Tiên nhân</th>
-                  <th>Tiến độ</th>
+                  <th>Thời gian về đích</th>
                 </tr>
               </thead>
               <tbody id="rankBody">
