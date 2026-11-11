@@ -4230,8 +4230,6 @@ function drawPodiumScene(target,time,mini=false){
       if(flightPhase<.42)drawGiftBox(target,masterHandX,masterHandY,mini?.52:.9,color);
       else if(flightPhase<.70)drawGiftBox(target,giftX,giftY,mini?.52:.9,color);
       else drawGiftBox(target,receiverHandX,receiverHandY,mini?.52:.9,color);
-      target.fillStyle="#fff0c5";target.font=mini?"bold 7px Arial":"bold 16px Arial";
-      target.fillText(flightPhase<.34?"CHƯỞNG MÔN NGỰ KIẾM XUẤT ĐIỆN":flightPhase<.70?"TẬN TAY TRAO TẶNG PHÁP BẢO":"HOÀN LỄ TRỞ VỀ NGỌA TỌA",w*.5,h*.97);
     }
   }else{
     // Khi đã trao đủ ba phần thưởng: chỉ còn tam giáp, không còn chưởng môn.
@@ -4301,5 +4299,167 @@ function drawRacer(target,racer,x,y,scale,time){
   target.fillStyle=racer.color;target.beginPath();target.moveTo(-12,-7);target.lineTo(-19,5);target.lineTo(-13,9);target.lineTo(-7,0);target.closePath();target.fill();target.beginPath();target.moveTo(12,-7);target.lineTo(19,5);target.lineTo(13,9);target.lineTo(7,0);target.closePath();target.fill();
   target.save();target.globalAlpha=.78;target.fillStyle=racer.color;target.beginPath();const tail=racer.effectType==="boost"?-25:racer.effectType==="slow"?-10:-17;target.moveTo(-7,-4);target.quadraticCurveTo(tail-10,-1,tail,-13);target.lineTo(-4,-8);target.closePath();target.fill();target.restore();
   if(racer.effectTimer>0&&racer.effectName&&target!==cameraCtx){target.save();target.font="bold 7px Arial,sans-serif";target.textAlign="center";target.textBaseline="middle";target.lineJoin="round";target.lineWidth=2.2;target.strokeStyle="rgba(14,25,24,.98)";target.strokeText(racer.effectName,0,-65,126);target.fillStyle="#fff1bd";target.fillText(racer.effectName,0,-65,126);target.restore();}
+  target.restore();
+}
+
+
+// =====================================================
+// REVISION 11 — gương mặt và giới tính nhân vật rõ ràng,
+// chim bay ngang tầng trời, không cắt qua đường đua.
+// =====================================================
+
+function drawSpectator(x,y,scale,roleName,time,phase=0){
+  const role=ROLE[roleName]||ROLE.outer;
+  const seed=Math.abs(Math.floor(phase*13+({servant:0,outer:1,inner:2,core:3,disciple:4,elder:5,master:6}[roleName]||0)*3));
+  const female=seed%2===1;
+  const skinTones=["#f6d2b5","#e9b993","#d69a76","#f0c5a0","#bd805f"];
+  const hairs=["#211a25","#39251f","#171d2c","#5a3027","#29242a"];
+  const skin=skinTones[seed%skinTones.length],hair=hairs[(seed*3)%hairs.length];
+  const robe=role.robe;
+  const sway=Math.sin(time*.004+phase);
+  ctx.save();ctx.translate(x,y+Math.sin(time*.006+phase)*1.4);ctx.scale(scale*role.scale,scale);
+  ctx.fillStyle="rgba(20,30,25,.28)";ctx.beginPath();ctx.ellipse(0,20,14,4,0,0,Math.PI*2);ctx.fill();
+  if(role.aura)drawAura(0,-9,roleName==="elder"?34:26,role.aura,time,phase);
+  ctx.fillStyle=role.dark;ctx.beginPath();
+  if(female){ctx.moveTo(-7,-7);ctx.lineTo(7,-7);ctx.lineTo(11,7);ctx.lineTo(18,19);ctx.quadraticCurveTo(0,24,-18,19);ctx.lineTo(-11,7);ctx.closePath();}
+  else{ctx.moveTo(-11,-7);ctx.lineTo(11,-7);ctx.lineTo(15,18);ctx.lineTo(-15,18);ctx.closePath();}
+  ctx.fill();ctx.fillStyle=robe;ctx.beginPath();
+  if(female){ctx.moveTo(-7,-8);ctx.lineTo(7,-8);ctx.lineTo(9,5);ctx.lineTo(16,18);ctx.quadraticCurveTo(0,22,-16,18);ctx.lineTo(-9,5);ctx.closePath();}
+  else{ctx.moveTo(-9,-8);ctx.lineTo(9,-8);ctx.lineTo(12,17);ctx.lineTo(-12,17);ctx.closePath();}
+  ctx.fill();
+  ctx.strokeStyle=role.belt;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-9,5);ctx.lineTo(9,5);ctx.stroke();
+  ctx.strokeStyle=skin;ctx.lineWidth=4.5;ctx.lineCap="round";ctx.beginPath();ctx.moveTo(-8,-3);ctx.lineTo(-15,8+sway);ctx.moveTo(8,-3);ctx.lineTo(15,8-sway);ctx.stroke();
+  // Vẽ mặt trước tóc để mắt, mũi, miệng luôn nhìn thấy.
+  ctx.fillStyle=skin;ctx.beginPath();ctx.ellipse(0,-18,female?6.1:6.5,7.5,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle=hair;
+  if(female){
+    ctx.beginPath();ctx.arc(0,-22,7,Math.PI,Math.PI*2);ctx.fill();
+    ctx.fillRect(-7,-22,2.8,18);ctx.fillRect(4.2,-22,2.8,18);
+    ctx.beginPath();ctx.ellipse(0,-28,4.4,3.2,0,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle="#e8cf8d";ctx.lineWidth=1.7;ctx.beginPath();ctx.moveTo(2,-28);ctx.lineTo(11,-33);ctx.stroke();
+  }else{
+    ctx.beginPath();ctx.arc(0,-23,7,Math.PI,Math.PI*2);ctx.fill();
+    ctx.fillRect(-7,-23,3,5);ctx.fillRect(4,-23,3,5);
+    ctx.beginPath();ctx.ellipse(0,-31,4,5,0,0,Math.PI*2);ctx.fill();
+  }
+  ctx.fillStyle="#392b27";ctx.beginPath();ctx.arc(-2.5,-18,1,0,Math.PI*2);ctx.arc(2.5,-18,1,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle="#8b5144";ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(0,-17);ctx.lineTo(-.5,-15);ctx.moveTo(-2,-13.5);ctx.quadraticCurveTo(0,-12.5,2,-13.5);ctx.stroke();
+  if(roleName==="elder"||roleName==="master"){
+    if(!female){ctx.fillStyle=hair;ctx.beginPath();ctx.moveTo(-3,-10);ctx.lineTo(3,-10);ctx.lineTo(2,1);ctx.lineTo(0,4);ctx.lineTo(-2,1);ctx.closePath();ctx.fill();}
+  }
+  if(roleName==="master"){ctx.fillStyle="#e8c36e";ctx.beginPath();ctx.moveTo(-8,-25);ctx.lineTo(-5,-37);ctx.lineTo(0,-30);ctx.lineTo(5,-37);ctx.lineTo(8,-25);ctx.closePath();ctx.fill();}
+  if(roleName==="elder"){ctx.strokeStyle="#dfc17e";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(19,-18);ctx.lineTo(19,22);ctx.stroke();}
+  ctx.restore();
+}
+
+function drawFormalSpectator(x,y,scale,roleName,time,phase=0){
+  // Dùng cùng màu phẩm cấp cho nam và nữ; chỉ khác phom áo, tóc và gương mặt.
+  drawSpectator(x,y,scale,roleName,time,phase);
+}
+
+function drawSpiritBirds(time){
+  // Các đàn tiên hạc/linh điểu bay ngang ở tầng trời cao, luân phiên hai chiều.
+  // Toàn bộ quỹ đạo nằm phía trên TRACK.top, tuyệt đối không cắt qua làn đua.
+  const flocks=[
+    {dir:1,y:42,s:.58,speed:.000075,phase:0},
+    {dir:-1,y:82,s:.48,speed:.000061,phase:.42},
+    {dir:1,y:122,s:.40,speed:.000052,phase:.72},
+    {dir:-1,y:24,s:.34,speed:.00009,phase:.2}
+  ];
+  flocks.forEach((f,k)=>{
+    for(let j=0;j<3;j++){
+      const p=(time*f.speed+f.phase+j/3)%1;
+      const x=f.dir>0?-90+p*(W+180):W+90-p*(W+180);
+      const y=f.y+Math.sin(time*.0012+j*1.7+k)*10;
+      const flap=Math.sin(time*.004+j*1.9+k);
+      ctx.save();ctx.translate(x,y);ctx.scale(f.dir*f.s,f.s);
+      // Thân hạc trắng, cổ cong, mỏ son, cánh vỗ và chân duỗi.
+      ctx.fillStyle="#fffdf0";ctx.beginPath();ctx.ellipse(0,0,19,6,-.05,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle="#fffdf0";ctx.lineWidth=3.5;ctx.lineCap="round";ctx.beginPath();
+      ctx.moveTo(13,-1);ctx.quadraticCurveTo(24,-12,21,-24);ctx.stroke();
+      ctx.fillStyle="#fffdf0";ctx.beginPath();ctx.arc(20,-25,4,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle="#c94d3e";ctx.beginPath();ctx.moveTo(23,-25);ctx.lineTo(34,-23);ctx.lineTo(23,-21);ctx.closePath();ctx.fill();
+      ctx.fillStyle="#fffdf5";ctx.beginPath();ctx.moveTo(-5,0);ctx.quadraticCurveTo(-23,-25-flap*8,-61,-25-flap*10);ctx.quadraticCurveTo(-39,7,-5,7);ctx.closePath();ctx.fill();
+      ctx.fillStyle="#dce8e4";ctx.beginPath();ctx.moveTo(-5,3);ctx.quadraticCurveTo(-24,14+flap*5,-47,24+flap*6);ctx.quadraticCurveTo(-27,12,-5,7);ctx.closePath();ctx.fill();
+      ctx.strokeStyle="#b94c40";ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(-3,5);ctx.lineTo(-7,20);ctx.moveTo(5,5);ctx.lineTo(7,20);ctx.stroke();
+      ctx.restore();
+    }
+  });
+  // Chim én nhỏ bay theo các dải ngang cao, không xuất hiện trong khu vực đua.
+  for(let i=0;i<12;i++){
+    const dir=i%2?1:-1,p=(time*(.00010+(i%3)*.000012)+i*.113)%1;
+    const x=dir>0?-30+p*(W+60):W+30-p*(W+60);
+    const y=15+(i%4)*29+Math.sin(time*.0015+i)*5;
+    const wing=Math.sin(time*.004+i)*4;
+    ctx.save();ctx.translate(x,y);ctx.scale(dir,1);ctx.strokeStyle=i%3===0?"#d9bd79":"#314d46";ctx.lineWidth=2;ctx.lineCap="round";
+    ctx.beginPath();ctx.moveTo(-9,0);ctx.quadraticCurveTo(-4,-7-wing,0,0);ctx.quadraticCurveTo(4,-7-wing,9,0);ctx.stroke();ctx.restore();
+  }
+}
+
+// Kiếm có màu nhận diện theo giới tính; kiểu dáng thay đổi theo pháp bảo.
+function drawRacingArtifact(target,kind,phase){
+  const female=arguments.length>3&&arguments[3]==="female";
+  const colors=female?["#f2b9d5","#c8b4f2","#f0d18a","#f3a9bd"]:["#a9d8ef","#d8e5ef","#91c9d0","#d8bd82"];
+  const blade=colors[kind%colors.length];
+  target.save();target.translate(0,18);target.rotate(Math.sin(phase)*.025);
+  target.globalAlpha=.95;target.shadowColor=blade;target.shadowBlur=7;
+  target.fillStyle="#72533a";target.fillRect(-3,-1,6,20);
+  target.fillStyle=female?"#d7a9a0":"#b99a61";target.fillRect(-11,1,22,4);
+  target.fillStyle=blade;target.beginPath();
+  if(kind%4===0){target.moveTo(0,-31);target.lineTo(5,-3);target.lineTo(0,19);target.lineTo(-5,-3);}
+  else if(kind%4===1){target.moveTo(0,-29);target.lineTo(8,-8);target.lineTo(3,12);target.lineTo(0,19);target.lineTo(-3,12);target.lineTo(-8,-8);}
+  else if(kind%4===2){target.moveTo(0,-27);target.quadraticCurveTo(13,-10,5,8);target.lineTo(0,19);target.lineTo(-5,8);target.quadraticCurveTo(-13,-10,0,-27);}
+  else{target.moveTo(0,-32);target.lineTo(4,-7);target.lineTo(9,8);target.lineTo(0,19);target.lineTo(-9,8);target.lineTo(-4,-7);}
+  target.closePath();target.fill();target.strokeStyle=female?"#fff0f7":"#f4f5e8";target.lineWidth=1.5;target.stroke();
+  target.fillStyle=female?"#ffe5a8":"#b9f0ef";target.beginPath();target.arc(0,4,3,0,Math.PI*2);target.fill();
+  target.restore();
+}
+
+// Nhân vật triệu hồi: gương mặt, sắc da, tóc và trang phục có biến thể.
+function drawRacer(target,racer,x,y,scale,time){
+  const female=racer.gender==="female";
+  const skins=["#f6d0b0","#e6b58e","#c98767","#f0c29e","#ad7658"];
+  const hairs=["#211a25","#39251f","#171d2c","#6a3429","#29242a","#4b315d"];
+  const seed=(racer.appearanceSeed??0)%5,skin=skins[seed],hair=hairs[(seed+(female?1:0))%hairs.length];
+  target.save();target.translate(x,y+Math.sin(time*.009+racer.phase)*2);target.scale(scale,scale);
+  const glow=target.createRadialGradient(0,0,3,0,0,48);glow.addColorStop(0,"rgba(255,225,139,.38)");glow.addColorStop(1,"rgba(255,225,139,0)");target.fillStyle=glow;target.fillRect(-51,-48,102,96);
+  if(racer.effectTimer>0){const p=1+Math.sin(time*.025)*.12;target.strokeStyle=racer.effectType==="boost"?"#ffe17b":racer.effectType==="slow"?"#8de8ef":"#ff9a72";target.lineWidth=2.2;target.beginPath();target.ellipse(0,4,43*p,17*p,0,0,Math.PI*2);target.stroke();}
+  drawRacingArtifact(target,artifactKind(racer),time*.004+racer.phase,female?"female":"male");
+  // Phom y phục khác nhau, màu áo vẫn lấy từ bảng màu riêng của từng tiên nhân.
+  target.fillStyle=racer.dark;target.beginPath();
+  if(female){target.moveTo(-7,-8);target.lineTo(7,-8);target.lineTo(12,1);target.lineTo(19,20);target.quadraticCurveTo(0,25,-19,20);target.lineTo(-12,1);}
+  else{target.moveTo(-12,-8);target.lineTo(12,-8);target.lineTo(16,18);target.lineTo(-16,18);}
+  target.closePath();target.fill();target.fillStyle=racer.color;target.beginPath();
+  if(female){target.moveTo(-7,-8);target.lineTo(7,-8);target.lineTo(9,5);target.lineTo(16,19);target.quadraticCurveTo(0,22,-16,19);target.lineTo(-9,5);}
+  else{target.moveTo(-10,-8);target.lineTo(10,-8);target.lineTo(12,17);target.lineTo(-12,17);}
+  target.closePath();target.fill();
+  target.strokeStyle="#f2dfb1";target.lineWidth=2;target.beginPath();target.moveTo(-4,-8);target.lineTo(2,2);target.lineTo(7,-6);target.stroke();
+  target.fillStyle="#e8cb83";target.fillRect(-9,5,18,2.5);
+  // Tay áo và thân áo có vạt phụ khác nhau theo kiểu nhân vật.
+  target.strokeStyle=skin;target.lineWidth=female?5:6;target.lineCap="round";target.beginPath();target.moveTo(-8,-4);target.lineTo(-17,8);target.moveTo(8,-4);target.lineTo(17,8);target.stroke();
+  target.fillStyle=racer.color;target.beginPath();target.moveTo(-12,-7);target.lineTo(-20,5);target.lineTo(-13,10);target.lineTo(-7,0);target.closePath();target.fill();
+  target.beginPath();target.moveTo(12,-7);target.lineTo(20,5);target.lineTo(13,10);target.lineTo(7,0);target.closePath();target.fill();
+  // Gương mặt đặt phía trước tóc, có mắt, mũi và miệng rõ nét.
+  target.fillStyle=skin;target.beginPath();target.ellipse(0,-20,female?6.2:6.7,8,0,0,Math.PI*2);target.fill();
+  target.fillStyle=hair;
+  const hairstyle=(racer.appearanceSeed??0)%4;
+  if(female){
+    target.beginPath();target.arc(0,-25,7,Math.PI,Math.PI*2);target.fill();
+    if(hairstyle===0){target.fillRect(-7,-25,3,21);target.fillRect(4,-25,3,21);}
+    else if(hairstyle===1){target.fillRect(-8,-24,3,16);target.fillRect(5,-24,3,19);}
+    else if(hairstyle===2){target.beginPath();target.moveTo(-7,-25);target.lineTo(-11,-5);target.lineTo(-6,-8);target.lineTo(-3,-23);target.fill();}
+    else{target.beginPath();target.ellipse(0,-31,5,4,0,0,Math.PI*2);target.fill();target.fillRect(5,-23,3,17);}
+    target.beginPath();target.arc(3,-32,4,0,Math.PI*2);target.fill();
+    target.strokeStyle="#f0d18c";target.lineWidth=1.8;target.beginPath();target.moveTo(3,-32);target.lineTo(12,-37);target.stroke();
+  }else{
+    target.beginPath();target.arc(0,-25,7,Math.PI,Math.PI*2);target.fill();
+    target.fillRect(-7,-25,3,7);target.fillRect(4,-25,3,7);
+    target.beginPath();target.ellipse(0,-33,4,5,0,0,Math.PI*2);target.fill();
+  }
+  target.fillStyle="#382d2a";target.beginPath();target.arc(-2.5,-20,1,0,Math.PI*2);target.arc(2.5,-20,1,0,Math.PI*2);target.fill();
+  target.strokeStyle="#8b5144";target.lineWidth=.8;target.beginPath();target.moveTo(0,-18);target.lineTo(-.4,-16);target.moveTo(-2,-14);target.quadraticCurveTo(0,-13,2,-14);target.stroke();
+  if(female){target.strokeStyle="#b86e73";target.lineWidth=.8;target.beginPath();target.moveTo(-5,-17);target.lineTo(-3,-16);target.moveTo(3,-16);target.lineTo(5,-17);target.stroke();}
+  target.save();target.globalAlpha=.78;target.fillStyle=racer.color;target.beginPath();target.moveTo(-7,-4);target.quadraticCurveTo(-26,-1,-17,-15);target.lineTo(-4,-8);target.closePath();target.fill();target.restore();
+  if(racer.effectTimer>0&&racer.effectName&&target!==cameraCtx){target.save();target.font="bold 7px Arial,sans-serif";target.textAlign="center";target.textBaseline="middle";target.lineWidth=2;target.strokeStyle="rgba(14,25,24,.98)";target.strokeText(racer.effectName,0,-65,126);target.fillStyle="#fff1bd";target.fillText(racer.effectName,0,-65,126);target.restore();}
   target.restore();
 }
