@@ -514,7 +514,7 @@ footer {
 
 /* REVISION 11 — giữ sân đấu hiện rõ ngay khi mở trang. */
 .arena-frame{display:block;min-height:0;overflow:hidden;background:#173c35;border:1px solid #c69b4c;border-radius:12px;box-shadow:0 8px 24px rgba(22,40,31,.2)}
-#game{display:block;width:100%;height:auto;aspect-ratio:11/10;background:#486f87}
+#game{display:block;width:100%;height:auto;aspect-ratio:11/12;background:#486f87}
 .arena-start{top:10px;z-index:8}
 
 
