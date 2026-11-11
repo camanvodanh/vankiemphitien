@@ -292,8 +292,7 @@ function setSettingsLocked(value) {
   locked = value;
 
   $("speed").disabled = value;
-  $("distance").disabled = value;
-  $("quantity").disabled = value;
+$("quantity").disabled = value;
   $("names").disabled = value;
 
   $("summon").disabled =
