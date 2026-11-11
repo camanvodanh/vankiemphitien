@@ -486,31 +486,40 @@ function drawAnnouncement() {
 // =====================================================
 
 function drawCameraBackground() {
-  const w = cameraCanvas.width;
-  const h = cameraCanvas.height;
-
-  const bg = cameraCtx.createLinearGradient(0, 0, 0, h);
-
-  bg.addColorStop(0, "#6e9a87");
-  bg.addColorStop(1, "#243f37");
-
-  cameraCtx.clearRect(0, 0, w, h);
-  cameraCtx.fillStyle = bg;
-  cameraCtx.fillRect(0, 0, w, h);
-
-  cameraCtx.fillStyle = "rgba(218,232,195,.35)";
-
-  cameraCtx.beginPath();
-  cameraCtx.moveTo(0, 105);
-  cameraCtx.lineTo(65, 45);
-  cameraCtx.lineTo(120, 100);
-  cameraCtx.lineTo(190, 40);
-  cameraCtx.lineTo(270, 103);
-  cameraCtx.lineTo(340, 48);
-  cameraCtx.lineTo(420, 105);
-  cameraCtx.lineTo(420, 190);
-  cameraCtx.lineTo(0, 190);
-  cameraCtx.fill();
+  const w=cameraCanvas.width,h=cameraCanvas.height,g=cameraCtx.createLinearGradient(0,0,0,h);
+  g.addColorStop(0,"#9fc4bd");g.addColorStop(.48,"#587d70");g.addColorStop(1,"#203e36");
+  cameraCtx.clearRect(0,0,w,h);cameraCtx.fillStyle=g;cameraCtx.fillRect(0,0,w,h);
+  // Núi tiên giới nhiều lớp.
+  const ridges=[
+    {c:"#9eb8a8",p:[[0,108],[42,40],[82,82],[132,24],[185,86],[235,32],[292,88],[350,28],[420,92]]},
+    {c:"#587d6b",p:[[0,132],[52,75],[96,112],[155,55],[213,115],[275,64],[332,119],[385,72],[420,116]]},
+    {c:"#315b4c",p:[[0,150],[45,112],[92,139],[145,95],[205,143],[270,99],[325,143],[380,104],[420,145]]}
+  ];
+  ridges.forEach(r=>{cameraCtx.fillStyle=r.c;cameraCtx.beginPath();r.p.forEach(([x,y],i)=>i?cameraCtx.lineTo(x,y):cameraCtx.moveTo(x,y));cameraCtx.lineTo(w,h);cameraCtx.lineTo(0,h);cameraCtx.closePath();cameraCtx.fill();});
+  // Thác nước hai bên núi.
+  for(const x of [48,372]){
+    const water=cameraCtx.createLinearGradient(x-13,0,x+13,0);water.addColorStop(0,"#347f8b");water.addColorStop(.45,"#e0fff0");water.addColorStop(1,"#4b9eaa");
+    cameraCtx.fillStyle=water;cameraCtx.beginPath();cameraCtx.moveTo(x-5,52);cameraCtx.bezierCurveTo(x-16,82,x-20,108,x-28,145);cameraCtx.quadraticCurveTo(x,151,x+28,145);cameraCtx.bezierCurveTo(x+20,108,x+16,82,x+5,52);cameraCtx.closePath();cameraCtx.fill();
+    cameraCtx.strokeStyle="rgba(255,255,245,.75)";cameraCtx.lineWidth=1.5;for(let j=0;j<4;j++){cameraCtx.beginPath();cameraCtx.moveTo(x-8+j*5,57);cameraCtx.lineTo(x-13+j*8,141);cameraCtx.stroke();}
+  }
+  // Đại điện trung tâm và các lầu các hai cánh.
+  function pavilion(x,y,s,color,main=false){
+    cameraCtx.save();cameraCtx.translate(x,y);cameraCtx.scale(s,s);
+    cameraCtx.fillStyle="#49372c";cameraCtx.fillRect(-24,-38,48,40);
+    cameraCtx.fillStyle=color;cameraCtx.fillRect(-19,-33,38,34);
+    cameraCtx.fillStyle="#f0d28a";cameraCtx.fillRect(-23,-3,46,3);
+    cameraCtx.fillStyle="#e4c77f";cameraCtx.beginPath();cameraCtx.moveTo(-38,-34);cameraCtx.quadraticCurveTo(0,main?-75:-59,38,-34);cameraCtx.lineTo(29,-29);cameraCtx.quadraticCurveTo(0,main?-63:-49,-29,-29);cameraCtx.closePath();cameraCtx.fill();
+    cameraCtx.strokeStyle="#fff0b7";cameraCtx.lineWidth=2;cameraCtx.stroke();
+    for(const xx of [-17,17]){cameraCtx.fillStyle="#f3d68f";cameraCtx.fillRect(xx-2,-30,4,30);}
+    if(main){cameraCtx.fillStyle="#fff0b7";cameraCtx.font="bold 8px Georgia";cameraCtx.textAlign="center";cameraCtx.fillText("TIÊN MÔN",0,-42);}
+    cameraCtx.restore();
+  }
+  pavilion(210,130,.82,"#7a4d3e",true);pavilion(82,145,.48,"#426c67");pavilion(335,144,.48,"#536d8b");
+  pavilion(143,162,.34,"#8a7049");pavilion(282,162,.34,"#657c57");
+  // Cầu mây, tán cây và đèn lồng.
+  cameraCtx.strokeStyle="rgba(240,247,225,.55)";cameraCtx.lineWidth=7;cameraCtx.beginPath();cameraCtx.moveTo(0,156);cameraCtx.quadraticCurveTo(210,138,420,156);cameraCtx.stroke();
+  cameraCtx.fillStyle="rgba(240,214,151,.75)";for(let i=0;i<9;i++){const x=22+i*47;cameraCtx.beginPath();cameraCtx.arc(x,163+(i%2)*3,2,0,Math.PI*2);cameraCtx.fill();}
+  const mist=cameraCtx.createLinearGradient(0,130,0,h);mist.addColorStop(0,"rgba(224,248,232,0)");mist.addColorStop(1,"rgba(195,225,204,.16)");cameraCtx.fillStyle=mist;cameraCtx.fillRect(0,125,w,h-125);
 }
 
 function leaderOf(){
