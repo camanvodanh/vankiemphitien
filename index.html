@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#102b27">
   <title>Vạn Kiếm Phi Tiên</title>
-  <link rel="stylesheet" href="style.css?v=20261111-game-contained-dragfix">
+  <link rel="stylesheet" href="style.css?v=20261111-game-contained-dragfix22">
 </head>
 <body class="game-page">
   <main class="page game-app">
@@ -67,8 +67,7 @@ ion>
             <div class="arena-controls">
               <button id="start" class="btn primary arena-start" disabled><span class="btn-icon" aria-hidden="true">▶</span><span class="btn-label">Bắt đầu</span></button>
               <button id="pause" class="btn muted arena-pause" hidden disabled>Ⅱ Tạm dừng</button>
-            </div>
-          </div>
+            
           <div class="camera panel game-camera">
             <div class="camera-heading">
               <div><p class="eyebrow">GÓC QUAN SÁT</p><h3 id="leaderProgress">Hạng --/--</h3></div>
@@ -77,6 +76,22 @@ ion>
             <div class="camera-screen"><canvas id="leaderCanvas" width="420" height="240"></canvas></div>
             <div class="camera-info" aria-hidden="true"><strong id="leaderName">Đang chờ cuộc đua</strong></div>
           </div>
+            <aside class="ranking panel game-ranking">
+              <div class="ranking-heading">
+                <div><p class="eyebrow">BẢNG XẾP HẠNG</p><h3>Tiên Bảng</h3></div>
+                <span class="ranking-seal">榜</span>
+              </div>
+              <div class="ranking-meta"><span>THỨ HẠNG HIỆN TẠI</span><span>LIVE</span></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Hạng</th><th>Tiên nhân</th><th>Thời gian</th></tr></thead>
+                  <tbody id="rankBody"><tr><td colspan="3" class="empty">Chưa có tiên nhân</td></tr></tbody>
+                </table>
+              </div>
+            </aside>
+          </div>
+          </div>
+
 
 
 
@@ -95,11 +110,11 @@ ion>
     <span id="status" class="sr-only" aria-live="polite">Chờ triệu hồi</span>
     <div id="event" class="sr-only" aria-live="polite"></div>
   </main>
-  <script src="core.js?v=20261111-game-contained-dragfix"></script>
-  <script src="scenery.js?v=20261111-game-contained-dragfix"></script>
-  <script src="audience.js?v=20261111-game-contained-dragfix"></script>
-  <script src="race-render.js?v=20261111-game-contained-dragfix"></script>
-  <script src="visual-overrides.js?v=20261111-game-contained-dragfix"></script>
-  <script src="race-logic.js?v=20261111-game-contained-dragfix"></script>
+  <script src="core.js?v=20261111-game-contained-dragfix2"></script>
+  <script src="scenery.js?v=20261111-game-contained-dragfix2"></script>
+  <script src="audience.js?v=20261111-game-contained-dragfix2"></script>
+  <script src="race-render.js?v=20261111-game-contained-dragfix2"></script>
+  <script src="visual-overrides.js?v=20261111-game-contained-dragfix2"></script>
+  <script src="race-logic.js?v=20261111-game-contained-dragfix2"></script>
 </body>
 </html>
