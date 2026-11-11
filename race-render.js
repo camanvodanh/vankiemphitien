@@ -407,10 +407,6 @@ function triggerEvent(){
  ];
  const effect=effects[randInt(0,effects.length-1)];
  racer.speedMultiplier=effect.multiplier;racer.effectTimer=effect.duration;racer.effectType=effect.type;racer.effectName=effect.name;
- const rank=sortedRacers().findIndex(r=>r.id===racer.id)+1;
- const direction=effect.multiplier>=1?"TĂNG TỐC":"GIẢM TỐC";
- eventText=`${racer.name}: Hạng ${rank} → ${rank} · ${direction} ×${effect.multiplier.toFixed(2)}`;
- eventTextLife=2.8;$("event").textContent=eventText;
  cameraFocusId=racer.id;const px=racerX(racer),py=laneY(index);addParticles(px,py,32);
  for(let i=0;i<12;i++){const angle=i*Math.PI/6;particles.push({x:px+Math.cos(angle)*8,y:py+Math.sin(angle)*6,vx:Math.cos(angle)*rand(1.2,3.1),vy:Math.sin(angle)*rand(1,2.6),life:rand(.45,.95),maxLife:.95,size:rand(2,4),color:effect.type==="boost"?"#ffe17b":effect.type==="slow"?"#8de8ef":"#ff9a72"});}
 }
