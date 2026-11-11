@@ -256,66 +256,27 @@ function drawTrackLines() {
 // NHÂN VẬT NGỰ KIẾM
 // =====================================================
 
-function drawRacer(target, racer, x, y, scale, time) {
-  target.save();
-
-  target.translate(
-    x,
-    y + Math.sin(time * .009 + racer.phase) * 2
-  );
-
-  target.scale(scale, scale);
-
-  // Hào quang
-  const glow = target.createRadialGradient(
-    0, 0, 3, 0, 0, 43
-  );
-
-  glow.addColorStop(0, "rgba(255,225,139,.35)");
-  glow.addColorStop(1, "rgba(255,225,139,0)");
-
-  target.fillStyle = glow;
-  target.fillRect(-48, -45, 96, 90);
-
-  // Phi kiếm
-  target.fillStyle = "#d6c18a";
-  target.fillRect(-29, 17, 58, 4);
-
-  target.fillStyle = "#f3e6b5";
-  target.fillRect(-23, 15, 45, 2);
-
-  target.fillStyle = "rgba(255,236,164,.55)";
-  target.fillRect(-34, 21, 68, 2);
-
-  // Thân áo
-  target.fillStyle = racer.dark;
-  target.fillRect(-10, -5, 20, 22);
-
-  target.fillStyle = racer.color;
-  target.fillRect(-9, -7, 18, 21);
-  target.fillRect(-14, -2, 5, 14);
-  target.fillRect(9, -2, 5, 14);
-
-  // Khuôn mặt
-  target.fillStyle = "#f0c49b";
-  target.fillRect(-7, -22, 14, 14);
-
-  // Tóc
-  target.fillStyle = "#29252a";
-  target.fillRect(-8, -25, 16, 5);
-  target.fillRect(-7, -28, 13, 4);
-  target.fillRect(-9, -21, 3, 8);
-  target.fillRect(6, -21, 3, 8);
-  target.fillRect(4, -31, 3, 7);
-
-  // Mắt
-  target.fillStyle = "#392a26";
-  target.fillRect(-4, -17, 2, 2);
-  target.fillRect(3, -17, 2, 2);
-
-  target.fillStyle = "#e8cb83";
-  target.fillRect(-8, 5, 16, 2);
-
+function drawRacer(target,racer,x,y,scale,time){
+  target.save();target.translate(x,y+Math.sin(time*.009+racer.phase)*2);target.scale(scale,scale);
+  const glow=target.createRadialGradient(0,0,3,0,0,46);glow.addColorStop(0,"rgba(255,225,139,.38)");glow.addColorStop(1,"rgba(255,225,139,0)");
+  target.fillStyle=glow;target.fillRect(-50,-48,100,96);
+  const styles=[
+    {blade:"#d8e8ee",edge:"#fff5c9",hilt:"#c69a4e"},{blade:"#9bd6ef",edge:"#e8fbff",hilt:"#4b8d9a"},
+    {blade:"#d9c2f3",edge:"#fff0ff",hilt:"#8a65a5"},{blade:"#e7b96c",edge:"#fff0b5",hilt:"#9c572e"},
+    {blade:"#a8d8b0",edge:"#eaffd8",hilt:"#497b54"},{blade:"#d7dbe3",edge:"#ffffff",hilt:"#59677f"},
+    {blade:"#e6a3a3",edge:"#ffe4d4",hilt:"#93444a"}
+  ];
+  const sword=styles[(racer.swordStyle||0)%styles.length];
+  target.save();target.rotate(-.08);target.fillStyle="rgba(18,30,36,.32)";
+  target.beginPath();target.ellipse(0,22,39,5,0,0,Math.PI*2);target.fill();
+  target.fillStyle=sword.blade;target.beginPath();target.moveTo(-39,18);target.lineTo(28,16);target.lineTo(43,18);target.lineTo(28,21);target.lineTo(-39,21);target.closePath();target.fill();
+  target.strokeStyle=sword.edge;target.lineWidth=1.5;target.stroke();target.fillStyle=sword.hilt;
+  target.fillRect(-10,14,4,11);target.fillRect(-15,15,14,3);target.fillRect(-9,24,3,7);target.restore();
+  target.fillStyle=racer.dark;target.beginPath();target.moveTo(-7,-8);target.lineTo(8,-8);target.lineTo(17,15);target.lineTo(3,11);target.lineTo(-13,18);target.closePath();target.fill();
+  target.fillStyle=racer.color;target.beginPath();target.moveTo(-9,-8);target.lineTo(9,-8);target.lineTo(12,13);target.lineTo(0,9);target.lineTo(-12,14);target.closePath();target.fill();
+  target.fillStyle="#f0c49b";target.beginPath();target.ellipse(0,-16,7,9,0,0,Math.PI*2);target.fill();
+  target.fillStyle="#29252a";target.beginPath();target.arc(0,-23,8,Math.PI,Math.PI*2);target.fill();
+  target.fillRect(-8,-21,3,8);target.fillRect(5,-21,3,8);target.fillStyle="#e8cb83";target.fillRect(-7,1,14,2);
   target.restore();
 }
 
@@ -564,21 +525,11 @@ function drawCameraBackground() {
   cameraCtx.fill();
 }
 
-function leaderOf() {
-  if (!racers.length) return null;
-
-  return [...racers].sort((a, b) => {
-    if (a.finished && b.finished) {
-      return a.finishTime - b.finishTime;
-    }
-
-    if (a.finished) return -1;
-    if (b.finished) return 1;
-
-    return b.progress - a.progress;
-  })[0];
+function leaderOf(){
+  const active=racers.filter(r=>!r.finished);
+  if(active.length)return active.sort((a,b)=>b.progress-a.progress)[0];
+  return finishQueue.length?finishQueue[finishQueue.length-1]:null;
 }
-
 function drawCamera(time) {
   drawCameraBackground();
 
