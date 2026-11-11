@@ -4293,6 +4293,8 @@ function drawRacer(target,racer,x,y,scale,time){
   const hairs=["#211a25","#39251f","#171d2c","#6a3429","#29242a","#4b315d"];
   const seed=(racer.appearanceSeed??0)%5,skin=skins[seed],hair=hairs[(seed+(female?1:0))%hairs.length];
   target.save();target.translate(x,y+Math.sin(time*.009+racer.phase)*2);target.scale(scale,scale);
+  // Phi kiếm nằm ngang: mũi kiếm hướng về trước (phải), chuôi ở sau; người cưỡi nằm ngang dọc thân kiếm.
+  target.rotate(Math.PI/2);
   const glow=target.createRadialGradient(0,0,3,0,0,48);glow.addColorStop(0,"rgba(255,225,139,.38)");glow.addColorStop(1,"rgba(255,225,139,0)");target.fillStyle=glow;target.fillRect(-51,-48,102,96);
   if(racer.effectTimer>0){const p=1+Math.sin(time*.025)*.12;target.strokeStyle=racer.effectType==="boost"?"#ffe17b":racer.effectType==="slow"?"#8de8ef":"#ff9a72";target.lineWidth=2.2;target.beginPath();target.ellipse(0,4,43*p,17*p,0,0,Math.PI*2);target.stroke();}
   drawRacingArtifact(target,artifactKind(racer),time*.004+racer.phase,female?"female":"male");
@@ -4439,3 +4441,14 @@ function drawPodiumScene(target,time,mini=false){
  }
  target.restore();
 }
+
+/* REVISION 17 — hạ quảng trường, nền và toàn bộ hàng đệ tử sát đáy canvas.
+   Đường đua và tầng trời giữ nguyên cao độ độc lập. */
+const __vkpDrawRiverBase = drawRiver;
+function drawRiver(time){ctx.save();ctx.translate(0,210);__vkpDrawRiverBase(time);ctx.restore();}
+const __vkpDrawBridgeBase = drawBridge;
+function drawBridge(){ctx.save();ctx.translate(0,210);__vkpDrawBridgeBase();ctx.restore();}
+const __vkpDrawCrowdBase = drawCrowd;
+function drawCrowd(time){ctx.save();ctx.translate(0,210);__vkpDrawCrowdBase(time);ctx.restore();}
+const __vkpDrawNearBankBase = drawNearBankTerraces;
+function drawNearBankTerraces(time){ctx.save();ctx.translate(0,210);__vkpDrawNearBankBase(time);ctx.restore();}
