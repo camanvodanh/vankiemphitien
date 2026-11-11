@@ -499,6 +499,6 @@ footer {
 .summon-footer{gap:9px;margin-top:9px}.random-setting{width:125px}
 .compact-field{min-width:135px;flex:0 1 160px}.lock-notice{margin-top:7px}
 .arena-frame{position:relative}
-.arena-start{position:absolute;z-index:5;top:10px;left:50%;transform:translateX(-50%);min-width:190px;min-height:34px;border:1px solid #e4c27e;box-shadow:0 3px 12px rgba(15,30,25,.35);white-space:nowrap}
+.arena-start{position:absolute;z-index:5;top:48px;left:50%;transform:translateX(-50%);min-width:190px;min-height:34px;border:1px solid #e4c27e;box-shadow:0 3px 12px rgba(15,30,25,.35);white-space:nowrap}
 .arena-start:disabled{opacity:.55}
 @media(max-width:760px){.summon-footer{align-items:end}.compact-field{flex:1 1 130px}.random-setting{flex:1 1 120px}}
