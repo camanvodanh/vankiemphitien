@@ -75,8 +75,8 @@ function updateRace(dt){
   const racer=rankedNow[i],oldRank=rankBefore.get(racer.id),newRank=i+1;
   if(racer.effectTimer>0&&oldRank&&oldRank!==newRank){
    const mult=racer.speedMultiplier||1;
-   racer.rankChangeText=oldRank+" → "+newRank+" · ×"+mult.toFixed(1);
-   racer.rankChangeTimer=2.6;
+   racer.rankChangeText="Hạng "+oldRank+" --> Hạng "+newRank+" Tốc Độ Tăng x "+mult.toFixed(1);
+   racer.rankChangeTimer=3.2;
   }
  }
  racers.map((racer,index)=>({racer,index})).filter(o=>!o.racer.finished&&o.racer.progress>=distance).forEach(o=>processFinish(o.racer,o.index));
@@ -617,7 +617,7 @@ function leaderOf(){
   return finishQueue.length?finishQueue[finishQueue.length-1]:null;
 }
 function drawCamera(time){
- drawCameraBackground();
+ drawCameraBackground(time);
  if(finished){drawPodiumScene(cameraCtx,time,true);$("leaderName").textContent="Lễ trao giải · Top 3";$("leaderProgress").textContent="VINH DANH TOP 3";return;}
  if(!started||!racers.length){$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Hạng --/--";cameraCtx.fillStyle="#fff2c9";cameraCtx.font="bold 14px Arial, sans-serif";cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";cameraCtx.fillText("Chờ khai mở tiên hội",210,96);return;}
  let racer=cameraFocusId?racers.find(item=>item.id===cameraFocusId):null;
@@ -628,7 +628,7 @@ function drawCamera(time){
  cameraCtx.save();cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";
  if(racer.effectTimer>0&&racer.effectName){cameraCtx.font="bold 12px Arial, sans-serif";cameraCtx.lineWidth=3;cameraCtx.strokeStyle="rgba(15,27,25,.98)";cameraCtx.strokeText(racer.effectName,210,43,380);cameraCtx.fillStyle="#fff1bd";cameraCtx.fillText(racer.effectName,210,43,380);}
  cameraCtx.restore();
- $("leaderName").textContent=racer.name;const shift=racer.rankChangeTimer>0&&racer.rankChangeText?" · "+racer.rankChangeText:"";$("leaderProgress").textContent="Hạng "+rank+"/"+racers.length+shift;
+ $("leaderName").textContent=racer.name;const shift=racer.rankChangeTimer>0&&racer.rankChangeText?" · "+racer.rankChangeText:"";$("leaderProgress").textContent="Hạng "+rank+shift;
 }
 function updateRanking(){
  const sorted=sortedRacers();if(!sorted.length){$("rankBody").innerHTML='<tr><td colspan="3" class="empty">Chưa có tiên nhân</td></tr>';return;}
