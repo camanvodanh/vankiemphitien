@@ -120,7 +120,7 @@ function frame(time) {
           countdownAccumulator = 0;
 
           $("status").textContent = "Đang tranh phong";
-          $("lockNotice").textContent = "Tiên hội đang tranh phong.";
+          $("lockNotice").textContent = "Cuộc đua đang diễn ra. Theo dõi trực tiếp hoặc nhấn Tạm dừng.";
 
           eventText = "ĐẠI HỘI BẮT ĐẦU!";
           eventTextLife = 1.5;
@@ -208,7 +208,7 @@ function summon() {
 
   if (finalNames.length > 100) {
     $("lockNotice").textContent =
-      "Danh sách tối đa 100 tiên nhân.";
+      "Tối đa 100 tiên nhân. Hãy rút gọn danh sách rồi triệu hồi lại.";
 
     return;
   }
@@ -247,7 +247,7 @@ function summon() {
   $("status").textContent = "Đã triệu hồi";
 
   $("lockNotice").textContent =
-    `Đã triệu hồi ${racers.length} tiên nhân. Sẵn sàng bắt đầu.`;
+    "Tiếp theo: Nhấn Bắt đầu để khai mở cuộc đua.";
 
   $("leaderName").textContent = "Đang chờ cuộc đua";
   $("leaderProgress").textContent = "Chưa bắt đầu";
@@ -275,10 +275,10 @@ $("quantity").disabled = value;
   $("lockNotice").classList.toggle("locked", value);
 
   $("lockNotice").textContent = value
-    ? "Thiết lập đã khóa trong cuộc đua."
+    ? "Cuộc đua đang diễn ra. Theo dõi trực tiếp hoặc nhấn Tạm dừng."
     : racers.length
-      ? "Có thể triệu hồi lại hoặc thay đổi thiết lập."
-      : "Nhập danh sách hoặc chọn số lượng để triệu hồi.";
+      ? "Tiếp theo: Nhấn Bắt đầu để khai mở cuộc đua."
+      : "Bước 1: Nhập tên hoặc chọn số lượng, sau đó nhấn Triệu hồi.";
 }
 
 function syncButtons() {
@@ -416,7 +416,7 @@ function finishRace() {
   setSettingsLocked(false);
 
   $("lockNotice").textContent =
-    "Đại hội đã kết thúc. Thiết lập đã được mở khóa, có thể triệu hồi đại hội mới.";
+    "Tiếp theo: Nhấn Triệu hồi để mở đại hội mới.";
 
   syncButtons();
   updateRanking();
