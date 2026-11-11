@@ -965,7 +965,7 @@ function syncButtons(){
     : paused
       ? {art:"sword",label:"Tiếp tục"}
       : (finished||raceStopped)
-        ? {art:"return",label:"Bắt đầu lại"}
+        ? {art:"sword",label:"Bắt đầu lại"}
         : {art:"sword",label:"Chạy"};
 
   // Họa tiết vector tự vẽ riêng cho Vạn Kiếm Phi Tiên, không dùng bộ icon.
@@ -1016,11 +1016,19 @@ function syncButtons(){
       <circle cx="32" cy="32" r="3" fill="#fff4d0"/>
     </svg>`,
     setup:`<svg class="cultivation-art art-setup" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-      <path d="M13 13q9-5 19 1v37q-10-6-19-1Z" fill="none" stroke="#e4c37d" stroke-width="2" stroke-linejoin="round"/>
-      <path d="M51 13q-9-5-19 1v37q10-6 19-1Z" fill="none" stroke="#e4c37d" stroke-width="2" stroke-linejoin="round"/>
-      <path d="M18 20q6-2 10 1M18 27q6-2 10 1M36 21q5-3 10-1M36 28q5-3 10-1" stroke="#f5e4b6" stroke-width="1.3" stroke-linecap="round"/>
-      <path d="M32 8v48M27 13l5-5 5 5M27 51l5 5 5-5" fill="none" stroke="#8ed8c0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="m8 8 3 3m45-3-3 3" stroke="#d9b66d" stroke-width="1.5" stroke-linecap="round"/>
+      <defs>
+        <linearGradient id="summonJade" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e6f5c9"/><stop offset=".28" stop-color="#65b99a"/><stop offset=".7" stop-color="#1d6654"/><stop offset="1" stop-color="#0d382f"/></linearGradient>
+        <linearGradient id="summonGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff2bd"/><stop offset=".5" stop-color="#d4a85c"/><stop offset="1" stop-color="#80572e"/></linearGradient>
+      </defs>
+      <path d="M32 4 37 13 48 10 45 21 56 27 46 34 50 46 38 45 32 57 26 45 14 46 18 34 8 27 19 21 16 10 27 13Z" fill="none" stroke="url(#summonGold)" stroke-width="1.7" opacity=".9"/>
+      <path d="M17 24Q32 19 47 24L44 42Q41 50 32 51Q23 50 20 42Z" fill="url(#summonJade)" stroke="#f3dda0" stroke-width="2"/>
+      <path d="M15 24Q32 17 49 24L46 29Q32 34 18 29Z" fill="#d5b36b" stroke="#fff0bd" stroke-width="1.5"/>
+      <ellipse cx="32" cy="25" rx="13" ry="4" fill="#103e35" stroke="#bce7c8" stroke-width="1.2"/>
+      <path d="M21 34Q32 39 43 34M23 40Q32 44 41 40" fill="none" stroke="#b8e9c9" stroke-width="1.3" opacity=".8"/>
+      <path d="M23 48 20 55M41 48 44 55M19 55h26" fill="none" stroke="url(#summonGold)" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M32 3Q25 10 32 17Q39 10 32 3Z" fill="#eaffcf" stroke="#8de2c2" stroke-width="1.2"/>
+      <path d="M7 14q7 0 8 7M57 14q-7 0-8 7" fill="none" stroke="#9ce7ce" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="11" cy="10" r="2" fill="#fff0bc"/><circle cx="53" cy="10" r="2" fill="#fff0bc"/>
     </svg>`
   };
   runButton.hidden=false;
