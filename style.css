@@ -2663,3 +2663,144 @@ body.game-page:after{
  .arena-frame>.game-camera #leaderName{font-size:12px!important;}
  .arena-frame>.game-camera #leaderEffect{font-size:10px!important;}
 }
+
+
+
+/* REVISION 34 — thu nhỏ chỉ ẩn nội dung, không thay đổi tỷ lệ hai cột 50/50. */
+.arena-frame{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+}
+.arena-frame>.game-camera,
+.arena-frame>.game-ranking{
+  grid-column:auto!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  justify-self:stretch!important;
+  align-self:stretch!important;
+}
+.arena-frame:has(>.game-camera.is-minimized),
+.arena-frame:has(>.game-ranking.is-minimized),
+.arena-frame:has(>.game-camera.is-minimized):has(>.game-ranking.is-minimized){
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+}
+.arena-frame>.game-camera.is-minimized,
+.arena-frame>.game-ranking.is-minimized{
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  height:max-content!important;
+  max-height:none!important;
+  padding:0!important;
+  overflow:hidden!important;
+  align-self:start!important;
+}
+.arena-frame>.game-camera.is-minimized>:not(.camera-heading),
+.arena-frame>.game-ranking.is-minimized>:not(.ranking-heading){
+  display:none!important;
+}
+.arena-frame>.game-camera.is-minimized .camera-heading,
+.arena-frame>.game-ranking.is-minimized .ranking-heading{
+  display:flex!important;
+  width:100%!important;
+  min-height:36px!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:6px!important;
+  margin:0!important;
+  padding:6px 9px!important;
+  border:0!important;
+  border-bottom:1px solid rgba(196,163,95,.3)!important;
+}
+.arena-frame>.game-camera.is-minimized .camera-heading>div,
+.arena-frame>.game-ranking.is-minimized .ranking-heading>div{
+  display:block!important;
+  flex:1 1 auto!important;
+  min-width:0!important;
+}
+.arena-frame>.game-camera.is-minimized .camera-heading .eyebrow,
+.arena-frame>.game-ranking.is-minimized .ranking-heading .eyebrow{
+  display:block!important;
+  margin:0 0 2px!important;
+  font-size:8px!important;
+  line-height:1.1!important;
+}
+.arena-frame>.game-camera.is-minimized .camera-heading h3,
+.arena-frame>.game-ranking.is-minimized .ranking-heading h3{
+  display:block!important;
+  margin:0!important;
+  font-size:11px!important;
+  line-height:1.2!important;
+  white-space:normal!important;
+}
+.arena-frame>.game-camera.is-minimized .camera-live,
+.arena-frame>.game-ranking.is-minimized .ranking-seal{
+  display:none!important;
+}
+.arena-frame>.game-camera.is-minimized .window-minimize,
+.arena-frame>.game-ranking.is-minimized .window-minimize{
+  flex:0 0 22px!important;
+  width:22px!important;
+  height:22px!important;
+  min-width:22px!important;
+  min-height:22px!important;
+  margin:0!important;
+}
+.arena-frame>.game-camera .camera-info{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  gap:3px!important;
+  padding:6px 9px 8px!important;
+}
+.arena-frame>.game-camera .camera-primary-info{
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important;
+  min-width:0!important;
+}
+.arena-frame>.game-camera #leaderProgress{
+  flex:0 0 auto!important;
+}
+.arena-frame>.game-camera #leaderName{
+  flex:1 1 auto!important;
+  min-width:0!important;
+}
+.arena-frame>.game-camera #leaderEffect:empty{
+  display:none!important;
+}
+.arena-frame>.game-camera #leaderEffect:not(:empty){
+  display:block!important;
+  padding:0 0 0 39px!important;
+}
+/* Trong khu vực điều khiển chỉ hiện đúng hai nút: Chạy/Tạm ngưng/Tiếp tục và Dừng/Khởi tạo. */
+.arena-frame>.arena-controls>button:not(#start):not(#stop){
+  display:none!important;
+  visibility:hidden!important;
+}
+.arena-frame>.arena-controls>#start,
+.arena-frame>.arena-controls>#stop{
+  display:inline-flex!important;
+  visibility:visible!important;
+}
+@media(max-width:760px){
+  .arena-frame{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;}
+  .arena-frame:has(>.game-camera.is-minimized),
+  .arena-frame:has(>.game-ranking.is-minimized),
+  .arena-frame:has(>.game-camera.is-minimized):has(>.game-ranking.is-minimized){
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  }
+  .arena-frame>.game-camera.is-minimized,
+  .arena-frame>.game-ranking.is-minimized{
+    width:100%!important;min-width:0!important;max-width:none!important;
+    max-height:none!important;height:max-content!important;padding:0!important;
+  }
+  .arena-frame>.game-camera.is-minimized .camera-heading,
+  .arena-frame>.game-ranking.is-minimized .ranking-heading{
+    min-height:32px!important;padding:5px 6px!important;
+  }
+  .arena-frame>.game-camera.is-minimized .camera-heading h3,
+  .arena-frame>.game-ranking.is-minimized .ranking-heading h3{
+    font-size:10px!important;
+  }
+}
