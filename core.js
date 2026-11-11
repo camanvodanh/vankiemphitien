@@ -162,9 +162,9 @@ function laneY(index) {
 }
 
 function racerScale() {
-  // Kích thước tiên nhân được cố định, không co nhỏ theo số lượng triệu hồi.
-  // Khi đông người, laneGap() tự dàn các nhân vật thành hàng dọc sát nhau.
-  return 0.30;
+  // Tỉ lệ vẽ cố định cho mọi số lượng triệu hồi (2–100).
+  // laneGap() chỉ thay đổi vị trí theo chiều dọc, tuyệt đối không tác động kích thước.
+  return 0.38;
 }
 
 function progressOf(racer) {
