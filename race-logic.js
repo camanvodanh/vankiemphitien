@@ -733,3 +733,39 @@ function advanceFinishAnnouncements(){
     $("event").textContent=finishMessage;
   }
 }
+
+
+// KÉO THẢ GÓC QUAN SÁT: di chuyển trong phạm vi sân đấu.
+(function enableDraggableCamera(){
+  const camera=document.querySelector(".game-camera");
+  if(!camera)return;
+  const stage=camera.parentElement;
+  const handle=camera.querySelector(".camera-heading");
+  if(!stage||!handle)return;
+  let drag=null;
+  handle.addEventListener("pointerdown",event=>{
+    if(event.button!==undefined&&event.button!==0)return;
+    const box=camera.getBoundingClientRect();
+    const area=stage.getBoundingClientRect();
+    drag={pointerId:event.pointerId,dx:event.clientX-box.left,dy:event.clientY-box.top,area};
+    camera.style.left=(box.left-area.left)+"px";
+    camera.style.top=(box.top-area.top)+"px";
+    camera.style.right="auto";
+    camera.style.bottom="auto";
+    try{handle.setPointerCapture(event.pointerId);}catch(_){}
+    event.preventDefault();
+  });
+  handle.addEventListener("pointermove",event=>{
+    if(!drag||event.pointerId!==drag.pointerId)return;
+    const area=stage.getBoundingClientRect();
+    const maxX=Math.max(0,area.width-camera.offsetWidth);
+    const maxY=Math.max(0,area.height-camera.offsetHeight);
+    const x=Math.min(maxX,Math.max(0,event.clientX-area.left-drag.dx));
+    const y=Math.min(maxY,Math.max(0,event.clientY-area.top-drag.dy));
+    camera.style.left=x+"px";
+    camera.style.top=y+"px";
+  });
+  const stop=event=>{if(drag&&event.pointerId===drag.pointerId)drag=null;};
+  handle.addEventListener("pointerup",stop);
+  handle.addEventListener("pointercancel",stop);
+})();
