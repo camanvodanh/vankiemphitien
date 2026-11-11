@@ -2418,40 +2418,44 @@ function drawVIPAura(x,y,radius,color,time,phase,intensity){
 }
 
 function drawCrowd(time){
-  // Thân truyền đệ tử ngồi bên trái Chưởng môn.
-  const disciples=[[340,680],[405,674],[470,670],[510,680],[375,718],[450,718]];
+  // Một hàng ghế danh dự thống nhất, không xếp chồng nhiều tầng.
+  // Thân truyền đệ tử bên trái Chưởng môn.
+  const disciples=[190,230,270,310,350,390,430,470].map((x,i)=>[x,680]);
   disciples.forEach(([x,y],i)=>{
-    drawVIPAura(x,y-14,34,"#a9d7ff",time,i,.5);
-    drawVIPChair(x,y,.78,"#405d82",time,i*.7);
-    drawFormalSpectator(x,y-8,.73,"disciple",time,i);
+    drawVIPAura(x,y-13,32,"#a9d7ff",time,i,.42);
+    drawVIPChair(x,y,.72,"#405d82",time,i*.65);
+    drawFormalSpectator(x,y-8,.70,"disciple",time,i);
   });
-  drawRoleLabel(418,632,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.94);
+  drawRoleLabel(330,632,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.96);
 
-  // Chưởng môn ngồi chính giữa, linh khí mạnh và dày nhất.
-  drawVIPAura(550,653,112,"#ffe5a0",time,.4,1);
-  drawVIPAura(550,653,76,"#fff0bf",time,1.8,.85);
-  drawVIPChair(550,674,1.42,"#762f32",time,0);
-  drawFormalSpectator(550,663,1.2,"master",time,0);
-  drawRoleLabel(550,610,"CHƯỞNG MÔN","#f2d17d",1.12);
+  // Chưởng môn ở chính giữa, tiên khí dày và sáng nhất.
+  drawVIPAura(550,650,120,"#ffe5a0",time,.4,1);
+  drawVIPAura(550,650,82,"#fff0bf",time,1.8,.9);
+  drawVIPChair(550,674,1.38,"#762f32",time,0);
+  drawFormalSpectator(550,662,1.16,"master",time,0);
+  drawRoleLabel(550,606,"CHƯỞNG MÔN","#f2d17d",1.1);
 
-  // Trưởng lão ngồi bên phải, hào quang thấp hơn Chưởng môn.
-  const elders=[[635,680],[700,674],[765,670],[830,674],[895,680],[960,688],[680,720],[780,720],[880,720]];
+  // Trưởng lão bên phải, ngồi cùng một hàng; hào quang nhẹ hơn.
+  const elders=[620,670,720,770,820,870,920,970,1020].map(x=>[x,680]);
   elders.forEach(([x,y],i)=>{
-    drawVIPAura(x,y-14,55,"#d7baff",time,i*.9,.68);
-    drawVIPChair(x,y,.84,"#5b456b",time,i);
-    drawFormalSpectator(x,y-8,.77,"elder",time,i*.8);
+    drawVIPAura(x,y-12,43,"#d7baff",time,i*.75,.55);
+    drawVIPChair(x,y,.76,"#5b456b",time,i);
+    drawFormalSpectator(x,y-8,.72,"elder",time,i*.8);
   });
-  drawRoleLabel(800,632,"TRƯỞNG LÃO","#d4b5fa",.98);
+  drawRoleLabel(820,632,"TRƯỞNG LÃO","#d4b5fa",.96);
 
+  // Khán giả đại chúng thành ba lớp dày như khán đài đại hội.
   const rows=[
     {y:748,count:35,x:4,step:32,scale:.62,role:"servant"},
     {y:773,count:36,x:-3,step:31,scale:.58,role:"outer"},
     {y:796,count:37,x:-8,step:30,scale:.52,role:"inner"}
   ];
   rows.forEach((row,ri)=>{for(let i=0;i<row.count;i++){
-    drawSpectator(row.x+i*row.step+(i%2)*6,row.y+Math.sin(time*.002+i+ri)*1.6,row.scale,row.role,time,i*.57+ri);
+    const sway=Math.sin(time*.002+i*.8+ri)*1.7;
+    drawSpectator(row.x+i*row.step+(i%2)*6,row.y+sway,row.scale,row.role,time,i*.57+ri);
   }});
-  drawCrowdFlag(12,728,"#a53f36",time);drawCrowdFlag(W-18,728,"#b18a43",time);
+  drawCrowdFlag(12,728,"#a53f36",time);
+  drawCrowdFlag(W-18,728,"#b18a43",time);
 }
 
 function drawSpiritBirds(time){
