@@ -244,7 +244,7 @@ function summon() {
   );
 
   duration = Number($("speed").value);
-  distance = Number($("distance").value);
+  
 
   elapsed = 0;
 
@@ -339,7 +339,7 @@ function startRace() {
   ) return;
 
   duration = Number($("speed").value);
-  distance = Number($("distance").value);
+  
 
   elapsed = 0;
 
@@ -476,7 +476,7 @@ function resetGame() {
   finishMessageLife = 0;
 
   duration = Number($("speed").value);
-  distance = Number($("distance").value);
+  
 
   $("status").textContent = "Chờ triệu hồi";
 
@@ -518,12 +518,6 @@ $("speed").addEventListener("change", () => {
   }
 });
 
-$("distance").addEventListener("change", () => {
-  if (!locked) {
-    distance = Number($("distance").value);
-  }
-});
-
 // =====================================================
 // KHỞI CHẠY
 // =====================================================
@@ -531,7 +525,7 @@ $("distance").addEventListener("change", () => {
 initStars();
 
 duration = Number($("speed").value);
-distance = Number($("distance").value);
+
 
 updateRanking();
 setSettingsLocked(false);
@@ -586,7 +580,7 @@ function setSettingsLocked(value){
 }
 function syncButtons(){
   const b=$("start");
-  b.textContent=running?"Ⅱ Tạm dừng":paused?"▶ Tiếp tục":finished?"↻ Bắt đầu lại":"✦ Bắt đầu vào trường đua";
+  b.textContent=running?"Ⅱ Tạm dừng":paused?"▶ Tiếp tục":finished?"↻ Bắt đầu lại":"✦ Bắt đầu";
   b.disabled=!racers.length;
   if($("pause")){$("pause").hidden=true;$("pause").disabled=true;}
   $("summon").disabled=running||paused;
@@ -661,3 +655,7 @@ function updateRanking(){
     return '<tr><td>'+medal+'</td><td title="'+escapeHTML(r.name)+'">'+escapeHTML(r.name)+'</td><td>'+remaining+'</td></tr>';
   }).join("");
 }
+
+
+// REVISION 11 — tự khởi tạo 10 tiên nhân mẫu ngay khi mở trang.
+if (!racers.length) summon();
