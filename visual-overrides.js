@@ -5735,7 +5735,7 @@ function drawPodiumScene(target,time,mini=false){
     target.restore();return;
   }
   drawCeremonyBackdrop(target,mini,time);
-  const podiumX=count===1?[w*.5]:count===2?[w*.32,w*.62]:[w*.25,w*.5,w*.75];
+  const podiumX=count===1?[w*.5]:count===2?[w*.25,w*.5]:[w*.25,w*.5,w*.75];
   const rankAt=count===1?[1]:count===2?[2,1]:[2,1,3];
   const topByRank={1:h*.535,2:h*.655,3:h*.715};
   const base=h*.955,metals={1:["#d9b45f","#fff0a7"],2:["#a9c7d8","#e5f7ff"],3:["#ad754d","#f2c08e"]};
