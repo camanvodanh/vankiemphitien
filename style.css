@@ -612,3 +612,8 @@ body,button,input,textarea,select,label,.lock-notice,.status,.camera-info,table,
  .hero .subtitle{font-size:clamp(10px,2.8vw,13px);letter-spacing:0}
  .site-footer{flex-direction:column;gap:6px}
 }
+
+
+/* REVISION 19 — icon cá mặn nhỏ ngang cỡ chữ ghi công. */
+.creator-credit{gap:.35em;font-size:.9em;letter-spacing:inherit;line-height:1}
+.salt-fish{width:1.35em;height:.79em;flex:0 0 auto;display:inline-block;vertical-align:middle}
