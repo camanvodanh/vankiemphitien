@@ -735,38 +735,45 @@ function advanceFinishAnnouncements(){
 }
 
 
-// KÉO THẢ GÓC QUAN SÁT: giới hạn chính xác bên trong khung sân đấu.
+// KÉO THẢ GÓC QUAN SÁT: luôn hoạt động, kể cả trước khi triệu hồi hoặc bắt đầu.
 (function enableDraggableCamera(){
-  const camera=document.querySelector(".game-camera");
-  const frame=document.querySelector(".arena-frame");
-  const handle=camera&&camera.querySelector(".camera-heading");
-  if(!camera||!frame||!handle)return;
-  let drag=null;
-  handle.style.cursor="grab";
-  handle.style.touchAction="none";
-  handle.addEventListener("pointerdown",event=>{
-    if(event.button!==undefined&&event.button!==0)return;
-    const box=camera.getBoundingClientRect();
-    const area=frame.getBoundingClientRect();
-    drag={id:event.pointerId,dx:event.clientX-box.left,dy:event.clientY-box.top};
-    camera.style.left=(box.left-area.left)+"px";
-    camera.style.top=(box.top-area.top)+"px";
-    camera.style.right="auto";
-    camera.style.bottom="auto";
-    camera.style.position="absolute";
-    event.preventDefault();
-  });
-  document.addEventListener("pointermove",event=>{
-    if(!drag||event.pointerId!==drag.id)return;
-    const area=frame.getBoundingClientRect();
-    const maxX=Math.max(0,area.width-camera.offsetWidth);
-    const maxY=Math.max(0,area.height-camera.offsetHeight);
-    const x=Math.min(maxX,Math.max(0,event.clientX-area.left-drag.dx));
-    const y=Math.min(maxY,Math.max(0,event.clientY-area.top-drag.dy));
-    camera.style.left=x+"px";
-    camera.style.top=y+"px";
-  },{passive:false});
-  const stop=event=>{if(drag&&event.pointerId===drag.id)drag=null;};
-  document.addEventListener("pointerup",stop);
-  document.addEventListener("pointercancel",stop);
+  function attach(){
+    const camera=document.querySelector(".game-camera");
+    const frame=document.querySelector(".arena-frame");
+    const handle=camera&&camera.querySelector(".camera-heading");
+    if(!camera||!frame||!handle||handle.dataset.dragReady==="1")return;
+    handle.dataset.dragReady="1";
+    let drag=null;
+    handle.style.cursor="grab";
+    handle.style.touchAction="none";
+    handle.addEventListener("pointerdown",event=>{
+      if(event.pointerType==="mouse"&&event.button!==0)return;
+      const box=camera.getBoundingClientRect();
+      const area=frame.getBoundingClientRect();
+      drag={id:event.pointerId,dx:event.clientX-box.left,dy:event.clientY-box.top};
+      camera.style.position="absolute";
+      camera.style.left=(box.left-area.left)+"px";
+      camera.style.top=(box.top-area.top)+"px";
+      camera.style.right="auto";
+      camera.style.bottom="auto";
+      try{handle.setPointerCapture(event.pointerId);}catch(_){}
+      event.preventDefault();
+      event.stopPropagation();
+    });
+    handle.addEventListener("pointermove",event=>{
+      if(!drag||event.pointerId!==drag.id)return;
+      const area=frame.getBoundingClientRect();
+      const maxX=Math.max(0,area.width-camera.offsetWidth);
+      const maxY=Math.max(0,area.height-camera.offsetHeight);
+      camera.style.left=Math.min(maxX,Math.max(0,event.clientX-area.left-drag.dx))+"px";
+      camera.style.top=Math.min(maxY,Math.max(0,event.clientY-area.top-drag.dy))+"px";
+      event.preventDefault();
+    });
+    const stop=event=>{if(drag&&event.pointerId===drag.id)drag=null;};
+    handle.addEventListener("pointerup",stop);
+    handle.addEventListener("pointercancel",stop);
+    handle.addEventListener("lostpointercapture",()=>{drag=null;});
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",attach,{once:true});
+  else attach();
 })();
