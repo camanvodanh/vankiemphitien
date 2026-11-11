@@ -4454,10 +4454,6 @@ function drawRacer(target,racer,x,y,scale,time){
       target.globalAlpha=.8*fade;target.fillStyle="#d8e4e8";target.beginPath();target.ellipse(9,-24,2,4,0,0,Math.PI*2);target.fill();
       target.strokeStyle="#b9d0d2";target.lineWidth=1.3;target.beginPath();target.moveTo(-17,1);target.quadraticCurveTo(-26,7,-30,14);target.stroke();
       if(activeEffect==="faint"){target.globalAlpha=.72;target.fillStyle="#e2e8ed";target.font="bold 8px Arial";target.textAlign="center";target.fillText("Z",14,-39+Math.sin(t*3)*2);target.fillText("Z",21,-47+Math.sin(t*3+1)*2);}
-    }else if(activeEffect==="pill"||activeEffect==="boost"||activeEffect==="wind_step"||activeEffect==="shadow_step"||activeEffect==="sword_dash"||activeEffect==="body_burst"){
-      target.globalAlpha=.85*fade;target.strokeStyle="#ffe18a";target.lineWidth=2;
-      for(let i=0;i<4;i++){const xx=-28+i*17,yy=12-Math.abs(Math.sin(t*5+i))*24;target.beginPath();target.moveTo(xx,yy+8);target.quadraticCurveTo(xx-5,yy,xx,yy-7);target.stroke();}
-      target.globalAlpha=.55;target.fillStyle="#fff0ad";for(let i=0;i<7;i++){const xx=Math.sin(t*3+i*2.1)*27,yy=-10+Math.cos(t*4+i)*25;target.beginPath();target.arc(xx,yy,1.3,0,Math.PI*2);target.fill();}
     }else if(activeEffect==="impact"){
       target.globalAlpha=.9*fade;target.strokeStyle="#ffb27b";target.lineWidth=2.2;
       for(let i=0;i<5;i++){const aa=i*Math.PI*2/5+t*2;target.beginPath();target.moveTo(Math.cos(aa)*12,Math.sin(aa)*8-5);target.lineTo(Math.cos(aa)*27,Math.sin(aa)*17-5);target.stroke();}
@@ -4475,12 +4471,22 @@ function drawRacer(target,racer,x,y,scale,time){
       target.fillStyle="#d8c6ff";target.beginPath();target.arc(Math.sin(t*5)*17,-43+Math.cos(t*5)*4,2,0,Math.PI*2);target.fill();
     }
     if(activeEffect==="sword_intent"){
-      // Vận kiếm quyết: tay kết kiếm ấn, kiếm khí kéo thành lưỡi kiếm lao về trước.
-      target.globalAlpha=.98*fade;target.strokeStyle="#d9f5ff";target.lineWidth=2.4;target.shadowColor="#83dfff";target.shadowBlur=11;
-      target.beginPath();target.moveTo(8,-5);target.quadraticCurveTo(18,-24,31,-30);target.stroke();
-      target.beginPath();target.moveTo(15,-16);target.quadraticCurveTo(28,-31,45,-34);target.stroke();
-      target.shadowBlur=0;target.fillStyle="#efffff";
-      for(let n=0;n<3;n++){const k=(t*95+n*22)%72;target.globalAlpha=(1-k/72)*fade;target.beginPath();target.moveTo(8+k,-25-n*5);target.lineTo(19+k,-27-n*5);target.lineTo(8+k,-22-n*5);target.fill();}
+      // Kiếm Ý: tay bắt kiếm quyết, một thanh kiếm khí hiện rõ trước mặt, hai kiếm ảnh hộ vệ hai bên.
+      const pulse=.82+.18*Math.sin(t*8);
+      target.globalAlpha=.96*fade;target.strokeStyle="#dffaff";target.fillStyle="#f4ffff";target.lineWidth=2.2;
+      target.shadowColor="#67dfff";target.shadowBlur=12;
+      // Kiếm khí chủ đạo: mũi nhọn hướng về trước, có sống kiếm và chuôi rõ ràng.
+      target.save();target.translate(31,-31);target.rotate(-.28);
+      target.beginPath();target.moveTo(-4,13);target.lineTo(-3,-24);target.lineTo(0,-38);target.lineTo(3,-24);target.lineTo(4,13);target.closePath();target.fill();
+      target.strokeStyle="#8ceaff";target.lineWidth=1.2;target.stroke();
+      target.strokeStyle="#d7b66c";target.lineWidth=3;target.beginPath();target.moveTo(-8,12);target.lineTo(8,12);target.moveTo(0,12);target.lineTo(0,23);target.stroke();
+      target.restore();
+      // Hai kiếm ảnh nghiêng chụm về mục tiêu, không dùng hạt trang trí.
+      target.globalAlpha=.72*fade*pulse;target.strokeStyle="#9beaff";target.lineWidth=2;target.shadowBlur=8;
+      for(let n=0;n<2;n++){const yy=-21+n*17;target.beginPath();target.moveTo(5,yy+8);target.lineTo(25,yy-14);target.lineTo(22,yy+1);target.stroke();}
+      target.shadowBlur=0;
+      // Đường kiếm quang phóng thẳng về phía trước.
+      target.globalAlpha=.8*fade;target.strokeStyle="#e9ffff";target.lineWidth=1.5;target.beginPath();target.moveTo(37,-31);target.quadraticCurveTo(54,-38,66,-43);target.stroke();
     }
     if(activeEffect==="cloud_step"){
       // Đạp Vân Bộ: mây tụ dưới chân kiếm, nhân vật bật lên theo từng nhịp.
@@ -4544,11 +4550,11 @@ function drawRacer(target,racer,x,y,scale,time){
       target.fillStyle="#fff5cb";target.globalAlpha=.95*fade;target.beginPath();target.arc(46,-8,3,0,Math.PI*2);target.fill();
     }
     if(activeEffect==="body_burst"){
-      // Bạo Bộ: thu người lấy đà, bật mạnh lên rồi hạ xuống theo nhịp.
+      // Bạo Bộ: dồn lực ở chân, bật vọt lên; chỉ để lại luồng khí trắng xanh, không có hạt vàng.
       const leap=Math.abs(Math.sin(progress*Math.PI*2.2));
-      target.globalAlpha=.85*fade;target.strokeStyle="#ffd58a";target.lineWidth=2.2;target.shadowColor="#ffb94e";target.shadowBlur=9;
-      target.beginPath();target.ellipse(0,26,17+leap*15,4+leap*3,0,0,Math.PI*2);target.stroke();target.shadowBlur=0;
-      for(let n=0;n<6;n++){const a=n*Math.PI/3+t*2,rad=22+leap*12;target.fillStyle="#ffe7ac";target.beginPath();target.arc(Math.cos(a)*rad,Math.sin(a)*rad+8,1.8,0,Math.PI*2);target.fill();}
+      target.globalAlpha=.9*fade;target.strokeStyle="#c8f4ef";target.lineWidth=2;target.shadowColor="#83dfd3";target.shadowBlur=7;
+      for(let n=0;n<3;n++){const spread=12+leap*12+n*5;target.beginPath();target.moveTo(-spread,27+n*3);target.quadraticCurveTo(0,34+leap*9+n*3,spread,27+n*3);target.stroke();}
+      target.shadowBlur=0;
     }
     if(activeEffect==="talisman"){
       // Bốn lá phù vàng có nét chu sa bay vòng quanh nhân vật.
@@ -4562,7 +4568,7 @@ function drawRacer(target,racer,x,y,scale,time){
         target.fillStyle="#a94336";target.beginPath();target.arc(0,-8,1,0,Math.PI*2);target.fill();
         target.restore();
       }
-      target.shadowBlur=0;target.strokeStyle="rgba(255,226,143,.75)";target.lineWidth=1.4;target.beginPath();target.ellipse(0,-7,39,29,t*.4,0,Math.PI*2);target.stroke();
+      target.shadowBlur=0;
     }
     if(activeEffect==="sword_intent"){
       target.globalAlpha=.9*fade;target.strokeStyle="#c9f4ff";target.lineWidth=2.2;target.shadowColor="#78dfff";target.shadowBlur=9;target.beginPath();target.moveTo(-30,9);target.quadraticCurveTo(-2,-8,31,-37);target.stroke();target.shadowBlur=0;target.fillStyle="#fff2bd";target.beginPath();target.arc(30,-37,2.4,0,Math.PI*2);target.fill();
