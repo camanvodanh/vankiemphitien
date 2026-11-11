@@ -5688,8 +5688,8 @@ function drawAwardPlazaBackdropV2(target,time,mini){
   for(let n=0;n<7;n++){const y=h*(.73+n*.045);target.beginPath();target.moveTo(w*.08-n*5,y);target.lineTo(w*.92+n*5,y);target.stroke();}
   for(const side of [0,1]){const x=side?w*.91:w*.09;target.strokeStyle="#d8bd7c";target.lineWidth=mini?2:4;target.beginPath();target.moveTo(x,h*.42);target.lineTo(x,h*.78);target.stroke();target.fillStyle=side?"#a84a42":"#456f91";target.beginPath();target.moveTo(x,h*.43);target.lineTo(x+(side?-1:1)*w*.075,h*.49);target.lineTo(x,h*.55);target.fill();}
 }
-function drawAwardThroneOnlyV2(target,x,y,scale){
-  target.save();target.translate(x,y);target.scale(scale,scale);
+function drawAwardThroneOnlyV2(target,x,y,scale,tilt=0){
+  target.save();target.translate(x,y);target.rotate(tilt);target.scale(scale,scale);
   const g=target.createLinearGradient(-30,0,30,0);g.addColorStop(0,"#704526");g.addColorStop(.5,"#f3d58a");g.addColorStop(1,"#704526");
   target.fillStyle=g;target.beginPath();target.moveTo(-28,8);target.lineTo(-25,-48);target.quadraticCurveTo(0,-67,25,-48);target.lineTo(28,8);target.closePath();target.fill();
   target.strokeStyle="#ffe9ae";target.lineWidth=2;target.stroke();
@@ -5708,13 +5708,14 @@ function drawPodiumScene(target,time,mini=false){
     if(elapsed<seatEnd){
       drawCeremonySeatedMaster(target,tx,ty,sc);
     }else if(elapsed<standEnd){
-      drawAwardThroneOnlyV2(target,tx,ty,sc);
       const p=awardSmoothstep((elapsed-seatEnd)/(standEnd-seatEnd));
+      // Ghế bị đạp bật nghiêng và trượt lùi khi chưởng môn lấy đà.
+      drawAwardThroneOnlyV2(target,tx-12*p,ty,sc,-.42*p);
       drawStandingSectMaster(target,tx+w*.015*p,ty-h*.08*p,mini?.46:.86);
       target.globalAlpha=1-p;target.strokeStyle="#fff0bd";target.lineWidth=mini?1.5:3;
       target.beginPath();target.moveTo(tx-8,ty-3);target.lineTo(tx-30,ty+8);target.moveTo(tx-4,ty+1);target.lineTo(tx-24,ty+17);target.stroke();target.globalAlpha=1;
     }else if(elapsed<jumpEnd){
-      drawAwardThroneOnlyV2(target,tx,ty,sc);
+      drawAwardThroneOnlyV2(target,tx-12,ty,sc,-.42);
       const p=awardSmoothstep((elapsed-standEnd)/(jumpEnd-standEnd));
       const x=tx+w*.055*p,y=ty-h*(.18+.26*p)-Math.sin(p*Math.PI)*h*.06;
       drawAwardMaster(target,x,y,mini?.40:.76,time);
