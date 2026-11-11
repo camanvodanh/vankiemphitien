@@ -400,19 +400,19 @@ function triggerEvent(){
  const active=racers.filter(r=>!r.finished);if(!active.length)return;
  const racer=active[randInt(0,active.length-1)],index=racers.indexOf(racer);
  const effects=[
-  {type:"poison",name:"Độc",multiplier:.56,duration:3.4},
+  {type:"poison",name:"Trúng độc",multiplier:.56,duration:3.4},
   {type:"weak",name:"Suy lực",multiplier:.68,duration:3.0},
-  {type:"pill",name:"Dùng đan",multiplier:1.58,duration:2.7},
+  {type:"pill",name:"Hồi Linh Đan",multiplier:1.58,duration:2.7},
   {type:"impact",name:"Va chạm",multiplier:.48,duration:1.8},
   {type:"lightning",name:"Lôi kích",multiplier:.42,duration:2.1},
   {type:"gale",name:"Cuồng phong",multiplier:.62,duration:2.8},
   {type:"dizzy",name:"Choáng",multiplier:.50,duration:2.3},
   {type:"faint",name:"Ngất",multiplier:.32,duration:1.65},
-  {type:"boost",name:"Thiên phong",multiplier:1.42,duration:2.5},
-  {type:"pill",name:"Hồi khí",multiplier:1.72,duration:1.9},
+  {type:"boost",name:"Thân pháp",multiplier:1.42,duration:2.5},
+  {type:"pill",name:"Tụ Khí Đan",multiplier:1.72,duration:1.9},
   {type:"sword_intent",name:"Kiếm ý",multiplier:1.34,duration:2.35},
   {type:"cloud_step",name:"Đạp Vân",multiplier:1.48,duration:2.15},
-  {type:"formation",name:"Trận pháp",multiplier:1.27,duration:3.1},
+  {type:"formation",name:"Tụ Linh Trận",multiplier:1.27,duration:3.1},
   {type:"sword_spin",name:"Kiếm Vũ",multiplier:1.18,duration:2.2},
   {type:"talisman",name:"Phù tốc",multiplier:1.55,duration:2.65}
  ];
