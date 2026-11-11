@@ -567,6 +567,13 @@ function drawRacer(target,racer,x,y,scale,time) {
   glow.addColorStop(0,"rgba(255,225,139,.35)");glow.addColorStop(1,"rgba(255,225,139,0)");
   target.fillStyle=glow;target.fillRect(-48,-45,96,90);
   drawRacingArtifact(target,artifactKind(racer),time*.004+racer.phase,racer.swordColor||0);
+ // Linh kiếm bừng sáng theo tốc độ và loại dị tượng.
+ target.save();target.globalAlpha=racer.effectTimer>0?.9:.48;
+ target.shadowColor=racer.effectType==="slow"?"#8de8ef":"#ffe7a0";target.shadowBlur=racer.effectTimer>0?12:5;
+ target.strokeStyle=racer.effectType==="slow"?"#a8f5f4":"#fff0b5";target.lineWidth=1.8;
+ target.beginPath();target.moveTo(-34,18);target.lineTo(40,17);target.stroke();
+ for(let i=0;i<3;i++){const px=-5+i*18,py=16+Math.sin(time*.02+i)*2;target.fillStyle="#fff4c2";target.beginPath();target.arc(px,py,1.5,0,Math.PI*2);target.fill();}
+ target.restore();
   target.fillStyle=racer.dark;target.fillRect(-10,-5,20,22);
   target.fillStyle=racer.color;target.fillRect(-9,-7,18,21);
   target.fillRect(-14,-2,5,14);target.fillRect(9,-2,5,14);
@@ -2398,7 +2405,7 @@ function drawCrowd(time){
     drawVIPChair(x,y,.58,"#405d82",time,i*.65);
     drawFormalSpectator(x,y-8,.58,"disciple",time,i);
   });
-  drawRoleLabel(260,632,"10 THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.92);
+  drawRoleLabel(260,632,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.92);
 
   drawVIPAura(550,650,120,"#ffe5a0",time,.4,1);
   drawVIPAura(550,650,82,"#fff0bf",time,1.8,.9);
@@ -2412,7 +2419,7 @@ function drawCrowd(time){
     drawVIPChair(x,y,.60,"#5b456b",time,i);
     drawFormalSpectator(x,y-8,.60,"elder",time,i*.8);
   });
-  drawRoleLabel(860,632,"10 TRƯỞNG LÃO","#d4b5fa",.92);
+  drawRoleLabel(860,632,"TRƯỞNG LÃO","#d4b5fa",.92);
 
   // Ba hàng đệ tử xen kẽ; nòng cốt ít người ở trung tâm và được các cấp bao quanh.
   discipleCrowdLayout.forEach((p,i)=>{
