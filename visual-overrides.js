@@ -2596,7 +2596,7 @@ function drawSpiritBirds(time){
  flocks.forEach((g,gi)=>{for(let i=0;i<g.n;i++){
   const a=((time*g.speed+g.phase+i*Math.PI*2/g.n)%(Math.PI*2)+Math.PI*2)%(Math.PI*2);
   const x=g.cx+Math.cos(a)*g.rx,y=g.cy+Math.sin(a)*g.ry,turn=.34;let heading=0;
-  if(a<turn)heading=Math.PI*smooth(a/turn);
+  if(a<turn)heading=Math.PI;
   else if(a<Math.PI-turn)heading=Math.PI;
   else if(a<Math.PI+turn)heading=Math.PI*(1-smooth((a-(Math.PI-turn))/(turn*2)));
   const sc=g.scale*(.9+.1*(.5+.5*Math.sin(a))),flap=Math.sin(time*.0036+i*1.8+gi*.9),lift=flap*17;
@@ -3148,4 +3148,9 @@ function drawPodiumScene(target,time,mini=false){
   target.font=mini?"bold 6px Arial":"bold 13px Arial";target.fillStyle="#fff1c8";target.fillText(racer.name,podiumX[i],base-(mini?4:8),bw-5);
  }
  target.restore();
+}
+
+function drawRacerName(racer,x,y,scale){
+ const rank=sortedRacers().findIndex(item=>item.id===racer.id)+1;
+ drawRacerNameOnTarget(ctx,racer,x,y-43*scale,rank,scale);
 }
