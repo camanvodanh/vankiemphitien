@@ -6341,93 +6341,49 @@ function drawMountainRange(){
 }
 
 function drawMountainSpringArtifact(time){
-  // Hồ lô ngọc đặt sát mép trái; dòng linh tuyền chảy chéo xuống nhập lòng sông.
-  const x=28,y=430,pulse=1+Math.sin(time*.0018)*.035;
+  // Long tuyền ngọc hồ: pháp bảo hồ lô chạm long thủ, đặt sát mép trái.
+  const pulse=1+Math.sin(time*.0017)*.035;
   ctx.save();ctx.lineCap="round";ctx.lineJoin="round";
-  // Bệ đá thấp, nằm ngoài trục các lầu các và đường xuất phát.
-  ctx.fillStyle="#394d3d";ctx.beginPath();ctx.moveTo(4,457);ctx.lineTo(66,448);ctx.lineTo(79,463);ctx.lineTo(12,474);ctx.closePath();ctx.fill();
-  ctx.fillStyle="#9b8b67";ctx.beginPath();ctx.moveTo(8,452);ctx.lineTo(63,445);ctx.lineTo(72,455);ctx.lineTo(15,464);ctx.closePath();ctx.fill();
-  ctx.strokeStyle="#e3cb8d";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(12,452);ctx.lineTo(63,445);ctx.stroke();
-  const aura=ctx.createRadialGradient(x,y,2,x,y,44);aura.addColorStop(0,"rgba(140,255,218,.34)");aura.addColorStop(1,"rgba(80,205,170,0)");ctx.fillStyle=aura;ctx.beginPath();ctx.arc(x,y,44,0,Math.PI*2);ctx.fill();
-  // Hồ lô/pháp bảo đồng ngọc có miệng rót hướng về lòng sông.
-  ctx.save();ctx.translate(x,y);ctx.rotate(.43);
-  const vessel=ctx.createLinearGradient(-12,0,13,24);vessel.addColorStop(0,"#f4e2a8");vessel.addColorStop(.25,"#69c8a5");vessel.addColorStop(.7,"#176052");vessel.addColorStop(1,"#d2aa62");
-  ctx.fillStyle=vessel;ctx.strokeStyle="#f5dfa1";ctx.lineWidth=1.8;
-  ctx.beginPath();ctx.moveTo(-5,-4);ctx.quadraticCurveTo(-17,8,-10,20);ctx.quadraticCurveTo(0,31,10,20);ctx.quadraticCurveTo(17,8,5,-4);ctx.closePath();ctx.fill();ctx.stroke();
-  ctx.fillStyle="#d9b66c";ctx.fillRect(-5,-10,10,7);ctx.fillRect(-3,-15,6,5);
-  ctx.strokeStyle="#e9d18c";ctx.lineWidth=1.3;ctx.beginPath();ctx.ellipse(0,8,8,13,0,0,Math.PI*2);ctx.stroke();
+
+  // Bệ đá ngọc nhiều tầng, chạm vân mây và viền đồng.
+  ctx.fillStyle="#263f38";ctx.beginPath();ctx.moveTo(3,466);ctx.lineTo(35,452);ctx.lineTo(82,455);ctx.lineTo(104,469);ctx.lineTo(68,481);ctx.lineTo(16,479);ctx.closePath();ctx.fill();
+  const plinth=ctx.createLinearGradient(0,451,0,478);plinth.addColorStop(0,"#e6d39a");plinth.addColorStop(.28,"#718d70");plinth.addColorStop(.68,"#385d50");plinth.addColorStop(1,"#b28b4e");
+  ctx.fillStyle=plinth;ctx.beginPath();ctx.moveTo(8,454);ctx.lineTo(37,443);ctx.lineTo(79,447);ctx.lineTo(96,459);ctx.lineTo(66,471);ctx.lineTo(17,468);ctx.closePath();ctx.fill();ctx.strokeStyle="#f1d99a";ctx.lineWidth=2;ctx.stroke();
+  ctx.strokeStyle="rgba(239,220,164,.62)";ctx.lineWidth=1;for(let i=0;i<4;i++){ctx.beginPath();ctx.moveTo(18+i*16,457-i*2);ctx.quadraticCurveTo(31+i*12,465-i*2,48+i*9,458-i*2);ctx.stroke();}
+
+  // Thân hồ lô bằng ngọc xanh thẫm, men ánh vàng.
+  const body=ctx.createLinearGradient(8,0,65,0);body.addColorStop(0,"#173f39");body.addColorStop(.22,"#58a98a");body.addColorStop(.48,"#d5e2ad");body.addColorStop(.68,"#277665");body.addColorStop(1,"#123b36");
+  ctx.save();ctx.translate(38,430);ctx.shadowColor="#7ff4d2";ctx.shadowBlur=16;ctx.fillStyle=body;ctx.strokeStyle="#f1d58d";ctx.lineWidth=2.2;
+  ctx.beginPath();ctx.moveTo(-8,-22);ctx.quadraticCurveTo(-20,-12,-17,2);ctx.bezierCurveTo(-31,20,-18,39,0,40);ctx.bezierCurveTo(18,39,31,20,17,2);ctx.quadraticCurveTo(20,-12,8,-22);ctx.closePath();ctx.fill();ctx.stroke();ctx.shadowBlur=0;
+  ctx.fillStyle="#d8bd79";ctx.fillRect(-8,-29,16,8);ctx.fillRect(-5,-36,10,8);ctx.strokeStyle="#fff0bd";ctx.lineWidth=1.4;ctx.strokeRect(-8,-29,16,8);
+  ctx.fillStyle="#3e8f78";ctx.beginPath();ctx.ellipse(0,-37,7,3,0,0,Math.PI*2);ctx.fill();ctx.stroke();
+  // Long văn nổi và hoa văn cánh sen.
+  ctx.strokeStyle="#f0d28a";ctx.lineWidth=2.2;ctx.beginPath();ctx.moveTo(-12,17);ctx.bezierCurveTo(-28,3,-11,-8,1,2);ctx.bezierCurveTo(17,15,23,-1,10,-8);ctx.bezierCurveTo(3,-12,0,-5,5,-2);ctx.stroke();
+  ctx.fillStyle="#f4d995";ctx.beginPath();ctx.arc(10,-8,3.5,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#f4d995";ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(11,-11);ctx.lineTo(16,-17);ctx.moveTo(8,-12);ctx.lineTo(7,-18);ctx.stroke();
+  ctx.strokeStyle="rgba(245,224,164,.9)";ctx.lineWidth=1.3;for(let i=-1;i<=1;i++){ctx.beginPath();ctx.ellipse(i*7,24,4,8,i*.28,0,Math.PI*2);ctx.stroke();}
+  ctx.fillStyle="#b9f4d9";ctx.beginPath();ctx.arc(0,14,3.3,0,Math.PI*2);ctx.fill();ctx.restore();
+
+  // Long thủ bằng ngọc hướng xuống dòng sông, miệng là điểm xuất thủy.
+  ctx.save();ctx.translate(58,414);ctx.rotate(.34);ctx.fillStyle="#287c69";ctx.strokeStyle="#e9cf8b";ctx.lineWidth=1.8;
+  ctx.beginPath();ctx.moveTo(-5,-5);ctx.quadraticCurveTo(8,-17,22,-8);ctx.quadraticCurveTo(34,-2,27,9);ctx.lineTo(13,8);ctx.quadraticCurveTo(7,17,-2,10);ctx.closePath();ctx.fill();ctx.stroke();
+  ctx.fillStyle="#e9cf8b";ctx.beginPath();ctx.arc(24,-3,2.1,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#e9cf8b";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(12,-10);ctx.quadraticCurveTo(17,-23,28,-20);ctx.moveTo(5,-10);ctx.quadraticCurveTo(3,-22,-5,-19);ctx.stroke();
+  ctx.fillStyle="#f5e4b0";ctx.beginPath();ctx.ellipse(30,8,5,2.5,.3,0,Math.PI*2);ctx.fill();ctx.restore();
+
+  // Linh châu nổi trên bình.
+  const pearl=ctx.createRadialGradient(31,386,1,38,391,16);pearl.addColorStop(0,"#fff");pearl.addColorStop(.25,"#eaffd7");pearl.addColorStop(.62,"#75e6c1");pearl.addColorStop(1,"rgba(50,174,142,0)");
+  ctx.shadowColor="#9affdc";ctx.shadowBlur=18;ctx.fillStyle=pearl;ctx.beginPath();ctx.arc(38,391,13*pulse,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
+  ctx.strokeStyle="rgba(244,228,172,.8)";ctx.lineWidth=1.2;ctx.beginPath();ctx.arc(38,391,17*pulse,0,Math.PI*2);ctx.stroke();
+
+  // Dòng linh tuyền có lòng nước, dải bọt và vệt chảy, nhập vào sông tại x=137.
+  const flow=()=>{ctx.beginPath();ctx.moveTo(82,424);ctx.bezierCurveTo(91,438,89,451,101,465);ctx.bezierCurveTo(111,480,119,495,137,519);};
+  flow();ctx.strokeStyle="rgba(17,66,59,.82)";ctx.lineWidth=19;ctx.stroke();
+  const water=ctx.createLinearGradient(82,424,137,519);water.addColorStop(0,"#d9ffe9");water.addColorStop(.2,"#91efd0");water.addColorStop(.55,"#43b9ad");water.addColorStop(1,"#267e88");
+  flow();ctx.strokeStyle=water;ctx.lineWidth=13;ctx.stroke();flow();ctx.strokeStyle="rgba(245,255,237,.92)";ctx.lineWidth=2.2;ctx.stroke();
+  for(let i=0;i<7;i++){const p=(time*.00042+i/7)%1,px=84+53*p,py=428+91*p+Math.sin(p*Math.PI)*5;ctx.globalAlpha=.35+.55*Math.sin(p*Math.PI);ctx.fillStyle=i%2?"#eaffdf":"#8ff6dc";ctx.beginPath();ctx.ellipse(px,py,2.2,1.25,-.9,0,Math.PI*2);ctx.fill();}
+  ctx.globalAlpha=1;
+  for(let i=0;i<4;i++){ctx.strokeStyle=i%2?"rgba(218,255,237,.62)":"rgba(119,225,204,.7)";ctx.lineWidth=1.8;ctx.beginPath();ctx.ellipse(137+i*4,519+i*1.7,13+i*6,3+i*.8,0,0,Math.PI*2);ctx.stroke();}
   ctx.restore();
-  ctx.shadowColor="#8effd8";ctx.shadowBlur=15;const pearl=ctx.createRadialGradient(x-4,y-11,1,x,y-8,12);pearl.addColorStop(0,"#fff");pearl.addColorStop(.35,"#caffeb");pearl.addColorStop(1,"#3ab89c");ctx.fillStyle=pearl;ctx.beginPath();ctx.arc(x,y-8,8*pulse,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
-  // Máng ngọc dẫn nước ra khỏi miệng hồ lô; dòng chảy rộng dần và hợp lưu đúng bờ sông.
-  const path=()=>{ctx.beginPath();ctx.moveTo(39,445);ctx.bezierCurveTo(58,456,67,474,83,485);ctx.bezierCurveTo(99,499,111,506,127,520);};
-  path();ctx.strokeStyle="rgba(22,67,59,.78)";ctx.lineWidth=15;ctx.stroke();
-  const water=ctx.createLinearGradient(42,445,125,520);water.addColorStop(0,"#eaffed");water.addColorStop(.35,"#8ce6ce");water.addColorStop(.72,"#51bcb6");water.addColorStop(1,"#278b91");
-  path();ctx.strokeStyle=water;ctx.lineWidth=10;ctx.stroke();
-  path();ctx.strokeStyle="rgba(255,255,241,.92)";ctx.lineWidth=1.8;ctx.stroke();
-  // Gợn sóng tại điểm nhập vào dòng sông, cùng chiều chảy sang phải.
-  for(let i=0;i<5;i++){const p=(time*.0005+i/5)%1,px=78+p*48,py=482+p*38;ctx.globalAlpha=.35+.5*Math.sin(p*Math.PI);ctx.fillStyle=i%2?"#eafff4":"#8cf0d8";ctx.beginPath();ctx.arc(px,py,1.4+(i%2),0,Math.PI*2);ctx.fill();}
-  ctx.globalAlpha=1;ctx.strokeStyle="rgba(239,255,245,.7)";ctx.lineWidth=1.5;
-  for(let i=0;i<3;i++){ctx.beginPath();ctx.ellipse(127+i*7,520+i*2,11+i*5,2.5+i,0,0,Math.PI*2);ctx.stroke();}
-  ctx.restore();
 }
-
-function drawMasterBaguaHalo(target,x,y,scale,time){
-  // Tâm trận đặt thấp hơn bàn chân; hình elip phối cảnh nằm trên mặt quảng trường.
-  target.save();target.translate(x,y+43*scale);target.scale(scale,.48*scale);
-  const rotation=time*.00024;
-  target.save();target.rotate(rotation);
-  target.strokeStyle="rgba(255,225,151,.95)";target.lineWidth=3;target.shadowColor="#ffe5a0";target.shadowBlur=12;
-  [88,98,112,121].forEach((r,i)=>{target.globalAlpha=i%2?.55:.9;target.beginPath();target.arc(0,0,r,0,Math.PI*2);target.stroke();});
-  target.globalAlpha=1;
-  target.strokeStyle="rgba(150,231,213,.72)";target.lineWidth=1.4;
-  for(let i=0;i<8;i++){const a=i*Math.PI/4;target.beginPath();target.moveTo(Math.cos(a)*86,Math.sin(a)*86);target.lineTo(Math.cos(a)*121,Math.sin(a)*121);target.stroke();}
-  // Hậu Thiên Bát Quái: Ly Nam, Tốn Đông Nam, Chấn Đông, Cấn Đông Bắc,
-  // Khảm Bắc, Càn Tây Bắc, Đoài Tây, Khôn Tây Nam.
-  const trigrams=[["LY",[1,0,1]],["CẤN",[0,0,1]],["CHẤN",[1,0,0]],["TỐN",[0,1,1]],["KHẢM",[0,1,0]],["KHÔN",[0,0,0]],["ĐOÀI",[1,1,0]],["CÀN",[1,1,1]]];
-  const positions=[[-0,-105],[74,-74],[105,0],[74,74],[0,105],[-74,74],[-105,0],[-74,-74]];
-  trigrams.forEach((entry,i)=>{const [label,bits]=entry,[px,py]=positions[i];target.save();target.translate(px,py);target.rotate(-rotation);
-    target.fillStyle="rgba(26,57,48,.86)";target.beginPath();target.arc(0,0,17,0,Math.PI*2);target.fill();
-    target.strokeStyle="#f4d58d";target.lineWidth=1.4;target.stroke();
-    target.strokeStyle="#fff0b8";target.lineWidth=2.8;target.lineCap="round";
-    bits.forEach((yang,j)=>{const yy=(j-1)*6;if(yang){target.beginPath();target.moveTo(-7,yy);target.lineTo(7,yy);target.stroke();}else{target.beginPath();target.moveTo(-7,yy);target.lineTo(-2,yy);target.moveTo(2,yy);target.lineTo(7,yy);target.stroke();}});
-    target.restore();
-  });
-  target.restore();
-  // Thái Cực ở tâm, quay ngược chiều vòng ngoài.
-  target.save();target.rotate(-rotation*1.7);
-  target.fillStyle="#fff0c4";target.beginPath();target.arc(0,0,15,0,Math.PI*2);target.fill();
-  target.fillStyle="#315e59";target.beginPath();target.arc(0,-7.5,7.5,Math.PI/2,-Math.PI/2);target.arc(0,7.5,7.5,-Math.PI/2,Math.PI/2);target.fill();
-  target.fillStyle="#fff0c4";target.beginPath();target.arc(0,-7.5,2.2,0,Math.PI*2);target.fill();
-  target.fillStyle="#315e59";target.beginPath();target.arc(0,7.5,2.2,0,Math.PI*2);target.fill();
-  target.restore();target.restore();
-}
-
-function drawCeremonySeatedMaster(target,x,y,scale){
-  drawMasterBaguaHalo(target,x,y,scale,performance.now());
-  target.save();target.translate(x,y);target.scale(scale,scale);
-  // Ngai gỗ tử đàn chạm rồng, bọc ngọc và gấm đỏ.
-  const gold=target.createLinearGradient(-38,0,38,0);gold.addColorStop(0,"#694329");gold.addColorStop(.28,"#f5dc9b");gold.addColorStop(.68,"#bd8b42");gold.addColorStop(1,"#5a3927");
-  target.fillStyle="#4a3028";target.beginPath();target.moveTo(-39,18);target.lineTo(-35,-49);target.quadraticCurveTo(-30,-68,0,-72);target.quadraticCurveTo(30,-68,35,-49);target.lineTo(39,18);target.closePath();target.fill();
-  target.fillStyle=gold;target.lineWidth=3;target.strokeStyle=gold;target.stroke();
-  target.fillStyle="#6e292b";target.beginPath();target.moveTo(-28,-43);target.lineTo(28,-43);target.lineTo(31,15);target.lineTo(-31,15);target.closePath();target.fill();
-  target.strokeStyle="#f4d58d";target.lineWidth=2;target.stroke();
-  // Rồng chạm ở hai tay ngai.
-  for(const side of [-1,1]){target.save();target.translate(side*31,-28);target.scale(side,1);target.strokeStyle="#e6c77d";target.lineWidth=3;target.beginPath();target.moveTo(-7,13);target.quadraticCurveTo(-17,2,-5,-7);target.quadraticCurveTo(7,-18,10,-5);target.stroke();target.fillStyle="#d5b36d";target.beginPath();target.arc(9,-7,4,0,Math.PI*2);target.fill();target.restore();}
-  // Chưởng môn trẻ: cùng tóc đen, gương mặt, áo bào đỏ viền vàng và mão vàng như lúc ngự kiếm.
-  target.fillStyle="#54292b";target.beginPath();target.moveTo(-23,-8);target.lineTo(-19,-58);target.quadraticCurveTo(0,-73,19,-58);target.lineTo(23,-8);target.closePath();target.fill();
-  target.fillStyle="#a8443b";target.beginPath();target.moveTo(-19,-12);target.lineTo(-15,-55);target.lineTo(0,-64);target.lineTo(15,-55);target.lineTo(19,-12);target.closePath();target.fill();
-  target.strokeStyle="#f2d48b";target.lineWidth=2.5;target.stroke();
-  target.fillStyle="#efc39b";target.beginPath();target.ellipse(0,-73,12,15,0,0,Math.PI*2);target.fill();
-  target.fillStyle="#29242a";target.beginPath();target.arc(0,-82,13,Math.PI,Math.PI*2);target.fill();target.fillRect(-13,-82,4,18);target.fillRect(9,-82,4,18);
-  target.beginPath();target.moveTo(-12,-81);target.quadraticCurveTo(-7,-94,0,-91);target.quadraticCurveTo(8,-94,12,-81);target.lineTo(6,-76);target.lineTo(0,-80);target.lineTo(-7,-76);target.closePath();target.fill();
-  target.fillStyle="#382d2a";target.fillRect(-5,-73,3,1.5);target.fillRect(3,-73,3,1.5);
-  target.fillStyle="#6f4034";target.fillRect(-1,-69,2,3);target.strokeStyle="#8c4c42";target.lineWidth=1.2;target.beginPath();target.moveTo(-4,-64);target.quadraticCurveTo(0,-61,4,-64);target.stroke();
-  target.fillStyle="#e8c36e";target.beginPath();target.moveTo(-15,-88);target.lineTo(-12,-105);target.lineTo(-4,-94);target.lineTo(0,-112);target.lineTo(5,-94);target.lineTo(13,-105);target.lineTo(15,-88);target.closePath();target.fill();
-  // Tư thế ngồi vững, hai tay nghỉ trên tay ngai.
-  target.strokeStyle="#efc39b";target.lineWidth=6;target.lineCap="round";target.beginPath();target.moveTo(-17,-42);target.lineTo(-29,-20);target.lineTo(-19,-10);target.moveTo(17,-42);target.lineTo(29,-20);target.lineTo(19,-10);target.stroke();
-  target.restore();
-}
-
 function drawScenery(time){
   ctx.save();ctx.globalAlpha=1;ctx.shadowBlur=0;
   drawSky(time);
@@ -6588,75 +6544,35 @@ function drawAwardMaster(target,x,y,scale,time){
 // chưởng môn ở quảng trường với chưởng môn trao thưởng.
 // =====================================================
 function drawMasterBaguaHalo(target,x,y,scale,time){
-  // Thái Cực linh khí kết tụ từ hạt sáng, đặt sau lưng chưởng môn.
-  // Không có bất kỳ quẻ, phù văn hay vòng Bát Quái nào.
-  target.save();
-  target.translate(x,y-42*scale);
-  target.scale(scale,.88*scale);
-  target.rotate(time*.00016);
+  // Thái Cực Ngọc Luân: đĩa âm dương rõ nét, xoay chậm sau lưng chưởng môn.
+  // Không có quẻ, phù văn hoặc các vòng Bát Quái đồng tâm.
+  target.save();target.translate(x,y-48*scale);target.rotate(time*.00013);target.scale(scale,.94*scale);
+  const r=76;
+  const aura=target.createRadialGradient(0,0,r*.35,0,0,r*1.35);aura.addColorStop(0,"rgba(103,222,198,.22)");aura.addColorStop(.72,"rgba(89,193,171,.10)");aura.addColorStop(1,"rgba(89,193,171,0)");
+  target.fillStyle=aura;target.beginPath();target.arc(0,0,r*1.35,0,Math.PI*2);target.fill();
 
-  const R=69;
-  const pulse=.76+.24*Math.sin(time*.003);
-  const dot=(px,py,size,color,alpha=1)=>{
-    target.globalAlpha=alpha;
-    target.fillStyle=color;
-    target.shadowColor=color;
-    target.shadowBlur=4.2;
-    target.beginPath();target.arc(px,py,size,0,Math.PI*2);target.fill();
-  };
+  // Đĩa ngọc đen xanh với viền kim tuyến duy nhất.
+  const jade=target.createRadialGradient(-24,-30,5,0,0,r);jade.addColorStop(0,"#315d55");jade.addColorStop(.62,"#173b37");jade.addColorStop(1,"#091f20");
+  target.shadowColor="#8cf0d7";target.shadowBlur=20;target.fillStyle=jade;target.beginPath();target.arc(0,0,r,0,Math.PI*2);target.fill();target.shadowBlur=0;
+  const rim=target.createLinearGradient(-r,-r,r,r);rim.addColorStop(0,"#fff0bd");rim.addColorStop(.3,"#72d8c0");rim.addColorStop(.62,"#d7b66d");rim.addColorStop(1,"#f7e7b0");
+  target.strokeStyle=rim;target.lineWidth=3.2;target.beginPath();target.arc(0,0,r-1.5,0,Math.PI*2);target.stroke();
 
-  // Viền Thái Cực chỉ là các hạt linh quang rời, chuyển động nhẹ.
-  for(let i=0;i<112;i++){
-    const a=i*Math.PI*2/112;
-    const drift=Math.sin(time*.002+i*.71)*1.6;
-    const rr=R+drift;
-    dot(Math.cos(a)*rr,Math.sin(a)*rr,(i%4===0?2.15:1.35)*pulse,
-      i%3===0?"#ffe3a0":"#91f1df",
-      .52+.4*(.5+.5*Math.sin(time*.003+i)));
-  }
+  // Hai cực âm dương với đường phân giới chữ S cổ điển.
+  const q=r-5;
+  target.fillStyle="#f5edcf";target.beginPath();target.arc(0,0,q,0,Math.PI*2);target.fill();
+  target.fillStyle="#173b37";target.beginPath();target.arc(0,0,q,Math.PI/2,Math.PI*1.5);target.closePath();target.fill();
+  target.fillStyle="#f5edcf";target.beginPath();target.arc(0,-q/2,q/2,0,Math.PI*2);target.fill();
+  target.fillStyle="#173b37";target.beginPath();target.arc(0,q/2,q/2,0,Math.PI*2);target.fill();
+  target.fillStyle="#173b37";target.beginPath();target.arc(0,-q/2,7.5,0,Math.PI*2);target.fill();
+  target.fillStyle="#f5edcf";target.beginPath();target.arc(0,q/2,7.5,0,Math.PI*2);target.fill();
 
-  // Mật độ hạt dày hơn để hình âm dương lớn, rõ và có cảm giác tự hình thành.
-  for(let row=-15;row<=15;row++){
-    const py=row*4.35;
-    const half=Math.sqrt(Math.max(0,R*R-py*py));
-    for(let col=-15;col<=15;col++){
-      const px=col*4.35;
-      if(Math.abs(px)>half)continue;
-      const t=Math.acos(Math.max(-1,Math.min(1,-py/R)));
-      const boundary=(R*.5)*Math.sin(2*t);
-      const isYang=px>boundary;
-      const driftX=Math.sin(time*.0025+row*.8+col*.63)*1.05;
-      const driftY=Math.cos(time*.002+col*.7+row*.31)*.75;
-      const size=(1.15+.42*Math.sin(time*.004+row+col))*pulse;
-      dot(px+driftX,py+driftY,size,isYang?"#fff0ca":"#173b38",.78);
-    }
-  }
-
-  // Hai mắt âm dương cũng được ghép từ từng hạt nhỏ.
-  for(const eye of [{y:-R/2,light:false},{y:R/2,light:true}]){
-    for(let i=0;i<24;i++){
-      const a=i*Math.PI*2/24,rr=7+Math.sin(time*.003+i)*.6;
-      dot(Math.cos(a)*rr,eye.y+Math.sin(a)*rr,1.75,
-        eye.light?"#fff0ca":"#173b38",.98);
-    }
-    dot(0,eye.y,2.5,eye.light?"#fff0ca":"#173b38",1);
-  }
-
-  // Hạt ngoại vi bay tản rồi hút về tâm, nhấn mạnh quá trình ngưng tụ linh khí.
-  for(let i=0;i<22;i++){
-    const a=time*.0007+i*Math.PI*2/22;
-    const rr=R+9+Math.sin(time*.002+i)*4;
-    const alpha=.22+.38*(.5+.5*Math.sin(time*.003+i*1.7));
-    dot(Math.cos(a)*rr,Math.sin(a)*rr,1.2,
-      i%2?"#b5f4e5":"#ffe2a0",alpha);
-  }
+  // Tám nét mây ngọc khắc chìm ở viền, không tạo thành Bát Quái.
+  target.globalAlpha=.52;target.strokeStyle="#f0d99b";target.lineWidth=1.1;
+  for(let i=0;i<8;i++){const a=i*Math.PI/4,px=Math.cos(a)*68,py=Math.sin(a)*68;target.save();target.translate(px,py);target.rotate(a);target.beginPath();target.arc(0,0,4,-Math.PI*.8,Math.PI*.8);target.stroke();target.restore();}
   target.globalAlpha=1;
-  target.shadowBlur=0;
-  target.restore();
+  for(let i=0;i<18;i++){const a=-time*.00022+i*Math.PI*2/18,rr=r+5+Math.sin(time*.002+i)*2;target.globalAlpha=.35+.45*(.5+.5*Math.sin(time*.003+i));target.fillStyle=i%2?"#b9f7e4":"#ffe4a7";target.shadowColor=target.fillStyle;target.shadowBlur=7;target.beginPath();target.arc(Math.cos(a)*rr,Math.sin(a)*rr,1.5,0,Math.PI*2);target.fill();}
+  target.globalAlpha=1;target.shadowBlur=0;target.restore();
 }
-
-// Loại bỏ hoàn toàn trận Bát Quái cũ từng được vẽ ở tâm quảng trường.
-// Chỉ giữ vài hạt linh khí nền ở hai cánh khán đài.
 function drawAmbientEnergy(time){
   ctx.save();
   for(let i=0;i<12;i++){
