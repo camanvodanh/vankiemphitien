@@ -812,7 +812,7 @@ function stopRace(){
  $("start").querySelector(".btn-label").textContent="Chạy lại";
  setSettingsLocked(false);
  $("lockNotice").textContent="Cuộc đua đã dừng. Có thể bắt đầu lại hoặc mở Thiết lập để thay đổi danh sách.";
- setSetupPanel(true);syncButtons();render(performance.now());
+ collapseSetupPanel();syncButtons();render(performance.now());
 }
 function syncButtons(){
  const startButton=$("start"),pauseButton=$("pause"),stopButton=$("stop");
