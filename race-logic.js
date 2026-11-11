@@ -588,7 +588,10 @@ function drawCamera(time){
  let racer=cameraFocusId?racers.find(item=>item.id===cameraFocusId):null;
  if(!racer||racer.finished||racer.effectTimer<=0)racer=leaderOf();if(!racer)return;
  drawRacer(cameraCtx,racer,210,108,2.0,time);
- cameraCtx.save();cameraCtx.font="bold 17px Arial, sans-serif";cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";cameraCtx.lineJoin="round";cameraCtx.lineWidth=4;cameraCtx.strokeStyle="rgba(15,27,25,.96)";cameraCtx.strokeText(racer.name,210,24,390);cameraCtx.fillStyle="#fff4d4";cameraCtx.fillText(racer.name,210,24,390);cameraCtx.restore();
+ cameraCtx.save();cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";cameraCtx.lineJoin="round";cameraCtx.font="bold 17px Arial, sans-serif";cameraCtx.lineWidth=4;cameraCtx.strokeStyle="rgba(15,27,25,.96)";
+ cameraCtx.strokeText(racer.name,210,20,390);cameraCtx.fillStyle="#fff4d4";cameraCtx.fillText(racer.name,210,20,390);
+ if(racer.effectTimer>0&&racer.effectName){cameraCtx.font="bold 12px Arial, sans-serif";cameraCtx.lineWidth=3;cameraCtx.strokeStyle="rgba(15,27,25,.98)";cameraCtx.strokeText(racer.effectName,210,43,380);cameraCtx.fillStyle="#fff1bd";cameraCtx.fillText(racer.effectName,210,43,380);}
+ cameraCtx.restore();
  $("leaderName").textContent=racer.name;const rank=sortedRacers().findIndex(item=>item.id===racer.id)+1;$("leaderProgress").textContent="Hạng "+rank+"/"+racers.length;
 }
 function updateRanking(){
