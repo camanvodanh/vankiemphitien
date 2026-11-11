@@ -174,6 +174,7 @@ function createRacer(name, index) {
   return {
     id: Math.random().toString(36).slice(2),
     name,
+    gender: randInt(0,1) === 0 ? "male" : "female",
     progress: 0,
     targetFinishTime: 0,
     finished: false,
