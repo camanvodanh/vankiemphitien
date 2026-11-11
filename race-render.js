@@ -307,47 +307,11 @@ function drawRacer(target,racer,x,y,scale,time){
   target.restore();
 }
 
-function drawRacerName(racer, x, y, scale) {
-  ctx.save();
-
-  const fontSize = clamp(11 * scale + 3, 7, 12);
-
-  ctx.font = `bold ${fontSize}px Georgia`;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-
-  const maxWidth = 150;
-  const measured = Math.min(
-    ctx.measureText(racer.name).width,
-    maxWidth
-  );
-
-  const boxWidth = measured + 12;
-  const boxHeight = fontSize + 7;
-  const labelY = y - 27 * scale - boxHeight / 2;
-
-  ctx.fillStyle = "rgba(19,43,35,.86)";
-  ctx.fillRect(
-    x - boxWidth / 2,
-    labelY - boxHeight / 2,
-    boxWidth,
-    boxHeight
-  );
-
-  ctx.strokeStyle = "rgba(225,196,126,.8)";
-  ctx.lineWidth = .8;
-
-  ctx.strokeRect(
-    x - boxWidth / 2,
-    labelY - boxHeight / 2,
-    boxWidth,
-    boxHeight
-  );
-
-  ctx.fillStyle = "#fff0c5";
-  ctx.fillText(racer.name, x, labelY, maxWidth);
-
-  ctx.restore();
+function drawRacerName(racer,x,y,scale){
+ ctx.save();const fontSize=clamp(12*scale+4,9,14),labelY=y-43*scale;
+ ctx.font="700 "+fontSize+"px Arial, sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";ctx.lineJoin="round";
+ ctx.lineWidth=3.2;ctx.strokeStyle="rgba(18,28,27,.96)";ctx.strokeText(racer.name,x,labelY,150);
+ ctx.fillStyle="#fff7dc";ctx.fillText(racer.name,x,labelY,150);ctx.restore();
 }
 
 function racerX(racer) {
@@ -555,37 +519,21 @@ function leaderOf(){
   if(active.length)return active.sort((a,b)=>b.progress-a.progress)[0];
   return finishQueue.length?finishQueue[finishQueue.length-1]:null;
 }
-function drawCamera(time) {
-  drawCameraBackground();
-
-  if (!started || !racers.length) {
-    $("leaderName").textContent = "Đang chờ cuộc đua";
-    $("leaderProgress").textContent = "Chưa bắt đầu";
-
-    cameraCtx.fillStyle = "#f3dfa9";
-    cameraCtx.font = "13px Georgia";
-    cameraCtx.textAlign = "center";
-
-    cameraCtx.fillText(
-      "Nhân vật sẽ xuất hiện khi cuộc đua bắt đầu",
-      210,
-      105
-    );
-
-    return;
-  }
-
-  const leader = leaderOf();
-
-  if (!leader) return;
-
-  drawRacer(cameraCtx, leader, 210, 91, 2.2, time);
-
-  $("leaderName").textContent = leader.name;
-
-  $("leaderProgress").textContent = leader.finished
-    ? "Đã về đích"
-    : `${Math.floor(progressOf(leader) * 100)}%`;
+function drawCamera(time){
+ drawCameraBackground();
+ if(!started||!racers.length){
+  $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Hạng --/--";
+  cameraCtx.fillStyle="#fff2c9";cameraCtx.font="bold 14px Arial, sans-serif";cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";
+  cameraCtx.fillText("Chờ khai mở tiên hội",210,96);return;
+ }
+ const leader=leaderOf();if(!leader)return;
+ drawRacer(cameraCtx,leader,210,108,2.0,time);
+ cameraCtx.save();cameraCtx.font="bold 17px Arial, sans-serif";cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";cameraCtx.lineJoin="round";
+ cameraCtx.lineWidth=4;cameraCtx.strokeStyle="rgba(15,27,25,.96)";cameraCtx.strokeText(leader.name,210,24,390);
+ cameraCtx.fillStyle="#fff4d4";cameraCtx.fillText(leader.name,210,24,390);cameraCtx.restore();
+ $("leaderName").textContent=leader.name;
+ const rank=sortedRacers().findIndex(item=>item.id===leader.id)+1;
+ $("leaderProgress").textContent="Hạng "+rank+"/"+racers.length;
 }
 
 // =====================================================
