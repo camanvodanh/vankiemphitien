@@ -520,3 +520,15 @@ footer {
 /* REVISION 12 — nút đua gọn, không che phần thông báo và HUD. */
 .arena-start{top:12px;left:50%;right:auto;min-width:0;width:auto;min-height:26px;padding:4px 10px;font-size:10px;line-height:1;transform:translateX(-50%);box-shadow:0 2px 7px rgba(15,30,25,.24)}
 @media(max-width:480px){.arena-start{top:8px;padding:3px 8px;font-size:9px}}
+
+
+/* REVISION 13 — nút điều khiển nằm ngoài khung hình, không che HUD/thông báo. */
+.arena-frame{position:relative}
+.arena-controls{display:flex;justify-content:center;align-items:center;min-height:38px;padding:5px 0 2px}
+.arena-controls .arena-start{position:static;transform:none;min-width:76px;width:auto;min-height:28px;padding:5px 12px;font-size:11px;line-height:1;box-shadow:0 2px 7px rgba(15,30,25,.2)}
+.summon-footer{display:flex;align-items:end;flex-wrap:wrap;gap:8px}
+.random-setting{width:88px;min-width:0;flex:0 0 88px}
+.random-setting input{display:block;width:100%;min-width:0;box-sizing:border-box;padding-left:7px;padding-right:7px}
+.compact-field{width:118px;min-width:118px;flex:0 0 118px}
+.compact-field select{width:100%;min-width:0;box-sizing:border-box;padding-left:7px;padding-right:20px}
+@media(max-width:480px){.arena-controls{min-height:34px}.arena-controls .arena-start{min-width:72px;min-height:26px;padding:4px 10px;font-size:10px}.random-setting{width:78px;flex-basis:78px}.compact-field{width:108px;min-width:108px;flex-basis:108px}}
