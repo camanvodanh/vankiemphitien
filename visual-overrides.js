@@ -2197,7 +2197,7 @@ function drawCrowd(time) {
     drawVIPChair(x,y,.72,"#405d82",time,i*.7);
     drawFormalSpectator(x,y-8,.69,"disciple",time,i);
   });
-  drawRoleLabel(550,624,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.92);
+  drawRoleLabel(550,608,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.92);
 
   const rows = [
     {y:748,count:35,x:4,step:32,scale:.62,role:"servant"},
@@ -2259,7 +2259,7 @@ function drawMountainStream(time) {
   // Đá cuội chỉ nằm trên bờ, chìm một phần vào nền đất.
   for(let i=0;i<22;i++) {
     const side=i%2?1:-1, x=i*54-30;
-    const y=side<0?450+Math.sin(i*1.4)*9:558+Math.sin(i*1.1)*7;
+    const y=side<0?428+Math.sin(i*1.4)*4:586+Math.sin(i*1.1)*4;
     const r=7+(i%4)*2;
     ctx.fillStyle="rgba(23,43,34,.35)";
     ctx.beginPath(); ctx.ellipse(x+2,y+4,r*1.5,r*.55,0,0,Math.PI*2); ctx.fill();
