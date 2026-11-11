@@ -6444,3 +6444,140 @@ function drawScenery(time){
   drawCrowd(time);
   ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.restore();
 }
+
+
+// =====================================================
+// REVISION 91 — chưởng môn uy nghi, pháp y tông chủ,
+// linh trận Bát Quái tròn xoay ngay dưới chân.
+// =====================================================
+function drawMasterBaguaHalo(target,x,y,scale,time){
+  target.save();
+  // Mặt trận nằm trên nền quảng trường ngay dưới chân/ngai, có phối cảnh nhẹ.
+  target.translate(x,y+43*scale);
+  target.scale(scale,.58*scale);
+  const spin=time*.0002;
+  // Vòng linh khí tròn nhiều lớp, khắc phù văn và đường kính đồng tâm.
+  target.save();target.rotate(spin);
+  for(let i=0;i<4;i++){
+    target.beginPath();target.arc(0,0,74+i*13,0,Math.PI*2);
+    target.strokeStyle=i%2?"rgba(125,235,219,.76)":"rgba(255,222,143,.96)";
+    target.lineWidth=i===1?2.8:1.6;target.shadowColor=i%2?"#76f5e0":"#ffda82";target.shadowBlur=i===1?15:7;target.stroke();
+  }
+  target.shadowBlur=0;
+  // Tám phương vị và các tia linh lực nối tâm với bát quái.
+  for(let i=0;i<8;i++){
+    const a=-Math.PI/2+i*Math.PI/4,inner=72,outer=126;
+    target.strokeStyle="rgba(255,229,166,.72)";target.lineWidth=1.5;
+    target.beginPath();target.moveTo(Math.cos(a)*inner,Math.sin(a)*inner);target.lineTo(Math.cos(a)*outer,Math.sin(a)*outer);target.stroke();
+    const px=Math.cos(a)*105,py=Math.sin(a)*105;
+    target.save();target.translate(px,py);target.rotate(a+Math.PI/2);
+    target.fillStyle="rgba(19,49,44,.94)";target.strokeStyle="#f3d48b";target.lineWidth=2;
+    target.beginPath();target.arc(0,0,17,0,Math.PI*2);target.fill();target.stroke();
+    const bits=[[1,0,1],[0,1,1],[1,0,0],[0,0,1],[0,1,0],[0,0,0],[1,1,0],[1,1,1]][i];
+    target.strokeStyle="#fff1c2";target.lineWidth=2.7;target.lineCap="round";
+    bits.forEach((yang,j)=>{const yy=(j-1)*6;if(yang){target.beginPath();target.moveTo(-7,yy);target.lineTo(7,yy);target.stroke();}else{target.beginPath();target.moveTo(-7,yy);target.lineTo(-2,yy);target.moveTo(2,yy);target.lineTo(7,yy);target.stroke();}});
+    target.restore();
+  }
+  // Chữ triện/điểm sáng chạy tuần hoàn trên vành trận.
+  for(let i=0;i<24;i++){
+    const a=i*Math.PI/12,r=137;
+    target.fillStyle=i%3?"rgba(170,248,222,.8)":"#fff0b7";
+    target.beginPath();target.arc(Math.cos(a)*r,Math.sin(a)*r, i%3?1.7:3,0,Math.PI*2);target.fill();
+  }
+  target.restore();
+  // Thái Cực ở tâm quay ngược chiều với vòng Bát Quái.
+  target.save();target.rotate(-spin*1.65);
+  target.fillStyle="rgba(255,238,190,.22)";target.shadowColor="#ffe6a4";target.shadowBlur=18;
+  target.beginPath();target.arc(0,0,28,0,Math.PI*2);target.fill();target.shadowBlur=0;
+  target.fillStyle="#f8e8b8";target.beginPath();target.arc(0,0,17,0,Math.PI*2);target.fill();
+  target.fillStyle="#27564f";target.beginPath();target.arc(0,-8.5,8.5,Math.PI/2,-Math.PI/2);target.arc(0,8.5,8.5,-Math.PI/2,Math.PI/2);target.fill();
+  target.fillStyle="#f8e8b8";target.beginPath();target.arc(0,-8.5,2.5,0,Math.PI*2);target.fill();
+  target.fillStyle="#27564f";target.beginPath();target.arc(0,8.5,2.5,0,Math.PI*2);target.fill();
+  target.restore();
+  // Luồng linh khí mảnh xoáy quanh vòng, không tạo thành vầng sáng sau lưng.
+  target.save();target.rotate(-spin*.7);
+  target.strokeStyle="rgba(137,245,222,.5)";target.lineWidth=2;target.shadowColor="#8effe5";target.shadowBlur=9;
+  for(let i=0;i<3;i++){target.beginPath();target.ellipse(0,0,145+i*7,145+i*7,0,i*.8,Math.PI*1.25+i*.8);target.stroke();}
+  target.restore();target.restore();
+}
+
+function drawSectMasterFigure(target,x,y,scale,time,mode){
+  target.save();target.translate(x,y);target.scale(scale,scale);
+  const flying=mode==="flying";
+  // Đại bào tông chủ: áo ngoài đỏ huyền sắc, vạt choàng rộng,
+  // giáp vai thêu kim long, lớp trong vàng ngà và đai ngọc.
+  target.lineJoin="round";target.lineCap="round";
+  // Vạt áo choàng sau lưng.
+  target.fillStyle="#3c2029";target.beginPath();target.moveTo(-22,-48);target.quadraticCurveTo(-52,-28,-61,18);target.lineTo(-35,30);target.lineTo(-17,-2);target.lineTo(20,-2);target.lineTo(42,30);target.lineTo(61,17);target.quadraticCurveTo(48,-33,22,-48);target.closePath();target.fill();
+  target.fillStyle="#792b32";target.beginPath();target.moveTo(-22,-49);target.quadraticCurveTo(-47,-26,-49,13);target.lineTo(-31,19);target.lineTo(-14,-10);target.lineTo(16,-10);target.lineTo(34,19);target.lineTo(50,13);target.quadraticCurveTo(44,-28,21,-49);target.closePath();target.fill();
+  target.strokeStyle="#e4bd70";target.lineWidth=2.4;target.stroke();
+  // Thân áo thêu long văn.
+  target.fillStyle="#a83b3d";target.beginPath();target.moveTo(-22,-51);target.lineTo(-29,-7);target.quadraticCurveTo(-26,13,-42,31);target.quadraticCurveTo(0,43,42,31);target.quadraticCurveTo(26,13,29,-7);target.lineTo(22,-51);target.quadraticCurveTo(0,-66,-22,-51);target.closePath();target.fill();
+  target.strokeStyle="#f0d18b";target.lineWidth=2.8;target.stroke();
+  // Lớp áo trong và cổ giao lĩnh.
+  target.fillStyle="#f1dfb4";target.beginPath();target.moveTo(-12,-51);target.lineTo(0,-30);target.lineTo(12,-51);target.lineTo(21,20);target.lineTo(0,34);target.lineTo(-21,20);target.closePath();target.fill();
+  target.fillStyle="#612b30";target.beginPath();target.moveTo(-13,-52);target.lineTo(0,-30);target.lineTo(13,-52);target.lineTo(7,-12);target.lineTo(0,-4);target.lineTo(-7,-12);target.closePath();target.fill();
+  // Rồng vàng cuộn trên ngực áo.
+  target.strokeStyle="#f5d887";target.lineWidth=2.5;target.beginPath();target.moveTo(-8,-16);target.bezierCurveTo(17,-29,20,-4,2,1);target.bezierCurveTo(-16,8,-11,22,7,17);target.stroke();
+  target.fillStyle="#f5d887";target.beginPath();target.arc(9,-20,4,0,Math.PI*2);target.fill();
+  target.strokeStyle="#f5d887";target.lineWidth=1.5;target.beginPath();target.moveTo(11,-23);target.lineTo(17,-29);target.moveTo(8,-24);target.lineTo(6,-31);target.stroke();
+  // Đai ngọc và ngọc bội.
+  const belt=target.createLinearGradient(0,5,0,14);belt.addColorStop(0,"#f4dc9b");belt.addColorStop(.5,"#9b713d");belt.addColorStop(1,"#f7e3a9");
+  target.fillStyle=belt;target.fillRect(-28,8,56,7);
+  target.fillStyle="#4dc5ae";target.strokeStyle="#f6dfa0";target.lineWidth=1.5;target.beginPath();target.roundRect(-5,7,10,11,3);target.fill();target.stroke();
+  target.fillStyle="#d7b36c";target.beginPath();target.moveTo(0,18);target.lineTo(-5,26);target.lineTo(0,35);target.lineTo(5,26);target.closePath();target.fill();
+  // Tay áo lớn, viền chỉ vàng; tư thế đặt tay ngai hoặc vươn tay ban thưởng.
+  target.fillStyle="#872c35";target.strokeStyle="#edcc83";target.lineWidth=2.5;
+  target.beginPath();target.moveTo(-21,-43);target.lineTo(-39,-36);target.lineTo(-48,-5);target.lineTo(-29,2);target.lineTo(-14,-19);target.closePath();target.fill();target.stroke();
+  target.beginPath();target.moveTo(21,-43);target.lineTo(39,-36);target.lineTo(48,-5);target.lineTo(29,2);target.lineTo(14,-19);target.closePath();target.fill();target.stroke();
+  // Cổ, gương mặt trưởng thành, ánh mắt nghiêm nghị và tóc búi cao.
+  target.fillStyle="#d7a77f";target.fillRect(-6,-62,12,12);
+  target.fillStyle="#e9bd98";target.beginPath();target.ellipse(0,-76,15,18,0,0,Math.PI*2);target.fill();
+  target.fillStyle="#30232a";target.beginPath();target.arc(0,-83,16,Math.PI,Math.PI*2);target.fill();target.fillRect(-15,-84,4,19);target.fillRect(11,-84,4,19);
+  target.beginPath();target.moveTo(-15,-82);target.quadraticCurveTo(-11,-98,0,-94);target.quadraticCurveTo(11,-98,15,-82);target.lineTo(8,-75);target.lineTo(0,-80);target.lineTo(-8,-75);target.closePath();target.fill();
+  // Lông mày, mắt sâu, sống mũi, ria mép và râu cằm ngắn tạo vẻ tông chủ.
+  target.strokeStyle="#38262a";target.lineWidth=2.2;target.beginPath();target.moveTo(-10,-80);target.lineTo(-3,-82);target.moveTo(3,-82);target.lineTo(10,-80);target.stroke();
+  target.fillStyle="#34242a";target.fillRect(-8,-77,4,2);target.fillRect(4,-77,4,2);
+  target.strokeStyle="#b77b60";target.lineWidth=1.5;target.beginPath();target.moveTo(0,-76);target.lineTo(-1,-69);target.lineTo(2,-68);target.stroke();
+  target.strokeStyle="#653b34";target.lineWidth=1.7;target.beginPath();target.moveTo(-5,-65);target.quadraticCurveTo(0,-62,5,-65);target.stroke();
+  target.fillStyle="#38272b";target.beginPath();target.moveTo(-5,-61);target.quadraticCurveTo(0,-55,5,-61);target.lineTo(3,-56);target.lineTo(-3,-56);target.closePath();target.fill();
+  // Mão phải cầm hộp quà khi bay; hai tay nghỉ trên tay ngai khi ngồi.
+  if(flying){target.strokeStyle="#e9bd98";target.lineWidth=6;target.beginPath();target.moveTo(29,-25);target.lineTo(43,-38);target.lineTo(53,-39);target.stroke();target.fillStyle="#e9bd98";target.beginPath();target.arc(54,-39,4,0,Math.PI*2);target.fill();}
+  else{target.strokeStyle="#e9bd98";target.lineWidth=5;target.beginPath();target.moveTo(-25,-23);target.lineTo(-36,-8);target.moveTo(25,-23);target.lineTo(36,-8);target.stroke();}
+  // Mão vàng/kim quan và ngọc trên đỉnh tóc.
+  target.fillStyle="#d9b66c";target.strokeStyle="#fff0b5";target.lineWidth=1.5;
+  target.beginPath();target.moveTo(-17,-91);target.lineTo(-13,-105);target.lineTo(-5,-96);target.lineTo(0,-116);target.lineTo(6,-96);target.lineTo(14,-105);target.lineTo(17,-91);target.closePath();target.fill();target.stroke();
+  target.fillStyle="#58d5c0";target.beginPath();target.arc(0,-99,3.5,0,Math.PI*2);target.fill();
+  // Vai áo gắn phù hiệu song long.
+  target.strokeStyle="#f2d68e";target.lineWidth=2;target.beginPath();target.arc(-30,-36,7,0,Math.PI*2);target.arc(30,-36,7,0,Math.PI*2);target.stroke();
+  target.restore();
+}
+
+function drawCeremonySeatedMaster(target,x,y,scale){
+  drawMasterBaguaHalo(target,x,y,scale,performance.now());
+  target.save();target.translate(x,y);target.scale(scale,scale);
+  // Ngai tông chủ bằng gỗ tử đàn, tựa lưng chạm long văn, bậc ngọc.
+  const gold=target.createLinearGradient(-42,0,42,0);gold.addColorStop(0,"#60402a");gold.addColorStop(.3,"#f3d995");gold.addColorStop(.7,"#b27e3b");gold.addColorStop(1,"#533522");
+  target.fillStyle="#422b27";target.beginPath();target.moveTo(-42,18);target.lineTo(-38,-57);target.quadraticCurveTo(-31,-76,0,-80);target.quadraticCurveTo(31,-76,38,-57);target.lineTo(42,18);target.closePath();target.fill();
+  target.strokeStyle=gold;target.lineWidth=4;target.stroke();
+  target.fillStyle="#762c32";target.beginPath();target.moveTo(-30,-47);target.lineTo(30,-47);target.lineTo(33,15);target.lineTo(-33,15);target.closePath();target.fill();
+  target.strokeStyle="#f3d995";target.lineWidth=2;target.stroke();
+  // Họa tiết rồng đối xứng trên tựa ngai.
+  target.strokeStyle="#e8c878";target.lineWidth=2.4;
+  for(const side of [-1,1]){target.save();target.translate(side*18,-43);target.scale(side,1);target.beginPath();target.moveTo(-7,13);target.bezierCurveTo(-22,0,-8,-17,4,-9);target.quadraticCurveTo(14,-2,7,7);target.stroke();target.fillStyle="#f2d78e";target.beginPath();target.arc(7,-10,3,0,Math.PI*2);target.fill();target.restore();}
+  target.fillStyle="#a57a43";target.beginPath();target.moveTo(-35,14);target.lineTo(35,14);target.lineTo(44,25);target.lineTo(-44,25);target.closePath();target.fill();target.strokeStyle="#f2d58e";target.stroke();
+  target.restore();
+  drawSectMasterFigure(target,x,y-3,scale,performance.now(),"seated");
+}
+
+function drawAwardMaster(target,x,y,scale,time){
+  target.save();target.translate(x,y);target.scale(scale,scale);
+  // Phi kiếm ngọc bích.
+  const blade=target.createLinearGradient(0,8,0,38);blade.addColorStop(0,"#fff8d8");blade.addColorStop(.3,"#aee7df");blade.addColorStop(.62,"#f4fff1");blade.addColorStop(1,"#668c8d");
+  target.shadowColor="#a5f4e8";target.shadowBlur=15;target.fillStyle="rgba(160,244,228,.16)";target.beginPath();target.ellipse(0,35,112,13,0,0,Math.PI*2);target.fill();target.shadowBlur=0;
+  target.fillStyle=blade;target.strokeStyle="#fff0c4";target.lineWidth=2;target.beginPath();target.moveTo(-73,16);target.lineTo(72,16);target.lineTo(106,29);target.lineTo(72,42);target.lineTo(-73,42);target.closePath();target.fill();target.stroke();
+  target.strokeStyle="#648f8d";target.lineWidth=1.4;target.beginPath();target.moveTo(-68,29);target.lineTo(99,29);target.stroke();
+  target.fillStyle="#7b5736";target.fillRect(-104,24,32,10);target.fillStyle="#d8b66e";target.fillRect(-109,20,7,18);target.fillRect(-73,13,8,32);
+  target.restore();
+  drawSectMasterFigure(target,x,y,scale,time,"flying");
+}
