@@ -122,6 +122,7 @@ let eventText = "";
 let eventTextLife = 0;
 
 let finishQueue = [];
+let cameraFocusId = null;
 let finishMessage = "";
 let finishMessageLife = 0;
 
