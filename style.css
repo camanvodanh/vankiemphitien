@@ -4200,3 +4200,20 @@ body.game-page:after{
  .arena-frame>.game-setup.is-minimized .window-minimize{width:16px!important;height:16px!important;min-width:16px!important;min-height:16px!important;}
  .arena-frame>.game-camera #leaderEffect{font-size:9px!important;}
 }
+
+
+/* REVISION 49 — dòng hạng: Hạng + số + mũi tên đổi màu + hệ số tốc độ. */
+.arena-frame>.game-camera #leaderProgress{
+ display:inline-flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;
+ gap:6px!important;white-space:nowrap!important;color:#f0d99d!important;font-variant-numeric:tabular-nums!important;
+}
+.arena-frame>.game-camera #leaderProgress::before{content:none!important;display:none!important;}
+.arena-frame>.game-camera #leaderProgress .camera-rank-up{
+ display:inline-block!important;color:#39d98a!important;font-size:1.25em!important;font-weight:900!important;line-height:1!important;
+ text-shadow:0 0 7px rgba(57,217,138,.55)!important;
+}
+.arena-frame>.game-camera #leaderProgress .camera-rank-down{
+ display:inline-block!important;color:#ff5b62!important;font-size:1.25em!important;font-weight:900!important;line-height:1!important;
+ text-shadow:0 0 7px rgba(255,91,98,.5)!important;
+}
+.arena-frame>.game-camera #leaderProgress small{color:#e8d6aa!important;font-size:.9em!important;font-weight:700!important;margin-left:1px!important;}
