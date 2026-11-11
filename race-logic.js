@@ -572,7 +572,7 @@ function summon(){
   assignFinishTimes();
   $("status").textContent="Đã triệu hồi";
   $("lockNotice").textContent=typed.length?"Số lượng lấy theo danh sách tên, đã loại tên trùng.":"Đã tạo "+racers.length+" tiên nhân với tên tu tiên ngẫu nhiên.";
-  $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa có thứ hạng";
+  $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa khai mở";
   setSettingsLocked(false);$("lockNotice").textContent="Đã triệu hồi "+racers.length+" tiên nhân · sẵn sàng tranh phong.";syncButtons();render(performance.now());
 }
 function setSettingsLocked(value){
@@ -622,7 +622,7 @@ function finishRace(){
 function resetGame(){
   racers=[];particles=[];running=false;paused=false;started=false;finished=false;
   countdown=0;countdownAccumulator=0;elapsed=0;eventClock=0;eventText="";eventTextLife=0;
-  finishQueue=[];cameraFocusId=null;finishMessage="";finishMessageLife=0;
+  finishQueue=[];cameraFocusId=null;finishMessage="";finishMessageLife=0;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;
   $("status").textContent="Chờ triệu hồi";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa khai mở";$("lockNotice").textContent="Đã làm mới · chờ triệu hồi.";
   setSettingsLocked(false);syncButtons();updateRanking();render(performance.now());
 }
@@ -655,7 +655,7 @@ function updateRanking(){
 let finishEndAnnouncementPending=false;
 let finishEndAnnouncementShown=false;
 function advanceFinishAnnouncements(){
-  if(finishEndAnnouncementPending&&!finishEndAnnouncementShown&&finishMessageLife<=0){
+  if(finished&&finishEndAnnouncementPending&&!finishEndAnnouncementShown&&finishMessageLife<=0){
     finishMessage="ĐẠI HỘI KẾT THÚC!";
     finishMessageLife=3;
     finishEndAnnouncementShown=true;
