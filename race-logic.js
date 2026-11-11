@@ -651,11 +651,57 @@ function drawCamera(time){
   $("leaderProgress").textContent="Hạng "+rank;
  }
 }
-function updateRanking(){
- const sorted=sortedRacers();if(!sorted.length){$("rankBody").innerHTML='<tr><td colspan="3" class="empty">Chưa có tiên nhân</td></tr>';return;}
- $("rankBody").innerHTML=sorted.map((r,i)=>{const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":i+1;const arrow=r.rankMovement==="up"?'<span class="rank-movement rank-up" aria-label="Tăng hạng" title="Tăng hạng">▲</span>':r.rankMovement==="down"?'<span class="rank-movement rank-down" aria-label="Giảm hạng" title="Giảm hạng">▼</span>':'<span class="rank-movement rank-stable" aria-label="Không đổi" title="Chưa biến động">—</span>';const actualTime=r.finished&&r.finishTime!==null?timeText(r.finishTime):"—";return '<tr><td><span class="rank-cell"><span class="rank-position">'+medal+'</span>'+arrow+'</span></td><td title="'+escapeHTML(r.name)+'">'+escapeHTML(r.name)+'</td><td>'+actualTime+'</td></tr>';}).join("");
-}
+let rankingOrderSignature = "";
 
+function updateRanking(){
+ const body=$("rankBody");
+ const sorted=sortedRacers();
+ if(!sorted.length){
+  body.innerHTML='<tr><td colspan="3" class="empty">Chưa có tiên nhân</td></tr>';
+  rankingOrderSignature="";
+  return;
+ }
+
+ // Chỉ dựng lại bảng khi thứ tự hoặc trạng thái hàng thay đổi,
+ // tránh làm mới DOM mỗi khung hình và giữ hiệu ứng chuyển động mượt.
+ const signature=sorted.map(r=>r.id+":"+r.rankMovement+":"+(r.finished&&r.finishTime!==null?r.finishTime:"")).join("|");
+ if(signature===rankingOrderSignature)return;
+
+ const previousPositions=new Map();
+ body.querySelectorAll("tr[data-racer-id]").forEach(row=>{
+  const id=row.dataset.racerId;
+  if(id)previousPositions.set(id,row.getBoundingClientRect().top);
+ });
+
+ body.innerHTML=sorted.map((r,i)=>{
+  const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":i+1;
+  const arrow=r.rankMovement==="up"?'<span class="rank-movement rank-up" aria-label="Tăng hạng" title="Tăng hạng">▲</span>':r.rankMovement==="down"?'<span class="rank-movement rank-down" aria-label="Giảm hạng" title="Giảm hạng">▼</span>':'<span class="rank-movement rank-stable" aria-label="Không đổi" title="Chưa biến động">—</span>';
+  const actualTime=r.finished&&r.finishTime!==null?timeText(r.finishTime):"—";
+  return '<tr data-racer-id="'+r.id+'"><td><span class="rank-cell"><span class="rank-position">'+medal+'</span>'+arrow+'</span></td><td title="'+escapeHTML(r.name)+'">'+escapeHTML(r.name)+'</td><td>'+actualTime+'</td></tr>';
+ }).join("");
+
+ const movedRows=[];
+ body.querySelectorAll("tr[data-racer-id]").forEach(row=>{
+  const oldTop=previousPositions.get(row.dataset.racerId);
+  if(oldTop===undefined)return;
+  const delta=oldTop-row.getBoundingClientRect().top;
+  if(Math.abs(delta)<1)return;
+  row.style.transition="none";
+  row.style.transform="translateY("+delta+"px)";
+  movedRows.push(row);
+ });
+ if(movedRows.length){
+  // Buộc trình duyệt ghi nhận vị trí ban đầu rồi trượt hàng về vị trí mới.
+  void body.offsetHeight;
+  requestAnimationFrame(()=>{
+   movedRows.forEach(row=>{
+    row.style.transition="transform 480ms cubic-bezier(.2,.75,.25,1)";
+    row.style.transform="translateY(0)";
+   });
+  });
+ }
+ rankingOrderSignature=signature;
+}
 
 // Hiển thị hạng người về cuối cùng trước khi hiện thông báo kết thúc.
 let finishEndAnnouncementPending=false;
