@@ -1038,3 +1038,32 @@ body.game-page{
  .arena-frame>.game-camera #leaderCanvas{max-height:none!important;}
  .arena-frame>.arena-controls{bottom:6px;right:6px;}
 }
+
+/* COMPACT FRAME: preserve the canvas's native 4:3 ratio (no stretched racers). */
+.arena-frame{position:relative!important;width:100%;height:auto!important;min-height:0!important;aspect-ratio:4/3;overflow:hidden!important;isolation:isolate;}
+.arena-frame>#game{position:absolute;inset:0;display:block;width:100%;height:100%;max-width:none;aspect-ratio:auto;object-fit:fill;}
+.arena-frame>.game-setup{position:absolute!important;z-index:24;top:42px;left:12px;width:min(370px,calc(100% - 24px));max-height:52%;overflow:auto;margin:0!important;padding:10px!important;box-shadow:0 12px 34px rgba(8,20,17,.42);background:rgba(248,242,224,.97);}
+.arena-frame>.game-setup[hidden]{display:none!important;}
+.arena-frame>.game-setup textarea{min-height:52px;max-height:100px;}
+.arena-frame>.game-ranking{top:42px;right:10px;width:clamp(175px,22%,260px);max-height:43%;}
+.arena-frame>.game-ranking .table-wrap{max-height:clamp(90px,24vh,230px);}
+.arena-controls{position:absolute;z-index:30;right:10px;bottom:10px;display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:6px;max-width:calc(100% - 20px);}
+.arena-controls button{min-height:34px;padding:6px 11px;font-size:11px;white-space:nowrap;}
+.arena-controls .setup-toggle{background:#e8dfc8;color:#25443a;border:1px solid #b89a60;}
+.arena-controls .arena-stop{background:#5c3029;color:#fff0d1;border:1px solid #9b6b48;}
+.arena-controls button[hidden]{display:none!important;}
+@media(max-width:760px){
+ .arena-frame{aspect-ratio:4/3;min-height:0!important;}
+ .arena-frame>.game-setup{top:34px;left:6px;width:min(330px,calc(100% - 12px));max-height:58%;padding:7px!important;}
+ .arena-frame>.game-setup textarea{min-height:40px;max-height:65px;}
+ .arena-frame>.game-ranking{top:34px;right:6px;width:42%;max-height:40%;padding:5px;}
+ .arena-frame>.game-ranking .ranking-heading{margin:0 0 3px;padding:0 0 3px;}
+ .arena-frame>.game-ranking .ranking-heading h3{font-size:10px;}
+ .arena-frame>.game-ranking .ranking-meta{font-size:5px;}
+ .arena-frame>.game-ranking .table-wrap{max-height:clamp(65px,16vh,125px);}
+ .arena-frame>.game-ranking th,.arena-frame>.game-ranking td{padding:2px;font-size:7px;}
+ .arena-frame>.game-camera{width:clamp(125px,38%,185px)!important;max-width:44%;padding:6px!important;}
+ .arena-frame>.game-camera #leaderCanvas{max-height:none!important;}
+ .arena-controls{right:6px;bottom:6px;gap:4px;}
+ .arena-controls button{min-height:28px;padding:4px 7px;font-size:9px;}
+}
