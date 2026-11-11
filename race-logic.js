@@ -664,7 +664,7 @@ function drawCamera(time){
   : "";
  const hasSpeedEffect=racer.effectTimer>0&&Math.abs((racer.speedMultiplier||1)-1)>.001;
  const speedText=hasSpeedEffect
-  ? '<small class="'+((racer.speedMultiplier||1)>=1?'camera-speed-up':'camera-speed-down')+'">× '+(racer.speedMultiplier||1).toFixed(1)+'</small>'
+  ? '<small class="'+((racer.speedMultiplier||1)>=1?'camera-speed-up':'camera-speed-down')+'">× '+(racer.speedMultiplier||1).toFixed(1)+' · '+Math.max(0,racer.effectTimer).toFixed(1)+'s</small>'
   : "";
  $("leaderProgress").innerHTML='Hạng '+rank+' '+rankArrow+' '+speedText;
 }
