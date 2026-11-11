@@ -3792,46 +3792,23 @@ function drawAmbientEnergy(time){
 
 // Nền đất ở dưới khán đài và một dòng sông ngang nối hai thác.
 // Sông nằm dưới đáy trường đua, bờ cây chỉ được phép mọc ngoài dải nước.
-function drawRiver(time){
-  const bankY=492;
+function drawRiver(time) {
+  // Chỉ dựng nền bờ đất phía sau; lòng sông duy nhất do drawRiverCurrent
+  // vẽ ở cao độ 520, không còn một dải nước thứ hai hay doi đất ở giữa.
   const ground=ctx.createLinearGradient(0,535,0,H);
-  ground.addColorStop(0,"#b5a078");ground.addColorStop(.35,"#8c7957");ground.addColorStop(1,"#4e4939");
-  ctx.fillStyle=ground;ctx.fillRect(0,535,W,H-535);
-  // Bờ đá uốn cong phía trên và phía dưới.
-  ctx.save();ctx.lineCap="round";ctx.lineJoin="round";
-  ctx.strokeStyle="#425c49";ctx.lineWidth=86;
-  ctx.beginPath();ctx.moveTo(-35,bankY+2);ctx.bezierCurveTo(190,bankY-12,350,bankY+13,550,bankY-1);ctx.bezierCurveTo(760,bankY-17,920,bankY+12,1135,bankY-2);ctx.stroke();
-  ctx.strokeStyle="#9a9a70";ctx.lineWidth=72;ctx.stroke();
-  // Lòng sông xanh ngọc.
-  const water=ctx.createLinearGradient(0,bankY-34,0,bankY+34);
-  water.addColorStop(0,"#d8f1dd");water.addColorStop(.22,"#83d0c7");water.addColorStop(.55,"#399da0");water.addColorStop(1,"#236c75");
-  ctx.strokeStyle=water;ctx.lineWidth=58;
-  ctx.beginPath();ctx.moveTo(-35,bankY+2);ctx.bezierCurveTo(190,bankY-12,350,bankY+13,550,bankY-1);ctx.bezierCurveTo(760,bankY-17,920,bankY+12,1135,bankY-2);ctx.stroke();
-  // Bờ cát và đá cuội hai mép.
-  ctx.strokeStyle="rgba(225,211,158,.8)";ctx.lineWidth=3;
-  ctx.beginPath();ctx.moveTo(-35,bankY-29);ctx.bezierCurveTo(190,bankY-43,350,bankY-18,550,bankY-30);ctx.bezierCurveTo(760,bankY-46,920,bankY-17,1135,bankY-31);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(-35,bankY+33);ctx.bezierCurveTo(190,bankY+19,350,bankY+44,550,bankY+32);ctx.bezierCurveTo(760,bankY+16,920,bankY+45,1135,bankY+31);ctx.stroke();
-  // Các vệt sáng ngắn trượt từ trái sang phải.
-  const shift=(time*.055)%92;
-  for(let i=0;i<28;i++){
-    const x=((i*43+shift)%1180)-40;
-    const t=(x+35)/1170;
-    const y=bankY+Math.sin(t* Math.PI*2)*7+Math.sin(t*9)*3;
-    const len=9+(i%5)*5;
-    ctx.globalAlpha=.3+(i%4)*.12;
-    ctx.strokeStyle=i%5===0?"#fffce8":"#d8fff0";
-    ctx.lineWidth=i%6===0?2.5:1.35;
-    ctx.beginPath();ctx.moveTo(x,y);ctx.quadraticCurveTo(x+len*.45,y-2,x+len,y+1);ctx.stroke();
-  }
-  ctx.globalAlpha=1;
-  // Gợn tròn nơi hai thác đổ vào sông.
-  [112,972].forEach((x,k)=>{
-    for(let i=0;i<4;i++){
-      ctx.globalAlpha=.42-i*.08;ctx.strokeStyle="#eafff1";ctx.lineWidth=1.5;
-      ctx.beginPath();ctx.ellipse(x,bankY+(k? -1:2),18+i*13,4+i*2,0,0,Math.PI*2);ctx.stroke();
-    }
-  });
-  ctx.restore();
+  ground.addColorStop(0,"#b5a078");
+  ground.addColorStop(.35,"#8c7957");
+  ground.addColorStop(1,"#4e4939");
+  ctx.fillStyle=ground;
+  ctx.fillRect(0,535,W,H-535);
+
+  // Bờ đất thấp, chuyển sắc mềm để tiếp nối mặt sông mà không cắt ngang dòng.
+  const bank=ctx.createLinearGradient(0,535,0,565);
+  bank.addColorStop(0,"rgba(181,160,120,.0)");
+  bank.addColorStop(.55,"rgba(181,160,120,.48)");
+  bank.addColorStop(1,"rgba(112,94,65,.12)");
+  ctx.fillStyle=bank;
+  ctx.fillRect(0,535,W,32);
 }
 
 // Rừng tầng tầng trên sườn núi và hai mép cảnh; tuyệt đối tránh dải sông.
