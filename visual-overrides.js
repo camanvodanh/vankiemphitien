@@ -206,7 +206,7 @@ function drawCrowd(time) {
   personal.forEach((p, i) => {
     drawFormalSpectator(p[0], p[1], .88, "disciple", time, i);
   });
-  drawRoleLabel(550, 674, "THÂN TRUYỀN ĐỆ TỬ", "#a9c9f0", .98);
+  drawRoleLabel(550, 674, "CHÂN TRUYỀN ĐỆ TỬ", "#a9c9f0", .98);
 
   // Cờ nghi lễ ở hai rìa, không chắn nhân vật.
   drawCrowdFlag(12, 710, "#a53f36", time);
@@ -1065,7 +1065,7 @@ function drawCrowd(time) {
 
   drawAudiencePlatform(550,750,260);
   [[445,721],[495,721],[545,721],[595,721],[645,721]].forEach((p,i)=>drawFormalSpectator(p[0],p[1],.82,"disciple",time,i));
-  drawRoleLabel(550,684,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.94);
+  drawRoleLabel(550,684,"CHÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.94);
 
   // Đệ tử phổ thông phân bố cân hai cánh, chừa lề an toàn cho nhân vật và HUD.
   const bands=[
@@ -1528,7 +1528,7 @@ function drawCrowd(time) {
     drawFormalSpectator(p[0],p[1],.78,"disciple",time,i)
   );
   // Bảng thân truyền tách khỏi ngai, đặt phía trên hàng ghế riêng.
-  drawRoleLabel(550, 642, "THÂN TRUYỀN ĐỆ TỬ", "#a9c9f0", .92);
+  drawRoleLabel(550, 642, "CHÂN TRUYỀN ĐỆ TỬ", "#a9c9f0", .92);
 
   // Chỉ bố trí đệ tử phổ thông ở hai cánh và hàng cuối, không đứng đè lên ghế VIP.
   const rows = [
@@ -1630,7 +1630,7 @@ function drawCrowd(time) {
   // Ba khu vực danh dự cùng một tầng: thân truyền trái, chưởng môn giữa, trưởng lão phải.
   drawAudiencePlatform(300, 681, 205);
   drawFormalSpectator(300, 649, 1.02, "disciple", time, 0);
-  drawRoleLabel(300, 610, "THÂN TRUYỀN ĐỆ TỬ", "#a9c9f0", .96);
+  drawRoleLabel(300, 610, "CHÂN TRUYỀN ĐỆ TỬ", "#a9c9f0", .96);
 
   drawAudiencePlatform(550, 681, 178);
   drawFormalSpectator(550, 649, 1.18, "master", time, 0);
@@ -2145,7 +2145,7 @@ function drawCrowd(time) {
     drawVIPChair(x,y,.72,"#405d82",time,i*.7);
     drawFormalSpectator(x,y-8,.69,"disciple",time,i);
   });
-  drawRoleLabel(550,608,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.92);
+  drawRoleLabel(550,608,"CHÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.92);
 
   const rows = [
     {y:748,count:35,x:4,step:32,scale:.62,role:"servant"},
@@ -2364,7 +2364,7 @@ function drawCrowd(time){
     drawVIPChair(x,y,.58,"#405d82",time,i*.65);
     drawFormalSpectator(x,y-8,.58,"disciple",time,i);
   });
-  drawRoleLabel(260,632,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.92);
+  drawRoleLabel(260,632,"CHÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.92);
 
   drawVIPAura(550,650,120,"#ffe5a0",time,.4,1);
   drawVIPAura(550,650,82,"#fff0bf",time,1.8,.9);
@@ -2486,7 +2486,7 @@ function drawSectPavilion(x,y,scale,title,type,accent){
  const glow=ctx.createRadialGradient(0,-35,1,0,-35,34);glow.addColorStop(0,"rgba(255,224,143,.48)");glow.addColorStop(1,"rgba(255,224,143,0)");ctx.fillStyle=glow;ctx.fillRect(-36,-72,72,65);ctx.fillStyle="#201c19";ctx.fillRect(-13,-47,26,38);ctx.fillStyle=gold;ctx.fillRect(-15,-49,30,3);
  function roof(yy,w,h,upper){ctx.fillStyle="#493329";ctx.beginPath();ctx.moveTo(-w*.68,yy+3);ctx.quadraticCurveTo(-w*.43,yy-h*.72,-w*.12,yy-h*.88);ctx.quadraticCurveTo(0,yy-h*1.08,w*.12,yy-h*.88);ctx.quadraticCurveTo(w*.43,yy-h*.72,w*.68,yy+3);ctx.lineTo(w*.49,yy-2);ctx.quadraticCurveTo(0,yy-h*.73,-w*.49,yy-2);ctx.closePath();ctx.fill();ctx.fillStyle=rg;ctx.beginPath();ctx.moveTo(-w*.72,yy);ctx.quadraticCurveTo(-w*.43,yy-h*.83,-w*.12,yy-h*.94);ctx.quadraticCurveTo(0,yy-h*1.14,w*.12,yy-h*.94);ctx.quadraticCurveTo(w*.43,yy-h*.83,w*.72,yy);ctx.quadraticCurveTo(w*.5,yy-5,0,yy-h*.8);ctx.quadraticCurveTo(-w*.5,yy-5,-w*.72,yy);ctx.closePath();ctx.fill();ctx.strokeStyle=gold;ctx.lineWidth=2.4;ctx.stroke();ctx.strokeStyle="rgba(255,238,188,.7)";ctx.lineWidth=.8;for(let k=-3;k<=3;k++){const xx=k*w*.13;ctx.beginPath();ctx.moveTo(xx,yy-h*.86);ctx.lineTo(xx*.78,yy-4);ctx.stroke();}for(const side of [-1,1]){ctx.fillStyle="#d7b36d";ctx.beginPath();ctx.moveTo(side*w*.67,yy);ctx.quadraticCurveTo(side*w*.84,yy-8,side*w*.82,yy-20);ctx.lineTo(side*w*.75,yy-13);ctx.lineTo(side*w*.6,yy+2);ctx.closePath();ctx.fill();}if(upper){ctx.fillStyle="#f5d991";ctx.beginPath();ctx.moveTo(0,yy-h*1.13);ctx.lineTo(-5,yy-h);ctx.lineTo(0,yy-h*.9);ctx.lineTo(5,yy-h);ctx.closePath();ctx.fill();}}
  roof(-72,120,39,false);roof(-108,94,30,true);
- ctx.font="bold "+Math.max(22,12/scale)+"px Arial, sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";ctx.lineJoin="round";ctx.lineWidth=5;ctx.strokeStyle="rgba(12,25,22,.98)";ctx.strokeText(title,0,-151,120/scale);ctx.fillStyle="#fff0c0";ctx.fillText(title,0,-151,120/scale);
+ ctx.font="bold "+Math.max(22,12/scale)+"px Arial, sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";ctx.lineJoin="round";ctx.lineWidth=5;ctx.strokeStyle="rgba(12,25,22,.98)";ctx.strokeText(title,0,-169,120/scale);ctx.fillStyle="#fff0c0";ctx.fillText(title,0,-169,120/scale);
  if(type==="treasure"){ctx.strokeStyle="#f5d46f";ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,-25,30,0,Math.PI*2);ctx.stroke();for(const xx of [-22,5]){ctx.fillStyle="#a87932";ctx.fillRect(xx,-25,18,13);ctx.fillStyle="#f4d77d";ctx.fillRect(xx,-29,18,4);}for(const [xx,yy] of [[-13,-42],[12,-44],[0,-54]]){ctx.fillStyle="#8ce9ed";ctx.beginPath();ctx.moveTo(xx,yy-6);ctx.lineTo(xx+4,yy);ctx.lineTo(xx,yy+6);ctx.lineTo(xx-4,yy);ctx.closePath();ctx.fill();}}
  else if(type==="scripture"){for(let i=0;i<4;i++){ctx.fillStyle=["#a64b3e","#557d70","#d5b66f","#536e94"][i];ctx.fillRect(-35+i*18,-54,14,36);ctx.fillStyle="#e7d39a";ctx.fillRect(-33+i*18,-50,10,2);ctx.fillRect(-33+i*18,-42,10,1);}ctx.strokeStyle=gold;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-41,-58);ctx.lineTo(41,-58);ctx.moveTo(-41,-15);ctx.lineTo(41,-15);ctx.stroke();ctx.fillStyle="#f1dfae";ctx.fillRect(-7,-38,14,21);ctx.strokeRect(-7,-38,14,21);}
  else if(type==="herb"){for(let i=0;i<5;i++){const xx=-39+i*19;ctx.strokeStyle="#7c5d35";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(xx,-8);ctx.lineTo(xx,-43-(i%2)*7);ctx.stroke();ctx.fillStyle=i%2?"#77a66c":"#b3c47a";ctx.beginPath();ctx.ellipse(xx-4,-35-(i%2)*7,5,3,-.5,0,Math.PI*2);ctx.ellipse(xx+4,-29-(i%2)*7,5,3,.5,0,Math.PI*2);ctx.fill();}ctx.fillStyle="#74b9a0";ctx.fillRect(-46,-18,12,13);ctx.fillRect(34,-18,12,13);}
@@ -2624,7 +2624,7 @@ function drawCrowd(time){
  drawRoleLabel(550,596,"CHƯỞNG MÔN","#f2d17d",1.12);
  const disciples=Array.from({length:10},(_,i)=>[58+i*40,680]);
  disciples.forEach(([x,y],i)=>{drawVIPAura(x,y-12,34,"#a9d7ff",time,i*.7,.62);drawVIPChair(x,y,.82,"#405d82",time,i*.65);drawFormalSpectator(x,y-8,.70,"disciple",time,i);});
- drawRoleLabel(255,625,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.94);
+ drawRoleLabel(255,625,"CHÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.94);
  const elders=Array.from({length:10},(_,i)=>[682+i*40,680]);
  elders.forEach(([x,y],i)=>{drawVIPAura(x,y-12,38,"#d7baff",time,i*.75,.72);drawVIPChair(x,y,.88,"#5b456b",time,i);drawFormalSpectator(x,y-8,.74,"elder",time,i*.8);});
  drawRoleLabel(862,625,"TRƯỞNG LÃO","#d4b5fa",.94);
@@ -2907,7 +2907,7 @@ function drawCrowd(time){
     drawVIPChair(x,y,.70,"#405d82",time,i*.65);
     drawFormalSpectator(x,y-8,.62,"disciple",time,i);
   });
-  drawRoleLabel(360,628,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.88);
+  drawRoleLabel(360,628,"CHÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.88);
 
   const elders=Array.from({length:10},(_,i)=>[645+i*19,665]);
   elders.forEach(([x,y],i)=>{
@@ -2987,7 +2987,7 @@ function drawCrowd(time){
   drawVIPChair(x,y,.58,"#405d82",time,i*.65);
   drawFormalSpectator(x,y-7,.52,"disciple",time,i);
  }
- drawRoleLabel(260,566,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.82);
+ drawRoleLabel(260,566,"CHÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.82);
  for(let i=0;i<10;i++){
   const x=730+i*22,y=612;
   drawVIPAura(x,y-10,23,"#d7baff",time,i*.75,.45);
@@ -3226,7 +3226,7 @@ function drawCrowd(time){
     drawVIPChair(x,y,.58,"#405d82",time,i*.65);
     drawFormalSpectator(x,y-7,.52,"disciple",time,i);
   }
-  drawRoleLabel(263,566,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.82);
+  drawRoleLabel(263,566,"CHÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.82);
 
   // Trưởng lão: 10 người bên phải, khoảng cách đồng đều.
   for(let i=0;i<10;i++){
@@ -4598,7 +4598,7 @@ function drawCrowd(time){
     drawVIPChair(x,y,.62,"#405d82",time,i*.65);
     drawFormalSpectator(x,y-8,.62,"disciple",time,i);
   });
-  drawRoleLabel(550,645,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.88);
+  drawRoleLabel(550,645,"CHÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.88);
 
   // Các hàng đệ tử phổ thông tách tầng rõ ràng, không bị che khuất.
   const rows=[
@@ -4722,7 +4722,7 @@ function drawCrowd(time){
     drawVIPChair(x,y,.58,"#405d82",time,i*.65);
     drawFormalSpectator(x,y-7,.52,"disciple",time,i);
   }
-  drawRoleLabel(263,566,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.82);
+  drawRoleLabel(263,566,"CHÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.82);
 
   // Trưởng lão: 10 người bên phải, khoảng cách đồng đều.
   for(let i=0;i<10;i++){
@@ -5048,10 +5048,10 @@ function drawSectArchitecture(time){
     [865,410,.29,"NGOẠI VỤ ĐIỆN","foreign","#916c48",5.8]
   ];
   buildings.forEach(([x,y,s,title,type,accent,phase],i)=>{
-    const floatY=Math.sin(time*.00072+phase)*3.2;
-    const driftX=Math.sin(time*.00038+phase*.8)*1.35;
+    // Tòa lâu và bảng tên đứng yên, không còn hiệu ứng lắc lư.
+    const floatY=0;
+    const driftX=0;
     ctx.save();
-    ctx.translate(driftX,floatY);
     // Quầng linh khí mỏng phía sau từng tòa, không dùng bệ đá hay tảng đá bay.
     const radius=92*s/.32;
     const aura=ctx.createRadialGradient(x,y-38*s,2,x,y-38*s,radius);
@@ -5060,13 +5060,7 @@ function drawSectArchitecture(time){
     aura.addColorStop(1,"rgba(160,222,209,0)");
     ctx.fillStyle=aura;ctx.beginPath();ctx.ellipse(x,y-34*s,radius,34*s,0,0,Math.PI*2);ctx.fill();
 
-    // Vệt tiên khí bay ngang chậm, mờ và đứt quãng.
-    ctx.globalAlpha=.2;
-    ctx.strokeStyle=i%3===0?"#d7e9c9":"#b9e5dc";
-    ctx.lineWidth=1.1;
-    const drift=((time*.009+i*37)%170)-85;
-    ctx.beginPath();ctx.moveTo(x-48*s+drift*.18,y+7*s);
-    ctx.quadraticCurveTo(x+drift*.12,y-2*s,x+48*s+drift*.18,y+5*s);ctx.stroke();
+    // Không tạo chuyển động cho công trình hoặc bảng tên.
     ctx.restore();
 
     // Không vẽ drawSectMountainLedge: loại bỏ hoàn toàn đá/bệ đá lơ lửng.
@@ -5371,7 +5365,7 @@ function drawCrowd(time) {
     drawVIPChair(x, y, .58, "#405d82", time, i * .65);
     drawFormalSpectator(x, y - 7, .52, "disciple", time, i);
   }
-  drawRoleLabel(263, 566, "THÂN TRUYỀN ĐỆ TỬ", "#a9c9f0", .82);
+  drawRoleLabel(263, 566, "CHÂN TRUYỀN ĐỆ TỬ", "#a9c9f0", .82);
 
   for (let i = 0; i < 10; i++) {
     const x = 662 + i * 41, y = 612;
