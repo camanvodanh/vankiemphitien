@@ -558,7 +558,7 @@ function startRace(){
   elapsed=0;countdown=3;countdownAccumulator=0;eventClock=0;nextEvent=rand(5,9);
   finishQueue=[];cameraFocusId=null;finishMessage="";finishMessageLife=0;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;
   eventText="BẮT ĐẦU SAU 3";eventTextLife=1;
-  racers.forEach(r=>{r.progress=0;r.finished=false;r.finishTime=null;});
+  racers.forEach(r=>{r.progress=0;r.finished=false;r.finishTime=null;r.speedMultiplier=1;r.effectTimer=0;r.effectType="";r.effectName="";});
   assignFinishTimes();started=false;finished=false;paused=false;running=true;
   $("status").textContent="Bắt đầu sau 3...";
   $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa có thứ hạng";
