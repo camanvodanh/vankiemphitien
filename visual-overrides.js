@@ -4462,3 +4462,41 @@ function drawRacer(target,racer,x,y,scale,time){
   if(racer.effectTimer>0&&racer.effectName&&target!==cameraCtx){target.save();target.font="bold 7px Arial,sans-serif";target.textAlign="center";target.textBaseline="middle";target.lineWidth=2;target.strokeStyle="rgba(14,25,24,.98)";target.strokeText(racer.effectName,0,-65,126);target.fillStyle="#fff1bd";target.fillText(racer.effectName,0,-65,126);target.restore();}
   target.restore();
 }
+
+
+// =====================================================
+// REVISION 12 — quy hoạch tiên điện theo tầng, không đè
+// cổng, thác nước hoặc tên bảng hiệu; màu áo theo chức vị.
+// =====================================================
+function drawSectArchitecture(time){
+  // Ba tầng kiến trúc tách biệt. Hai hành lang thác ở mép ngoài
+  // được chừa trống; cổng đích ở sát mép phải cũng không bị che.
+  const buildings=[
+    // Tầng cao
+    [235,225,.34,"TỤ LINH THÁP","tower","#39766e"],
+    [430,225,.34,"TÀNG KINH CÁC","scripture","#8c6043"],
+    [670,225,.34,"TÀNG BẢO CÁC","treasure","#b68a43"],
+    [840,225,.34,"QUAN TINH LÂU","observatory","#536c91"],
+    // Tầng giữa
+    [235,355,.32,"GIẢNG ĐẠO CÁC","lecture","#577d83"],
+    [420,355,.32,"BÁCH THẢO CÁC","herb","#648653"],
+    [550,355,.62,"LĂNG TIÊU CHÍNH ĐIỆN","main","#9d4939"],
+    [680,355,.32,"ĐAN CÁC","alchemy","#9e543b"],
+    [840,355,.32,"LUYỆN KHÍ ĐIỆN","forge","#82604a"],
+    // Tầng thấp
+    [235,480,.30,"BẾ QUAN ĐỘNG PHỦ","cave","#536b62"],
+    [390,480,.30,"ĐỆ TỬ VIỆN","academy","#66817a"],
+    [550,480,.30,"TRẬN PHÁP CÁC","array","#4f7b83"],
+    [710,480,.30,"HỘ SƠN TRẬN CÁC","guardian","#527e88"],
+    [865,480,.30,"NGOẠI VỤ ĐIỆN","foreign","#916c48"]
+  ];
+  buildings.forEach(([x,y,s,title,type,accent])=>{
+    drawSectMountainLedge(x,y,s);
+    drawSectPavilion(x,y-5,s,title,type,accent);
+  });
+}
+
+// Bảo đảm áo nam/nữ luôn lấy đúng màu gốc theo ROLE, không pha màu theo giới.
+function drawFormalSpectator(x,y,scale,roleName,time,phase=0){
+  drawSpectator(x,y,scale,roleName,time,phase);
+}
