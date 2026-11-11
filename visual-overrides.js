@@ -6383,7 +6383,7 @@ function drawMasterBaguaHalo(target,x,y,scale,time){
   for(let i=0;i<8;i++){const a=i*Math.PI/4;target.beginPath();target.moveTo(Math.cos(a)*86,Math.sin(a)*86);target.lineTo(Math.cos(a)*121,Math.sin(a)*121);target.stroke();}
   // Hậu Thiên Bát Quái: Ly Nam, Tốn Đông Nam, Chấn Đông, Cấn Đông Bắc,
   // Khảm Bắc, Càn Tây Bắc, Đoài Tây, Khôn Tây Nam.
-  const trigrams=[["LY",[1,0,1]],["TỐN",[0,1,1]],["CHẤN",[1,0,0]],["CẤN",[0,0,1]],["KHẢM",[0,1,0]],["CÀN",[1,1,1]],["ĐOÀI",[1,1,0]],["KHÔN",[0,0,0]]];
+  const trigrams=[["LY",[1,0,1]],["CẤN",[0,0,1]],["CHẤN",[1,0,0]],["TỐN",[0,1,1]],["KHẢM",[0,1,0]],["KHÔN",[0,0,0]],["ĐOÀI",[1,1,0]],["CÀN",[1,1,1]]];
   const positions=[[-0,-105],[74,-74],[105,0],[74,74],[0,105],[-74,74],[-105,0],[-74,-74]];
   trigrams.forEach((entry,i)=>{const [label,bits]=entry,[px,py]=positions[i];target.save();target.translate(px,py);target.rotate(-rotation);
     target.fillStyle="rgba(26,57,48,.86)";target.beginPath();target.arc(0,0,17,0,Math.PI*2);target.fill();
