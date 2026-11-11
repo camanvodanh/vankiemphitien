@@ -5140,7 +5140,7 @@ function drawSpiritBirds(time){
       }
 
       // Cánh gần thân: bản cánh lớn, lông vũ tách lớp và nhịp vỗ rõ.
-      drawCraneWing(wingAngle,true===false?true:false);
+      drawCraneWing(wingAngle,false);
       // Lớp lông cánh trước sáng hơn, tạo cảm giác cánh có độ dày.
       ctx.save();ctx.translate(-3,-2);ctx.rotate(wingAngle);
       ctx.strokeStyle="rgba(255,255,255,.9)";ctx.lineWidth=1.35;
