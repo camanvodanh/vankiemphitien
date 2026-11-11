@@ -393,7 +393,7 @@ function drawAudiencePlatform(x, y, width) {
 function drawRoleLabel(x, y, text, color, scale = 1) {
   ctx.save();
 
-  ctx.font = `bold ${Math.max(7, 9 * scale)}px Arial`;
+  ctx.font = `bold ${Math.max(7, 9 * scale)}px Georgia`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
