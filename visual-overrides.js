@@ -5173,28 +5173,19 @@ function drawRiverCurrent(time) {
 
 // Núi chuyển thành các lớp sườn mềm; bỏ các mảng đá/vách vụn dư thừa.
 function drawMountainRange(){
- // Nhiều ngọn núi tròn, đan xen và chồng lớp; đường đỉnh thoải, không nhọn.
- const layer=(points,top,mid,base)=>{
-  const g=ctx.createLinearGradient(0,115,0,600);g.addColorStop(0,top);g.addColorStop(.5,mid);g.addColorStop(1,base);
-  ctx.fillStyle=g;ctx.beginPath();ctx.moveTo(0,H);
-  points.forEach((p,i)=>{if(i===0)ctx.lineTo(p[0],p[1]);else{const prev=points[i-1],mx=(prev[0]+p[0])/2;ctx.quadraticCurveTo(mx,Math.min(prev[1],p[1])-13,p[0],p[1]);}});
-  ctx.lineTo(W,H);ctx.closePath();ctx.fill();
- };
- layer([[0,370],[70,322],[145,300],[220,318],[300,245],[380,220],[455,252],[535,205],[610,228],[690,188],[770,225],[850,206],[930,265],[1010,280],[W,330]],"#dce8d9","#a5bdac","#6f907d");
- layer([[0,438],[80,395],[160,365],[245,390],[330,315],[410,300],[490,335],[570,280],[650,302],[735,265],[820,300],[905,285],[990,350],[W,390]],"#a8bea8","#6f8d72","#3f634f");
- layer([[0,520],[95,470],[180,450],[270,475],[360,405],[445,390],[530,420],[620,375],[705,395],[790,365],[875,405],[960,430],[W,470]],"#789777","#4b7056","#294a3b");
- // Vách núi liền mạch phía trước, mở ra các khe thác ngay trên sườn.
- const face=ctx.createLinearGradient(0,330,0,590);face.addColorStop(0,"#71846e");face.addColorStop(.45,"#526d56");face.addColorStop(1,"#263f35");
- ctx.fillStyle=face;ctx.beginPath();ctx.moveTo(0,420);
- ctx.bezierCurveTo(80,380,155,394,230,425);
- ctx.bezierCurveTo(315,455,390,468,470,442);
- ctx.bezierCurveTo(555,414,640,422,720,451);
- ctx.bezierCurveTo(820,484,920,462,W,420);
- ctx.lineTo(W,590);ctx.lineTo(0,590);ctx.closePath();ctx.fill();
- // Gân địa tầng mềm theo triền núi.
- ctx.save();ctx.lineCap="round";
- for(let i=0;i<8;i++){const y=438+i*17;ctx.strokeStyle=i%2?"rgba(27,49,39,.25)":"rgba(205,198,154,.18)";ctx.lineWidth=i%3===0?3:1.5;ctx.beginPath();ctx.moveTo(0,y);ctx.bezierCurveTo(190,y-20,320,y+15,500,y-4);ctx.bezierCurveTo(700,y-22,870,y+18,W,y-7);ctx.stroke();}
- ctx.restore();
+  // Ba lớp sơn mạch uốn lượn, hạ thấp sau khu vực cổng bên phải.
+  const layer=(points,top,mid,base)=>{
+    const g=ctx.createLinearGradient(0,90,0,590);g.addColorStop(0,top);g.addColorStop(.52,mid);g.addColorStop(1,base);
+    ctx.fillStyle=g;ctx.beginPath();ctx.moveTo(0,H);
+    points.forEach((p,i)=>{if(i===0)ctx.lineTo(p[0],p[1]);else{const prev=points[i-1],mx=(prev[0]+p[0])*.5;ctx.quadraticCurveTo(mx,Math.min(prev[1],p[1])-18,p[0],p[1]);}});
+    ctx.lineTo(W,H);ctx.closePath();ctx.fill();
+  };
+  layer([[0,360],[85,292],[155,310],[235,205],[315,248],[395,166],[470,238],[535,252],[615,266],[695,190],[770,228],[845,270],[925,292],[1010,305],[W,330]],"#dce8d9","#a8bead","#77927f");
+  layer([[0,432],[90,366],[175,386],[265,300],[345,345],[430,282],[515,337],[600,298],[690,352],[780,306],[865,358],[950,390],[W,382]],"#a9c0a9","#718f75","#486b55");
+  layer([[0,520],[85,458],[170,474],[255,420],[340,462],[425,414],[510,458],[595,420],[680,462],[765,416],[850,458],[935,432],[W,455]],"#789778","#4c7258","#294b3d");
+  const faces=[[[235,205],[251,248],[315,248],[280,224]],[[395,166],[414,216],[470,238],[435,195]],[[695,190],[714,235],[770,228],[733,207]],[[265,300],[286,337],[345,345],[310,316]],[[600,298],[622,333],[690,352],[649,315]],[[780,306],[801,342],[865,358],[825,324]]];
+  faces.forEach((p,i)=>{ctx.fillStyle=i%2?"rgba(226,235,211,.30)":"rgba(246,244,216,.48)";ctx.beginPath();p.forEach((v,j)=>j?ctx.lineTo(v[0],v[1]):ctx.moveTo(v[0],v[1]));ctx.closePath();ctx.fill();});
+  const haze=ctx.createLinearGradient(0,285,0,500);haze.addColorStop(0,"rgba(226,239,220,0)");haze.addColorStop(.48,"rgba(226,239,220,.22)");haze.addColorStop(1,"rgba(226,239,220,0)");ctx.fillStyle=haze;ctx.fillRect(0,285,W,215);
 }
 
 function drawCrowd(time) {
@@ -5273,61 +5264,20 @@ function drawScenery(time) {
 
 // REVISION 54 — trả thông báo về vùng trời trống, hoàn thiện hai sơn tuyền và điểm hợp lưu.
 function drawTwinWaterfallMountains(time){
-  const peak=(x,scale,flip)=>{
-    ctx.save();
-    ctx.translate(x,0);
-    ctx.scale(scale*(flip?-1:1),scale);
-    const rock=ctx.createLinearGradient(0,105,0,560);
-    rock.addColorStop(0,"#d9e5d4");
-    rock.addColorStop(.22,"#9db79e");
-    rock.addColorStop(.58,"#55785f");
-    rock.addColorStop(1,"#294a3b");
-    ctx.fillStyle=rock;
-    ctx.beginPath();
-    ctx.moveTo(-205,555);
-    ctx.bezierCurveTo(-178,438,-154,345,-128,250);
-    ctx.bezierCurveTo(-105,184,-70,126,-25,105);
-    ctx.bezierCurveTo(8,91,42,126,65,176);
-    ctx.bezierCurveTo(99,246,128,338,157,405);
-    ctx.bezierCurveTo(176,454,194,508,210,555);
-    ctx.closePath();ctx.fill();
-
-    // Các sống núi phụ tạo chiều sâu, ôm lấy khe nước.
-    ctx.fillStyle="rgba(31,67,52,.34)";
-    ctx.beginPath();
-    ctx.moveTo(-205,555);
-    ctx.bezierCurveTo(-165,430,-120,345,-86,282);
-    ctx.bezierCurveTo(-58,228,-35,190,-8,178);
-    ctx.bezierCurveTo(-42,282,-55,392,-68,555);
-    ctx.closePath();ctx.fill();
-    ctx.fillStyle="rgba(226,237,214,.48)";
-    ctx.beginPath();
-    ctx.moveTo(8,111);
-    ctx.quadraticCurveTo(47,134,67,183);
-    ctx.quadraticCurveTo(37,166,22,174);
-    ctx.quadraticCurveTo(5,154,-13,161);
-    ctx.quadraticCurveTo(-3,130,8,111);
-    ctx.closePath();ctx.fill();
-
-    // Vệt địa tầng và cây bụi bám sườn.
-    ctx.lineCap="round";
-    for(let i=0;i<6;i++){
-      const yy=285+i*37;
-      ctx.strokeStyle=i%2?"rgba(25,57,43,.25)":"rgba(224,218,177,.22)";
-      ctx.lineWidth=2.2;
-      ctx.beginPath();
-      ctx.moveTo(-154+i*3,yy+24);
-      ctx.quadraticCurveTo(-72,yy-12,8,yy+16);
-      ctx.quadraticCurveTo(85,yy+38,157,yy+66);
-      ctx.stroke();
-    }
-    ctx.restore();
-  };
-  peak(112,1.08,false);
-  peak(972,1.12,true);
+  // Chỉ còn sơn phong bên trái làm nguồn suối; bỏ khối núi phía sau cổng bên phải.
+  ctx.save();
+  const rock=ctx.createLinearGradient(0,95,210,560);rock.addColorStop(0,"#dce8d8");rock.addColorStop(.2,"#a7c0a6");rock.addColorStop(.58,"#587a61");rock.addColorStop(1,"#294b3d");
+  ctx.fillStyle=rock;ctx.beginPath();ctx.moveTo(-95,565);
+  ctx.bezierCurveTo(-60,470,-42,378,-15,300);ctx.bezierCurveTo(8,225,30,151,76,105);
+  ctx.bezierCurveTo(94,88,118,102,137,133);ctx.bezierCurveTo(176,193,198,285,232,365);
+  ctx.bezierCurveTo(260,435,288,510,315,565);ctx.closePath();ctx.fill();
+  ctx.fillStyle="rgba(27,62,47,.42)";ctx.beginPath();ctx.moveTo(-95,565);ctx.bezierCurveTo(-50,420,-18,325,31,244);ctx.bezierCurveTo(47,215,63,187,82,173);ctx.bezierCurveTo(53,294,51,425,62,565);ctx.closePath();ctx.fill();
+  ctx.fillStyle="rgba(232,239,218,.58)";ctx.beginPath();ctx.moveTo(76,105);ctx.quadraticCurveTo(105,103,137,133);ctx.quadraticCurveTo(113,126,99,145);ctx.quadraticCurveTo(86,132,68,151);ctx.quadraticCurveTo(68,123,76,105);ctx.closePath();ctx.fill();
+  ctx.lineCap="round";for(let i=0;i<7;i++){const y=270+i*38;ctx.strokeStyle=i%2?"rgba(30,60,45,.28)":"rgba(225,222,187,.25)";ctx.lineWidth=i%3===0?3:1.7;ctx.beginPath();ctx.moveTo(-42+i*3,y+15);ctx.bezierCurveTo(24,y-18,103,y+5,187,y+42);ctx.stroke();}
+  [[10,326,1],[48,285,.78],[174,365,.88],[218,438,.72],[-12,458,.76]].forEach(([x,y,s],i)=>{ctx.fillStyle=i%2?"#315b45":"#3d6c4e";ctx.beginPath();ctx.moveTo(x,y-28*s);ctx.lineTo(x-13*s,y+4*s);ctx.lineTo(x+13*s,y+4*s);ctx.closePath();ctx.fill();});
+  ctx.restore();
 }
 
-// Miệng thác xòe rộng, có bọt nước và vân dòng chảy nhập vào sông.
 function drawWaterfallMouth(x,y,time,side){
   ctx.save();
   ctx.lineCap="round";ctx.lineJoin="round";
@@ -5367,14 +5317,20 @@ function drawWaterfallMouth(x,y,time,side){
 
 // Dòng thác duy nhất bắt nguồn từ khe đỉnh tiên sơn bên trái.
 function drawMountainCascade(x,top,bottom,time){
-  ctx.save();const sway=Math.sin(time*.00075)*2.2;
-  const water=ctx.createLinearGradient(x-8,top,x+54,bottom);
-  water.addColorStop(0,"rgba(225,250,239,.96)");water.addColorStop(.18,"rgba(170,225,216,.94)");water.addColorStop(.56,"rgba(105,190,187,.96)");water.addColorStop(1,"rgba(62,145,151,.94)");ctx.fillStyle=water;
-  const path=()=>{ctx.beginPath();ctx.moveTo(x-5,top);ctx.bezierCurveTo(x-15,top+82,x-4,top+164,x+12,top+238);ctx.bezierCurveTo(x+23,bottom-78,x+31+sway,bottom-28,x+43+sway,bottom+2);ctx.lineTo(x+84+sway,bottom+2);ctx.bezierCurveTo(x+67+sway,bottom-42,x+56,bottom-92,x+43,bottom-151);ctx.bezierCurveTo(x+24,bottom-245,x+13,top+100,x+9,top+5);ctx.closePath();};
-  path();ctx.fill();ctx.save();path();ctx.clip();
-  for(let i=0;i<9;i++){const xx=x-1+i*8,drift=Math.sin(time*.0012+i*.8)*3,offset=(time*.012+i*43)%(bottom-top+80);ctx.strokeStyle=i%3===0?"rgba(248,255,241,.78)":"rgba(215,250,240,.42)";ctx.lineWidth=i%3===0?2:1.1;ctx.beginPath();ctx.moveTo(xx+drift,top+offset-35);ctx.bezierCurveTo(xx-5+drift,top+offset+8,xx+8+drift,top+offset+42,xx+13+drift,top+offset+78);ctx.stroke();}
-  ctx.restore();ctx.globalAlpha=.72;const foam=ctx.createRadialGradient(x+60,bottom-2,3,x+60,bottom-2,66);foam.addColorStop(0,"rgba(240,255,245,.9)");foam.addColorStop(.35,"rgba(163,229,218,.62)");foam.addColorStop(1,"rgba(111,194,190,0)");ctx.fillStyle=foam;ctx.beginPath();ctx.ellipse(x+60,bottom-1,68,17,0,0,Math.PI*2);ctx.fill();
-  for(let i=0;i<5;i++){const drift=(time*.014+i*23)%86-43;ctx.strokeStyle="rgba(230,255,245,.65)";ctx.lineWidth=1.4;ctx.beginPath();ctx.ellipse(x+60+drift,bottom+2+Math.sin(time*.001+i)*3,12+i*2,2.2,0,0,Math.PI*2);ctx.stroke();}ctx.restore();
+  // Suối phát ra từ khe đá gần đỉnh, men theo sườn núi rồi nhập vào sông.
+  const sway=Math.sin(time*.0007)*2.4;ctx.save();ctx.lineCap="round";ctx.lineJoin="round";
+  const water=ctx.createLinearGradient(x-18,top,x+72,bottom);water.addColorStop(0,"rgba(226,250,235,.96)");water.addColorStop(.22,"rgba(161,222,211,.96)");water.addColorStop(.62,"rgba(91,177,174,.97)");water.addColorStop(1,"rgba(57,139,146,.96)");
+  const path=()=>{ctx.beginPath();ctx.moveTo(x+2,top);ctx.bezierCurveTo(x-12,top+38,x-18,top+75,x-5,top+112);ctx.bezierCurveTo(x+4,top+151,x+34,top+175,x+28,top+220);ctx.bezierCurveTo(x+23,top+265,x+48,top+292,x+58+sway,top+335);ctx.bezierCurveTo(x+68+sway,top+382,x+78+sway,bottom-28,x+91+sway,bottom);ctx.lineTo(x+119+sway,bottom);ctx.bezierCurveTo(x+103+sway,bottom-34,x+96,top+382,x+83,top+340);ctx.bezierCurveTo(x+70,top+300,x+61,top+267,x+68,top+222);ctx.bezierCurveTo(x+75,top+176,x+45,top+148,x+40,top+111);ctx.bezierCurveTo(x+34,top+75,x+42,top+38,x+22,top);ctx.closePath();};
+  ctx.fillStyle=water;path();ctx.fill();ctx.save();path();ctx.clip();
+  for(let i=0;i<7;i++){const phase=(time*.010+i*39)%(bottom-top+100);ctx.strokeStyle=i%3===0?"rgba(250,255,239,.78)":"rgba(213,249,235,.48)";ctx.lineWidth=i%3===0?2:1.1;ctx.beginPath();ctx.moveTo(x+9+i*9+Math.sin(time*.001+i)*2,top+phase-42);ctx.bezierCurveTo(x-2+i*8,top+phase-12,x+28+i*7,top+phase+20,x+34+i*8,top+phase+55);ctx.stroke();}
+  ctx.restore();
+  // Nhánh suối phụ từ khe đá bên sườn.
+  ctx.strokeStyle="rgba(186,235,220,.78)";ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(x+112,top+190);ctx.bezierCurveTo(x+91,top+205,x+70,top+218,x+67,top+244);ctx.stroke();
+  ctx.strokeStyle="rgba(246,255,239,.66)";ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(x+111,top+190);ctx.bezierCurveTo(x+92,top+205,x+75,top+219,x+71,top+239);ctx.stroke();
+  const spring=ctx.createRadialGradient(x+12,top+4,1,x+12,top+4,24);spring.addColorStop(0,"rgba(246,255,240,.96)");spring.addColorStop(.4,"rgba(167,231,219,.72)");spring.addColorStop(1,"rgba(167,231,219,0)");ctx.fillStyle=spring;ctx.beginPath();ctx.ellipse(x+12,top+4,24,10,-.25,0,Math.PI*2);ctx.fill();
+  ctx.globalAlpha=.72;const foam=ctx.createRadialGradient(x+105,bottom-2,2,x+105,bottom-2,66);foam.addColorStop(0,"rgba(245,255,246,.92)");foam.addColorStop(.4,"rgba(164,231,220,.56)");foam.addColorStop(1,"rgba(111,194,190,0)");ctx.fillStyle=foam;ctx.beginPath();ctx.ellipse(x+105,bottom-2,67,17,0,0,Math.PI*2);ctx.fill();
+  for(let i=0;i<6;i++){const drift=(time*.012+i*21)%100-50;ctx.strokeStyle="rgba(238,255,246,.62)";ctx.lineWidth=1.3;ctx.beginPath();ctx.ellipse(x+105+drift,bottom+1+Math.sin(time*.001+i)*2,10+i*2,2,0,0,Math.PI*2);ctx.stroke();}
+  ctx.restore();
 }
 
 function drawScenery(time){
