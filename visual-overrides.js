@@ -5090,3 +5090,345 @@ function drawScenery(time){
   ctx.globalAlpha=1;ctx.shadowBlur=0;
   ctx.restore();
 }
+
+
+// =====================================================
+// REVISION 18 — BÁT QUÁI CHƯỞNG MÔN, THÁC SƠN TUYỀN VÀ KHÁN ĐÀI
+// =====================================================
+
+function drawMasterBaguaAura(time) {
+  const cx = 550, cy = 566;
+  const rotation = time * .00016;
+
+  ctx.save();
+  ctx.translate(cx, cy);
+
+  // Ba vòng trận pháp nằm ngang, phát sáng và xoay chậm quanh chưởng môn.
+  for (let i = 0; i < 3; i++) {
+    ctx.save();
+    ctx.rotate(rotation * (i % 2 ? -1 : 1));
+    ctx.strokeStyle = i === 0 ? "rgba(255,238,176,.92)" : "rgba(164,235,222,.58)";
+    ctx.lineWidth = i === 0 ? 2.4 : 1.35;
+    ctx.shadowColor = i === 0 ? "#ffe8a4" : "#9de8dd";
+    ctx.shadowBlur = i === 0 ? 13 : 7;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 76 + i * 24, 26 + i * 9, 0, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // Tám quẻ với ba hào âm/dương rõ ràng.
+  for (let i = 0; i < 8; i++) {
+    const a = rotation * .7 + i * Math.PI / 4;
+    const px = Math.cos(a) * 132;
+    const py = Math.sin(a) * 48;
+    ctx.save();
+    ctx.translate(px, py);
+    ctx.rotate(a + Math.PI / 2);
+    ctx.strokeStyle = "rgba(255,239,190,.94)";
+    ctx.lineWidth = 2.5;
+    ctx.shadowColor = "#ffe5a0";
+    ctx.shadowBlur = 8;
+    for (let j = 0; j < 3; j++) {
+      const yy = (j - 1) * 7;
+      ctx.beginPath();
+      if ((i + j) % 2 === 0) {
+        ctx.moveTo(-8, yy); ctx.lineTo(8, yy);
+      } else {
+        ctx.moveTo(-8, yy); ctx.lineTo(-2, yy);
+        ctx.moveTo(2, yy); ctx.lineTo(8, yy);
+      }
+      ctx.stroke();
+    }
+    ctx.fillStyle = "#fff0bc";
+    ctx.beginPath(); ctx.arc(0, -17, 2.2, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+  }
+
+  // Thái cực đồ ở tâm, có hai mắt âm dương.
+  ctx.save();
+  ctx.rotate(-rotation * 1.4);
+  ctx.fillStyle = "rgba(255,241,204,.96)";
+  ctx.beginPath(); ctx.arc(0, 0, 17, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#315e59";
+  ctx.beginPath();
+  ctx.arc(0, -8.5, 8.5, Math.PI / 2, -Math.PI / 2);
+  ctx.arc(0, 8.5, 8.5, -Math.PI / 2, Math.PI / 2);
+  ctx.fill();
+  ctx.fillStyle = "#fff0c4";
+  ctx.beginPath(); ctx.arc(0, -8.5, 2.6, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#315e59";
+  ctx.beginPath(); ctx.arc(0, 8.5, 2.6, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+  ctx.restore();
+
+  // Linh châu bay theo quỹ đạo quanh ngai, không che mặt chưởng môn.
+  for (let i = 0; i < 24; i++) {
+    const a = -rotation * 1.8 + i * Math.PI * 2 / 24;
+    const rx = 151 + Math.sin(time * .001 + i) * 5;
+    const ry = 57 + Math.cos(time * .0012 + i * .8) * 3;
+    const x = cx + Math.cos(a) * rx;
+    const y = cy + Math.sin(a) * ry;
+    ctx.save();
+    ctx.globalAlpha = .35 + .55 * Math.pow(Math.sin(time * .002 + i * 1.7), 2);
+    ctx.fillStyle = i % 3 === 0 ? "#fff1c4" : "#a9eee2";
+    ctx.shadowColor = ctx.fillStyle;
+    ctx.shadowBlur = 10;
+    ctx.beginPath(); ctx.arc(x, y, 1.4 + (i % 3) * .45, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+  }
+}
+
+// Thác bắt nguồn từ khe nước trong lòng núi, đổ thành màn nước nhiều sợi.
+function drawWaterfall(x, y, width, height, time) {
+  const bottom = y + height;
+  const mid = y + height * .52;
+  const sway = Math.sin(time * .0014 + x) * 2;
+
+  ctx.save();
+  ctx.lineJoin = "round";
+
+  // Sườn núi ôm khe nguồn; chỉ là mảng địa hình liền, không rải đá vụn.
+  const cliff = ctx.createLinearGradient(x - width * 3, y - 30, x + width * 3, bottom + 20);
+  cliff.addColorStop(0, "#71866d");
+  cliff.addColorStop(.42, "#496b57");
+  cliff.addColorStop(1, "#263f38");
+  ctx.fillStyle = cliff;
+  ctx.beginPath();
+  ctx.moveTo(x - width * 3.2, y - 38);
+  ctx.lineTo(x - width * 1.15, y - 16);
+  ctx.lineTo(x - width * .82, y + 22);
+  ctx.lineTo(x - width * 1.25, mid);
+  ctx.lineTo(x - width * 1.65, bottom + 12);
+  ctx.lineTo(x + width * 1.65, bottom + 12);
+  ctx.lineTo(x + width * 1.25, mid);
+  ctx.lineTo(x + width * .82, y + 22);
+  ctx.lineTo(x + width * 1.15, y - 16);
+  ctx.lineTo(x + width * 3.2, y - 38);
+  ctx.closePath();
+  ctx.fill();
+
+  // Khe tối sâu trong vách, dòng suối từ bên trong núi tràn ra.
+  ctx.fillStyle = "rgba(19,48,47,.72)";
+  ctx.beginPath();
+  ctx.ellipse(x, y - 5, width * .82, 12, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  const source = ctx.createLinearGradient(x - width, y - 8, x + width, y + 12);
+  source.addColorStop(0, "#327c89");
+  source.addColorStop(.48, "#e3fff1");
+  source.addColorStop(1, "#327c89");
+  ctx.fillStyle = source;
+  ctx.beginPath();
+  ctx.moveTo(x - width * .95, y - 5);
+  ctx.quadraticCurveTo(x, y - 15, x + width * .95, y - 5);
+  ctx.quadraticCurveTo(x + width * .65, y + 10, x, y + 8);
+  ctx.quadraticCurveTo(x - width * .65, y + 10, x - width * .95, y - 5);
+  ctx.fill();
+
+  // Màn nước hẹp ở miệng khe, loe dần khi rơi xuống thung lũng.
+  const water = ctx.createLinearGradient(x - width * 1.8, 0, x + width * 1.8, 0);
+  water.addColorStop(0, "#286c7b");
+  water.addColorStop(.18, "#6dbfc3");
+  water.addColorStop(.43, "#e4fff2");
+  water.addColorStop(.66, "#8bd3ce");
+  water.addColorStop(1, "#286d7a");
+  ctx.fillStyle = water;
+  ctx.beginPath();
+  ctx.moveTo(x - width * .48, y + 3);
+  ctx.bezierCurveTo(x - width * .58, y + height * .28, x - width * .82 + sway, bottom - 24, x - width * 1.45, bottom);
+  ctx.quadraticCurveTo(x, bottom + 10, x + width * 1.45, bottom);
+  ctx.bezierCurveTo(x + width * .82 + sway, bottom - 24, x + width * .58, y + height * .28, x + width * .48, y + 3);
+  ctx.closePath();
+  ctx.fill();
+
+  // Những sợi nước rơi liên tục, tốc độ vừa phải.
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(x - width * .48, y + 3);
+  ctx.bezierCurveTo(x - width * .58, y + height * .28, x - width * .82 + sway, bottom - 24, x - width * 1.45, bottom);
+  ctx.quadraticCurveTo(x, bottom + 10, x + width * 1.45, bottom);
+  ctx.bezierCurveTo(x + width * .82 + sway, bottom - 24, x + width * .58, y + height * .28, x + width * .48, y + 3);
+  ctx.closePath();
+  ctx.clip();
+
+  for (let i = 0; i < 27; i++) {
+    const t = (i + .5) / 27;
+    const px = x - width * 1.25 + t * width * 2.5;
+    const len = 22 + (i % 5) * 7;
+    const offset = (time * (.032 + (i % 4) * .008) + i * 17) % (height + len) - len;
+    const bend = Math.sin(time * .001 + i * 1.7) * 2.4;
+    ctx.globalAlpha = .35 + (i % 6) * .075;
+    ctx.strokeStyle = i % 6 === 0 ? "#ffffff" : i % 2 ? "#d9fff1" : "#62b7c1";
+    ctx.lineWidth = i % 5 === 0 ? 2.3 : 1.1;
+    ctx.beginPath();
+    ctx.moveTo(px, y + offset);
+    ctx.bezierCurveTo(px + bend - 2, y + offset + len * .32,
+      px + bend + 2, y + offset + len * .72, px + bend, y + offset + len);
+    ctx.stroke();
+  }
+  ctx.restore();
+
+  // Bọt và sương mỏng ở nơi thác chạm vào lòng sông.
+  ctx.globalAlpha = 1;
+  const mist = ctx.createRadialGradient(x, bottom, 2, x, bottom, width * 3.2);
+  mist.addColorStop(0, "rgba(245,255,249,.62)");
+  mist.addColorStop(.45, "rgba(129,220,211,.24)");
+  mist.addColorStop(1, "rgba(80,155,160,0)");
+  ctx.fillStyle = mist;
+  ctx.beginPath(); ctx.ellipse(x, bottom, width * 3.2, 15, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+
+// Dòng sông nằm sát chân thác, nước nhập vào nhau thay vì kết thúc lơ lửng.
+function drawRiverCurrent(time) {
+  ctx.save();
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+
+  const riverPath = () => {
+    ctx.beginPath();
+    ctx.moveTo(-80, 520);
+    ctx.bezierCurveTo(150, 505, 260, 536, 430, 521);
+    ctx.bezierCurveTo(610, 506, 720, 536, 880, 520);
+    ctx.bezierCurveTo(1030, 506, 1110, 530, 1180, 516);
+  };
+
+  ctx.strokeStyle = "#29483c";
+  ctx.lineWidth = 62;
+  riverPath(); ctx.stroke();
+  ctx.strokeStyle = "#8c8967";
+  ctx.lineWidth = 53;
+  riverPath(); ctx.stroke();
+
+  const water = ctx.createLinearGradient(0, 490, 0, 550);
+  water.addColorStop(0, "#c5eee0");
+  water.addColorStop(.28, "#69beb8");
+  water.addColorStop(.66, "#318d95");
+  water.addColorStop(1, "#185f6c");
+  ctx.strokeStyle = water;
+  ctx.lineWidth = 43;
+  riverPath(); ctx.stroke();
+
+  const drift = (time * .035) % 150;
+  for (let i = 0; i < 32; i++) {
+    const x = ((i * 47 + drift) % 1320) - 70;
+    const y = 520 + Math.sin(x * .008) * 8 + Math.sin(i * 1.5) * 4;
+    ctx.strokeStyle = i % 5 === 0 ? "rgba(255,255,246,.82)" : "rgba(218,252,239,.48)";
+    ctx.lineWidth = i % 4 === 0 ? 2.2 : 1.15;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.quadraticCurveTo(x + 11, y - 3, x + 24, y + 1);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// Núi chuyển thành các lớp sườn mềm; bỏ các mảng đá/vách vụn dư thừa.
+function drawMountainRange() {
+  const layer = (points, colors) => {
+    const g = ctx.createLinearGradient(0, 80, 0, 590);
+    g.addColorStop(0, colors[0]);
+    g.addColorStop(.48, colors[1]);
+    g.addColorStop(1, colors[2]);
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.moveTo(0, H);
+    points.forEach(p => ctx.lineTo(p[0], p[1]));
+    ctx.lineTo(W, H);
+    ctx.closePath();
+    ctx.fill();
+  };
+
+  layer([[0,350],[55,292],[105,310],[160,230],[210,250],[260,190],[315,220],[370,168],[425,240],[480,195],[535,245],[590,175],[650,218],[710,160],[770,220],[825,178],[880,245],[935,190],[990,245],[1045,198],[W,250]],
+    ["#dce5d7","#9caf9c","#718b78"]);
+  layer([[0,430],[70,360],[125,382],[190,300],[250,350],[315,280],[380,365],[445,300],[510,380],[575,290],[640,365],[705,285],[770,370],[835,300],[900,380],[965,305],[1030,370],[W,320]],
+    ["#aabda5","#718c70","#496a56"]);
+  layer([[0,510],[70,448],[135,465],[205,395],[275,455],[340,382],[410,460],[480,390],[550,466],[620,390],[690,462],[760,385],[830,460],[900,392],[970,462],[1040,395],[W,440]],
+    ["#789779","#4c7158","#294b3c"]);
+
+  // Sương mỏng và rừng xa thay cho các mảng đá nhọn.
+  const haze = ctx.createLinearGradient(0, 350, 0, 590);
+  haze.addColorStop(0, "rgba(222,239,222,0)");
+  haze.addColorStop(.55, "rgba(213,235,218,.18)");
+  haze.addColorStop(1, "rgba(213,235,218,0)");
+  ctx.fillStyle = haze;
+  ctx.fillRect(0, 340, W, 250);
+}
+
+function drawCrowd(time) {
+  // Bát quái được vẽ trước ngai để nằm phía sau chưởng môn.
+  drawMasterBaguaAura(time);
+  drawVIPAura(550, 552, 112, "#ffe5a0", time, .4, 2.2);
+  drawVIPAura(550, 552, 70, "#fff0bf", time, 1.8, 1.7);
+  drawVIPChair(550, 579, 1.38, "#762f32", time, 0);
+  drawFormalSpectator(550, 566, 1.04, "master", time, 0);
+  drawRoleLabel(550, 493, "CHƯỞNG MÔN", "#f2d17d", 1.05);
+
+  for (let i = 0; i < 10; i++) {
+    const x = 78 + i * 41, y = 612;
+    drawVIPAura(x, y - 10, 22, "#a9d7ff", time, i * .7, .42);
+    drawVIPChair(x, y, .58, "#405d82", time, i * .65);
+    drawFormalSpectator(x, y - 7, .52, "disciple", time, i);
+  }
+  drawRoleLabel(263, 566, "THÂN TRUYỀN ĐỆ TỬ", "#a9c9f0", .82);
+
+  for (let i = 0; i < 10; i++) {
+    const x = 662 + i * 41, y = 612;
+    drawVIPAura(x, y - 10, 23, "#d7baff", time, i * .75, .45);
+    drawVIPChair(x, y, .60, "#5b456b", time, i);
+    drawFormalSpectator(x, y - 7, .54, "elder", time, i * .8);
+  }
+  drawRoleLabel(867, 566, "TRƯỞNG LÃO", "#d4b5fa", .82);
+
+  for (let i = 0; i < 28; i++) {
+    const col = i % 7, row = Math.floor(i / 7);
+    const x = 445 + col * 35 + (row % 2) * 7;
+    const y = 660 + row * 14 + Math.sin(i * 1.7) * 2;
+    drawVIPAura(x, y - 8, 12, "#b8e5d6", time, i * .61, .15);
+    drawSpectator(x, y, .43, "core", time, i * .73);
+  }
+
+  const groups = [
+    { role: "inner", count: 64, scale: .37, y0: 684, y1: 735 },
+    { role: "outer", count: 92, scale: .34, y0: 705, y1: 765 },
+    { role: "servant", count: 132, scale: .30, y0: 735, y1: 798 }
+  ];
+  groups.forEach((g, gi) => {
+    for (let i = 0; i < g.count; i++) {
+      const col = i % 48, row = Math.floor(i / 48);
+      const x = 12 + col * 23 + Math.sin(i * 2.17 + gi) * 6 + (row % 2) * 5;
+      const y = g.y0 + (g.y1 - g.y0) * ((row + .5) / Math.max(1, Math.ceil(g.count / 48))) +
+        Math.sin(i * 1.91 + gi) * 7;
+      drawSpectator(x, y, g.scale, g.role, time, i * .59 + gi * 2.1);
+    }
+  });
+
+  // Bổ sung đúng 14 tạp dịch ở góc phải dưới cùng.
+  for (let i = 0; i < 14; i++) {
+    const x = 660 + i * 31;
+    const y = 838 + (i % 2) * 3;
+    drawSpectator(x, y, .42, "servant", time, i * .67 + 9);
+  }
+
+  drawCrowdFlag(12, 696, "#a53f36", time);
+  drawCrowdFlag(W - 18, 696, "#b18a43", time);
+}
+
+function drawScenery(time) {
+  drawSky(time);
+  drawMountainRange();
+  drawMovingClouds(time);
+  drawRiver(time);
+
+  // Hai thác bắt nguồn từ khe núi, chân thác chạm trực tiếp lòng sông.
+  drawWaterfall(112, 260, 25, 260, time);
+  drawWaterfall(972, 238, 34, 282, time);
+  drawRiverCurrent(time);
+
+  drawSectArchitecture(time);
+  drawDenseForest(time);
+  drawAmbientEnergy(time);
+  drawSpiritBirds(time);
+  drawCrowd(time);
+}
