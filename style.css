@@ -4949,3 +4949,9 @@ html,body,button,input,textarea,select,
     margin-right:7px!important;
   }
 }
+
+/* REVISION 80b — lớp font thống nhất cuối cùng, thắng các khai báo font cũ theo từng khu vực. */
+html body .page,
+html body .page *{
+  font-family:var(--cultivation-font)!important;
+}
