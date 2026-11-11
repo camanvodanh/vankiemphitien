@@ -92,77 +92,45 @@ function drawRiver(time) {
 }
 
 function drawFormalSpectator(x, y, scale, roleName, time, phase = 0) {
-  const role = ROLE[roleName];
-  ctx.save();
-  ctx.translate(x, y);
-  ctx.scale(scale * role.scale, scale);
-
-  // Bóng và áo ngồi ngay ngắn trên ghế.
-  ctx.fillStyle = "rgba(24,28,24,.30)";
-  ctx.beginPath();
-  ctx.ellipse(0, 19, 18, 5, 0, 0, Math.PI * 2);
+  const role = ROLE[roleName] || ROLE.outer;
+  const female = Math.abs(Math.floor(phase * 7 + (roleName==="elder"?1:0))) % 2 === 1;
+  const hair = roleName==="master" || roleName==="elder" ? "#ded8ca" : (female ? "#211e29" : "#302a27");
+  const skin = female ? "#f4cda9" : "#dcae89";
+  const robe = female && roleName!=="master" ? "#b77f9f" : role.robe;
+  ctx.save();ctx.translate(x,y);ctx.scale(scale*role.scale,scale);
+  ctx.fillStyle="rgba(24,28,24,.30)";ctx.beginPath();ctx.ellipse(0,19,19,5,0,0,Math.PI*2);ctx.fill();
+  // Thân áo phân biệt rõ: nữ có eo thon, tay áo rộng và tà váy xòe.
+  ctx.fillStyle=role.dark;ctx.beginPath();
+  if(female){ctx.moveTo(-8,-5);ctx.quadraticCurveTo(0,-9,8,-5);ctx.lineTo(19,18);ctx.quadraticCurveTo(0,23,-19,18);ctx.closePath();}
+  else{ctx.moveTo(-13,-5);ctx.lineTo(13,-5);ctx.lineTo(19,18);ctx.lineTo(-19,18);ctx.closePath();}
   ctx.fill();
-
-  ctx.fillStyle = role.dark;
-  ctx.beginPath();
-  ctx.moveTo(-12, -4); ctx.lineTo(12, -4);
-  ctx.lineTo(18, 17); ctx.lineTo(-18, 17);
-  ctx.closePath(); ctx.fill();
-
-  ctx.fillStyle = role.robe;
-  ctx.beginPath();
-  ctx.moveTo(-10, -7); ctx.lineTo(10, -7);
-  ctx.lineTo(13, 13); ctx.lineTo(-13, 13);
-  ctx.closePath(); ctx.fill();
-
-  // Hai tay đặt trước bụng, tuyệt đối không vẫy.
-  ctx.strokeStyle = "#efc39b";
-  ctx.lineWidth = 4;
-  ctx.lineCap = "round";
-  ctx.beginPath();
-  ctx.moveTo(-10, -1); ctx.lineTo(-5, 8);
-  ctx.moveTo(10, -1); ctx.lineTo(5, 8);
-  ctx.stroke();
-
-  ctx.fillStyle = role.belt;
-  ctx.fillRect(-9, 5, 18, 3);
-
-  ctx.fillStyle = "#efc39b";
-  ctx.fillRect(-6, -21, 12, 13);
-
-  ctx.fillStyle = roleName === "master" || roleName === "elder"
-    ? "#e5dfd1" : "#29252a";
-  ctx.fillRect(-7, -25, 14, 6);
-  ctx.fillRect(-5, -28, 10, 4);
-
-  ctx.fillStyle = "#352b27";
-  ctx.fillRect(-3, -16, 2, 2);
-  ctx.fillRect(2, -16, 2, 2);
-
-  if (roleName === "master" || roleName === "elder") {
-    ctx.fillStyle = "#e2ded1";
-    ctx.beginPath();
-    ctx.moveTo(-4, -8); ctx.lineTo(4, -8);
-    ctx.lineTo(2, 3); ctx.lineTo(0, 6);
-    ctx.lineTo(-2, 3); ctx.closePath();
-    ctx.fill();
+  ctx.fillStyle=robe;ctx.beginPath();
+  if(female){ctx.moveTo(-7,-7);ctx.lineTo(7,-7);ctx.lineTo(11,9);ctx.lineTo(17,18);ctx.quadraticCurveTo(0,22,-17,18);ctx.lineTo(-11,9);ctx.closePath();}
+  else{ctx.moveTo(-10,-7);ctx.lineTo(10,-7);ctx.lineTo(14,13);ctx.lineTo(-14,13);ctx.closePath();}
+  ctx.fill();
+  // Cổ áo chéo và đai lưng.
+  ctx.strokeStyle="#f2e5c7";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-4,-7);ctx.lineTo(2,2);ctx.lineTo(7,-5);ctx.stroke();
+  ctx.fillStyle=role.belt;ctx.fillRect(-10,5,20,3);
+  ctx.fillStyle="#efc39b";ctx.strokeStyle=skin;ctx.lineWidth=4;ctx.lineCap="round";
+  ctx.beginPath();ctx.moveTo(-10,-2);ctx.lineTo(-16,7);ctx.moveTo(10,-2);ctx.lineTo(16,7);ctx.stroke();
+  ctx.fillStyle=skin;ctx.beginPath();ctx.ellipse(0,-17,female?5.5:6.2,7,0,0,Math.PI*2);ctx.fill();
+  // Tóc nam búi cao; tóc nữ dài, có mái và trâm ngọc.
+  ctx.fillStyle=hair;
+  if(female){
+    ctx.beginPath();ctx.moveTo(-7,-20);ctx.quadraticCurveTo(-10,-31,0,-31);ctx.quadraticCurveTo(10,-31,7,-19);ctx.lineTo(9,0);ctx.quadraticCurveTo(5,5,5,-12);ctx.lineTo(-5,-12);ctx.quadraticCurveTo(-5,4,-9,1);ctx.closePath();ctx.fill();
+    ctx.beginPath();ctx.arc(0,-29,4,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle="#e8cf8d";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(1,-30);ctx.lineTo(10,-34);ctx.stroke();
+  }else{
+    ctx.beginPath();ctx.arc(0,-23,7,Math.PI,Math.PI*2);ctx.fill();ctx.fillRect(-7,-23,3,7);ctx.fillRect(4,-23,3,7);
+    ctx.beginPath();ctx.ellipse(0,-31,4,5,0,0,Math.PI*2);ctx.fill();
   }
-
-  if (roleName === "master") {
-    ctx.fillStyle = "#e8c36e";
-    ctx.beginPath();
-    ctx.moveTo(-8, -25); ctx.lineTo(-5, -36);
-    ctx.lineTo(0, -30); ctx.lineTo(5, -36);
-    ctx.lineTo(8, -25); ctx.closePath(); ctx.fill();
+  ctx.fillStyle="#45352e";ctx.fillRect(-3,-18,1.6,1.6);ctx.fillRect(2,-18,1.6,1.6);
+  if(roleName==="elder"||roleName==="master"){
+    if(!female){ctx.fillStyle=hair;ctx.beginPath();ctx.moveTo(-3,-10);ctx.lineTo(3,-10);ctx.lineTo(2,2);ctx.lineTo(0,5);ctx.lineTo(-2,2);ctx.closePath();ctx.fill();}
   }
-
-  if (role.aura) {
-    const halo = ctx.createRadialGradient(0, -9, 2, 0, -9, 35);
-    halo.addColorStop(0, role.aura + "55");
-    halo.addColorStop(1, role.aura + "00");
-    ctx.fillStyle = halo;
-    ctx.beginPath(); ctx.ellipse(0, -8, 35, 28, 0, 0, Math.PI * 2); ctx.fill();
-  }
+  if(roleName==="master"){ctx.fillStyle="#e8c36e";ctx.beginPath();ctx.moveTo(-8,-26);ctx.lineTo(-5,-38);ctx.lineTo(0,-31);ctx.lineTo(5,-38);ctx.lineTo(8,-26);ctx.closePath();ctx.fill();}
+  if(roleName==="elder"){ctx.strokeStyle="#dfc17e";ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(21,-20);ctx.lineTo(21,23);ctx.stroke();}
+  if(role.aura){ctx.globalAlpha=.35;const halo=ctx.createRadialGradient(0,-9,2,0,-9,35);halo.addColorStop(0,role.aura+"66");halo.addColorStop(1,role.aura+"00");ctx.fillStyle=halo;ctx.beginPath();ctx.ellipse(0,-8,35,28,0,0,Math.PI*2);ctx.fill();}
   ctx.restore();
 }
 
@@ -383,43 +351,47 @@ function drawRacingArtifact(target, kind, phase) {
   target.restore();
 }
 
-function drawRacer(target, racer, x, y, scale, time) {
-  target.save();
-  target.translate(x, y + Math.sin(time * .009 + racer.phase) * 2);
-  target.scale(scale, scale);
-
-  const glow = target.createRadialGradient(0, 0, 3, 0, 0, 43);
-  glow.addColorStop(0, "rgba(255,225,139,.35)");
-  glow.addColorStop(1, "rgba(255,225,139,0)");
-  target.fillStyle = glow;
-  target.fillRect(-48, -45, 96, 90);
-
-  drawRacingArtifact(target, artifactKind(racer), time * .004 + racer.phase);
-
-  // Nhân vật đứng vững trên pháp bảo, thân và chân tách rõ.
-  target.fillStyle = racer.dark;
-  target.fillRect(-10, -5, 20, 22);
-  target.fillStyle = racer.color;
-  target.fillRect(-9, -7, 18, 21);
-  target.fillRect(-14, -2, 5, 14);
-  target.fillRect(9, -2, 5, 14);
-
-  target.fillStyle = "#f0c49b";
-  target.fillRect(-7, -22, 14, 14);
-
-  target.fillStyle = "#29252a";
-  target.fillRect(-8, -25, 16, 5);
-  target.fillRect(-7, -28, 13, 4);
-  target.fillRect(-9, -21, 3, 8);
-  target.fillRect(6, -21, 3, 8);
-  target.fillRect(4, -31, 3, 7);
-
-  target.fillStyle = "#392a26";
-  target.fillRect(-4, -17, 2, 2);
-  target.fillRect(3, -17, 2, 2);
-  target.fillStyle = "#e8cb83";
-  target.fillRect(-8, 5, 16, 2);
-
+function drawRacer(target,racer,x,y,scale,time){
+  const female=racer.gender==="female";
+  const skin=female?"#f4c9a5":"#dfae89";
+  const hair=female?"#211b2b":"#29242a";
+  target.save();target.translate(x,y+Math.sin(time*.009+racer.phase)*2);target.scale(scale,scale);
+  const glow=target.createRadialGradient(0,0,3,0,0,47);glow.addColorStop(0,"rgba(255,225,139,.42)");glow.addColorStop(1,"rgba(255,225,139,0)");target.fillStyle=glow;target.fillRect(-50,-48,100,96);
+  if(racer.effectTimer>0){const pulse=1+Math.sin(time*.025)*.12,color=racer.effectType==="boost"?"#ffe17b":racer.effectType==="slow"?"#8de8ef":"#ff9a72";target.save();target.globalAlpha=.8;target.strokeStyle=color;target.lineWidth=2.2;target.beginPath();target.ellipse(0,4,43*pulse,17*pulse,0,0,Math.PI*2);target.stroke();target.globalAlpha=.32;target.lineWidth=5;target.beginPath();target.ellipse(0,4,51*pulse,22*pulse,0,0,Math.PI*2);target.stroke();target.restore();}
+  drawRacingArtifact(target,artifactKind(racer),time*.004+racer.phase,racer.swordColor||0);
+  target.save();target.globalAlpha=.75;target.strokeStyle=racer.effectTimer>0?"#fff0a6":"rgba(255,235,170,.5)";target.lineWidth=1.3;target.beginPath();target.moveTo(-37,20);target.lineTo(38,18);target.stroke();target.restore();
+  // Silhouette: nữ có eo thon, tay áo dài và tà váy; nam có vai rộng, thân áo gọn.
+  target.fillStyle=racer.dark;target.beginPath();
+  if(female){target.moveTo(-7,-7);target.lineTo(7,-7);target.lineTo(13,1);target.lineTo(19,19);target.quadraticCurveTo(0,25,-19,19);target.lineTo(-13,1);target.closePath();}
+  else{target.moveTo(-11,-7);target.lineTo(11,-7);target.lineTo(16,17);target.lineTo(-16,17);target.closePath();}
+  target.fill();
+  target.fillStyle=racer.color;target.beginPath();
+  if(female){target.moveTo(-7,-8);target.lineTo(7,-8);target.lineTo(9,5);target.lineTo(16,18);target.quadraticCurveTo(0,22,-16,18);target.lineTo(-9,5);target.closePath();}
+  else{target.moveTo(-9,-8);target.lineTo(9,-8);target.lineTo(12,16);target.lineTo(-12,16);target.closePath();}
+  target.fill();
+  // Cổ áo giao lĩnh, đai và vạt áo.
+  target.strokeStyle="#f2dfb1";target.lineWidth=2;target.beginPath();target.moveTo(-4,-8);target.lineTo(2,2);target.lineTo(7,-6);target.stroke();
+  target.fillStyle="#e8cb83";target.fillRect(-9,5,18,2.5);
+  target.fillStyle=skin;target.beginPath();target.ellipse(0,-20,female?6:6.5,8,0,0,Math.PI*2);target.fill();
+  target.fillStyle=hair;
+  if(female){
+    target.beginPath();target.arc(0,-25,7,Math.PI,Math.PI*2);target.fill();
+    target.fillRect(-7,-25,3,19);target.fillRect(5,-25,3,19);
+    target.beginPath();target.arc(3,-32,4,0,Math.PI*2);target.fill();
+    target.strokeStyle="#f0d18c";target.lineWidth=1.8;target.beginPath();target.moveTo(3,-32);target.lineTo(12,-37);target.stroke();
+  }else{
+    target.fillRect(-7,-27,14,5);target.fillRect(-5,-32,10,6);
+    target.beginPath();target.ellipse(0,-36,4,5,0,0,Math.PI*2);target.fill();
+  }
+  target.fillStyle="#382d2a";target.beginPath();target.arc(-2,-20,1,0,Math.PI*2);target.arc(3,-20,1,0,Math.PI*2);target.fill();
+  // Tay áo và bàn tay; tay nữ mềm, ống tay rộng.
+  target.strokeStyle=skin;target.lineWidth=female?5:6;target.lineCap="round";target.beginPath();
+  target.moveTo(-8,-5);target.lineTo(-17,7);target.moveTo(8,-5);target.lineTo(17,7);target.stroke();
+  target.fillStyle=racer.color;target.beginPath();target.moveTo(-12,-7);target.lineTo(-19,5);target.lineTo(-13,9);target.lineTo(-7,0);target.closePath();target.fill();
+  target.beginPath();target.moveTo(12,-7);target.lineTo(19,5);target.lineTo(13,9);target.lineTo(7,0);target.closePath();target.fill();
+  if(female){target.fillStyle=racer.color;target.beginPath();target.moveTo(-5,13);target.lineTo(0,19);target.lineTo(5,13);target.strokeStyle="#f5d995";target.lineWidth=1;target.stroke();}
+  target.save();target.globalAlpha=.78;target.fillStyle=racer.color;target.beginPath();const tail=racer.effectType==="boost"?-25:racer.effectType==="slow"?-10:-17;target.moveTo(-7,-4);target.quadraticCurveTo(tail-10,-1,tail,-13);target.lineTo(-4,-8);target.closePath();target.fill();target.restore();
+  if(racer.effectTimer>0&&racer.effectName&&target!==cameraCtx){target.save();target.font="bold 7px Arial,sans-serif";target.textAlign="center";target.textBaseline="middle";target.lineJoin="round";target.lineWidth=2.2;target.strokeStyle="rgba(14,25,24,.98)";target.strokeText(racer.effectName,0,-65,126);target.fillStyle="#fff1bd";target.fillText(racer.effectName,0,-65,126);target.restore();}
   target.restore();
 }
 
