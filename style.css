@@ -2136,3 +2136,83 @@ body.game-page:after{
  .arena-frame>.game-setup:not(.is-minimized){width:min(390px,calc(100% - 24px))!important;max-height:78%!important;}
  .arena-controls .btn{min-height:28px!important;font-size:11px!important;padding:4px 8px!important;}
 }
+
+
+/* REVISION 26 — dock dưới: góc quan sát 4 phần, Tiên Bảng 6 phần. */
+.arena-frame{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr)!important;
+ grid-template-rows:auto auto auto!important;
+}
+.arena-frame>#game{grid-column:1!important;grid-row:1!important;width:100%!important;height:auto!important;}
+.arena-frame>.arena-controls{grid-column:1!important;grid-row:2!important;width:100%!important;}
+.arena-frame>.game-camera{
+ position:relative!important;inset:auto!important;
+ grid-column:1!important;grid-row:3!important;
+ width:100%!important;max-width:none!important;min-width:0!important;
+ margin:0!important;border-radius:0 0 0 9px!important;
+}
+.arena-frame>.game-ranking{
+ position:relative!important;inset:auto!important;
+ grid-column:1!important;grid-row:4!important;
+ width:100%!important;max-width:none!important;min-width:0!important;
+ height:auto!important;max-height:280px!important;
+ border-left:0!important;border-top:1px solid rgba(196,163,95,.42)!important;
+ border-radius:0 0 9px 9px!important;
+}
+.arena-frame>.game-ranking .table-wrap{max-height:210px!important;overflow:auto!important;}
+.arena-frame>.game-camera .camera-info{
+ display:flex!important;flex-direction:column!important;align-items:center!important;
+ justify-content:center!important;gap:3px!important;text-align:center!important;
+ padding:5px 7px 8px!important;min-width:0!important;
+}
+.arena-frame>.game-camera #leaderName{
+ display:block!important;width:100%!important;font-size:13px!important;
+ font-weight:900!important;line-height:1.25!important;overflow-wrap:anywhere!important;
+}
+.arena-frame>.game-camera #leaderEffect{
+ display:block!important;width:100%!important;color:#e9c77f!important;
+ font-size:11px!important;font-weight:700!important;line-height:1.25!important;
+ overflow-wrap:anywhere!important;
+}
+@media(min-width:761px){
+ .arena-frame{
+  grid-template-columns:minmax(0,4fr) minmax(0,6fr)!important;
+  grid-template-rows:auto auto auto!important;
+ }
+ .arena-frame>#game{grid-column:1 / span 2!important;grid-row:1!important;}
+ .arena-frame>.arena-controls{grid-column:1 / span 2!important;grid-row:2!important;}
+ .arena-frame>.game-camera{
+  grid-column:1!important;grid-row:3!important;
+  width:100%!important;max-width:none!important;border-radius:0 0 0 9px!important;
+ }
+ .arena-frame>.game-camera #leaderCanvas{width:100%!important;height:auto!important;max-height:160px!important;}
+ .arena-frame>.game-ranking{
+  grid-column:2!important;grid-row:3!important;
+  height:auto!important;max-height:220px!important;
+  border-left:1px solid rgba(196,163,95,.42)!important;
+  border-top:0!important;border-radius:0 0 9px 0!important;
+ }
+ .arena-frame>.game-ranking .table-wrap{max-height:155px!important;}
+ .arena-frame:has(>.game-ranking.is-minimized){grid-template-columns:minmax(0,4fr) 34px!important;}
+}
+@media(max-width:760px) and (orientation:portrait){
+ .arena-frame{grid-template-columns:minmax(0,4fr) minmax(0,6fr)!important;grid-template-rows:auto auto auto!important;}
+ .arena-frame>#game{grid-column:1 / span 2!important;grid-row:1!important;}
+ .arena-frame>.arena-controls{grid-column:1 / span 2!important;grid-row:2!important;}
+ .arena-frame>.game-camera{grid-column:1!important;grid-row:3!important;width:100%!important;max-width:none!important;}
+ .arena-frame>.game-camera #leaderCanvas{max-height:120px!important;}
+ .arena-frame>.game-ranking{grid-column:2!important;grid-row:3!important;max-height:220px!important;border-left:1px solid rgba(196,163,95,.42)!important;border-top:0!important;}
+ .arena-frame>.game-ranking .table-wrap{max-height:160px!important;}
+ .arena-frame>.game-ranking.is-minimized{grid-column:2!important;width:34px!important;min-width:34px!important;}
+ .arena-frame:has(>.game-ranking.is-minimized){grid-template-columns:minmax(0,4fr) 34px!important;}
+}
+@media(max-height:600px) and (orientation:landscape){
+ .arena-frame{grid-template-columns:minmax(0,4fr) minmax(0,6fr)!important;grid-template-rows:auto auto auto!important;}
+ .arena-frame>#game{grid-column:1 / span 2!important;grid-row:1!important;max-height:none!important;}
+ .arena-frame>.arena-controls{grid-column:1 / span 2!important;grid-row:2!important;}
+ .arena-frame>.game-camera{grid-column:1!important;grid-row:3!important;position:relative!important;width:100%!important;max-width:none!important;}
+ .arena-frame>.game-camera #leaderCanvas{max-height:95px!important;}
+ .arena-frame>.game-ranking{grid-column:2!important;grid-row:3!important;max-height:180px!important;}
+ .arena-frame>.game-ranking .table-wrap{max-height:125px!important;}
+}
