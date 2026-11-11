@@ -4257,7 +4257,11 @@ function drawSpectator(x,y,scale,roleName,time,phase=0){
  const female=seed%2===1,skin=["#f6d2b5","#e9b993","#d69a76","#f0c5a0","#bd805f"][seed%5];
  const hair=["#211a25","#39251f","#171d2c","#5a3027","#29242a"][(seed*3)%5];
  const sway=Math.sin(time*.004+phase);
- ctx.save();ctx.translate(x,y+Math.sin(time*.006+phase)*1.3);ctx.scale(scale*role.scale,scale);
+ const crowdApplause=!!(finished&&racers.length&&finishQueue.length>=racers.length);
+ const crowdCheer=!crowdApplause&&finishQueue.length>0;
+ const beat=time*.012+phase*.7;
+ const jump=crowdCheer?Math.max(0,Math.sin(beat))*10:crowdApplause?Math.abs(Math.sin(beat*.72))*1.5:0;
+ ctx.save();ctx.translate(x,y+Math.sin(time*.006+phase)*.8-jump);ctx.scale(scale*role.scale,scale);
  ctx.fillStyle="rgba(20,30,25,.28)";ctx.beginPath();ctx.ellipse(0,21,15,4,0,0,Math.PI*2);ctx.fill();
  if(role.aura)drawAura(0,-9,roleName==="elder"?34:26,role.aura,time,phase);
  // Áo trong và thân ngoài: nữ eo thon, váy xếp tầng; nam vai rộng, trường bào thẳng.
@@ -4286,7 +4290,52 @@ function drawSpectator(x,y,scale,roleName,time,phase=0){
  if(female){ctx.moveTo(-8,-5);ctx.lineTo(-16,1);ctx.lineTo(-20,11);ctx.lineTo(-13,14);ctx.lineTo(-5,3);ctx.closePath();ctx.moveTo(8,-5);ctx.lineTo(16,1);ctx.lineTo(20,11);ctx.lineTo(13,14);ctx.lineTo(5,3);ctx.closePath();}
  else{ctx.moveTo(-10,-5);ctx.lineTo(-19,0);ctx.lineTo(-17,10);ctx.lineTo(-10,9);ctx.lineTo(-6,1);ctx.closePath();ctx.moveTo(10,-5);ctx.lineTo(19,0);ctx.lineTo(17,10);ctx.lineTo(10,9);ctx.lineTo(6,1);ctx.closePath();}
  ctx.fill();
- ctx.strokeStyle=skin;ctx.lineWidth=4.5;ctx.lineCap="round";ctx.beginPath();ctx.moveTo(-15,8);ctx.lineTo(-17,14+sway);ctx.moveTo(15,8);ctx.lineTo(17,14-sway);ctx.stroke();
+ // Mỗi cấp bậc có kiểu cổ vũ riêng; khi có người về nhất cả khán đài đồng loạt bật dậy.
+ ctx.strokeStyle=skin;ctx.lineWidth=4.5;ctx.lineCap="round";
+ let leftHand=[-18,12],rightHand=[18,12],leftElbow=[-16,0],rightElbow=[16,0];
+ if(crowdApplause){
+   // Người cuối cùng cán đích: tất cả vỗ tay nhịp nhàng trước ngực.
+   const clap=Math.abs(Math.sin(beat*1.15));
+   leftHand=[-3-clap*3,-3];rightHand=[3+clap*3,-3];
+   leftElbow=[-15,-1];rightElbow=[15,-1];
+ }else if(crowdCheer){
+   // Người đầu tiên về đích: cùng reo hò, giơ cao hai tay và nhảy lên.
+   leftHand=[-22+Math.sin(beat)*3,-31];rightHand=[22-Math.sin(beat)*3,-31];
+   leftElbow=[-18,-17];rightElbow=[18,-17];
+ }else if(roleName==="servant"){
+   // Tạp dịch: vẫy cả hai tay liên tục, phấn khởi và nhiệt tình.
+   leftHand=[-21,-17+Math.sin(beat)*9];rightHand=[21,-17-Math.sin(beat)*9];
+   leftElbow=[-17,-5];rightElbow=[17,-5];
+ }else if(roleName==="outer"){
+   // Ngoại môn: một tay vẫy cao, tay kia giơ ngang hô vang.
+   leftHand=[-22,-25+Math.sin(beat)*8];rightHand=[22,-7-Math.sin(beat+1)*5];
+   leftElbow=[-17,-8];rightElbow=[17,-2];
+ }else if(roleName==="inner"){
+   // Nội môn: chắp tay kiếm quyết rồi nâng tay hô cổ vũ.
+   leftHand=[-8,-24+Math.sin(beat)*4];rightHand=[19,-18-Math.sin(beat)*5];
+   leftElbow=[-15,-9];rightElbow=[15,-8];
+ }else{
+   leftHand=[-18,-13+Math.sin(beat)*5];rightHand=[18,-13-Math.sin(beat)*5];
+   leftElbow=[-15,-3];rightElbow=[15,-3];
+ }
+ ctx.beginPath();ctx.moveTo(-9,-5);ctx.lineTo(leftElbow[0],leftElbow[1]);ctx.lineTo(leftHand[0],leftHand[1]);
+ ctx.moveTo(9,-5);ctx.lineTo(rightElbow[0],rightElbow[1]);ctx.lineTo(rightHand[0],rightHand[1]);ctx.stroke();
+ // Bàn tay và tay áo vung theo nhịp, tránh dáng đứng bất động.
+ ctx.fillStyle=role.robe;ctx.beginPath();ctx.arc(leftHand[0],leftHand[1],3.2,0,Math.PI*2);ctx.arc(rightHand[0],rightHand[1],3.2,0,Math.PI*2);ctx.fill();
+ if(roleName==="inner"&&!crowdApplause){
+   // Kiếm quyết phát sáng nhỏ trên tay nội môn.
+   ctx.strokeStyle="#e6d18e";ctx.lineWidth=1.7;ctx.beginPath();ctx.moveTo(rightHand[0]+2,rightHand[1]-2);ctx.lineTo(rightHand[0]+5,rightHand[1]-15);ctx.stroke();
+   ctx.beginPath();ctx.moveTo(rightHand[0]+1,rightHand[1]-7);ctx.lineTo(rightHand[0]+7,rightHand[1]-6);ctx.stroke();
+ }
+ if(crowdCheer){
+   ctx.strokeStyle="rgba(255,231,158,.85)";ctx.lineWidth=1.4;
+   for(let k=0;k<3;k++){const side=k-1;ctx.beginPath();ctx.moveTo(side*9,-43-Math.sin(beat+k)*2);ctx.lineTo(side*9-3,-49-Math.sin(beat+k)*2);ctx.stroke();}
+ }
+ if(crowdApplause){
+   // Nét nhịp nhỏ ở hai bên thể hiện tiếng vỗ tay tập thể.
+   ctx.strokeStyle="rgba(255,226,153,.8)";ctx.lineWidth=1.2;
+   ctx.beginPath();ctx.moveTo(-23,-5);ctx.lineTo(-27,-9);ctx.moveTo(23,-5);ctx.lineTo(27,-9);ctx.stroke();
+ }
  // Khuôn mặt, tóc dài/trâm nữ và búi tóc nam.
  ctx.fillStyle=skin;ctx.beginPath();ctx.ellipse(0,-19,female?6:6.6,7.7,0,0,Math.PI*2);ctx.fill();
  ctx.fillStyle=hair;
