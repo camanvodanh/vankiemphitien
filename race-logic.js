@@ -675,9 +675,9 @@ function updateRanking(){
 
  body.innerHTML=sorted.map((r,i)=>{
   const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":i+1;
-  const arrow=r.rankMovement==="up"?'<span class="rank-movement rank-up" aria-label="Tăng hạng" title="Tăng hạng">▲</span>':r.rankMovement==="down"?'<span class="rank-movement rank-down" aria-label="Giảm hạng" title="Giảm hạng">▼</span>':'<span class="rank-movement rank-stable" aria-label="Không đổi" title="Chưa biến động">—</span>';
+  const arrow=r.rankMovement==="up"?'<span class="rank-movement rank-up" aria-label="Tăng hạng" title="Tăng hạng">▲</span>':r.rankMovement==="down"?'<span class="rank-movement rank-down" aria-label="Giảm hạng" title="Giảm hạng">▼</span>':"";
   const actualTime=r.finished&&r.finishTime!==null?timeText(r.finishTime):"—";
-  return '<tr data-racer-id="'+r.id+'"><td><span class="rank-cell"><span class="rank-position">'+medal+'</span>'+arrow+'</span></td><td title="'+escapeHTML(r.name)+'">'+escapeHTML(r.name)+'</td><td>'+actualTime+'</td></tr>';
+  return '<tr data-racer-id="'+r.id+'"><td><span class="rank-cell">'+arrow+'<span class="rank-position">'+medal+'</span></span></td><td title="'+escapeHTML(r.name)+'">'+escapeHTML(r.name)+'</td><td>'+actualTime+'</td></tr>';
  }).join("");
 
  const movedRows=[];
