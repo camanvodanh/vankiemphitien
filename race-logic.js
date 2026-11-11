@@ -876,3 +876,40 @@ function syncButtons(){
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",attach,{once:true});
   else attach();
 })();
+
+
+// XOAY NGANG: yêu cầu khóa hướng khi trình duyệt hỗ trợ; nếu không, hướng dẫn xoay máy.
+(function enableLandscapeMode(){
+  function attach(){
+    const button=$("rotateScreen"),hint=$("rotateHint");
+    if(!button||button.dataset.ready==="1")return;
+    button.dataset.ready="1";
+    const update=()=>{
+      const landscape=window.innerWidth>window.innerHeight;
+      if(landscape&&hint)hint.hidden=true;
+      button.classList.toggle("is-landscape",landscape);
+      button.querySelector("span").textContent=landscape?"Đang ngang":"Xoay ngang";
+    };
+    button.addEventListener("click",async()=>{
+      try{
+        if(!document.fullscreenElement&&document.documentElement.requestFullscreen){
+          await document.documentElement.requestFullscreen();
+        }
+      }catch(_){}
+      let lockedOrientation=false;
+      try{
+        if(screen.orientation&&screen.orientation.lock){
+          await screen.orientation.lock("landscape");
+          lockedOrientation=true;
+        }
+      }catch(_){}
+      if(!lockedOrientation&&hint)hint.hidden=window.innerWidth>window.innerHeight;
+      update();
+    });
+    window.addEventListener("resize",update,{passive:true});
+    window.addEventListener("orientationchange",update,{passive:true});
+    update();
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",attach,{once:true});
+  else attach();
+})();
