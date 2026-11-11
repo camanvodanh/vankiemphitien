@@ -638,8 +638,9 @@ function drawCamera(time){
  drawCameraBackground(time);
  if(finished){
   drawPodiumScene(cameraCtx,time,true);
-  $("leaderName").textContent="Lễ trao giải · Top 3";
-  $("leaderProgress").textContent="VINH DANH TOP 3";
+  const total=Math.min(3,racers.length);
+  $("leaderName").textContent="Ban thưởng Top "+total+" Tiên Hội";
+  $("leaderProgress").textContent="TOP "+total+" TIÊN HỘI";
   $("leaderEffect").textContent="";
   return;
  }
