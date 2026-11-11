@@ -173,6 +173,90 @@ function drawMountainRange() {
 }
 
 // =====================================================
+// VÁCH NÚI SAU THÁC — TẠO CHIỀU SÂU CHO DÒNG THÁC
+// =====================================================
+function drawWaterfallMountain(x, y, width, height, variant = 0) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(width / 150, height / 220);
+
+  // Khối núi phía sau màn nước
+  const rock = ctx.createLinearGradient(-65, -210, 80, 30);
+  rock.addColorStop(0, "#b8c9ad");
+  rock.addColorStop(.28, "#718f79");
+  rock.addColorStop(.68, "#496b58");
+  rock.addColorStop(1, "#294c40");
+  ctx.fillStyle = rock;
+  ctx.beginPath();
+  ctx.moveTo(-82, 18);
+  ctx.lineTo(-76, -92);
+  ctx.lineTo(-52, -132);
+  ctx.lineTo(-30, -118);
+  ctx.lineTo(-4, -190);
+  ctx.lineTo(18, -151);
+  ctx.lineTo(39, -176);
+  ctx.lineTo(62, -112);
+  ctx.lineTo(83, -91);
+  ctx.lineTo(88, 18);
+  ctx.closePath();
+  ctx.fill();
+
+  // Mặt đá sáng, tạo khối gồ ghề
+  ctx.fillStyle = "rgba(213,226,190,.28)";
+  ctx.beginPath();
+  ctx.moveTo(-76, -92);
+  ctx.lineTo(-52, -132);
+  ctx.lineTo(-30, -118);
+  ctx.lineTo(-4, -190);
+  ctx.lineTo(-1, -106);
+  ctx.lineTo(-30, -62);
+  ctx.lineTo(-48, -83);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle = "rgba(24,57,48,.34)";
+  ctx.beginPath();
+  ctx.moveTo(18, -151);
+  ctx.lineTo(39, -176);
+  ctx.lineTo(62, -112);
+  ctx.lineTo(83, -91);
+  ctx.lineTo(88, 18);
+  ctx.lineTo(24, 18);
+  ctx.lineTo(42, -61);
+  ctx.closePath();
+  ctx.fill();
+
+  // Các gờ đá tầng tầng quanh lòng thác
+  ctx.strokeStyle = "rgba(226,218,177,.42)";
+  ctx.lineWidth = 3;
+  [[-63,-78,-26,-66],[25,-99,67,-82],[-51,-28,-8,-17],[38,-42,76,-29]].forEach(p=>{
+    ctx.beginPath();ctx.moveTo(p[0],p[1]);ctx.lineTo(p[2],p[3]);ctx.stroke();
+  });
+
+  // Tán tùng bám trên sườn núi
+  const greens = ["#315b46","#3d7050","#527d58"];
+  for(let i=0;i<7;i++){
+    const px = -68 + ((i*37 + variant*19)%137);
+    const py = -28 - ((i*23 + variant*11)%95);
+    ctx.fillStyle=greens[i%greens.length];
+    ctx.beginPath();
+    ctx.moveTo(px,py-24-(i%3)*5);
+    ctx.lineTo(px-14,py+5);
+    ctx.lineTo(px+14,py+5);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  // Rêu và bụi sương ở chân vách
+  const mist=ctx.createLinearGradient(0,-10,0,28);
+  mist.addColorStop(0,"rgba(205,232,211,0)");
+  mist.addColorStop(1,"rgba(194,226,207,.38)");
+  ctx.fillStyle=mist;
+  ctx.fillRect(-86,-12,174,42);
+  ctx.restore();
+}
+
+// =====================================================
 // MÂY TRÔI
 // =====================================================
 
@@ -1207,6 +1291,10 @@ function drawScenery(time) {
 
   // Đại điện trung tâm
   drawPalace(550, 320, 1.05, true);
+
+  // Vách núi dựng phía sau thác, tạo cảm giác dòng nước đổ từ khe núi
+  drawWaterfallMountain(890, 430, 150, 220, 1);
+  drawWaterfallMountain(105, 420, 118, 165, 2);
 
   // Thác nước hai bên
   drawWaterfall(
