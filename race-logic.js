@@ -980,15 +980,14 @@ function syncButtons(){
 
   // Họa tiết vector tự vẽ riêng cho Vạn Kiếm Phi Tiên, không dùng bộ icon.
   const artwork={
-    sword:`<svg class="cultivation-art art-sword" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-      <defs><linearGradient id="bladeGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff4c9"/><stop offset=".48" stop-color="#d9b66d"/><stop offset="1" stop-color="#8f6635"/></linearGradient></defs>
-      <path d="M43 5 51 13 24 43 19 45 21 39Z" fill="url(#bladeGold)" stroke="#f6df9e" stroke-width="1.2"/>
-      <path d="m43 5 8 8-27 30 8-19Z" fill="#fff0bd" opacity=".55"/>
-      <path d="m17 39 8 8-8 7-7-7Z" fill="#b58a4b" stroke="#f4d99a" stroke-width="1.2"/>
-      <path d="m9 45 10 10-4 4L5 49Z" fill="#d8b66e"/>
-      <path d="m14 35 15 15-3 3-15-15Z" fill="#e8ce91" stroke="#9a733e" stroke-width="1"/>
-      <path d="M46 8 55 2M50 16l10-3M37 10l-2-7" fill="none" stroke="#f2d58c" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M6 57q-2 3-4 3M27 56q7 2 10-3" fill="none" stroke="#8ed8c0" stroke-width="1.4" stroke-linecap="round"/>
+    sword:`<svg class="cultivation-art art-sword" viewBox="0 0 80 64" aria-hidden="true" focusable="false">
+      <defs><linearGradient id="flyingSwordGold" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff8d8"/><stop offset=".48" stop-color="#e5c77f"/><stop offset="1" stop-color="#9a713b"/></linearGradient></defs>
+      <path d="M7 32 61 18 73 22 64 32 73 42 61 46Z" fill="url(#flyingSwordGold)" stroke="#fff0c6" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="m12 32 53-9-7 9 7 9Z" fill="#fff8df" opacity=".5"/>
+      <path d="M8 25 22 32 8 39 3 32Z" fill="#b58a4b" stroke="#f5dfa6" stroke-width="1.2"/>
+      <path d="M16 23 16 41M21 27 21 37" stroke="#fff0c6" stroke-width="2" stroke-linecap="round"/>
+      <path d="M29 16q13-8 27-3M29 48q13 8 27 3M4 18q-5 5-1 10M4 46q-5-5-1-10" fill="none" stroke="#8ed8c0" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="m66 17 7-5m-7 40 7 5" stroke="#f5dfa6" stroke-width="1.5" stroke-linecap="round"/>
     </svg>`,
     pause:`<svg class="cultivation-art art-pause" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
       <path d="M18 13 25 8 28 18 25 46 19 53 15 45Z" fill="#d9bd7e" stroke="#fff0c6" stroke-width="1.2" stroke-linejoin="round"/>
@@ -1008,11 +1007,12 @@ function syncButtons(){
       <path d="M48 42q5 5 10 3M7 38q-3 5 0 9" fill="none" stroke="#8ed8c0" stroke-width="1.5" stroke-linecap="round"/>
     </svg>`,
     stop:`<svg class="cultivation-art art-stop" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-      <path d="M32 7 38 23 55 32 38 41 32 57 26 41 9 32 26 23Z" fill="none" stroke="#d9b66d" stroke-width="1.7" stroke-linejoin="round"/>
-      <path d="M32 15 36 27 48 32 36 37 32 49 28 37 16 32 28 27Z" fill="#b58a4b" opacity=".38" stroke="#f4dda4" stroke-width="1.2"/>
-      <path d="M32 23v18M23 32h18" stroke="#f8e7bd" stroke-width="1.4" stroke-linecap="round"/>
-      <circle cx="32" cy="32" r="3" fill="#fff0c6"/>
-      <path d="M10 10 16 16M54 10l-6 6M10 54l6-6M54 54l-6-6" stroke="#8ed8c0" stroke-width="1.5" stroke-linecap="round"/>
+      <defs><linearGradient id="stopJadeGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0c2"/><stop offset=".55" stop-color="#c99c55"/><stop offset="1" stop-color="#79512d"/></linearGradient></defs>
+      <path d="M32 5 39 17 53 11 47 25 60 32 47 39 53 53 39 47 32 60 25 47 11 53 17 39 4 32 17 25 11 11 25 17Z" fill="none" stroke="url(#stopJadeGold)" stroke-width="2.6" stroke-linejoin="round"/>
+      <rect x="23" y="23" width="18" height="18" rx="2" fill="#b88b49" stroke="#fff0c6" stroke-width="1.8"/>
+      <rect x="27" y="27" width="10" height="10" fill="#183d34" stroke="#e9d39a" stroke-width="1.2"/>
+      <path d="M32 13v7m0 24v7M13 32h7m24 0h7" stroke="#8ed8c0" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="32" cy="32" r="3" fill="#fff4d0"/>
     </svg>`,
     setup:`<svg class="cultivation-art art-setup" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
       <path d="M13 13q9-5 19 1v37q-10-6-19-1Z" fill="none" stroke="#e4c37d" stroke-width="2" stroke-linejoin="round"/>
