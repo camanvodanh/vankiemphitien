@@ -642,11 +642,7 @@ function drawCamera(time){
  if(!racer||racer.finished||racer.effectTimer<=0)racer=leaderOf();if(!racer)return;
  drawRacer(cameraCtx,racer,210,108,2.0,time);
  const rank=sortedRacers().findIndex(item=>item.id===racer.id)+1;
- drawRacerNameOnTarget(cameraCtx,racer,210,20,rank,1);
- cameraCtx.save();cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";
- if(racer.effectTimer>0&&racer.effectName){cameraCtx.font="bold 12px Arial, sans-serif";cameraCtx.lineWidth=3;cameraCtx.strokeStyle="rgba(15,27,25,.98)";cameraCtx.strokeText(racer.effectName,210,43,380);cameraCtx.fillStyle="#fff1bd";cameraCtx.fillText(racer.effectName,210,43,380);}
  $("leaderEffect").textContent=(racer.effectTimer>0&&racer.effectName)?racer.effectName:"Không có hiệu ứng";
- cameraCtx.restore();
  $("leaderName").textContent=racer.name;
  const shift=racer.rankChangeTimer>0&&racer.rankChangeText;
  if(shift){
