@@ -3381,3 +3381,112 @@ body.game-page:after{
  .arena-frame>.game-setup:not(.is-minimized) select{height:23px!important;min-height:23px!important;font-size:9px!important;}
  .arena-frame>.game-setup:not(.is-minimized) #summon{height:23px!important;min-height:23px!important;font-size:9px!important;}
 }
+
+
+/* REVISION 41 — sửa hàng viền thừa, giữ nút trong khung game và thu gọn nút Khởi tạo. */
+.arena-frame>.game-setup:not(.is-minimized) .setup-heading{
+  border-bottom:0!important;
+  box-shadow:none!important;
+}
+.arena-frame>.game-setup:not(.is-minimized){
+  outline:0!important;
+}
+.arena-frame>.game-setup.is-minimized{
+  width:max-content!important;
+  min-width:0!important;
+  max-width:calc(100% - 8px)!important;
+  padding:1px 3px 1px 5px!important;
+  border:1px solid rgba(213,184,120,.28)!important;
+  border-radius:4px!important;
+  background:rgba(12,34,29,.42)!important;
+  box-shadow:none!important;
+}
+.arena-frame>.game-setup.is-minimized .setup-heading{
+  border:0!important;
+  box-shadow:none!important;
+  gap:2px!important;
+}
+.arena-frame>.game-setup.is-minimized .setup-heading h2{
+  font-size:8px!important;
+  line-height:1!important;
+}
+.arena-frame>.game-setup.is-minimized .window-minimize{
+  width:11px!important;height:11px!important;
+  min-width:11px!important;min-height:11px!important;flex-basis:11px!important;
+  font-size:9px!important;
+}
+/* Hai nút điều khiển luôn hiện, kể cả trước khi triệu hồi; nằm chính giữa mép dưới màn hình đua. */
+.arena-frame>.arena-controls{
+  display:flex!important;
+  position:absolute!important;
+  z-index:120!important;
+  grid-column:1 / span 2!important;
+  grid-row:1!important;
+  left:50%!important;
+  right:auto!important;
+  top:auto!important;
+  bottom:8px!important;
+  transform:translateX(-50%)!important;
+  justify-self:center!important;
+  align-self:end!important;
+  width:max-content!important;
+  height:auto!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  gap:24px!important;
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+.arena-frame>.arena-controls>#start,
+.arena-frame>.arena-controls>#stop{
+  display:grid!important;
+  visibility:visible!important;
+  opacity:1!important;
+  position:relative!important;
+  width:52px!important;
+  height:52px!important;
+  min-width:52px!important;
+  min-height:52px!important;
+  padding:0!important;
+  margin:0!important;
+  place-items:center!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.arena-frame>.arena-controls>#start[hidden],
+.arena-frame>.arena-controls>#stop[hidden]{display:grid!important;}
+.arena-frame>.arena-controls>#start .btn-icon,
+.arena-frame>.arena-controls>#stop .btn-icon{
+  display:grid!important;
+  place-items:center!important;
+  width:100%!important;
+  height:100%!important;
+  line-height:0!important;
+  font-size:0!important;
+}
+.arena-frame>.arena-controls>#start .cultivation-art,
+.arena-frame>.arena-controls>#stop .cultivation-art{
+  display:block!important;
+  width:48px!important;
+  height:48px!important;
+  max-width:none!important;
+  max-height:none!important;
+}
+.arena-frame>.arena-controls>#start:disabled,
+.arena-frame>.arena-controls>#stop:disabled{opacity:.78!important;}
+.arena-frame>.arena-controls>#start .btn-label,
+.arena-frame>.arena-controls>#stop .btn-label{display:none!important;}
+@media(max-width:760px){
+ .arena-frame>.arena-controls{bottom:5px!important;gap:16px!important;}
+ .arena-frame>.arena-controls>#start,
+ .arena-frame>.arena-controls>#stop{width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;}
+ .arena-frame>.arena-controls>#start .cultivation-art,
+ .arena-frame>.arena-controls>#stop .cultivation-art{width:42px!important;height:42px!important;}
+}
