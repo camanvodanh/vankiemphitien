@@ -1022,6 +1022,8 @@ function syncButtons(){
       <path d="m8 8 3 3m45-3-3 3" stroke="#d9b66d" stroke-width="1.5" stroke-linecap="round"/>
     </svg>`
   };
+  runButton.hidden=false;
+  stopButton.hidden=false;
   runButton.innerHTML='<span class="btn-icon">'+artwork[state.art]+'</span><span class="btn-label">'+state.label+'</span>';
   runButton.setAttribute("aria-label",state.label);
   runButton.title=state.label;
