@@ -4399,7 +4399,7 @@ function drawRacer(target,racer,x,y,scale,time){
    case "talisman":actionX=5+Math.sin(phase*9)*2;actionY=-2-Math.abs(Math.sin(phase*7))*3;actionAngle=-.12;break;
    case "talisman_guard":actionX=Math.sin(phase*4)*1.5;actionAngle=-.08;break;
    case "talisman_thunder":actionX=5+Math.sin(phase*14)*2;actionY=-3;actionAngle=-.22;break;
-   case "sword_spin":actionAngle=Math.PI*2*progress;actionY=-Math.sin(progress*Math.PI)*3;break;
+   case "sword_spin":actionAngle=-.06+Math.sin(phase*5)*.045;actionX=2+Math.sin(phase*7)*2;actionY=-3-Math.abs(Math.sin(phase*6))*3;break;
    case "wind_step":actionX=Math.sin(phase*11+racer.phase)*7;actionY=-3-Math.abs(Math.sin(phase*8))*4;actionAngle=Math.sin(phase*11+racer.phase)*.22;break;
    case "shadow_step":actionX=progress<.22?-9:progress<.48?17:Math.sin(phase*18)*2;actionY=-Math.sin(progress*Math.PI)*7;actionAngle=progress<.48?-.24:.08;break;
    case "sword_dash":actionX=13+Math.sin(phase*16)*2;actionY=-4-Math.abs(Math.sin(phase*12))*2;actionAngle=-.48;break;
@@ -4614,9 +4614,30 @@ if(activeEffect==="cloud_step"){
        target.restore();
      }
 if(activeEffect==="sword_spin"){
-      target.globalAlpha=.92*fade;target.strokeStyle="#d9f7ff";target.lineWidth=2.2;target.shadowColor="#8ee8ff";target.shadowBlur=10;
-      target.beginPath();target.ellipse(0,-3,39,23,0,-Math.PI*.15,Math.PI*1.72);target.stroke();target.shadowBlur=0;
-      for(let i=0;i<5;i++){const a=-Math.PI*.4+i*Math.PI*.4+progress*Math.PI*2;target.fillStyle="#fff2bd";target.beginPath();target.arc(Math.cos(a)*39,Math.sin(a)*23-3,2,0,Math.PI*2);target.fill();}
+      // Kiếm Vũ: nhiều phi kiếm hiện hình rõ, lần lượt lướt chém chéo qua trước và sau nhân vật; không tạo vòng tròn.
+      target.save();target.lineJoin="round";target.lineCap="round";
+      for(let i=0;i<3;i++){
+        const phaseSword=t*4.2+i*Math.PI*2/3;
+        const sweep=Math.sin(phaseSword)*.34;
+        const sx=-24+i*24+Math.cos(phaseSword)*5,sy=-25+Math.sin(phaseSword*1.2)*9;
+        target.save();target.translate(sx,sy);target.rotate(-.62+sweep);
+        target.globalAlpha=(.62+i*.1)*fade;target.shadowColor="#78dcff";target.shadowBlur=11;
+        const blade=target.createLinearGradient(-4,-25,4,20);
+        blade.addColorStop(0,"#ffffff");blade.addColorStop(.48,"#b9f2ff");blade.addColorStop(1,"#4c9fc9");
+        target.fillStyle=blade;target.strokeStyle="#eaffff";target.lineWidth=1.2;
+        target.beginPath();target.moveTo(0,-31);target.lineTo(4,-19);target.lineTo(3,14);target.lineTo(0,20);target.lineTo(-3,14);target.lineTo(-4,-19);target.closePath();target.fill();target.stroke();
+        target.shadowBlur=0;target.strokeStyle="#f1d28a";target.lineWidth=2.8;
+        target.beginPath();target.moveTo(-8,13);target.quadraticCurveTo(0,17,8,13);target.stroke();
+        target.strokeStyle="#b88a50";target.lineWidth=3.2;target.beginPath();target.moveTo(0,17);target.lineTo(0,27);target.stroke();
+        target.fillStyle="#fff0bd";target.beginPath();target.arc(0,29,2,0,Math.PI*2);target.fill();
+        target.globalAlpha=.5*fade;target.strokeStyle="#a8edff";target.lineWidth=2;
+        target.beginPath();target.moveTo(0,-26);target.lineTo(0,-43);target.stroke();
+        target.restore();
+      }
+      // Một nhát kiếm quang chéo ngắn nhấn nhịp múa kiếm.
+      target.globalAlpha=.55*fade;target.strokeStyle="#e7fbff";target.lineWidth=2.2;target.shadowColor="#7ddfff";target.shadowBlur=9;
+      const slash=Math.sin(t*5)*5;target.beginPath();target.moveTo(-39,18+slash);target.quadraticCurveTo(-5,-3-slash,32,-34+slash);target.stroke();
+      target.shadowBlur=0;target.restore();
     }
     if(activeEffect==="pill"){
       // Tay lấy linh đan, đưa lên miệng rồi nuốt; viên đan biến mất.
@@ -6083,8 +6104,24 @@ function drawPodiumScene(target,time,mini=false){
     target.strokeStyle="#172a25";target.fillStyle="#fff3d2";
     target.strokeText(racer.name,x,riderY-bounce+26*scale,w*.21);
     target.fillText(racer.name,x,riderY-bounce+26*scale,w*.21);
-    target.font=mini?"bold 6px Georgia":"bold 12px Georgia";target.fillStyle=metals[rank][1];
-    target.fillText(rank===1?"TOP 1 · QUÁN QUÂN":rank===2?"TOP 2 · Á QUÂN":"TOP 3 · QUÝ QUÂN",x,base-(mini?4:8),w*.22);
+    const rankTitle=rank===1?"TOP 1 · QUÁN QUÂN":rank===2?"TOP 2 · Á QUÂN":"TOP 3 · QUÝ QUÂN";
+    target.save();target.textAlign="center";target.textBaseline="middle";
+    target.font=mini?"900 8px Georgia":"900 21px Georgia";
+    target.lineJoin="round";target.lineWidth=mini?2.5:5;
+    target.strokeStyle="#17231f";target.strokeText(rankTitle,x,base-(mini?7:17),w*.29);
+    target.shadowColor=metals[rank][0];target.shadowBlur=mini?5:16;
+    target.fillStyle=rank===1?"#fff0a4":rank===2?"#edf8ff":"#ffd0a0";
+    target.fillText(rankTitle,x,base-(mini?7:17),w*.29);
+    target.shadowBlur=0;
+    // Huy hiệu sáng phía sau dòng thứ hạng giúp TOP nổi bật trên bục trao giải.
+    target.globalAlpha=mini?.42:.28;target.fillStyle=metals[rank][0];
+    target.beginPath();target.roundRect(x-w*(mini?.12:.145),base-(mini?14:34),w*(mini?.24:.29),mini?14:34,mini?4:10);target.fill();
+    target.globalAlpha=1;
+    target.font=mini?"900 8px Georgia":"900 21px Georgia";
+    target.strokeText(rankTitle,x,base-(mini?7:17),w*.29);
+    target.fillStyle=rank===1?"#fff0a4":rank===2?"#edf8ff":"#ffd0a0";
+    target.fillText(rankTitle,x,base-(mini?7:17),w*.29);
+    target.restore();
   }
 
   const flightP=clamp((elapsed-awardStart)/masterFlightDuration,0,1);
