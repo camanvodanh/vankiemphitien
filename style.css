@@ -4818,3 +4818,8 @@ body.game-page:after{
 .music-toggle:active{transform:translateY(1px)}
 .music-toggle[aria-pressed="false"]{color:#b9b5a7;border-color:#8e8a7b66;background:#17221f}
 @media(max-width:620px){.game-header{flex-wrap:wrap}.music-toggle{margin-left:auto;min-height:34px;padding:7px 10px;font-size:10px}.realm-status{margin-left:0;padding:8px 10px;font-size:9px}}
+
+
+/* REVISION 72 — ghi công nhạc nền Creative Commons, gọn trên màn hình điện thoại. */
+.music-attribution{display:block;flex-basis:100%;max-width:100%;color:#8b7958;font-size:9px;font-weight:500;letter-spacing:0;line-height:1.5;text-align:center;opacity:.82}
+@media(max-width:520px){.music-attribution{font-size:8px;padding:0 8px}}
