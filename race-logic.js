@@ -659,16 +659,14 @@ function drawCamera(time){
  const rank=sortedRacers().findIndex(item=>item.id===racer.id)+1;
  $("leaderEffect").textContent=(racer.effectTimer>0&&racer.effectName)?racer.effectName:"";
  $("leaderName").textContent=racer.name;
- const shift=racer.rankChangeTimer>0&&racer.rankChangeText;
- if(shift){
-  const parts=racer.rankChangeText.split("|"),shownRank=Number(parts[0]),direction=parts[1],speed=parts[2];
-  const arrow=direction==="up"
-   ? '<span class="camera-rank-up">↑</span>'
-   : '<span class="camera-rank-down">↓</span>';
-  $("leaderProgress").innerHTML='Hạng '+shownRank+' '+arrow+' <small>× '+speed+'</small>';
- }else{
-  $("leaderProgress").textContent="Hạng "+rank;
- }
+ const rankArrow=racer.rankMovementTimer>0&&racer.rankMovement
+  ? (racer.rankMovement==="up"?'<span class="camera-rank-up">↑</span>':'<span class="camera-rank-down">↓</span>')
+  : "";
+ const hasSpeedEffect=racer.effectTimer>0&&Math.abs((racer.speedMultiplier||1)-1)>.001;
+ const speedText=hasSpeedEffect
+  ? '<small class="'+((racer.speedMultiplier||1)>=1?'camera-speed-up':'camera-speed-down')+'">× '+(racer.speedMultiplier||1).toFixed(1)+'</small>'
+  : "";
+ $("leaderProgress").innerHTML='Hạng '+rank+' '+rankArrow+' '+speedText;
 }
 
 
