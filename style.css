@@ -4552,3 +4552,26 @@ body.game-page:after{
 .arena-frame>.game-camera>.camera-screen>.camera-effect-overlay{left:0!important;right:0!important;width:100%!important;display:grid!important;place-items:center!important;padding:3px 4px 5px!important;box-sizing:border-box!important;text-align:center!important;overflow:hidden!important;}
 .arena-frame>.game-camera #leaderEffect{display:block!important;width:auto!important;max-width:100%!important;min-width:0!important;margin:0!important;padding:0!important;justify-self:center!important;text-align:center!important;text-indent:0!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;line-height:1.2!important;letter-spacing:0!important;}
 @media(max-width:760px){.arena-frame>.game-camera>.camera-screen>.camera-effect-overlay{padding:2px 3px 4px!important;}.arena-frame>.game-camera #leaderEffect{font-size:9px!important;}}
+
+/* REVISION 57 — căn tên hiệu ứng theo tâm hình, không theo vùng chữ co giãn. */
+.arena-frame>.game-camera>.camera-screen>.camera-effect-overlay{
+  left:50%!important;right:auto!important;bottom:0!important;top:auto!important;
+  width:100%!important;min-width:0!important;height:auto!important;
+  transform:translateX(-50%)!important;display:flex!important;
+  align-items:center!important;justify-content:center!important;
+  padding:4px 0 6px!important;box-sizing:border-box!important;
+  text-align:center!important;overflow:hidden!important;
+}
+.arena-frame>.game-camera>.camera-screen #leaderEffect{
+  display:block!important;flex:0 1 auto!important;
+  width:max-content!important;max-width:calc(100% - 12px)!important;
+  min-width:0!important;margin:0!important;padding:0!important;
+  text-align:center!important;text-indent:0!important;
+  white-space:nowrap!important;overflow:hidden!important;
+  text-overflow:ellipsis!important;line-height:1.2!important;
+  letter-spacing:0!important;direction:ltr!important;
+}
+@media(max-width:760px){
+ .arena-frame>.game-camera>.camera-screen>.camera-effect-overlay{padding:3px 0 5px!important;}
+ .arena-frame>.game-camera>.camera-screen #leaderEffect{font-size:9px!important;}
+}
