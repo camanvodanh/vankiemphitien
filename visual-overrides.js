@@ -4470,6 +4470,27 @@ function drawRacer(target,racer,x,y,scale,time){
       target.beginPath();target.ellipse(0,-43,17,5,Math.sin(t*5)*.18,t*.012,t*.012+Math.PI*1.7);target.stroke();
       target.fillStyle="#d8c6ff";target.beginPath();target.arc(Math.sin(t*5)*17,-43+Math.cos(t*5)*4,2,0,Math.PI*2);target.fill();
     }
+    if(activeEffect==="sword_intent"){
+      // Vận kiếm quyết: tay kết kiếm ấn, kiếm khí kéo thành lưỡi kiếm lao về trước.
+      target.globalAlpha=.98*fade;target.strokeStyle="#d9f5ff";target.lineWidth=2.4;target.shadowColor="#83dfff";target.shadowBlur=11;
+      target.beginPath();target.moveTo(8,-5);target.quadraticCurveTo(18,-24,31,-30);target.stroke();
+      target.beginPath();target.moveTo(15,-16);target.quadraticCurveTo(28,-31,45,-34);target.stroke();
+      target.shadowBlur=0;target.fillStyle="#efffff";
+      for(let n=0;n<3;n++){const k=(t*95+n*22)%72;target.globalAlpha=(1-k/72)*fade;target.beginPath();target.moveTo(8+k,-25-n*5);target.lineTo(19+k,-27-n*5);target.lineTo(8+k,-22-n*5);target.fill();}
+    }
+    if(activeEffect==="cloud_step"){
+      // Đạp Vân Bộ: mây tụ dưới chân kiếm, nhân vật bật lên theo từng nhịp.
+      target.globalAlpha=.8*fade;target.fillStyle="#e8fbff";target.strokeStyle="#a5e8f0";target.lineWidth=1.5;
+      const bounce=Math.abs(Math.sin(t*8));
+      for(let n=0;n<3;n++){const xx=-12+n*12,yy=25+bounce*5+(n%2)*3;target.beginPath();target.ellipse(xx,yy,10,4,0,0,Math.PI*2);target.fill();target.stroke();}
+      target.strokeStyle="rgba(204,249,255,.8)";target.beginPath();target.moveTo(-18,31);target.quadraticCurveTo(0,39,20,30);target.stroke();
+    }
+    if(activeEffect==="boost"){
+      // Thân pháp: lưu ảnh phía sau cùng vệt chuyển động, không dùng vòng linh khí chung.
+      for(let n=1;n<=3;n++){target.globalAlpha=(.25-n*.045)*fade;target.fillStyle="#b8edff";target.beginPath();target.ellipse(-n*12,2+n*2,13,20,.15,0,Math.PI*2);target.fill();}
+      target.globalAlpha=.9*fade;target.strokeStyle="#c6f4ff";target.lineWidth=2;
+      for(let n=0;n<4;n++){const yy=-23+n*12;target.beginPath();target.moveTo(-45,yy);target.quadraticCurveTo(-26,yy-4,-10,yy);target.stroke();}
+    }
     if(activeEffect==="sword_spin"){
       target.globalAlpha=.92*fade;target.strokeStyle="#d9f7ff";target.lineWidth=2.2;target.shadowColor="#8ee8ff";target.shadowBlur=10;
       target.beginPath();target.ellipse(0,-3,39,23,0,-Math.PI*.15,Math.PI*1.72);target.stroke();target.shadowBlur=0;
