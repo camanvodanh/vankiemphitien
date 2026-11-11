@@ -414,12 +414,16 @@ function triggerEvent(){
   {type:"cloud_step",name:"Đạp Vân",multiplier:1.48,duration:2.15},
   {type:"formation",name:"Tụ Linh Trận",multiplier:1.27,duration:3.1},
   {type:"sword_spin",name:"Kiếm Vũ",multiplier:1.18,duration:2.2},
-  {type:"talisman",name:"Phù tốc",multiplier:1.55,duration:2.65}
+  {type:"talisman",name:"Phù tốc",multiplier:1.55,duration:2.65},
+  {type:"wind_step",name:"Phong Hành",multiplier:1.36,duration:2.9},
+  {type:"shadow_step",name:"Ảnh Độn",multiplier:1.82,duration:1.35},
+  {type:"sword_dash",name:"Kiếm Độn",multiplier:1.68,duration:1.65},
+  {type:"body_burst",name:"Bạo Bộ",multiplier:1.24,duration:3.6}
  ];
  const effect=effects[randInt(0,effects.length-1)];
  racer.speedMultiplier=effect.multiplier;racer.effectTimer=effect.duration;racer.effectDuration=effect.duration;racer.effectType=effect.type;racer.effectName=effect.name;
  cameraFocusId=racer.id;const px=racerX(racer),py=laneY(index);addParticles(px,py,32);
- const burstColor=({poison:"#8bd66f",weak:"#b7bdc5",pill:"#ffd978",impact:"#ffab72",lightning:"#a9e9ff",gale:"#a9e4ed",dizzy:"#c8b2ff",faint:"#c4c9d2",boost:"#ffe17b",sword_intent:"#a9eaff",cloud_step:"#8fe5d4",formation:"#c9b0ff",sword_spin:"#b9f0ff",talisman:"#ffe18a"})[effect.type]||"#ffe7a0";
+ const burstColor=({poison:"#8bd66f",weak:"#b7bdc5",pill:"#ffd978",impact:"#ffab72",lightning:"#a9e9ff",gale:"#a9e4ed",dizzy:"#c8b2ff",faint:"#c4c9d2",boost:"#ffe17b",sword_intent:"#a9eaff",cloud_step:"#8fe5d4",formation:"#c9b0ff",sword_spin:"#b9f0ff",talisman:"#ffe18a",wind_step:"#9debd7",shadow_step:"#b9b4ff",sword_dash:"#b8eaff",body_burst:"#ffd08a"})[effect.type]||"#ffe7a0";
  for(let i=0;i<18;i++){const angle=i*Math.PI/9;particles.push({x:px+Math.cos(angle)*8,y:py+Math.sin(angle)*6,vx:Math.cos(angle)*rand(1.2,3.1),vy:Math.sin(angle)*rand(1,2.6),life:rand(.45,.95),maxLife:.95,size:rand(2,4),color:burstColor});}
 }
 
