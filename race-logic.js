@@ -674,9 +674,9 @@ function drawCamera(time){
   const arrow=direction==="up"
    ? '<span class="camera-rank-up">↑</span>'
    : '<span class="camera-rank-down">↓</span>';
-  $("leaderProgress").innerHTML=arrow+" "+shownRank+" <small>· "+speed+"</small>";
+  $("leaderProgress").innerHTML='Hạng '+shownRank+' '+arrow+' <small>× '+speed+'</small>';
  }else{
-  $("leaderProgress").textContent=String(rank);
+  $("leaderProgress").textContent="Hạng "+rank;
  }
 }
 
