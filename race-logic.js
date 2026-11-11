@@ -991,11 +991,14 @@ function syncButtons(){
       <path d="M6 57q-2 3-4 3M27 56q7 2 10-3" fill="none" stroke="#8ed8c0" stroke-width="1.4" stroke-linecap="round"/>
     </svg>`,
     pause:`<svg class="cultivation-art art-pause" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-      <path d="M19 12 26 12 25 49 19 54Z" fill="#e8d19a" stroke="#fff0c6" stroke-width="1"/>
-      <path d="M38 12 45 12 45 54 39 49Z" fill="#c49a55" stroke="#f4dda4" stroke-width="1"/>
-      <path d="M16 10 29 10M35 10 48 10" stroke="#f7e4b4" stroke-width="2" stroke-linecap="round"/>
-      <path d="M12 18q-7 14 1 27M52 18q7 14-1 27" fill="none" stroke="#8ed8c0" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="m32 4 1 4m-1 44 1 7" stroke="#f3d68f" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M18 13 25 8 28 18 25 46 19 53 15 45Z" fill="#d9bd7e" stroke="#fff0c6" stroke-width="1.2" stroke-linejoin="round"/>
+      <path d="M46 13 39 8 36 18 39 46 45 53 49 45Z" fill="#a9c9ae" stroke="#e4f0cf" stroke-width="1.2" stroke-linejoin="round"/>
+      <path d="m18 18 7 2-2 22-5 5-2-5Z" fill="#fff0bd" opacity=".38"/>
+      <path d="m46 18-7 2 2 22 5 5 2-5Z" fill="#e9f7dc" opacity=".35"/>
+      <path d="M12 8q7-5 13 0M39 8q6-5 13 0M12 56q7 5 13 0M39 56q6 5 13 0" fill="none" stroke="#e5c77f" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M8 31q-4-5 0-10M56 31q4-5 0-10M8 38q-4 5 0 10M56 38q4 5 0 10" fill="none" stroke="#8ed8c0" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M32 4v5m0 46v5" stroke="#f7e4b4" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="m29 7 3-3 3 3m-6 50 3 3 3-3" fill="none" stroke="#d9b66d" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>`,
     return:`<svg class="cultivation-art art-return" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
       <path d="M47 18A22 22 0 0 0 10 29" fill="none" stroke="#d9b66d" stroke-width="2.5" stroke-linecap="round"/>
