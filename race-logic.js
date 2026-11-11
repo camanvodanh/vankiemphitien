@@ -56,6 +56,10 @@ function updateRace(dt){
  const rankBefore=new Map(sortedRacers().map((r,i)=>[r.id,i+1]));
  racers.forEach(racer=>{
   if(racer.finished)return;
+  if(racer.rankChangeTimer>0){
+   racer.rankChangeTimer=Math.max(0,racer.rankChangeTimer-dt);
+   if(racer.rankChangeTimer===0)racer.rankChangeText="";
+  }
   if(racer.effectTimer>0){
    racer.effectTimer=Math.max(0,racer.effectTimer-dt);
    if(racer.effectTimer===0){
@@ -71,11 +75,8 @@ function updateRace(dt){
   const racer=rankedNow[i],oldRank=rankBefore.get(racer.id),newRank=i+1;
   if(racer.effectTimer>0&&oldRank&&oldRank!==newRank){
    const mult=racer.speedMultiplier||1;
-   const change=mult>=1?"TĂNG TỐC":"GIẢM TỐC";
-   eventText=`${racer.name}: Hạng ${oldRank} → ${newRank} · ${change} ×${mult.toFixed(2)}`;
-   eventTextLife=2.6;
-   $("event").textContent=eventText;
-   break;
+   racer.rankChangeText=oldRank+" → "+newRank+" · ×"+mult.toFixed(1);
+   racer.rankChangeTimer=2.6;
   }
  }
  racers.map((racer,index)=>({racer,index})).filter(o=>!o.racer.finished&&o.racer.progress>=distance).forEach(o=>processFinish(o.racer,o.index));
@@ -83,7 +84,6 @@ function updateRace(dt){
  if(eventClock>=nextEvent&&elapsed<duration){triggerEvent();eventClock=0;nextEvent=rand(4.5,7.5);}
  if(elapsed>=duration){racers.forEach((racer,index)=>{if(!racer.finished)processFinish(racer,index);});finishRace();}
 }
-
 // =====================================================
 // ĐẾM NGƯỢC VÀ VÒNG LẶP ANIMATION
 // =====================================================
@@ -186,7 +186,9 @@ function createRacer(name, index) {
     speedMultiplier: 1,
     effectTimer: 0,
     effectType: "",
-    effectName: ""
+    effectName: "",
+    rankChangeText: "",
+    rankChangeTimer: 0
   };
 }
 
@@ -626,7 +628,7 @@ function drawCamera(time){
  cameraCtx.save();cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";
  if(racer.effectTimer>0&&racer.effectName){cameraCtx.font="bold 12px Arial, sans-serif";cameraCtx.lineWidth=3;cameraCtx.strokeStyle="rgba(15,27,25,.98)";cameraCtx.strokeText(racer.effectName,210,43,380);cameraCtx.fillStyle="#fff1bd";cameraCtx.fillText(racer.effectName,210,43,380);}
  cameraCtx.restore();
- $("leaderName").textContent=racer.name;$("leaderProgress").textContent="Hạng "+rank+"/"+racers.length;
+ $("leaderName").textContent=racer.name;const shift=racer.rankChangeTimer>0&&racer.rankChangeText?" · "+racer.rankChangeText:"";$("leaderProgress").textContent="Hạng "+rank+"/"+racers.length+shift;
 }
 function updateRanking(){
  const sorted=sortedRacers();if(!sorted.length){$("rankBody").innerHTML='<tr><td colspan="3" class="empty">Chưa có tiên nhân</td></tr>';return;}
