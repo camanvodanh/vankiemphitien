@@ -2596,16 +2596,18 @@ function drawCascadeCliff(x,topY,bottomY,width,time){
 }
 function drawScenery(time){
  drawSky(time);drawMountainRange();drawMovingClouds(time);
+ drawMountainStream(time);drawRiver(time);
+ // Thác bắt nguồn từ đỉnh núi, đổ tràn xuống lòng hồ ở hai mép cảnh.
  drawCascadeCliff(34,235,520,27,time);drawCascadeCliff(1066,235,520,27,time);
- drawMountainStream(time);
  drawLinkedCascade(34,235,520,27,time,.2);drawLinkedCascade(1066,235,520,27,time,1.4);
+ // Kiến trúc được vẽ sau dòng nước để không bị thác hoặc tiên môn che khuất.
  drawSectArchitecture(time);
  drawSpiritBirds(time);drawTempleAuras(time);
  drawPine(185,500,.58,"#315b45");drawTree(215,510,.48,"#426b4c");
  drawPine(360,500,.52,"#315b45");drawTree(475,505,.44,"#426b4c");
  drawPine(740,500,.52,"#315b45");drawTree(820,505,.46,"#426b4c");
  drawPine(925,495,.58,"#315b45");
- drawRiver(time);drawCrowd(time);
+ drawCrowd(time);
 }
 function drawSpiritBirds(time){
  const flocks=[{n:2,cx:310,cy:205,rx:145,ry:25,speed:.00018,phase:.4,scale:.72},{n:3,cx:790,cy:190,rx:165,ry:32,speed:-.00015,phase:1.7,scale:.66}];
