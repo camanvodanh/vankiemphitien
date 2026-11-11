@@ -2477,10 +2477,7 @@ function drawSectPavilion(x,y,scale,title,type,accent){
  ctx.save();ctx.translate(x,y);ctx.scale(scale,scale);
  const gold="#e7c77c",rg=ctx.createLinearGradient(-65,-125,65,-55);
  rg.addColorStop(0,accent);rg.addColorStop(.5,"#29433e");rg.addColorStop(1,"#182b2b");
- // Không có bệ đất: chỉ còn bóng linh khí mờ dưới chân công trình.
- const shadow=ctx.createRadialGradient(0,23,2,0,23,68);
- shadow.addColorStop(0,"rgba(12,28,27,.22)");shadow.addColorStop(1,"rgba(12,28,27,0)");
- ctx.fillStyle=shadow;ctx.beginPath();ctx.ellipse(0,23,68,10,0,0,Math.PI*2);ctx.fill();
+ // Không vẽ vòng bóng hoặc quầng tròn bên dưới lầu các.
  ctx.fillStyle="#553a2a";ctx.fillRect(-47,-74,94,67);
  ctx.fillStyle="#26332e";ctx.fillRect(-30,-63,60,53);
  ctx.fillStyle="#765137";ctx.fillRect(-25,-58,50,48);
@@ -2501,7 +2498,7 @@ function drawSectPavilion(x,y,scale,title,type,accent){
   if(upper){ctx.fillStyle="#f5d991";ctx.beginPath();ctx.moveTo(0,yy-h*1.13);ctx.lineTo(-5,yy-h);ctx.lineTo(0,yy-h*.9);ctx.lineTo(5,yy-h);ctx.closePath();ctx.fill();}
  }
  roof(-72,120,39,false);roof(-108,94,30,true);
- ctx.font="bold "+Math.max(22,12/scale)+"px Arial, sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";ctx.lineJoin="round";ctx.lineWidth=5;ctx.strokeStyle="rgba(12,25,22,.98)";ctx.strokeText(title,0,-169,120/scale);ctx.fillStyle="#fff0c0";ctx.fillText(title,0,-169,120/scale);
+ // Tên lầu được vẽ riêng ở tọa độ cố định trong drawSectArchitecture().
  if(type==="treasure"){ctx.strokeStyle="#f5d46f";ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,-25,30,0,Math.PI*2);ctx.stroke();for(const xx of [-22,5]){ctx.fillStyle="#a87932";ctx.fillRect(xx,-25,18,13);ctx.fillStyle="#f4d77d";ctx.fillRect(xx,-29,18,4);}for(const [xx,yy] of [[-13,-42],[12,-44],[0,-54]]){ctx.fillStyle="#8ce9ed";ctx.beginPath();ctx.moveTo(xx,yy-6);ctx.lineTo(xx+4,yy);ctx.lineTo(xx,yy+6);ctx.lineTo(xx-4,yy);ctx.closePath();ctx.fill();}}
  else if(type==="scripture"){for(let i=0;i<4;i++){ctx.fillStyle=["#a64b3e","#557d70","#d5b66f","#536e94"][i];ctx.fillRect(-35+i*18,-54,14,36);ctx.fillStyle="#e7d39a";ctx.fillRect(-33+i*18,-50,10,2);ctx.fillRect(-33+i*18,-42,10,1);}ctx.strokeStyle=gold;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-41,-58);ctx.lineTo(41,-58);ctx.moveTo(-41,-15);ctx.lineTo(41,-15);ctx.stroke();ctx.fillStyle="#f1dfae";ctx.fillRect(-7,-38,14,21);ctx.strokeRect(-7,-38,14,21);}
  else if(type==="herb"){for(let i=0;i<5;i++){const xx=-39+i*19;ctx.strokeStyle="#7c5d35";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(xx,-8);ctx.lineTo(xx,-43-(i%2)*7);ctx.stroke();ctx.fillStyle=i%2?"#77a66c":"#b3c47a";ctx.beginPath();ctx.ellipse(xx-4,-35-(i%2)*7,5,3,-.5,0,Math.PI*2);ctx.ellipse(xx+4,-29-(i%2)*7,5,3,.5,0,Math.PI*2);ctx.fill();}ctx.fillStyle="#74b9a0";ctx.fillRect(-46,-18,12,13);ctx.fillRect(34,-18,12,13);}
@@ -4974,16 +4971,18 @@ function drawSectArchitecture(time){
   const bob=Math.sin(time*.00125+phase)*4.2;
   const drift=Math.sin(time*.0008+phase)*1.3;
   ctx.save();
-  // Quầng linh khí và bóng mờ lơ lửng bên dưới, tách công trình khỏi mặt đất.
-  const glow=ctx.createRadialGradient(x,y+18+bob,2,x,y+18+bob,75*s/.32);
-  glow.addColorStop(0,"rgba(190,238,220,.18)");
-  glow.addColorStop(.48,"rgba(160,222,209,.07)");
-  glow.addColorStop(1,"rgba(160,222,209,0)");
-  ctx.fillStyle=glow;ctx.beginPath();ctx.ellipse(x,y+18+bob,75*s/.32,22*s/.32,0,0,Math.PI*2);ctx.fill();
-  ctx.globalAlpha=.18;ctx.fillStyle="#d7f5e9";
-  ctx.beginPath();ctx.ellipse(x,y+29+bob,35*s/.32,5*s/.32,0,0,Math.PI*2);ctx.fill();
+  // Công trình được phép lơ lửng nhẹ; bỏ toàn bộ vòng/quầng bên dưới.
   ctx.restore();
-  drawSectPavilion(x+drift,y-5+bob,s,title,type,accent);
+  drawSectPavilion(x+drift,y-5+bob,s,"",type,accent);
+
+  // Bảng tên đặt ở tọa độ cố định, không đi theo chuyển động của lầu các.
+  ctx.save();
+  ctx.textAlign="center";ctx.textBaseline="middle";ctx.lineJoin="round";
+  ctx.font="bold 12px Arial, sans-serif";
+  ctx.lineWidth=2;ctx.strokeStyle="rgba(12,25,22,.98)";
+  ctx.strokeText(title,x,y-5-169*s,120);
+  ctx.fillStyle="#fff0c0";ctx.fillText(title,x,y-5-169*s,120);
+  ctx.restore();
  });
 }
 
