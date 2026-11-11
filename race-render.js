@@ -450,7 +450,7 @@ function drawAnnouncement() {
 
   const boxHeight = 45;
   const x = (W - boxWidth) / 2;
-  const y = 79;
+  const y = H - boxHeight - 24;
 
   ctx.fillStyle = isFinish
     ? "rgba(99,59,26,.94)"
