@@ -4716,3 +4716,99 @@ body.game-page:after{
  .arena-frame>.arena-controls #start .art-sword{width:27px!important;height:51px!important;}
  .arena-frame>.arena-controls #stop .art-stop{width:38px!important;height:38px!important;}
 }
+
+
+/* REVISION 63 — đặt hai nút điều khiển ở giữa hàng trên Góc Quan Sát và Tiên Bảng. */
+.arena-frame>.arena-controls{
+  position:relative!important;
+  z-index:140!important;
+  grid-column:1 / -1!important;
+  grid-row:2!important;
+  left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;
+  justify-self:center!important;
+  align-self:center!important;
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:clamp(18px,3vw,30px)!important;
+  width:max-content!important;
+  min-width:0!important;
+  max-width:none!important;
+  height:58px!important;
+  min-height:58px!important;
+  margin:0 auto!important;
+  padding:0!important;
+  transform:none!important;
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  border-radius:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  overflow:visible!important;
+}
+.arena-frame>.arena-controls>#start,
+.arena-frame>.arena-controls>#stop{
+  position:relative!important;
+  display:grid!important;
+  place-items:center!important;
+  flex:0 0 48px!important;
+  width:48px!important;height:54px!important;
+  min-width:48px!important;min-height:54px!important;
+  max-width:48px!important;max-height:54px!important;
+  margin:0!important;padding:0!important;
+  color:#f8e6b5!important;
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  border:0!important;border-radius:0!important;
+  outline:0!important;box-shadow:none!important;
+  appearance:none!important;-webkit-appearance:none!important;
+  overflow:visible!important;
+}
+.arena-frame>.arena-controls>#start .btn-icon,
+.arena-frame>.arena-controls>#stop .btn-icon{
+  display:grid!important;place-items:center!important;
+  width:100%!important;height:100%!important;
+  margin:0!important;padding:0!important;
+  background:transparent!important;border:0!important;box-shadow:none!important;
+  font-size:0!important;line-height:0!important;
+}
+.arena-frame>.arena-controls #start .art-sword{
+  width:31px!important;height:54px!important;
+  filter:drop-shadow(0 0 2px rgba(255,246,205,.95)) drop-shadow(0 0 7px rgba(116,218,191,.72))!important;
+}
+.arena-frame>.arena-controls #stop .art-stop{
+  width:42px!important;height:42px!important;
+  filter:drop-shadow(0 0 3px rgba(255,220,150,.8))!important;
+}
+.arena-frame>.arena-controls #start .btn-label,
+.arena-frame>.arena-controls #stop .btn-label{display:none!important;}
+.arena-frame>.arena-controls>#start:active,
+.arena-frame>.arena-controls>#stop:active{
+  transform:scale(.92)!important;
+  background:transparent!important;box-shadow:none!important;
+}
+@media(max-width:760px){
+  .arena-frame>.arena-controls{
+    grid-column:1 / -1!important;
+    grid-row:2!important;
+    gap:15px!important;
+    height:48px!important;min-height:48px!important;
+    margin:0 auto!important;
+  }
+  .arena-frame>.arena-controls>#start,
+  .arena-frame>.arena-controls>#stop{
+    flex-basis:42px!important;width:42px!important;height:46px!important;
+    min-width:42px!important;min-height:46px!important;
+    max-width:42px!important;max-height:46px!important;
+  }
+  .arena-frame>.arena-controls #start .art-sword{width:27px!important;height:46px!important;}
+  .arena-frame>.arena-controls #stop .art-stop{width:37px!important;height:37px!important;}
+}
