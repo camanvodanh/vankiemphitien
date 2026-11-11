@@ -4275,3 +4275,31 @@ function drawSectArchitecture(time){
     drawSectPavilion(x,y-5,s,title,type,accent);
   });
 }
+
+
+// Gender-aware racer rendering override (final definition).
+function drawRacer(target,racer,x,y,scale,time){
+  const female=racer.gender==="female",skin=female?"#f4c9a5":"#dfae89",hair=female?"#211b2b":"#29242a";
+  target.save();target.translate(x,y+Math.sin(time*.009+racer.phase)*2);target.scale(scale,scale);
+  const glow=target.createRadialGradient(0,0,3,0,0,47);glow.addColorStop(0,"rgba(255,225,139,.42)");glow.addColorStop(1,"rgba(255,225,139,0)");target.fillStyle=glow;target.fillRect(-50,-48,100,96);
+  if(racer.effectTimer>0){const pulse=1+Math.sin(time*.025)*.12,color=racer.effectType==="boost"?"#ffe17b":racer.effectType==="slow"?"#8de8ef":"#ff9a72";target.save();target.globalAlpha=.8;target.strokeStyle=color;target.lineWidth=2.2;target.beginPath();target.ellipse(0,4,43*pulse,17*pulse,0,0,Math.PI*2);target.stroke();target.globalAlpha=.32;target.lineWidth=5;target.beginPath();target.ellipse(0,4,51*pulse,22*pulse,0,0,Math.PI*2);target.stroke();target.restore();}
+  drawRacingArtifact(target,artifactKind(racer),time*.004+racer.phase,racer.swordColor||0);
+  target.save();target.globalAlpha=.75;target.strokeStyle=racer.effectTimer>0?"#fff0a6":"rgba(255,235,170,.5)";target.lineWidth=1.3;target.beginPath();target.moveTo(-37,20);target.lineTo(38,18);target.stroke();target.restore();
+  target.fillStyle=racer.dark;target.beginPath();
+  if(female){target.moveTo(-7,-8);target.lineTo(7,-8);target.lineTo(13,1);target.lineTo(19,19);target.quadraticCurveTo(0,25,-19,19);target.lineTo(-13,1);target.closePath();}
+  else{target.moveTo(-11,-8);target.lineTo(11,-8);target.lineTo(16,17);target.lineTo(-16,17);target.closePath();}
+  target.fill();target.fillStyle=racer.color;target.beginPath();
+  if(female){target.moveTo(-7,-8);target.lineTo(7,-8);target.lineTo(9,5);target.lineTo(16,18);target.quadraticCurveTo(0,22,-16,18);target.lineTo(-9,5);target.closePath();}
+  else{target.moveTo(-9,-8);target.lineTo(9,-8);target.lineTo(12,16);target.lineTo(-12,16);target.closePath();}
+  target.fill();
+  target.strokeStyle="#f2dfb1";target.lineWidth=2;target.beginPath();target.moveTo(-4,-8);target.lineTo(2,2);target.lineTo(7,-6);target.stroke();target.fillStyle="#e8cb83";target.fillRect(-9,5,18,2.5);
+  target.fillStyle=skin;target.beginPath();target.ellipse(0,-20,female?6:6.5,8,0,0,Math.PI*2);target.fill();target.fillStyle=hair;
+  if(female){target.beginPath();target.arc(0,-25,7,Math.PI,Math.PI*2);target.fill();target.fillRect(-7,-25,3,19);target.fillRect(5,-25,3,19);target.beginPath();target.arc(3,-32,4,0,Math.PI*2);target.fill();target.strokeStyle="#f0d18c";target.lineWidth=1.8;target.beginPath();target.moveTo(3,-32);target.lineTo(12,-37);target.stroke();}
+  else{target.fillRect(-7,-27,14,5);target.fillRect(-5,-32,10,6);target.beginPath();target.ellipse(0,-36,4,5,0,0,Math.PI*2);target.fill();}
+  target.fillStyle="#382d2a";target.beginPath();target.arc(-2,-20,1,0,Math.PI*2);target.arc(3,-20,1,0,Math.PI*2);target.fill();
+  target.strokeStyle=skin;target.lineWidth=female?5:6;target.lineCap="round";target.beginPath();target.moveTo(-8,-5);target.lineTo(-17,7);target.moveTo(8,-5);target.lineTo(17,7);target.stroke();
+  target.fillStyle=racer.color;target.beginPath();target.moveTo(-12,-7);target.lineTo(-19,5);target.lineTo(-13,9);target.lineTo(-7,0);target.closePath();target.fill();target.beginPath();target.moveTo(12,-7);target.lineTo(19,5);target.lineTo(13,9);target.lineTo(7,0);target.closePath();target.fill();
+  target.save();target.globalAlpha=.78;target.fillStyle=racer.color;target.beginPath();const tail=racer.effectType==="boost"?-25:racer.effectType==="slow"?-10:-17;target.moveTo(-7,-4);target.quadraticCurveTo(tail-10,-1,tail,-13);target.lineTo(-4,-8);target.closePath();target.fill();target.restore();
+  if(racer.effectTimer>0&&racer.effectName&&target!==cameraCtx){target.save();target.font="bold 7px Arial,sans-serif";target.textAlign="center";target.textBaseline="middle";target.lineJoin="round";target.lineWidth=2.2;target.strokeStyle="rgba(14,25,24,.98)";target.strokeText(racer.effectName,0,-65,126);target.fillStyle="#fff1bd";target.fillText(racer.effectName,0,-65,126);target.restore();}
+  target.restore();
+}
