@@ -4667,17 +4667,32 @@ function drawCrowd(time){
     drawSpectator(x,y,.43,"core",time,i*.73);
   }
 
-  // Các tầng đệ tử phổ thông tụ đông xung quanh nhưng vẫn có khe đứng riêng.
+  // Nội môn: tách khỏi cụm nòng cốt ở chính giữa.
+  // Chia đều thành hai cánh trái/phải, mỗi cánh 32 người (4 hàng x 8 người).
+  // Chừa hành lang trung tâm để nòng cốt có không gian riêng.
+  const innerSide=[
+    {x0:18,dir:1},
+    {x0:682,dir:1}
+  ];
+  innerSide.forEach((side,si)=>{
+    for(let i=0;i<32;i++){
+      const col=i%8,row=Math.floor(i/8);
+      const x=side.x0+col*54+Math.sin(i*1.37+si)*2.2;
+      const y=674+row*17+Math.sin(i*1.83+si)*1.8;
+      drawSpectator(x,y,.36,"inner",time,i*.59+si*2.1);
+    }
+  });
+
+  // Ngoại môn và tạp dịch xếp thành các dải phía dưới, phủ đều chiều ngang.
   const groups=[
-    {role:"inner",count:64,scale:.37,y0:684,y1:735},
-    {role:"outer",count:92,scale:.34,y0:705,y1:765},
-    {role:"servant",count:132,scale:.30,y0:735,y1:798}
+    {role:"outer",count:92,scale:.33,y0:746,y1:775},
+    {role:"servant",count:132,scale:.29,y0:778,y1:808}
   ];
   groups.forEach((g,gi)=>{
     for(let i=0;i<g.count;i++){
       const col=i%48,row=Math.floor(i/48);
-      const x=12+col*23+Math.sin(i*2.17+gi)*6+(row%2)*5;
-      const y=g.y0+(g.y1-g.y0)*((row+.5)/Math.max(1,Math.ceil(g.count/48)))+Math.sin(i*1.91+gi)*7;
+      const x=12+col*23+Math.sin(i*2.17+gi)*5+(row%2)*4;
+      const y=g.y0+(g.y1-g.y0)*((row+.5)/Math.max(1,Math.ceil(g.count/48)))+Math.sin(i*1.91+gi)*3;
       drawSpectator(x,y,g.scale,g.role,time,i*.59+gi*2.1);
     }
   });
