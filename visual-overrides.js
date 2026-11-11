@@ -2660,12 +2660,16 @@ function drawCrowd(time){
  const core=Array.from({length:12},(_,i)=>[52+i*90,713]);
  core.forEach(([x,y],i)=>{drawVIPAura(x,y-9,27,"#b8e5d6",time,i*.61,.30);drawVIPChair(x,y,.53,"#466b61",time,i*.55);drawFormalSpectator(x,y-6,.48,"core",time,i*.52);});
  const rows=[
-  {role:"inner",count:34,y:739,start:2,step:33,scale:.42},
-  {role:"outer",count:44,y:760,start:-2,step:25,scale:.37},
-  {role:"servant",count:58,y:781,start:-4,step:19,scale:.32},
-  {role:"servant",count:66,y:799,start:-5,step:17,scale:.28}
+  {role:"inner",count:38,y:727,start:2,step:29,scale:.44,spread:12},
+  {role:"outer",count:52,y:746,start:-2,step:21,scale:.40,spread:15},
+  {role:"servant",count:66,y:765,start:-4,step:17,scale:.35,spread:17},
+  {role:"servant",count:78,y:783,start:-5,step:14,scale:.31,spread:18}
  ];
- rows.forEach((row,ri)=>{for(let i=0;i<row.count;i++){const x=row.start+i*row.step+(i%2)*4,y=row.y+Math.sin(time*.002+i*.73+ri)*1.25;drawSpectator(x,y,row.scale,row.role,time,i*.59+ri);}});
+ rows.forEach((row,ri)=>{for(let i=0;i<row.count;i++){
+  const x=row.start+i*row.step+Math.sin(i*2.399+ri)*6+(i%2)*2;
+  const y=row.y+Math.sin(i*1.73+ri*2.1)*row.spread+Math.cos(i*.43+ri)*3;
+  drawSpectator(x,y,row.scale,row.role,time,i*.59+ri);
+ }});
  drawCrowdFlag(12,714,"#a53f36",time);drawCrowdFlag(W-18,714,"#b18a43",time);
 }
 
