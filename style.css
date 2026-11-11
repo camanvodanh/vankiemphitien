@@ -933,3 +933,35 @@ body.game-page{
   overflow:hidden;
   text-overflow:ellipsis;
 }
+
+
+/* GÓC QUAN SÁT LỚN HƠN — ƯU TIÊN NHÌN RÕ NHÂN VẬT */
+.game-camera{
+  width:clamp(250px,32%,390px)!important;
+  padding:10px!important;
+}
+.game-camera .camera-heading{margin-bottom:7px!important;}
+.game-camera .camera-heading h3{font-size:13px!important;}
+.game-camera .eyebrow{font-size:8px!important;}
+.game-camera .camera-live{font-size:9px!important;}
+.game-camera .camera-screen{width:100%;overflow:hidden;}
+.game-camera #leaderCanvas{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:none!important;
+  aspect-ratio:420/240;
+}
+@media(max-width:760px){
+  .game-camera{
+    width:clamp(158px,46%,230px)!important;
+    max-width:60%!important;
+    padding:7px!important;
+  }
+  .game-camera #leaderCanvas{max-height:none!important;}
+  .game-camera .camera-heading h3{font-size:10px!important;}
+  .game-camera .eyebrow,.game-camera .camera-live{font-size:7px!important;}
+}
+@media(max-width:390px){
+  .game-camera{width:clamp(150px,48%,205px)!important;}
+}
