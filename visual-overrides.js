@@ -4257,8 +4257,10 @@ function drawSpectator(x,y,scale,roleName,time,phase=0){
  const female=seed%2===1,skin=["#f6d2b5","#e9b993","#d69a76","#f0c5a0","#bd805f"][seed%5];
  const hair=["#211a25","#39251f","#171d2c","#5a3027","#29242a"][(seed*3)%5];
  const sway=Math.sin(time*.004+phase);
- const crowdApplause=!!(finished&&racers.length&&finishQueue.length>=racers.length);
- const crowdCheer=!crowdApplause&&finishQueue.length>0;
+ // Nhóm tôn vị giữ phong thái nghiêm trang, tuyệt đối không tham gia cổ vũ.
+ const dignitary=["core","disciple","elder","master"].includes(roleName);
+ const crowdApplause=!dignitary&&!!(finished&&racers.length&&finishQueue.length>=racers.length);
+ const crowdCheer=!dignitary&&!crowdApplause&&finishQueue.length>0;
  const beat=time*.012+phase*.7;
  const jump=crowdCheer?Math.max(0,Math.sin(beat))*10:crowdApplause?Math.abs(Math.sin(beat*.72))*1.5:0;
  ctx.save();ctx.translate(x,y+Math.sin(time*.006+phase)*.8-jump);ctx.scale(scale*role.scale,scale);
@@ -4314,6 +4316,10 @@ function drawSpectator(x,y,scale,roleName,time,phase=0){
    // Nội môn: chắp tay kiếm quyết rồi nâng tay hô cổ vũ.
    leftHand=[-8,-24+Math.sin(beat)*4];rightHand=[19,-18-Math.sin(beat)*5];
    leftElbow=[-15,-9];rightElbow=[15,-8];
+ }else if(dignitary){
+   // Nòng cốt, chân truyền, trưởng lão và chưởng môn giữ tay áo ngay ngắn trước thân.
+   leftHand=[-5,5];rightHand=[5,5];
+   leftElbow=[-14,-1];rightElbow=[14,-1];
  }else{
    leftHand=[-18,-13+Math.sin(beat)*5];rightHand=[18,-13-Math.sin(beat)*5];
    leftElbow=[-15,-3];rightElbow=[15,-3];
