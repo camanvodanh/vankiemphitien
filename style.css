@@ -615,3 +615,11 @@ body,button,input,textarea,select,label,.lock-notice,.status,.camera-info,table,
 #leaderProgress{min-width:0;max-width:calc(100% - 74px);font-size:clamp(11px,1.45vw,15px);line-height:1.35;white-space:normal;overflow-wrap:anywhere;}
 .camera-live{flex:0 0 auto;margin-top:3px;}
 @media(max-width:480px){#leaderProgress{font-size:11px;letter-spacing:0;}}
+
+
+/* LIVE RANK MOVEMENT — green up / red down. */
+.rank-movement{display:inline-block;min-width:1em;margin-left:3px;font-family:Arial,sans-serif;font-size:.92em;font-weight:900;line-height:1;vertical-align:middle}
+.rank-up{color:#159447;text-shadow:0 0 3px #15944733}
+.rank-down{color:#df3434;text-shadow:0 0 3px #df343433}
+.rank-stable{color:#a89b80;font-size:.82em}
+.rank-position{display:inline-block;min-width:1.25em;text-align:center}
