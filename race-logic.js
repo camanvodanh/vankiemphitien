@@ -609,7 +609,7 @@ function finishRace(){
  finished=true;running=false;paused=false;started=true;
  eventText="";eventTextLife=0;finishMessage="";finishMessageLife=0;
  $("status").textContent="Đại hội kết thúc · Vinh danh top 3";
- $("pause").textContent="Tạm dừng";
+ $("pause").textContent="Tiếp";
  setSettingsLocked(false);
  $("lockNotice").textContent="Tiếp theo: Nhấn Triệu hồi để mở đại hội mới.";
  syncButtons();updateRanking();
@@ -808,7 +808,7 @@ function stopRace(){
  countdown=0;countdownAccumulator=0;
  $("status").textContent="Cuộc đua đã dừng";
  $("pause").hidden=true;$("pause").disabled=true;
- $("start").querySelector(".btn-label").textContent="Bắt đầu lại";
+ $("start").querySelector(".btn-label").textContent="Chạy lại";
  setSettingsLocked(false);
  $("lockNotice").textContent="Cuộc đua đã dừng. Có thể bắt đầu lại hoặc mở Thiết lập để thay đổi danh sách.";
  setSetupPanel(true);syncButtons();render(performance.now());
