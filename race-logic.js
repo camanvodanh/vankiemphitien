@@ -533,7 +533,7 @@ function summon(){
   const typed=getInputNames(),amount=getRandomQuantity();
   const finalNames=typed.length?typed:generateCultivationNames(amount);
   if(!finalNames.length)return;
-  if(finalNames.length>100){$("lockNotice").textContent="Danh sách tối đa 100 tiên nhân.";return;}
+  if(finalNames.length>100){$("lockNotice").textContent="Tối đa 100 tiên nhân. Hãy rút gọn danh sách rồi triệu hồi lại.";return;}
   racers=finalNames.map((name,index)=>createRacer(name,index));
   racers.forEach(r=>{r.swordStyle=randInt(0,11);r.swordColor=randInt(0,9);if(r.gender==="female")r.swordColor=randInt(0,3);else r.swordColor=randInt(4,7);});
   duration=Number($("speed").value);
@@ -543,9 +543,9 @@ function summon(){
   finishMessage="";finishMessageLife=0;particles=[];
   assignFinishTimes();
   $("status").textContent="Đã triệu hồi";
-  $("lockNotice").textContent=typed.length?"Số lượng lấy theo danh sách tên, đã loại tên trùng.":"Đã tạo "+racers.length+" tiên nhân với tên tu tiên ngẫu nhiên.";
+  $("lockNotice").textContent="Tiếp theo: Nhấn Bắt đầu để khai mở cuộc đua.";
   $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa khai mở";
-  setSettingsLocked(false);$("lockNotice").textContent="Đã triệu hồi "+racers.length+" tiên nhân · sẵn sàng tranh phong.";syncButtons();render(performance.now());
+  setSettingsLocked(false);$("lockNotice").textContent="Tiếp theo: Nhấn Bắt đầu để khai mở cuộc đua.";syncButtons();render(performance.now());
 }
 function setSettingsLocked(value){
   locked=value;["speed","quantity","names","summon"].forEach(id=>$(id).disabled=value);
@@ -575,10 +575,10 @@ function startRace(){
   assignFinishTimes();started=false;finished=false;paused=false;running=true;
   $("status").textContent="Bắt đầu sau 3...";
   $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa có thứ hạng";
-  setSettingsLocked(true);$("lockNotice").textContent="Tiên hội sắp khai mở.";syncButtons();
+  setSettingsLocked(true);$("lockNotice").textContent="Tiếp theo: Chờ đếm ngược rồi theo dõi cuộc đua.";syncButtons();
 }
-function togglePause(){if(!running||finished)return;running=false;paused=true;$("status").textContent="Đang tạm dừng";$("lockNotice").textContent="Tiên hội tạm dừng.";syncButtons();}
-function resumeRace(){if(!paused||finished)return;paused=false;running=true;$("status").textContent=started?"Đang tranh phong":"Bắt đầu sau "+countdown+"...";$("lockNotice").textContent=started?"Tiên hội tiếp tục tranh phong.":"Tiên hội tiếp tục khai mở.";syncButtons();}
+function togglePause(){if(!running||finished)return;running=false;paused=true;$("status").textContent="Đang tạm dừng";$("lockNotice").textContent="Cuộc đua đang tạm dừng. Nhấn Tiếp tục để xem tiếp.";syncButtons();}
+function resumeRace(){if(!paused||finished)return;paused=false;running=true;$("status").textContent=started?"Đang tranh phong":"Bắt đầu sau "+countdown+"...";$("lockNotice").textContent=started?"Cuộc đua đang tiếp tục. Theo dõi nhân vật dẫn đầu.":"Tiếp theo: Chờ đếm ngược rồi theo dõi cuộc đua.";syncButtons();}
 function finishRace(){
  elapsed=duration;
  ceremonyStartedAt=performance.now();
@@ -594,14 +594,14 @@ function finishRace(){
  $("status").textContent="Đại hội kết thúc · Vinh danh top 3";
  $("pause").textContent="Tạm dừng";
  setSettingsLocked(false);
- $("lockNotice").textContent="Đại hội đã kết thúc · Tam giáp tiên hội đang được vinh danh.";
+ $("lockNotice").textContent="Tiếp theo: Nhấn Triệu hồi để mở đại hội mới.";
  syncButtons();updateRanking();
 }
 function resetGame(){
   racers=[];particles=[];running=false;paused=false;started=false;finished=false;
   countdown=0;countdownAccumulator=0;elapsed=0;eventClock=0;eventText="";eventTextLife=0;
   finishQueue=[];cameraFocusId=null;finishMessage="";finishMessageLife=0;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;
-  $("status").textContent="Chờ triệu hồi";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa khai mở";$("lockNotice").textContent="Đã làm mới · chờ triệu hồi.";
+  $("status").textContent="Chờ triệu hồi";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa khai mở";$("lockNotice").textContent="Bước 1: Nhập tên hoặc chọn số lượng, sau đó nhấn Triệu hồi.";
   setSettingsLocked(false);syncButtons();updateRanking();render(performance.now());
 }
 function leaderOf(){
