@@ -553,39 +553,23 @@ function startRace(){
 }
 function togglePause(){if(!running||finished)return;running=false;paused=true;$("status").textContent="Đang tạm dừng";$("lockNotice").textContent="Tiên hội tạm dừng.";syncButtons();}
 function resumeRace(){if(!paused||finished)return;paused=false;running=true;$("status").textContent=started?"Đang tranh phong":"Bắt đầu sau "+countdown+"...";$("lockNotice").textContent=started?"Tiên hội tiếp tục tranh phong.":"Tiên hội tiếp tục khai mở.";syncButtons();}
-function finishRace() {
-  elapsed = duration;
-
-  racers.forEach(racer => {
-    racer.progress = distance;
-    racer.finished = true;
-
-    if (racer.finishTime === null) {
-      racer.finishTime = duration;
-    }
-  });
-
-  finished = true;
-  running = false;
-  paused = false;
-  started = true;
-
-  $("status").textContent = "Đại hội kết thúc";
-
-  finishMessage = "ĐẠI HỘI KẾT THÚC!";
-  finishMessageLife = 3;
-
-  $("pause").textContent = "Tạm dừng";
-
-  // MỞ KHÓA THỜI GIAN, KHOẢNG CÁCH,
-  // SỐ LƯỢNG VÀ DANH SÁCH TIÊN NHÂN
-  setSettingsLocked(false);
-
-  $("lockNotice").textContent =
-    "Đại hội đã kết thúc. Thiết lập đã được mở khóa, có thể triệu hồi đại hội mới.";
-
-  syncButtons();
-  updateRanking();
+function finishRace(){
+ elapsed=duration;
+ ceremonyStartedAt=performance.now();
+ racers.forEach(racer=>{
+  racer.progress=distance;
+  racer.finished=true;
+  if(racer.finishTime===null)racer.finishTime=duration;
+  racer.speedMultiplier=1;racer.effectTimer=0;racer.effectType="";racer.effectName="";
+ });
+ cameraFocusId=null;
+ finished=true;running=false;paused=false;started=true;
+ eventText="";eventTextLife=0;finishMessage="";finishMessageLife=0;
+ $("status").textContent="Đại hội kết thúc · Đang trao giải top 3";
+ $("pause").textContent="Tạm dừng";
+ setSettingsLocked(false);
+ $("lockNotice").textContent="Đại hội đã kết thúc. Đang cử hành đại điển trao thưởng cho ba vị trí dẫn đầu.";
+ syncButtons();updateRanking();
 }
 function resetGame(){
   racers=[];particles=[];running=false;paused=false;started=false;finished=false;
