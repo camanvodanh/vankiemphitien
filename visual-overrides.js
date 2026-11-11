@@ -3384,6 +3384,9 @@ function drawSpiritBirds(time){
 
 
 // =====================================================
+
+function awardSmoothstep(t){t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);}
+
 // REVISION 4 — TIÊN HẠC, THÁC NƯỚC, RỪNG TIÊN,
 // CỔNG ĐÍCH THIÊN KHẢI VÀ CHƯỞNG MÔN NGỰ KIẾM TRAO GIẢI
 // =====================================================
@@ -3664,7 +3667,7 @@ function drawPodiumScene(target,time,mini=false){
     target.fillStyle="#8e3d35";target.fillRect(throneX-w*.035,throneY-h*.20,w*.07,h*.10);
     target.strokeStyle="#f0d28a";target.lineWidth=mini?1:3;target.strokeRect(throneX-w*.035,throneY-h*.20,w*.07,h*.10);
     // Bay từ ngai lên giữa sân, dừng lại trao tận tay rồi lướt về.
-    const flightIn=smoothstep(flightPhase/.34),flightOut=smoothstep((flightPhase-.84)/.16);
+    const flightIn=awardSmoothstep(flightPhase/.34),flightOut=awardSmoothstep((flightPhase-.84)/.16);
     const masterX=throneX+(w*.43-throneX)*flightIn-(w*.10)*flightOut;
     const masterY=throneY-h*.19-(h*.12)*Math.sin(Math.min(1,flightPhase/.84)*Math.PI*.72);
     const masterScale=mini?.43:1.12;
@@ -3678,7 +3681,7 @@ function drawPodiumScene(target,time,mini=false){
       target.font=mini?"bold 7px Arial":"bold 15px Georgia";target.fillStyle=color;
       target.fillText("HẠNG "+rank,winnerX,h*.92);
       // Pháp bảo được chuyển tận tay: viên ngọc bay khỏi tay chưởng môn sang tay người nhận.
-      const handoff=smoothstep((flightPhase-.42)/.25);
+      const handoff=awardSmoothstep((flightPhase-.42)/.25);
       const giftX=masterX+ (winnerX-masterX)*handoff;
       const giftY=h*.60-Math.sin(handoff*Math.PI)*h*.07;
       target.strokeStyle=color;target.lineWidth=mini?2:4;target.shadowColor=color;target.shadowBlur=mini?7:18;
