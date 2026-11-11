@@ -628,7 +628,7 @@ function drawCamera(time){
  cameraCtx.save();cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";
  if(racer.effectTimer>0&&racer.effectName){cameraCtx.font="bold 12px Arial, sans-serif";cameraCtx.lineWidth=3;cameraCtx.strokeStyle="rgba(15,27,25,.98)";cameraCtx.strokeText(racer.effectName,210,43,380);cameraCtx.fillStyle="#fff1bd";cameraCtx.fillText(racer.effectName,210,43,380);}
  cameraCtx.restore();
- $("leaderName").textContent=racer.name;const shift=racer.rankChangeTimer>0&&racer.rankChangeText?" · "+racer.rankChangeText:"";$("leaderProgress").textContent="Hạng "+rank+shift;
+ $("leaderName").textContent=racer.name;const shift=racer.rankChangeTimer>0&&racer.rankChangeText;$("leaderProgress").textContent=shift?racer.rankChangeText:"Hạng "+rank;
 }
 function updateRanking(){
  const sorted=sortedRacers();if(!sorted.length){$("rankBody").innerHTML='<tr><td colspan="3" class="empty">Chưa có tiên nhân</td></tr>';return;}
