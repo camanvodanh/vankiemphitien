@@ -3797,3 +3797,25 @@ body.game-page:after{
  .arena-frame>.game-setup:not(.is-minimized) .summon-footer{grid-template-columns:1fr 1fr!important;}
  .arena-frame>.game-setup:not(.is-minimized) #summon{grid-column:1 / -1!important;width:100%!important;}
 }
+
+
+/* REVISION 44 — phù kiếm bay, phù lệnh dừng rõ ràng; hiệu ứng nằm dưới màn camera. */
+.arena-frame>.arena-controls>#start,.arena-frame>.arena-controls>#stop{display:grid!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;}
+.arena-frame>.arena-controls>#start .art-sword{width:58px!important;height:48px!important;filter:drop-shadow(0 0 3px rgba(255,231,166,.8)) drop-shadow(0 0 9px rgba(107,190,160,.5))!important;}
+.arena-frame>.arena-controls>#stop .art-stop{width:48px!important;height:48px!important;filter:drop-shadow(0 0 3px rgba(255,220,150,.75)) drop-shadow(0 0 8px rgba(194,132,62,.45))!important;}
+.arena-frame>.arena-controls>#stop:disabled{opacity:1!important;}
+.arena-frame>.game-camera .camera-info{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:3px!important;text-align:center!important;padding:5px 6px 2px!important;}
+.arena-frame>.game-camera .camera-rank-slot{display:flex!important;justify-content:center!important;align-items:center!important;width:100%!important;text-align:center!important;}
+.arena-frame>.game-camera #leaderProgress{color:#f0d99d!important;font-size:12px!important;font-weight:800!important;letter-spacing:.025em!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:4px!important;margin:0!important;padding:0!important;}
+.arena-frame>.game-camera #leaderProgress::before{color:#f0d99d!important;font:inherit!important;letter-spacing:inherit!important;content:"Hạng"!important;margin:0 3px 0 0!important;}
+.arena-frame>.game-camera #leaderName{color:#f4e8ca!important;font-size:12px!important;font-weight:700!important;line-height:1.25!important;text-align:center!important;}
+.arena-frame>.game-camera>.camera-effect-slot{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-height:0!important;padding:0 6px 6px!important;box-sizing:border-box!important;text-align:center!important;}
+.arena-frame>.game-camera #leaderEffect{display:block!important;width:100%!important;max-width:100%!important;color:#b9e0ca!important;font-size:10px!important;font-weight:600!important;line-height:1.25!important;text-align:center!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;margin:0!important;padding:0!important;}
+.arena-frame>.game-camera #leaderEffect:empty{display:none!important;}
+.arena-frame>.game-camera #leaderEffect::before{content:none!important;display:none!important;}
+@media(max-width:760px){
+ .arena-frame>.arena-controls>#start .art-sword{width:50px!important;height:42px!important;}
+ .arena-frame>.arena-controls>#stop .art-stop{width:42px!important;height:42px!important;}
+ .arena-frame>.game-camera #leaderProgress,.arena-frame>.game-camera #leaderName{font-size:10px!important;}
+ .arena-frame>.game-camera #leaderEffect{font-size:9px!important;}
+}
