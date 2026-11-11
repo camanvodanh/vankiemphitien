@@ -4443,13 +4443,5 @@ function drawPodiumScene(target,time,mini=false){
  target.restore();
 }
 
-/* REVISION 17 — hạ quảng trường, nền và toàn bộ hàng đệ tử sát đáy canvas.
-   Đường đua và tầng trời giữ nguyên cao độ độc lập. */
-const __vkpDrawRiverBase = drawRiver;
-drawRiver = function(time){ctx.save();ctx.translate(0,210);__vkpDrawRiverBase(time);ctx.restore();};
-const __vkpDrawBridgeBase = drawBridge;
-drawBridge = function(){ctx.save();ctx.translate(0,210);__vkpDrawBridgeBase();ctx.restore();};
-const __vkpDrawCrowdBase = drawCrowd;
-drawCrowd = function(time){ctx.save();ctx.translate(0,210);__vkpDrawCrowdBase(time);ctx.restore();};
-const __vkpDrawNearBankBase = drawNearBankTerraces;
-drawNearBankTerraces = function(time){ctx.save();ctx.translate(0,210);__vkpDrawNearBankBase(time);ctx.restore();};
+/* REVISION 18 — bỏ phần đẩy quảng trường xuống thêm 210px.
+   Giữ cảnh quan ở tọa độ gốc để vừa khung canvas 1100 × 900. */
