@@ -4823,3 +4823,30 @@ body.game-page:after{
 /* REVISION 72 — ghi công nhạc nền Creative Commons, gọn trên màn hình điện thoại. */
 .music-attribution{display:block;flex-basis:100%;max-width:100%;color:#8b7958;font-size:9px;font-weight:500;letter-spacing:0;line-height:1.5;text-align:center;opacity:.82}
 @media(max-width:520px){.music-attribution{font-size:8px;padding:0 8px}}
+
+
+/* REVISION 73 — đưa cụm nút Chạy/Dừng lên mép trên bên trong sân đấu. */
+.arena-frame{position:relative!important;}
+.arena-frame>.arena-controls{
+  position:absolute!important;
+  z-index:180!important;
+  left:50%!important;right:auto!important;
+  top:10px!important;bottom:auto!important;
+  grid-column:auto!important;grid-row:auto!important;
+  justify-self:auto!important;align-self:auto!important;
+  transform:translateX(-50%)!important;
+  width:max-content!important;height:58px!important;min-height:58px!important;
+  margin:0!important;padding:0!important;
+  display:flex!important;flex-direction:row!important;
+  align-items:center!important;justify-content:center!important;
+  gap:clamp(18px,3vw,30px)!important;
+  background:transparent!important;border:0!important;box-shadow:none!important;
+  pointer-events:auto!important;
+}
+@media(max-width:760px){
+  .arena-frame>.arena-controls{
+    top:5px!important;bottom:auto!important;
+    height:48px!important;min-height:48px!important;
+    gap:15px!important;margin:0!important;
+  }
+}
