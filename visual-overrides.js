@@ -4364,7 +4364,7 @@ function drawRacer(target,racer,x,y,scale,time){
   const wave=Math.sin(phase*7+racer.phase),pulse=Math.sin(phase*10+racer.phase);let actionX=0,actionY=0,actionAngle=0;
   switch(activeEffect){
    case "poison":actionX=wave*1.8;actionAngle=wave*.075;break;case "weak":actionY=2+Math.abs(wave)*1.8;actionAngle=.12+wave*.025;break;
-   case "pill":actionY=-3-Math.abs(wave)*3;actionAngle=-.045;break;case "impact":actionY=Math.abs(pulse)*9;actionX=Math.sin(phase*18)*2;actionAngle=wave*.14;break;
+   case "pill":actionY=-3-Math.abs(wave)*3;actionAngle=-.045;break;case "qi_pill":actionY=-2-Math.abs(Math.sin(phase*12))*4;actionX=2+Math.sin(phase*5)*2;actionAngle=-.08;break;case "impact":actionY=Math.abs(pulse)*9;actionX=Math.sin(phase*18)*2;actionAngle=wave*.14;break;
    case "lightning":actionX=Math.sin(phase*38)*3.5;actionY=Math.cos(phase*31)*2;actionAngle=Math.sin(phase*34)*.09;break;
    case "gale":actionX=wave*3;actionY=Math.sin(phase*5)*2;actionAngle=wave*.27;break;case "dizzy":actionAngle=Math.sin(phase*8+racer.phase)*.72;break;
    case "faint":actionY=4+Math.abs(wave)*2;actionAngle=.34+Math.sin(phase*5)*.07;break;case "boost":actionX=4+Math.sin(phase*5)*2;actionY=-2-Math.abs(wave)*2;actionAngle=-.16;break;
@@ -4461,10 +4461,16 @@ function drawRacer(target,racer,x,y,scale,time){
       target.globalAlpha=.72*fade;target.strokeStyle="#a2e66d";target.fillStyle="#8acb62";target.lineWidth=1.7;
       for(let i=0;i<4;i++){const px=-18+i*12,py=-37-Math.abs(Math.sin(t*2+i))*7;target.beginPath();target.arc(px,py,2.2+(i%2),0,Math.PI*2);target.fill();target.beginPath();target.moveTo(px,py+5);target.quadraticCurveTo(px-5,py-2,px+1,py-9);target.stroke();}
       target.globalAlpha=.34;target.fillStyle="#77b85c";target.beginPath();target.ellipse(0,-19,10,12,0,0,Math.PI*2);target.fill();
-    }else if(activeEffect==="weak"||activeEffect==="faint"){
-      target.globalAlpha=.8*fade;target.fillStyle="#d8e4e8";target.beginPath();target.ellipse(9,-24,2,4,0,0,Math.PI*2);target.fill();
-      target.strokeStyle="#b9d0d2";target.lineWidth=1.3;target.beginPath();target.moveTo(-17,1);target.quadraticCurveTo(-26,7,-30,14);target.stroke();
-      if(activeEffect==="faint"){target.globalAlpha=.72;target.fillStyle="#e2e8ed";target.font="bold 8px Arial";target.textAlign="center";target.fillText("Z",14,-39+Math.sin(t*3)*2);target.fillText("Z",21,-47+Math.sin(t*3+1)*2);}
+    }else if(activeEffect==="weak"){
+      // Suy lực: linh khí rò rỉ thành dải bụi xám rơi xuống.
+      target.globalAlpha=.82*fade;target.strokeStyle="#b9c5c9";target.lineWidth=2;
+      for(let n=0;n<4;n++){const px=-20+n*13,fall=(t*22+n*11)%35;target.beginPath();target.moveTo(px,-31+fall);target.quadraticCurveTo(px+5,-23+fall,px+1,-17+fall);target.stroke();}
+      target.fillStyle="#d6e0e2";for(let n=0;n<5;n++){const px=-24+n*12,py=8+(t*13+n*7)%22;target.fillRect(px,py,2,4);}
+    }else if(activeEffect==="faint"){
+      // Ngất: dấu sao tắt dần và chữ Z lơ lửng trên đầu.
+      target.globalAlpha=.72*fade;target.strokeStyle="#cbd7df";target.lineWidth=1.5;
+      for(let n=0;n<3;n++){const aa=t*1.4+n*Math.PI*2/3,px=Math.cos(aa)*18,py=-43+Math.sin(aa)*7;target.beginPath();target.moveTo(px-3,py);target.lineTo(px+3,py);target.moveTo(px,py-3);target.lineTo(px,py+3);target.stroke();}
+      target.fillStyle="#e2e8ed";target.font="bold 8px Arial";target.textAlign="center";target.fillText("Z",14,-39+Math.sin(t*3)*2);target.fillText("Z",21,-47+Math.sin(t*3+1)*2);
     }else if(activeEffect==="impact"){
       target.globalAlpha=.9*fade;target.strokeStyle="#ffb27b";target.lineWidth=2.2;
       for(let i=0;i<5;i++){const aa=i*Math.PI*2/5+t*2;target.beginPath();target.moveTo(Math.cos(aa)*12,Math.sin(aa)*8-5);target.lineTo(Math.cos(aa)*27,Math.sin(aa)*17-5);target.stroke();}
@@ -4528,6 +4534,19 @@ function drawRacer(target,racer,x,y,scale,time){
       if(progress<.64){target.fillStyle="#e8a9f2";target.strokeStyle="#fff0c7";target.lineWidth=1.2;target.shadowColor="#ffb7ff";target.shadowBlur=8;target.beginPath();target.ellipse(handX-1,handY-5,3.2,4.2,.3,0,Math.PI*2);target.fill();target.stroke();target.shadowBlur=0;}
       if(progress>.48){target.globalAlpha=.35*fade;target.fillStyle="#ffe9a8";target.beginPath();target.ellipse(0,-20,10,12,0,0,Math.PI*2);target.fill();}
     }
+    if(activeEffect==="qi_pill"){
+      // Tụ Khí Đan: giơ viên đan xanh ngọc lên cao, nuốt rồi hấp thu linh khí.
+      const lift=Math.min(1,progress/.24),drink=Math.max(0,Math.min(1,(progress-.24)/.30));
+      const smooth=n=>n*n*(3-2*n),p=smooth(lift),q=smooth(drink),hx=13-10*q,hy=-8-18*p+8*q;
+      target.globalAlpha=.98*fade;target.strokeStyle=skin;target.lineWidth=4.4;target.lineCap="round";
+      target.beginPath();target.moveTo(9,-2);target.quadraticCurveTo(19,-17,hx,hy+3);target.stroke();
+      target.fillStyle=skin;target.beginPath();target.arc(hx,hy,3.1,0,Math.PI*2);target.fill();
+      if(progress<.54){target.shadowColor="#65f2d1";target.shadowBlur=12;target.fillStyle="#67d8b5";target.strokeStyle="#e1fff2";target.lineWidth=1.4;target.beginPath();target.moveTo(hx,hy-11);target.quadraticCurveTo(hx+7,hy-3,hx,hy+1);target.quadraticCurveTo(hx-7,hy-3,hx,hy-11);target.closePath();target.fill();target.stroke();target.shadowBlur=0;}
+      target.globalAlpha=.7*fade;target.strokeStyle="#8fffe0";target.lineWidth=1.4;
+      for(let n=0;n<3;n++){const aa=t*3+n*Math.PI*2/3;target.beginPath();target.arc(0,-20,13+n*4,aa,aa+1.2);target.stroke();}
+      if(progress>.54){target.globalAlpha=.42*fade;target.fillStyle="#a5ffe5";target.beginPath();target.arc(0,-20,11+Math.sin(t*8)*2,0,Math.PI*2);target.fill();}
+    }
+
     if(activeEffect==="formation"){
       // Tụ Linh Trận: trận đồ ba tầng, bát quái, linh tuyến nối các trận nhãn và phù văn cổ.
       const rot=-t*.58,pulse=.88+.12*Math.sin(t*5);
