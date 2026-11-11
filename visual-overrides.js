@@ -2108,3 +2108,317 @@ function drawImmortalFinishGate() {
   ctx.lineTo(x+105,ground+17);ctx.lineTo(x-100,ground+17);ctx.closePath();ctx.fill();
   ctx.restore();
 }
+
+
+// REVISION 8 — chỉnh bố cục và phong cảnh.
+TRACK.top = 155;
+TRACK.bottom = 575;
+
+function drawRaceHud() {
+  const remaining = Math.max(0, duration - elapsed);
+  ctx.save();
+  ctx.font = "bold 25px Arial";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "top";
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = "rgba(22,43,34,.78)";
+  ctx.strokeText(timeText(remaining), W / 2, 13);
+  ctx.fillStyle = "#fff0c4";
+  ctx.fillText(timeText(remaining), W / 2, 13);
+  ctx.restore();
+}
+
+function drawAnnouncement() {
+  const message = finishMessageLife > 0 ? finishMessage : eventTextLife > 0 ? eventText : "";
+  if (!message) return;
+  const isFinish = finishMessageLife > 0;
+  const life = isFinish ? finishMessageLife : eventTextLife;
+  ctx.save();
+  ctx.globalAlpha = clamp(life / .55, 0, 1);
+  ctx.font = "bold 15px Arial";
+  const boxW = Math.min(W - 260, Math.max(230, ctx.measureText(message).width + 28));
+  const boxH = 30, x = (W - boxW) / 2, y = 62;
+  ctx.fillStyle = isFinish ? "rgba(99,59,26,.9)" : "rgba(24,52,41,.88)";
+  ctx.fillRect(x, y, boxW, boxH);
+  ctx.strokeStyle = "#e4c27e"; ctx.lineWidth = 1.3;
+  ctx.strokeRect(x + .5, y + .5, boxW - 1, boxH - 1);
+  ctx.fillStyle = isFinish ? "#ffe7a7" : "#f6dfa2";
+  ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillText(message, W / 2, y + boxH / 2, boxW - 18);
+  ctx.restore();
+}
+
+function drawVIPChair(x, y, scale, tone, time, phase = 0) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(scale, scale);
+  ctx.fillStyle = "rgba(19,30,24,.32)";
+  ctx.beginPath(); ctx.ellipse(0, 22, 22, 5, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#59452f";
+  ctx.fillRect(-15, 8, 4, 17); ctx.fillRect(11, 8, 4, 17); ctx.fillRect(-17, 21, 34, 3);
+  ctx.fillStyle = tone;
+  ctx.beginPath(); ctx.moveTo(-17, 8); ctx.lineTo(-17, -27);
+  ctx.quadraticCurveTo(0, -39, 17, -27); ctx.lineTo(17, 8); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = "#e8cf91"; ctx.lineWidth = 2; ctx.stroke();
+  ctx.fillStyle = "rgba(255,235,184,.18)";
+  ctx.beginPath(); ctx.moveTo(-12, 4); ctx.lineTo(-12, -24);
+  ctx.quadraticCurveTo(0, -32, 12, -24); ctx.lineTo(12, 4); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = "#b99457";
+  ctx.fillRect(-22, -3, 7, 6); ctx.fillRect(15, -3, 7, 6);
+  ctx.fillRect(-20, 1, 4, 13); ctx.fillRect(16, 1, 4, 13);
+  ctx.fillStyle = "#f5dfaa"; ctx.globalAlpha = .5 + Math.sin(time * .002 + phase) * .08;
+  ctx.beginPath(); ctx.arc(-18, -5, 3, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(18, -5, 3, 0, Math.PI * 2); ctx.fill();
+  ctx.globalAlpha = 1; ctx.fillStyle = "#d8bd83";
+  ctx.beginPath(); ctx.moveTo(-18, 7); ctx.quadraticCurveTo(0, 2, 18, 7);
+  ctx.lineTo(15, 14); ctx.lineTo(-15, 14); ctx.closePath(); ctx.fill();
+  ctx.restore();
+}
+
+function drawCrowd(time) {
+  drawVIPChair(550, 672, 1.38, "#762f32", time, 0);
+  drawFormalSpectator(550, 662, 1.18, "master", time, 0);
+  drawRoleLabel(550, 615, "CHƯỞNG MÔN", "#f2d17d", 1.1);
+
+  const elders = [
+    [58,696],[145,689],[232,684],[319,689],[406,696],[475,699],
+    [625,699],[694,696],[781,689],[868,684],[955,689],[1042,696]
+  ];
+  elders.forEach(([x,y],i) => {
+    drawVIPChair(x,y,.86,"#5b456b",time,i);
+    drawFormalSpectator(x,y-7,.78,"elder",time,i*.8);
+  });
+  drawRoleLabel(260,642,"TRƯỞNG LÃO","#d4b5fa",.95);
+  drawRoleLabel(840,642,"TRƯỞNG LÃO","#d4b5fa",.95);
+
+  const disciples = [
+    [385,650],[440,650],[495,650],[605,650],[660,650],[715,650],
+    [412,713],[474,713],[626,713],[688,713]
+  ];
+  disciples.forEach(([x,y],i) => {
+    drawVIPChair(x,y,.72,"#405d82",time,i*.7);
+    drawFormalSpectator(x,y-8,.69,"disciple",time,i);
+  });
+  drawRoleLabel(550,624,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.92);
+
+  const rows = [
+    {y:748,count:35,x:4,step:32,scale:.62,role:"servant"},
+    {y:773,count:36,x:-3,step:31,scale:.58,role:"outer"},
+    {y:796,count:37,x:-8,step:30,scale:.52,role:"inner"}
+  ];
+  rows.forEach((row,ri) => {
+    for(let i=0;i<row.count;i++) {
+      drawSpectator(row.x+i*row.step+(i%2)*6,
+        row.y+Math.sin(time*.002+i+ri)*1.6,
+        row.scale,row.role,time,i*.57+ri);
+    }
+  });
+  drawCrowdFlag(12,728,"#a53f36",time);
+  drawCrowdFlag(W-18,728,"#b18a43",time);
+}
+
+// Hồ và sông nhập thành một lòng nước liên tục; gợn ngắn theo dòng chảy.
+function drawMountainStream(time) {
+  ctx.save(); ctx.lineJoin = "round"; ctx.lineCap = "round";
+  const basin = () => {
+    ctx.beginPath();
+    ctx.moveTo(-100,485);
+    ctx.bezierCurveTo(-55,430,35,418,125,450);
+    ctx.bezierCurveTo(190,474,210,500,280,506);
+    ctx.bezierCurveTo(410,520,485,492,590,505);
+    ctx.bezierCurveTo(700,518,810,493,890,500);
+    ctx.bezierCurveTo(965,505,990,470,1055,445);
+    ctx.bezierCurveTo(1125,420,1190,455,1210,505);
+    ctx.lineTo(1210,570);
+    ctx.bezierCurveTo(1080,590,1000,560,900,555);
+    ctx.bezierCurveTo(780,550,690,576,570,560);
+    ctx.bezierCurveTo(440,545,350,575,240,555);
+    ctx.bezierCurveTo(130,540,20,580,-100,550);
+    ctx.closePath();
+  };
+  ctx.fillStyle = "#344d3c"; basin(); ctx.fill();
+  ctx.save(); basin(); ctx.clip();
+  const water = ctx.createLinearGradient(0,425,0,580);
+  water.addColorStop(0,"#b7e8d5"); water.addColorStop(.22,"#70c4bb");
+  water.addColorStop(.56,"#348e96"); water.addColorStop(1,"#175c69");
+  ctx.fillStyle = water; ctx.fillRect(-100,410,1300,190);
+
+  for(let i=0;i<34;i++) {
+    const x=((i*53+time*.085)%1370)-130;
+    const y=520+Math.sin(x*.007)*12+Math.sin(i*1.7)*7;
+    ctx.strokeStyle=i%4===0?"rgba(242,255,246,.66)":"rgba(205,246,231,.34)";
+    ctx.lineWidth=i%5===0?2.4:1.15;
+    ctx.beginPath(); ctx.moveTo(x,y);
+    ctx.bezierCurveTo(x+8,y-3,x+17,y+3,x+28,y); ctx.stroke();
+  }
+  for(let i=0;i<13;i++) {
+    const x=80+i*78+Math.sin(time*.001+i)*5, y=466+(i%3)*23;
+    ctx.strokeStyle="rgba(235,255,246,.32)"; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(x,y); ctx.quadraticCurveTo(x+12,y-2,x+23,y+1); ctx.stroke();
+  }
+  ctx.restore();
+
+  // Đá cuội chỉ nằm trên bờ, chìm một phần vào nền đất.
+  for(let i=0;i<22;i++) {
+    const side=i%2?1:-1, x=i*54-30;
+    const y=side<0?450+Math.sin(i*1.4)*9:558+Math.sin(i*1.1)*7;
+    const r=7+(i%4)*2;
+    ctx.fillStyle="rgba(23,43,34,.35)";
+    ctx.beginPath(); ctx.ellipse(x+2,y+4,r*1.5,r*.55,0,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=i%3?"#777b65":"#a19b78";
+    ctx.beginPath(); ctx.moveTo(x-r,y+3); ctx.lineTo(x-r*.7,y-r*.65);
+    ctx.lineTo(x+r*.2,y-r); ctx.lineTo(x+r,y-r*.25);
+    ctx.lineTo(x+r*.8,y+4); ctx.closePath(); ctx.fill();
+  }
+  ctx.restore();
+}
+
+// Thác có vách đá ôm dòng, màn nước nhiều lớp và sương ở chân thác.
+function drawLinkedCascade(x, topY, bottomY, width, time, side) {
+  ctx.save();
+  const mid=(topY+bottomY)/2, drift=Math.sin(time*.0013+side)*2.2;
+  ctx.fillStyle="#304a3b"; ctx.beginPath();
+  ctx.moveTo(x-width*2.1,topY-12); ctx.lineTo(x-width*.9,topY+4);
+  ctx.lineTo(x-width*1.12,mid); ctx.lineTo(x-width*1.55,bottomY+16);
+  ctx.lineTo(x+width*1.55,bottomY+16); ctx.lineTo(x+width*1.12,mid);
+  ctx.lineTo(x+width*.9,topY+4); ctx.lineTo(x+width*2.1,topY-12);
+  ctx.closePath(); ctx.fill();
+
+  ctx.fillStyle="#64765a"; ctx.beginPath();
+  ctx.moveTo(x-width*1.45,topY+5); ctx.lineTo(x-width*.75,topY-3);
+  ctx.lineTo(x+width*.8,topY-2); ctx.lineTo(x+width*1.5,topY+7);
+  ctx.lineTo(x+width*.85,topY+12); ctx.lineTo(x-width*.85,topY+12);
+  ctx.closePath(); ctx.fill();
+
+  const sheet=ctx.createLinearGradient(x-width,0,x+width,0);
+  sheet.addColorStop(0,"rgba(36,105,117,.92)");
+  sheet.addColorStop(.18,"rgba(111,194,195,.94)");
+  sheet.addColorStop(.43,"rgba(225,255,243,.96)");
+  sheet.addColorStop(.7,"rgba(118,202,197,.93)");
+  sheet.addColorStop(1,"rgba(35,103,116,.94)");
+  ctx.fillStyle=sheet; ctx.beginPath();
+  ctx.moveTo(x-width*.72,topY+5);
+  ctx.bezierCurveTo(x-width*.54,mid,x-width*.94+drift,bottomY-20,x-width*1.35,bottomY);
+  ctx.quadraticCurveTo(x,bottomY+13,x+width*1.32,bottomY);
+  ctx.bezierCurveTo(x+width*.86+drift,mid,x+width*.63,topY+4,x+width*.72,topY+5);
+  ctx.closePath(); ctx.fill();
+
+  for(let i=0;i<8;i++) {
+    const px=x-width*.58+i*width*.165, offset=(time*(.035+(i%3)*.009)+i*11)%42;
+    ctx.strokeStyle=i%3===0?"rgba(255,255,245,.78)":"rgba(35,102,111,.24)";
+    ctx.lineWidth=i%3===0?2.2:4;
+    ctx.beginPath(); ctx.moveTo(px,topY+8+offset*.15);
+    ctx.bezierCurveTo(px-4,mid,px+4,bottomY-22,px+drift,bottomY-2); ctx.stroke();
+  }
+  ctx.strokeStyle="rgba(239,255,247,.7)"; ctx.lineWidth=2; ctx.beginPath();
+  ctx.moveTo(x-width*.66,topY+7);
+  ctx.bezierCurveTo(x-width*.5,mid,x-width*.7,bottomY-12,x-width*1.1,bottomY);
+  ctx.moveTo(x+width*.66,topY+7);
+  ctx.bezierCurveTo(x+width*.5,mid,x+width*.7,bottomY-12,x+width*1.1,bottomY);
+  ctx.stroke();
+
+  const mist=ctx.createRadialGradient(x,bottomY,2,x,bottomY,width*2.6);
+  mist.addColorStop(0,"rgba(239,255,248,.46)"); mist.addColorStop(1,"rgba(239,255,248,0)");
+  ctx.fillStyle=mist; ctx.fillRect(x-width*3,bottomY-24,width*6,55);
+
+  for(let i=0;i<15;i++) {
+    const px=x+Math.sin(time*.002+i*1.7)*width*1.25;
+    const py=bottomY+Math.cos(i*2.1)*3;
+    ctx.fillStyle="rgba(246,255,250,"+(.38+(i%4)*.1)+")";
+    ctx.beginPath(); ctx.ellipse(px,py,3+(i%4)*2,1.5+(i%2),0,0,Math.PI*2); ctx.fill();
+  }
+  ctx.restore();
+}
+
+function drawSpiritBirds(time) {
+  const cranes=[
+    {x:300,y:145,s:1.05,p:.4,d:28},
+    {x:725,y:112,s:1.18,p:2.2,d:34},
+    {x:960,y:188,s:.88,p:4.1,d:22}
+  ];
+  cranes.forEach(b=>{
+    const x=b.x+Math.sin(time*.00028+b.p)*b.d;
+    const y=b.y+Math.sin(time*.00055+b.p)*10;
+    const bank=Math.sin(time*.00045+b.p)*.12;
+    const flap=Math.sin(time*.0018+b.p)*.25;
+    ctx.save(); ctx.translate(x,y); ctx.rotate(bank); ctx.scale(b.s,b.s);
+
+    ctx.fillStyle="#d9e5dc"; ctx.beginPath(); ctx.moveTo(-5,-1);
+    ctx.bezierCurveTo(-30,-25-flap*10,-52,-20-flap*14,-66,-7);
+    ctx.bezierCurveTo(-43,-12,-25,2,-7,7); ctx.closePath(); ctx.fill();
+
+    ctx.fillStyle="#fffdf0"; ctx.beginPath(); ctx.ellipse(0,3,22,6,-.08,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(-5,0);
+    ctx.bezierCurveTo(-20,-19-flap*12,-42,-25-flap*17,-59,-9);
+    ctx.bezierCurveTo(-42,-7,-24,10,-5,8); ctx.closePath(); ctx.fill();
+
+    ctx.strokeStyle="rgba(174,190,176,.75)"; ctx.lineWidth=1;
+    for(let k=0;k<6;k++) {
+      ctx.beginPath(); ctx.moveTo(-8-k,2+k*.5);
+      ctx.quadraticCurveTo(-31-k*2,-7-flap*10,-55+k*2,-10+k); ctx.stroke();
+    }
+
+    ctx.strokeStyle="#fffdf0"; ctx.lineWidth=4; ctx.lineCap="round";
+    ctx.beginPath(); ctx.moveTo(14,1); ctx.bezierCurveTo(27,-3,29,-18,22,-25); ctx.stroke();
+    ctx.fillStyle="#fffdf0"; ctx.beginPath(); ctx.arc(22,-27,4.2,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle="#bd5543"; ctx.beginPath(); ctx.moveTo(25,-28); ctx.lineTo(35,-26); ctx.lineTo(25,-24); ctx.closePath(); ctx.fill();
+    ctx.fillStyle="#c24c40"; ctx.beginPath(); ctx.arc(21,-31,2,0,Math.PI*2); ctx.fill();
+
+    ctx.strokeStyle="#f7f5e8"; ctx.lineWidth=2; ctx.beginPath();
+    ctx.moveTo(-17,3); ctx.lineTo(-39,-2); ctx.moveTo(-17,5); ctx.lineTo(-36,8); ctx.stroke();
+    ctx.strokeStyle="#b64d42"; ctx.lineWidth=1.5; ctx.beginPath();
+    ctx.moveTo(-2,7); ctx.lineTo(-5,18); ctx.moveTo(5,7); ctx.lineTo(4,18); ctx.stroke();
+    ctx.restore();
+  });
+
+  for(let i=0;i<10;i++) {
+    const x=(i*127+time*(.004+(i%3)*.001))%(W+100)-50;
+    const y=225+Math.sin(time*.0007+i*1.4)*27;
+    const wing=Math.sin(time*.002+i)*5;
+    ctx.save(); ctx.translate(x,y);
+    ctx.strokeStyle=i%3===0?"#d7c99b":"rgba(43,69,58,.72)";
+    ctx.lineWidth=1.8; ctx.lineCap="round"; ctx.beginPath();
+    ctx.moveTo(-12,wing); ctx.quadraticCurveTo(-6,-8-wing,0,0);
+    ctx.quadraticCurveTo(6,-8-wing,12,wing); ctx.stroke(); ctx.restore();
+  }
+}
+
+function drawScenery(time) {
+  drawSky(time); drawMountainRange(); drawMovingClouds(time); drawSpiritBirds(time);
+
+  // Tiên điện tách khỏi hai dòng thác, bám trên các gờ núi rộng.
+  drawFloatingPlatform(230,350,.46); drawPalace(230,310,.43,false);
+  drawFloatingPlatform(430,270,.43); drawPalace(430,230,.40,false);
+  drawFloatingPlatform(675,325,.48); drawPalace(675,279,.44,false);
+  drawFloatingPlatform(865,285,.43); drawPalace(865,245,.40,false);
+  drawFloatingPlatform(540,420,.36); drawPalace(540,386,.33,false);
+
+  const auraSites=[[230,310,62,.2],[430,230,56,1.3],[675,279,65,2.4],[865,245,58,3.5],[540,386,48,4.4]];
+  auraSites.forEach(([x,y,r,p])=>{
+    ctx.save(); ctx.globalAlpha=.62;
+    const glow=ctx.createRadialGradient(x,y-8,2,x,y-8,r);
+    glow.addColorStop(0,"rgba(255,231,174,.16)");
+    glow.addColorStop(.55,"rgba(164,226,219,.09)");
+    glow.addColorStop(1,"rgba(164,226,219,0)");
+    ctx.fillStyle=glow; ctx.fillRect(x-r,y-r,r*2,r*2);
+    for(let k=0;k<2;k++) {
+      const a=time*.00032+p+k*Math.PI;
+      ctx.strokeStyle=k?"rgba(255,226,160,.55)":"rgba(174,235,225,.55)";
+      ctx.lineWidth=1.5; ctx.beginPath();
+      ctx.moveTo(x-r*.8,y+Math.sin(a)*10);
+      ctx.bezierCurveTo(x-r*.35,y-20+Math.cos(a)*15,x+r*.35,y+20+Math.sin(a+1)*14,x+r*.8,y+Math.cos(a+1)*9);
+      ctx.stroke();
+    }
+    ctx.restore();
+  });
+
+  drawMountainStream(time);
+  drawLinkedCascade(72,285,510,30,time,.2);
+  drawLinkedCascade(1028,260,510,34,time,1.4);
+
+  drawPine(175,440,.72,"#315b45"); drawTree(205,456,.58,"#426b4c");
+  drawPine(355,455,.62,"#315b45"); drawTree(470,455,.54,"#426b4c");
+  drawPine(740,455,.66,"#315b45"); drawTree(815,454,.58,"#426b4c");
+  drawPine(930,440,.7,"#315b45");
+
+  drawRiver(time);
+  drawCrowd(time);
+}
