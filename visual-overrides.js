@@ -6151,3 +6151,103 @@ function drawPodiumScene(target,time,mini=false){
   }
   target.restore();
 }
+
+
+// REVISION 77 — pháp bảo Ngự Long và linh tuyền đổ thẳng xuống lòng sông.
+// Được vẽ ở lớp tiền cảnh sau mặt sông để nhìn rõ điểm phát nguồn và đường nước.
+function drawSectSpiritSourceV2(time){
+  const x=550, baseY=466, orbY=386;
+  ctx.save();
+  // Hào quang nền mờ sau bảo vật.
+  const aura=ctx.createRadialGradient(x,baseY-48,5,x,baseY-48,112);
+  aura.addColorStop(0,"rgba(153,255,224,.30)");
+  aura.addColorStop(.48,"rgba(89,205,181,.13)");
+  aura.addColorStop(1,"rgba(70,155,145,0)");
+  ctx.fillStyle=aura;ctx.beginPath();ctx.ellipse(x,baseY-48,112,105,0,0,Math.PI*2);ctx.fill();
+
+  // Bệ đá ngọc nhiều tầng, có chân đế và đường viền kim loại.
+  const metal=ctx.createLinearGradient(x-62,baseY,x+62,baseY);
+  metal.addColorStop(0,"#77502d");metal.addColorStop(.25,"#f4d995");metal.addColorStop(.55,"#a9783e");metal.addColorStop(.8,"#f8e6aa");metal.addColorStop(1,"#63452c");
+  ctx.fillStyle="#273f39";ctx.beginPath();ctx.moveTo(x-58,baseY+31);ctx.lineTo(x+58,baseY+31);ctx.lineTo(x+48,baseY+48);ctx.lineTo(x-48,baseY+48);ctx.closePath();ctx.fill();
+  ctx.fillStyle=metal;ctx.beginPath();ctx.moveTo(x-65,baseY+24);ctx.lineTo(x+65,baseY+24);ctx.lineTo(x+56,baseY+34);ctx.lineTo(x-56,baseY+34);ctx.closePath();ctx.fill();
+  ctx.strokeStyle="#ffedb5";ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle="#37685a";ctx.fillRect(x-45,baseY+10,90,15);
+  ctx.strokeStyle="#e8ce8a";ctx.lineWidth=2;ctx.strokeRect(x-45,baseY+10,90,15);
+
+  // Đài sen tám cánh đỡ bảo bình.
+  for(let i=0;i<8;i++){
+    ctx.save();ctx.translate(x,baseY+6);ctx.rotate(i*Math.PI/4);
+    const pg=ctx.createLinearGradient(0,-5,0,31);pg.addColorStop(0,"#f7e5a9");pg.addColorStop(.35,"#83d0ae");pg.addColorStop(1,"#276c59");
+    ctx.fillStyle=pg;ctx.strokeStyle="#f0d18b";ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(0,-4);ctx.bezierCurveTo(-16,5,-14,24,0,31);ctx.bezierCurveTo(14,24,16,5,0,-4);ctx.fill();ctx.stroke();ctx.restore();
+  }
+
+  // Thân bảo bình dáng hồ lô, miệng bình mở hướng lên.
+  const vessel=ctx.createLinearGradient(x-38,baseY-34,x+38,baseY+25);
+  vessel.addColorStop(0,"#f1d997");vessel.addColorStop(.18,"#65b99a");vessel.addColorStop(.48,"#17564d");vessel.addColorStop(.76,"#8bd7b4");vessel.addColorStop(1,"#b98745");
+  ctx.fillStyle=vessel;ctx.strokeStyle="#f4dfa1";ctx.lineWidth=2.5;
+  ctx.beginPath();ctx.moveTo(x-14,baseY-42);ctx.quadraticCurveTo(x-18,baseY-29,x-34,baseY-13);ctx.quadraticCurveTo(x-48,baseY+13,x-24,baseY+24);ctx.quadraticCurveTo(x,baseY+38,x+24,baseY+24);ctx.quadraticCurveTo(x+48,baseY+13,x+34,baseY-13);ctx.quadraticCurveTo(x+18,baseY-29,x+14,baseY-42);ctx.closePath();ctx.fill();ctx.stroke();
+  ctx.fillStyle="#e9cc83";ctx.beginPath();ctx.ellipse(x,baseY-42,17,6,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#124c47";ctx.beginPath();ctx.ellipse(x,baseY-44,12,3.2,0,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle="rgba(255,237,183,.9)";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x-25,baseY+5);ctx.quadraticCurveTo(x,baseY+20,x+25,baseY+5);ctx.stroke();
+
+  // Linh châu nổi phía trên miệng bình — điểm bắt đầu rõ ràng của dòng nước.
+  const pulse=1+Math.sin(time*.002)*.055;
+  const orb=ctx.createRadialGradient(x-8,orbY-9,2,x,orbY,25);
+  orb.addColorStop(0,"#ffffff");orb.addColorStop(.24,"#d7fff0");orb.addColorStop(.58,"#62d9b8");orb.addColorStop(.86,"#176b62");orb.addColorStop(1,"#f1d58b");
+  ctx.shadowColor="#80ffe0";ctx.shadowBlur=24;ctx.fillStyle=orb;ctx.beginPath();ctx.arc(x,orbY,19*pulse,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
+  ctx.strokeStyle="#f8e7ac";ctx.lineWidth=2.4;ctx.beginPath();ctx.arc(x,orbY,24*pulse,0,Math.PI*2);ctx.stroke();
+  ctx.strokeStyle="rgba(255,255,238,.85)";ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(x-5,orbY-5,11,-1,.7);ctx.stroke();
+  // Long văn hai bên châu.
+  for(const side of [-1,1]){
+    ctx.strokeStyle="#e8c77b";ctx.lineWidth=3.2;ctx.lineCap="round";ctx.beginPath();ctx.moveTo(x+side*15,orbY+8);ctx.bezierCurveTo(x+side*43,orbY+20,x+side*39,orbY-24,x+side*20,orbY-26);ctx.stroke();
+    ctx.fillStyle="#f3d991";ctx.beginPath();ctx.arc(x+side*16,orbY+8,4,0,Math.PI*2);ctx.fill();
+  }
+
+  // DÒNG LINH THỦY: dải nước liền mạch từ linh châu xuống mặt sông (y≈520).
+  const sway=Math.sin(time*.0012)*3.5;
+  const waterPath=()=>{
+    ctx.beginPath();ctx.moveTo(x,orbY+22);
+    ctx.bezierCurveTo(x-9,orbY+43,x+10+sway,orbY+58,x+2+sway,orbY+77);
+    ctx.bezierCurveTo(x-8+sway,orbY+96,x-3,orbY+112,x+1,520);
+  };
+  ctx.save();ctx.lineCap="round";ctx.lineJoin="round";
+  waterPath();ctx.strokeStyle="rgba(12,73,75,.78)";ctx.lineWidth=24;ctx.stroke();
+  const flow=ctx.createLinearGradient(x-15,0,x+15,0);
+  flow.addColorStop(0,"#287f8c");flow.addColorStop(.22,"#78d9c9");flow.addColorStop(.5,"#f1fff0");flow.addColorStop(.76,"#8cebd3");flow.addColorStop(1,"#267a88");
+  waterPath();ctx.strokeStyle=flow;ctx.lineWidth=16;ctx.stroke();
+  waterPath();ctx.strokeStyle="rgba(255,255,240,.92)";ctx.lineWidth=2.6;ctx.stroke();
+  // Các vệt nước chuyển động đi xuống, không phải hạt sáng đứng yên.
+  for(let i=0;i<8;i++){
+    const p=(time*.00042+i/8)%1;
+    const yy=orbY+27+p*104;
+    const xx=x+Math.sin(p*7+time*.001)*4;
+    ctx.globalAlpha=.35+.6*Math.sin(p*Math.PI);
+    ctx.fillStyle=i%2?"#f4fff0":"#8af4dd";
+    ctx.beginPath();ctx.ellipse(xx,yy,1.6+p*1.5,4+p*3,.12,0,Math.PI*2);ctx.fill();
+  }
+  ctx.globalAlpha=1;
+  // Bọt và vòng gợn ngay điểm nước chạm sông, hòa vào dòng ngang.
+  const splash=1+Math.sin(time*.003)*.12;
+  for(let i=0;i<5;i++){
+    ctx.globalAlpha=.58-i*.085;ctx.strokeStyle=i%2?"#eafff2":"#83e5d4";ctx.lineWidth=i===0?2.5:1.4;
+    ctx.beginPath();ctx.ellipse(x,520,15*splash+i*13,4+i*2,0,0,Math.PI*2);ctx.stroke();
+  }
+  for(let i=0;i<12;i++){
+    const a=i*Math.PI/6+time*.00025,dist=12+((time*.018+i*7)%22);
+    ctx.globalAlpha=.65;ctx.fillStyle="#eafff5";ctx.beginPath();ctx.arc(x+Math.cos(a)*dist,518+Math.sin(a)*dist*.28,1.2+(i%3)*.5,0,Math.PI*2);ctx.fill();
+  }
+  ctx.restore();ctx.restore();
+}
+
+function drawScenery(time){
+  ctx.save();ctx.globalAlpha=1;ctx.shadowBlur=0;
+  drawSky(time);drawMountainRange();drawTwinWaterfallMountains(time);drawMovingClouds(time);
+  drawRiver(time);drawSectArchitecture(time);drawDenseForest(time);drawAmbientEnergy(time);drawSpiritBirds(time);
+  // Dòng sông là lớp nền; thác núi và linh tuyền được đặt sau đó để chân nước nhập liền vào mặt sông.
+  drawRiverCurrent(time);
+  drawMountainCascade(82,132,548,time);
+  drawSectSpiritSourceV2(time);
+  drawCrowd(time);
+  ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.restore();
+}
