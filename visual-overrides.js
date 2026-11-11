@@ -4533,14 +4533,47 @@ if(activeEffect==="cloud_step"){
       target.strokeStyle="rgba(204,249,255,.8)";target.beginPath();target.moveTo(-18,31);target.quadraticCurveTo(0,39,20,30);target.stroke();
     }
     if(activeEffect==="boost"){
-       // Du Long Bộ: thân hình lượn thế du long, khí lưu xanh uốn chữ S, long ảnh mờ nối phía sau.
-       const flow=t*2.2;
-       target.globalAlpha=.34*fade;target.fillStyle="#75d8ee";
-       for(let n=0;n<3;n++){target.beginPath();target.ellipse(-15-n*12,Math.sin(flow-n*.7)*8,12,18,.18,0,Math.PI*2);target.fill();}
-       target.globalAlpha=.92*fade;target.strokeStyle="#a9f4ff";target.lineWidth=2.4;target.shadowColor="#4ccbe9";target.shadowBlur=10;
-       target.beginPath();target.moveTo(-49,20);target.bezierCurveTo(-28,-18,-7,32,13,-7);target.bezierCurveTo(24,-27,39,-20,51,-35);target.stroke();
-       target.strokeStyle="#e3ffff";target.lineWidth=1.1;target.beginPath();target.moveTo(-40,27);target.bezierCurveTo(-18,-6,0,25,18,-11);target.stroke();
-       target.shadowBlur=0;target.fillStyle="#c5fbff";target.beginPath();target.moveTo(46,-36);target.lineTo(58,-42);target.lineTo(53,-29);target.closePath();target.fill();
+       // Du Long Bộ: một con thanh long uốn mình bay song song với nhân vật.
+       const phase=t*2.7, sway=Math.sin(phase);
+       const dragonY=-15+sway*5;
+       target.save();
+       target.globalAlpha=.82*fade;
+       target.shadowColor="#43d8e8";target.shadowBlur=12;
+       // Thân rồng uốn nhiều khúc, đầu hướng về phía trước.
+       const body=target.createLinearGradient(-55,0,45,0);
+       body.addColorStop(0,"#176f83");body.addColorStop(.48,"#53d9d1");body.addColorStop(1,"#b8fff0");
+       target.strokeStyle=body;target.lineWidth=9;target.lineCap="round";target.lineJoin="round";
+       target.beginPath();target.moveTo(-55,dragonY+17);
+       target.bezierCurveTo(-43,dragonY-17+Math.sin(phase)*7,-24,dragonY+30, -8,dragonY+2);
+       target.bezierCurveTo(7,dragonY-22,18,dragonY+20,31,dragonY-4);
+       target.stroke();
+       // Vảy sáng chạy dọc thân.
+       target.shadowBlur=0;target.strokeStyle="rgba(220,255,244,.9)";target.lineWidth=1.3;
+       for(let i=0;i<8;i++){const x=-43+i*9,y=dragonY+Math.sin(phase+i*.75)*9;target.beginPath();target.arc(x,y,3.2,.15,Math.PI*.9);target.stroke();}
+       // Bụng rồng chia đốt.
+       target.strokeStyle="rgba(220,255,240,.85)";target.lineWidth=2;
+       for(let i=0;i<5;i++){const x=-31+i*10,y=dragonY+Math.sin(phase+i*.9)*8;target.beginPath();target.moveTo(x-2,y+4);target.lineTo(x+2,y+7);target.stroke();}
+       // Đầu rồng, mõm, sừng và râu.
+       const hx=43,hy=dragonY-7+Math.sin(phase+1)*3;
+       target.fillStyle="#75eadc";target.strokeStyle="#d7fff1";target.lineWidth=1.5;
+       target.beginPath();target.ellipse(hx,hy,11,8,-.12,0,Math.PI*2);target.fill();target.stroke();
+       target.fillStyle="#c5fff0";target.beginPath();target.moveTo(hx+5,hy-2);target.lineTo(hx+17,hy+1);target.lineTo(hx+6,hy+5);target.closePath();target.fill();
+       target.strokeStyle="#f3dc91";target.lineWidth=2.2;target.beginPath();
+       target.moveTo(hx-4,hy-6);target.quadraticCurveTo(hx-12,hy-17,hx-7,hy-20);
+       target.moveTo(hx+1,hy-6);target.quadraticCurveTo(hx+9,hy-17,hx+13,hy-16);target.stroke();
+       target.strokeStyle="#b9fff0";target.lineWidth=1.4;target.beginPath();
+       target.moveTo(hx+8,hy+4);target.quadraticCurveTo(hx+18,hy+12,hx+25,hy+8);
+       target.moveTo(hx+6,hy+5);target.quadraticCurveTo(hx+12,hy+17,hx+21,hy+17);target.stroke();
+       target.fillStyle="#fff2b2";target.beginPath();target.arc(hx+5,hy-2,1.7,0,Math.PI*2);target.fill();
+       // Chân rồng có móng.
+       target.strokeStyle="#b7fff0";target.lineWidth=2.2;target.beginPath();
+       for(const lx of [-19,8]){const ly=dragonY+Math.sin(phase+lx)*8;target.moveTo(lx,ly+4);target.lineTo(lx-4,ly+11);target.lineTo(lx-8,ly+9);target.moveTo(lx-4,ly+11);target.lineTo(lx-1,ly+14);}
+       target.stroke();
+       // Đuôi chẻ và mây khí theo hướng chuyển động.
+       target.strokeStyle="#70e9df";target.lineWidth=3;target.beginPath();target.moveTo(-52,dragonY+17);target.quadraticCurveTo(-66,dragonY+28,-72,dragonY+16);target.moveTo(-66,dragonY+23);target.lineTo(-75,dragonY+28);target.stroke();
+       target.globalAlpha=.55*fade;target.strokeStyle="#a9f4ff";target.lineWidth=2;
+       for(let i=0;i<3;i++){const yy=dragonY+20+i*7;target.beginPath();target.moveTo(-58-i*3,yy);target.quadraticCurveTo(-76-i*4,yy-7,-88-i*4,yy);target.stroke();}
+       target.restore();
      }
 if(activeEffect==="sword_spin"){
       target.globalAlpha=.92*fade;target.strokeStyle="#d9f7ff";target.lineWidth=2.2;target.shadowColor="#8ee8ff";target.shadowBlur=10;
