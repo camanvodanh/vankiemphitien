@@ -2467,7 +2467,7 @@ function drawTempleAuras(time){
 
 // Cổng tiên môn có mặt trước, mặt bên và hai trụ nghiêng theo phối cảnh.
 function drawImmortalFinishGate(){
- const x=TRACK.right,ground=TRACK.bottom+27,top=TRACK.top-57;
+ const x=TRACK.right,ground=TRACK.bottom+27,top=TRACK.top-57,bottom=TRACK.bottom;
  ctx.save();
  const aura=ctx.createRadialGradient(x,top+70,4,x,top+70,165);aura.addColorStop(0,"rgba(255,231,160,.34)");aura.addColorStop(1,"rgba(255,231,160,0)");
  ctx.fillStyle=aura;ctx.fillRect(x-170,top-55,340,260);
