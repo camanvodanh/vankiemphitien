@@ -497,6 +497,7 @@ function resetGame() {
 // =====================================================
 
 $("quantity").addEventListener("change", getRandomQuantity);
+$("names").addEventListener("input",()=>{const n=getInputNames().length;if(n)$("quantity").value=n;});
 
 $("summon").addEventListener("click", summon);
 $("start").addEventListener("click", startRace);
