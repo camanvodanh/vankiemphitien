@@ -569,7 +569,7 @@ function setSettingsLocked(value){
 }
 function syncButtons(){
   const b=$("start");
-  const state=running?{icon:"Ⅱ",label:"Tạm dừng"}:paused?{icon:"▶",label:"Tiếp tục"}:finished?{icon:"↻",label:"Bắt đầu lại"}:{icon:"▶",label:"Bắt đầu"};
+  const state=running?{icon:"Ⅱ",label:"Tạm"}:paused?{icon:"▶",label:"Tiếp"}:finished?{icon:"↻",label:"Lại"}:{icon:"▶",label:"Chạy"};
   b.innerHTML='<span class="btn-icon" aria-hidden="true">'+state.icon+'</span><span class="btn-label">'+state.label+'</span>';
   b.disabled=!racers.length;
   if($("pause")){$("pause").hidden=true;$("pause").disabled=true;}
