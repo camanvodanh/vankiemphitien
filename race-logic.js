@@ -51,15 +51,36 @@ function processFinish(racer,index){
 // =====================================================
 
 function updateRace(dt){
- if(!running||paused||!started||finished)return;elapsed=Math.min(duration,elapsed+dt);
+ if(!running||paused||!started||finished)return;
+ elapsed=Math.min(duration,elapsed+dt);
+ const rankBefore=new Map(sortedRacers().map((r,i)=>[r.id,i+1]));
  racers.forEach(racer=>{
   if(racer.finished)return;
-  if(racer.effectTimer>0){racer.effectTimer=Math.max(0,racer.effectTimer-dt);if(racer.effectTimer===0){racer.speedMultiplier=1;racer.effectType="";racer.effectName="";if(cameraFocusId===racer.id)cameraFocusId=null;}}
+  if(racer.effectTimer>0){
+   racer.effectTimer=Math.max(0,racer.effectTimer-dt);
+   if(racer.effectTimer===0){
+    racer.speedMultiplier=1;racer.effectType="";racer.effectName="";
+    if(cameraFocusId===racer.id)cameraFocusId=null;
+   }
+  }
   const baseSpeed=distance/Math.max(.001,racer.targetFinishTime);
   racer.progress=Math.min(distance,racer.progress+baseSpeed*dt*(racer.speedMultiplier||1));
  });
+ const rankedNow=sortedRacers();
+ for(let i=0;i<rankedNow.length;i++){
+  const racer=rankedNow[i],oldRank=rankBefore.get(racer.id),newRank=i+1;
+  if(racer.effectTimer>0&&oldRank&&oldRank!==newRank){
+   const mult=racer.speedMultiplier||1;
+   const change=mult>=1?"TĂNG TỐC":"GIẢM TỐC";
+   eventText=`${racer.name}: Hạng ${oldRank} → ${newRank} · ${change} ×${mult.toFixed(2)}`;
+   eventTextLife=2.6;
+   $("event").textContent=eventText;
+   break;
+  }
+ }
  racers.map((racer,index)=>({racer,index})).filter(o=>!o.racer.finished&&o.racer.progress>=distance).forEach(o=>processFinish(o.racer,o.index));
- eventClock+=dt;if(eventClock>=nextEvent&&elapsed<duration){triggerEvent();eventClock=0;nextEvent=rand(4.5,7.5);}
+ eventClock+=dt;
+ if(eventClock>=nextEvent&&elapsed<duration){triggerEvent();eventClock=0;nextEvent=rand(4.5,7.5);}
  if(elapsed>=duration){racers.forEach((racer,index)=>{if(!racer.finished)processFinish(racer,index);});finishRace();}
 }
 
