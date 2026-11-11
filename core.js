@@ -128,6 +128,7 @@ let finishMessageLife = 0;
 
 let lastTime = 0;
 let sceneTime = 0;
+let ceremonyStartedAt = 0;
 
 const rand = (min, max) =>
   Math.random() * (max - min) + min;
