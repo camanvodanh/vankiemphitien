@@ -6588,49 +6588,54 @@ function drawAwardMaster(target,x,y,scale,time){
 // chưởng môn ở quảng trường với chưởng môn trao thưởng.
 // =====================================================
 function drawMasterBaguaHalo(target,x,y,scale,time){
-  target.save();target.translate(x,y+43*scale);target.scale(scale,.56*scale);
-  const spin=time*.00012;
-  // Pháp trận tròn khắc trên nền đá, ưu tiên Thái Cực đồ truyền thống ở tâm.
-  target.save();target.rotate(spin);
-  const ringData=[[66,"rgba(255,231,169,.95)",3],[76,"rgba(112,232,211,.82)",1.8],[112,"rgba(255,221,145,.9)",2.2],[124,"rgba(119,232,209,.72)",1.5],[137,"rgba(255,225,158,.62)",1.2]];
-  ringData.forEach(([r,color,width],i)=>{target.beginPath();target.arc(0,0,r,0,Math.PI*2);target.strokeStyle=color;target.lineWidth=width;target.shadowColor=color;target.shadowBlur=i===0?12:6;target.stroke();});
-  target.shadowBlur=0;
-  // Tám cung phương vị và quẻ nhỏ nằm trên vành ngoài.
-  for(let i=0;i<8;i++){
-    const a=-Math.PI/2+i*Math.PI/4;
-    target.strokeStyle="rgba(255,230,174,.75)";target.lineWidth=1.6;
-    target.beginPath();target.moveTo(Math.cos(a)*78,Math.sin(a)*78);target.lineTo(Math.cos(a)*124,Math.sin(a)*124);target.stroke();
-    const bits=[[1,0,1],[0,1,1],[1,0,0],[0,0,1],[0,1,0],[0,0,0],[1,1,0],[1,1,1]][i];
-    const px=Math.cos(a)*112,py=Math.sin(a)*112;
-    target.save();target.translate(px,py);target.rotate(a+Math.PI/2);
-    target.fillStyle="rgba(21,49,43,.96)";target.strokeStyle="#f1d58e";target.lineWidth=1.6;
-    target.beginPath();target.arc(0,0,13,0,Math.PI*2);target.fill();target.stroke();
-    target.strokeStyle="#fff0bc";target.lineWidth=2.1;target.lineCap="round";
-    bits.forEach((yang,j)=>{const yy=(j-1)*4.5;if(yang){target.beginPath();target.moveTo(-5.5,yy);target.lineTo(5.5,yy);target.stroke();}else{target.beginPath();target.moveTo(-5.5,yy);target.lineTo(-1.5,yy);target.moveTo(1.5,yy);target.lineTo(5.5,yy);target.stroke();}});
-    target.restore();
-  }
-  // Các vạch khắc cổ chạy dọc vòng ngoài.
-  for(let i=0;i<48;i++){const a=i*Math.PI/24,r=132;target.strokeStyle=i%4===0?"#ffe8b0":"rgba(155,239,216,.65)";target.lineWidth=i%4===0?2:1;target.beginPath();target.moveTo(Math.cos(a)*r,Math.sin(a)*r);target.lineTo(Math.cos(a)*(r+(i%4===0?8:4)),Math.sin(a)*(r+(i%4===0?8:4)));target.stroke();}
-  target.restore();
-  // Viền Thái Cực bằng ngọc, có quầng sáng mỏng.
-  target.save();target.rotate(-spin*1.35);
-  target.shadowColor="#fff0b8";target.shadowBlur=20;target.fillStyle="rgba(255,231,177,.24)";
-  target.beginPath();target.arc(0,0,49,0,Math.PI*2);target.fill();target.shadowBlur=0;
-  target.fillStyle="#d8bd7b";target.beginPath();target.arc(0,0,41,0,Math.PI*2);target.fill();
-  target.fillStyle="#172f2c";target.beginPath();target.arc(0,0,37,0,Math.PI*2);target.fill();
-  // Thái Cực chuẩn: nền âm đen, dương trắng, đường phân giới hình chữ S.
-  target.fillStyle="#f4edcf";target.beginPath();target.moveTo(0,-37);target.quadraticCurveTo(37,-18.5,0,0);target.quadraticCurveTo(-37,18.5,0,37);target.quadraticCurveTo(37,18.5,0,0);target.quadraticCurveTo(-37,-18.5,0,-37);target.closePath();target.fill();
-  // Hai mắt âm dương đối xứng.
-  target.fillStyle="#172f2c";target.beginPath();target.arc(0,-18.5,7.2,0,Math.PI*2);target.fill();
-  target.fillStyle="#f4edcf";target.beginPath();target.arc(0,18.5,7.2,0,Math.PI*2);target.fill();
-  target.strokeStyle="rgba(255,245,211,.82)";target.lineWidth=1.2;target.beginPath();target.arc(0,0,37,0,Math.PI*2);target.stroke();
-  target.restore();
-  // Những dải linh khí mảnh xoắn theo mặt sân, không xuất hiện sau lưng nhân vật.
-  target.save();target.rotate(-spin*.6);target.strokeStyle="rgba(125,242,219,.52)";target.lineWidth=1.7;target.shadowColor="#8effe5";target.shadowBlur=8;
-  for(let i=0;i<3;i++){target.beginPath();target.ellipse(0,0,145+i*5,145+i*5,0,i*.9,Math.PI*1.2+i*.9);target.stroke();}
-  target.restore();target.restore();
-}
+  // Chỉ còn một Thái Cực đồ âm dương, không Bát Quái,
+  // không vòng đồng tâm, không phù văn hay tia phương vị.
+  target.save();
+  target.translate(x,y+43*scale);
+  target.scale(scale,.58*scale);
+  target.rotate(time*.00018);
 
+  const R=53;
+  // Quầng linh khí rất nhẹ ôm sát pháp đồ, không tạo thêm vòng trận.
+  target.shadowColor="#b9f4e7";
+  target.shadowBlur=15;
+  target.fillStyle="rgba(110,224,205,.12)";
+  target.beginPath();target.arc(0,0,R+3,0,Math.PI*2);target.fill();
+  target.shadowBlur=0;
+
+  // Viền ngọc cổ đơn nhất.
+  const rim=target.createLinearGradient(-R,-R,R,R);
+  rim.addColorStop(0,"#f6e7b5");
+  rim.addColorStop(.48,"#9bd8c8");
+  rim.addColorStop(1,"#b18a4d");
+  target.fillStyle=rim;
+  target.beginPath();target.arc(0,0,R,0,Math.PI*2);target.fill();
+
+  // Thái Cực đồ chuẩn: nền âm đen, nửa dương trắng,
+  // đường phân giới chữ S và hai mắt âm dương.
+  target.fillStyle="#172321";
+  target.beginPath();target.arc(0,0,R-4,0,Math.PI*2);target.fill();
+  const r=R-5;
+  target.fillStyle="#f4edda";
+  target.beginPath();
+  target.moveTo(0,-r);
+  target.arc(0,0,r,-Math.PI/2,Math.PI/2,true);
+  target.bezierCurveTo(r, r*.5, r, -r*.5, 0, -r);
+  target.closePath();
+  target.fill();
+
+  // Hai chấm âm dương đặt đúng tâm hai nửa đối cực.
+  target.fillStyle="#172321";
+  target.beginPath();target.arc(0,-r/2,r/7,0,Math.PI*2);target.fill();
+  target.fillStyle="#f4edda";
+  target.beginPath();target.arc(0,r/2,r/7,0,Math.PI*2);target.fill();
+
+  // Viền mảnh khép kín, không có thêm quỹ đạo bao quanh.
+  target.strokeStyle="rgba(255,244,211,.8)";
+  target.lineWidth=1.2;
+  target.beginPath();target.arc(0,0,r,0,Math.PI*2);target.stroke();
+  target.restore();
+}
 function drawSectMasterThrone(target,x,y,scale,tilt=0){
   target.save();target.translate(x,y);target.rotate(tilt);target.scale(scale,scale);
   const gold=target.createLinearGradient(-45,0,45,0);gold.addColorStop(0,"#513321");gold.addColorStop(.24,"#c99b53");gold.addColorStop(.5,"#fff0b4");gold.addColorStop(.76,"#b17b3e");gold.addColorStop(1,"#4b3024");
