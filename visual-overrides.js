@@ -5603,7 +5603,6 @@ function drawMountainRange(){
 
 function drawCrowd(time) {
   // Cùng áo bào đỏ, mão vàng và bát quái linh khí như chưởng môn ngự kiếm ban thưởng.
-  drawMasterBaguaHalo(ctx,550,566,.72,time);
   drawCeremonySeatedMaster(ctx,550,612,.82);
   drawRoleLabel(550,493,"CHƯỞNG MÔN","#f2d17d",1.05);
 
@@ -5813,6 +5812,7 @@ function drawAnnouncement(){
 // REVISION 20 — LỄ BAN THƯỞNG: CHƯỞNG MÔN NGỰ KIẾM PHÁT QUÀ
 // =====================================================
 function drawCeremonySeatedMaster(target,x,y,scale){
+  drawMasterBaguaHalo(target,x,y,scale,performance.now());
   target.save();target.translate(x,y);target.scale(scale,scale);
   // Ngai vàng đặt tại quảng trường.
   const gold=target.createLinearGradient(-28,0,28,0);
@@ -6287,16 +6287,16 @@ function drawLeftCascadeArtifact(time,x=82,top=132){
   orb.addColorStop(0,"#fff");orb.addColorStop(.35,"#caffeb");orb.addColorStop(.72,"#58d4b2");orb.addColorStop(1,"#17665b");
   ctx.shadowColor="#8bffdc";ctx.shadowBlur=16;ctx.fillStyle=orb;ctx.beginPath();ctx.arc(ax,ay-5,9*pulse,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
   ctx.strokeStyle="#f8e7b0";ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(ax,ay-5,12*pulse,0,Math.PI*2);ctx.stroke();
-  // Rãnh nước ngắn nối miệng bảo vật với đúng cửa thác (x+5, top+4).
-  const flowPath=()=>{ctx.beginPath();ctx.moveTo(ax-7,ay+13);ctx.bezierCurveTo(ax-20,top+34,ax-38,top+24,x+5,top+4);};
+  // Linh tuyền từ miệng pháp bảo nhập thẳng vào chính giữa miệng màn thác.
+  const flowPath=()=>{ctx.beginPath();ctx.moveTo(ax-7,ay+13);ctx.bezierCurveTo(ax-18,top+37,ax-36,top+44,x,top+30);};
   ctx.lineCap="round";ctx.lineJoin="round";
   flowPath();ctx.strokeStyle="rgba(24,86,83,.78)";ctx.lineWidth=8;ctx.stroke();
-  const water=ctx.createLinearGradient(ax,top+4,x+5,top+34);
+  const water=ctx.createLinearGradient(ax,top+4,x,top+30);
   water.addColorStop(0,"#eaffef");water.addColorStop(.35,"#80e3cb");water.addColorStop(1,"#3997a0");
   flowPath();ctx.strokeStyle=water;ctx.lineWidth=4.5;ctx.stroke();
   flowPath();ctx.strokeStyle="rgba(255,255,242,.9)";ctx.lineWidth=1;ctx.stroke();
   for(let i=0;i<6;i++){
-    const p=(time*.00055+i/6)%1,px=ax-7+(x+12-(ax-7))*p,py=ay+13+(top+4-(ay+13))*p+Math.sin(p*Math.PI)*8;
+    const p=(time*.00055+i/6)%1,px=ax-7+(x-(ax-7))*p,py=ay+13+(top+30-(ay+13))*p+Math.sin(p*Math.PI)*5;
     ctx.globalAlpha=.35+.55*Math.sin(p*Math.PI);ctx.fillStyle=i%2?"#f3fff2":"#8bf1d9";
     ctx.beginPath();ctx.arc(px,py,1.1+(i%3)*.35,0,Math.PI*2);ctx.fill();
   }
