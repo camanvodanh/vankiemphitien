@@ -3380,3 +3380,349 @@ function drawSpiritBirds(time){
     }
   });
 }
+
+
+
+// =====================================================
+// REVISION 4 — TIÊN HẠC, THÁC NƯỚC, RỪNG TIÊN,
+// CỔNG ĐÍCH THIÊN KHẢI VÀ CHƯỞNG MÔN NGỰ KIẾM TRAO GIẢI
+// =====================================================
+
+function drawWaterfall(x,y,width,height,time){
+  ctx.save();
+  // Vách đá tối làm nền, nước không còn là một dải dài đặc.
+  const rock=ctx.createLinearGradient(x-width*1.5,y,x+width*1.5,y+height);
+  rock.addColorStop(0,"#526d58");rock.addColorStop(.5,"#294c43");rock.addColorStop(1,"#183a36");
+  ctx.fillStyle=rock;ctx.beginPath();
+  ctx.moveTo(x-width*1.45,y-8);ctx.lineTo(x+width*1.45,y-8);
+  ctx.lineTo(x+width*1.9,y+height);ctx.lineTo(x-width*1.9,y+height);ctx.closePath();ctx.fill();
+  // Hồ nguồn.
+  const source=ctx.createLinearGradient(x-width,y-8,x+width,y+10);
+  source.addColorStop(0,"#286879");source.addColorStop(.5,"#d9fff2");source.addColorStop(1,"#347d88");
+  ctx.fillStyle=source;ctx.beginPath();ctx.ellipse(x,y+2,width*1.05,8,0,0,Math.PI*2);ctx.fill();
+  // Màn nước nền mờ, có mép cong thay vì một khối chữ nhật.
+  const base=ctx.createLinearGradient(x-width,y,x+width,y);
+  base.addColorStop(0,"rgba(49,126,143,.55)");base.addColorStop(.24,"rgba(135,215,211,.75)");
+  base.addColorStop(.5,"rgba(225,255,244,.88)");base.addColorStop(.78,"rgba(105,190,194,.72)");base.addColorStop(1,"rgba(39,105,126,.5)");
+  ctx.fillStyle=base;ctx.beginPath();
+  ctx.moveTo(x-width*.48,y+4);
+  ctx.bezierCurveTo(x-width*.62,y+height*.28,x-width*.8,y+height*.72,x-width*1.15,y+height);
+  ctx.quadraticCurveTo(x,y+height+8,x+width*1.15,y+height);
+  ctx.bezierCurveTo(x+width*.8,y+height*.72,x+width*.62,y+height*.28,x+width*.48,y+4);
+  ctx.closePath();ctx.fill();
+  ctx.save();ctx.beginPath();
+  ctx.moveTo(x-width*.48,y+4);
+  ctx.bezierCurveTo(x-width*.62,y+height*.28,x-width*.8,y+height*.72,x-width*1.15,y+height);
+  ctx.quadraticCurveTo(x,y+height+8,x+width*1.15,y+height);
+  ctx.bezierCurveTo(x+width*.8,y+height*.72,x+width*.62,y+height*.28,x+width*.48,y+4);
+  ctx.closePath();ctx.clip();
+  // Nhiều sợi ngắn tách rời, trượt từ trên xuống với tốc độ vừa phải.
+  const offset=(time*.045)%58;
+  for(let i=0;i<34;i++){
+    const t=(i+.5)/34;
+    const px=x-width*1.02+t*width*2.04;
+    const len=18+(i%5)*8+(Math.sin(i*2.1)*4);
+    const travel=(i*19+offset*(.72+(i%4)*.12))%(height+len)-len;
+    const sway=Math.sin(time*.0012+i*1.73)*2.8;
+    const alpha=.25+((i*7)%10)/18;
+    ctx.globalAlpha=alpha;
+    ctx.strokeStyle=i%7===0?"#f7fff0":i%3===0?"#e2fff5":"#79c9ce";
+    ctx.lineWidth=i%6===0?2.2:1+(i%3)*.35;
+    ctx.lineCap="round";ctx.beginPath();
+    ctx.moveTo(px, y+travel);
+    ctx.bezierCurveTo(px+sway-2,y+travel+len*.32,px+sway+2,y+travel+len*.72,px+sway,y+travel+len);
+    ctx.stroke();
+    if(i%3===0){
+      ctx.globalAlpha=alpha*.55;ctx.fillStyle="#f4fff7";
+      ctx.beginPath();ctx.ellipse(px+sway,y+travel+len,1.2,2.2,0,0,Math.PI*2);ctx.fill();
+    }
+  }
+  // Các gợn ngang ngắn, phân tán.
+  for(let i=0;i<15;i++){
+    const yy=y+((i*37+time*.022)%(height+12));
+    const xx=x+Math.sin(i*2.7+time*.001)*width*.56;
+    ctx.globalAlpha=.25+.25*Math.sin(i+time*.003)**2;
+    ctx.strokeStyle="#f1fff4";ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(xx-width*.12,yy);ctx.quadraticCurveTo(xx,yy+2,xx+width*.13,yy);ctx.stroke();
+  }
+  ctx.restore();
+  ctx.globalAlpha=1;
+  // Bọt chân thác và hồ nước.
+  const mist=ctx.createRadialGradient(x,y+height,2,x,y+height,width*2.7);
+  mist.addColorStop(0,"rgba(244,255,247,.62)");mist.addColorStop(.35,"rgba(129,220,211,.28)");mist.addColorStop(1,"rgba(80,155,160,0)");
+  ctx.fillStyle=mist;ctx.beginPath();ctx.ellipse(x,y+height,width*2.7,13,0,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle="rgba(236,255,246,.7)";ctx.lineWidth=1.5;
+  for(let i=0;i<3;i++){ctx.beginPath();ctx.ellipse(x,y+height+2,width*(.8+i*.48),4+i*2,0,0,Math.PI*2);ctx.stroke();}
+  ctx.restore();
+}
+
+function drawDenseForest(time){
+  // Rừng chỉ mọc trên hai sườn núi; vùng sông và quảng trường luôn để trống.
+  const clusters=[
+    {x:18,y:520,s:1.05},{x:62,y:500,s:.88},{x:105,y:535,s:.78},
+    {x:145,y:485,s:.62},{x:185,y:515,s:.54},{x:235,y:485,s:.48},
+    {x:865,y:485,s:.48},{x:915,y:515,s:.54},{x:955,y:485,s:.62},
+    {x:1000,y:535,s:.78},{x:1040,y:500,s:.88},{x:1080,y:520,s:1.05}
+  ];
+  clusters.forEach((p,i)=>{
+    const sway=Math.sin(time*.0007+i*1.9)*1.5;
+    drawPine(p.x+sway,p.y,p.s*(.96+.025*Math.sin(time*.001+i)));
+    drawTree(p.x+13,p.y+14,p.s*.62,i%2?"#315f49":"#3b704e");
+    // Tán bụi và cây non tạo cảm giác rừng nhiều tầng.
+    ctx.save();ctx.globalAlpha=.9;ctx.fillStyle=i%2?"#244c3c":"#2d5941";
+    for(let k=0;k<4;k++){
+      const xx=p.x-22+k*13,yy=p.y+22+(k%2)*7;
+      ctx.beginPath();ctx.ellipse(xx,yy,13*p.s,8*p.s,-.15,0,Math.PI*2);ctx.fill();
+    }
+    ctx.restore();
+  });
+  // Lớp tán cây xa trên sườn núi, không đặt vào lòng sông.
+  for(let i=0;i<15;i++){
+    const left=i<8,x=left?12+i*18:970+(i-8)*18;
+    const y=430+(i%3)*17,s=.34+(i%4)*.07;
+    drawPine(x,y,s,i%2?"#315e48":"#426d4c");
+  }
+}
+
+function drawCelestialDestination(time){
+  const x=TRACK.right,top=TRACK.top-48,bottom=TRACK.bottom-8;
+  ctx.save();
+  // Quầng sáng sau cổng.
+  const halo=ctx.createRadialGradient(x,top+92,4,x,top+92,142);
+  halo.addColorStop(0,"rgba(255,239,178,.62)");halo.addColorStop(.35,"rgba(155,226,222,.22)");halo.addColorStop(1,"rgba(115,211,208,0)");
+  ctx.fillStyle=halo;ctx.fillRect(x-150,top-35,300,bottom-top+70);
+  // Hai trụ ngọc chạm khắc, không có chữ hay biển hiệu.
+  for(const side of [-1,1]){
+    const px=x+side*36;
+    const grad=ctx.createLinearGradient(px-9,0,px+9,0);
+    grad.addColorStop(0,"#526b63");grad.addColorStop(.35,"#e9d99f");grad.addColorStop(.65,"#9dc6b3");grad.addColorStop(1,"#40594d");
+    ctx.fillStyle=grad;ctx.fillRect(px-7,top+35,14,bottom-top-35);
+    ctx.strokeStyle="#fff0bc";ctx.lineWidth=1.5;ctx.strokeRect(px-7,top+35,14,bottom-top-35);
+    for(let j=0;j<4;j++){
+      const yy=top+54+j*78;
+      ctx.fillStyle="#f4df9f";ctx.beginPath();ctx.arc(px,yy,3.2,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle="rgba(255,239,186,.8)";ctx.beginPath();ctx.ellipse(px,yy,13,5,0,0,Math.PI*2);ctx.stroke();
+    }
+    // Đế sen.
+    ctx.fillStyle="#9b8256";ctx.beginPath();ctx.moveTo(px-18,bottom);ctx.lineTo(px-13,bottom-12);ctx.lineTo(px+13,bottom-12);ctx.lineTo(px+18,bottom);ctx.closePath();ctx.fill();
+    ctx.fillStyle="#e9d59a";ctx.fillRect(px-21,bottom-14,42,4);
+  }
+  // Vòm ngọc nhiều tầng, tạo dáng cổng thiên giới.
+  for(let layer=0;layer<3;layer++){
+    ctx.beginPath();ctx.moveTo(x-52,top+45+layer*7);
+    ctx.quadraticCurveTo(x,top-31+layer*7,x+52,top+45+layer*7);
+    ctx.strokeStyle=layer===0?"#fff2bf":layer===1?"#d6b36e":"#6d9e8a";
+    ctx.lineWidth=layer===0?6:layer===1?3:1.5;ctx.stroke();
+  }
+  // Vòng tiên trận ở giữa, không có bảng chữ.
+  const pulse=1+Math.sin(time*.002)*.035;
+  ctx.save();ctx.translate(x,top+104);ctx.scale(pulse,1);
+  for(let i=0;i<3;i++){
+    ctx.strokeStyle=i===0?"rgba(255,246,199,.9)":"rgba(135,224,214,.65)";
+    ctx.lineWidth=i===0?2.4:1.2;ctx.beginPath();ctx.ellipse(0,0,31+i*13,43+i*10,0,0,Math.PI*2);ctx.stroke();
+  }
+  ctx.rotate(time*.00022);ctx.strokeStyle="rgba(255,238,181,.82)";ctx.lineWidth=1.4;
+  for(let i=0;i<8;i++){ctx.rotate(Math.PI/4);ctx.beginPath();ctx.moveTo(0,-20);ctx.lineTo(0,-52);ctx.stroke();ctx.beginPath();ctx.arc(0,-54,3,0,Math.PI*2);ctx.stroke();}
+  ctx.restore();
+  // Vệt sáng đích dạng cột linh quang.
+  const beam=ctx.createLinearGradient(0,top+52,0,bottom-8);
+  beam.addColorStop(0,"rgba(255,249,209,0)");beam.addColorStop(.5,"rgba(255,246,198,.8)");beam.addColorStop(1,"rgba(255,249,209,0)");
+  ctx.fillStyle=beam;ctx.fillRect(x-1.5,top+52,3,bottom-top-60);
+  ctx.restore();
+}
+
+function drawImmortalFinishGate(){
+  drawCelestialDestination(sceneTime||0);
+}
+
+function drawAmbientEnergy(time){
+  const orbit=(cx,cy,rx,ry,amount,color,speed,alpha)=>{
+    ctx.save();ctx.strokeStyle=color;ctx.lineWidth=1.6;ctx.globalAlpha=alpha;
+    ctx.shadowColor=color;ctx.shadowBlur=9;
+    for(let i=0;i<amount;i++){
+      const a=time*speed+i*Math.PI*2/amount;
+      const x=cx+Math.cos(a)*rx,y=cy+Math.sin(a)*ry;
+      ctx.beginPath();ctx.ellipse(cx,cy,rx,ry,a*.08,a,a+.72);ctx.stroke();
+      ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y,1.7,0,Math.PI*2);ctx.fill();
+    }
+    ctx.restore();
+  };
+  // Thứ tự cường độ: chưởng môn > trưởng lão/thân truyền > kiến trúc > thác/sông > tiên hạc.
+  orbit(550,648,78,27,10,"#ffe8a4",.00072,.92);
+  orbit(550,648,112,38,7,"#fff0bf",-.00048,.68);
+  for(let i=0;i<10;i++){
+    orbit(150+i*22,655,15,7,2,"#b9d8ff",.0009+i*.00002,.34);
+    orbit(730+i*22,655,16,7,2,"#d8c2ff",-.00085-i*.00002,.36);
+  }
+  // Linh khí trên các lầu các, nhẹ hơn nhóm danh dự.
+  [[185,280],[305,292],[425,282],[550,318],[675,282],[795,292],[915,220],[185,438],[305,446],[425,438],[550,450],[675,438],[900,440],[795,445]].forEach((p,i)=>{
+    orbit(p[0],p[1]-28,22,8,2,"#f3dfac",.00042+i*.000015,.18);
+  });
+  // Hơi nước và sông chỉ có hạt sáng thưa, rất nhẹ.
+  for(let i=0;i<16;i++){
+    const x=105+(i*67)%900,y=360+(i%5)*26;
+    ctx.globalAlpha=.10+.08*Math.sin(time*.002+i)**2;ctx.fillStyle="#d7fff0";
+    ctx.beginPath();ctx.arc(x+Math.sin(time*.001+i)*5,y,1.4,0,Math.PI*2);ctx.fill();
+  }
+}
+
+function drawSpiritBirds(time){
+  // Bay xa dọc sườn núi và các lầu các; đổi hướng ở điểm dừng,
+  // thân chim luôn thẳng, không lộn đầu và không quay 180 độ.
+  const flocks=[
+    {n:3,left:95,right:1015,baseY:178,ampY:23,speed:.000105,phase:.4,scale:.66},
+    {n:3,left:145,right:965,baseY:246,ampY:18,speed:.000083,phase:2.1,scale:.54},
+    {n:2,left:240,right:860,baseY:128,ampY:12,speed:.00012,phase:4.0,scale:.43}
+  ];
+  const smooth=t=>t*t*(3-2*t);
+  flocks.forEach((g,gi)=>{
+    for(let i=0;i<g.n;i++){
+      const p=((time*g.speed+g.phase+i/g.n)%1+1)%1;
+      // Sinus tạo vận tốc bằng 0 ở hai đầu; lật hướng đúng tại điểm dừng.
+      const wave=(1-Math.cos(p*Math.PI*2))*.5;
+      const x=g.left+(g.right-g.left)*wave;
+      const dx=Math.sin(p*Math.PI*2);
+      const facingLeft=dx<0;
+      const y=g.baseY+Math.sin(p*Math.PI*2+gi*.8+i*.65)*g.ampY+Math.sin(time*.0008+i*2)*2;
+      const flap=Math.sin(time*.0031+i*1.8+gi)*.68;
+      const sc=g.scale*(.97+.03*Math.cos(p*Math.PI*2));
+      ctx.save();ctx.translate(x,y);
+      // Không xoay toàn thân; chỉ nghiêng rất nhẹ theo quỹ đạo.
+      ctx.rotate(Math.cos(p*Math.PI*2)*.035);
+      ctx.scale(facingLeft?-sc:sc,sc);
+      // Bóng mờ nhỏ vì bay ở xa.
+      ctx.globalAlpha=.12;ctx.fillStyle="#e8f6e8";ctx.beginPath();ctx.ellipse(-2,13,34,5,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
+      // Đuôi lông.
+      ctx.fillStyle="#f5f5ed";ctx.beginPath();ctx.moveTo(-15,1);ctx.lineTo(-47,-7);ctx.lineTo(-67,-3);ctx.lineTo(-48,5);ctx.lineTo(-63,11);ctx.lineTo(-37,10);ctx.closePath();ctx.fill();
+      ctx.fillStyle="#4a5049";for(let k=0;k<4;k++){ctx.beginPath();ctx.moveTo(-35-k*3,2+k*2);ctx.lineTo(-61-k*2,-4+k*3);ctx.lineTo(-43-k*3,8+k*2);ctx.closePath();ctx.fill();}
+      // Cánh trên và cánh dưới tạo nhịp vỗ rõ nhưng thân không xoay.
+      ctx.save();ctx.translate(-5,-2);ctx.rotate(-.05-flap*.48);
+      ctx.fillStyle="#fffef7";ctx.beginPath();ctx.moveTo(0,0);ctx.quadraticCurveTo(-15,-22-flap*5,-42,-26-flap*7);ctx.quadraticCurveTo(-34,-8-flap*2,-61,9-flap*2);ctx.quadraticCurveTo(-32,15,-6,9);ctx.closePath();ctx.fill();
+      ctx.fillStyle="#dce6dc";ctx.beginPath();ctx.moveTo(0,1);ctx.quadraticCurveTo(-12,8+flap*5,-39,25+flap*8);ctx.quadraticCurveTo(-31,10,-5,7);ctx.closePath();ctx.fill();
+      ctx.restore();
+      // Thân, cổ ngắn, đầu và mỏ.
+      ctx.fillStyle="#fffef7";ctx.beginPath();ctx.ellipse(0,4,22,8,-.04,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle="#fffef7";ctx.lineWidth=5.5;ctx.lineCap="round";ctx.beginPath();ctx.moveTo(14,0);ctx.quadraticCurveTo(22,-3,24,-13);ctx.quadraticCurveTo(25,-20,33,-21);ctx.stroke();
+      ctx.fillStyle="#fffef7";ctx.beginPath();ctx.ellipse(36,-22,7,5,0,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle="#bf4940";ctx.beginPath();ctx.moveTo(41,-22);ctx.lineTo(52,-20);ctx.lineTo(41,-18);ctx.closePath();ctx.fill();
+      ctx.fillStyle="#29322e";ctx.beginPath();ctx.arc(37,-24,1,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle="#b84a43";ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(0,10);ctx.lineTo(-2,21);ctx.lineTo(-7,22);ctx.moveTo(8,10);ctx.lineTo(9,20);ctx.lineTo(4,22);ctx.stroke();
+      ctx.restore();
+    }
+  });
+}
+
+function drawAwardMaster(target,x,y,scale,time){
+  target.save();target.translate(x,y);target.scale(scale,scale);
+  // Phi kiếm chưởng môn: thân kiếm dài, chuôi ngọc, trận văn và đuôi linh quang.
+  const sword=target.createLinearGradient(-66,0,66,0);
+  sword.addColorStop(0,"#8c9da0");sword.addColorStop(.25,"#e8f7e8");sword.addColorStop(.52,"#fff4c1");sword.addColorStop(.78,"#a9dcd2");sword.addColorStop(1,"#607c80");
+  target.save();target.shadowColor="#baf7ef";target.shadowBlur=20;
+  target.fillStyle="rgba(179,244,233,.16)";target.beginPath();target.ellipse(-4,24,90,15,0,0,Math.PI*2);target.fill();
+  target.fillStyle=sword;target.beginPath();target.moveTo(-68,22);target.lineTo(48,16);target.lineTo(69,21);target.lineTo(47,26);target.lineTo(-68,27);target.closePath();target.fill();
+  target.strokeStyle="#fff3bf";target.lineWidth=2;target.stroke();
+  target.fillStyle="#b68a43";target.fillRect(-17,15,7,16);target.fillRect(-27,17,25,4);
+  target.fillStyle="#70d4d0";target.beginPath();target.arc(-14,17,4,0,Math.PI*2);target.fill();
+  target.restore();
+  // Vệt bay kéo dài phía sau.
+  target.globalAlpha=.55;target.strokeStyle="#d9fff1";target.lineWidth=2;
+  for(let i=0;i<4;i++){target.beginPath();target.moveTo(-75,28+i*3);target.quadraticCurveTo(-105,20+i*7,-132,34+i*5);target.stroke();}
+  target.globalAlpha=1;
+  // Thân chưởng môn, tay phải vươn ra trao pháp bảo.
+  target.fillStyle="#54292b";target.beginPath();target.moveTo(-28,16);target.lineTo(-24,-48);target.quadraticCurveTo(0,-67,24,-48);target.lineTo(30,16);target.closePath();target.fill();
+  target.fillStyle="#a8443b";target.beginPath();target.moveTo(-23,12);target.lineTo(-19,-43);target.lineTo(0,-54);target.lineTo(20,-43);target.lineTo(25,12);target.closePath();target.fill();
+  target.strokeStyle="#f2d48b";target.lineWidth=3;target.stroke();
+  target.fillStyle="#eac39d";target.beginPath();target.ellipse(0,-68,14,17,0,0,Math.PI*2);target.fill();
+  target.fillStyle="#e6dfd2";target.beginPath();target.moveTo(-10,-57);target.lineTo(10,-57);target.lineTo(7,-32);target.lineTo(0,-26);target.lineTo(-7,-32);target.closePath();target.fill();
+  target.fillStyle="#e8c36e";target.beginPath();target.moveTo(-16,-80);target.lineTo(-12,-98);target.lineTo(-4,-86);target.lineTo(0,-108);target.lineTo(5,-86);target.lineTo(13,-98);target.lineTo(16,-80);target.closePath();target.fill();
+  target.strokeStyle="#efc39b";target.lineWidth=6;target.lineCap="round";target.beginPath();
+  target.moveTo(-20,-39);target.lineTo(-37,-8);
+  target.moveTo(20,-39);target.lineTo(40,-49);
+  target.stroke();
+  target.strokeStyle="#efc39b";target.lineWidth=5;target.beginPath();target.moveTo(40,-49);target.lineTo(55,-58);target.stroke();
+  target.fillStyle="#ffe6a0";target.shadowColor="#ffe6a0";target.shadowBlur=20+Math.sin(time*.006)*5;
+  target.beginPath();target.arc(58,-60,7,0,Math.PI*2);target.fill();target.shadowBlur=0;
+  target.restore();
+}
+
+function drawPodiumScene(target,time,mini=false){
+  const ordered=sortedRacers().slice(0,3),w=target.canvas.width,h=target.canvas.height;
+  const elapsedCeremony=Math.max(0,(performance.now()-ceremonyStartedAt)/1000);
+  const awardDuration=6.0,flightPhase=(elapsedCeremony%awardDuration)/awardDuration;
+  const finalCeremony=elapsedCeremony>=awardDuration*3;
+  drawCeremonyBackdrop(target,mini,time);
+  target.save();target.textAlign="center";target.textBaseline="middle";
+  if(!finalCeremony){
+    const rank=Math.min(3,Math.floor(elapsedCeremony/awardDuration)+1),racer=ordered[rank-1];
+    const color=rank===1?"#ffe17b":rank===2?"#dcecff":"#e6a16c";
+    target.font=mini?"900 11px Georgia":"900 30px Georgia";target.fillStyle=color;target.shadowColor=color;target.shadowBlur=mini?8:20;
+    target.fillText(rank===1?"BAN THƯỞNG ĐỆ NHẤT":rank===2?"BAN THƯỞNG ĐỆ NHỊ":"BAN THƯỞNG ĐỆ TAM",w*.5,mini?12:h*.09);target.shadowBlur=0;
+    // Ngai chưởng môn còn ở phía trái sân khấu; chưởng môn khởi hành từ ngai.
+    const throneX=w*.17,throneY=h*.82;
+    target.fillStyle="#644b35";target.fillRect(throneX-w*.055,throneY-h*.10,w*.11,h*.10);
+    target.fillStyle="#d8b975";target.fillRect(throneX-w*.063,throneY-h*.105,w*.126,h*.012);
+    target.fillStyle="#8e3d35";target.fillRect(throneX-w*.035,throneY-h*.20,w*.07,h*.10);
+    target.strokeStyle="#f0d28a";target.lineWidth=mini?1:3;target.strokeRect(throneX-w*.035,throneY-h*.20,w*.07,h*.10);
+    // Bay từ ngai lên giữa sân, dừng lại trao tận tay rồi lướt về.
+    const flightIn=smoothstep(flightPhase/.34),flightOut=smoothstep((flightPhase-.84)/.16);
+    const masterX=throneX+(w*.43-throneX)*flightIn-(w*.10)*flightOut;
+    const masterY=throneY-h*.19-(h*.12)*Math.sin(Math.min(1,flightPhase/.84)*Math.PI*.72);
+    const masterScale=mini?.43:1.12;
+    drawAwardMaster(target,masterX,masterY,masterScale,time);
+    if(racer){
+      const winnerX=w*.76,winnerY=h*.68;
+      drawRacer(target,racer,winnerX,winnerY,mini?.73:1.18,time);
+      // Tên và thứ hạng nằm ở chân sân khấu, không che gương mặt.
+      target.font=mini?"bold 7px Arial":"bold 16px Arial";target.fillStyle="#fff4ce";
+      target.fillText(racer.name,winnerX,h*.86,w*.34);
+      target.font=mini?"bold 7px Arial":"bold 15px Georgia";target.fillStyle=color;
+      target.fillText("HẠNG "+rank,winnerX,h*.92);
+      // Pháp bảo được chuyển tận tay: viên ngọc bay khỏi tay chưởng môn sang tay người nhận.
+      const handoff=smoothstep((flightPhase-.42)/.25);
+      const giftX=masterX+ (winnerX-masterX)*handoff;
+      const giftY=h*.60-Math.sin(handoff*Math.PI)*h*.07;
+      target.strokeStyle=color;target.lineWidth=mini?2:4;target.shadowColor=color;target.shadowBlur=mini?7:18;
+      target.beginPath();target.moveTo(masterX+w*.045,masterY-h*.10);target.quadraticCurveTo(w*.55,h*.36,giftX,handoff>.8?winnerY-h*.10:giftY);target.stroke();target.shadowBlur=0;
+      target.fillStyle=color;target.shadowColor=color;target.shadowBlur=mini?8:22;
+      target.beginPath();target.arc(giftX,giftY,mini?4:9,0,Math.PI*2);target.fill();target.shadowBlur=0;
+      target.fillStyle="#fff0c5";target.font=mini?"bold 7px Arial":"bold 16px Arial";
+      target.fillText(flightPhase<.34?"CHƯỞNG MÔN NGỰ KIẾM XUẤT ĐIỆN":flightPhase<.84?"TẬN TAY BAN TẶNG PHÁP BẢO":"HOÀN LỄ TRỞ VỀ NGỌA TỌA",w*.5,h*.97);
+    }
+  }else{
+    // Sau khi đã trao đủ cả ba phần thưởng mới vinh danh tam giáp.
+    target.font=mini?"900 11px Georgia":"900 31px Georgia";target.fillStyle="#fff0b8";target.shadowColor="#ffcf64";target.shadowBlur=mini?8:22;
+    target.fillText("VINH DANH TAM GIÁP TIÊN HỘI",w*.5,mini?12:h*.10);target.shadowBlur=0;
+    const podiumX=[w*.25,w*.5,w*.75],ranks=[2,1,3],colors=["#c88d45","#d9e1e8","#b8794e"],glows=["#ffe17b","#dcecff","#e6a16c"];
+    for(let i=0;i<3;i++){
+      const rank=ranks[i],racer=ordered[rank-1];if(!racer)continue;
+      const base=h*.96,top=h*(rank===1?.69:.77),bw=w*.19;
+      const grad=target.createLinearGradient(podiumX[i]-bw/2,top,podiumX[i]+bw/2,base);
+      grad.addColorStop(0,colors[rank-1]);grad.addColorStop(1,"#382f2a");
+      target.fillStyle=grad;target.fillRect(podiumX[i]-bw/2,top,bw,base-top);
+      target.strokeStyle=glows[rank-1];target.lineWidth=mini?1:2;target.strokeRect(podiumX[i]-bw/2,top,bw,base-top);
+      target.fillStyle=glows[rank-1];target.font=mini?"bold 8px Arial":"bold 18px Georgia";target.fillText("HẠNG "+rank,podiumX[i],top+(mini?8:17));
+      target.font=mini?"bold 6px Arial":"bold 13px Arial";target.fillStyle="#fff1c8";target.fillText(racer.name,podiumX[i],base-(mini?4:8),bw-5);
+    }
+    drawAwardMaster(target,w*.5,h*.62,mini?.34:.88,time);
+  }
+  target.restore();
+}
+
+function drawScenery(time){
+  drawSky(time);
+  drawMountainRange();
+  drawMovingClouds(time);
+  // Thác và các lầu các được đặt trên sườn núi, phía sau trường đua.
+  drawWaterfall(112,292,25,172,time);
+  drawWaterfall(972,238,34,205,time);
+  drawSectArchitecture(time);
+  // Rừng rậm ở hai sườn, chừa lòng sông và quảng trường hoàn toàn thoáng.
+  drawDenseForest(time);
+  drawRiver(time);
+  // Linh khí cảnh quan thưa dần theo cấp độ quan trọng.
+  drawAmbientEnergy(time);
+  // Tiên hạc bay xa phía núi, không xoay lộn ngược.
+  drawSpiritBirds(time);
+  drawCrowd(time);
+}
+
