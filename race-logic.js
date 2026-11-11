@@ -1,6 +1,9 @@
 
 "use strict";
 
+// Khai báo trước lần updateRanking() khởi tạo ở cuối file.
+let rankingOrderSignature = "";
+
 // =====================================================
 // PHÂN BỔ THỜI ĐIỂM VỀ ĐÍCH
 // =====================================================
@@ -651,7 +654,7 @@ function drawCamera(time){
   $("leaderProgress").textContent="Hạng "+rank;
  }
 }
-let rankingOrderSignature = "";
+
 
 function updateRanking(){
  const body=$("rankBody");
