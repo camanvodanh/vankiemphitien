@@ -3,6 +3,7 @@
 
 // Khai báo trước lần updateRanking() khởi tạo ở cuối file.
 let rankingOrderSignature = "";
+let raceStopped = false;
 
 // =====================================================
 // PHÂN BỔ THỜI ĐIỂM VỀ ĐÍCH
@@ -443,6 +444,7 @@ function finishRace() {
 
 function resetGame() {
   racers = [];
+  raceStopped = false;
   particles = [];
 
   running = false;
@@ -488,7 +490,7 @@ $("quantity").addEventListener("change", getRandomQuantity);
 $("names").addEventListener("input",()=>{const n=getInputNames().length;if(n)$("quantity").value=n;});
 
 $("summon").addEventListener("click", summon);
-$("start").addEventListener("click", toggleRaceControl);
+$("start").addEventListener("click", startRace);
 
 $("pause").addEventListener("click", () => {
   if (paused) {
@@ -551,6 +553,7 @@ function summon(){
   if(!finalNames.length)return;
   if(finalNames.length>100){$("lockNotice").textContent="Tối đa 100 tiên nhân. Hãy rút gọn danh sách rồi triệu hồi lại.";return;}
   racers=finalNames.map((name,index)=>createRacer(name,index));
+  raceStopped=false;
   racers.forEach(r=>{r.swordStyle=randInt(0,11);r.swordColor=randInt(0,9);if(r.gender==="female")r.swordColor=randInt(0,3);else r.swordColor=randInt(4,7);});
   duration=Number($("speed").value);
   elapsed=0;running=false;paused=false;started=false;finished=false;
@@ -584,6 +587,7 @@ function toggleRaceControl(){
 function startRace(){
   if(!racers.length||running||paused)return;
   duration=Number($("speed").value);
+  raceStopped=false;
   elapsed=0;countdown=3;countdownAccumulator=0;eventClock=0;nextEvent=rand(5,9);
   finishQueue=[];cameraFocusId=null;finishMessage="";finishMessageLife=0;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;
   eventText="BẮT ĐẦU SAU 3";eventTextLife=1;
@@ -615,7 +619,7 @@ function finishRace(){
  syncButtons();updateRanking();
 }
 function resetGame(){
-  racers=[];particles=[];running=false;paused=false;started=false;finished=false;
+  racers=[];raceStopped=false;particles=[];running=false;paused=false;started=false;finished=false;
   countdown=0;countdownAccumulator=0;elapsed=0;eventClock=0;eventText="";eventTextLife=0;
   finishQueue=[];cameraFocusId=null;finishMessage="";finishMessageLife=0;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;
   $("status").textContent="Chờ triệu hồi";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa khai mở";$("lockNotice").textContent="Bước 1: Nhập tên hoặc chọn số lượng, sau đó nhấn Triệu hồi.";
@@ -801,7 +805,7 @@ function collapseSetupPanel(){
 }
 function stopRace(){
  if(!racers.length)return;
- running=false;paused=false;started=false;finished=false;
+ running=false;paused=false;started=false;finished=false;raceStopped=true;
  countdown=0;countdownAccumulator=0;
  $("status").textContent="Cuộc đua đã dừng";
  $("pause").hidden=true;$("pause").disabled=true;
@@ -811,11 +815,16 @@ function stopRace(){
  setSetupPanel(true);syncButtons();render(performance.now());
 }
 function syncButtons(){
- $("start").disabled=!racers.length||running||paused||finished;
- $("pause").disabled=!running&&!paused;
- $("stop").disabled=!racers.length||(!running&&!paused&&!started);
- const panel=document.querySelector(".arena-frame .game-setup");
- $("setupToggle").hidden=!racers.length||!panel||!panel.hidden||running||paused;
+ const startButton=$("start"),pauseButton=$("pause"),stopButton=$("stop");
+ const restart=finished||raceStopped;
+ startButton.innerHTML='<span class="btn-icon" aria-hidden="true">'+(restart?'↻':'▶')+'</span><span class="btn-label">'+(restart?'Bắt đầu lại':'Chạy')+'</span>';
+ startButton.disabled=!racers.length||running||paused;
+ pauseButton.hidden=!running&&!paused;
+ pauseButton.disabled=!running&&!paused;
+ pauseButton.textContent=paused?'▶ Tiếp tục':'Ⅱ Tạm ngưng';
+ stopButton.hidden=!running&&!paused;
+ stopButton.disabled=!running&&!paused;
+ $("setupToggle").hidden=true;
  $("summon").disabled=locked||running||paused;
 }
 
