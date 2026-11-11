@@ -6588,69 +6588,90 @@ function drawAwardMaster(target,x,y,scale,time){
 // chưởng môn ở quảng trường với chưởng môn trao thưởng.
 // =====================================================
 function drawMasterBaguaHalo(target,x,y,scale,time){
-  // Thái Cực đồ được kết tụ hoàn toàn từ chấm linh khí,
-  // đặt dưới chân chưởng môn; tuyệt đối không vẽ vòng trận sau lưng.
+  // Thái Cực linh khí kết tụ từ hạt sáng, đặt sau lưng chưởng môn.
+  // Không có bất kỳ quẻ, phù văn hay vòng Bát Quái nào.
   target.save();
-  target.translate(x,y+54*scale);
-  target.scale(scale,.62*scale);
+  target.translate(x,y-42*scale);
+  target.scale(scale,.88*scale);
   target.rotate(time*.00016);
 
-  const R=48;
-  const pulse=.72+.28*Math.sin(time*.003);
+  const R=69;
+  const pulse=.76+.24*Math.sin(time*.003);
   const dot=(px,py,size,color,alpha=1)=>{
     target.globalAlpha=alpha;
     target.fillStyle=color;
     target.shadowColor=color;
-    target.shadowBlur=3.5;
+    target.shadowBlur=4.2;
     target.beginPath();target.arc(px,py,size,0,Math.PI*2);target.fill();
   };
 
-  // Viền ngoài chỉ là chuỗi hạt linh quang rời, không có nét vẽ liền.
-  for(let i=0;i<88;i++){
-    const a=i*Math.PI*2/88;
-    const drift=Math.sin(time*.002+i*.71)*1.15;
-    const r=R+drift;
-    const size=(i%4===0?1.9:1.15)*pulse;
-    dot(Math.cos(a)*r,Math.sin(a)*r,size,i%3===0?"#f7d995":"#8de5d4",.48+.42*(.5+.5*Math.sin(time*.003+i)));
+  // Viền Thái Cực chỉ là các hạt linh quang rời, chuyển động nhẹ.
+  for(let i=0;i<112;i++){
+    const a=i*Math.PI*2/112;
+    const drift=Math.sin(time*.002+i*.71)*1.6;
+    const rr=R+drift;
+    dot(Math.cos(a)*rr,Math.sin(a)*rr,(i%4===0?2.15:1.35)*pulse,
+      i%3===0?"#ffe3a0":"#91f1df",
+      .52+.4*(.5+.5*Math.sin(time*.003+i)));
   }
 
-  // Hạt bên trong tự sắp thành hai cực âm dương, phân cách bằng đường S.
-  // Mỗi hạt có độ lệch nhỏ để tạo cảm giác linh khí đang tụ hình.
-  for(let row=-11;row<=11;row++){
-    const py=row*4.05;
+  // Mật độ hạt dày hơn để hình âm dương lớn, rõ và có cảm giác tự hình thành.
+  for(let row=-15;row<=15;row++){
+    const py=row*4.35;
     const half=Math.sqrt(Math.max(0,R*R-py*py));
-    for(let col=-11;col<=11;col++){
-      const px=col*4.05;
+    for(let col=-15;col<=15;col++){
+      const px=col*4.35;
       if(Math.abs(px)>half)continue;
       const t=Math.acos(Math.max(-1,Math.min(1,-py/R)));
       const boundary=(R*.5)*Math.sin(2*t);
       const isYang=px>boundary;
-      const swirl=Math.sin(time*.0025+row*.8+col*.63)*.72;
-      const size=(1.05+(.35*Math.sin(time*.004+row+col)))*pulse;
-      const color=isYang?"#fff0c8":"#183b38";
-      dot(px+swirl,py+Math.cos(time*.002+col)*.48,size,color,.72);
+      const driftX=Math.sin(time*.0025+row*.8+col*.63)*1.05;
+      const driftY=Math.cos(time*.002+col*.7+row*.31)*.75;
+      const size=(1.15+.42*Math.sin(time*.004+row+col))*pulse;
+      dot(px+driftX,py+driftY,size,isYang?"#fff0ca":"#173b38",.78);
     }
   }
 
-  // Hai mắt âm dương là các hạt sáng/đậm tụ thành vòng tròn nhỏ.
+  // Hai mắt âm dương cũng được ghép từ từng hạt nhỏ.
   for(const eye of [{y:-R/2,light:false},{y:R/2,light:true}]){
-    for(let i=0;i<18;i++){
-      const a=i*Math.PI*2/18,rr=5.2+Math.sin(time*.003+i)*.45;
-      dot(Math.cos(a)*rr,eye.y+Math.sin(a)*rr,1.45,eye.light?"#fff0c8":"#183b38",.98);
+    for(let i=0;i<24;i++){
+      const a=i*Math.PI*2/24,rr=7+Math.sin(time*.003+i)*.6;
+      dot(Math.cos(a)*rr,eye.y+Math.sin(a)*rr,1.75,
+        eye.light?"#fff0ca":"#173b38",.98);
     }
-    dot(0,eye.y,2.15,eye.light?"#fff0c8":"#183b38",1);
+    dot(0,eye.y,2.5,eye.light?"#fff0ca":"#173b38",1);
   }
 
-  // Một ít hạt bay tản ra rồi nhập lại, tạo cảm giác Thái Cực đang được kết tụ.
-  for(let i=0;i<16;i++){
-    const a=time*.0007+i*Math.PI*2/16;
-    const r=R+7+Math.sin(time*.002+i)*3;
-    const alpha=.2+.35*(.5+.5*Math.sin(time*.003+i*1.7));
-    dot(Math.cos(a)*r,Math.sin(a)*r,1.05,i%2?"#b5f4e5":"#ffe2a0",alpha);
+  // Hạt ngoại vi bay tản rồi hút về tâm, nhấn mạnh quá trình ngưng tụ linh khí.
+  for(let i=0;i<22;i++){
+    const a=time*.0007+i*Math.PI*2/22;
+    const rr=R+9+Math.sin(time*.002+i)*4;
+    const alpha=.22+.38*(.5+.5*Math.sin(time*.003+i*1.7));
+    dot(Math.cos(a)*rr,Math.sin(a)*rr,1.2,
+      i%2?"#b5f4e5":"#ffe2a0",alpha);
   }
   target.globalAlpha=1;
   target.shadowBlur=0;
   target.restore();
+}
+
+// Loại bỏ hoàn toàn trận Bát Quái cũ từng được vẽ ở tâm quảng trường.
+// Chỉ giữ vài hạt linh khí nền ở hai cánh khán đài.
+function drawAmbientEnergy(time){
+  ctx.save();
+  for(let i=0;i<12;i++){
+    const side=i<6?0:1;
+    const x=side===0?92+(i%6)*66:746+(i%6)*66;
+    const y=575+(i%3)*17;
+    const pulse=.5+.5*Math.sin(time*.002+i*1.4);
+    ctx.globalAlpha=.12+.12*pulse;
+    ctx.fillStyle=i%2?"#b8e4ed":"#d9c3f2";
+    ctx.shadowColor=ctx.fillStyle;
+    ctx.shadowBlur=8;
+    ctx.beginPath();ctx.arc(x+Math.sin(time*.001+i)*3,y,1.5+pulse,0,Math.PI*2);ctx.fill();
+  }
+  ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.restore();
+}
 }function drawSectMasterThrone(target,x,y,scale,tilt=0){
   target.save();target.translate(x,y);target.rotate(tilt);target.scale(scale,scale);
   const gold=target.createLinearGradient(-45,0,45,0);gold.addColorStop(0,"#513321");gold.addColorStop(.24,"#c99b53");gold.addColorStop(.5,"#fff0b4");gold.addColorStop(.76,"#b17b3e");gold.addColorStop(1,"#4b3024");
