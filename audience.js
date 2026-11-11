@@ -61,266 +61,41 @@ function drawEnergyRings(x, y, scale, color, time, phase) {
 // VẼ ĐỆ TỬ, TRƯỞNG LÃO, MÔN CHỦ
 // =====================================================
 
-function drawSpectator(x, y, scale, roleName, time, phase = 0) {
-  const role = ROLE[roleName] || ROLE.outer;
-
-  const wave = Math.sin(time * .006 + phase);
-  const armWave = Math.sin(time * .008 + phase);
-
-  ctx.save();
-
-  const beat = time * .00072 + phase;
-  const pose = Math.floor((beat * .72) % 5);
-  const jump = pose === 2 ? Math.max(0, Math.sin(beat * 5)) * 5 : Math.sin(beat * 2) * .8;
-  ctx.translate(x, y - jump);
-  ctx.scale(scale * role.scale, scale * role.scale);
-
-  // Bóng dưới chân
-  ctx.fillStyle = "rgba(20,35,27,.28)";
-  ctx.beginPath();
-  ctx.ellipse(0, 22, 14, 4, 0, 0, Math.PI * 2);
+function drawSpectator(x,y,scale,roleName,time,phase=0){
+  const role=ROLE[roleName]||ROLE.outer;
+  const female=Math.abs(Math.floor(phase*5+(roleName==="elder"?1:0)))%2===1;
+  const wave=Math.sin(time*.006+phase),armWave=Math.sin(time*.008+phase);
+  const robe=female?(roleName==="servant"?"#a98b9b":roleName==="elder"?"#a68bbd":"#d28da9"):role.robe;
+  const skin=female?"#f3c9a5":"#dfb08d";
+  ctx.save();const beat=time*.00072+phase,pose=Math.floor((beat*.72)%5),jump=pose===2?Math.max(0,Math.sin(beat*5))*5:Math.sin(beat*2)*.8;
+  ctx.translate(x,y-jump);ctx.scale(scale*role.scale,scale);
+  ctx.fillStyle="rgba(20,35,27,.28)";ctx.beginPath();ctx.ellipse(0,22,14,4,0,0,Math.PI*2);ctx.fill();
+  if(role.aura)drawAura(0,-10,roleName==="elder"?35:roleName==="disciple"?31:27,role.aura,time,phase);
+  ctx.fillStyle="#403a35";ctx.fillRect(-6,15,5,9);ctx.fillRect(2,15,5,9);
+  // Vóc dáng nữ nhỏ vai, eo gọn, tà váy xòe; nam vai rộng, áo thẳng.
+  ctx.fillStyle=role.dark;ctx.beginPath();
+  if(female){ctx.moveTo(-6,-5);ctx.lineTo(6,-5);ctx.lineTo(15,20);ctx.quadraticCurveTo(0,24,-15,20);ctx.closePath();}
+  else{ctx.moveTo(-9,-5);ctx.lineTo(9,-5);ctx.lineTo(14,20);ctx.lineTo(-14,20);ctx.closePath();}
   ctx.fill();
-
-  // Hào quang
-  if (role.aura) {
-    drawAura(
-      0,
-      -10,
-      roleName === "master" ? 43 :
-      roleName === "elder" ? 35 :
-      roleName === "disciple" ? 31 : 27,
-      role.aura,
-      time,
-      phase
-    );
-  }
-
-  // Chân
-  ctx.fillStyle = "#403a35";
-  ctx.fillRect(-6, 15, 5, 9);
-  ctx.fillRect(2, 15, 5, 9);
-
-  // Thân áo
-  ctx.fillStyle = role.dark;
-
-  ctx.beginPath();
-  ctx.moveTo(-8, -4);
-  ctx.lineTo(8, -4);
-  ctx.lineTo(13, 20);
-  ctx.lineTo(-13, 20);
-  ctx.closePath();
+  ctx.fillStyle=robe;ctx.beginPath();
+  if(female){ctx.moveTo(-6,-6);ctx.lineTo(6,-6);ctx.lineTo(9,8);ctx.lineTo(13,18);ctx.quadraticCurveTo(0,22,-13,18);ctx.lineTo(-9,8);ctx.closePath();}
+  else{ctx.moveTo(-8,-6);ctx.lineTo(8,-6);ctx.lineTo(11,17);ctx.lineTo(-11,17);ctx.closePath();}
   ctx.fill();
-
-  ctx.fillStyle = role.robe;
-
-  ctx.beginPath();
-  ctx.moveTo(-7, -5);
-  ctx.lineTo(7, -5);
-  ctx.lineTo(10, 17);
-  ctx.lineTo(-10, 17);
-  ctx.closePath();
-  ctx.fill();
-
-  // Vạt áo
-  ctx.fillStyle = role.dark;
-
-  ctx.beginPath();
-  ctx.moveTo(-7, 1);
-  ctx.lineTo(0, 5);
-  ctx.lineTo(-4, 18);
-  ctx.lineTo(-11, 17);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.beginPath();
-  ctx.moveTo(7, 1);
-  ctx.lineTo(0, 5);
-  ctx.lineTo(4, 18);
-  ctx.lineTo(11, 17);
-  ctx.closePath();
-  ctx.fill();
-
-  // Đai lưng
-  ctx.fillStyle = role.belt;
-  ctx.fillRect(-8, 7, 16, 3);
-
-  // Ngọc bội
-  if (["inner", "core", "disciple", "elder", "master"].includes(roleName)) {
-    ctx.fillStyle = "#f1d98b";
-    ctx.fillRect(3, 9, 3, 5);
-  }
-
-  // Hoa văn trên áo thân truyền
-  if (roleName === "disciple") {
-    ctx.strokeStyle = "#e8d8a3";
-    ctx.lineWidth = 1.5;
-
-    ctx.beginPath();
-    ctx.moveTo(0, -2);
-    ctx.lineTo(-3, 5);
-    ctx.lineTo(0, 9);
-    ctx.lineTo(3, 5);
-    ctx.closePath();
-    ctx.stroke();
-  }
-
-  // Cổ áo
-  ctx.fillStyle = "#f2e4c0";
-  ctx.fillRect(-4, -5, 8, 3);
-
-  // Mặt
-  ctx.fillStyle = "#efc39b";
-  ctx.fillRect(-6, -20, 12, 13);
-
-  // Tóc
-  const hair = ["elder", "master"].includes(roleName)
-    ? "#e6e0d3"
-    : "#29252a";
-
-  ctx.fillStyle = hair;
-  ctx.fillRect(-7, -24, 14, 6);
-  ctx.fillRect(-6, -27, 12, 4);
-  ctx.fillRect(-8, -19, 3, 8);
-  ctx.fillRect(5, -19, 3, 8);
-
-  // Mắt
-  ctx.fillStyle = "#3c302a";
-  ctx.fillRect(-3, -15, 2, 2);
-  ctx.fillRect(2, -15, 2, 2);
-
-  // Râu trưởng lão và môn chủ
-  if (roleName === "elder" || roleName === "master") {
-    ctx.fillStyle = "#e2ded1";
-
-    ctx.beginPath();
-    ctx.moveTo(-4, -8);
-    ctx.lineTo(4, -8);
-    ctx.lineTo(2, 2);
-    ctx.lineTo(0, 5);
-    ctx.lineTo(-2, 2);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.fillRect(-3, -32, 6, 7);
-
-    ctx.fillStyle = "#d6b86f";
-    ctx.fillRect(-4, -31, 8, 2);
-  }
-
-  // Thân truyền: phát quan, trâm ngọc
-  if (roleName === "disciple") {
-    ctx.fillStyle = "#e8d18d";
-
-    ctx.fillRect(-4, -30, 8, 3);
-    ctx.fillRect(-2, -35, 4, 6);
-
-    ctx.fillStyle = "#b9d8ff";
-    ctx.beginPath();
-    ctx.arc(0, -36, 3, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  // Tay và động tác vẫy
-  ctx.strokeStyle = "#efc39b";
-  ctx.lineWidth = 3;
-  ctx.lineCap = "round";
-
-  
-  const leftArmY = pose === 0 ? -5 + armWave * 2 :
-                   pose === 1 ? -31 + armWave * 4 :
-                   pose === 2 ? -25 + armWave * 5 :
-                   pose === 3 ? -23 + armWave * 3 : -30 + armWave * 5;
-  const rightArmY = pose === 0 ? -5 - armWave * 2 :
-                    pose === 1 ? -31 - armWave * 4 :
-                    pose === 2 ? -27 - armWave * 5 :
-                    pose === 3 ? -23 - armWave * 3 : -6 - armWave * 5;
-  const leftArmX = pose === 4 ? -20 : pose === 0 ? -8 : -15;
-  const rightArmX = pose === 4 ? 20 : pose === 0 ? 8 : 15;
-
-  ctx.beginPath();
-  ctx.moveTo(-7, 0);
-  ctx.lineTo(leftArmX, leftArmY);
-  ctx.moveTo(7, 0);
-  ctx.lineTo(rightArmX, rightArmY);
-  ctx.stroke();
-
-  ctx.fillStyle = role.robe;
-  ctx.fillRect(leftArmX - 4, leftArmY - 4, 8, 7);
-  ctx.fillRect(rightArmX - 4, rightArmY - 4, 8, 7);
-
-  // Biểu cảm reo hò rõ hơn theo nhịp hoạt ảnh.
-  if (pose === 3) { ctx.fillStyle = "#382b28"; ctx.beginPath(); ctx.ellipse(0,-10,2.8,3.6,0,0,Math.PI*2); ctx.fill(); }
-
-  // Trang sức nòng cốt
-  if (roleName === "core") {
-    ctx.fillStyle = "#f5d984";
-    ctx.fillRect(-2, -28, 4, 4);
-    ctx.fillRect(-11, -5, 3, 3);
-    ctx.fillRect(8, -5, 3, 3);
-  }
-
-  // Trượng trưởng lão
-  if (roleName === "elder") {
-    ctx.strokeStyle = "#e2c783";
-    ctx.lineWidth = 3;
-
-    ctx.beginPath();
-    ctx.moveTo(20, -22);
-    ctx.lineTo(20, 23);
-    ctx.stroke();
-
-    ctx.fillStyle = "#e6d08f";
-    ctx.beginPath();
-    ctx.arc(20, -25, 5, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  // Môn chủ
-  if (roleName === "master") {
-    ctx.fillStyle = "#e8c36e";
-
-    ctx.beginPath();
-    ctx.moveTo(-7, -26);
-    ctx.lineTo(-5, -36);
-    ctx.lineTo(0, -30);
-    ctx.lineTo(5, -36);
-    ctx.lineTo(7, -26);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.strokeStyle = "#e6cb88";
-    ctx.lineWidth = 2;
-
-    ctx.beginPath();
-    ctx.moveTo(20, -29);
-    ctx.lineTo(20, 21);
-    ctx.stroke();
-
-    ctx.fillStyle = "#b43e35";
-
-    ctx.beginPath();
-    ctx.moveTo(22, -28);
-    ctx.lineTo(42 + wave * 3, -22);
-    ctx.lineTo(22, -15);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.strokeStyle = "#f2d48b";
-    ctx.stroke();
-  }
-
+  ctx.fillStyle=role.belt;ctx.fillRect(-8,7,16,3);
+  ctx.strokeStyle="#f1c39f";ctx.lineWidth=3;ctx.lineCap="round";const armY=pose===0?-5:pose===1?-28+armWave*3:pose===2?-23:pose===3?-20:-27;
+  ctx.beginPath();ctx.moveTo(-7,0);ctx.lineTo(-15,armY);ctx.moveTo(7,0);ctx.lineTo(15,-armY*.7);ctx.stroke();
+  ctx.fillStyle=robe;ctx.fillRect(-18,armY-3,7,7);ctx.fillRect(11,-armY*.7-3,7,7);
+  // Mặt có đường nét và tóc riêng biệt.
+  ctx.fillStyle=skin;ctx.beginPath();ctx.ellipse(0,-15,female?5.8:6.5,7,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle=female?"#211d2a":"#29252a";
+  if(female){ctx.beginPath();ctx.arc(0,-20,7,Math.PI,Math.PI*2);ctx.fill();ctx.fillRect(-7,-20,3,15);ctx.fillRect(5,-20,3,15);ctx.beginPath();ctx.arc(2,-26,3,0,Math.PI*2);ctx.fill();ctx.fillStyle="#e6ca86";ctx.fillRect(4,-28,7,2);}
+  else{ctx.fillRect(-7,-22,14,5);ctx.fillRect(-5,-27,10,6);ctx.fillRect(-8,-18,3,8);ctx.fillRect(5,-18,3,8);}
+  ctx.fillStyle="#382b28";ctx.fillRect(-3,-15,2,1.5);ctx.fillRect(2,-15,2,1.5);
+  if((roleName==="elder"||roleName==="master")&&!female){ctx.fillStyle="#e2ded1";ctx.beginPath();ctx.moveTo(-3,-8);ctx.lineTo(3,-8);ctx.lineTo(2,2);ctx.lineTo(0,5);ctx.lineTo(-2,2);ctx.closePath();ctx.fill();}
+  if(roleName==="core"||roleName==="disciple"){ctx.fillStyle="#e8d18d";ctx.fillRect(-2,-29,4,4);}
+  if(pose===3){ctx.fillStyle="#382b28";ctx.beginPath();ctx.ellipse(0,-10,2.8,3.6,0,0,Math.PI*2);ctx.fill();}
   ctx.restore();
-
-  if (role.aura) {
-    drawEnergyRings(
-      x,
-      y,
-      scale * role.scale,
-      role.aura,
-      time,
-      phase
-    );
-  }
+  if(role.aura)drawEnergyRings(x,y,scale*role.scale,role.aura,time,phase);
 }
 
 // =====================================================
