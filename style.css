@@ -4850,3 +4850,33 @@ body.game-page:after{
     gap:15px!important;margin:0!important;
   }
 }
+
+
+/* REVISION 74 — nút điều khiển nằm ngay trên hàng đệ tử tạp dịch trong sân đấu. */
+.arena-frame{
+  position:relative!important;
+  container-type:inline-size;
+}
+.arena-frame>.arena-controls{
+  position:absolute!important;
+  z-index:180!important;
+  left:50%!important;right:auto!important;
+  top:58.2cqw!important;bottom:auto!important;
+  grid-column:auto!important;grid-row:auto!important;
+  justify-self:auto!important;align-self:auto!important;
+  transform:translateX(-50%)!important;
+  width:max-content!important;height:58px!important;min-height:58px!important;
+  margin:0!important;padding:0!important;
+  display:flex!important;flex-direction:row!important;
+  align-items:center!important;justify-content:center!important;
+  gap:clamp(18px,3vw,30px)!important;
+  background:transparent!important;border:0!important;box-shadow:none!important;
+  pointer-events:auto!important;
+}
+@media(max-width:760px){
+  .arena-frame>.arena-controls{
+    top:58.2cqw!important;bottom:auto!important;
+    height:48px!important;min-height:48px!important;
+    gap:15px!important;margin:0!important;
+  }
+}
