@@ -681,22 +681,38 @@ function updateRanking(){
  }).join("");
 
  const movedRows=[];
- body.querySelectorAll("tr[data-racer-id]").forEach(row=>{
+ body.querySelectorAll("tr[data-racer-id]").forEach((row,index)=>{
   const oldTop=previousPositions.get(row.dataset.racerId);
   if(oldTop===undefined)return;
-  const delta=oldTop-row.getBoundingClientRect().top;
+  const newTop=row.getBoundingClientRect().top;
+  const delta=oldTop-newTop;
   if(Math.abs(delta)<1)return;
+
+  // Giữ nguyên cả hàng như một khối: nâng nhẹ lên khỏi mặt bảng,
+  // sau đó trượt đến vị trí mới và hạ xuống êm.
+  row.classList.add("rank-row-moving");
   row.style.transition="none";
-  row.style.transform="translateY("+delta+"px)";
-  movedRows.push(row);
+  row.style.transform="translate3d(0,"+delta+"px,0) scale(1.018)";
+  movedRows.push({row,index});
  });
  if(movedRows.length){
-  // Buộc trình duyệt ghi nhận vị trí ban đầu rồi trượt hàng về vị trí mới.
+  // Buộc trình duyệt ghi nhận trạng thái nhấc hàng trước khi chạy chuyển động.
   void body.offsetHeight;
   requestAnimationFrame(()=>{
-   movedRows.forEach(row=>{
-    row.style.transition="transform 480ms cubic-bezier(.2,.75,.25,1)";
-    row.style.transform="translateY(0)";
+   movedRows.forEach(({row,index})=>{
+    row.style.transition="transform 620ms cubic-bezier(.18,.78,.22,1), filter 620ms ease";
+    row.style.transform="translate3d(0,0,0) scale(1)";
+    row.style.filter="none";
+    row.style.transitionDelay=Math.min(index*16,96)+"ms";
+    row.addEventListener("transitionend",function finishRowMove(event){
+     if(event.propertyName!=="transform")return;
+     row.removeEventListener("transitionend",finishRowMove);
+     row.classList.remove("rank-row-moving");
+     row.style.transition="";
+     row.style.transitionDelay="";
+     row.style.transform="";
+     row.style.filter="";
+    });
    });
   });
  }
