@@ -572,7 +572,7 @@ function setSettingsLocked(value){
 }
 function syncButtons(){
   const b=$("start");
-  const state=running?{icon:"Ⅱ",label:"Tạm"}:paused?{icon:"▶",label:"Tiếp"}:finished?{icon:"↻",label:"Lại"}:{icon:"▶",label:"Chạy"};
+  const state=running?{icon:"❖",label:"Tạm"}:paused?{icon:"⚔",label:"Tiếp"}:finished?{icon:"⟲",label:"Lại"}:{icon:"⚔",label:"Chạy"};
   b.innerHTML='<span class="btn-icon" aria-hidden="true">'+state.icon+'</span><span class="btn-label">'+state.label+'</span>';
   b.disabled=!racers.length;
   if($("pause")){$("pause").hidden=true;$("pause").disabled=true;}
@@ -959,12 +959,12 @@ function syncButtons(){
   const stopButton=$("stop");
   const pauseButton=$("pause");
   const state=running
-    ? {icon:"Ⅱ",label:"Tạm ngưng"}
+    ? {icon:"❖",label:"Tạm ngưng"}
     : paused
-      ? {icon:"▶",label:"Tiếp tục"}
+      ? {icon:"⚔",label:"Tiếp tục"}
       : (finished||raceStopped)
-        ? {icon:"↻",label:"Bắt đầu lại"}
-        : {icon:"▶",label:"Chạy"};
+        ? {icon:"⟲",label:"Bắt đầu lại"}
+        : {icon:"⚔",label:"Chạy"};
 
   runButton.innerHTML='<span class="btn-icon" aria-hidden="true">'+state.icon+'</span><span class="btn-label">'+state.label+'</span>';
   runButton.disabled=!racers.length;
@@ -974,7 +974,7 @@ function syncButtons(){
 
   stopButton.hidden=false;
   stopButton.disabled=!racers.length;
-  stopButton.innerHTML='<span class="btn-icon" aria-hidden="true">'+((finished||raceStopped)?"⚙":"■")+'</span><span class="btn-label">'+((finished||raceStopped)?"Khởi tạo":"Dừng")+'</span>';
+  stopButton.innerHTML='<span class="btn-icon" aria-hidden="true">'+((finished||raceStopped)?"☯":"✥")+'</span><span class="btn-label">'+((finished||raceStopped)?"Khởi tạo":"Dừng")+'</span>';
 
   $("setupToggle").hidden=true;
   $("summon").disabled=locked||running||paused;
