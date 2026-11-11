@@ -3463,8 +3463,8 @@ function drawDenseForest(time){
   // Rừng chỉ mọc trên hai sườn núi; vùng sông và quảng trường luôn để trống.
   const clusters=[
     {x:18,y:520,s:1.05},{x:62,y:500,s:.88},{x:105,y:535,s:.78},
-    {x:145,y:485,s:.62},{x:185,y:515,s:.54},{x:235,y:485,s:.48},
-    {x:865,y:485,s:.48},{x:915,y:515,s:.54},{x:955,y:485,s:.62},
+    {x:145,y:485,s:.62},{x:185,y:515,s:.54},
+    {x:915,y:515,s:.54},{x:955,y:485,s:.62},
     {x:1000,y:535,s:.78},{x:1040,y:500,s:.88},{x:1080,y:520,s:1.05}
   ];
   clusters.forEach((p,i)=>{
@@ -3715,16 +3715,14 @@ function drawScenery(time){
   drawSky(time);
   drawMountainRange();
   drawMovingClouds(time);
-  // Thác và các lầu các được đặt trên sườn núi, phía sau trường đua.
+  // Nền quảng trường được vẽ trước; không phủ lên chân kiến trúc hay tán rừng.
+  drawRiver(time);
   drawWaterfall(112,292,25,172,time);
   drawWaterfall(972,238,34,205,time);
   drawSectArchitecture(time);
-  // Rừng rậm ở hai sườn, chừa lòng sông và quảng trường hoàn toàn thoáng.
+  // Rừng rậm nằm ngoài lòng sông, không trồng cây giữa đường nước.
   drawDenseForest(time);
-  drawRiver(time);
-  // Linh khí cảnh quan thưa dần theo cấp độ quan trọng.
   drawAmbientEnergy(time);
-  // Tiên hạc bay xa phía núi, không xoay lộn ngược.
   drawSpiritBirds(time);
   drawCrowd(time);
 }
