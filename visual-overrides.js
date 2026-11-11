@@ -3172,3 +3172,211 @@ function drawRacerName(racer,x,y,scale){
  const rank=sortedRacers().findIndex(item=>item.id===racer.id)+1;
  drawRacerNameOnTarget(ctx,racer,x,y-43*scale,rank,scale);
 }
+
+// =====================================================
+// REVISION 3 — nghi lễ trao giải, bố trí khán đài và tiên hạc
+// =====================================================
+
+function drawCrowd(time){
+  // Chưởng môn ở chính giữa, hai nhóm danh dự ngồi tách hẳn hai bên.
+  drawVIPAura(550,552,112,"#ffe5a0",time,.4,2.2);
+  drawVIPAura(550,552,70,"#fff0bf",time,1.8,1.7);
+  drawVIPChair(550,579,1.38,"#762f32",time,0);
+  drawFormalSpectator(550,566,1.04,"master",time,0);
+  drawRoleLabel(550,493,"CHƯỞNG MÔN","#f2d17d",1.05);
+
+  // Thân truyền: 10 người ngồi bên trái, giãn đều, không sát nhau.
+  for(let i=0;i<10;i++){
+    const x=78+i*41,y=612;
+    drawVIPAura(x,y-10,22,"#a9d7ff",time,i*.7,.42);
+    drawVIPChair(x,y,.58,"#405d82",time,i*.65);
+    drawFormalSpectator(x,y-7,.52,"disciple",time,i);
+  }
+  drawRoleLabel(263,566,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.82);
+
+  // Trưởng lão: 10 người bên phải, khoảng cách đồng đều.
+  for(let i=0;i<10;i++){
+    const x=662+i*41,y=612;
+    drawVIPAura(x,y-10,23,"#d7baff",time,i*.75,.45);
+    drawVIPChair(x,y,.60,"#5b456b",time,i);
+    drawFormalSpectator(x,y-7,.54,"elder",time,i*.8);
+  }
+  drawRoleLabel(867,566,"TRƯỞNG LÃO","#d4b5fa",.82);
+
+  // Nòng cốt đứng thành cụm, bỏ hoàn toàn bảng chữ trên đầu.
+  for(let i=0;i<28;i++){
+    const col=i%7,row=Math.floor(i/7);
+    const x=445+col*35+(row%2)*7;
+    const y=660+row*14+Math.sin(i*1.7)*2;
+    drawVIPAura(x,y-8,12,"#b8e5d6",time,i*.61,.15);
+    drawSpectator(x,y,.43,"core",time,i*.73);
+  }
+
+  // Các tầng đệ tử phổ thông tụ đông xung quanh nhưng vẫn có khe đứng riêng.
+  const groups=[
+    {role:"inner",count:64,scale:.37,y0:684,y1:735},
+    {role:"outer",count:92,scale:.34,y0:705,y1:765},
+    {role:"servant",count:132,scale:.30,y0:735,y1:798}
+  ];
+  groups.forEach((g,gi)=>{
+    for(let i=0;i<g.count;i++){
+      const col=i%48,row=Math.floor(i/48);
+      const x=12+col*23+Math.sin(i*2.17+gi)*6+(row%2)*5;
+      const y=g.y0+(g.y1-g.y0)*((row+.5)/Math.max(1,Math.ceil(g.count/48)))+Math.sin(i*1.91+gi)*7;
+      drawSpectator(x,y,g.scale,g.role,time,i*.59+gi*2.1);
+    }
+  });
+  drawCrowdFlag(12,696,"#a53f36",time);
+  drawCrowdFlag(W-18,696,"#b18a43",time);
+}
+
+// Trao riêng từng giải trong 4,5 giây; sau đủ ba lượt mới dựng bục vinh danh.
+function drawPodiumScene(target,time,mini=false){
+  const ordered=sortedRacers().slice(0,3);
+  const w=target.canvas.width,h=target.canvas.height;
+  const elapsedCeremony=Math.max(0,(performance.now()-ceremonyStartedAt)/1000);
+  const awardDuration=4.5;
+  const finalCeremony=elapsedCeremony>=awardDuration*3;
+  drawCeremonyBackdrop(target,mini,time);
+
+  target.save();
+  target.textAlign="center";
+  target.textBaseline="middle";
+
+  if(!finalCeremony){
+    const rank=Math.min(3,Math.floor(elapsedCeremony/awardDuration)+1);
+    const racer=ordered[rank-1];
+    const color=rank===1?"#ffe17b":rank===2?"#dcecff":"#e6a16c";
+    const title=rank===1?"TRAO THƯỞNG ĐỆ NHẤT":"TRAO THƯỞNG ĐỆ "+(rank===2?"NHỊ":"TAM");
+    target.font=mini?"900 11px Georgia":"900 31px Georgia";
+    target.fillStyle=color;target.shadowColor=color;target.shadowBlur=mini?8:20;
+    target.fillText(title,w*.5,mini?12:h*.105);
+    target.shadowBlur=0;
+
+    // Chưởng môn và người nhận đứng riêng hai bên sân khấu.
+    const masterX=w*(mini?.28:.30),masterY=h*(mini?.69:.68);
+    const winnerX=w*(mini?.73:.73),winnerY=h*(mini?.68:.68);
+    drawAwardMaster(target,masterX,masterY,mini?.48:1.42,time);
+    if(racer){
+      drawRacer(target,racer,winnerX,winnerY,mini?.78:1.30,time);
+      target.font=mini?"bold 8px Arial":"bold 19px Arial";
+      target.fillStyle="#fff4ce";
+      target.fillText(racer.name,winnerX,h*(mini?.86:.86),w*.42);
+      target.font=mini?"bold 8px Arial":"bold 17px Georgia";
+      target.fillStyle=color;
+      target.fillText("HẠNG "+rank,winnerX,h*(mini?.92:.92));
+    }
+    target.strokeStyle=color;target.lineWidth=mini?2:4;
+    target.shadowColor=color;target.shadowBlur=mini?8:18;
+    target.beginPath();
+    target.moveTo(masterX+w*(mini?.10:.10),masterY-h*(mini?.18:.18));
+    target.quadraticCurveTo(w*.53,h*.24,winnerX-w*(mini?.08:.08),winnerY-h*(mini?.13:.13));
+    target.stroke();target.shadowBlur=0;
+    target.font=mini?"bold 7px Arial":"bold 17px Arial";
+    target.fillStyle="#fff0c5";
+    target.fillText("CHƯỞNG MÔN ĐÍCH THÂN BAN THƯỞNG",w*.5,h*(mini?.97:.97));
+  }else{
+    // Chỉ sau khi đã trao đủ hạng 1, 2, 3 mới xuất hiện lễ vinh danh chung.
+    target.font=mini?"900 11px Georgia":"900 32px Georgia";
+    target.fillStyle="#fff0b8";target.shadowColor="#ffcf64";target.shadowBlur=mini?8:22;
+    target.fillText("VINH DANH TAM GIÁP TIÊN HỘI",w*.5,mini?11:h*.105);
+    target.shadowBlur=0;
+    const podiumX=[w*.25,w*.5,w*.75],ranks=[2,1,3];
+    const colors=["#c88d45","#d9e1e8","#b8794e"];
+    const glows=["#ffe17b","#dcecff","#e6a16c"];
+    for(let i=0;i<3;i++){
+      const rank=ranks[i],racer=ordered[rank-1];
+      if(!racer)continue;
+      const base=h*(mini?.96:.96);
+      const top=h*(mini?(rank===1?.70:.77):(rank===1?.69:.77));
+      const bw=w*(mini?.20:.19);
+      const grad=target.createLinearGradient(podiumX[i]-bw/2,top,podiumX[i]+bw/2,base);
+      grad.addColorStop(0,colors[rank-1]);grad.addColorStop(1,"#382f2a");
+      target.fillStyle=grad;target.fillRect(podiumX[i]-bw/2,top,bw,base-top);
+      target.strokeStyle=glows[rank-1];target.lineWidth=mini?1:2;
+      target.strokeRect(podiumX[i]-bw/2,top,bw,base-top);
+      // Tên đặt ở mặt trước bục, không đè lên khuôn mặt.
+      target.fillStyle=glows[rank-1];
+      target.font=mini?"bold 8px Arial":"bold 18px Georgia";
+      target.fillText("HẠNG "+rank,podiumX[i],top+(mini?8:17));
+      target.font=mini?"bold 6px Arial":"bold 13px Arial";
+      target.fillStyle="#fff1c8";
+      target.fillText(racer.name,podiumX[i],base-(mini?4:8),bw-5);
+    }
+    drawAwardMaster(target,w*.5,h*.57,mini?.38:1.05,time);
+    target.font=mini?"bold 7px Arial":"bold 18px Georgia";
+    target.fillStyle="#fff0c5";
+    target.fillText("CHƯỞNG MÔN VINH DANH BA VỊ TRÍ DẪN ĐẦU",w*.5,h*.48);
+  }
+  target.restore();
+}
+
+// Tiên hạc luôn giữ thân thẳng đứng; chỉ lật ngang khi đổi hướng,
+// tuyệt đối không xoay vòng hoặc lộn ngược đầu.
+function drawSpiritBirds(time){
+  const flocks=[
+    {n:2,cx:310,cy:205,rx:170,ry:20,speed:.00013,phase:.4,scale:.88},
+    {n:3,cx:790,cy:185,rx:178,ry:25,speed:.000105,phase:1.7,scale:.82}
+  ];
+  const smooth=t=>{t=clamp(t,0,1);return t*t*(3-2*t);};
+  flocks.forEach((g,gi)=>{
+    for(let i=0;i<g.n;i++){
+      const a=((time*g.speed+g.phase+i*Math.PI*2/g.n)%(Math.PI*2)+Math.PI*2)%(Math.PI*2);
+      const x=g.cx+Math.cos(a)*g.rx;
+      const y=g.cy+Math.sin(a)*g.ry+Math.sin(time*.001+i*2)*3;
+      // Hướng ngang đổi từ từ ở hai đầu quỹ đạo, góc nghiêng luôn rất nhỏ.
+      const nearRight=Math.abs(a%(Math.PI*2))<.20||Math.abs(a%(Math.PI*2)-Math.PI*2)<.20;
+      const nearLeft=Math.abs(a-Math.PI)<.20;
+      const movingLeft=Math.sin(a)>0;
+      const turnBlend=nearRight||nearLeft?smooth(Math.min(1,Math.abs(Math.sin(a))/.20)):1;
+      const pitch=Math.cos(a)*.10*turnBlend;
+      const flap=Math.sin(time*.0032+i*1.7+gi)*.78;
+      const sc=g.scale*(.96+.04*Math.sin(a));
+      ctx.save();
+      ctx.translate(x,y);
+      ctx.rotate(pitch);
+      ctx.scale(movingLeft?-sc:sc,sc);
+      ctx.globalAlpha=.14;ctx.fillStyle="#d8f1e7";
+      ctx.beginPath();ctx.ellipse(-4,13,39,8,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
+      // Đuôi
+      ctx.fillStyle="#f5f4eb";ctx.beginPath();
+      ctx.moveTo(-16,0);ctx.lineTo(-55,-9);ctx.lineTo(-77,-5);
+      ctx.lineTo(-53,3);ctx.lineTo(-74,12);ctx.lineTo(-43,11);
+      ctx.lineTo(-15,7);ctx.closePath();ctx.fill();
+      ctx.fillStyle="#414a47";
+      for(let k=0;k<5;k++){
+        ctx.beginPath();ctx.moveTo(-42-k*3,2+k*2);
+        ctx.quadraticCurveTo(-59-k*3,-1+k*2,-76-k*1.5,-5+k*3);
+        ctx.quadraticCurveTo(-60-k*2,8+k*2,-42-k*3,6+k*2);ctx.closePath();ctx.fill();
+      }
+      // Cánh vỗ nhưng không làm xoay thân chim.
+      ctx.save();ctx.translate(-7,-2);ctx.rotate(-.08-flap*.58);
+      ctx.fillStyle="#fffef7";ctx.beginPath();ctx.moveTo(0,1);
+      ctx.quadraticCurveTo(-13,-23-flap*7,-45,-29-flap*8);
+      ctx.quadraticCurveTo(-37,-7-flap*2,-68,10-flap*2);
+      ctx.quadraticCurveTo(-38,17,-8,10);ctx.closePath();ctx.fill();
+      ctx.fillStyle="#3b4542";
+      for(let k=0;k<7;k++){
+        const px=-23-k*5,py=-12-flap*5+k*2;
+        ctx.beginPath();ctx.moveTo(px,py);
+        ctx.quadraticCurveTo(px-12,-17-flap*5+k*2,px-21,5+k*2);
+        ctx.quadraticCurveTo(px-8,9+k*2,px+1,4);ctx.closePath();ctx.fill();
+      }
+      ctx.restore();
+      // Thân và cổ hướng ngang, cổ ngắn vừa phải.
+      ctx.fillStyle="#fffef7";ctx.beginPath();ctx.ellipse(0,4,25,10,-.05,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle="#e4e9e2";ctx.beginPath();ctx.ellipse(-5,1,16,4,-.1,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle="#fffdf7";ctx.lineWidth=7;ctx.lineCap="round";
+      ctx.beginPath();ctx.moveTo(15,0);ctx.quadraticCurveTo(24,-4,25,-16);
+      ctx.quadraticCurveTo(26,-25,35,-26);ctx.stroke();
+      ctx.fillStyle="#fffef7";ctx.beginPath();ctx.ellipse(38,-28,8,6,-.12,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle="#bd3935";ctx.beginPath();ctx.arc(35,-34,3,Math.PI,Math.PI*2);ctx.fill();
+      ctx.fillStyle="#b43c36";ctx.beginPath();ctx.moveTo(44,-28);ctx.lineTo(57,-25);ctx.lineTo(44,-23);ctx.closePath();ctx.fill();
+      ctx.fillStyle="#26302d";ctx.beginPath();ctx.arc(40,-30,1.3,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle="#b54b43";ctx.lineWidth=1.5;ctx.beginPath();
+      ctx.moveTo(1,11);ctx.lineTo(-1,23);ctx.lineTo(-8,25);
+      ctx.moveTo(9,11);ctx.lineTo(10,22);ctx.lineTo(4,25);ctx.stroke();
+      ctx.restore();
+    }
+  });
+}
