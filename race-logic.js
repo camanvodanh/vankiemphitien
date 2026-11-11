@@ -197,7 +197,9 @@ function createRacer(name, index) {
     effectType: "",
     effectName: "",
     rankChangeText: "",
-    rankChangeTimer: 0
+    rankChangeTimer: 0,
+    rankMovement: "",
+    rankMovementTimer: 0
   };
 }
 
