@@ -614,26 +614,31 @@ function drawSpectator(x,y,scale,roleName,time,phase=0){
   ctx.fillStyle=shade;ctx.beginPath();
   if(female){
     ctx.moveTo(-7,-10);ctx.lineTo(7,-10);ctx.lineTo(11,4);
-    ctx.quadraticCurveTo(14,21,24,37);ctx.quadraticCurveTo(0,43,-24,37);
-    ctx.quadraticCurveTo(-14,21,-11,4);ctx.closePath();
+    ctx.quadraticCurveTo(14,20,27,37);ctx.quadraticCurveTo(0,45,-27,37);
+    ctx.quadraticCurveTo(-14,20,-11,4);ctx.closePath();
   }else{
-    ctx.moveTo(-12,-10);ctx.lineTo(12,-10);ctx.lineTo(17,7);
-    ctx.lineTo(20,37);ctx.quadraticCurveTo(0,41,-20,37);
-    ctx.lineTo(-17,7);ctx.closePath();
+    ctx.moveTo(-15,-11);ctx.lineTo(15,-11);ctx.lineTo(20,5);
+    ctx.lineTo(19,37);ctx.quadraticCurveTo(0,41,-19,37);
+    ctx.lineTo(-20,5);ctx.closePath();
   }ctx.fill();
 
   ctx.fillStyle=robe;ctx.beginPath();
   if(female){
     ctx.moveTo(-7,-10);ctx.lineTo(7,-10);ctx.lineTo(10,4);
-    ctx.quadraticCurveTo(13,21,20,35);ctx.quadraticCurveTo(0,39,-20,35);
+    ctx.quadraticCurveTo(13,21,23,35);ctx.quadraticCurveTo(0,41,-23,35);
     ctx.quadraticCurveTo(-13,21,-10,4);ctx.closePath();
   }else{
-    ctx.moveTo(-10,-10);ctx.lineTo(10,-10);ctx.lineTo(14,7);
-    ctx.lineTo(17,35);ctx.quadraticCurveTo(0,39,-17,35);
-    ctx.lineTo(-14,7);ctx.closePath();
+    ctx.moveTo(-13,-11);ctx.lineTo(13,-11);ctx.lineTo(16,5);
+    ctx.lineTo(16,35);ctx.quadraticCurveTo(0,39,-16,35);
+    ctx.lineTo(-16,5);ctx.closePath();
   }ctx.fill();
 
   // Nẹp thêu viền tà áo và hoa văn cấp bậc.
+  if(female){
+    ctx.fillStyle=shade;ctx.beginPath();ctx.moveTo(-7,8);ctx.quadraticCurveTo(-12,25,-20,36);ctx.quadraticCurveTo(-9,42,0,39);ctx.lineTo(-3,9);ctx.closePath();ctx.fill();
+    ctx.beginPath();ctx.moveTo(7,8);ctx.quadraticCurveTo(12,25,20,36);ctx.quadraticCurveTo(9,42,0,39);ctx.lineTo(3,9);ctx.closePath();ctx.fill();
+    ctx.fillStyle=robe;ctx.globalAlpha=.88;ctx.beginPath();ctx.moveTo(-3,10);ctx.quadraticCurveTo(-8,27,-12,38);ctx.quadraticCurveTo(0,42,12,38);ctx.quadraticCurveTo(8,27,3,10);ctx.closePath();ctx.fill();ctx.globalAlpha=1;
+  }
   ctx.strokeStyle=trim;ctx.lineWidth=1.5;
   ctx.beginPath();
   if(female){
@@ -669,7 +674,7 @@ function drawSpectator(x,y,scale,roleName,time,phase=0){
   ctx.beginPath();
   if(female){
     ctx.moveTo(-8,-8);ctx.quadraticCurveTo(-18,-13,-20,2);
-    ctx.lineTo(-27,21);ctx.quadraticCurveTo(-21,27,-14,17);
+    ctx.lineTo(-30,24);ctx.quadraticCurveTo(-22,31,-14,17);
     ctx.lineTo(-5,3);ctx.closePath();
   }else{
     ctx.moveTo(-10,-8);ctx.lineTo(-19,-5);ctx.lineTo(-24,13);
@@ -678,7 +683,7 @@ function drawSpectator(x,y,scale,roleName,time,phase=0){
   ctx.beginPath();
   if(female){
     ctx.moveTo(8,-8);ctx.quadraticCurveTo(18,-13,20,2);
-    ctx.lineTo(27,21);ctx.quadraticCurveTo(21,27,14,17);
+    ctx.lineTo(30,24);ctx.quadraticCurveTo(22,31,14,17);
     ctx.lineTo(5,3);ctx.closePath();
   }else{
     ctx.moveTo(10,-8);ctx.lineTo(19,-5);ctx.lineTo(24,13);
@@ -719,8 +724,8 @@ function drawSpectator(x,y,scale,roleName,time,phase=0){
     ctx.fillStyle=hair;
     ctx.beginPath();ctx.arc(0,-28,7.6,Math.PI,Math.PI*2);ctx.fill();
     ctx.fillRect(-7,-28,3,11);ctx.fillRect(4,-28,3,11);
-    ctx.beginPath();ctx.ellipse(1,-35,5.2,4,-.2,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle=trim;ctx.fillRect(-2,-41,5,7);
+    ctx.beginPath();ctx.ellipse(1,-36,5.2,4,-.2,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle=trim;ctx.fillRect(-3,-43,7,8);
     ctx.beginPath();ctx.moveTo(-5,-34);ctx.lineTo(5,-34);ctx.lineTo(4,-31);ctx.lineTo(-4,-31);ctx.closePath();ctx.fill();
     if(roleName==="elder"){
       ctx.fillStyle="#e6e0d3";ctx.beginPath();
