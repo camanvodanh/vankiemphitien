@@ -4362,7 +4362,7 @@ function drawSpiritBirds(time){
   const flocks=[
     {dir:1,y:42,s:.58,speed:.000075,phase:0},
     {dir:-1,y:82,s:.48,speed:.000061,phase:.42},
-    {dir:1,y:122,s:.40,speed:.000052,phase:.72},
+    {dir:1,y:105,s:.40,speed:.000052,phase:.72},
     {dir:-1,y:24,s:.34,speed:.00009,phase:.2}
   ];
   flocks.forEach((f,k)=>{
