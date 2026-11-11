@@ -486,43 +486,72 @@ function drawAnnouncement() {
 // CAMERA NGƯỜI DẪN ĐẦU
 // =====================================================
 
-function drawCameraBackground() {
-  const w=cameraCanvas.width,h=cameraCanvas.height,g=cameraCtx.createLinearGradient(0,0,0,h);
-  g.addColorStop(0,"#9fc4bd");g.addColorStop(.48,"#587d70");g.addColorStop(1,"#203e36");
-  cameraCtx.clearRect(0,0,w,h);cameraCtx.fillStyle=g;cameraCtx.fillRect(0,0,w,h);
-  // Núi tiên giới nhiều lớp.
-  const ridges=[
-    {c:"#9eb8a8",p:[[0,108],[42,40],[82,82],[132,24],[185,86],[235,32],[292,88],[350,28],[420,92]]},
-    {c:"#587d6b",p:[[0,132],[52,75],[96,112],[155,55],[213,115],[275,64],[332,119],[385,72],[420,116]]},
-    {c:"#315b4c",p:[[0,150],[45,112],[92,139],[145,95],[205,143],[270,99],[325,143],[380,104],[420,145]]}
-  ];
-  ridges.forEach(r=>{cameraCtx.fillStyle=r.c;cameraCtx.beginPath();r.p.forEach(([x,y],i)=>i?cameraCtx.lineTo(x,y):cameraCtx.moveTo(x,y));cameraCtx.lineTo(w,h);cameraCtx.lineTo(0,h);cameraCtx.closePath();cameraCtx.fill();});
-  // Thác nước hai bên núi.
-  for(const x of [48,372]){
-    const water=cameraCtx.createLinearGradient(x-13,0,x+13,0);water.addColorStop(0,"#347f8b");water.addColorStop(.45,"#e0fff0");water.addColorStop(1,"#4b9eaa");
-    cameraCtx.fillStyle=water;cameraCtx.beginPath();cameraCtx.moveTo(x-5,52);cameraCtx.bezierCurveTo(x-16,82,x-20,108,x-28,145);cameraCtx.quadraticCurveTo(x,151,x+28,145);cameraCtx.bezierCurveTo(x+20,108,x+16,82,x+5,52);cameraCtx.closePath();cameraCtx.fill();
-    cameraCtx.strokeStyle="rgba(255,255,245,.75)";cameraCtx.lineWidth=1.5;for(let j=0;j<4;j++){cameraCtx.beginPath();cameraCtx.moveTo(x-8+j*5,57);cameraCtx.lineTo(x-13+j*8,141);cameraCtx.stroke();}
-  }
-  // Đại điện trung tâm và các lầu các hai cánh.
-  function pavilion(x,y,s,color,main=false){
-    cameraCtx.save();cameraCtx.translate(x,y);cameraCtx.scale(s,s);
-    cameraCtx.fillStyle="#49372c";cameraCtx.fillRect(-24,-38,48,40);
-    cameraCtx.fillStyle=color;cameraCtx.fillRect(-19,-33,38,34);
-    cameraCtx.fillStyle="#f0d28a";cameraCtx.fillRect(-23,-3,46,3);
-    cameraCtx.fillStyle="#e4c77f";cameraCtx.beginPath();cameraCtx.moveTo(-38,-34);cameraCtx.quadraticCurveTo(0,main?-75:-59,38,-34);cameraCtx.lineTo(29,-29);cameraCtx.quadraticCurveTo(0,main?-63:-49,-29,-29);cameraCtx.closePath();cameraCtx.fill();
-    cameraCtx.strokeStyle="#fff0b7";cameraCtx.lineWidth=2;cameraCtx.stroke();
-    for(const xx of [-17,17]){cameraCtx.fillStyle="#f3d68f";cameraCtx.fillRect(xx-2,-30,4,30);}
-    if(main){cameraCtx.fillStyle="#fff0b7";cameraCtx.font="bold 8px Georgia";cameraCtx.textAlign="center";cameraCtx.fillText("TIÊN MÔN",0,-42);}
-    cameraCtx.restore();
-  }
-  pavilion(210,130,.82,"#7a4d3e",true);pavilion(82,145,.48,"#426c67");pavilion(335,144,.48,"#536d8b");
-  pavilion(143,162,.34,"#8a7049");pavilion(282,162,.34,"#657c57");
-  // Cầu mây, tán cây và đèn lồng.
-  cameraCtx.strokeStyle="rgba(240,247,225,.55)";cameraCtx.lineWidth=7;cameraCtx.beginPath();cameraCtx.moveTo(0,156);cameraCtx.quadraticCurveTo(210,138,420,156);cameraCtx.stroke();
-  cameraCtx.fillStyle="rgba(240,214,151,.75)";for(let i=0;i<9;i++){const x=22+i*47;cameraCtx.beginPath();cameraCtx.arc(x,163+(i%2)*3,2,0,Math.PI*2);cameraCtx.fill();}
-  const mist=cameraCtx.createLinearGradient(0,130,0,h);mist.addColorStop(0,"rgba(224,248,232,0)");mist.addColorStop(1,"rgba(195,225,204,.16)");cameraCtx.fillStyle=mist;cameraCtx.fillRect(0,125,w,h-125);
-}
+function drawCameraBackground(time=0) {
+  const c=cameraCtx,w=cameraCanvas.width,h=cameraCanvas.height;
+  c.clearRect(0,0,w,h);
+  const sky=c.createLinearGradient(0,0,0,h);
+  sky.addColorStop(0,"#527b91");sky.addColorStop(.36,"#a9c9bd");sky.addColorStop(.72,"#d5d9b8");sky.addColorStop(1,"#e5d4a6");
+  c.fillStyle=sky;c.fillRect(0,0,w,h);
 
+  // Nhật quang, tầng mây và sương núi.
+  const sun=c.createRadialGradient(324,27,2,324,27,112);
+  sun.addColorStop(0,"rgba(255,247,207,.92)");sun.addColorStop(.35,"rgba(255,230,171,.28)");sun.addColorStop(1,"rgba(255,230,171,0)");
+  c.fillStyle=sun;c.fillRect(210,-80,210,190);
+  for(let i=0;i<5;i++){
+    const x=((i*103+time*.006)%(w+120))-60,y=45+(i%3)*22;
+    c.globalAlpha=.22;c.fillStyle="#f8f5dc";c.beginPath();
+    c.ellipse(x,y,44,7,0,0,Math.PI*2);c.ellipse(x+19,y-5,24,10,0,0,Math.PI*2);c.ellipse(x-20,y-3,23,9,0,0,Math.PI*2);c.fill();
+  }
+  c.globalAlpha=1;
+
+  // Dãy tiên sơn nhiều lớp, có sống núi, vách đá và tuyết đọng.
+  const ridge=(pts,top,mid,base)=>{const g=c.createLinearGradient(0,20,0,176);g.addColorStop(0,top);g.addColorStop(.55,mid);g.addColorStop(1,base);c.fillStyle=g;c.beginPath();c.moveTo(0,h);pts.forEach(([x,y])=>c.lineTo(x,y));c.lineTo(w,h);c.closePath();c.fill();};
+  ridge([[0,106],[26,69],[51,87],[86,30],[116,76],[151,40],[181,88],[217,25],[246,72],[281,36],[314,84],[350,31],[390,83],[420,59]],"#dce8d8","#a5bdac","#6f907d");
+  ridge([[0,132],[34,94],[67,115],[104,67],[139,116],[177,76],[213,122],[250,68],[285,119],[321,75],[356,124],[389,83],[420,111]],"#9ab9a5","#668c76","#416b58");
+  ridge([[0,151],[48,121],[88,140],[130,103],[169,145],[211,111],[251,148],[295,108],[334,145],[375,111],[420,143]],"#668d70","#416c55","#294b3d");
+  c.fillStyle="rgba(246,250,229,.82)";
+  [[86,30,12,17],[217,25,14,18],[350,31,12,15]].forEach(([x,y,dx,dy])=>{c.beginPath();c.moveTo(x-dx,y+dy);c.lineTo(x,y);c.lineTo(x+dx,y+dy*.7);c.lineTo(x+4,y+dy*.55);c.lineTo(x,y+dy*.8);c.lineTo(x-5,y+dy*.55);c.closePath();c.fill();});
+
+  // Vách núi tiền cảnh và khe thác nối về lòng sông.
+  c.fillStyle="#355d49";c.beginPath();c.moveTo(0,113);c.quadraticCurveTo(35,92,69,119);c.lineTo(91,174);c.lineTo(0,181);c.closePath();c.fill();
+  c.fillStyle="#3c654e";c.beginPath();c.moveTo(420,111);c.quadraticCurveTo(385,91,353,119);c.lineTo(332,174);c.lineTo(420,181);c.closePath();c.fill();
+
+  // Tiên điện trung tâm và quần thể lầu các hai bên.
+  function pavilion(x,y,s,main=false,color="#875a43"){
+    c.save();c.translate(x,y);c.scale(s,s);
+    c.fillStyle="#49382d";c.fillRect(-25,-24,50,27);
+    c.fillStyle=color;c.fillRect(-21,-21,42,22);
+    c.fillStyle="#d8bd7a";c.fillRect(-27,1,54,3);
+    for(const px of [-17,0,17]){c.fillStyle="#e7ca82";c.fillRect(px-2,-20,4,21);c.fillStyle="#253f38";c.fillRect(px-1,-15,2,13);}
+    const roof=(ww,yy,hh)=>{c.fillStyle="#9d7547";c.beginPath();c.moveTo(-ww,yy+hh);c.quadraticCurveTo(0,yy- (main?26:18),ww,yy+hh);c.lineTo(ww-7,yy+hh+3);c.quadraticCurveTo(0,yy-(main?17:10),-ww+7,yy+hh+3);c.closePath();c.fill();c.strokeStyle="#f2d99b";c.lineWidth=1.6;c.stroke();};
+    roof(main?42:31,-26,10);roof(main?31:23,-42,8);
+    c.fillStyle="#e6c67c";c.fillRect(-2,-54,4,13);c.beginPath();c.arc(0,-55,3,0,Math.PI*2);c.fill();
+    if(main){c.fillStyle="#fff0bd";c.font="bold 7px Georgia";c.textAlign="center";c.fillText("TIÊN MÔN",0,-31);}
+    c.restore();
+  }
+  pavilion(210,128,1.02,true,"#8b4b3d");
+  pavilion(83,143,.62,false,"#416b63");pavilion(337,145,.62,false,"#536d83");
+  pavilion(145,158,.42,false,"#8b7147");pavilion(278,159,.42,false,"#607b57");
+
+  // Rừng tùng, cầu đá và thác nước có vệt chảy.
+  for(let i=0;i<13;i++){
+    const x=8+i*34,y=163+(i%3)*4,s=.24+(i%4)*.035;
+    c.fillStyle="#594632";c.fillRect(x-1,y-17*s,2,19*s);
+    c.fillStyle=i%2?"#315c47":"#3d6a50";
+    c.beginPath();c.moveTo(x,y-36*s);c.lineTo(x-11*s,y-12*s);c.lineTo(x+11*s,y-12*s);c.closePath();c.fill();
+  }
+  for(const x of [53,367]){
+    const water=c.createLinearGradient(x-10,0,x+10,0);water.addColorStop(0,"#337c88");water.addColorStop(.42,"#e4fff2");water.addColorStop(1,"#4d9ca4");
+    c.fillStyle=water;c.beginPath();c.moveTo(x-5,91);c.bezierCurveTo(x-12,117,x-15,143,x-25,166);c.quadraticCurveTo(x,173,x+25,166);c.bezierCurveTo(x+15,143,x+12,117,x+5,91);c.closePath();c.fill();
+    c.save();c.beginPath();c.rect(x-20,90,40,82);c.clip();
+    for(let j=0;j<8;j++){const yy=92+((j*17+time*.035)%82);c.strokeStyle=j%3?"rgba(236,255,248,.7)":"rgba(255,255,255,.95)";c.lineWidth=j%3?1:1.8;c.beginPath();c.moveTo(x-5+(j%4)*3,yy);c.lineTo(x-9+(j%4)*4,yy+12);c.stroke();}
+    c.restore();
+    c.fillStyle="rgba(235,255,246,.5)";c.beginPath();c.ellipse(x,169,24,4,0,0,Math.PI*2);c.fill();
+  }
+  c.strokeStyle="rgba(244,248,226,.62)";c.lineWidth=4;c.beginPath();c.moveTo(0,164);c.quadraticCurveTo(210,148,420,164);c.stroke();
+  c.strokeStyle="rgba(244,221,167,.7)";c.lineWidth=1.5;c.beginPath();c.moveTo(0,167);c.quadraticCurveTo(210,151,420,167);c.stroke();
+  const mist=c.createLinearGradient(0,133,0,h);mist.addColorStop(0,"rgba(222,248,231,0)");mist.addColorStop(1,"rgba(204,231,210,.25)");c.fillStyle=mist;c.fillRect(0,130,w,h-130);
+}
 function leaderOf(){
   const active=racers.filter(r=>!r.finished);
   if(active.length)return active.sort((a,b)=>b.progress-a.progress)[0];
