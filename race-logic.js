@@ -980,14 +980,30 @@ function syncButtons(){
 
   // Họa tiết vector tự vẽ riêng cho Vạn Kiếm Phi Tiên, không dùng bộ icon.
   const artwork={
-    sword:`<svg class="cultivation-art art-sword" viewBox="0 0 80 64" aria-hidden="true" focusable="false">
-      <defs><linearGradient id="flyingSwordGold" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff8d8"/><stop offset=".48" stop-color="#e5c77f"/><stop offset="1" stop-color="#9a713b"/></linearGradient></defs>
-      <path d="M7 32 61 18 73 22 64 32 73 42 61 46Z" fill="url(#flyingSwordGold)" stroke="#fff0c6" stroke-width="1.5" stroke-linejoin="round"/>
-      <path d="m12 32 53-9-7 9 7 9Z" fill="#fff8df" opacity=".5"/>
-      <path d="M8 25 22 32 8 39 3 32Z" fill="#b58a4b" stroke="#f5dfa6" stroke-width="1.2"/>
-      <path d="M16 23 16 41M21 27 21 37" stroke="#fff0c6" stroke-width="2" stroke-linecap="round"/>
-      <path d="M29 16q13-8 27-3M29 48q13 8 27 3M4 18q-5 5-1 10M4 46q-5-5-1-10" fill="none" stroke="#8ed8c0" stroke-width="1.7" stroke-linecap="round"/>
-      <path d="m66 17 7-5m-7 40 7 5" stroke="#f5dfa6" stroke-width="1.5" stroke-linecap="round"/>
+    sword:`<svg class="cultivation-art art-sword" viewBox="0 0 100 64" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="realSwordSteel" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fffef0"/><stop offset=".2" stop-color="#d9e7e4"/><stop offset=".48" stop-color="#789b9a"/><stop offset=".72" stop-color="#edf2df"/><stop offset="1" stop-color="#627d78"/></linearGradient>
+        <linearGradient id="realSwordGold" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff1bd"/><stop offset=".45" stop-color="#c99b50"/><stop offset="1" stop-color="#76502b"/></linearGradient>
+        <linearGradient id="realSwordGrip" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#526e59"/><stop offset=".5" stop-color="#172f2a"/><stop offset="1" stop-color="#78927a"/></linearGradient>
+        <filter id="realSwordGlow" x="-30%" y="-50%" width="160%" height="200%"><feGaussianBlur stdDeviation="1.7"/></filter>
+      </defs>
+      <path d="M28 31 87 12 97 31 87 52Z" fill="#8fe5d2" opacity=".28" filter="url(#realSwordGlow)"/>
+      <path d="M27 31 88 13 97 31 88 50Z" fill="url(#realSwordSteel)" stroke="#fff4cf" stroke-width="1.2" stroke-linejoin="round"/>
+      <path d="M29 31 89 17 94 31 89 46Z" fill="#fffef0" opacity=".66"/>
+      <path d="M31 31 88 29 97 31 88 33Z" fill="#506e70" opacity=".52"/>
+      <path d="M28 31 87 13 97 31 87 50Z" fill="none" stroke="#f8e7b5" stroke-width=".8"/>
+      <path d="M24 22Q28 31 24 40L19 38 17 31 19 24Z" fill="url(#realSwordGold)" stroke="#fff0c1" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M24 31 29 26 34 31 29 36Z" fill="#d8b36a" stroke="#fff1c7" stroke-width="1"/>
+      <path d="M17 26 12 28 8 31 12 34 17 36 20 31Z" fill="url(#realSwordGold)" stroke="#f5dfa6" stroke-width="1.1" stroke-linejoin="round"/>
+      <path d="M8 31 3 31" stroke="#fff0c6" stroke-width="2" stroke-linecap="round"/>
+      <path d="M18 27 18 35" stroke="#fff8dc" stroke-width="1" opacity=".8"/>
+      <path d="M19 31 4 31" stroke="url(#realSwordGold)" stroke-width="6" stroke-linecap="round"/>
+      <path d="M17 31 4 31" stroke="url(#realSwordGrip)" stroke-width="5" stroke-linecap="round"/>
+      <path d="m15 28-3 6m-1-6-3 6m-1-6-2 4" stroke="#d7bd83" stroke-width="1" stroke-linecap="round"/>
+      <path d="M2 26 2 36" stroke="#f1d79c" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="2" cy="31" r="3" fill="#b88b4c" stroke="#fff0c6" stroke-width=".8"/>
+      <path d="M34 26 84 15M34 36 84 47" stroke="#fff" stroke-width=".8" opacity=".65"/>
+      <path d="m72 8 8-3m-5 54 8 3" stroke="#8ed8c0" stroke-width="1.2" stroke-linecap="round" opacity=".9"/>
     </svg>`,
     pause:`<svg class="cultivation-art art-pause" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
       <path d="M18 13 25 8 28 18 25 46 19 53 15 45Z" fill="#d9bd7e" stroke="#fff0c6" stroke-width="1.2" stroke-linejoin="round"/>
