@@ -2804,3 +2804,25 @@ body.game-page:after{
     font-size:10px!important;
   }
 }
+
+/* REVISION 35 — nét hình, thông tin gọn và nút biểu tượng tiên hiệp. */
+#game,#leaderCanvas{image-rendering:auto!important;transform:translateZ(0);backface-visibility:hidden;filter:contrast(1.12) saturate(1.11);}
+#game{filter:contrast(1.13) saturate(1.12) brightness(1.025);}
+#leaderCanvas{filter:contrast(1.12) saturate(1.12) brightness(1.03);}
+.arena-frame>.game-camera .camera-heading .eyebrow,.arena-frame>.game-ranking .ranking-heading .eyebrow{display:none!important;}
+.arena-frame>.game-camera .camera-heading h3,.arena-frame>.game-ranking .ranking-heading h3{margin:0!important;font-size:12px!important;letter-spacing:.04em!important;}
+.arena-frame>.game-camera .camera-info{display:flex!important;flex-direction:column!important;gap:5px!important;padding:7px 10px 9px!important;}
+.arena-frame>.game-camera .camera-primary-info{display:flex!important;align-items:center!important;gap:8px!important;flex-wrap:nowrap!important;white-space:nowrap!important;}
+.arena-frame>.game-camera #leaderProgress{display:inline-flex!important;align-items:center!important;gap:5px!important;flex:0 0 auto!important;white-space:nowrap!important;}
+.arena-frame>.game-camera #leaderProgress::before{content:"HẠNG";font-size:8px!important;letter-spacing:.06em!important;color:#c9ad72!important;}
+.arena-frame>.game-camera #leaderName{display:block!important;flex:1 1 auto!important;min-width:0!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;font-size:13px!important;line-height:1.25!important;}
+.arena-frame>.game-camera #leaderName::before{content:"Tên: ";color:#c9ad72!important;font-size:9px!important;font-weight:700!important;}
+.arena-frame>.game-camera #leaderEffect{display:flex!important;align-items:center!important;gap:6px!important;min-width:0!important;padding:0 0 0 39px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;font-size:11px!important;line-height:1.2!important;}
+.arena-frame>.game-camera #leaderEffect::before{content:"HIỆU ỨNG";flex:0 0 auto!important;color:#c9ad72!important;font-size:8px!important;letter-spacing:.04em!important;}
+.arena-frame>.game-camera #leaderEffect:empty{display:none!important;}
+.arena-frame>.arena-controls #start,.arena-frame>.arena-controls #stop{width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;padding:0!important;border-radius:50%!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;border:1px solid rgba(232,202,139,.9)!important;background:radial-gradient(circle at 35% 28%,#39765c,#102f27 72%)!important;box-shadow:0 0 0 3px rgba(195,158,83,.15),0 4px 12px rgba(0,0,0,.4),inset 0 1px 4px rgba(255,255,255,.2)!important;color:#ffe7ae!important;}
+.arena-frame>.arena-controls #stop{background:radial-gradient(circle at 35% 28%,#876b3c,#392a1d 72%)!important;}
+.arena-frame>.arena-controls #start .btn-label,.arena-frame>.arena-controls #stop .btn-label{display:none!important;}
+.arena-frame>.arena-controls #start .btn-icon,.arena-frame>.arena-controls #stop .btn-icon{display:block!important;font-family:serif!important;font-size:23px!important;line-height:1!important;color:#ffe7ae!important;text-shadow:0 1px 4px #21190d!important;}
+.arena-frame>.arena-controls #start:active,.arena-frame>.arena-controls #stop:active{transform:scale(.94)!important;}
+@media(max-width:420px){.arena-frame>.game-camera .camera-info{padding:5px 6px 7px!important;gap:3px!important;}.arena-frame>.game-camera #leaderProgress{font-size:10px!important;min-height:25px!important;padding:2px 5px!important;}.arena-frame>.game-camera #leaderName{font-size:11px!important;}.arena-frame>.game-camera #leaderEffect{font-size:9px!important;padding-left:30px!important;}.arena-frame>.arena-controls #start,.arena-frame>.arena-controls #stop{width:38px!important;height:38px!important;min-width:38px!important;min-height:38px!important;}.arena-frame>.arena-controls #start .btn-icon,.arena-frame>.arena-controls #stop .btn-icon{font-size:20px!important;}}
