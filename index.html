@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#102b27">
   <title>Vạn Kiếm Phi Tiên</title>
-  <link rel="stylesheet" href="style.css?v=20261111-game-contained-dragfix22">
+  <link rel="stylesheet" href="style.css?v=20261111-all-panels-single-frame">
 </head>
 <body class="game-page">
   <main class="page game-app">
@@ -25,64 +25,53 @@
         <div class="stage-title"><span class="stage-emblem">⚔</span><div><strong>VẠN KIẾM ĐÀI</strong><small>THIÊN KIÊU TRANH PHONG</small></div></div>
         <div class="stage-live"><i></i> TRỰC TIẾP</div>
       </div>
-      <div class="race-layout game-layout">
-        <div class="arena-column">
-    <section class="panel summon-panel game-setup">
-      <div class="setup-heading">
-        <div>
-          <p class="eyebrow">KHỞI TẠO ĐẠI HỘI</p>
-          <h2>✦ Thiết lập tiên hội</h2>
-        </div>
-        <span class="setup-hint">Chuẩn bị danh sách tham chiến</span>
-      </div>
-      <label for="names">Danh sách tiên nhân — mỗi dòng một tên (để trống để tạo tên ngẫu nhiên)</label>
-      <textarea id="names" rows="3" placeholder="Diệp Trường Phong&#10;Tô Thanh Huyền&#10;Mộ Dung Vô Trần"></textarea>
-      <div class="summon-footer">
-        <div class="random-setting"><label for="quantity">Số lượng</label><input id="quantity" type="number" min="2" max="100" value="10"></div>
-        <div class="field compact-field"><label for="speed">Thời gian</label><select id="speed"><option value="30">30 giây</option><option value="60" selected>60 giây</option><option value="120">120 giây</option><option value="180">180 giây</option><option value="300">300 giây</option></select></div>
-        <button id="summon" class="btn primary">✧ Triệu hồi</button>
-        <button id="reset" class="btn muted">↻ Làm mới</button>
-      </div>
-      <p id="lockNotice" class="lock-notice">Nhập danh sách tên hoặc chọn số lượng để tạo ngẫu nhiên.</p>
-    </sect
+      <div class="arena-frame">
+        <canvas id="game" width="1100" height="825" aria-label="Hoạt cảnh trường đua"></canvas>
+        <div class="arena-overlay-top"><span class="arena-chip">TIÊN GIỚI · ĐẤU TRƯỜNG</span><span class="arena-chip arena-count">THEO DÕI TRẬN ĐẤU</span></div>
 
-          <div class="arena-frame">
-            <canvas id="game" width="1100" height="825" aria-label="Hoạt cảnh trường đua"></canvas>
-            <div class="arena-overlay-top"><span class="arena-chip">TIÊN GIỚI · ĐẤU TRƯỜNG</span><span class="arena-chip arena-count">THEO DÕI TRẬN ĐẤU</span></div>
-            <div class="arena-controls">
-              <button id="start" class="btn primary arena-start" disabled><span class="btn-icon" aria-hidden="true">▶</span><span class="btn-label">Bắt đầu</span></button>
-              <button id="pause" class="btn muted arena-pause" hidden disabled>Ⅱ Tạm dừng</button>
-            </div>
-          <div class="camera panel game-camera">
-            <div class="camera-heading">
-              <div><p class="eyebrow">GÓC QUAN SÁT</p><h3 id="leaderProgress">Hạng --/--</h3></div>
-              <span class="camera-live"><i></i> LIVE</span>
-            </div>
-            <div class="camera-screen"><canvas id="leaderCanvas" width="420" height="240"></canvas></div>
-            <div class="camera-info" aria-hidden="true"><strong id="leaderName">Đang chờ cuộc đua</strong></div>
+        <section class="panel summon-panel game-setup">
+          <div class="setup-heading">
+            <div><p class="eyebrow">KHỞI TẠO ĐẠI HỘI</p><h2>✦ Thiết lập tiên hội</h2></div>
+            <span class="setup-hint">Chuẩn bị danh sách tham chiến</span>
           </div>
-            <aside class="ranking panel game-ranking">
-              <div class="ranking-heading">
-                <div><p class="eyebrow">BẢNG XẾP HẠNG</p><h3>Tiên Bảng</h3></div>
-                <span class="ranking-seal">榜</span>
-              </div>
-              <div class="ranking-meta"><span>THỨ HẠNG HIỆN TẠI</span><span>LIVE</span></div>
-              <div class="table-wrap">
-                <table>
-                  <thead><tr><th>Hạng</th><th>Tiên nhân</th><th>Thời gian</th></tr></thead>
-                  <tbody id="rankBody"><tr><td colspan="3" class="empty">Chưa có tiên nhân</td></tr></tbody>
-                </table>
-              </div>
-            </aside>
+          <label for="names">Danh sách tiên nhân — mỗi dòng một tên (để trống để tạo tên ngẫu nhiên)</label>
+          <textarea id="names" rows="3" placeholder="Diệp Trường Phong&#10;Tô Thanh Huyền&#10;Mộ Dung Vô Trần"></textarea>
+          <div class="summon-footer">
+            <div class="random-setting"><label for="quantity">Số lượng</label><input id="quantity" type="number" min="2" max="100" value="10"></div>
+            <div class="field compact-field"><label for="speed">Thời gian</label><select id="speed"><option value="30">30 giây</option><option value="60" selected>60 giây</option><option value="120">120 giây</option><option value="180">180 giây</option><option value="300">300 giây</option></select></div>
+            <button id="summon" class="btn primary">✧ Triệu hồi</button>
+            <button id="reset" class="btn muted">↻ Làm mới</button>
           </div>
-          </div>
+          <p id="lockNotice" class="lock-notice">Nhập danh sách tên hoặc chọn số lượng để tạo ngẫu nhiên.</p>
+        </section>
 
-
-
-
+        <div class="arena-controls">
+          <button id="start" class="btn primary arena-start" disabled><span class="btn-icon" aria-hidden="true">▶</span><span class="btn-label">Bắt đầu</span></button>
+          <button id="pause" class="btn muted arena-pause" hidden disabled>Ⅱ Tạm dừng</button>
         </div>
 
+        <div class="camera panel game-camera">
+          <div class="camera-heading" title="Giữ và kéo để di chuyển góc quan sát">
+            <div><p class="eyebrow">GÓC QUAN SÁT</p><h3 id="leaderProgress">Hạng --/--</h3></div>
+            <span class="camera-live"><i></i> LIVE</span>
+          </div>
+          <div class="camera-screen"><canvas id="leaderCanvas" width="420" height="240"></canvas></div>
+          <div class="camera-info" aria-hidden="true"><strong id="leaderName">Đang chờ cuộc đua</strong></div>
+        </div>
 
+        <aside class="ranking panel game-ranking">
+          <div class="ranking-heading">
+            <div><p class="eyebrow">BẢNG XẾP HẠNG</p><h3>Tiên Bảng</h3></div>
+            <span class="ranking-seal">榜</span>
+          </div>
+          <div class="ranking-meta"><span>THỨ HẠNG HIỆN TẠI</span><span>LIVE</span></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Hạng</th><th>Tiên nhân</th><th>Thời gian</th></tr></thead>
+              <tbody id="rankBody"><tr><td colspan="3" class="empty">Chưa có tiên nhân</td></tr></tbody>
+            </table>
+          </div>
+        </aside>
       </div>
       <div class="stage-bottomline"><span>✦ VẠN KIẾM QUY TÔNG</span><span>THIÊN ĐỊA TRANH PHONG ✦</span></div>
     </section>
