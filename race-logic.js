@@ -744,13 +744,11 @@ function advanceFinishAnnouncements(){
   function attach(){
     const camera=document.querySelector(".game-camera");
     const frame=document.querySelector(".arena-frame");
-    const handle=camera&&camera.querySelector(".camera-heading");
-    if(!camera||!frame||!handle||handle.dataset.dragReady==="1")return;
-    handle.dataset.dragReady="1";
+    if(!camera||!frame||camera.dataset.dragReady==="1")return;
+    camera.dataset.dragReady="1";
     let drag=null;
-    handle.style.cursor="grab";
-    handle.style.touchAction="none";
-    handle.addEventListener("pointerdown",event=>{
+    camera.style.touchAction="none";
+    camera.addEventListener("pointerdown",event=>{
       if(event.pointerType==="mouse"&&event.button!==0)return;
       if(event.target.closest&&event.target.closest(".window-minimize"))return;
       const box=camera.getBoundingClientRect();
@@ -761,11 +759,11 @@ function advanceFinishAnnouncements(){
       camera.style.top=(box.top-area.top)+"px";
       camera.style.right="auto";
       camera.style.bottom="auto";
-      try{handle.setPointerCapture(event.pointerId);}catch(_){}
+      try{camera.setPointerCapture(event.pointerId);}catch(_){}
       event.preventDefault();
       event.stopPropagation();
     });
-    handle.addEventListener("pointermove",event=>{
+    camera.addEventListener("pointermove",event=>{
       if(!drag||event.pointerId!==drag.id)return;
       const area=frame.getBoundingClientRect();
       const maxX=Math.max(0,area.width-camera.offsetWidth);
@@ -775,9 +773,9 @@ function advanceFinishAnnouncements(){
       event.preventDefault();
     });
     const stop=event=>{if(drag&&event.pointerId===drag.id)drag=null;};
-    handle.addEventListener("pointerup",stop);
-    handle.addEventListener("pointercancel",stop);
-    handle.addEventListener("lostpointercapture",()=>{drag=null;});
+    camera.addEventListener("pointerup",stop);
+    camera.addEventListener("pointercancel",stop);
+    camera.addEventListener("lostpointercapture",()=>{drag=null;});
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",attach,{once:true});
   else attach();
