@@ -502,3 +502,10 @@ footer {
 .arena-start{position:absolute;z-index:5;top:48px;left:50%;transform:translateX(-50%);min-width:190px;min-height:34px;border:1px solid #e4c27e;box-shadow:0 3px 12px rgba(15,30,25,.35);white-space:nowrap}
 .arena-start:disabled{opacity:.55}
 @media(max-width:760px){.summon-footer{align-items:end}.compact-field{flex:1 1 130px}.random-setting{flex:1 1 120px}}
+
+
+/* REVISION 10 — nút đua gọn, không che HUD và thông báo. */
+.arena-start{top:12px;left:50%;min-width:0;width:auto;min-height:28px;padding:5px 12px;font-size:11px;line-height:1.1;transform:translateX(-50%);opacity:.96}
+.arena-start:disabled{opacity:.5}
+.summon-footer{gap:8px}.random-setting{width:110px;flex:0 1 110px}.compact-field{min-width:120px;flex:0 1 145px}
+@media(max-width:480px){.arena-start{top:8px;padding:4px 9px;font-size:10px}.summon-footer{gap:7px}.random-setting{flex:1 1 95px}}
