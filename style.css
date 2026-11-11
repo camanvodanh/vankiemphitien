@@ -878,3 +878,32 @@ body.game-page{
  .game-setup textarea{min-height:44px;max-height:80px;}
  .game-stage{gap:5px;}
 }
+
+
+/* GÓC QUAN SÁT: GIỮ TIÊU ĐỀ TRÊN MỘT DÒNG */
+.game-camera .camera-heading{
+  display:flex;
+  flex-wrap:nowrap;
+  align-items:center;
+  justify-content:space-between;
+  min-width:0;
+  white-space:nowrap;
+}
+.game-camera .camera-heading > div{
+  flex:0 0 auto;
+  min-width:max-content;
+  white-space:nowrap;
+}
+.game-camera .camera-heading h3,
+.game-camera .camera-heading .eyebrow,
+.game-camera .camera-live{
+  white-space:nowrap;
+  word-break:keep-all;
+  overflow-wrap:normal;
+}
+.game-camera .camera-live{flex:0 0 auto;}
+@media(max-width:700px){
+  .game-camera .camera-heading{gap:4px;}
+  .game-camera .camera-heading h3{font-size:8px;}
+  .game-camera .camera-live{font-size:6px;}
+}
