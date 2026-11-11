@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif:wght@400;500;600;700&display=swap');
 
 :root {
   --jade: #173c35;
@@ -532,3 +533,32 @@ footer {
 .compact-field{width:118px;min-width:118px;flex:0 0 118px}
 .compact-field select{width:100%;min-width:0;box-sizing:border-box;padding-left:7px;padding-right:20px}
 @media(max-width:480px){.arena-controls{min-height:34px}.arena-controls .arena-start{min-width:72px;min-height:26px;padding:4px 10px;font-size:10px}.random-setting{width:78px;flex-basis:78px}.compact-field{width:108px;min-width:108px;flex-basis:108px}}
+
+
+/* REVISION 14 — mỹ thuật chữ tiên hiệp, bảng xếp hạng và điều khiển có ấn ký. */
+:root{--jade:#153b35;--jade-dark:#102b27;--gold:#c69b4c;--ink:#342d20}
+body,button,input,textarea,select,label,.lock-notice,.status,.camera-info,table,footer{
+  font-family:"Cormorant Garamond","Noto Serif",Georgia,serif;
+}
+.hero h1,.panel h2,.camera-heading h3,.ranking-heading h3{
+  font-family:"Cinzel Decorative","Noto Serif",Georgia,serif;
+  letter-spacing:.035em;
+}
+.hero h1{font-weight:700;text-shadow:0 1px 0 #fff0c7,0 2px 8px #9c793c35}
+.panel h2{font-size:20px}
+.eyebrow,.btn,label{font-family:"Cormorant Garamond","Noto Serif",Georgia,serif;font-weight:700}
+.subtitle{font-family:"Cormorant Garamond","Noto Serif",Georgia,serif;font-size:16px;font-style:italic}
+.lock-notice{font-size:14px;font-weight:600;letter-spacing:.02em}
+.status{font-size:14px;font-weight:700;letter-spacing:.04em}
+.ranking table{font-family:"Cormorant Garamond","Noto Serif",Georgia,serif;font-size:14px}
+.ranking th{font-size:14px;font-weight:700;letter-spacing:.04em}
+.ranking td{font-size:14px;font-weight:600}
+.camera-info{font-size:14px}
+.btn{font-family:"Cormorant Garamond","Noto Serif",Georgia,serif;font-size:14px;font-weight:700;letter-spacing:.025em}
+.btn-icon{display:inline-grid;place-items:center;min-width:1.15em;margin-right:5px;font-family:Georgia,serif;font-size:1.05em;line-height:1}
+.arena-controls .arena-start{min-width:108px;min-height:34px;font-size:14px}
+.summon-footer .btn{min-height:38px}
+@media(max-width:480px){
+ .ranking table,.ranking th,.ranking td{font-size:12px}
+ .arena-controls .arena-start{min-width:100px;min-height:31px;font-size:13px}
+}
