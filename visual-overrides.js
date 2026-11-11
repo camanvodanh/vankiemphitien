@@ -4624,13 +4624,20 @@ if(activeEffect==="sword_spin"){
       const rot=t*(activeEffect==="formation_sword"?1.15:.42);
       target.save();target.globalAlpha=.96*fade;
       if(activeEffect==="formation_sword"){
-        // Vạn Kiếm Trận: sáu kiếm trận bay theo vòng cung, mũi kiếm cùng hướng ra ngoài.
-        target.translate(5,-12);target.shadowColor="#9bdcff";target.shadowBlur=12;
-        for(let n=0;n<6;n++){const a=rot+n*Math.PI/3,px=Math.cos(a)*34,py=Math.sin(a)*25;
+        // Vạn Kiếm Trận: tám phi kiếm dài, thấy rõ lưỡi kiếm, chắn tay, chuôi và kiếm quang.
+        target.translate(5,-12);target.shadowColor="#75dfff";target.shadowBlur=16;
+        for(let n=0;n<8;n++){
+          const a=rot+n*Math.PI/4,px=Math.cos(a)*43,py=Math.sin(a)*32;
           target.save();target.translate(px,py);target.rotate(a+Math.PI/2);
-          target.fillStyle="#e9fbff";target.strokeStyle="#79cfff";target.lineWidth=1.2;
-          target.beginPath();target.moveTo(0,-13);target.lineTo(3,-2);target.lineTo(2,9);target.lineTo(-2,9);target.lineTo(-3,-2);target.closePath();target.fill();target.stroke();
-          target.strokeStyle="#d6b878";target.beginPath();target.moveTo(-5,8);target.lineTo(5,8);target.stroke();target.restore();
+          const blade=target.createLinearGradient(-4,0,4,0);
+          blade.addColorStop(0,"#5bb8df");blade.addColorStop(.48,"#f4ffff");blade.addColorStop(1,"#78d9ff");
+          target.fillStyle=blade;target.strokeStyle="#e5fbff";target.lineWidth=1.2;
+          target.beginPath();target.moveTo(0,-23);target.lineTo(4,-9);target.lineTo(3,10);target.lineTo(0,15);target.lineTo(-3,10);target.lineTo(-4,-9);target.closePath();target.fill();target.stroke();
+          target.strokeStyle="#f3d48b";target.lineWidth=2.5;target.beginPath();target.moveTo(-7,10);target.lineTo(7,10);target.stroke();
+          target.strokeStyle="#c99b58";target.lineWidth=2;target.beginPath();target.moveTo(0,12);target.lineTo(0,23);target.stroke();
+          target.fillStyle="#fff0bd";target.beginPath();target.arc(0,24,1.8,0,Math.PI*2);target.fill();
+          target.globalAlpha=.7;target.strokeStyle="#b8f4ff";target.lineWidth=1.5;target.beginPath();target.moveTo(0,-17);target.lineTo(0,7);target.stroke();
+          target.restore();
         }
         target.shadowBlur=0;
       }else{
@@ -4698,9 +4705,7 @@ if(activeEffect==="talisman"||activeEffect==="talisman_guard"||activeEffect==="t
         target.restore();
         if(activeEffect==="talisman_thunder"){target.strokeStyle="#b7f5ff";target.lineWidth=2;target.beginPath();target.moveTo(px,py+9);target.lineTo(px-5,py+17);target.lineTo(px+1,py+22);target.lineTo(px-4,py+30);target.stroke();}
       }
-      if(activeEffect==="talisman_guard"){
-        target.strokeStyle="#8fe8e5";target.lineWidth=2;target.beginPath();target.moveTo(12,-31);target.quadraticCurveTo(48,-5,15,27);target.stroke();
-      }
+      // Hộ Thân Phù chỉ giữ các lá phù bay độc lập quanh người, không có dây nối màu xanh.
       target.shadowBlur=0;
     }
     if(activeEffect==="sword_intent"){
