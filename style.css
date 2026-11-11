@@ -2490,3 +2490,30 @@ body.game-page:after{
  .arena-frame>.game-setup.is-minimized{padding:4px 5px 4px 8px!important;}
  .arena-frame>.game-setup.is-minimized .setup-heading h2{font-size:11px!important;}
 }
+
+
+/* REVISION 31 — giao diện chỉ có hai nút điều khiển trạng thái. */
+.arena-frame>.arena-controls .btn[hidden]{display:none!important;}
+.arena-frame>.arena-controls #start,
+.arena-frame>.arena-controls #stop{
+  min-width:104px!important;
+  min-height:36px!important;
+  padding:7px 14px!important;
+  font-size:12px!important;
+  font-weight:800!important;
+  letter-spacing:.02em!important;
+}
+.arena-frame>.arena-controls #start{
+  color:#fff2d0!important;
+  border:1px solid #d9b86f!important;
+  background:linear-gradient(135deg,#174d3d,#24664e)!important;
+}
+.arena-frame>.arena-controls #stop{
+  color:#f8e9c9!important;
+  border:1px solid rgba(209,174,105,.72)!important;
+  background:linear-gradient(135deg,#493a2a,#76603b)!important;
+}
+@media(max-width:760px){
+ .arena-frame>.arena-controls #start,
+ .arena-frame>.arena-controls #stop{min-width:88px!important;min-height:32px!important;padding:6px 10px!important;font-size:11px!important;}
+}
