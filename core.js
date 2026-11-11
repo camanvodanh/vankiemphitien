@@ -15,8 +15,8 @@ const H = canvas.height;
 const TRACK = {
   left: 100,
   right: 1000,
-  top: 145,
-  bottom: 505
+  top: 115,
+  bottom: 525
 };
 
 const palette = [
