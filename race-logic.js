@@ -73,7 +73,7 @@ function updateRace(dt){
  const rankedNow=sortedRacers();
  for(let i=0;i<rankedNow.length;i++){
   const racer=rankedNow[i],oldRank=rankBefore.get(racer.id),newRank=i+1;
-  if(racer.effectTimer>0&&oldRank&&oldRank!==newRank){
+  if(racer.effectTimer>0&&racer.effectType==="boost"&&(racer.speedMultiplier||1)>1&&oldRank&&oldRank!==newRank){
    const mult=racer.speedMultiplier||1;
    racer.rankChangeText="Hạng "+oldRank+" --> Hạng "+newRank+" Tốc Độ Tăng x "+mult.toFixed(1);
    racer.rankChangeTimer=3.2;
