@@ -3826,6 +3826,7 @@ function drawScenery(time){
   drawWaterfall(112,292,25,190,time);
   drawWaterfall(972,238,34,245,time);
   drawRiver(time);
+  drawBridge();
   drawSectArchitecture(time);
   drawNearBankTerraces(time);
   drawDenseForest(time);
@@ -4445,10 +4446,10 @@ function drawPodiumScene(target,time,mini=false){
 /* REVISION 17 — hạ quảng trường, nền và toàn bộ hàng đệ tử sát đáy canvas.
    Đường đua và tầng trời giữ nguyên cao độ độc lập. */
 const __vkpDrawRiverBase = drawRiver;
-function drawRiver(time){ctx.save();ctx.translate(0,210);__vkpDrawRiverBase(time);ctx.restore();}
+drawRiver = function(time){ctx.save();ctx.translate(0,210);__vkpDrawRiverBase(time);ctx.restore();};
 const __vkpDrawBridgeBase = drawBridge;
-function drawBridge(){ctx.save();ctx.translate(0,210);__vkpDrawBridgeBase();ctx.restore();}
+drawBridge = function(){ctx.save();ctx.translate(0,210);__vkpDrawBridgeBase();ctx.restore();};
 const __vkpDrawCrowdBase = drawCrowd;
-function drawCrowd(time){ctx.save();ctx.translate(0,210);__vkpDrawCrowdBase(time);ctx.restore();}
+drawCrowd = function(time){ctx.save();ctx.translate(0,210);__vkpDrawCrowdBase(time);ctx.restore();};
 const __vkpDrawNearBankBase = drawNearBankTerraces;
-function drawNearBankTerraces(time){ctx.save();ctx.translate(0,210);__vkpDrawNearBankBase(time);ctx.restore();}
+drawNearBankTerraces = function(time){ctx.save();ctx.translate(0,210);__vkpDrawNearBankBase(time);ctx.restore();};
