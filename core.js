@@ -15,7 +15,7 @@ const H = canvas.height;
 const TRACK = {
   left: 100,
   right: 1000,
-  top: 125,
+  top: 55,
   bottom: 475
 };
 
@@ -162,6 +162,13 @@ function racerScale() {
   const gap = laneGap();
   const scaleByCount = 1.25 - racers.length * .008;
   const scaleByLane = gap * .78 / 51;
+
+  // Từ 20 đến 30 người giữ nguyên kích thước chuẩn,
+  // đồng thời nới chiều cao trường đua để các làn không chồng lên nhau.
+  // Nếu vượt quá sức chứa hình học, chỉ giảm vừa đủ để không đè nhân vật.
+  if (racers.length >= 20) {
+    return Math.max(.055, Math.min(.27, scaleByLane));
+  }
 
   return clamp(
     Math.min(1.05, scaleByCount, scaleByLane),
