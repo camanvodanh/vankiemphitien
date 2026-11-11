@@ -830,3 +830,49 @@ function syncButtons(){
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",attach,{once:true});
   else attach();
 })();
+
+
+/* ORIENTATION: request landscape where the browser supports orientation lock.
+   On iPhone Safari, physical rotation is handled by the responsive landscape CSS. */
+(function enableLandscapeView(){
+  function attach(){
+    const button=document.getElementById("rotateView");
+    if(!button||button.dataset.orientationReady==="1")return;
+    button.dataset.orientationReady="1";
+    const isLandscape=()=>window.matchMedia&&window.matchMedia("(orientation: landscape)").matches;
+    const refresh=()=>{
+      const landscape=isLandscape();
+      button.textContent=landscape?"↻ Đang xem ngang":"↻ Xoay ngang";
+      button.setAttribute("aria-label",landscape?"Đang ở chế độ xem ngang":"Bật chế độ xem ngang");
+      button.title=landscape?"Xoay điện thoại về dọc để trở lại":"Xoay ngang điện thoại để mở rộng sân đua";
+    };
+    button.addEventListener("click",async()=>{
+      try{
+        const root=document.documentElement;
+        if(!document.fullscreenElement&&root.requestFullscreen){
+          await root.requestFullscreen();
+        }
+        if(screen.orientation&&typeof screen.orientation.lock==="function"){
+          await screen.orientation.lock("landscape");
+          button.textContent="↻ Đang xem ngang";
+        }else{
+          button.textContent="↻ Hãy xoay máy ngang";
+          button.title="Trên iPhone, xoay điện thoại 90°; giao diện sẽ tự căn chỉnh theo chiều ngang.";
+        }
+      }catch(error){
+        button.textContent="↻ Hãy xoay máy ngang";
+        button.title="Trình duyệt không hỗ trợ khóa xoay tự động. Xoay điện thoại 90° để giao diện tự căn chỉnh.";
+      }
+      refresh();
+      if(!isLandscape()){
+        button.textContent="↻ Hãy xoay máy ngang";
+        button.title="Xoay điện thoại 90°; toàn bộ giao diện sẽ tự co giãn theo chiều ngang.";
+      }
+    });
+    window.addEventListener("resize",refresh,{passive:true});
+    window.addEventListener("orientationchange",refresh,{passive:true});
+    refresh();
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",attach,{once:true});
+  else attach();
+})();
