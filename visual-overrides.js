@@ -4362,7 +4362,7 @@ function drawRacer(target,racer,x,y,scale,time){
   // Phi kiếm nằm ngang: mũi kiếm hướng về trước (phải), chuôi ở sau; người cưỡi nằm ngang dọc thân kiếm.
   // Giữ nhân vật đứng thẳng, không xoay hệ tọa độ.
   const glow=target.createRadialGradient(0,0,3,0,0,48);glow.addColorStop(0,"rgba(255,225,139,.38)");glow.addColorStop(1,"rgba(255,225,139,0)");target.fillStyle=glow;target.fillRect(-51,-48,102,96);
-  if(racer.effectTimer>0){const p=1+Math.sin(time*.025)*.12;target.strokeStyle=(racer.effectType==="boost"||racer.effectType==="pill")?"#ffe17b":racer.effectType==="sword_intent"?"#a9eaff":racer.effectType==="cloud_step"?"#8fe5d4":racer.effectType==="formation"?"#c9b0ff":racer.effectType==="slow"?"#8de8ef":"#ff9a72";target.lineWidth=2.2;target.beginPath();target.ellipse(0,4,43*p,17*p,0,0,Math.PI*2);target.stroke();}
+  // Không vẽ vòng tròn bao quanh thân; giữ lại hiệu ứng đặc trưng của từng loại ở phía dưới.
   drawRacingArtifact(target,artifactKind(racer),time*.004+racer.phase,female?"female":"male");
   // Phom y phục khác nhau, màu áo vẫn lấy từ bảng màu riêng của từng tiên nhân.
   target.fillStyle=racer.dark;target.beginPath();
