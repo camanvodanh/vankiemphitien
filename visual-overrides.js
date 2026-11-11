@@ -4609,3 +4609,122 @@ function drawScenery(time){
   ctx.globalAlpha=1;ctx.shadowBlur=0;
   ctx.restore();
 }
+
+
+// =====================================================
+// REVISION 20 — phục hồi đội hình quảng trường và kiếm cổ điển.
+// =====================================================
+function drawRacingArtifact(target,kind,phase){
+  const female=arguments.length>3&&arguments[3]==="female";
+  const colors=female?["#f2b9d5","#c8b4f2","#f0d18a","#f3a9bd"]:["#a9d8ef","#d8e5ef","#91c9d0","#d8bd82"];
+  const blade=colors[kind%colors.length];
+  target.save();target.translate(0,18);target.rotate(Math.PI/2+Math.sin(phase)*.025);
+  target.globalAlpha=.95;target.shadowColor=blade;target.shadowBlur=7;
+  target.fillStyle="#72533a";target.fillRect(-3,-1,6,20);
+  target.fillStyle=female?"#d7a9a0":"#b99a61";target.fillRect(-11,1,22,4);
+  target.fillStyle=blade;target.beginPath();
+  if(kind%4===0){target.moveTo(0,-31);target.lineTo(5,-3);target.lineTo(0,19);target.lineTo(-5,-3);}
+  else if(kind%4===1){target.moveTo(0,-29);target.lineTo(8,-8);target.lineTo(3,12);target.lineTo(0,19);target.lineTo(-3,12);target.lineTo(-8,-8);}
+  else if(kind%4===2){target.moveTo(0,-27);target.quadraticCurveTo(13,-10,5,8);target.lineTo(0,19);target.lineTo(-5,8);target.quadraticCurveTo(-13,-10,0,-27);}
+  else{target.moveTo(0,-32);target.lineTo(4,-7);target.lineTo(9,8);target.lineTo(0,19);target.lineTo(-9,8);target.lineTo(-4,-7);}
+  target.closePath();target.fill();target.strokeStyle=female?"#fff0f7":"#f4f5e8";target.lineWidth=1.5;target.stroke();
+  target.fillStyle=female?"#ffe5a8":"#b9f0ef";target.beginPath();target.arc(0,4,3,0,Math.PI*2);target.fill();
+  target.restore();
+}
+
+function drawCrowd(time){
+  // Chưởng môn ở chính giữa, hai nhóm danh dự ngồi tách hẳn hai bên.
+  drawVIPAura(550,552,112,"#ffe5a0",time,.4,2.2);
+  drawVIPAura(550,552,70,"#fff0bf",time,1.8,1.7);
+  drawVIPChair(550,579,1.38,"#762f32",time,0);
+  drawFormalSpectator(550,566,1.04,"master",time,0);
+  drawRoleLabel(550,493,"CHƯỞNG MÔN","#f2d17d",1.05);
+
+  // Thân truyền: 10 người ngồi bên trái, giãn đều, không sát nhau.
+  for(let i=0;i<10;i++){
+    const x=78+i*41,y=612;
+    drawVIPAura(x,y-10,22,"#a9d7ff",time,i*.7,.42);
+    drawVIPChair(x,y,.58,"#405d82",time,i*.65);
+    drawFormalSpectator(x,y-7,.52,"disciple",time,i);
+  }
+  drawRoleLabel(263,566,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.82);
+
+  // Trưởng lão: 10 người bên phải, khoảng cách đồng đều.
+  for(let i=0;i<10;i++){
+    const x=662+i*41,y=612;
+    drawVIPAura(x,y-10,23,"#d7baff",time,i*.75,.45);
+    drawVIPChair(x,y,.60,"#5b456b",time,i);
+    drawFormalSpectator(x,y-7,.54,"elder",time,i*.8);
+  }
+  drawRoleLabel(867,566,"TRƯỞNG LÃO","#d4b5fa",.82);
+
+  // Nòng cốt đứng thành cụm, bỏ hoàn toàn bảng chữ trên đầu.
+  for(let i=0;i<28;i++){
+    const col=i%7,row=Math.floor(i/7);
+    const x=445+col*35+(row%2)*7;
+    const y=660+row*14+Math.sin(i*1.7)*2;
+    drawVIPAura(x,y-8,12,"#b8e5d6",time,i*.61,.15);
+    drawSpectator(x,y,.43,"core",time,i*.73);
+  }
+
+  // Các tầng đệ tử phổ thông tụ đông xung quanh nhưng vẫn có khe đứng riêng.
+  const groups=[
+    {role:"inner",count:64,scale:.37,y0:684,y1:735},
+    {role:"outer",count:92,scale:.34,y0:705,y1:765},
+    {role:"servant",count:132,scale:.30,y0:735,y1:798}
+  ];
+  groups.forEach((g,gi)=>{
+    for(let i=0;i<g.count;i++){
+      const col=i%48,row=Math.floor(i/48);
+      const x=12+col*23+Math.sin(i*2.17+gi)*6+(row%2)*5;
+      const y=g.y0+(g.y1-g.y0)*((row+.5)/Math.max(1,Math.ceil(g.count/48)))+Math.sin(i*1.91+gi)*7;
+      drawSpectator(x,y,g.scale,g.role,time,i*.59+gi*2.1);
+    }
+  });
+  drawCrowdFlag(12,696,"#a53f36",time);
+  drawCrowdFlag(W-18,696,"#b18a43",time);
+}
+
+function drawSectArchitecture(time){
+ const buildings=[
+  [235,170,.32,"TỤ LINH THÁP","tower","#39766e"],
+  [390,170,.32,"TÀNG KINH CÁC","scripture","#8c6043"],
+  [550,170,.52,"LĂNG TIÊU CHÍNH ĐIỆN","main","#9d4939"],
+  [710,170,.32,"TÀNG BẢO CÁC","treasure","#b68a43"],
+  [865,170,.32,"BÁCH THẢO CÁC","herb","#648653"],
+
+  [235,292,.32,"GIẢNG ĐẠO CÁC","lecture","#577d83"],
+  [390,292,.32,"ĐAN CÁC","alchemy","#9e543b"],
+  [550,292,.32,"LUYỆN KHÍ ĐIỆN","forge","#82604a"],
+  [710,292,.32,"QUAN TINH LÂU","observatory","#536c91"],
+  [865,292,.32,"QUAN TINH ĐÀI","observatory","#536c91"],
+
+  [235,410,.29,"BẾ QUAN ĐỘNG PHỦ","cave","#536b62"],
+  [390,410,.29,"ĐỆ TỬ VIỆN","academy","#66817a"],
+  [550,410,.29,"TRẬN PHÁP CÁC","array","#4f7b83"],
+  [710,410,.29,"HỘ SƠN TRẬN CÁC","guardian","#527e88"],
+  [865,410,.29,"NGOẠI VỤ ĐIỆN","foreign","#916c48"]
+ ];
+ buildings.forEach(([x,y,s,title,type,accent])=>{
+  drawSectMountainLedge(x,y,s);
+  drawSectPavilion(x,y-5,s,title,type,accent);
+ });
+}
+
+function drawScenery(time){
+  ctx.save();
+  ctx.globalAlpha=1;ctx.shadowBlur=0;
+  drawSky(time);
+  // Trả tầng trời, mây và núi về cao độ cũ; không kéo bầu trời xuống thấp.
+  drawMountainRange();
+  drawMovingClouds(time);
+  // Thác nước giữ ở hai mép, chừa khoảng trống cho các lầu các.
+  drawWaterfall(112,292,25,190,time);
+  drawWaterfall(972,238,34,245,time);
+  drawRiver(time);
+  drawSectArchitecture(time);
+  drawSpiritBirds(time);
+  drawCrowd(time);
+  ctx.globalAlpha=1;ctx.shadowBlur=0;
+  ctx.restore();
+}
