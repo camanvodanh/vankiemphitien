@@ -2216,3 +2216,78 @@ body.game-page:after{
  .arena-frame>.game-ranking{grid-column:2!important;grid-row:3!important;max-height:180px!important;}
  .arena-frame>.game-ranking .table-wrap{max-height:125px!important;}
 }
+
+
+/* REVISION 27 — cụm Chạy/Dừng nằm giữa camera và Tiên Bảng, trong khung game. */
+.arena-frame{
+ grid-template-columns:minmax(0,4fr) minmax(76px,auto) minmax(0,6fr)!important;
+ grid-template-rows:auto auto!important;
+}
+.arena-frame>#game{grid-column:1 / span 3!important;grid-row:1!important;}
+.arena-frame>.game-camera{
+ grid-column:1!important;grid-row:2!important;
+ width:100%!important;max-width:none!important;min-width:0!important;
+}
+.arena-frame>.arena-controls{
+ grid-column:2!important;grid-row:2!important;
+ position:relative!important;inset:auto!important;transform:none!important;
+ width:auto!important;max-width:none!important;min-width:0!important;
+ min-height:100%!important;height:100%!important;
+ display:flex!important;flex-direction:column!important;
+ align-items:stretch!important;justify-content:center!important;
+ gap:8px!important;padding:8px 5px!important;
+ border-left:1px solid rgba(196,163,95,.28)!important;
+ border-right:1px solid rgba(196,163,95,.28)!important;
+ background:rgba(9,29,25,.72)!important;
+}
+.arena-frame>.arena-controls .btn{
+ width:100%!important;min-width:0!important;
+ min-height:34px!important;padding:6px 4px!important;
+ font-size:12px!important;line-height:1.1!important;
+ white-space:nowrap!important;text-align:center!important;
+}
+.arena-frame>.game-ranking{
+ grid-column:3!important;grid-row:2!important;
+ width:100%!important;min-width:0!important;max-width:none!important;
+ height:auto!important;max-height:240px!important;
+ border-left:0!important;border-top:0!important;
+ border-radius:0 0 9px 0!important;
+}
+.arena-frame>.game-ranking .table-wrap{max-height:175px!important;}
+.arena-frame:has(>.game-ranking.is-minimized){
+ grid-template-columns:minmax(0,4fr) minmax(76px,auto) 34px!important;
+}
+.arena-frame>.game-camera.is-minimized{width:100%!important;max-width:none!important;}
+@media(max-width:760px) and (orientation:portrait){
+ .arena-frame{
+  grid-template-columns:minmax(0,4fr) minmax(70px,auto) minmax(0,6fr)!important;
+  grid-template-rows:auto auto!important;
+ }
+ .arena-frame>#game{grid-column:1 / span 3!important;grid-row:1!important;}
+ .arena-frame>.game-camera{grid-column:1!important;grid-row:2!important;width:100%!important;}
+ .arena-frame>.arena-controls{
+  grid-column:2!important;grid-row:2!important;
+  flex-direction:column!important;justify-content:center!important;
+  align-items:stretch!important;gap:6px!important;padding:5px 3px!important;
+ }
+ .arena-frame>.arena-controls .btn{
+  min-width:0!important;width:100%!important;min-height:32px!important;
+  padding:5px 2px!important;font-size:11px!important;
+ }
+ .arena-frame>.game-ranking{
+  grid-column:3!important;grid-row:2!important;
+  width:100%!important;max-height:220px!important;
+  border-left:0!important;border-top:0!important;
+ }
+ .arena-frame>.game-ranking .table-wrap{max-height:155px!important;}
+ .arena-frame:has(>.game-ranking.is-minimized){
+  grid-template-columns:minmax(0,4fr) minmax(70px,auto) 34px!important;
+ }
+}
+@media(max-height:600px) and (orientation:landscape){
+ .arena-frame{grid-template-columns:minmax(0,4fr) minmax(76px,auto) minmax(0,6fr)!important;grid-template-rows:auto auto!important;}
+ .arena-frame>#game{grid-column:1 / span 3!important;grid-row:1!important;}
+ .arena-frame>.game-camera{grid-column:1!important;grid-row:2!important;position:relative!important;width:100%!important;max-width:none!important;}
+ .arena-frame>.arena-controls{grid-column:2!important;grid-row:2!important;flex-direction:column!important;min-height:100%!important;}
+ .arena-frame>.game-ranking{grid-column:3!important;grid-row:2!important;max-height:190px!important;}
+}
