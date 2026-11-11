@@ -39,40 +39,27 @@ function assignFinishTimes() {
 // XỬ LÝ VỀ ĐÍCH
 // =====================================================
 
-function processFinish(racer, index) {
-  if (racer.finished) return;
-
-  racer.progress = distance;
-  racer.finished = true;
-  racer.finishTime = elapsed;
-
-  finishQueue.push(racer);
-
-  showFinishAnnouncement(racer, finishQueue.length);
-
-  addParticles(
-    TRACK.right - 35,
-    laneY(index),
-    28
-  );
+function processFinish(racer,index){
+ if(racer.finished)return;racer.progress=distance;racer.finished=true;racer.finishTime=elapsed;
+ racer.speedMultiplier=1;racer.effectTimer=0;racer.effectType="";racer.effectName="";
+ if(cameraFocusId===racer.id)cameraFocusId=null;
+ finishQueue.push(racer);showFinishAnnouncement(racer,finishQueue.length);addParticles(TRACK.right-35,laneY(index),28);
 }
 
 // =====================================================
 // CẬP NHẬT CUỘC ĐUA
 // =====================================================
 
-function updateRace(dt) {
- if(!running||paused||!started||finished)return;
- elapsed=Math.min(duration,elapsed+dt);
+function updateRace(dt){
+ if(!running||paused||!started||finished)return;elapsed=Math.min(duration,elapsed+dt);
  racers.forEach(racer=>{
   if(racer.finished)return;
-  if(racer.effectTimer>0){racer.effectTimer=Math.max(0,racer.effectTimer-dt);if(racer.effectTimer===0){racer.speedMultiplier=1;racer.effectType="";racer.effectName="";}}
+  if(racer.effectTimer>0){racer.effectTimer=Math.max(0,racer.effectTimer-dt);if(racer.effectTimer===0){racer.speedMultiplier=1;racer.effectType="";racer.effectName="";if(cameraFocusId===racer.id)cameraFocusId=null;}}
   const baseSpeed=distance/Math.max(.001,racer.targetFinishTime);
   racer.progress=Math.min(distance,racer.progress+baseSpeed*dt*(racer.speedMultiplier||1));
  });
  racers.map((racer,index)=>({racer,index})).filter(o=>!o.racer.finished&&o.racer.progress>=distance).forEach(o=>processFinish(o.racer,o.index));
- eventClock+=dt;
- if(eventClock>=nextEvent&&elapsed<duration){triggerEvent();eventClock=0;nextEvent=rand(4.5,7.5);}
+ eventClock+=dt;if(eventClock>=nextEvent&&elapsed<duration){triggerEvent();eventClock=0;nextEvent=rand(4.5,7.5);}
  if(elapsed>=duration){racers.forEach((racer,index)=>{if(!racer.finished)processFinish(racer,index);});finishRace();}
 }
 
@@ -567,16 +554,12 @@ function startRace(){
 function togglePause(){if(!running||finished)return;running=false;paused=true;$("status").textContent="Đang tạm dừng";$("lockNotice").textContent="Tiên hội tạm dừng.";syncButtons();}
 function resumeRace(){if(!paused||finished)return;paused=false;running=true;$("status").textContent=started?"Đang tranh phong":"Bắt đầu sau "+countdown+"...";$("lockNotice").textContent=started?"Tiên hội tiếp tục tranh phong.":"Tiên hội tiếp tục khai mở.";syncButtons();}
 function finishRace(){
-  elapsed=duration;
-  racers.forEach(r=>{r.progress=distance;r.finished=true;if(r.finishTime===null)r.finishTime=duration;});
-  finished=true;running=false;paused=false;started=true;
-  $("status").textContent="Đại hội kết thúc";
-  const finalRacer=finishQueue[finishQueue.length-1];
-  if(finalRacer){finishMessage="HẠNG "+finishQueue.length+": "+finalRacer.name+" ĐÃ VỀ ĐÍCH!";finishMessageLife=3.2;}
-  finishEndAnnouncementPending=true;finishEndAnnouncementShown=false;
-  setSettingsLocked(false);
-  $("lockNotice").textContent="Tiên hội đã hoàn thành.";
-  syncButtons();updateRanking();
+ elapsed=duration;
+ racers.forEach(r=>{r.progress=distance;r.finished=true;if(r.finishTime===null)r.finishTime=duration;r.speedMultiplier=1;r.effectTimer=0;r.effectType="";r.effectName="";});
+ cameraFocusId=null;finished=true;running=false;paused=false;started=true;eventText="";eventTextLife=0;finishMessage="";finishMessageLife=0;
+ finishEndAnnouncementPending=false;finishEndAnnouncementShown=true;
+ $("status").textContent="Đại hội kết thúc · Đang trao giải top 3";$("lockNotice").textContent="Đại hội đã khép lại. Tiên bảng vinh danh ba vị trí dẫn đầu.";
+ setSettingsLocked(false);syncButtons();updateRanking();
 }
 function resetGame(){
   racers=[];particles=[];running=false;paused=false;started=false;finished=false;
@@ -600,23 +583,13 @@ function leaderOf(){
 }
 function drawCamera(time){
  drawCameraBackground();
- if(!started||!racers.length){
-  $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Hạng --/--";
-  cameraCtx.fillStyle="#fff2c9";cameraCtx.font="bold 14px Arial, sans-serif";
-  cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";
-  cameraCtx.fillText("Chờ khai mở tiên hội",210,96);return;
- }
- const racer=leaderOf();if(!racer)return;
+ if(finished){drawPodiumScene(cameraCtx,time,true);$("leaderName").textContent="Lễ trao giải · Top 3";$("leaderProgress").textContent="VINH DANH TOP 3";return;}
+ if(!started||!racers.length){$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Hạng --/--";cameraCtx.fillStyle="#fff2c9";cameraCtx.font="bold 14px Arial, sans-serif";cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";cameraCtx.fillText("Chờ khai mở tiên hội",210,96);return;}
+ let racer=cameraFocusId?racers.find(item=>item.id===cameraFocusId):null;
+ if(!racer||racer.finished||racer.effectTimer<=0)racer=leaderOf();if(!racer)return;
  drawRacer(cameraCtx,racer,210,108,2.0,time);
- cameraCtx.save();cameraCtx.font="bold 17px Arial, sans-serif";
- cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";cameraCtx.lineJoin="round";
- cameraCtx.lineWidth=4;cameraCtx.strokeStyle="rgba(15,27,25,.96)";
- cameraCtx.strokeText(racer.name,210,24,390);
- cameraCtx.fillStyle="#fff4d4";cameraCtx.fillText(racer.name,210,24,390);
- cameraCtx.restore();
- $("leaderName").textContent=racer.name;
- const rank=sortedRacers().findIndex(item=>item.id===racer.id)+1;
- $("leaderProgress").textContent="Hạng "+rank+"/"+racers.length;
+ cameraCtx.save();cameraCtx.font="bold 17px Arial, sans-serif";cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";cameraCtx.lineJoin="round";cameraCtx.lineWidth=4;cameraCtx.strokeStyle="rgba(15,27,25,.96)";cameraCtx.strokeText(racer.name,210,24,390);cameraCtx.fillStyle="#fff4d4";cameraCtx.fillText(racer.name,210,24,390);cameraCtx.restore();
+ $("leaderName").textContent=racer.name;const rank=sortedRacers().findIndex(item=>item.id===racer.id)+1;$("leaderProgress").textContent="Hạng "+rank+"/"+racers.length;
 }
 function updateRanking(){
  const sorted=sortedRacers();if(!sorted.length){$("rankBody").innerHTML='<tr><td colspan="3" class="empty">Chưa có tiên nhân</td></tr>';return;}
