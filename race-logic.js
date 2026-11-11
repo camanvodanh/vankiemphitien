@@ -579,7 +579,7 @@ function setSettingsLocked(value){
 }
 function syncButtons(){
   const b=$("start");
-  b.textContent=running?"Ⅱ Tạm dừng":paused?"▶ Tiếp tục":finished?"↻ Bắt đầu lại":"✦ Bắt đầu";
+  b.textContent=running?"Tạm dừng":paused?"Tiếp tục":finished?"Bắt đầu lại":"Bắt đầu";
   b.disabled=!racers.length;
   if($("pause")){$("pause").hidden=true;$("pause").disabled=true;}
   $("summon").disabled=running||paused;
@@ -642,16 +642,16 @@ function drawCamera(time){
   const racer=leaderOf();if(!racer)return;
   drawRacer(cameraCtx,racer,210,91,2.2,time);
   $("leaderName").textContent=racer.name;
-  const remaining=racer.finished?Math.max(0,racer.finishTime||0):Math.max(0,racer.targetFinishTime-elapsed);
-  $("leaderProgress").textContent=racer.finished?"Đã về đích · "+timeText(remaining):"Dự kiến về đích sau "+timeText(remaining);
+  const finishAt=racer.finished?(racer.finishTime||0):racer.targetFinishTime;
+  $("leaderProgress").textContent=(racer.finished?"Thời gian về đích: ":"Dự kiến về đích: ")+timeText(finishAt);
 }
 function updateRanking(){
   const sorted=sortedRacers();
   if(!sorted.length){$("rankBody").innerHTML='<tr><td colspan="3" class="empty">Chưa có tiên nhân</td></tr>';return;}
   $("rankBody").innerHTML=sorted.map((r,i)=>{
     const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":i+1;
-    const remaining=r.finished?timeText(r.finishTime||0):timeText(Math.max(0,r.targetFinishTime-elapsed));
-    return '<tr><td>'+medal+'</td><td title="'+escapeHTML(r.name)+'">'+escapeHTML(r.name)+'</td><td>'+remaining+'</td></tr>';
+    const finishAt=r.finished?timeText(r.finishTime||0):timeText(r.targetFinishTime);
+    return '<tr><td>'+medal+'</td><td title="'+escapeHTML(r.name)+'">'+escapeHTML(r.name)+'</td><td>'+finishAt+'</td></tr>';
   }).join("");
 }
 
