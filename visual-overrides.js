@@ -2956,3 +2956,196 @@ function drawCrowd(time){
   drawCrowdFlag(12,724,"#a53f36",time);
   drawCrowdFlag(W-18,724,"#b18a43",time);
 }
+
+
+/* === CẢNH QUẦN THỂ TIÊN MÔN & LỄ TRAO GIẢI ĐẠI ĐIỂN === */
+function drawSectArchitecture(time){
+ const buildings=[
+  [185,280,.47,"TỤ LINH THÁP","tower","#39766e"],
+  [305,292,.47,"TÀNG KINH CÁC","scripture","#8c6043"],
+  [425,282,.48,"TÀNG BẢO CÁC","treasure","#b68a43"],
+  [550,318,.78,"LĂNG TIÊU CHÍNH ĐIỆN","main","#9d4939"],
+  [675,282,.48,"GIẢNG ĐẠO CÁC","lecture","#577d83"],
+  [795,292,.47,"BÁCH THẢO CÁC","herb","#648653"],
+  [915,220,.46,"QUAN TINH LÂU","observatory","#536c91"],
+  [185,438,.40,"BẾ QUAN ĐỘNG PHỦ","cave","#536b62"],
+  [305,446,.40,"ĐAN CÁC","alchemy","#9e543b"],
+  [425,438,.40,"LUYỆN KHÍ ĐIỆN","forge","#82604a"],
+  [550,450,.39,"ĐỆ TỬ VIỆN","academy","#66817a"],
+  [675,438,.40,"TRẬN PHÁP CÁC","array","#4f7b83"],
+  [900,440,.40,"HỘ SƠN TRẬN CÁC","guardian","#527e88"],
+  [795,445,.40,"NGOẠI VỤ ĐIỆN","foreign","#916c48"]
+ ];
+ buildings.forEach(([x,y,s,title,type,accent])=>{drawSectMountainLedge(x,y,s);drawSectPavilion(x,y-5,s,title,type,accent);});
+}
+
+function drawCrowd(time){
+ // Chưởng môn ngồi chính giữa, lùi sâu về hậu đài.
+ drawVIPAura(550,552,112,"#ffe5a0",time,.4,2.2);
+ drawVIPAura(550,552,70,"#fff0bf",time,1.8,1.7);
+ drawVIPChair(550,579,1.38,"#762f32",time,0);
+ drawFormalSpectator(550,566,1.04,"master",time,0);
+ drawRoleLabel(550,493,"CHƯỞNG MÔN","#f2d17d",1.05);
+
+ // Thân truyền bên trái, trưởng lão bên phải; tách hẳn khỏi bảo tọa.
+ for(let i=0;i<10;i++){
+  const x=150+i*22,y=612;
+  drawVIPAura(x,y-10,22,"#a9d7ff",time,i*.7,.42);
+  drawVIPChair(x,y,.58,"#405d82",time,i*.65);
+  drawFormalSpectator(x,y-7,.52,"disciple",time,i);
+ }
+ drawRoleLabel(260,566,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.82);
+ for(let i=0;i<10;i++){
+  const x=730+i*22,y=612;
+  drawVIPAura(x,y-10,23,"#d7baff",time,i*.75,.45);
+  drawVIPChair(x,y,.60,"#5b456b",time,i);
+  drawFormalSpectator(x,y-7,.54,"elder",time,i*.8);
+ }
+ drawRoleLabel(840,566,"TRƯỞNG LÃO","#d4b5fa",.82);
+
+ // Nòng cốt đứng thành một cụm liền khối, không ghế.
+ for(let i=0;i<28;i++){
+  const col=i%7,row=Math.floor(i/7),x=445+col*35+(row%2)*7,y=660+row*14+Math.sin(i*1.7)*2;
+  drawVIPAura(x,y-8,12,"#b8e5d6",time,i*.61,.15);
+  drawSpectator(x,y,.43,"core",time,i*.73);
+ }
+ drawRoleLabel(550,635,"ĐỆ TỬ NÒNG CỐT","#f5d984",.78);
+
+ // Nội môn, ngoại môn và tạp dịch chen thành biển người bao quanh.
+ const groups=[
+  {role:"inner",count:64,scale:.37,y0:684,y1:735},
+  {role:"outer",count:92,scale:.34,y0:705,y1:765},
+  {role:"servant",count:132,scale:.30,y0:735,y1:798}
+ ];
+ groups.forEach((g,gi)=>{
+  for(let i=0;i<g.count;i++){
+   const col=i%48,row=Math.floor(i/48);
+   const x=12+col*23+Math.sin(i*2.17+gi)*8+(row%2)*5;
+   const y=g.y0+(g.y1-g.y0)*((Math.floor(i/48)+.5)/Math.max(1,Math.ceil(g.count/48)))+Math.sin(i*1.91+gi)*9;
+   drawSpectator(x,y,g.scale,g.role,time,i*.59+gi*2.1);
+  }
+ });
+ drawCrowdFlag(12,696,"#a53f36",time);drawCrowdFlag(W-18,696,"#b18a43",time);
+}
+
+function drawSpiritBirds(time){
+ const flocks=[
+  {n:2,cx:310,cy:205,rx:170,ry:20,speed:.00013,phase:.4,scale:.88},
+  {n:3,cx:790,cy:185,rx:178,ry:25,speed:.000105,phase:1.7,scale:.82}
+ ];
+ const smooth=t=>{t=clamp(t,0,1);return t*t*(3-2*t);};
+ flocks.forEach((g,gi)=>{for(let i=0;i<g.n;i++){
+  const a=((time*g.speed+g.phase+i*Math.PI*2/g.n)%(Math.PI*2)+Math.PI*2)%(Math.PI*2);
+  const x=g.cx+Math.cos(a)*g.rx,y=g.cy+Math.sin(a)*g.ry+Math.sin(time*.001+i*2)*3;
+  const turn=.34;let heading;
+  if(a<turn)heading=Math.PI*smooth(a/turn);
+  else if(a<Math.PI-turn)heading=Math.PI;
+  else if(a<Math.PI+turn)heading=Math.PI*(1-smooth((a-(Math.PI-turn))/(turn*2)));
+  else if(a<Math.PI*2-turn)heading=0;
+  else heading=Math.PI*smooth((a-(Math.PI*2-turn))/turn);
+  const flap=Math.sin(time*.0032+i*1.7+gi)*.78,sc=g.scale*(.96+.04*Math.sin(a));
+  ctx.save();ctx.translate(x,y);ctx.rotate(heading);ctx.scale(sc,sc);
+  // Bóng mờ và thân tròn đầy đặn hơn.
+  ctx.globalAlpha=.14;ctx.fillStyle="#d8f1e7";ctx.beginPath();ctx.ellipse(-4,13,39,8,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
+  // Đuôi lông xếp lớp.
+  ctx.fillStyle="#f5f4eb";ctx.beginPath();ctx.moveTo(-16,0);ctx.lineTo(-55,-9);ctx.lineTo(-77,-5);ctx.lineTo(-53,3);ctx.lineTo(-74,12);ctx.lineTo(-43,11);ctx.lineTo(-15,7);ctx.closePath();ctx.fill();
+  ctx.fillStyle="#414a47";for(let k=0;k<5;k++){ctx.beginPath();ctx.moveTo(-42-k*3,2+k*2);ctx.quadraticCurveTo(-59-k*3,-1+k*2,-76-k*1.5,-5+k*3);ctx.quadraticCurveTo(-60-k*2,8+k*2,-42-k*3,6+k*2);ctx.closePath();ctx.fill();}
+  // Cánh lớn, cong mềm, nhịp vỗ rõ ràng.
+  ctx.save();ctx.translate(-7,-2);ctx.rotate(-.08-flap*.58);
+  ctx.fillStyle="#fffef7";ctx.beginPath();ctx.moveTo(0,1);ctx.quadraticCurveTo(-13,-23-flap*7,-45,-29-flap*8);ctx.quadraticCurveTo(-37,-7-flap*2,-68,10-flap*2);ctx.quadraticCurveTo(-38,17,-8,10);ctx.closePath();ctx.fill();
+  ctx.fillStyle="#3b4542";for(let k=0;k<7;k++){const px=-23-k*5,py=-12-flap*5+k*2;ctx.beginPath();ctx.moveTo(px,py);ctx.quadraticCurveTo(px-12,-17-flap*5+k*2,px-21,5+k*2);ctx.quadraticCurveTo(px-8,9+k*2,px+1,4);ctx.closePath();ctx.fill();}
+  ctx.strokeStyle="rgba(185,195,187,.8)";ctx.lineWidth=1;for(let k=0;k<6;k++){ctx.beginPath();ctx.moveTo(-8,-2);ctx.quadraticCurveTo(-27,-18-flap*4-k*2,-57,-19-flap*4+k*3);ctx.stroke();}
+  ctx.restore();
+  // Thân mập vừa phải, cổ ngắn hơn để đầu không chúc ngược.
+  ctx.fillStyle="#fffef7";ctx.beginPath();ctx.ellipse(0,4,25,10,-.05,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#e4e9e2";ctx.beginPath();ctx.ellipse(-5,1,16,4,-.1,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle="#fffdf7";ctx.lineWidth=7;ctx.lineCap="round";ctx.beginPath();ctx.moveTo(15,0);ctx.quadraticCurveTo(24,-4,25,-16);ctx.quadraticCurveTo(26,-25,35,-26);ctx.stroke();
+  ctx.fillStyle="#fffef7";ctx.beginPath();ctx.ellipse(38,-28,8,6,-.12,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#bd3935";ctx.beginPath();ctx.arc(35,-34,3,Math.PI,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#b43c36";ctx.beginPath();ctx.moveTo(44,-28);ctx.lineTo(57,-25);ctx.lineTo(44,-23);ctx.closePath();ctx.fill();
+  ctx.fillStyle="#26302d";ctx.beginPath();ctx.arc(40,-30,1.3,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle="#b54b43";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(1,11);ctx.lineTo(-1,23);ctx.lineTo(-8,25);ctx.moveTo(9,11);ctx.lineTo(10,22);ctx.lineTo(4,25);ctx.stroke();
+  ctx.restore();
+ }});
+}
+
+function drawRacerNameOnTarget(target,racer,x,y,rank,scale=1){
+ const style=rank===1?{fill:"#ffe27a",glow:"#ffd34e",blur:14}:rank===2?{fill:"#f1f5ff",glow:"#b8d8f5",blur:10}:rank===3?{fill:"#ffc28a",glow:"#d88b54",blur:8}:{fill:"#fff7dc",glow:"#a9d9e7",blur:3};
+ target.save();target.textAlign="center";target.textBaseline="middle";target.lineJoin="round";
+ target.font="900 "+Math.max(9,13*scale)+"px Arial";target.lineWidth=3;target.strokeStyle="rgba(12,25,25,.96)";target.strokeText(racer.name,x,y,380);
+ target.shadowColor=style.glow;target.shadowBlur=started?style.blur:0;target.fillStyle=started?style.fill:"#fff7dc";target.fillText(racer.name,x,y,380);
+ if(started&&rank<=3){target.font="bold "+Math.max(8,10*scale)+"px Arial";target.fillStyle=style.glow;target.fillText(rank===1?"♛":rank===2?"✧":"✦",x,y-13*scale);}
+ target.restore();
+}
+
+function drawCeremonyBackdrop(target,mini,time){
+ const w=target.canvas.width,h=target.canvas.height;
+ const bg=target.createLinearGradient(0,0,0,h);bg.addColorStop(0,"#9dbeb2");bg.addColorStop(.42,"#476b5c");bg.addColorStop(1,"#172e2b");
+ target.fillStyle=bg;target.fillRect(0,0,w,h);
+ // Dãy núi và mây tiên phía sau đại điện.
+ target.fillStyle="#789a83";target.beginPath();target.moveTo(0,h*.46);target.lineTo(w*.12,h*.16);target.lineTo(w*.25,h*.39);target.lineTo(w*.42,h*.10);target.lineTo(w*.57,h*.38);target.lineTo(w*.77,h*.13);target.lineTo(w,h*.43);target.lineTo(w,h);target.lineTo(0,h);target.closePath();target.fill();
+ target.fillStyle="#315746";target.beginPath();target.moveTo(0,h*.58);target.lineTo(w*.16,h*.34);target.lineTo(w*.31,h*.52);target.lineTo(w*.48,h*.27);target.lineTo(w*.67,h*.51);target.lineTo(w*.84,h*.32);target.lineTo(w,h*.56);target.lineTo(w,h);target.lineTo(0,h);target.closePath();target.fill();
+ // Đại điện nhiều tầng mái vàng.
+ const cx=w*.5,scale=mini?.62:1;
+ target.save();target.translate(cx,h*.49);target.scale(scale,scale);
+ target.fillStyle="#53372d";target.fillRect(-90,-68,180,82);
+ target.fillStyle="#8c483b";target.fillRect(-76,-58,152,70);
+ target.fillStyle="#f0d28a";target.fillRect(-83,8,166,6);
+ for(let layer=0;layer<3;layer++){const yy=-68-layer*28,ww=130-layer*24;target.fillStyle=layer===0?"#4b302b":"#7b4b36";target.beginPath();target.moveTo(-ww*.7,yy+5);target.quadraticCurveTo(0,yy-40,ww*.7,yy+5);target.lineTo(ww*.56,yy+10);target.quadraticCurveTo(0,yy-25,-ww*.56,yy+10);target.closePath();target.fill();target.strokeStyle="#f2d58f";target.lineWidth=3;target.stroke();}
+ target.fillStyle="#fff0b8";target.font="bold 12px Georgia";target.textAlign="center";target.fillText("LĂNG TIÊU CHÍNH ĐIỆN",0,-90);
+ target.restore();
+ // Sân lễ, bậc ngọc, cờ và đèn hai bên.
+ target.fillStyle="#b9a77b";target.beginPath();target.moveTo(w*.12,h*.76);target.lineTo(w*.88,h*.76);target.lineTo(w,h);target.lineTo(0,h);target.closePath();target.fill();
+ target.fillStyle="#665443";target.fillRect(w*.12,h*.78,w*.76,h*.035);target.fillStyle="#e5c77e";target.fillRect(w*.12,h*.78,w*.76,2);
+ for(const side of [0,1]){const x=side?w*.91:w*.09;target.strokeStyle="#d6bd7c";target.lineWidth=mini?2:4;target.beginPath();target.moveTo(x,h*.42);target.lineTo(x,h*.79);target.stroke();target.fillStyle=side?"#a8473b":"#4c7294";target.beginPath();target.moveTo(x,h*.43);target.lineTo(x+(side?-1:1)*w*.07,h*.48);target.lineTo(x,h*.54);target.closePath();target.fill();}
+ for(let i=0;i<14;i++){const x=w*(.08+i*.064);target.globalAlpha=.25+.3*Math.sin(time*.002+i)**2;target.fillStyle="#ffe6a4";target.beginPath();target.arc(x,h*.78,mini?1.2:2.5,0,Math.PI*2);target.fill();}
+ target.globalAlpha=1;
+}
+
+function drawAwardMaster(target,x,y,scale,time){
+ target.save();target.translate(x,y);target.scale(scale,scale);
+ const aura=target.createRadialGradient(0,-35,2,0,-35,72);aura.addColorStop(0,"rgba(255,229,153,.34)");aura.addColorStop(1,"rgba(255,229,153,0)");
+ target.fillStyle=aura;target.fillRect(-75,-110,150,145);
+ target.fillStyle="#5a2929";target.beginPath();target.moveTo(-30,18);target.lineTo(-24,-47);target.quadraticCurveTo(0,-63,24,-47);target.lineTo(30,18);target.closePath();target.fill();
+ target.fillStyle="#a8443b";target.beginPath();target.moveTo(-25,12);target.lineTo(-20,-43);target.lineTo(0,-52);target.lineTo(20,-43);target.lineTo(25,12);target.closePath();target.fill();
+ target.strokeStyle="#f2d48b";target.lineWidth=3;target.stroke();
+ target.fillStyle="#eac39d";target.beginPath();target.ellipse(0,-66,15,18,0,0,Math.PI*2);target.fill();
+ target.fillStyle="#e6dfd2";target.beginPath();target.moveTo(-11,-56);target.lineTo(11,-56);target.lineTo(7,-31);target.lineTo(0,-25);target.lineTo(-7,-31);target.closePath();target.fill();
+ target.fillStyle="#e8c36e";target.beginPath();target.moveTo(-17,-78);target.lineTo(-12,-96);target.lineTo(-4,-85);target.lineTo(0,-105);target.lineTo(5,-85);target.lineTo(13,-96);target.lineTo(17,-78);target.closePath();target.fill();
+ target.strokeStyle="#efc39b";target.lineWidth=6;target.lineCap="round";target.beginPath();target.moveTo(-20,-36);target.lineTo(-35,-8);target.moveTo(20,-36);target.lineTo(40,-48);target.stroke();
+ target.fillStyle="#ffe6a0";target.shadowColor="#ffe6a0";target.shadowBlur=18+Math.sin(time*.006)*5;target.beginPath();target.arc(43,-52,8,0,Math.PI*2);target.fill();target.shadowBlur=0;
+ target.restore();
+}
+
+function drawPodiumScene(target,time,mini=false){
+ const ordered=sortedRacers().slice(0,3),w=target.canvas.width,h=target.canvas.height;
+ const elapsedCeremony=Math.max(0,(performance.now()-ceremonyStartedAt)/1000);
+ const activeRank=Math.min(3,Math.floor(elapsedCeremony/4.5)+1);
+ const active=ordered[activeRank-1]||ordered[0];
+ drawCeremonyBackdrop(target,mini,time);
+ target.save();target.textAlign="center";target.textBaseline="middle";
+ target.font=mini?"900 11px Georgia":"900 34px Georgia";target.fillStyle="#fff0b8";target.shadowColor="#ffcf64";target.shadowBlur=mini?8:22;
+ target.fillText("ĐẠI ĐIỂN VINH DANH TOP 3",w*.5,mini?11:h*.105);target.shadowBlur=0;
+ const masterX=w*(mini?.29:.39),masterY=h*(mini?.68:.64),winnerX=w*(mini?.72:.72),winnerY=h*(mini?.67:.65);
+ drawAwardMaster(target,masterX,masterY,mini?.47:1.25,time);
+ if(active){
+  // Nhân vật được xướng danh tiến lên nhận thưởng, tên nằm dưới khung hình.
+  drawRacer(target,active,winnerX,winnerY,mini?.72:1.15,time);
+  const color=activeRank===1?"#ffe17b":activeRank===2?"#dcecff":"#e6a16c";
+  target.strokeStyle=color;target.lineWidth=mini?2:4;target.shadowColor=color;target.shadowBlur=mini?7:18;
+  target.beginPath();target.moveTo(masterX+w*(mini?.10:.10),masterY-h*(mini?.18:.18));target.quadraticCurveTo(w*.55,h*.25,winnerX-w*(mini?.07:.07),winnerY-h*(mini?.12:.12));target.stroke();target.shadowBlur=0;
+  target.fillStyle=color;target.beginPath();target.arc((masterX+winnerX)/2,h*(mini?.39:.40),mini?3:8,0,Math.PI*2);target.fill();
+  target.font=mini?"bold 8px Arial":"bold 18px Arial";target.fillStyle="#fff3c6";target.fillText("CHƯỞNG MÔN TRAO THƯỞNG",w*.5,h*(mini?.82:.84));
+ }
+ // Bục tam cấp và bảng tên đặt thấp, không che mặt nhân vật.
+ const podiumX=[w*.25,w*.5,w*.75],ranks=[2,1,3],colors=["#c88d45","#d9e1e8","#b8794e"],glows=["#ffe17b","#dcecff","#e6a16c"];
+ for(let i=0;i<3;i++){
+  const rank=ranks[i],racer=ordered[rank-1];if(!racer)continue;
+  const base=h*(mini?.96:.96),top=h*(mini?(rank===1?.77:.82):(rank===1?.78:.82)),bw=w*(mini?.19:.18);
+  const grad=target.createLinearGradient(podiumX[i]-bw/2,top,podiumX[i]+bw/2,base);grad.addColorStop(0,colors[rank-1]);grad.addColorStop(1,"#382f2a");
+  target.fillStyle=grad;target.fillRect(podiumX[i]-bw/2,top,bw,base-top);target.strokeStyle=glows[rank-1];target.lineWidth=mini?1:2;target.strokeRect(podiumX[i]-bw/2,top,bw,base-top);
+  target.fillStyle=glows[rank-1];target.font=mini?"bold 9px Arial":"bold 20px Georgia";target.fillText("HẠNG "+rank,podiumX[i],top+(mini?8:17));
+  target.font=mini?"bold 6px Arial":"bold 13px Arial";target.fillStyle="#fff1c8";target.fillText(racer.name,podiumX[i],base-(mini?4:8),bw-5);
+ }
+ target.restore();
+}
