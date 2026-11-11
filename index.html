@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#102b27">
   <title>Vạn Kiếm Phi Tiên</title>
-  <link rel="stylesheet" href="style.css?v=20261111-waterfall-rank-dock">
+  <link rel="stylesheet" href="style.css?v=20261111-compact-center-controls">
 </head>
 <body class="game-page">
   <main class="page game-app">
@@ -40,15 +40,15 @@
           <div class="summon-footer">
             <div class="random-setting"><label for="quantity">Số lượng</label><input id="quantity" type="number" min="2" max="100" value="10"></div>
             <div class="field compact-field"><label for="speed">Thời gian</label><select id="speed"><option value="30">30 giây</option><option value="60" selected>60 giây</option><option value="120">120 giây</option><option value="180">180 giây</option><option value="300">300 giây</option></select></div>
-            <button id="summon" class="btn primary">✧ Triệu hồi</button>
+            <button id="summon" class="btn primary">✧ Tạo</button>
           </div>
           <p id="lockNotice" class="lock-notice">Nhập danh sách tên hoặc chọn số lượng để tạo ngẫu nhiên.</p>
         </section>
 
         <div class="arena-controls">
           <button id="setupToggle" class="btn muted setup-toggle" hidden>☰ Thiết lập</button>
-          <button id="start" class="btn primary arena-start" disabled><span class="btn-icon" aria-hidden="true">▶</span><span class="btn-label">Bắt đầu</span></button>
-          <button id="pause" class="btn muted arena-pause" hidden disabled>Ⅱ Tạm dừng</button>
+          <button id="start" class="btn primary arena-start" disabled><span class="btn-icon" aria-hidden="true">▶</span><span class="btn-label">Chạy</span></button>
+          <button id="pause" class="btn muted arena-pause" hidden disabled>Ⅱ Tiếp</button>
           <button id="stop" class="btn muted arena-stop" disabled>■ Dừng</button>
         </div>
 
@@ -91,8 +91,8 @@
   <script src="core.js?v=20261111-waterfall-rank-dock"></script>
   <script src="scenery.js?v=20261111-scene-render-refresh1"></script>
   <script src="audience.js?v=20261111-scene-render-refresh1"></script>
-  <script src="race-render.js?v=20261111-scene-render-refresh1"></script>
+  <script src="race-render.js?v=20261111-banner-clear-hall"></script>
   <script src="visual-overrides.js?v=20261111-scene-render-refresh1"></script>
-  <script src="race-logic.js?v=20261111-waterfall-rank-dock"></script>
+  <script src="race-logic.js?v=20261111-compact-center-controls"></script>
 </body>
 </html>
