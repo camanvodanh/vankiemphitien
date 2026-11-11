@@ -4454,7 +4454,7 @@ function drawRacer(target,racer,x,y,scale,time){
       target.globalAlpha=.8*fade;target.fillStyle="#d8e4e8";target.beginPath();target.ellipse(9,-24,2,4,0,0,Math.PI*2);target.fill();
       target.strokeStyle="#b9d0d2";target.lineWidth=1.3;target.beginPath();target.moveTo(-17,1);target.quadraticCurveTo(-26,7,-30,14);target.stroke();
       if(activeEffect==="faint"){target.globalAlpha=.72;target.fillStyle="#e2e8ed";target.font="bold 8px Arial";target.textAlign="center";target.fillText("Z",14,-39+Math.sin(t*3)*2);target.fillText("Z",21,-47+Math.sin(t*3+1)*2);}
-    }else if(activeEffect==="pill"||activeEffect==="boost"||activeEffect==="sword_intent"||activeEffect==="cloud_step"||activeEffect==="formation"||activeEffect==="wind_step"||activeEffect==="shadow_step"||activeEffect==="sword_dash"||activeEffect==="body_burst"){
+    }else if(activeEffect==="pill"||activeEffect==="boost"||activeEffect==="cloud_step"||activeEffect==="wind_step"||activeEffect==="shadow_step"||activeEffect==="sword_dash"||activeEffect==="body_burst"){
       target.globalAlpha=.85*fade;target.strokeStyle="#ffe18a";target.lineWidth=2;
       for(let i=0;i<4;i++){const xx=-28+i*17,yy=12-Math.abs(Math.sin(t*5+i))*24;target.beginPath();target.moveTo(xx,yy+8);target.quadraticCurveTo(xx-5,yy,xx,yy-7);target.stroke();}
       target.globalAlpha=.55;target.fillStyle="#fff0ad";for(let i=0;i<7;i++){const xx=Math.sin(t*3+i*2.1)*27,yy=-10+Math.cos(t*4+i)*25;target.beginPath();target.arc(xx,yy,1.3,0,Math.PI*2);target.fill();}
