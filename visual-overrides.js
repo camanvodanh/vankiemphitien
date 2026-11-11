@@ -5213,3 +5213,149 @@ function drawScenery(time) {
   drawRiverCurrent(time);
   drawCrowd(time);
 }
+
+
+// REVISION 54 — trả thông báo về vùng trời trống, hoàn thiện hai sơn tuyền và điểm hợp lưu.
+function drawTwinWaterfallMountains(time){
+  const peak=(x,scale,flip)=>{
+    ctx.save();
+    ctx.translate(x,0);
+    ctx.scale(scale*(flip?-1:1),scale);
+    const rock=ctx.createLinearGradient(0,105,0,560);
+    rock.addColorStop(0,"#d9e5d4");
+    rock.addColorStop(.22,"#9db79e");
+    rock.addColorStop(.58,"#55785f");
+    rock.addColorStop(1,"#294a3b");
+    ctx.fillStyle=rock;
+    ctx.beginPath();
+    ctx.moveTo(-205,555);
+    ctx.bezierCurveTo(-178,438,-154,345,-128,250);
+    ctx.bezierCurveTo(-105,184,-70,126,-25,105);
+    ctx.bezierCurveTo(8,91,42,126,65,176);
+    ctx.bezierCurveTo(99,246,128,338,157,405);
+    ctx.bezierCurveTo(176,454,194,508,210,555);
+    ctx.closePath();ctx.fill();
+
+    // Các sống núi phụ tạo chiều sâu, ôm lấy khe nước.
+    ctx.fillStyle="rgba(31,67,52,.34)";
+    ctx.beginPath();
+    ctx.moveTo(-205,555);
+    ctx.bezierCurveTo(-165,430,-120,345,-86,282);
+    ctx.bezierCurveTo(-58,228,-35,190,-8,178);
+    ctx.bezierCurveTo(-42,282,-55,392,-68,555);
+    ctx.closePath();ctx.fill();
+    ctx.fillStyle="rgba(226,237,214,.48)";
+    ctx.beginPath();
+    ctx.moveTo(8,111);
+    ctx.quadraticCurveTo(47,134,67,183);
+    ctx.quadraticCurveTo(37,166,22,174);
+    ctx.quadraticCurveTo(5,154,-13,161);
+    ctx.quadraticCurveTo(-3,130,8,111);
+    ctx.closePath();ctx.fill();
+
+    // Vệt địa tầng và cây bụi bám sườn.
+    ctx.lineCap="round";
+    for(let i=0;i<6;i++){
+      const yy=285+i*37;
+      ctx.strokeStyle=i%2?"rgba(25,57,43,.25)":"rgba(224,218,177,.22)";
+      ctx.lineWidth=2.2;
+      ctx.beginPath();
+      ctx.moveTo(-154+i*3,yy+24);
+      ctx.quadraticCurveTo(-72,yy-12,8,yy+16);
+      ctx.quadraticCurveTo(85,yy+38,157,yy+66);
+      ctx.stroke();
+    }
+    ctx.restore();
+  };
+  peak(112,1.08,false);
+  peak(972,1.12,true);
+}
+
+// Miệng thác xòe rộng, có bọt nước và vân dòng chảy nhập vào sông.
+function drawWaterfallMouth(x,y,time,side){
+  ctx.save();
+  ctx.lineCap="round";ctx.lineJoin="round";
+  const sway=Math.sin(time*.0011+side)*4;
+  const basin=ctx.createLinearGradient(x,y-10,x,y+34);
+  basin.addColorStop(0,"rgba(221,255,246,.92)");
+  basin.addColorStop(.38,"rgba(107,207,199,.88)");
+  basin.addColorStop(1,"rgba(35,125,137,.12)");
+  ctx.fillStyle=basin;
+  ctx.beginPath();
+  ctx.moveTo(x-16,y-17);
+  ctx.bezierCurveTo(x-30,y+2,x-77+sway,y+14,x-106,y+29);
+  ctx.quadraticCurveTo(x,y+57,x+106,y+29);
+  ctx.bezierCurveTo(x+77+sway,y+14,x+30,y+2,x+16,y-17);
+  ctx.quadraticCurveTo(x,y-5,x-16,y-17);
+  ctx.closePath();ctx.fill();
+
+  for(let i=0;i<9;i++){
+    const spread=(i-4)*20;
+    const yy=y+17+Math.abs(i-4)*2;
+    ctx.strokeStyle=i%3===0?"rgba(255,255,245,.94)":"rgba(198,249,239,.7)";
+    ctx.lineWidth=i%3===0?2.1:1.2;
+    ctx.beginPath();
+    ctx.moveTo(x+spread*.22,yy);
+    ctx.quadraticCurveTo(x+spread*.62+sway,yy+7,x+spread,yy+10+Math.sin(time*.003+i)*1.5);
+    ctx.stroke();
+  }
+  // Bọt sáng trôi chậm ra hai phía theo dòng sông.
+  for(let i=0;i<7;i++){
+    const drift=(time*.018+i*29)%118-59;
+    ctx.globalAlpha=.45+.35*Math.sin(time*.002+i)**2;
+    ctx.fillStyle="#effff5";
+    ctx.beginPath();ctx.ellipse(x+drift,y+24+Math.sin(i*2+time*.001)*5,3.5,1.5,0,0,Math.PI*2);ctx.fill();
+  }
+  ctx.restore();
+}
+
+function drawScenery(time){
+  ctx.save();
+  ctx.globalAlpha=1;ctx.shadowBlur=0;
+  drawSky(time);
+  drawMountainRange();
+  // Hai ngọn sơn phong riêng biệt được vẽ đủ chân núi và sống núi.
+  drawTwinWaterfallMountains(time);
+  drawMovingClouds(time);
+
+  // Nền và kiến trúc nằm phía sau dòng nước.
+  drawRiver(time);
+  drawSectArchitecture(time);
+  drawDenseForest(time);
+  drawAmbientEnergy(time);
+  drawSpiritBirds(time);
+
+  // Lòng sông liên tục được dựng trước; hai thác đổ chồng vào lòng sông,
+  // không dừng ở mép bờ hoặc để lại khoảng đất ngăn cách.
+  drawRiverCurrent(time);
+  drawWaterfall(112,260,25,260,time);
+  drawWaterfall(972,238,34,282,time);
+  drawWaterfallMouth(112,520,time,0);
+  drawWaterfallMouth(972,520,time,1.4);
+
+  drawCrowd(time);
+  ctx.globalAlpha=1;ctx.shadowBlur=0;
+  ctx.restore();
+}
+
+// Thông báo nằm trên khoảng trời trống, tuyệt đối không đè lên biển hiệu
+// "LĂNG TIÊU CHÍNH ĐIỆN" ở hàng kiến trúc phía trên.
+function drawAnnouncement(){
+  const message=finishMessageLife>0?finishMessage:eventTextLife>0?eventText:"";
+  if(!message)return;
+  const isFinish=finishMessageLife>0;
+  const life=isFinish?finishMessageLife:eventTextLife;
+  ctx.save();
+  ctx.globalAlpha=clamp(life/.55,0,1);
+  ctx.font="bold 15px Georgia";
+  const boxW=Math.min(W-36,Math.max(230,ctx.measureText(message).width+28));
+  const boxH=29,x=(W-boxW)/2,y=12;
+  ctx.fillStyle=isFinish?"rgba(99,59,26,.92)":"rgba(24,52,41,.9)";
+  ctx.fillRect(x,y,boxW,boxH);
+  ctx.strokeStyle="#e4c27e";ctx.lineWidth=1.3;
+  ctx.strokeRect(x+.5,y+.5,boxW-1,boxH-1);
+  ctx.fillStyle=isFinish?"#ffe7a7":"#f6dfa2";
+  ctx.textAlign="center";ctx.textBaseline="middle";
+  ctx.fillText(message,W/2,y+boxH/2,boxW-18);
+  ctx.restore();
+}
