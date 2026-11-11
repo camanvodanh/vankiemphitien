@@ -2072,3 +2072,67 @@ body.game-page:after{
  .arena-frame>.game-ranking{grid-column:2!important;grid-row:1 / span 3!important;}
  .arena-frame>.game-camera #leaderCanvas{max-height:78px!important;}
 }
+
+
+/* REVISION 25 — điều khiển gọn bên phải, hàng nút dưới cùng; setup căn giữa. */
+.arena-frame>.game-setup:not(.is-minimized){
+ position:absolute!important;left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;
+ transform:translate(-50%,-50%)!important;z-index:150!important;
+ width:min(470px,calc(100% - 32px))!important;max-width:calc(100% - 32px)!important;
+ max-height:min(78%,560px)!important;overflow:auto!important;
+ padding:12px 14px!important;border:1px solid #d4b36b!important;
+ border-radius:12px!important;background:rgba(248,243,226,.97)!important;
+ box-shadow:0 12px 38px rgba(4,18,15,.62),0 0 0 9999px rgba(5,18,15,.22)!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) .setup-heading{margin-bottom:8px!important;gap:6px!important;}
+.arena-frame>.game-setup:not(.is-minimized) .setup-heading h2{font-size:15px!important;margin:0!important;}
+.arena-frame>.game-setup:not(.is-minimized) .setup-hint{font-size:10px!important;}
+.arena-frame>.game-setup:not(.is-minimized)>label{font-size:11px!important;margin:5px 0!important;}
+.arena-frame>.game-setup:not(.is-minimized) textarea{min-height:58px!important;height:58px!important;font-size:13px!important;padding:7px!important;}
+.arena-frame>.game-setup:not(.is-minimized) .summon-footer{justify-content:flex-end!important;gap:7px!important;margin-top:7px!important;}
+.arena-frame>.game-setup:not(.is-minimized) .random-setting{width:74px!important;flex:0 0 74px!important;}
+.arena-frame>.game-setup:not(.is-minimized) .compact-field{width:102px!important;min-width:102px!important;flex:0 0 102px!important;}
+.arena-frame>.game-setup:not(.is-minimized) .random-setting label,
+.arena-frame>.game-setup:not(.is-minimized) .compact-field label{font-size:10px!important;margin-bottom:3px!important;}
+.arena-frame>.game-setup:not(.is-minimized) input,
+.arena-frame>.game-setup:not(.is-minimized) select{height:32px!important;font-size:12px!important;}
+.arena-frame>.game-setup:not(.is-minimized) .summon-footer>.btn{min-height:32px!important;padding:5px 10px!important;font-size:12px!important;}
+.arena-frame>.game-setup:not(.is-minimized) .lock-notice{font-size:10px!important;margin-top:6px!important;}
+
+/* Tên nút ngắn nhưng giữ cỡ chữ đủ đọc trên màn hình cảm ứng. */
+.arena-controls{justify-content:flex-end!important;gap:6px!important;padding:5px 8px!important;}
+.arena-controls .btn{min-height:32px!important;min-width:58px!important;padding:5px 10px!important;font-size:12px!important;font-weight:800!important;line-height:1!important;white-space:nowrap!important;}
+.arena-controls .arena-start{min-width:64px!important;}
+.arena-controls .setup-toggle{min-width:72px!important;}
+.arena-frame>.game-setup .window-minimize,
+.arena-frame>.game-camera .window-minimize,
+.arena-frame>.game-ranking .window-minimize{font-size:14px!important;}
+
+/* Desktop: camera trên, cụm nút sát đáy cột trái; BXH giữ dock bên phải. */
+@media(min-width:761px){
+ .arena-frame{grid-template-rows:auto auto 42px!important;}
+ .arena-frame>.game-camera{grid-column:1!important;grid-row:2!important;width:min(48%,360px)!important;max-width:48%!important;}
+ .arena-frame>.arena-controls{grid-column:1!important;grid-row:3!important;align-self:end!important;min-height:42px!important;}
+ .arena-frame>.game-ranking{grid-column:2!important;grid-row:1 / span 3!important;}
+}
+/* Điện thoại dọc: camera và BXH cùng hàng; nút chạy/dừng luôn ở cuối khung. */
+@media(max-width:760px) and (orientation:portrait){
+ .arena-frame{grid-template-columns:minmax(112px,38%) minmax(0,1fr)!important;grid-template-rows:auto auto 40px!important;}
+ .arena-frame>#game{grid-column:1 / span 2!important;grid-row:1!important;}
+ .arena-frame>.game-camera{grid-column:1!important;grid-row:2!important;}
+ .arena-frame>.game-ranking{grid-column:2!important;grid-row:2!important;}
+ .arena-frame>.arena-controls{grid-column:1 / span 2!important;grid-row:3!important;min-height:40px!important;justify-content:flex-end!important;}
+ .arena-frame>.game-setup:not(.is-minimized){width:calc(100% - 24px)!important;max-width:420px!important;max-height:76%!important;padding:10px!important;}
+ .arena-frame>.game-setup:not(.is-minimized) .setup-heading h2{font-size:13px!important;}
+ .arena-frame>.game-setup:not(.is-minimized) .setup-hint{display:none!important;}
+ .arena-controls .btn{min-height:32px!important;font-size:12px!important;padding:5px 9px!important;}
+}
+/* Điện thoại ngang: vẫn giữ thanh điều khiển ở hàng dưới canvas. */
+@media(max-height:600px) and (orientation:landscape){
+ .arena-frame{grid-template-rows:auto auto 34px!important;}
+ .arena-frame>.game-camera{grid-column:1!important;grid-row:2!important;position:relative!important;inset:auto!important;width:min(42%,300px)!important;max-width:42%!important;}
+ .arena-frame>.arena-controls{grid-column:1!important;grid-row:3!important;min-height:34px!important;align-self:end!important;}
+ .arena-frame>.game-ranking{grid-column:2!important;grid-row:1 / span 3!important;}
+ .arena-frame>.game-setup:not(.is-minimized){width:min(390px,calc(100% - 24px))!important;max-height:78%!important;}
+ .arena-controls .btn{min-height:28px!important;font-size:11px!important;padding:4px 8px!important;}
+}
