@@ -2631,7 +2631,13 @@ function drawRacer(target,racer,x,y,scale,time){
  target.fillStyle=racer.dark;target.fillRect(-10,-5,20,22);target.fillStyle=racer.color;target.fillRect(-9,-7,18,21);target.fillRect(-14,-2,5,14);target.fillRect(9,-2,5,14);
  target.fillStyle="#f0c49b";target.fillRect(-7,-22,14,14);target.fillStyle="#29252a";target.fillRect(-8,-25,16,5);target.fillRect(-7,-28,13,4);target.fillRect(-9,-21,3,8);target.fillRect(6,-21,3,8);target.fillRect(4,-31,3,7);
  target.fillStyle="#392a26";target.fillRect(-4,-17,2,2);target.fillRect(3,-17,2,2);target.fillStyle="#e8cb83";target.fillRect(-8,5,16,2);
- target.save();target.globalAlpha=.78;target.fillStyle=racer.color;target.beginPath();const tail=racer.effectType==="boost"?-25:racer.effectType==="slow"?-10:-17;target.moveTo(-7,-4);target.quadraticCurveTo(tail-10,-1,tail,-13);target.lineTo(-4,-8);target.closePath();target.fill();target.restore();target.restore();
+ target.save();target.globalAlpha=.78;target.fillStyle=racer.color;target.beginPath();const tail=racer.effectType==="boost"?-25:racer.effectType==="slow"?-10:-17;target.moveTo(-7,-4);target.quadraticCurveTo(tail-10,-1,tail,-13);target.lineTo(-4,-8);target.closePath();target.fill();target.restore();
+ if(racer.effectTimer>0&&racer.effectName){
+  target.save();target.font="bold 7px Arial, sans-serif";target.textAlign="center";target.textBaseline="middle";target.lineJoin="round";
+  target.lineWidth=2.2;target.strokeStyle="rgba(14,25,24,.98)";target.strokeText(racer.effectName,0,-49,126);
+  target.fillStyle="#fff1bd";target.fillText(racer.effectName,0,-49,126);target.restore();
+ }
+ target.restore();
 }
 
 /* REVISION 16 — tên rõ nét, khán đài phân tầng, không dùng bảng nền. */
