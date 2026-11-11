@@ -490,7 +490,7 @@ $("quantity").addEventListener("change", getRandomQuantity);
 $("names").addEventListener("input",()=>{const n=getInputNames().length;if(n)$("quantity").value=n;});
 
 $("summon").addEventListener("click", summon);
-$("start").addEventListener("click", startRace);
+$("start").addEventListener("click", toggleRaceControl);
 
 $("pause").addEventListener("click", () => {
   if (paused) {
@@ -500,7 +500,7 @@ $("pause").addEventListener("click", () => {
   }
 });
 
-$("stop").addEventListener("click", stopRace);
+$("stop").addEventListener("click", handleStopOrSetup);
 $("setupToggle").addEventListener("click", () => setSetupPanel(true));
 
 $("speed").addEventListener("change", () => {
@@ -600,7 +600,7 @@ function startRace(){
 function togglePause(){if(!running||finished)return;running=false;paused=true;$("status").textContent="Đang tạm dừng";$("lockNotice").textContent="Cuộc đua đang tạm dừng. Nhấn Tiếp tục để xem tiếp.";syncButtons();}
 function resumeRace(){if(!paused||finished)return;paused=false;running=true;$("status").textContent=started?"Đang tranh phong":"Bắt đầu sau "+countdown+"...";$("lockNotice").textContent=started?"Cuộc đua đang tiếp tục. Theo dõi nhân vật dẫn đầu.":"Tiếp theo: Chờ đếm ngược rồi theo dõi cuộc đua.";syncButtons();}
 function finishRace(){
- setSetupPanel(true);
+ collapseSetupPanel();
  elapsed=duration;
  ceremonyStartedAt=performance.now();
  racers.forEach(racer=>{
@@ -936,3 +936,52 @@ function syncButtons(){
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",attach,{once:true});
   else attach();
 })();
+
+
+// REVISION 31 — chỉ hai nút điều khiển, trạng thái thay đổi theo cuộc đua.
+function syncButtons(){
+  const runButton=$("start");
+  const stopButton=$("stop");
+  const pauseButton=$("pause");
+  const state=running
+    ? {icon:"Ⅱ",label:"Tạm ngưng"}
+    : paused
+      ? {icon:"▶",label:"Tiếp tục"}
+      : (finished||raceStopped)
+        ? {icon:"↻",label:"Bắt đầu lại"}
+        : {icon:"▶",label:"Chạy"};
+
+  runButton.innerHTML='<span class="btn-icon" aria-hidden="true">'+state.icon+'</span><span class="btn-label">'+state.label+'</span>';
+  runButton.disabled=!racers.length;
+
+  // Nút tạm ngưng cũ được giữ ẩn để tương thích với các hàm hiện hữu.
+  if(pauseButton){pauseButton.hidden=true;pauseButton.disabled=true;}
+
+  stopButton.hidden=false;
+  stopButton.disabled=!racers.length;
+  stopButton.innerHTML='<span class="btn-icon" aria-hidden="true">'+((finished||raceStopped)?"⚙":"■")+'</span><span class="btn-label">'+((finished||raceStopped)?"Khởi tạo":"Dừng")+'</span>';
+
+  $("setupToggle").hidden=true;
+  $("summon").disabled=locked||running||paused;
+}
+
+function stopRace(){
+  if(!racers.length)return;
+  running=false;paused=false;started=false;finished=false;raceStopped=true;
+  countdown=0;countdownAccumulator=0;
+  $("status").textContent="Cuộc đua đã dừng";
+  setSettingsLocked(false);
+  $("lockNotice").textContent="Cuộc đua đã dừng. Nhấn Khởi tạo để mở bảng thiết lập.";
+  collapseSetupPanel();
+  syncButtons();
+  render(performance.now());
+}
+
+function handleStopOrSetup(){
+  if(finished||raceStopped){
+    setSettingsLocked(false);
+    setSetupPanel(true);
+    return;
+  }
+  stopRace();
+}
