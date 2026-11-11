@@ -638,3 +638,142 @@ body,button,input,textarea,select,label,.lock-notice,.status,.camera-info,table,
 }
 @media(prefers-reduced-motion:reduce){.ranking tbody tr{transition:none!important;}}
 .rank-cell{display:inline-flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;flex-wrap:nowrap;min-width:max-content}.rank-position{display:inline-block;min-width:1.25em;text-align:center;white-space:nowrap}.rank-cell .rank-movement{flex:0 0 auto;margin:0;white-space:nowrap}
+
+
+/* IMMERSIVE GAME UI — unified arena layout */
+:root{--jade:#153b35;--jade-dark:#102b27;--gold:#c69b4c;--ink:#342d20}
+html,body{min-height:100%;background:#101f1c}
+body.game-page{
+ color:#f2e8cf;
+ background:
+  radial-gradient(ellipse at 50% -10%,rgba(190,151,77,.2),transparent 48%),
+  linear-gradient(180deg,#1c342e 0%,#101f1c 65%,#0b1715 100%);
+ font-family:Arial,"Noto Sans",sans-serif;
+}
+.game-app{width:min(1600px,calc(100% - 28px));padding-bottom:18px}
+.game-header{position:relative;min-height:90px;padding:14px 4px 12px;color:#f5e8c9}
+.game-header .logo{width:52px;height:52px;flex-basis:52px;border-color:#d9b66c;background:linear-gradient(145deg,#244d41,#102b27);box-shadow:0 0 0 4px #d1a75a18,0 6px 18px #0005}
+.game-header .eyebrow{color:#d6b46c}
+.game-header h1{color:#f4e6c4;font-size:clamp(23px,3.2vw,38px);text-shadow:0 2px 14px #0008}
+.game-header .subtitle{color:#c6b58d;font-size:13px}
+.realm-status{display:flex;align-items:center;gap:8px;margin-left:auto;padding:9px 13px;border:1px solid #a986495e;border-radius:999px;color:#e5ce9b;background:#142c27;font-size:10px;font-weight:800;letter-spacing:1px;white-space:nowrap}
+.realm-status i,.stage-live i{width:8px;height:8px;border-radius:50%;background:#e34f42;box-shadow:0 0 10px #e34f4288}
+.game-setup{margin:0 0 14px;padding:14px 17px;border:1px solid #aa884b88;border-radius:14px;color:#e9dfc8;background:linear-gradient(135deg,#1b3932f5,#122a25f5);box-shadow:0 10px 28px #0003}
+.setup-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.setup-heading h2{margin:0;color:#f0d79f;font-family:Georgia,serif;font-size:18px}
+.setup-heading .eyebrow{margin-bottom:3px;color:#c9a45d}
+.setup-hint{color:#b7b094;font-size:11px}
+.game-setup label{color:#d5c7a7}
+.game-setup textarea,.game-setup input,.game-setup select{border:1px solid #826c42;border-radius:8px;color:#f5ead1;background:#102923}
+.game-setup textarea::placeholder{color:#87978a}
+.game-setup textarea:focus,.game-setup input:focus,.game-setup select:focus{border-color:#e0bd72;box-shadow:0 0 0 3px #d4ad5725}
+.game-setup .lock-notice{color:#c5b58e}
+.game-setup .lock-notice.locked{color:#f0a477}
+.game-setup .btn{min-height:40px;border:1px solid #c6a05c;border-radius:8px;font-size:13px}
+.game-setup .primary{color:#fff2d2;background:linear-gradient(135deg,#98723b,#6d512d)}
+.game-setup .muted{border-color:#64776a;color:#e2dfcb;background:#30483e}
+.game-stage{position:relative;margin:0;padding:12px;border:1px solid #a98649;border-radius:17px;background:linear-gradient(145deg,#1a3932,#10231f);box-shadow:0 16px 38px #0005}
+.stage-topline,.stage-bottomline{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:2px 5px 10px}
+.stage-title{display:flex;align-items:center;gap:9px;color:#f1d9a5}
+.stage-title strong{display:block;font:700 14px Georgia,serif;letter-spacing:1.5px}
+.stage-title small{display:block;margin-top:3px;color:#9fb1a1;font-size:8px;letter-spacing:1.8px}
+.stage-emblem{display:grid;place-items:center;width:32px;height:32px;border:1px solid #b58e4f;border-radius:9px;color:#f1d59a;background:#29483d;font-size:18px}
+.stage-live{display:flex;align-items:center;gap:8px;color:#ef8e7d;font-size:10px;font-weight:900;letter-spacing:1.5px}
+.game-layout{position:relative;display:block;min-width:0}
+.arena-column{position:relative;min-width:0}
+.arena-frame{position:relative;overflow:hidden;width:100%;border:1px solid #c39b53;border-radius:11px;background:#173b39;box-shadow:inset 0 0 0 1px #fff2,0 7px 22px #0005}
+#game{display:block;width:100%;height:auto;aspect-ratio:1100/825;background:#486f87}
+.arena-overlay-top{position:absolute;z-index:3;top:10px;left:12px;right:12px;display:flex;justify-content:space-between;pointer-events:none}
+.arena-chip{padding:5px 8px;border:1px solid #d7b56d66;border-radius:5px;color:#f5e4bd;background:#102923b8;font-size:8px;font-weight:800;letter-spacing:1px;backdrop-filter:blur(5px)}
+.arena-controls{position:absolute;z-index:8;left:50%;bottom:12px;display:flex;gap:8px;justify-content:center;align-items:center;min-height:0;padding:0;transform:translateX(-50%)}
+.arena-controls .arena-start,.arena-controls .arena-pause{position:static;min-width:116px;min-height:38px;padding:7px 14px;transform:none;border:1px solid #e1c17c;border-radius:9px;color:#fff3d5;background:linear-gradient(135deg,#98723b,#654c2c);box-shadow:0 4px 15px #0007;font-size:13px;white-space:nowrap}
+.arena-controls .arena-pause{border-color:#9aab91;background:linear-gradient(135deg,#385d4e,#203c34)}
+.arena-controls button:disabled{opacity:.55}
+.game-camera{position:absolute;z-index:6;left:16px;bottom:16px;width:min(310px,30%);margin:0;padding:9px;border:1px solid #c4a15d;border-radius:10px;color:#eee2c5;background:rgba(13,35,30,.91);box-shadow:0 5px 18px #0007;backdrop-filter:blur(7px)}
+.game-camera .camera-heading{margin-bottom:6px}
+.game-camera .camera-heading h3{margin:1px 0 0;color:#f1dba9;font-size:12px}
+.game-camera .eyebrow{margin:0;color:#bca06a;font-size:8px;letter-spacing:1px}
+.game-camera .camera-live{color:#ff9d8d;font-size:8px}
+.game-camera .camera-screen{border-color:#a9874d;border-radius:6px}
+.game-camera .camera-info{display:none}
+.game-ranking{position:absolute;z-index:7;top:16px;right:16px;width:min(270px,27%);max-height:68%;overflow:hidden;margin:0;padding:12px;border:1px solid #c4a15d;border-radius:10px;color:#f0e5ca;background:rgba(13,35,30,.91);box-shadow:0 5px 18px #0007;backdrop-filter:blur(7px)}
+.game-ranking .ranking-heading{margin:0 0 7px;padding:0 0 8px;border-bottom:1px solid #c6a15c55}
+.game-ranking .ranking-heading h3{margin:1px 0 0;color:#f1dba9;font-size:17px}
+.game-ranking .eyebrow{margin:0;color:#c7a766;font-size:8px;letter-spacing:1.3px}
+.ranking-seal{display:grid;place-items:center;width:28px;height:28px;border:1px solid #b58e4f;border-radius:50%;color:#e8cb8e;font-family:serif;font-size:16px}
+.ranking-meta{display:flex;justify-content:space-between;margin-bottom:5px;color:#aebda9;font-size:7px;font-weight:800;letter-spacing:1px}
+.ranking-meta span:last-child{color:#ff9787}
+.game-ranking .table-wrap{max-height:calc(68vh - 100px);overflow:auto;scrollbar-width:thin;scrollbar-color:#9b7b45 #18352e}
+.game-ranking table{font-size:11px;color:#eee3ca}
+.game-ranking th{padding:7px 4px;color:#e1c98f;background:#29463a;font-size:9px}
+.game-ranking td{padding:7px 4px;border-bottom:1px solid #d8c18b24;color:#eee4d0}
+.game-ranking th:first-child,.game-ranking td:first-child{width:40px}
+.game-ranking th:last-child,.game-ranking td:last-child{width:52px}
+.game-ranking td:first-child{color:#e5c277}
+.game-ranking td:last-child{color:#c9b68d}
+.game-ranking .empty{color:#b5b49f}
+.stage-bottomline{padding:9px 4px 0;color:#a38b5b;font-size:8px;font-weight:800;letter-spacing:1.6px}
+.site-footer{color:#9b906f}
+.sr-only{position:absolute!important}
+@media(min-width:1100px){
+ .game-stage{padding:15px}
+ .arena-overlay-top{top:14px;left:16px;right:16px}
+ .game-camera{left:20px;bottom:20px;width:300px}
+ .game-ranking{top:20px;right:20px;width:260px}
+}
+@media(max-width:760px){
+ .game-app{width:calc(100% - 14px)}
+ .game-header{min-height:72px;padding:10px 2px}
+ .game-header .logo{width:42px;height:42px;flex-basis:42px;font-size:25px}
+ .game-header .eyebrow{font-size:7px;letter-spacing:.6px}
+ .game-header h1{font-size:clamp(19px,5.5vw,27px)}
+ .game-header .subtitle{font-size:10px}
+ .realm-status{padding:6px 8px;font-size:7px;letter-spacing:.5px}
+ .game-setup{padding:11px;margin-bottom:9px}
+ .setup-heading h2{font-size:16px}
+ .setup-hint{font-size:9px}
+ .game-setup textarea{min-height:64px}
+ .game-setup .summon-footer{gap:7px}
+ .game-setup .random-setting{width:78px;min-width:78px;flex:0 0 78px}
+ .game-setup .compact-field{width:100px;min-width:100px;flex:0 0 100px}
+ .game-setup .summon-footer>.btn{flex:1 1 100px}
+ .game-stage{padding:7px;border-radius:12px}
+ .stage-topline{padding:1px 3px 7px}
+ .stage-title strong{font-size:11px}
+ .stage-title small{font-size:7px}
+ .stage-emblem{width:27px;height:27px}
+ .stage-live{font-size:8px}
+ .arena-overlay-top{top:6px;left:7px;right:7px}
+ .arena-chip{padding:4px 5px;font-size:6px;letter-spacing:.5px}
+ .arena-controls{bottom:7px;left:auto;right:7px;transform:none}
+ .arena-controls .arena-start,.arena-controls .arena-pause{min-width:84px;min-height:30px;padding:5px 8px;font-size:10px}
+ .game-camera{left:7px;bottom:7px;width:38%;padding:5px;border-radius:7px}
+ .game-camera .camera-heading{margin-bottom:4px;gap:3px}
+ .game-camera .camera-heading h3{font-size:9px}
+ .game-camera .eyebrow{font-size:6px}
+ .game-camera .camera-live{gap:3px;font-size:6px}
+ .game-camera .camera-live i{width:5px;height:5px}
+ .game-camera .camera-screen{border-radius:4px}
+ .game-ranking{position:static;width:auto;max-height:none;margin:8px 0 0;padding:9px;border-radius:9px}
+ .game-ranking .ranking-heading{margin-bottom:5px;padding-bottom:5px}
+ .game-ranking .ranking-heading h3{font-size:15px}
+ .game-ranking .eyebrow{font-size:7px}
+ .game-ranking .ranking-seal{width:23px;height:23px;font-size:13px}
+ .ranking-meta{font-size:6px}
+ .game-ranking .table-wrap{max-height:190px;overflow:auto}
+ .game-ranking table{font-size:10px}
+ .game-ranking th{padding:6px 4px;font-size:8px}
+ .game-ranking td{padding:6px 4px;font-size:10px}
+ .stage-bottomline{padding-top:7px;font-size:6px;letter-spacing:.8px}
+ .site-footer{padding:12px 4px 18px}
+}
+@media(max-width:390px){
+ .realm-status{font-size:0;gap:0;padding:7px}
+ .realm-status i{width:8px;height:8px}
+ .game-header{gap:7px}
+ .game-setup .random-setting{width:68px;min-width:68px;flex-basis:68px}
+ .game-setup .compact-field{width:90px;min-width:90px;flex-basis:90px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+}
