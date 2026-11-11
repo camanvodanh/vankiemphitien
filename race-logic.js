@@ -640,23 +640,38 @@ function leaderOf(){
 }
 function drawCamera(time){
  drawCameraBackground(time);
- if(finished){drawPodiumScene(cameraCtx,time,true);$("leaderName").textContent="Lễ trao giải · Top 3";$("leaderProgress").textContent="VINH DANH TOP 3";$("leaderEffect").textContent="Đã kết thúc";return;}
- if(!started||!racers.length){$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Hạng --/--";$("leaderEffect").textContent="Chưa có hiệu ứng";cameraCtx.fillStyle="#fff2c9";cameraCtx.font="bold 14px Arial, sans-serif";cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";cameraCtx.fillText("Chờ khai mở tiên hội",210,96);return;}
+ if(finished){
+  drawPodiumScene(cameraCtx,time,true);
+  $("leaderName").textContent="Lễ trao giải · Top 3";
+  $("leaderProgress").textContent="VINH DANH TOP 3";
+  $("leaderEffect").textContent="";
+  return;
+ }
+ if(!started||!racers.length){
+  $("leaderName").textContent="Đang chờ cuộc đua";
+  $("leaderProgress").textContent="--";
+  $("leaderEffect").textContent="";
+  cameraCtx.fillStyle="#fff2c9";cameraCtx.font="bold 14px Arial, sans-serif";
+  cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";
+  cameraCtx.fillText("Chờ khai mở tiên hội",210,96);
+  return;
+ }
  let racer=cameraFocusId?racers.find(item=>item.id===cameraFocusId):null;
- if(!racer||racer.finished||racer.effectTimer<=0)racer=leaderOf();if(!racer)return;
+ if(!racer||racer.finished||racer.effectTimer<=0)racer=leaderOf();
+ if(!racer)return;
  drawRacer(cameraCtx,racer,210,108,2.0,time);
  const rank=sortedRacers().findIndex(item=>item.id===racer.id)+1;
- $("leaderEffect").textContent=(racer.effectTimer>0&&racer.effectName)?racer.effectName:"Không có hiệu ứng";
+ $("leaderEffect").textContent=(racer.effectTimer>0&&racer.effectName)?racer.effectName:"";
  $("leaderName").textContent=racer.name;
  const shift=racer.rankChangeTimer>0&&racer.rankChangeText;
  if(shift){
   const parts=racer.rankChangeText.split("|"),shownRank=Number(parts[0]),direction=parts[1],speed=parts[2];
   const arrow=direction==="up"
-   ? '<span style="color:#37d66b;font-weight:900;font-size:1.2em">↑</span>'
-   : '<span style="color:#ff4b4b;font-weight:900;font-size:1.2em">↓</span>';
-  $("leaderProgress").innerHTML="Hạng "+shownRank+" "+arrow+" Tốc Độ "+speed;
+   ? '<span class="camera-rank-up">↑</span>'
+   : '<span class="camera-rank-down">↓</span>';
+  $("leaderProgress").innerHTML=arrow+" "+shownRank+" <small>· "+speed+"</small>";
  }else{
-  $("leaderProgress").textContent="Hạng "+rank;
+  $("leaderProgress").textContent=String(rank);
  }
 }
 
