@@ -4649,3 +4649,70 @@ body.game-page:after{
   flex:1 1 auto!important;
   min-height:0!important;
 }
+
+
+/* REVISION 62 — nút kiếm nổi trực tiếp trên cảnh đấu, không còn dải nền xanh chiếm chỗ đệ tử. */
+.arena-frame{position:relative!important;}
+.arena-frame>.arena-controls{
+  position:absolute!important;
+  z-index:140!important;
+  left:50%!important;right:auto!important;top:auto!important;bottom:9px!important;
+  grid-column:auto!important;grid-row:auto!important;
+  display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;
+  gap:18px!important;
+  width:max-content!important;min-width:0!important;max-width:none!important;
+  height:58px!important;min-height:0!important;
+  margin:0!important;padding:0!important;
+  transform:translateX(-50%)!important;
+  background:transparent!important;background-image:none!important;
+  border:0!important;border-radius:0!important;outline:0!important;
+  box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+  overflow:visible!important;isolation:isolate!important;
+}
+.arena-frame>.arena-controls::before,
+.arena-frame>.arena-controls::after{content:none!important;display:none!important;}
+.arena-frame>.arena-controls>#start,
+.arena-frame>.arena-controls>#stop{
+  position:relative!important;display:grid!important;place-items:center!important;
+  flex:0 0 48px!important;width:48px!important;height:58px!important;
+  min-width:48px!important;min-height:58px!important;max-width:48px!important;max-height:58px!important;
+  margin:0!important;padding:0!important;
+  color:#f8e6b5!important;
+  background:transparent!important;background-color:transparent!important;background-image:none!important;
+  border:0!important;border-radius:0!important;outline:0!important;
+  box-shadow:none!important;appearance:none!important;-webkit-appearance:none!important;
+  overflow:visible!important;
+}
+.arena-frame>.arena-controls>#start::before,
+.arena-frame>.arena-controls>#start::after,
+.arena-frame>.arena-controls>#stop::before,
+.arena-frame>.arena-controls>#stop::after{content:none!important;display:none!important;}
+.arena-frame>.arena-controls .btn-icon{
+  display:grid!important;place-items:center!important;
+  width:100%!important;height:100%!important;margin:0!important;padding:0!important;
+  background:transparent!important;border:0!important;box-shadow:none!important;
+  font-size:0!important;line-height:0!important;
+}
+.arena-frame>.arena-controls .cultivation-art{
+  display:block!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;
+}
+.arena-frame>.arena-controls #start .art-sword{
+  width:31px!important;height:57px!important;max-width:none!important;max-height:none!important;
+  filter:drop-shadow(0 0 2px rgba(255,246,205,.95)) drop-shadow(0 0 7px rgba(116,218,191,.72))!important;
+}
+.arena-frame>.arena-controls #stop .art-stop{
+  width:43px!important;height:43px!important;max-width:none!important;max-height:none!important;
+  filter:drop-shadow(0 0 3px rgba(255,220,150,.8))!important;
+}
+.arena-frame>.arena-controls #start .btn-label,
+.arena-frame>.arena-controls #stop .btn-label{display:none!important;}
+.arena-frame>.arena-controls #start:active,
+.arena-frame>.arena-controls #stop:active{transform:scale(.92)!important;background:transparent!important;box-shadow:none!important;}
+@media(max-width:760px){
+ .arena-frame>.arena-controls{bottom:5px!important;gap:13px!important;height:52px!important;}
+ .arena-frame>.arena-controls>#start,.arena-frame>.arena-controls>#stop{
+   flex-basis:42px!important;width:42px!important;height:52px!important;min-width:42px!important;min-height:52px!important;
+ }
+ .arena-frame>.arena-controls #start .art-sword{width:27px!important;height:51px!important;}
+ .arena-frame>.arena-controls #stop .art-stop{width:38px!important;height:38px!important;}
+}
