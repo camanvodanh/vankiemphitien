@@ -596,6 +596,7 @@ function startRace(){
 function togglePause(){if(!running||finished)return;running=false;paused=true;$("status").textContent="Đang tạm dừng";$("lockNotice").textContent="Cuộc đua đang tạm dừng. Nhấn Tiếp tục để xem tiếp.";syncButtons();}
 function resumeRace(){if(!paused||finished)return;paused=false;running=true;$("status").textContent=started?"Đang tranh phong":"Bắt đầu sau "+countdown+"...";$("lockNotice").textContent=started?"Cuộc đua đang tiếp tục. Theo dõi nhân vật dẫn đầu.":"Tiếp theo: Chờ đếm ngược rồi theo dõi cuộc đua.";syncButtons();}
 function finishRace(){
+ setSetupPanel(true);
  elapsed=duration;
  ceremonyStartedAt=performance.now();
  racers.forEach(racer=>{
