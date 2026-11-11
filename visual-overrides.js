@@ -1565,7 +1565,7 @@ function drawCrowd(time) {
   // Khu danh dự nằm phía trên; đệ tử cổ vũ phổ thông đứng thành hàng phía dưới.
   drawAudiencePlatform(550, 654, 150);
   drawFormalSpectator(550, 626, 1.22, "master", time, 0);
-  drawRoleLabel(550, 584, "CHƯỞNG MÔN", "#f2d17d", 1.18);
+  drawRoleLabel(550, 566, "CHƯỞNG MÔN", "#f2d17d", 1.18);
 
   drawAudiencePlatform(255, 680, 220);
   drawAudiencePlatform(845, 680, 220);
@@ -1573,26 +1573,24 @@ function drawCrowd(time) {
    [755,652],[815,652],[875,652],[935,652]].forEach((p,i) =>
     drawFormalSpectator(p[0],p[1],.92,"elder",time,i)
   );
-  drawRoleLabel(255, 615, "ĐẠI TRƯỞNG LÃO", "#d4b5fa", .98);
-  drawRoleLabel(845, 615, "TRƯỞNG LÃO", "#d4b5fa", .98);
+  drawRoleLabel(255, 596, "ĐẠI TRƯỞNG LÃO", "#d4b5fa", .98);
+  drawRoleLabel(845, 596, "TRƯỞNG LÃO", "#d4b5fa", .98);
 
   drawAudiencePlatform(550, 727, 310);
   [[410,699],[465,699],[520,699],[575,699],[630,699],[685,699]].forEach((p,i) =>
     drawFormalSpectator(p[0],p[1],.78,"disciple",time,i)
   );
   // Bảng thân truyền tách khỏi ngai, đặt phía trên hàng ghế riêng.
-  drawRoleLabel(550, 665, "THÂN TRUYỀN ĐỆ TỬ", "#a9c9f0", .92);
+  drawRoleLabel(550, 642, "THÂN TRUYỀN ĐỆ TỬ", "#a9c9f0", .92);
 
   // Chỉ bố trí đệ tử phổ thông ở hai cánh và hàng cuối, không đứng đè lên ghế VIP.
   const rows = [
-    { x: 18, y: 770, n: 9, role: "servant", scale: .66 },
-    { x: 590, y: 770, n: 9, role: "outer", scale: .66 },
-    { x: 18, y: 792, n: 9, role: "inner", scale: .56 },
-    { x: 590, y: 792, n: 9, role: "core", scale: .56 }
+    { x: 18, y: 770, n: 6, role: "servant", scale: .70 },
+    { x: 782, y: 770, n: 6, role: "outer", scale: .70 }
   ];
   rows.forEach((r, ri) => {
     for (let i = 0; i < r.n; i++) {
-      drawSpectator(r.x + i * 54, r.y + (i % 2) * 2, r.scale, r.role, time, i * .7 + ri);
+      drawSpectator(r.x + i * 52, r.y + (i % 2) * 2, r.scale, r.role, time, i * .7 + ri);
     }
   });
 
