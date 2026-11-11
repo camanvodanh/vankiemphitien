@@ -60,6 +60,10 @@ function updateRace(dt){
    racer.rankChangeTimer=Math.max(0,racer.rankChangeTimer-dt);
    if(racer.rankChangeTimer===0)racer.rankChangeText="";
   }
+  if(racer.rankMovementTimer>0){
+   racer.rankMovementTimer=Math.max(0,racer.rankMovementTimer-dt);
+   if(racer.rankMovementTimer===0)racer.rankMovement="";
+  }
   if(racer.effectTimer>0){
    racer.effectTimer=Math.max(0,racer.effectTimer-dt);
    if(racer.effectTimer===0){
@@ -73,6 +77,10 @@ function updateRace(dt){
  const rankedNow=sortedRacers();
  for(let i=0;i<rankedNow.length;i++){
   const racer=rankedNow[i],oldRank=rankBefore.get(racer.id),newRank=i+1;
+  if(oldRank&&oldRank!==newRank){
+   racer.rankMovement=newRank<oldRank?"up":"down";
+   racer.rankMovementTimer=3.5;
+  }
   if(racer.effectTimer>0&&oldRank&&oldRank!==newRank){
    const multiplier=racer.speedMultiplier||1;
    const direction=newRank<oldRank?"up":"down";
@@ -643,7 +651,7 @@ function drawCamera(time){
 }
 function updateRanking(){
  const sorted=sortedRacers();if(!sorted.length){$("rankBody").innerHTML='<tr><td colspan="3" class="empty">Chưa có tiên nhân</td></tr>';return;}
- $("rankBody").innerHTML=sorted.map((r,i)=>{const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":i+1;const actualTime=r.finished&&r.finishTime!==null?timeText(r.finishTime):"—";return '<tr><td>'+medal+'</td><td title="'+escapeHTML(r.name)+'">'+escapeHTML(r.name)+'</td><td>'+actualTime+'</td></tr>';}).join("");
+ $("rankBody").innerHTML=sorted.map((r,i)=>{const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":i+1;const arrow=r.rankMovement==="up"?'<span class="rank-movement rank-up" aria-label="Tăng hạng" title="Tăng hạng">▲</span>':r.rankMovement==="down"?'<span class="rank-movement rank-down" aria-label="Giảm hạng" title="Giảm hạng">▼</span>':'<span class="rank-movement rank-stable" aria-label="Không đổi" title="Chưa biến động">—</span>';const actualTime=r.finished&&r.finishTime!==null?timeText(r.finishTime):"—";return '<tr><td><span class="rank-position">'+medal+'</span> '+arrow+'</td><td title="'+escapeHTML(r.name)+'">'+escapeHTML(r.name)+'</td><td>'+actualTime+'</td></tr>';}).join("");
 }
 
 
