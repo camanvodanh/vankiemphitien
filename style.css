@@ -907,3 +907,29 @@ body.game-page{
   .game-camera .camera-heading h3{font-size:8px;}
   .game-camera .camera-live{font-size:6px;}
 }
+
+/* CAMERA RANK LABEL — keep the rank/progress on one compact line */
+.game-camera .camera-heading > div{
+  flex:1 1 auto;
+  min-width:0;
+  max-width:calc(100% - 30px);
+}
+.game-camera #leaderProgress{
+  display:block;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  margin:1px 0 0;
+  font-size:clamp(7px,1vw,10px);
+  line-height:1.15;
+  white-space:nowrap!important;
+  word-break:keep-all!important;
+  overflow-wrap:normal!important;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.game-camera .camera-heading .eyebrow{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
