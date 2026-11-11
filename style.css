@@ -1222,3 +1222,116 @@ body.game-page:after{
   .game-ranking.is-minimized{padding:5px 6px!important;}
   .game-stage:before,.game-stage:after{width:22px;height:22px;}
 }
+
+
+/* REVISION 20 — cửa sổ gọn, bảng hạng cân đối và khu vực triệu hồi riêng. */
+.window-heading{position:sticky;top:0;z-index:40;min-height:28px;padding:3px 0;background:inherit;}
+.window-minimize{
+  position:sticky!important;top:2px;z-index:60;flex:0 0 24px!important;
+  display:inline-grid!important;place-items:center;
+  width:24px!important;height:24px!important;min-width:24px!important;min-height:24px!important;
+  padding:0!important;margin:0 0 0 auto!important;
+  border:1px solid rgba(214,184,119,.72)!important;border-radius:7px!important;
+  color:#f4dfad!important;background:linear-gradient(145deg,#315346,#172f28)!important;
+  box-shadow:0 2px 6px rgba(0,0,0,.24)!important;
+  font:600 15px/1 Arial,sans-serif!important;cursor:pointer;
+}
+.window-minimize:hover{filter:brightness(1.18);}
+.window-minimize:focus-visible{outline:2px solid #f2d28e;outline-offset:2px;}
+/* Khu khởi tạo nằm thành hàng riêng phía trên đường đua, không che nhân vật. */
+.arena-frame{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) clamp(218px,22%,270px);
+  grid-template-rows:auto minmax(0,auto);
+  align-items:stretch;aspect-ratio:auto!important;height:auto!important;min-height:0!important;
+}
+.arena-frame>#game{
+  position:relative!important;inset:auto!important;grid-column:1;grid-row:2;
+  display:block;width:100%!important;height:auto!important;aspect-ratio:4/3;object-fit:contain;
+  min-width:0;align-self:stretch;
+}
+.arena-frame>.game-setup{
+  position:relative!important;grid-column:1/-1;grid-row:1;
+  inset:auto!important;top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;
+  width:100%!important;max-width:none!important;max-height:none!important;overflow:visible!important;
+  margin:0!important;padding:12px 16px!important;border-radius:9px 9px 0 0;
+  background:linear-gradient(110deg,rgba(22,53,44,.98),rgba(34,65,51,.98))!important;
+  border:0!important;border-bottom:1px solid rgba(202,164,91,.5)!important;
+}
+.arena-frame>.game-setup .setup-heading{margin-bottom:8px;}
+.arena-frame>.game-setup textarea{min-height:54px;max-height:90px;resize:vertical;}
+.arena-frame>.game-setup .summon-footer{gap:10px;margin-top:8px;}
+.arena-frame>.game-setup .lock-notice{margin:5px 0 0;}
+.arena-frame>.game-setup.is-minimized{padding:5px 12px!important;min-height:38px;}
+.arena-frame>.game-setup.is-minimized .setup-heading{margin:0;min-height:26px;}
+.arena-frame>.game-setup.is-minimized .setup-heading .setup-hint{display:none;}
+.arena-frame>.game-setup.is-minimized>label,
+.arena-frame>.game-setup.is-minimized>textarea,
+.arena-frame>.game-setup.is-minimized>.summon-footer,
+.arena-frame>.game-setup.is-minimized>.lock-notice{display:none!important;}
+.arena-frame>.game-ranking{
+  position:relative!important;grid-column:2;grid-row:2;
+  top:auto!important;right:auto!important;bottom:auto!important;left:auto!important;
+  width:100%!important;max-width:none!important;height:100%;max-height:none!important;
+  min-width:0;margin:0!important;padding:8px!important;
+  border-radius:0 0 9px 0;border-left:1px solid rgba(196,163,95,.48);
+  overflow:hidden;display:flex;flex-direction:column;align-self:stretch;
+}
+.arena-frame>.game-ranking .ranking-heading{position:sticky;top:0;z-index:45;flex:0 0 auto;gap:5px;margin:0 0 5px;padding:0 0 5px;}
+.arena-frame>.game-ranking .ranking-heading>div{min-width:0;}
+.arena-frame>.game-ranking .ranking-heading h3{font-size:clamp(12px,1.1vw,15px);white-space:nowrap;}
+.arena-frame>.game-ranking .ranking-seal{width:22px;height:22px;flex:0 0 22px;font-size:12px;}
+.arena-frame>.game-ranking .window-minimize{position:sticky!important;top:0;flex-basis:22px!important;width:22px!important;height:22px!important;min-width:22px!important;min-height:22px!important;font-size:14px!important;}
+.arena-frame>.game-ranking .ranking-meta{flex:0 0 auto;font-size:7px;margin:0 0 4px;}
+.arena-frame>.game-ranking .table-wrap{flex:1 1 auto;min-height:0;height:auto!important;max-height:none!important;overflow:auto;overscroll-behavior:contain;}
+.arena-frame>.game-ranking table{width:100%;table-layout:fixed;font-size:10px;}
+.arena-frame>.game-ranking th{padding:5px 3px;font-size:9px;white-space:nowrap;}
+.arena-frame>.game-ranking td{padding:5px 3px;font-size:10px;line-height:1.2;}
+.arena-frame>.game-ranking th:first-child,.arena-frame>.game-ranking td:first-child{width:36px;}
+.arena-frame>.game-ranking th:last-child,.arena-frame>.game-ranking td:last-child{width:56px;}
+.arena-frame>.game-ranking td:nth-child(2){overflow:hidden;text-overflow:ellipsis;white-space:nowrap;word-break:normal;}
+.arena-frame>.game-ranking.is-minimized{width:44px!important;min-width:44px;padding:5px!important;}
+.arena-frame>.game-ranking.is-minimized .ranking-heading{flex-direction:column;align-items:center;gap:5px;margin:0;padding:0;border:0;}
+.arena-frame>.game-ranking.is-minimized .ranking-heading>div,
+.arena-frame>.game-ranking.is-minimized .ranking-meta,
+.arena-frame>.game-ranking.is-minimized .table-wrap{display:none!important;}
+.arena-frame>.game-ranking.is-minimized .ranking-seal{display:grid!important;}
+.arena-frame>.game-ranking.is-minimized .window-minimize{margin:0!important;}
+/* Thu nhỏ Tiên Bảng thì cột đua tự mở rộng toàn bộ phần diện tích còn lại. */
+.arena-frame:has(>.game-ranking.is-minimized){grid-template-columns:minmax(0,1fr) 44px!important;}
+.arena-frame>.game-camera{
+  z-index:50!important;touch-action:none!important;user-select:none!important;-webkit-user-select:none!important;
+}
+.arena-frame>.game-camera .camera-heading{position:sticky;top:0;z-index:65;cursor:move!important;touch-action:none!important;}
+.arena-frame>.game-camera .window-minimize{touch-action:manipulation!important;cursor:pointer!important;}
+.arena-frame>.game-camera.is-minimized{width:auto!important;min-width:118px;}
+.arena-frame>.game-camera.is-minimized .camera-heading{margin:0!important;}
+.arena-frame>.game-camera.is-minimized .camera-live{display:none;}
+.arena-frame>.game-camera.is-minimized .camera-screen,
+.arena-frame>.game-camera.is-minimized .camera-info{display:none!important;}
+.arena-frame>.game-camera .window-minimize{position:sticky!important;top:0;}
+.arena-frame>.arena-controls{z-index:70;}
+@media(max-width:760px){
+ .arena-frame{grid-template-columns:minmax(0,1fr) minmax(178px,34%)!important;grid-template-rows:auto minmax(0,auto)!important;}
+ .arena-frame>.game-setup{padding:8px 9px!important;}
+ .arena-frame>.game-setup .setup-heading h2{font-size:14px;}
+ .arena-frame>.game-setup .eyebrow{font-size:7px;}
+ .arena-frame>.game-setup textarea{min-height:42px;max-height:64px;font-size:12px;}
+ .arena-frame>.game-setup label{font-size:10px;margin-bottom:4px;}
+ .arena-frame>.game-setup .summon-footer{gap:6px;}
+ .arena-frame>.game-setup .random-setting{width:68px;min-width:68px;flex:0 0 68px;}
+ .arena-frame>.game-setup .compact-field{width:94px;min-width:94px;flex:0 0 94px;}
+ .arena-frame>.game-setup .summon-footer>.btn{min-height:32px;padding:4px 8px;font-size:11px;}
+ .arena-frame>.game-ranking{padding:5px!important;}
+ .arena-frame>.game-ranking .ranking-heading h3{font-size:11px;}
+ .arena-frame>.game-ranking .ranking-meta{font-size:5px;}
+ .arena-frame>.game-ranking th{font-size:8px;padding:4px 2px;}
+ .arena-frame>.game-ranking td{font-size:9px;padding:4px 2px;}
+ .arena-frame>.game-ranking th:first-child,.arena-frame>.game-ranking td:first-child{width:29px;}
+ .arena-frame>.game-ranking th:last-child,.arena-frame>.game-ranking td:last-child{width:49px;}
+ .arena-frame>.game-ranking .window-minimize{width:20px!important;height:20px!important;min-width:20px!important;min-height:20px!important;flex-basis:20px!important;}
+ .arena-frame>.game-ranking.is-minimized{width:40px!important;min-width:40px;padding:4px!important;}
+ .arena-frame:has(>.game-ranking.is-minimized){grid-template-columns:minmax(0,1fr) 40px!important;}
+ .arena-frame>.game-camera{max-width:55%;}
+ .window-minimize{width:22px!important;height:22px!important;min-width:22px!important;min-height:22px!important;flex-basis:22px!important;font-size:14px!important;}
+}
