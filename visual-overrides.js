@@ -3661,7 +3661,6 @@ function drawPodiumScene(target,time,mini=false){
       target.fillStyle=color;target.shadowColor=color;target.shadowBlur=mini?8:22;
       target.beginPath();target.arc(giftX,giftY,mini?4:9,0,Math.PI*2);target.fill();target.shadowBlur=0;
       target.fillStyle="#fff0c5";target.font=mini?"bold 7px Arial":"bold 16px Arial";
-      target.fillText(flightPhase<.34?"CHƯỞNG MÔN NGỰ KIẾM XUẤT ĐIỆN":flightPhase<.84?"TẬN TAY BAN TẶNG PHÁP BẢO":"HOÀN LỄ TRỞ VỀ NGỌA TỌA",w*.5,h*.97);
     }
   }else{
     // Sau khi đã trao đủ cả ba phần thưởng mới vinh danh tam giáp.
