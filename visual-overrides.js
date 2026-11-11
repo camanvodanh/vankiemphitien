@@ -4367,8 +4367,8 @@ function drawRacer(target,racer,x,y,scale,time){
    case "pill":actionY=-3-Math.abs(wave)*3;actionAngle=-.045;break;case "qi_pill":actionY=-2-Math.abs(Math.sin(phase*12))*4;actionX=2+Math.sin(phase*5)*2;actionAngle=-.08;break;case "impact":actionY=Math.abs(pulse)*9;actionX=Math.sin(phase*18)*2;actionAngle=wave*.14;break;
    case "lightning":actionX=Math.sin(phase*38)*3.5;actionY=Math.cos(phase*31)*2;actionAngle=Math.sin(phase*34)*.09;break;
    case "gale":actionX=wave*3;actionY=Math.sin(phase*5)*2;actionAngle=wave*.27;break;case "dizzy":actionAngle=Math.sin(phase*8+racer.phase)*.72;break;
-   case "faint":actionY=4+Math.abs(wave)*2;actionAngle=.34+Math.sin(phase*5)*.07;break;case "boost":actionX=4+Math.sin(phase*5)*2;actionY=-2-Math.abs(wave)*2;actionAngle=-.16;break;
-   case "sword_intent":actionX=4+Math.sin(phase*12)*2;actionAngle=-.13+Math.sin(phase*9)*.035;break;case "cloud_step":actionY=-Math.abs(Math.sin(phase*8))*10;actionAngle=.11;break;
+   case "faint":actionY=4+Math.abs(wave)*2;actionAngle=.34+Math.sin(phase*5)*.07;break;case "boost":actionX=3+Math.sin(phase*7)*3;actionY=-3-Math.sin(phase*6)*3;actionAngle=.08+Math.sin(phase*7)*.12;break;
+   case "sword_intent":actionX=1+Math.sin(phase*5)*.8;actionY=-1;actionAngle=-.035+Math.sin(phase*4)*.018;break;case "cloud_step":actionY=-Math.abs(Math.sin(phase*8))*10;actionAngle=.11;break;
    case "formation":actionX=Math.sin(phase*4)*3;actionY=Math.cos(phase*4)*3;actionAngle=Math.sin(phase*4)*.08;break;
    case "formation_guard":actionX=Math.sin(phase*3)*1.5;actionY=-1-Math.abs(Math.sin(phase*5))*2;actionAngle=-.04;break;
    case "formation_sword":actionX=3+Math.sin(phase*8)*2;actionAngle=-.18;break;
@@ -4379,8 +4379,8 @@ function drawRacer(target,racer,x,y,scale,time){
    case "sword_spin":actionAngle=Math.PI*2*progress;actionY=-Math.sin(progress*Math.PI)*3;break;
    case "wind_step":actionX=Math.sin(phase*11+racer.phase)*7;actionY=-3-Math.abs(Math.sin(phase*8))*4;actionAngle=Math.sin(phase*11+racer.phase)*.22;break;
    case "shadow_step":actionX=progress<.22?-9:progress<.48?17:Math.sin(phase*18)*2;actionY=-Math.sin(progress*Math.PI)*7;actionAngle=progress<.48?-.24:.08;break;
-   case "sword_dash":actionX=10+Math.sin(phase*16)*2;actionY=-2-Math.abs(Math.sin(phase*12))*2;actionAngle=-.34;break;
-   case "body_burst":actionY=progress<.22?4: -Math.abs(Math.sin(phase*9))*11;actionX=progress<.22?-3:5+Math.sin(phase*7)*2;actionAngle=progress<.22?.18:-.08;break;
+   case "sword_dash":actionX=13+Math.sin(phase*16)*2;actionY=-4-Math.abs(Math.sin(phase*12))*2;actionAngle=-.48;break;
+   case "body_burst":actionY=progress<.22?4: -Math.abs(Math.sin(phase*9))*11;actionX=progress<.22?-3:5+Math.sin(phase*7)*2;actionAngle=progress<.22?.18:-.08;break;case "cloud_stride":actionX=2+Math.sin(phase*4)*4;actionY=-4-Math.sin(phase*3)*3;actionAngle=-.04+Math.sin(phase*3)*.06;break;
   }
   const idleBob=Math.sin(time*.009+racer.phase)*2,impactJolt=activeEffect==="impact"||activeEffect==="lightning"?Math.sin(time*.075)*1.2:0;
   target.save();target.translate(x+actionX+impactJolt,y+idleBob+actionY);target.rotate(actionAngle);target.scale(scale,scale);
@@ -4488,24 +4488,20 @@ function drawRacer(target,racer,x,y,scale,time){
       target.fillStyle="#d8c6ff";target.beginPath();target.arc(Math.sin(t*5)*17,-43+Math.cos(t*5)*4,2,0,Math.PI*2);target.fill();
     }
     if(activeEffect==="sword_intent"){
-      // Kiếm Ý: tay bắt kiếm quyết, một thanh kiếm khí hiện rõ trước mặt, hai kiếm ảnh hộ vệ hai bên.
-      const pulse=.82+.18*Math.sin(t*8);
-      target.globalAlpha=.96*fade;target.strokeStyle="#dffaff";target.fillStyle="#f4ffff";target.lineWidth=2.2;
-      target.shadowColor="#67dfff";target.shadowBlur=12;
-      // Kiếm khí chủ đạo: mũi nhọn hướng về trước, có sống kiếm và chuôi rõ ràng.
-      target.save();target.translate(31,-31);target.rotate(-.28);
-      target.beginPath();target.moveTo(-4,13);target.lineTo(-3,-24);target.lineTo(0,-38);target.lineTo(3,-24);target.lineTo(4,13);target.closePath();target.fill();
-      target.strokeStyle="#8ceaff";target.lineWidth=1.2;target.stroke();
-      target.strokeStyle="#d7b66c";target.lineWidth=3;target.beginPath();target.moveTo(-8,12);target.lineTo(8,12);target.moveTo(0,12);target.lineTo(0,23);target.stroke();
-      target.restore();
-      // Hai kiếm ảnh nghiêng chụm về mục tiêu, không dùng hạt trang trí.
-      target.globalAlpha=.72*fade*pulse;target.strokeStyle="#9beaff";target.lineWidth=2;target.shadowBlur=8;
-      for(let n=0;n<2;n++){const yy=-21+n*17;target.beginPath();target.moveTo(5,yy+8);target.lineTo(25,yy-14);target.lineTo(22,yy+1);target.stroke();}
-      target.shadowBlur=0;
-      // Đường kiếm quang phóng thẳng về phía trước.
-      target.globalAlpha=.8*fade;target.strokeStyle="#e9ffff";target.lineWidth=1.5;target.beginPath();target.moveTo(37,-31);target.quadraticCurveTo(54,-38,66,-43);target.stroke();
-    }
-    if(activeEffect==="cloud_step"){
+       // Kiếm Ý: ngưng thần kết kiếm quyết, kiếm khí lơ lửng trước ấn quyết, không lao đi.
+       const pulse=.72+.28*Math.sin(t*3.8),orbit=t*1.35;
+       target.globalAlpha=.95*fade;target.shadowColor="#55dfff";target.shadowBlur=15;
+       target.strokeStyle="#b9f5ff";target.lineWidth=2.3;target.lineCap="round";
+       target.beginPath();target.moveTo(12,-5);target.quadraticCurveTo(22,-17,30,-27);target.moveTo(13,-1);target.quadraticCurveTo(24,-8,34,-18);target.stroke();
+       target.save();target.translate(39,-31+Math.sin(t*3)*3);target.rotate(-.62);
+       target.globalAlpha=pulse*fade;target.fillStyle="#efffff";target.strokeStyle="#70dcff";target.lineWidth=1.5;
+       target.beginPath();target.moveTo(0,-27);target.lineTo(4,-8);target.lineTo(3,13);target.lineTo(-3,13);target.lineTo(-4,-8);target.closePath();target.fill();target.stroke();
+       target.strokeStyle="#d7c18b";target.lineWidth=3;target.beginPath();target.moveTo(-8,11);target.lineTo(8,11);target.moveTo(0,13);target.lineTo(0,23);target.stroke();target.restore();
+       target.globalAlpha=.7*fade;target.strokeStyle="#8ceaff";target.lineWidth=1.4;target.shadowBlur=8;
+       for(let n=0;n<3;n++){const a=orbit+n*Math.PI*2/3;target.save();target.translate(35,-28);target.rotate(a*.18);target.beginPath();target.arc(0,0,17+n*5,-1.05,.72);target.stroke();target.restore();}
+       target.shadowBlur=0;
+     }
+if(activeEffect==="cloud_step"){
       // Đạp Vân Bộ: mây tụ dưới chân kiếm, nhân vật bật lên theo từng nhịp.
       target.globalAlpha=.8*fade;target.fillStyle="#e8fbff";target.strokeStyle="#a5e8f0";target.lineWidth=1.5;
       const bounce=Math.abs(Math.sin(t*8));
@@ -4513,12 +4509,16 @@ function drawRacer(target,racer,x,y,scale,time){
       target.strokeStyle="rgba(204,249,255,.8)";target.beginPath();target.moveTo(-18,31);target.quadraticCurveTo(0,39,20,30);target.stroke();
     }
     if(activeEffect==="boost"){
-      // Thân pháp: lưu ảnh phía sau cùng vệt chuyển động, không dùng vòng linh khí chung.
-      for(let n=1;n<=3;n++){target.globalAlpha=(.25-n*.045)*fade;target.fillStyle="#b8edff";target.beginPath();target.ellipse(-n*12,2+n*2,13,20,.15,0,Math.PI*2);target.fill();}
-      target.globalAlpha=.9*fade;target.strokeStyle="#c6f4ff";target.lineWidth=2;
-      for(let n=0;n<4;n++){const yy=-23+n*12;target.beginPath();target.moveTo(-45,yy);target.quadraticCurveTo(-26,yy-4,-10,yy);target.stroke();}
-    }
-    if(activeEffect==="sword_spin"){
+       // Du Long Bộ: thân hình lượn thế du long, khí lưu xanh uốn chữ S, long ảnh mờ nối phía sau.
+       const flow=t*2.2;
+       target.globalAlpha=.34*fade;target.fillStyle="#75d8ee";
+       for(let n=0;n<3;n++){target.beginPath();target.ellipse(-15-n*12,Math.sin(flow-n*.7)*8,12,18,.18,0,Math.PI*2);target.fill();}
+       target.globalAlpha=.92*fade;target.strokeStyle="#a9f4ff";target.lineWidth=2.4;target.shadowColor="#4ccbe9";target.shadowBlur=10;
+       target.beginPath();target.moveTo(-49,20);target.bezierCurveTo(-28,-18,-7,32,13,-7);target.bezierCurveTo(24,-27,39,-20,51,-35);target.stroke();
+       target.strokeStyle="#e3ffff";target.lineWidth=1.1;target.beginPath();target.moveTo(-40,27);target.bezierCurveTo(-18,-6,0,25,18,-11);target.stroke();
+       target.shadowBlur=0;target.fillStyle="#c5fbff";target.beginPath();target.moveTo(46,-36);target.lineTo(58,-42);target.lineTo(53,-29);target.closePath();target.fill();
+     }
+if(activeEffect==="sword_spin"){
       target.globalAlpha=.92*fade;target.strokeStyle="#d9f7ff";target.lineWidth=2.2;target.shadowColor="#8ee8ff";target.shadowBlur=10;
       target.beginPath();target.ellipse(0,-3,39,23,0,-Math.PI*.15,Math.PI*1.72);target.stroke();target.shadowBlur=0;
       for(let i=0;i<5;i++){const a=-Math.PI*.4+i*Math.PI*.4+progress*Math.PI*2;target.fillStyle="#fff2bd";target.beginPath();target.arc(Math.cos(a)*39,Math.sin(a)*23-3,2,0,Math.PI*2);target.fill();}
@@ -4592,35 +4592,47 @@ function drawRacer(target,racer,x,y,scale,time){
       target.restore();
     }
     if(activeEffect==="wind_step"){
-      // Phong Hành: lướt zig-zag, tà áo và luồng khí uốn lượn theo hai bên.
-      target.globalAlpha=.88*fade;target.strokeStyle="#a9f5df";target.lineWidth=2;
-      for(let n=0;n<3;n++){const yy=-24+n*15,shift=Math.sin(t*10+n*1.7)*9;target.beginPath();target.moveTo(-43,yy+shift);target.bezierCurveTo(-22,yy-10-shift,2,yy+10+shift,30,yy-shift);target.stroke();}
-      target.fillStyle="#e0fff3";for(let n=0;n<5;n++){const xx=Math.sin(t*8+n*2)*27,yy=18+Math.cos(t*7+n)*9;target.beginPath();target.arc(xx,yy,1.8,0,Math.PI*2);target.fill();}
-    }
-    if(activeEffect==="shadow_step"){
-      // Ảnh Độn: thân ảnh phân thân mờ phía sau rồi lóe hiện ở vị trí mới.
-      const blink=.25+.65*Math.abs(Math.sin(progress*Math.PI*2.5));
-      target.globalAlpha=.42*fade;target.fillStyle="#aaa3ff";
-      for(let n=1;n<=3;n++){target.beginPath();target.ellipse(-n*13,2,12,19,0,0,Math.PI*2);target.fill();}
-      target.globalAlpha=blink*fade;target.strokeStyle="#d9d0ff";target.lineWidth=2;target.shadowColor="#a89aff";target.shadowBlur=12;
-      target.beginPath();target.arc(0,-4,29+t*2%7,0,Math.PI*2);target.stroke();target.shadowBlur=0;
-      target.fillStyle="#f0eaff";for(let n=0;n<8;n++){const a=n*Math.PI/4+t*2;target.beginPath();target.arc(Math.cos(a)*34,Math.sin(a)*22-3,1.7,0,Math.PI*2);target.fill();}
-    }
-    if(activeEffect==="sword_dash"){
-      // Kiếm Độn: chồm người, phi kiếm kéo một mũi kiếm quang dài về phía trước.
-      target.globalAlpha=.95*fade;target.strokeStyle="#d8f5ff";target.lineWidth=3;target.shadowColor="#70dfff";target.shadowBlur=13;
-      target.beginPath();target.moveTo(-8,19);target.quadraticCurveTo(18,5,58,-8);target.lineTo(31,3);target.stroke();target.shadowBlur=0;
-      for(let n=0;n<4;n++){const yy=-22+n*12;target.globalAlpha=(.8-n*.12)*fade;target.strokeStyle="#b8efff";target.lineWidth=1.5;target.beginPath();target.moveTo(-49,yy);target.lineTo(-15,yy-4);target.stroke();}
-      target.fillStyle="#fff5cb";target.globalAlpha=.95*fade;target.beginPath();target.arc(46,-8,3,0,Math.PI*2);target.fill();
-    }
-    if(activeEffect==="body_burst"){
-      // Bạo Bộ: dồn lực ở chân, bật vọt lên; chỉ để lại luồng khí trắng xanh, không có hạt vàng.
-      const leap=Math.abs(Math.sin(progress*Math.PI*2.2));
-      target.globalAlpha=.9*fade;target.strokeStyle="#c8f4ef";target.lineWidth=2;target.shadowColor="#83dfd3";target.shadowBlur=7;
-      for(let n=0;n<3;n++){const spread=12+leap*12+n*5;target.beginPath();target.moveTo(-spread,27+n*3);target.quadraticCurveTo(0,34+leap*9+n*3,spread,27+n*3);target.stroke();}
-      target.shadowBlur=0;
-    }
-    if(activeEffect==="talisman"||activeEffect==="talisman_guard"||activeEffect==="talisman_thunder"){
+       // Phong Hành: thân lướt ngang liên tục, gió ép thành ba đường xiên sắc như cánh quạt.
+       const gust=t*7;target.globalAlpha=.9*fade;target.strokeStyle="#a9f5df";target.lineWidth=2;target.shadowColor="#5edfc4";target.shadowBlur=8;
+       for(let n=0;n<3;n++){const yy=-24+n*15,shift=Math.sin(gust+n*1.7)*9;target.beginPath();target.moveTo(-45,yy+shift);target.quadraticCurveTo(-12,yy-15-shift,15,yy+4+shift);target.lineTo(42,yy-9-shift);target.stroke();}
+       target.shadowBlur=0;target.strokeStyle="#e4fff5";target.lineWidth=1.2;
+       for(let n=0;n<2;n++){const y=-12+n*25;target.beginPath();target.moveTo(-31,y+Math.sin(gust)*5);target.lineTo(-8,y-7);target.lineTo(15,y+Math.sin(gust+1)*4);target.stroke();}
+     }
+if(activeEffect==="shadow_step"){
+       // Ảnh Độn: người chợt tan thành ba bóng lệch nhịp rồi hiện hình ở điểm kế tiếp; không dùng vòng tròn.
+       const blink=.18+.82*Math.abs(Math.sin(progress*Math.PI*2.2));
+       for(let n=3;n>=1;n--){target.globalAlpha=(.10+n*.075)*fade;target.fillStyle=n%2?"#b8b0ff":"#7d72c9";target.save();target.translate(-n*15,Math.sin(t*8+n)*4);target.scale(.88,1);target.beginPath();target.ellipse(0,0,11,20,-.12,0,Math.PI*2);target.fill();target.restore();}
+       target.globalAlpha=blink*fade;target.strokeStyle="#e5ddff";target.lineWidth=2.1;target.shadowColor="#a89aff";target.shadowBlur=13;
+       for(let n=0;n<4;n++){const yy=-26+n*15;target.beginPath();target.moveTo(-39,yy);target.lineTo(-22,yy-5);target.lineTo(-10,yy+1);target.stroke();}
+       target.shadowBlur=0;target.fillStyle="#eeeaff";target.globalAlpha=.75*blink*fade;
+       for(let n=0;n<4;n++){const px=-23+n*13,py=22+Math.sin(t*9+n)*3;target.fillRect(px,py,3,2);}
+     }
+if(activeEffect==="sword_dash"){
+       // Kiếm Độn: thu thân nhập vào phi kiếm, kiếm quang thành mũi xuyên phá lao thẳng về trước.
+       const surge=.82+.18*Math.sin(t*17);
+       target.globalAlpha=.96*fade;target.shadowColor="#43cfff";target.shadowBlur=18;
+       const beam=target.createLinearGradient(-35,0,66,0);beam.addColorStop(0,"rgba(95,205,255,0)");beam.addColorStop(.55,"#8ceaff");beam.addColorStop(1,"#ffffff");
+       target.fillStyle=beam;target.beginPath();target.moveTo(-34,4);target.lineTo(48,-9*surge);target.lineTo(68,-13*surge);target.lineTo(53,-1);target.lineTo(68,8);target.lineTo(45,4);target.closePath();target.fill();
+       target.strokeStyle="#e7fcff";target.lineWidth=1.8;target.beginPath();target.moveTo(-24,2);target.lineTo(63,-12*surge);target.stroke();
+       target.shadowBlur=0;target.strokeStyle="#8ee5ff";
+       for(let n=0;n<5;n++){const yy=-24+n*12,offset=(t*45+n*13)%18;target.globalAlpha=(.72-n*.08)*fade;target.lineWidth=n===0?2:1.2;target.beginPath();target.moveTo(-57+offset,yy);target.lineTo(-20+offset,yy-3);target.stroke();}
+       target.globalAlpha=.95*fade;target.strokeStyle="#fff4c9";target.lineWidth=2.2;target.beginPath();target.moveTo(-17,24);target.lineTo(39,15);target.lineTo(55,12);target.stroke();
+     }
+if(activeEffect==="cloud_stride"){
+       // Lưu Vân Bộ: bước nhẹ liên hoàn, mây dài tách thành từng dải lụa trắng xanh trôi về sau.
+       const drift=t*1.7;target.globalAlpha=.82*fade;target.strokeStyle="#e4fbff";target.lineWidth=2;target.shadowColor="#a8e8ff";target.shadowBlur=8;
+       for(let n=0;n<3;n++){const yy=17+n*6,offset=Math.sin(drift+n*1.1)*5;target.beginPath();target.moveTo(-48,yy+offset);target.bezierCurveTo(-27,yy-11-offset,-5,yy+10+offset,18,yy-2);target.bezierCurveTo(30,yy-8,39,yy-3,48,yy-7);target.stroke();}
+       target.shadowBlur=0;target.fillStyle="#f4ffff";
+       for(let n=0;n<4;n++){const px=-27+n*17+Math.sin(drift+n)*4;target.beginPath();target.ellipse(px,27+Math.cos(drift+n)*2,7,2.4,0,0,Math.PI*2);target.fill();}
+     }
+     if(activeEffect==="body_burst"){
+       // Bạo Bộ: dồn lực ở chân, bật vọt lên; chỉ để lại luồng khí trắng xanh, không có hạt vàng.
+       const leap=Math.abs(Math.sin(progress*Math.PI*2.2));
+       target.globalAlpha=.9*fade;target.strokeStyle="#c8f4ef";target.lineWidth=2;target.shadowColor="#83dfd3";target.shadowBlur=7;
+       for(let n=0;n<3;n++){const spread=12+leap*12+n*5;target.beginPath();target.moveTo(-spread,27+n*3);target.quadraticCurveTo(0,34+leap*9+n*3,spread,27+n*3);target.stroke();}
+       target.shadowBlur=0;
+     }
+if(activeEffect==="talisman"||activeEffect==="talisman_guard"||activeEffect==="talisman_thunder"){
       // Phù chú có hành động riêng: phù tốc xoay vòng, hộ thân kết thành khiên, lôi phù phóng sét.
       const count=activeEffect==="talisman"?4:activeEffect==="talisman_guard"?5:3;
       target.globalAlpha=.98*fade;target.shadowColor=activeEffect==="talisman_thunder"?"#7feaff":"#ffd86e";target.shadowBlur=10;
