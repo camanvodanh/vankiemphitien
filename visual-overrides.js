@@ -2558,7 +2558,7 @@ function drawSectArchitecture(time){
  [550,365,.78,"LĂNG TIÊU CHÍNH ĐIỆN","main","#9d4939"],[710,315,.42,"GIẢNG ĐẠO CÁC","lecture","#577d83"],[870,315,.40,"BÁCH THẢO CÁC","herb","#648653"],
  [1030,270,.48,"QUAN TINH ĐÀI","observatory","#536c91"],[65,445,.35,"BẾ QUAN ĐỘNG PHỦ","cave","#536b62"],[220,445,.37,"ĐAN CÁC","alchemy","#9e543b"],
  [375,445,.37,"LUYỆN KHÍ ĐIỆN","forge","#82604a"],[535,455,.35,"ĐỆ TỬ VIỆN","academy","#66817a"],[700,445,.37,"TRẬN PHÁP CÁC","array","#4f7b83"],
- [860,445,.37,"NGOẠI VỤ ĐIỆN","foreign","#916c48"],[1030,420,.43,"HỘ SƠN TRẬN ĐÀN","guardian","#527e88"]
+ [860,445,.37,"NGOẠI VỤ ĐIỆN","foreign","#916c48"],[1030,420,.43,"HỘ SƠN TRẬN CÁC","guardian","#527e88"]
  ];
  b.forEach(([x,y,z,t,k,c],i)=>{if(i%2===0){ctx.save();ctx.globalAlpha=.16;ctx.strokeStyle="#b8eee5";ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(x-48,y+8);ctx.quadraticCurveTo(x,y-13,x+48,y+8);ctx.stroke();ctx.restore();}drawSectPavilion(x,y,z,t,k,c);});
  ctx.save();ctx.globalAlpha=.22;ctx.strokeStyle="#9ce7d7";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(90,465);ctx.bezierCurveTo(260,485,380,465,550,470);ctx.bezierCurveTo(710,478,860,462,1030,450);ctx.stroke();ctx.restore();
