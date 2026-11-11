@@ -23,16 +23,17 @@
     <section class="race-section game-stage" aria-label="Trường đua Vạn Kiếm Phi Tiên">
       <div class="stage-topline">
         <div class="stage-title"><span class="stage-emblem">⚔</span><div><strong>VẠN KIẾM ĐÀI</strong><small>THIÊN KIÊU TRANH PHONG</small></div></div>
-        <div class="stage-live"><i></i> TRỰC TIẾP</div>
+        
       </div>
       <div class="arena-frame">
         <canvas id="game" width="1100" height="825" aria-label="Hoạt cảnh trường đua"></canvas>
-        <div class="arena-overlay-top"><span class="arena-chip">TIÊN GIỚI · ĐẤU TRƯỜNG</span><span class="arena-chip arena-count">THEO DÕI TRẬN ĐẤU</span></div>
+        <div class="arena-overlay-top"><span class="arena-chip">TIÊN GIỚI · ĐẤU TRƯỜNG</span></div>
 
         <section class="panel summon-panel game-setup">
-          <div class="setup-heading">
+          <div class="setup-heading window-heading">
             <div><p class="eyebrow">KHỞI TẠO ĐẠI HỘI</p><h2>✦ Thiết lập tiên hội</h2></div>
             <span class="setup-hint">Chuẩn bị danh sách tham chiến</span>
+            <button class="window-minimize" type="button" aria-label="Thu nhỏ khởi tạo đại hội" aria-expanded="true" title="Thu nhỏ">−</button>
           </div>
           <label for="names">Danh sách tiên nhân — mỗi dòng một tên (để trống để tạo tên ngẫu nhiên)</label>
           <textarea id="names" rows="3" placeholder="Diệp Trường Phong&#10;Tô Thanh Huyền&#10;Mộ Dung Vô Trần"></textarea>
@@ -52,18 +53,20 @@
         </div>
 
         <div class="camera panel game-camera">
-          <div class="camera-heading" title="Giữ và kéo để di chuyển góc quan sát">
+          <div class="camera-heading window-heading" title="Giữ và kéo để di chuyển góc quan sát">
             <div><p class="eyebrow">GÓC QUAN SÁT</p><h3 id="leaderProgress">Hạng --/--</h3></div>
             <span class="camera-live"><i></i> LIVE</span>
+            <button class="window-minimize" type="button" aria-label="Thu nhỏ góc quan sát" aria-expanded="true" title="Thu nhỏ">−</button>
           </div>
           <div class="camera-screen"><canvas id="leaderCanvas" width="420" height="240"></canvas></div>
           <div class="camera-info" aria-hidden="true"><strong id="leaderName">Đang chờ cuộc đua</strong></div>
         </div>
 
         <aside class="ranking panel game-ranking">
-          <div class="ranking-heading">
+          <div class="ranking-heading window-heading">
             <div><p class="eyebrow">BẢNG XẾP HẠNG</p><h3>Tiên Bảng</h3></div>
             <span class="ranking-seal">榜</span>
+            <button class="window-minimize" type="button" aria-label="Thu nhỏ Tiên Bảng" aria-expanded="true" title="Thu nhỏ">−</button>
           </div>
           <div class="ranking-meta"><span>THỨ HẠNG HIỆN TẠI</span><span>LIVE</span></div>
           <div class="table-wrap">
