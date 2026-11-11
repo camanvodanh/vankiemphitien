@@ -513,66 +513,27 @@ function drawScenery(time) {
   drawCrowd(time);
 }
 
-function drawRacingArtifact(target,kind,phase) {
-  target.save();target.translate(0,19);target.rotate(Math.sin(phase)*.018);
-  const gold="#c69a50",bright="#f5e7b6",steel="#cbd7d4",dark="#604832";
-  target.globalAlpha=.38;target.strokeStyle="#ffe8a8";target.lineWidth=2;
-  target.beginPath();target.ellipse(0,8,42,5,0,0,Math.PI*2);target.stroke();target.globalAlpha=1;
-
-  if(kind===0||kind===1){
-    // Kiếm ngang: chuôi ở sau bên trái, mũi kiếm hướng trước bên phải.
-    target.fillStyle=dark;target.fillRect(-38,-3,19,6);
-    target.fillStyle=gold;target.fillRect(-22,-7,5,14);
-    target.fillStyle=steel;target.beginPath();
-    target.moveTo(-18,-4);target.lineTo(24,-4);target.lineTo(41,0);
-    target.lineTo(24,4);target.lineTo(-18,4);target.closePath();target.fill();
-    target.strokeStyle=bright;target.lineWidth=1.5;target.stroke();
-    target.fillStyle="#75cbd1";target.beginPath();target.arc(-29,0,2.5,0,Math.PI*2);target.fill();
-  }else if(kind===2||kind===3){
-    // Thương/giáo: cán ngang, mũi nhọn hướng phải.
-    target.strokeStyle="#805a38";target.lineWidth=5;target.lineCap="round";
-    target.beginPath();target.moveTo(-39,1);target.lineTo(25,1);target.stroke();
-    target.strokeStyle="#d8b36a";target.lineWidth=1.5;
-    target.beginPath();target.moveTo(-35,-1);target.lineTo(23,-1);target.stroke();
-    target.fillStyle=steel;target.beginPath();target.moveTo(22,-7);
-    target.lineTo(43,1);target.lineTo(22,8);target.lineTo(27,1);target.closePath();target.fill();
-    target.strokeStyle=bright;target.lineWidth=1;target.stroke();
-    target.fillStyle="#b8493e";target.beginPath();target.moveTo(8,1);
-    target.lineTo(2,-7);target.lineTo(14,-3);target.closePath();target.fill();
-  }else if(kind===4){
-    // Quạt xòe ngang, cán ở phía sau.
-    target.fillStyle="#d8c38e";target.beginPath();target.moveTo(-27,0);
-    target.quadraticCurveTo(-4,-24,31,-15);target.quadraticCurveTo(18,0,31,15);
-    target.quadraticCurveTo(-4,24,-27,0);target.closePath();target.fill();
-    target.strokeStyle="#8e6843";target.lineWidth=2;
-    for(let i=-2;i<=2;i++){target.beginPath();target.moveTo(-27,0);target.lineTo(29,i*7);target.stroke();}
-    target.strokeStyle=gold;target.lineWidth=5;target.beginPath();
-    target.moveTo(-31,-5);target.lineTo(-40,0);target.lineTo(-31,5);target.stroke();
-  }else if(kind===5){
-    // Hồ lô nằm ngang: nút ở đuôi trái, đầu bầu hướng trước phải.
-    target.fillStyle="#348a70";target.beginPath();target.ellipse(-3,0,18,11,0,0,Math.PI*2);target.fill();
-    target.beginPath();target.ellipse(12,0,11,8,0,0,Math.PI*2);target.fill();
-    target.fillStyle="#d8bd78";target.fillRect(-25,-4,9,8);target.fillRect(-30,-2,6,4);
-    target.fillStyle="#e6d18d";target.fillRect(20,-4,9,8);
-    target.strokeStyle=gold;target.lineWidth=2;
-    target.beginPath();target.ellipse(-3,0,18,11,0,0,Math.PI*2);target.stroke();
-    target.beginPath();target.ellipse(12,0,11,8,0,0,Math.PI*2);target.stroke();
-  }else if(kind===6){
-    // Liên đài thuôn dài, đầu nhọn dẫn hướng phía trước.
-    target.fillStyle="#d9b96f";target.beginPath();target.moveTo(-36,5);
-    target.quadraticCurveTo(-10,17,20,5);target.lineTo(42,0);target.lineTo(20,-5);
-    target.quadraticCurveTo(-10,-17,-36,-5);target.closePath();target.fill();
-    target.strokeStyle=bright;target.lineWidth=2;target.beginPath();target.moveTo(-30,0);target.lineTo(40,0);target.stroke();
-    target.fillStyle="#75c8bb";target.beginPath();target.arc(-4,-1,7,0,Math.PI*2);target.fill();
-  }else{
-    // Nguyệt luân đặt nằm ngang, mũi dẫn hướng ở bên phải.
-    target.strokeStyle="#c6d6d1";target.lineWidth=6;target.beginPath();target.ellipse(0,0,29,10,0,0,Math.PI*2);target.stroke();
-    target.strokeStyle="#f5e5ad";target.lineWidth=2;target.beginPath();target.ellipse(0,0,23,6,0,0,Math.PI*2);target.stroke();
-    target.fillStyle=gold;target.beginPath();target.moveTo(25,-7);target.lineTo(42,0);target.lineTo(25,7);target.closePath();target.fill();
-  }
-  target.restore();
+function drawRacingArtifact(target,kind,phase){
+ target.save();target.translate(0,19);target.rotate(Math.sin(phase)*.012);
+ const gold="#b98b49",dark="#49372a",steel=target.createLinearGradient(0,-9,0,9);
+ steel.addColorStop(0,"#71818a");steel.addColorStop(.22,"#f5f8f4");steel.addColorStop(.52,"#b9c8ca");steel.addColorStop(.82,"#e8eee8");steel.addColorStop(1,"#64747c");
+ target.globalAlpha=.24;target.strokeStyle="#ffe5a0";target.lineWidth=1.5;target.beginPath();target.ellipse(0,9,42,4,0,0,Math.PI*2);target.stroke();target.globalAlpha=1;
+ target.fillStyle=dark;target.fillRect(-39,-2.6,22,5.2);target.fillStyle="#76553a";for(let k=0;k<4;k++)target.fillRect(-37+k*4,-2.4,1.3,4.8);
+ target.fillStyle=gold;target.fillRect(-19,-7,3.5,14);target.fillStyle="#e1c27e";target.fillRect(-21,-5,7,2);target.fillRect(-21,3,7,2);target.fillStyle="#5a4431";target.fillRect(-42,-3.5,4,7);target.fillStyle=gold;target.beginPath();target.arc(-42,0,3.2,0,Math.PI*2);target.fill();
+ target.fillStyle=steel;target.beginPath();
+ if(kind===0){target.moveTo(-16,-4.5);target.lineTo(27,-4.5);target.lineTo(44,0);target.lineTo(27,4.5);target.lineTo(-16,4.5);}
+ else if(kind===1){target.moveTo(-16,-4);target.quadraticCurveTo(16,-8,39,-2);target.lineTo(44,0);target.quadraticCurveTo(17,3,-16,4);}
+ else if(kind===2){target.moveTo(-16,-7);target.lineTo(21,-7);target.lineTo(44,0);target.lineTo(21,7);target.lineTo(-16,7);}
+ else if(kind===3){target.moveTo(-16,-2.7);target.lineTo(31,-2.7);target.lineTo(47,0);target.lineTo(31,2.7);target.lineTo(-16,2.7);}
+ else if(kind===4){target.moveTo(-16,-3.5);target.quadraticCurveTo(12,-8,30,-3.5);target.lineTo(45,0);target.lineTo(30,3.5);target.quadraticCurveTo(12,8,-16,3.5);}
+ else if(kind===5){target.moveTo(-16,-5);target.lineTo(-8,-5);target.lineTo(27,-3.5);target.lineTo(44,0);target.lineTo(27,3.5);target.lineTo(-8,5);target.lineTo(-16,5);}
+ else if(kind===6){target.moveTo(-16,-3);target.quadraticCurveTo(17,-7,36,-5);target.lineTo(46,-1);target.lineTo(39,3);target.quadraticCurveTo(15,6,-16,3);}
+ else{target.moveTo(-16,-3);target.lineTo(34,-2);target.lineTo(48,0);target.lineTo(34,2);target.lineTo(-16,3);}
+ target.closePath();target.fill();target.strokeStyle="#65747a";target.lineWidth=.8;target.stroke();
+ target.strokeStyle="#fff1c9";target.lineWidth=.85;target.beginPath();target.moveTo(-12,-1.2);target.lineTo(34,-.7);target.stroke();
+ target.strokeStyle="rgba(255,255,255,.72)";target.lineWidth=.55;target.beginPath();target.moveTo(-12,-3);target.lineTo(26,-3);target.stroke();
+ target.fillStyle="#6f5134";target.fillRect(-17,-2.3,2,4.6);target.restore();
 }
-
 function drawRacer(target,racer,x,y,scale,time) {
   target.save();target.translate(x,y+Math.sin(time*.009+racer.phase)*2);target.scale(scale,scale);
   const glow=target.createRadialGradient(0,0,3,0,0,43);
@@ -2384,79 +2345,33 @@ function drawVIPAura(x,y,radius,color,time,phase,intensity){
 }
 
 function drawCrowd(time){
-  // Một hàng ghế danh dự thống nhất, không xếp chồng nhiều tầng.
-  // Thân truyền đệ tử bên trái Chưởng môn.
-  const disciples=[190,230,270,310,350,390,430,470].map((x,i)=>[x,680]);
-  disciples.forEach(([x,y],i)=>{
-    drawVIPAura(x,y-13,32,"#a9d7ff",time,i,.42);
-    drawVIPChair(x,y,.72,"#405d82",time,i*.65);
-    drawFormalSpectator(x,y-8,.70,"disciple",time,i);
-  });
-  drawRoleLabel(330,632,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.96);
-
-  // Chưởng môn ở chính giữa, tiên khí dày và sáng nhất.
-  drawVIPAura(550,650,120,"#ffe5a0",time,.4,1);
-  drawVIPAura(550,650,82,"#fff0bf",time,1.8,.9);
-  drawVIPChair(550,674,1.38,"#762f32",time,0);
-  drawFormalSpectator(550,662,1.16,"master",time,0);
-  drawRoleLabel(550,606,"CHƯỞNG MÔN","#f2d17d",1.1);
-
-  // Trưởng lão bên phải, ngồi cùng một hàng; hào quang nhẹ hơn.
-  const elders=[620,670,720,770,820,870,920,970,1020].map(x=>[x,680]);
-  elders.forEach(([x,y],i)=>{
-    drawVIPAura(x,y-12,43,"#d7baff",time,i*.75,.55);
-    drawVIPChair(x,y,.76,"#5b456b",time,i);
-    drawFormalSpectator(x,y-8,.72,"elder",time,i*.8);
-  });
-  drawRoleLabel(820,632,"TRƯỞNG LÃO","#d4b5fa",.96);
-
-  // Khán giả đại chúng thành ba lớp dày như khán đài đại hội.
-  const rows=[
-    {y:748,count:35,x:4,step:32,scale:.62,role:"servant"},
-    {y:773,count:36,x:-3,step:31,scale:.58,role:"outer"},
-    {y:796,count:37,x:-8,step:30,scale:.52,role:"inner"}
-  ];
-  rows.forEach((row,ri)=>{for(let i=0;i<row.count;i++){
-    const sway=Math.sin(time*.002+i*.8+ri)*1.7;
-    drawSpectator(row.x+i*row.step+(i%2)*6,row.y+sway,row.scale,row.role,time,i*.57+ri);
-  }});
-  drawCrowdFlag(12,728,"#a53f36",time);
-  drawCrowdFlag(W-18,728,"#b18a43",time);
+ const disciples=Array.from({length:10},(_,i)=>[80+i*40,680]);
+ disciples.forEach(([x,y],i)=>{drawVIPAura(x,y-13,29,"#a9d7ff",time,i,.42);drawVIPChair(x,y,.58,"#405d82",time,i*.65);drawFormalSpectator(x,y-8,.58,"disciple",time,i);});
+ drawRoleLabel(260,632,"10 THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.92);
+ drawVIPAura(550,650,120,"#ffe5a0",time,.4,1);drawVIPAura(550,650,82,"#fff0bf",time,1.8,.9);drawVIPChair(550,674,1.38,"#762f32",time,0);drawFormalSpectator(550,662,1.16,"master",time,0);drawRoleLabel(550,606,"CHƯỞNG MÔN","#f2d17d",1.1);
+ const elders=Array.from({length:10},(_,i)=>[660+i*40,680]);
+ elders.forEach(([x,y],i)=>{drawVIPAura(x,y-12,36,"#d7baff",time,i*.75,.55);drawVIPChair(x,y,.60,"#5b456b",time,i);drawFormalSpectator(x,y-8,.60,"elder",time,i*.8);});
+ drawRoleLabel(860,632,"10 TRƯỞNG LÃO","#d4b5fa",.92);
+ const rows=[{y:748,count:35,x:4,step:32,scale:.62,role:"servant"},{y:773,count:36,x:-3,step:31,scale:.58,role:"outer"},{y:796,count:37,x:-8,step:30,scale:.52,role:"inner"}];
+ rows.forEach((row,ri)=>{for(let i=0;i<row.count;i++){const sway=Math.sin(time*.002+i*.8+ri)*1.7;drawSpectator(row.x+i*row.step+(i%2)*6,row.y+sway,row.scale,row.role,time,i*.57+ri);}});
+ drawCrowdFlag(12,728,"#a53f36",time);drawCrowdFlag(W-18,728,"#b18a43",time);
 }
-
 function drawSpiritBirds(time){
-  // Ba đàn hạc bay thành quỹ đạo elip nằm ngang quanh quần thể tiên điện.
-  // Độ sâu thay đổi theo vị trí; thân luôn nằm ngang, cổ/đầu không lộn ngược.
-  const flocks=[
-    {count:5,rx:390,ry:28,cx:550,cy:218,speed:.00024,phase:.2,size:.72},
-    {count:4,rx:330,ry:22,cx:550,cy:278,speed:-.00019,phase:2.0,size:.62},
-    {count:4,rx:455,ry:35,cx:550,cy:175,speed:.00015,phase:4.1,size:.52}
-  ];
-  flocks.forEach((flock,fi)=>{
-    for(let i=0;i<flock.count;i++){
-      const angle=time*flock.speed+flock.phase+i*Math.PI*2/flock.count;
-      const x=flock.cx+Math.cos(angle)*flock.rx,y=flock.cy+Math.sin(angle)*flock.ry;
-      const direction=(-Math.sin(angle)*flock.rx*flock.speed)>=0?1:-1;
-      const depth=.72+.28*(.5+.5*Math.cos(angle)),scale=flock.size*depth;
-      const flap=Math.sin(time*.0032+i*1.65+fi*.9);
-      ctx.save();ctx.translate(x,y);ctx.scale(scale*direction,scale);
-      ctx.fillStyle="#fffdf3";ctx.beginPath();ctx.ellipse(0,1,17,3.8,-.04,0,Math.PI*2);ctx.fill();
-      ctx.strokeStyle="#fffdf3";ctx.lineWidth=2.5;ctx.lineCap="round";ctx.beginPath();
-      ctx.moveTo(11,0);ctx.bezierCurveTo(21,-2,22,-15,29,-19);ctx.bezierCurveTo(34,-23,34,-29,29,-31);ctx.stroke();
-      ctx.fillStyle="#fffdf3";ctx.beginPath();ctx.ellipse(30,-32,3.8,2.5,-.15,0,Math.PI*2);ctx.fill();
-      ctx.fillStyle="#b94b40";ctx.beginPath();ctx.moveTo(33,-32);ctx.lineTo(43,-30);ctx.lineTo(33,-29);ctx.closePath();ctx.fill();
-      ctx.fillStyle="#3d3934";ctx.beginPath();ctx.arc(31,-33,.7,0,Math.PI*2);ctx.fill();
-      // Cánh dài, mảnh, đập lên xuống theo nhịp.
-      const wingY=flap*13;ctx.fillStyle="#f4f5ee";
-      ctx.beginPath();ctx.moveTo(-4,0);ctx.bezierCurveTo(-18,-5-wingY,-38,-13-wingY*1.15,-58,-7-wingY*.65);ctx.quadraticCurveTo(-39,1,-7,4);ctx.closePath();ctx.fill();
-      ctx.beginPath();ctx.moveTo(-4,1);ctx.bezierCurveTo(-18,5+wingY,-38,13+wingY*1.15,-58,7+wingY*.65);ctx.quadraticCurveTo(-39,2,-7,-2);ctx.closePath();ctx.fill();
-      ctx.strokeStyle="rgba(183,194,185,.78)";ctx.lineWidth=.65;
-      for(let feather=0;feather<5;feather++){const t=feather/4;ctx.beginPath();ctx.moveTo(-8-t*3,0);ctx.quadraticCurveTo(-29-t*3,-5-wingY*.65,-55+t*2,-7-wingY*.6);ctx.stroke();}
-      ctx.strokeStyle="#fffdf3";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(-13,2);ctx.lineTo(-34,-1);ctx.moveTo(-13,3);ctx.lineTo(-32,5);ctx.stroke();
-      ctx.strokeStyle="#b94b40";ctx.lineWidth=.9;ctx.beginPath();ctx.moveTo(-2,4);ctx.lineTo(-5,15);ctx.lineTo(-10,18);ctx.moveTo(3,4);ctx.lineTo(2,15);ctx.lineTo(-2,18);ctx.stroke();
-      ctx.restore();
-    }
-  });
+ const flocks=[{count:3,rx:390,ry:31,cx:550,cy:220,speed:.00020,phase:.4,size:.78},{count:2,rx:455,ry:39,cx:550,cy:185,speed:-.00015,phase:2.1,size:.66}];
+ flocks.forEach((flock,fi)=>{for(let i=0;i<flock.count;i++){
+  const a=time*flock.speed+flock.phase+i*Math.PI*2/flock.count,x=flock.cx+Math.cos(a)*flock.rx,y=flock.cy+Math.sin(a)*flock.ry;
+  const direction=(-Math.sin(a)*flock.rx*flock.speed)>=0?1:-1,depth=.76+.24*(.5+.5*Math.cos(a)),s=flock.size*depth;
+  const flap=Math.sin(time*.0042+i*1.9+fi*.8),lift=flap*15;
+  ctx.save();ctx.translate(x,y);ctx.scale(s*direction,s);
+  ctx.globalAlpha=.72;ctx.fillStyle="#e8eee8";ctx.beginPath();ctx.moveTo(-3,0);ctx.bezierCurveTo(-16,-7-lift,-39,-18-lift,-61,-12-lift*.7);ctx.quadraticCurveTo(-43,-1,-8,4);ctx.closePath();ctx.fill();ctx.globalAlpha=1;
+  ctx.fillStyle="#fffdf5";ctx.beginPath();ctx.ellipse(0,1,17,4,-.04,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle="#fffdf5";ctx.lineWidth=2.7;ctx.lineCap="round";ctx.beginPath();ctx.moveTo(11,0);ctx.bezierCurveTo(20,-1,22,-15,28,-20);ctx.bezierCurveTo(33,-25,34,-29,30,-32);ctx.stroke();
+  ctx.fillStyle="#fffdf5";ctx.beginPath();ctx.ellipse(31,-33,4,2.7,-.12,0,Math.PI*2);ctx.fill();ctx.fillStyle="#b7443c";ctx.beginPath();ctx.moveTo(34,-33);ctx.lineTo(44,-31);ctx.lineTo(34,-30);ctx.closePath();ctx.fill();ctx.fillStyle="#34302b";ctx.beginPath();ctx.arc(32,-34,.75,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#fffdf5";ctx.beginPath();ctx.moveTo(-5,0);ctx.bezierCurveTo(-17,-4-lift*.55,-37,-11-lift,-60,-8-lift*.72);ctx.quadraticCurveTo(-42,5,-8,5);ctx.closePath();ctx.fill();
+  ctx.strokeStyle="rgba(184,194,187,.82)";ctx.lineWidth=.7;for(let k=0;k<6;k++){const t=k/5;ctx.beginPath();ctx.moveTo(-9-t*2,1);ctx.quadraticCurveTo(-30-t*3,-4-lift*.45,-57+t*2,-8-lift*.7);ctx.stroke();}
+  ctx.strokeStyle="#fffdf5";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(-13,2);ctx.lineTo(-34,-1);ctx.moveTo(-13,3);ctx.lineTo(-32,5);ctx.stroke();
+  ctx.strokeStyle="#b7443c";ctx.lineWidth=.9;ctx.beginPath();ctx.moveTo(-2,4);ctx.lineTo(-5,15);ctx.lineTo(-11,19);ctx.moveTo(3,4);ctx.lineTo(2,15);ctx.lineTo(-3,19);ctx.stroke();ctx.restore();
+ }});
 }
 function drawTempleAuras(time){
   const sites=[[230,310,72,.2],[430,230,62,1.3],[675,279,78,2.4],[865,245,66,3.5],[540,386,54,4.4]];
