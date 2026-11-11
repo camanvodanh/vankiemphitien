@@ -601,7 +601,18 @@ function updateRanking() {
 // =====================================================
 
 function render(time){
- ctx.clearRect(0,0,W,H);drawScenery(time);
- if(finished){drawPodiumScene(ctx,time,false);drawParticles();drawCamera(time);updateRanking();return;}
- drawTrackLines();drawRaceHud();drawRacers(time);drawAnnouncement();drawParticles();drawCamera(time);updateRanking();
+  ctx.clearRect(0,0,W,H);
+  // Mở rộng bầu trời phía trên nhưng neo toàn bộ quảng trường/khán đài
+  // theo đáy canvas: mọi cảnh cũ dịch cùng một lượng, không co kéo hay
+  // đẩy nhân vật bên dưới lên; đường đua vẫn cao hơn ghế chưởng môn.
+  ctx.save();
+  ctx.translate(0,200);
+  drawScenery(time);
+  if(finished){
+    drawPodiumScene(ctx,time,false);drawParticles();drawCamera(time);
+    ctx.restore();updateRanking();return;
+  }
+  drawTrackLines();drawRaceHud();drawRacers(time);drawAnnouncement();drawParticles();drawCamera(time);
+  ctx.restore();
+  updateRanking();
 }
