@@ -550,29 +550,18 @@ function generateCultivationNames(amount) {
 function getInputNames(){return uniqueNames($("names").value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean));}
 function summon(){
   if(running||paused)return;
-  const typed=getInputNames(),amount=getRandomQuantity();
-  const finalNames=typed.length?typed:generateCultivationNames(amount);
-  if(!finalNames.length)return;
+  const typed=getInputNames();
+  if(typed.length===1){$("lockNotice").textContent="Cần ít nhất 2 tiên nhân. Hãy nhập thêm một tên hoặc xóa danh sách để tạo theo số lượng."; $("names").focus();return;}
+  const amount=getRandomQuantity();const finalNames=typed.length?typed:generateCultivationNames(amount);
+  if(finalNames.length<2){$("lockNotice").textContent="Đại hội cần tối thiểu 2 tiên nhân mới có thể khởi tạo.";return;}
   if(finalNames.length>100){$("lockNotice").textContent="Tối đa 100 tiên nhân. Hãy rút gọn danh sách rồi triệu hồi lại.";return;}
-  racers=finalNames.map((name,index)=>createRacer(name,index));
-  raceStopped=false;
+  racers=finalNames.map((name,index)=>createRacer(name,index));raceStopped=false;
   racers.forEach(r=>{r.swordStyle=randInt(0,11);r.swordColor=randInt(0,9);if(r.gender==="female")r.swordColor=randInt(0,3);else r.swordColor=randInt(4,7);});
-  duration=Number($("speed").value);
-  elapsed=0;running=false;paused=false;started=false;finished=false;
-  countdown=0;countdownAccumulator=0;eventClock=0;nextEvent=rand(5,9);
-  eventText="";eventTextLife=0;finishQueue=[];cameraFocusId=null;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;
-  finishMessage="";finishMessageLife=0;particles=[];
-  assignFinishTimes();
-  $("status").textContent="Đã triệu hồi";
-  $("lockNotice").textContent="Tiếp theo: Nhấn Bắt đầu để khai mở cuộc đua.";
-  $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="--";
-  setSettingsLocked(false);
-  $("leaderEffect").textContent="";
-  $("lockNotice").textContent="Tiếp theo: Nhấn Chạy để khai mở cuộc đua.";
-  collapseSetupPanel();
-  syncButtons();
-  render(performance.now());
+  duration=Number($("speed").value);elapsed=0;running=false;paused=false;started=false;finished=false;countdown=0;countdownAccumulator=0;eventClock=0;nextEvent=rand(5,9);
+  eventText="";eventTextLife=0;finishQueue=[];cameraFocusId=null;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;finishMessage="";finishMessageLife=0;particles=[];assignFinishTimes();
+  $("status").textContent="Đã triệu hồi";$("lockNotice").textContent="Tiếp theo: Nhấn Chạy để khai mở cuộc đua.";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="--";setSettingsLocked(false);$("leaderEffect").textContent="";collapseSetupPanel();syncButtons();render(performance.now());
 }
+
 function setSettingsLocked(value){
   locked=value;["speed","quantity","names","summon"].forEach(id=>$(id).disabled=value);
   $("lockNotice").classList.toggle("locked",value);
@@ -1076,3 +1065,14 @@ function handleStopOrSetup(){
   }
   stopRace();
 }
+
+
+// Đổi sang nhập số lượng sẽ xóa danh sách tên thủ công.
+(function syncManualNamesWithQuantity(){
+ function attach(){const namesInput=$("names"),quantityInput=$("quantity"),notice=$("lockNotice");if(!namesInput||!quantityInput||quantityInput.dataset.nameSyncReady==="1")return;quantityInput.dataset.nameSyncReady="1";
+  const clearManualNames=()=>{if(!namesInput.value.trim())return;namesInput.value="";if(notice)notice.textContent="Đã chuyển sang tạo theo số lượng; danh sách tên thủ công đã được xóa.";};
+  quantityInput.addEventListener("input",clearManualNames);quantityInput.addEventListener("change",clearManualNames);
+  namesInput.addEventListener("input",()=>{if(!notice)return;const count=getInputNames().length;if(count===1)notice.textContent="Cần nhập thêm ít nhất 1 tên nữa để khởi tạo đại hội.";else if(count>=2)notice.textContent="Đã nhập "+count+" tiên nhân. Có thể khởi tạo đại hội.";});
+ }
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",attach,{once:true});else attach();
+})();
