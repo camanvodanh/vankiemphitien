@@ -2382,71 +2382,37 @@ function drawSpiritBirds(time) {
 }
 
 function drawScenery(time) {
-  drawSky(time); drawMountainRange(); drawMovingClouds(time); drawSpiritBirds(time);
-
-  // Tiên điện tách khỏi hai dòng thác, bám trên các gờ núi rộng.
+  drawSky(time); drawMountainRange(); drawMovingClouds(time);
+  drawSpiritBirds(time);
   drawFloatingPlatform(230,350,.46); drawPalace(230,310,.43,false);
   drawFloatingPlatform(430,270,.43); drawPalace(430,230,.40,false);
   drawFloatingPlatform(675,325,.48); drawPalace(675,279,.44,false);
   drawFloatingPlatform(865,285,.43); drawPalace(865,245,.40,false);
   drawFloatingPlatform(540,420,.36); drawPalace(540,386,.33,false);
-
-  const auraSites=[[230,310,62,.2],[430,230,56,1.3],[675,279,65,2.4],[865,245,58,3.5],[540,386,48,4.4]];
-  auraSites.forEach(([x,y,r,p])=>{
-    ctx.save(); ctx.globalAlpha=.62;
-    const glow=ctx.createRadialGradient(x,y-8,2,x,y-8,r);
-    glow.addColorStop(0,"rgba(255,231,174,.16)");
-    glow.addColorStop(.55,"rgba(164,226,219,.09)");
-    glow.addColorStop(1,"rgba(164,226,219,0)");
-    ctx.fillStyle=glow; ctx.fillRect(x-r,y-r,r*2,r*2);
-    for(let k=0;k<2;k++) {
-      const a=time*.00032+p+k*Math.PI;
-      ctx.strokeStyle=k?"rgba(255,226,160,.55)":"rgba(174,235,225,.55)";
-      ctx.lineWidth=1.5; ctx.beginPath();
-      ctx.moveTo(x-r*.8,y+Math.sin(a)*10);
-      ctx.bezierCurveTo(x-r*.35,y-20+Math.cos(a)*15,x+r*.35,y+20+Math.sin(a+1)*14,x+r*.8,y+Math.cos(a+1)*9);
-      ctx.stroke();
-    }
-    ctx.restore();
-  });
-
   drawTempleAuras(time);
   drawMountainStream(time);
   drawLinkedCascade(72,285,510,30,time,.2);
   drawLinkedCascade(1028,260,510,34,time,1.4);
-
   drawPine(175,440,.72,"#315b45"); drawTree(205,456,.58,"#426b4c");
   drawPine(355,455,.62,"#315b45"); drawTree(470,455,.54,"#426b4c");
   drawPine(740,455,.66,"#315b45"); drawTree(815,454,.58,"#426b4c");
   drawPine(930,440,.7,"#315b45");
-
-  drawRiver(time);
-  drawCrowd(time);
+  drawRiver(time); drawCrowd(time);
 }
 
 
 // REVISION 9 — tiên khí quanh VIP, đàn hạc bay theo quỹ đạo sơn mạch.
 function drawVIPAura(x,y,radius,color,time,phase,intensity){
   ctx.save();
-  const pulse=1+Math.sin(time*.0018+phase)*.12;
-  const glow=ctx.createRadialGradient(x,y-12,2,x,y-12,radius*pulse);
-  glow.addColorStop(0,color+"55");glow.addColorStop(.48,color+"22");glow.addColorStop(1,color+"00");
-  ctx.fillStyle=glow;ctx.fillRect(x-radius*1.3,y-radius*1.3,radius*2.6,radius*2.6);
-  ctx.globalAlpha=intensity;
-  for(let k=0;k<3;k++){
-    const a=time*.00045+phase+k*2.094;
-    ctx.strokeStyle=k===0?"rgba(255,231,169,.8)":k===1?"rgba(179,231,255,.65)":"rgba(218,197,255,.62)";
-    ctx.lineWidth=k===0?2:1.25;ctx.beginPath();
-    ctx.moveTo(x-radius*.85,y+Math.sin(a)*radius*.16);
-    ctx.bezierCurveTo(x-radius*.48,y-radius*.55+Math.cos(a)*13,
-      x+radius*.38,y+radius*.48+Math.sin(a+1)*12,
-      x+radius*.9,y+Math.cos(a+1)*radius*.14);
-    ctx.stroke();
-  }
-  for(let i=0;i<5;i++){
-    const a=time*.0007+phase+i*1.256;
-    const px=x+Math.cos(a)*radius*.72,py=y-8+Math.sin(a)*radius*.38;
-    ctx.fillStyle="rgba(255,236,181,.8)";ctx.beginPath();ctx.arc(px,py,1.3+(i%2),0,Math.PI*2);ctx.fill();
+  const pulse=1+Math.sin(time*.0017+phase)*.08;
+  const glow=ctx.createRadialGradient(x,y-10,1,x,y-10,radius*pulse);
+  glow.addColorStop(0,color+"35");glow.addColorStop(.55,color+"12");glow.addColorStop(1,color+"00");
+  ctx.fillStyle=glow;ctx.fillRect(x-radius,y-radius,radius*2,radius*2);
+  for(let i=0;i<Math.round(9*intensity);i++){
+    const a=time*.00045+phase+i*2.399,orbit=radius*(.22+((i*13)%19)/25);
+    const px=x+Math.cos(a)*orbit,py=y-8+Math.sin(a*1.15)*orbit*.48;
+    ctx.globalAlpha=.25+.65*(.55+.45*Math.sin(time*.003+i*1.7+phase)**2);
+    ctx.fillStyle=color;ctx.beginPath();ctx.arc(px,py,1+(i%3)*.45,0,Math.PI*2);ctx.fill();
   }
   ctx.restore();
 }
@@ -2489,53 +2455,32 @@ function drawCrowd(time){
 }
 
 function drawSpiritBirds(time){
-  // Ba đàn hạc bay vòng quanh tiên sơn. Hướng thân luôn theo tiếp tuyến quỹ đạo.
   const flocks=[
-    {count:5,rx:420,ry:172,cx:548,cy:280,speed:.00019,phase:.3,size:.88},
-    {count:4,rx:350,ry:132,cx:548,cy:285,speed:-.00024,phase:2.1,size:.68},
-    {count:3,rx:465,ry:205,cx:548,cy:270,speed:.00014,phase:4.2,size:.58}
+    {count:5,rx:395,ry:30,cx:550,cy:230,speed:.00022,phase:.3,size:.78},
+    {count:4,rx:330,ry:24,cx:550,cy:285,speed:-.00027,phase:2.1,size:.66},
+    {count:4,rx:455,ry:38,cx:550,cy:185,speed:.00016,phase:4.2,size:.54}
   ];
-  flocks.forEach((flock,fi)=>{
-    for(let i=0;i<flock.count;i++){
-      const a=time*flock.speed+flock.phase+i*(Math.PI*2/flock.count);
-      const x=flock.cx+Math.cos(a)*flock.rx;
-      const y=flock.cy+Math.sin(a)*flock.ry;
-      const dx=-Math.sin(a)*flock.rx*flock.speed;
-      const dy=Math.cos(a)*flock.ry*flock.speed;
-      const heading=Math.atan2(dy,dx);
-      const flap=Math.sin(time*.0026+i*1.7+fi)*.24;
-      const s=flock.size;
-      ctx.save();ctx.translate(x,y);ctx.rotate(heading);ctx.scale(s,s);
-
-      // Cánh lớn, bản rộng, lông cánh phân tầng.
-      ctx.fillStyle="#e9eee7";ctx.beginPath();ctx.moveTo(-5,0);
-      ctx.bezierCurveTo(-19,-12-flap*42,-43,-30-flap*55,-70,-17-flap*38);
-      ctx.bezierCurveTo(-48,-9-flap*18,-27,10,-5,8);ctx.closePath();ctx.fill();
-      ctx.fillStyle="#fffdf4";ctx.beginPath();ctx.moveTo(-5,0);
-      ctx.bezierCurveTo(-18,10+flap*40,-43,29+flap*54,-70,16+flap*36);
-      ctx.bezierCurveTo(-47,7+flap*16,-26,-8,-5,-5);ctx.closePath();ctx.fill();
-      ctx.strokeStyle="rgba(167,183,174,.8)";ctx.lineWidth=1;
-      for(let k=0;k<7;k++){
-        ctx.beginPath();ctx.moveTo(-8-k,0);
-        ctx.quadraticCurveTo(-35-k*2,-12-flap*35,-66+k*2,-16-flap*30);ctx.stroke();
-      }
-
-      // Thân hạc thanh, cổ dài hình chữ S và đầu có mào đỏ.
-      ctx.fillStyle="#fffdf4";ctx.beginPath();ctx.ellipse(0,3,24,7,-.04,0,Math.PI*2);ctx.fill();
-      ctx.strokeStyle="#fffdf4";ctx.lineWidth=5;ctx.lineCap="round";
-      ctx.beginPath();ctx.moveTo(15,1);ctx.bezierCurveTo(28,0,27,-15,39,-19);
-      ctx.bezierCurveTo(47,-23,46,-35,39,-38);ctx.stroke();
-      ctx.fillStyle="#fffdf4";ctx.beginPath();ctx.ellipse(41,-39,6,4,-.25,0,Math.PI*2);ctx.fill();
-      ctx.fillStyle="#b83e3c";ctx.beginPath();ctx.arc(39,-44,3,Math.PI,Math.PI*2);ctx.fill();
-      ctx.fillStyle="#bd5948";ctx.beginPath();ctx.moveTo(46,-40);ctx.lineTo(58,-37);ctx.lineTo(46,-35);ctx.closePath();ctx.fill();
-      ctx.fillStyle="#3c3932";ctx.beginPath();ctx.arc(43,-40,1.2,0,Math.PI*2);ctx.fill();
-
-      // Đuôi nhọn và đôi chân dài buông sau khi bay.
-      ctx.strokeStyle="#fffdf4";ctx.lineWidth=2.2;ctx.beginPath();
-      ctx.moveTo(-19,3);ctx.lineTo(-43,-2);ctx.moveTo(-18,5);ctx.lineTo(-41,9);ctx.stroke();
-      ctx.strokeStyle="#b84e45";ctx.lineWidth=1.6;ctx.beginPath();
-      ctx.moveTo(-5,8);ctx.lineTo(-10,23);ctx.lineTo(-15,26);
-      ctx.moveTo(3,8);ctx.lineTo(0,22);ctx.lineTo(-4,25);ctx.stroke();
+  flocks.forEach((f,fi)=>{
+    for(let i=0;i<f.count;i++){
+      const a=time*f.speed+f.phase+i*Math.PI*2/f.count,x=f.cx+Math.cos(a)*f.rx,y=f.cy+Math.sin(a)*f.ry;
+      const dx=-Math.sin(a)*f.rx*f.speed,facing=dx>=0?1:-1,depth=.72+.28*(.5+.5*Math.cos(a));
+      const flap=Math.sin(time*.0028+i*1.8+fi)*.24;
+      ctx.save();ctx.translate(x,y);ctx.scale(f.size*depth*facing,f.size*depth);
+      ctx.fillStyle="#f2f4ed";ctx.beginPath();ctx.moveTo(-4,0);
+      ctx.bezierCurveTo(-17,-5-flap*24,-42,-15-flap*29,-65,-8-flap*17);ctx.quadraticCurveTo(-39,1,-7,4);ctx.closePath();ctx.fill();
+      ctx.fillStyle="#fffdf5";ctx.beginPath();ctx.moveTo(-4,1);
+      ctx.bezierCurveTo(-17,5+flap*24,-42,15+flap*29,-65,8+flap*17);ctx.quadraticCurveTo(-38,2,-7,-3);ctx.closePath();ctx.fill();
+      ctx.strokeStyle="rgba(169,184,175,.75)";ctx.lineWidth=.8;
+      for(let k=0;k<6;k++){ctx.beginPath();ctx.moveTo(-8-k,0);ctx.quadraticCurveTo(-31-k*2,-6-flap*18,-61+k*2,-8-flap*14);ctx.stroke();}
+      ctx.fillStyle="#fffdf5";ctx.beginPath();ctx.ellipse(0,2,19,4.2,0,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle="#fffdf5";ctx.lineWidth=2.2;ctx.lineCap="round";ctx.beginPath();
+      ctx.moveTo(13,1);ctx.bezierCurveTo(25,0,24,-12,34,-16);ctx.bezierCurveTo(40,-19,40,-27,34,-30);ctx.stroke();
+      ctx.fillStyle="#fffdf5";ctx.beginPath();ctx.ellipse(36,-31,4,2.5,-.2,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle="#b9413c";ctx.beginPath();ctx.arc(35,-34,1.8,Math.PI,Math.PI*2);ctx.fill();
+      ctx.fillStyle="#b65b49";ctx.beginPath();ctx.moveTo(40,-31);ctx.lineTo(49,-29);ctx.lineTo(40,-27);ctx.closePath();ctx.fill();
+      ctx.fillStyle="#383832";ctx.beginPath();ctx.arc(38,-32,.7,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle="#fffdf5";ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(-14,3);ctx.lineTo(-36,0);ctx.moveTo(-14,4);ctx.lineTo(-34,7);ctx.stroke();
+      ctx.strokeStyle="#b94b43";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(-3,5);ctx.lineTo(-7,17);ctx.lineTo(-12,20);ctx.moveTo(3,5);ctx.lineTo(1,17);ctx.lineTo(-3,20);ctx.stroke();
       ctx.restore();
     }
   });
@@ -2545,19 +2490,15 @@ function drawTempleAuras(time){
   const sites=[[230,310,72,.2],[430,230,62,1.3],[675,279,78,2.4],[865,245,66,3.5],[540,386,54,4.4]];
   sites.forEach(([x,y,r,p])=>{
     ctx.save();
-    const glow=ctx.createRadialGradient(x,y-15,3,x,y-15,r);
-    glow.addColorStop(0,"rgba(255,230,172,.23)");
-    glow.addColorStop(.45,"rgba(169,225,222,.13)");
-    glow.addColorStop(1,"rgba(169,225,222,0)");
+    const glow=ctx.createRadialGradient(x,y-15,2,x,y-15,r);
+    glow.addColorStop(0,"rgba(255,230,172,.18)");glow.addColorStop(.5,"rgba(169,225,222,.08)");glow.addColorStop(1,"rgba(169,225,222,0)");
     ctx.fillStyle=glow;ctx.fillRect(x-r,y-r,r*2,r*2);
-    for(let k=0;k<5;k++){
-      const a=time*.00025+p+k*1.256;
-      const sway=Math.sin(a)*14;
-      ctx.strokeStyle=k%2?"rgba(255,226,164,.56)":"rgba(179,237,229,.58)";
-      ctx.lineWidth=k===0?2:1.1;ctx.beginPath();
-      ctx.moveTo(x-r*.9,y+Math.sin(a)*9);
-      ctx.bezierCurveTo(x-r*.5,y-r*.55+sway,x+r*.2,y+r*.38-sway,x+r*.9,y+Math.cos(a)*11);
-      ctx.stroke();
+    for(let i=0;i<34;i++){
+      const a=time*.00022+p+i*2.399,orbit=r*(.2+((i*17)%29)/34);
+      const px=x+Math.cos(a)*orbit,py=y-14+Math.sin(a*1.19)*orbit*.48;
+      ctx.globalAlpha=.18+.55*Math.pow(Math.sin(time*.002+i+p),2);
+      ctx.fillStyle=i%4===0?"#fff0bc":"#bde9dc";
+      ctx.beginPath();ctx.arc(px,py,1+(i%3)*.4,0,Math.PI*2);ctx.fill();
     }
     ctx.restore();
   });
