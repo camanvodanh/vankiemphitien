@@ -174,7 +174,8 @@ function createRacer(name, index) {
   return {
     id: Math.random().toString(36).slice(2),
     name,
-    gender: randInt(0,1) === 0 ? "male" : "female",
+    gender: /nữ|tiên tử|thánh nữ|tiểu thư|cô nương|nguyệt|thanh huyền|linh nhi|nhược|tử yên|băng tâm/i.test(name) ? "female" : (randInt(0,1) === 0 ? "male" : "female"),
+    appearanceSeed: randInt(0,4),
     progress: 0,
     targetFinishTime: 0,
     finished: false,
@@ -531,7 +532,7 @@ function summon(){
   if(!finalNames.length)return;
   if(finalNames.length>100){$("lockNotice").textContent="Danh sách tối đa 100 tiên nhân.";return;}
   racers=finalNames.map((name,index)=>createRacer(name,index));
-  racers.forEach(r=>{r.swordStyle=randInt(0,11);r.swordColor=randInt(0,9);});
+  racers.forEach(r=>{r.swordStyle=randInt(0,11);r.swordColor=randInt(0,9);if(r.gender==="female")r.swordColor=randInt(0,3);else r.swordColor=randInt(4,7);});
   duration=Number($("speed").value);
   elapsed=0;running=false;paused=false;started=false;finished=false;
   countdown=0;countdownAccumulator=0;eventClock=0;nextEvent=rand(5,9);
