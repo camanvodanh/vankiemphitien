@@ -4079,3 +4079,124 @@ body.game-page:after{
  }
  .arena-frame>.game-setup:not(.is-minimized) #summon{grid-column:1 / -1!important;}
 }
+
+
+/* REVISION 48 — nút thu nhỏ gọn, bỏ viền đen; thông tin camera gọn và hiệu ứng phủ trong ảnh. */
+.arena-frame>.game-setup.is-minimized{
+  display:inline-flex!important;
+  align-items:center!important;
+  width:max-content!important;
+  max-width:calc(100% - 12px)!important;
+  height:auto!important;
+  min-height:0!important;
+  padding:3px 5px 3px 8px!important;
+  margin:0!important;
+  border:1px solid rgba(218,184,111,.48)!important;
+  outline:none!important;
+  border-radius:7px!important;
+  background:rgba(12,31,27,.72)!important;
+  box-shadow:0 2px 8px rgba(0,0,0,.16)!important;
+}
+.arena-frame>.game-setup.is-minimized .setup-heading{
+  display:flex!important;
+  align-items:center!important;
+  gap:6px!important;
+  min-height:0!important;
+  margin:0!important;padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.arena-frame>.game-setup.is-minimized .setup-title-wrap,
+.arena-frame>.game-setup.is-minimized h2{
+  margin:0!important;padding:0!important;
+  line-height:1!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.arena-frame>.game-setup.is-minimized .setup-title-short{
+  display:inline!important;
+  color:#ead39b!important;
+  font-size:11px!important;
+  font-weight:700!important;
+  white-space:nowrap!important;
+}
+.arena-frame>.game-setup.is-minimized .setup-title-full,
+.arena-frame>.game-setup.is-minimized .setup-hint{display:none!important;}
+.arena-frame>.game-setup.is-minimized .window-minimize{
+  display:grid!important;
+  place-items:center!important;
+  width:17px!important;height:17px!important;
+  min-width:17px!important;min-height:17px!important;
+  margin:0!important;padding:0!important;
+  border:0!important;outline:0!important;
+  border-radius:50%!important;
+  background:rgba(218,184,111,.12)!important;
+  box-shadow:none!important;
+  color:#f2d99f!important;
+  font-size:13px!important;line-height:1!important;
+  appearance:none!important;-webkit-appearance:none!important;
+}
+.arena-frame>.game-setup.is-minimized .window-minimize:focus,
+.arena-frame>.game-setup.is-minimized .window-minimize:focus-visible,
+.arena-frame>.game-setup.is-minimized .window-minimize:active{
+  outline:0!important;border:0!important;box-shadow:none!important;
+}
+.arena-frame>.game-camera .camera-heading{
+  border-bottom:0!important;
+  box-shadow:none!important;
+}
+.arena-frame>.game-camera .camera-info{
+  border-top:0!important;
+  border-bottom:0!important;
+  box-shadow:none!important;
+  padding-top:2px!important;
+  padding-bottom:2px!important;
+}
+.arena-frame>.game-camera .camera-rank-slot,
+.arena-frame>.game-camera #leaderProgress,
+.arena-frame>.game-camera #leaderName{
+  border:0!important;
+  box-shadow:none!important;
+}
+.arena-frame>.game-camera>.camera-screen{
+  position:relative!important;
+  overflow:hidden!important;
+  line-height:0!important;
+}
+.arena-frame>.game-camera>.camera-screen>.camera-effect-overlay{
+  position:absolute!important;
+  left:0!important;right:0!important;bottom:0!important;
+  z-index:5!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-height:0!important;
+  padding:5px 8px 6px!important;
+  box-sizing:border-box!important;
+  background:linear-gradient(180deg,rgba(8,24,21,0),rgba(8,24,21,.88))!important;
+  pointer-events:none!important;
+  line-height:1.2!important;
+}
+.arena-frame>.game-camera #leaderEffect{
+  display:block!important;
+  max-width:100%!important;
+  color:#d9eacb!important;
+  font-size:10px!important;
+  font-weight:700!important;
+  line-height:1.25!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  text-shadow:0 1px 3px rgba(0,0,0,.95)!important;
+}
+.arena-frame>.game-camera #leaderEffect:empty{display:none!important;}
+.arena-frame>.game-camera>.camera-effect-slot{display:none!important;}
+@media(max-width:760px){
+ .arena-frame>.game-setup.is-minimized{padding:2px 4px 2px 6px!important;}
+ .arena-frame>.game-setup.is-minimized .setup-title-short{font-size:10px!important;}
+ .arena-frame>.game-setup.is-minimized .window-minimize{width:16px!important;height:16px!important;min-width:16px!important;min-height:16px!important;}
+ .arena-frame>.game-camera #leaderEffect{font-size:9px!important;}
+}
