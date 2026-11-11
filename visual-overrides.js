@@ -6672,7 +6672,7 @@ function drawAmbientEnergy(time){
   }
   ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.restore();
 }
-}function drawSectMasterThrone(target,x,y,scale,tilt=0){
+function drawSectMasterThrone(target,x,y,scale,tilt=0){
   target.save();target.translate(x,y);target.rotate(tilt);target.scale(scale,scale);
   const gold=target.createLinearGradient(-45,0,45,0);gold.addColorStop(0,"#513321");gold.addColorStop(.24,"#c99b53");gold.addColorStop(.5,"#fff0b4");gold.addColorStop(.76,"#b17b3e");gold.addColorStop(1,"#4b3024");
   // Lưng ngai cao, đỉnh chạm song long và khung gỗ tử đàn.
