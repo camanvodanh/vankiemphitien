@@ -5067,30 +5067,114 @@ function drawCrowd(time){
 }
 
 function drawSpiritBirds(time){
-  // Tiên hạc trắng bay chậm ở tầng trời cao.
+  // Bốn tiên hạc bay thong thả trên tầng mây, không vượt tốc độ phi kiếm.
   const cranes=[
-    {dir:1,y:64,s:.52,speed:.000018,phase:.08},
-    {dir:-1,y:112,s:.42,speed:.000014,phase:.52}
+    {dir:1,y:64,s:.58,speed:.000018,phase:.08},
+    {dir:-1,y:112,s:.47,speed:.000014,phase:.52}
   ];
+
+  // Vẽ cánh theo từng lớp lông, xoay quanh khớp vai để tạo nhịp vỗ tự nhiên.
+  const drawCraneWing=(angle,far)=>{
+    ctx.save();
+    ctx.translate(-3,-2);
+    ctx.rotate(angle);
+    const base=far?"#d8e0df":"#fffdf4";
+    const mid=far?"#edf0e9":"#f5f2e8";
+    const edge=far?"#aebdbd":"#d6d9d1";
+    ctx.fillStyle=base;ctx.strokeStyle=edge;ctx.lineWidth=1.15;
+    ctx.beginPath();
+    ctx.moveTo(0,0);
+    ctx.quadraticCurveTo(-10,-17,-24,-43);
+    ctx.quadraticCurveTo(-30,-48,-34,-42);
+    ctx.quadraticCurveTo(-36,-35,-31,-28);
+    ctx.quadraticCurveTo(-43,-39,-47,-31);
+    ctx.quadraticCurveTo(-49,-24,-39,-17);
+    ctx.quadraticCurveTo(-52,-25,-55,-16);
+    ctx.quadraticCurveTo(-56,-8,-43,-3);
+    ctx.quadraticCurveTo(-27,5,-8,7);
+    ctx.closePath();ctx.fill();ctx.stroke();
+
+    // Từng lông cánh dài, xếp lớp và hơi tách ở đầu cánh.
+    for(let i=0;i<6;i++){
+      const t=i/5;
+      ctx.beginPath();
+      ctx.moveTo(-7-t*3,1+t*1.2);
+      ctx.quadraticCurveTo(-22-t*4,-11-t*3,-31-t*4,-37+t*22);
+      ctx.strokeStyle=i%2?mid:edge;ctx.lineWidth=1.15;ctx.stroke();
+    }
+    ctx.strokeStyle=far?"rgba(255,255,255,.62)":"rgba(255,255,255,.9)";
+    ctx.lineWidth=1.3;ctx.beginPath();
+    ctx.moveTo(-5,-2);ctx.quadraticCurveTo(-21,-17,-32,-34);ctx.stroke();
+    ctx.restore();
+  };
+
   cranes.forEach((f,k)=>{
     for(let j=0;j<2;j++){
       const p=(time*f.speed+f.phase+j*.48)%1;
-      const x=f.dir>0?-70+p*(W+140):W+70-p*(W+140);
-      const y=f.y+Math.sin(time*.00055+j*1.7+k)*4;
-      const flap=Math.sin(time*.002+j*1.8+k)*.65;
+      const x=f.dir>0?-85+p*(W+170):W+85-p*(W+170);
+      const flapPhase=time*.00175+j*1.35+k*.7;
+      const flap=Math.sin(flapPhase);
+      const y=f.y+Math.sin(time*.00055+j*1.7+k)*3+Math.abs(flap)*1.1;
+      const wingAngle=flap*.78;
       ctx.save();ctx.translate(x,y);ctx.scale(f.dir*f.s,f.s);
-      ctx.fillStyle="#fffdf0";ctx.beginPath();ctx.ellipse(0,0,18,5,-.05,0,Math.PI*2);ctx.fill();
-      ctx.strokeStyle="#fffdf0";ctx.lineWidth=3;ctx.lineCap="round";ctx.beginPath();ctx.moveTo(12,-1);ctx.quadraticCurveTo(23,-12,21,-23);ctx.stroke();
-      ctx.fillStyle="#fffdf0";ctx.beginPath();ctx.arc(20,-24,3.5,0,Math.PI*2);ctx.fill();
-      ctx.fillStyle="#c94d3e";ctx.beginPath();ctx.moveTo(23,-24);ctx.lineTo(32,-22);ctx.lineTo(23,-20);ctx.closePath();ctx.fill();
-      ctx.fillStyle="#fffdf5";ctx.beginPath();ctx.moveTo(-5,0);ctx.quadraticCurveTo(-22,-21-flap*5,-53,-20-flap*6);ctx.quadraticCurveTo(-36,6,-5,6);ctx.closePath();ctx.fill();
-      ctx.beginPath();ctx.moveTo(-5,3);ctx.quadraticCurveTo(-22,13+flap*3,-42,20+flap*4);ctx.quadraticCurveTo(-25,11,-5,6);ctx.closePath();ctx.fill();
-      ctx.strokeStyle="#b94c40";ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(-3,4);ctx.lineTo(-7,16);ctx.moveTo(5,4);ctx.lineTo(7,16);ctx.stroke();
+
+      // Cánh xa ở phía sau thân, vỗ lệch pha nhẹ để có chiều sâu.
+      drawCraneWing(-wingAngle*.82-.08,true);
+
+      // Đuôi xòe thành các lông trắng ngà.
+      ctx.fillStyle="#f4f1e8";ctx.strokeStyle="#d6d9d1";ctx.lineWidth=1;
+      for(let q=0;q<5;q++){
+        ctx.beginPath();ctx.moveTo(-15,1);
+        ctx.quadraticCurveTo(-29-q*1.4,-5+q*2,-43-q*1.2,-2+q*2.2);
+        ctx.quadraticCurveTo(-31-q,-1+q*2,-15,4);ctx.closePath();ctx.fill();ctx.stroke();
+      }
+
+      // Thân hạc thuôn dài, có bụng sáng và lớp lông phủ mềm.
+      const body=ctx.createLinearGradient(-5,-8,8,9);
+      body.addColorStop(0,"#fffef8");body.addColorStop(.55,"#f5f2e9");body.addColorStop(1,"#cbd3d0");
+      ctx.fillStyle=body;ctx.strokeStyle="#c6cfca";ctx.lineWidth=1;
+      ctx.beginPath();ctx.ellipse(-1,1,19,7.2,-.08,0,Math.PI*2);ctx.fill();ctx.stroke();
+      ctx.strokeStyle="rgba(177,190,185,.62)";ctx.lineWidth=.75;
+      for(let q=0;q<5;q++){
+        ctx.beginPath();ctx.moveTo(-13+q*4,-2);ctx.quadraticCurveTo(-8+q*3,2,-4+q*4,5);ctx.stroke();
+      }
+
+      // Cánh gần thân: bản cánh lớn, lông vũ tách lớp và nhịp vỗ rõ.
+      drawCraneWing(wingAngle,true===false?true:false);
+      // Lớp lông cánh trước sáng hơn, tạo cảm giác cánh có độ dày.
+      ctx.save();ctx.translate(-3,-2);ctx.rotate(wingAngle);
+      ctx.strokeStyle="rgba(255,255,255,.9)";ctx.lineWidth=1.35;
+      for(let q=0;q<5;q++){
+        ctx.beginPath();ctx.moveTo(-8-q,-1+q*.5);ctx.quadraticCurveTo(-24-q*2,-14-q*2,-35-q*2,-29+q*3);ctx.stroke();
+      }
+      ctx.restore();
+
+      // Cổ dài uốn chữ S, đầu nhỏ, mào đỏ và mỏ nhọn đặc trưng hạc.
+      ctx.strokeStyle="#f7f4eb";ctx.lineWidth=4.2;ctx.lineCap="round";ctx.lineJoin="round";
+      ctx.beginPath();ctx.moveTo(12,-1);ctx.bezierCurveTo(19,-7,17,-17,23,-22);ctx.quadraticCurveTo(27,-26,30,-22);ctx.stroke();
+      ctx.strokeStyle="rgba(190,201,195,.85)";ctx.lineWidth=1.1;
+      ctx.beginPath();ctx.moveTo(14,-3);ctx.quadraticCurveTo(20,-12,22,-19);ctx.stroke();
+      ctx.fillStyle="#fffdf5";ctx.beginPath();ctx.ellipse(29,-23,4.4,3.2,-.25,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle="#bd3f39";ctx.beginPath();ctx.ellipse(27,-26,2.8,2.1,-.4,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle="#b94a3b";ctx.beginPath();ctx.moveTo(32,-23);ctx.lineTo(42,-21);ctx.lineTo(32,-20);ctx.closePath();ctx.fill();
+      ctx.fillStyle="#283a38";ctx.beginPath();ctx.arc(30,-24,0.8,0,Math.PI*2);ctx.fill();
+
+      // Chân dài mảnh duỗi về sau, khớp gối gập nhẹ theo nhịp bay.
+      ctx.strokeStyle="#bd5546";ctx.lineWidth=1.45;ctx.lineCap="round";
+      for(let leg=0;leg<2;leg++){
+        const yy=4+leg*2;
+        ctx.beginPath();ctx.moveTo(2,yy);ctx.lineTo(-4,10+leg*2);ctx.lineTo(-19,11+leg*2+flap*1.1);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(-19,11+leg*2+flap*1.1);ctx.lineTo(-23,9+leg*2+flap*1.1);ctx.stroke();
+      }
+
+      // Viền sáng lông cổ và vài sợi lông đuôi bay theo gió.
+      ctx.strokeStyle="rgba(255,255,255,.9)";ctx.lineWidth=.8;
+      ctx.beginPath();ctx.moveTo(17,-6);ctx.quadraticCurveTo(21,-17,27,-20);ctx.stroke();
       ctx.restore();
     }
   });
 
-  // Chim én và linh điểu nhỏ: thân mảnh, hai cánh vỗ, bay thành nhóm thưa.
+  // Giữ ít chim én và linh điểu nhỏ bay thưa ở xa để tạo chiều sâu bầu trời.
   const flocks=[
     {dir:1,y:86,s:.30,speed:.000031,phase:.34,count:3,color:"#354b54"},
     {dir:-1,y:145,s:.24,speed:.000025,phase:.71,count:2,color:"#b58a4a"}
@@ -5111,7 +5195,6 @@ function drawSpiritBirds(time){
     }
   });
 }
-
 function drawScenery(time){
   ctx.save();
   ctx.globalAlpha=1;ctx.shadowBlur=0;
