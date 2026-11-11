@@ -4263,17 +4263,37 @@ function drawRacingArtifact(target,kind,phase){
   const female=arguments.length>3&&arguments[3]==="female";
   const colors=female?["#f2b9d5","#c8b4f2","#f0d18a","#f3a9bd"]:["#a9d8ef","#d8e5ef","#91c9d0","#d8bd82"];
   const blade=colors[kind%colors.length];
-  target.save();target.translate(0,18);target.rotate(Math.sin(phase)*.025);
-  target.globalAlpha=.95;target.shadowColor=blade;target.shadowBlur=7;
-  target.fillStyle="#72533a";target.fillRect(-3,-1,6,20);
-  target.fillStyle=female?"#d7a9a0":"#b99a61";target.fillRect(-11,1,22,4);
-  target.fillStyle=blade;target.beginPath();
-  if(kind%4===0){target.moveTo(0,-31);target.lineTo(5,-3);target.lineTo(0,19);target.lineTo(-5,-3);}
-  else if(kind%4===1){target.moveTo(0,-29);target.lineTo(8,-8);target.lineTo(3,12);target.lineTo(0,19);target.lineTo(-3,12);target.lineTo(-8,-8);}
-  else if(kind%4===2){target.moveTo(0,-27);target.quadraticCurveTo(13,-10,5,8);target.lineTo(0,19);target.lineTo(-5,8);target.quadraticCurveTo(-13,-10,0,-27);}
-  else{target.moveTo(0,-32);target.lineTo(4,-7);target.lineTo(9,8);target.lineTo(0,19);target.lineTo(-9,8);target.lineTo(-4,-7);}
-  target.closePath();target.fill();target.strokeStyle=female?"#fff0f7":"#f4f5e8";target.lineWidth=1.5;target.stroke();
-  target.fillStyle=female?"#ffe5a8":"#b9f0ef";target.beginPath();target.arc(0,4,3,0,Math.PI*2);target.fill();
+  target.save();
+  target.translate(0,29);
+  target.rotate(Math.sin(phase)*.012);
+  target.globalAlpha=.96;
+  target.shadowColor=blade;
+  target.shadowBlur=7;
+  // Lưỡi kiếm nằm ngang, mũi nhọn hướng phải.
+  target.fillStyle=blade;
+  target.beginPath();
+  target.moveTo(-39,-4);
+  target.lineTo(27,-4);
+  target.lineTo(46,0);
+  target.lineTo(27,4);
+  target.lineTo(-39,4);
+  target.closePath();
+  target.fill();
+  target.strokeStyle=female?"#fff0f7":"#f4f5e8";
+  target.lineWidth=1.4;
+  target.stroke();
+  target.strokeStyle="rgba(255,255,255,.65)";
+  target.lineWidth=.8;
+  target.beginPath();target.moveTo(-33,-1);target.lineTo(32,-1);target.stroke();
+  // Chuôi kiếm và chắn tay ở phía trái.
+  target.shadowBlur=0;
+  target.fillStyle=female?"#d7a9a0":"#b99a61";
+  target.fillRect(-43,-3,7,6);
+  target.fillRect(-39,-7,3,14);
+  target.fillStyle="#72533a";
+  target.fillRect(-51,-2,10,4);
+  target.fillStyle=female?"#ffe5a8":"#b9f0ef";
+  target.beginPath();target.arc(-38,0,2.2,0,Math.PI*2);target.fill();
   target.restore();
 }
 
@@ -4285,7 +4305,7 @@ function drawRacer(target,racer,x,y,scale,time){
   const seed=(racer.appearanceSeed??0)%5,skin=skins[seed],hair=hairs[(seed+(female?1:0))%hairs.length];
   target.save();target.translate(x,y+Math.sin(time*.009+racer.phase)*2);target.scale(scale,scale);
   // Phi kiếm nằm ngang: mũi kiếm hướng về trước (phải), chuôi ở sau; người cưỡi nằm ngang dọc thân kiếm.
-  target.rotate(Math.PI/2);
+  // Giữ nhân vật đứng thẳng, không xoay hệ tọa độ.
   const glow=target.createRadialGradient(0,0,3,0,0,48);glow.addColorStop(0,"rgba(255,225,139,.38)");glow.addColorStop(1,"rgba(255,225,139,0)");target.fillStyle=glow;target.fillRect(-51,-48,102,96);
   if(racer.effectTimer>0){const p=1+Math.sin(time*.025)*.12;target.strokeStyle=racer.effectType==="boost"?"#ffe17b":racer.effectType==="slow"?"#8de8ef":"#ff9a72";target.lineWidth=2.2;target.beginPath();target.ellipse(0,4,43*p,17*p,0,0,Math.PI*2);target.stroke();}
   drawRacingArtifact(target,artifactKind(racer),time*.004+racer.phase,female?"female":"male");
@@ -4435,3 +4455,157 @@ function drawPodiumScene(target,time,mini=false){
 
 /* REVISION 18 — bỏ phần đẩy quảng trường xuống thêm 210px.
    Giữ cảnh quan ở tọa độ gốc để vừa khung canvas 1100 × 900. */
+
+
+// =====================================================
+// REVISION 19 — quảng trường thanh sạch, nhân vật ngự kiếm
+// đứng thẳng, lưỡi kiếm ngang hướng phải; thêm chim trời.
+// =====================================================
+
+function drawPlazaGate(time){
+  const x=550,top=505,bottom=650;
+  ctx.save();
+  ctx.globalAlpha=.96;
+  // Hai trụ cổng ngọc và đế đá.
+  for(const side of [-1,1]){
+    const px=x+side*104;
+    const grad=ctx.createLinearGradient(px-9,0,px+9,0);
+    grad.addColorStop(0,"#70502f");grad.addColorStop(.35,"#efd28b");grad.addColorStop(.7,"#a87b3e");grad.addColorStop(1,"#5d402b");
+    ctx.fillStyle=grad;ctx.fillRect(px-8,top+28,16,bottom-top-28);
+    ctx.strokeStyle="#f1d58f";ctx.lineWidth=1.5;ctx.strokeRect(px-8,top+28,16,bottom-top-28);
+    ctx.fillStyle="#765331";ctx.fillRect(px-17,bottom-8,34,8);
+    ctx.fillStyle="#e8c77f";ctx.fillRect(px-20,bottom-12,40,4);
+    ctx.fillStyle="#f8e6ac";ctx.beginPath();ctx.arc(px,top+22,5,0,Math.PI*2);ctx.fill();
+  }
+  // Vòm cổng.
+  ctx.beginPath();ctx.moveTo(x-116,top+37);ctx.quadraticCurveTo(x,top-45,x+116,top+37);
+  ctx.strokeStyle="#68472d";ctx.lineWidth=15;ctx.stroke();
+  ctx.strokeStyle="#e8c77f";ctx.lineWidth=7;ctx.stroke();
+  ctx.strokeStyle="rgba(255,244,197,.8)";ctx.lineWidth=1.5;ctx.stroke();
+  // Biển hiệu.
+  ctx.fillStyle="#71332c";ctx.fillRect(x-57,top+2,114,28);
+  ctx.strokeStyle="#f0d28a";ctx.lineWidth=2;ctx.strokeRect(x-57,top+2,114,28);
+  ctx.fillStyle="#fff0c5";ctx.font="bold 15px Georgia";ctx.textAlign="center";ctx.textBaseline="middle";
+  ctx.fillText("VẠN KIẾM TIÊN MÔN",x,top+16);
+  ctx.restore();
+}
+
+function drawCrowd(time){
+  // Cổng và cờ là lớp nền; không đặt cây, bụi cỏ, cầu hay bậc thang trên sân.
+  drawPlazaGate(time);
+  drawCrowdFlag(35,735,"#a53f36",time);
+  drawCrowdFlag(W-35,735,"#b18a43",time);
+  drawCrowdFlag(175,700,"#426f8a",time);
+  drawCrowdFlag(W-175,700,"#8e4f83",time);
+
+  // Chưởng môn ngự tại trung tâm quảng trường.
+  drawVIPAura(550,650,104,"#ffe5a0",time,.4,1.25);
+  drawVIPChair(550,672,1.34,"#762f32",time,0);
+  drawFormalSpectator(550,655,1.08,"master",time,0);
+  drawRoleLabel(550,590,"CHƯỞNG MÔN","#f2d17d",1.05);
+
+  // Trưởng lão ngồi hai cánh, không chồng lên khu thân truyền.
+  const elders=[145,235,865,955];
+  elders.forEach((x,i)=>{
+    const y=688;
+    drawVIPAura(x,y-12,28,"#d7baff",time,i*.8,.38);
+    drawVIPChair(x,y,.72,"#5b456b",time,i);
+    drawFormalSpectator(x,y-9,.72,"elder",time,i*.9);
+  });
+  drawRoleLabel(235,645,"TRƯỞNG LÃO","#d4b5fa",.88);
+  drawRoleLabel(865,645,"TRƯỞNG LÃO","#d4b5fa",.88);
+
+  // Thân truyền đệ tử ngồi hàng riêng trước đài chưởng môn.
+  const direct=[390,455,520,585,650,715];
+  direct.forEach((x,i)=>{
+    const y=690;
+    drawVIPAura(x,y-12,22,"#a9d7ff",time,i*.7,.35);
+    drawVIPChair(x,y,.62,"#405d82",time,i*.65);
+    drawFormalSpectator(x,y-8,.62,"disciple",time,i);
+  });
+  drawRoleLabel(550,645,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.88);
+
+  // Các hàng đệ tử phổ thông tách tầng rõ ràng, không bị che khuất.
+  const rows=[
+    {role:"core",count:14,y:738,scale:.48},
+    {role:"inner",count:20,y:778,scale:.39},
+    {role:"outer",count:24,y:818,scale:.36},
+    {role:"servant",count:28,y:858,scale:.32}
+  ];
+  rows.forEach((row,ri)=>{
+    for(let i=0;i<row.count;i++){
+      const x=28+i*(1044/(row.count-1));
+      const y=row.y+Math.sin(i*1.37+ri)*2;
+      drawSpectator(x,y,row.scale,row.role,time,i*.63+ri*1.8);
+    }
+  });
+}
+
+function drawSpiritBirds(time){
+  // Tiên hạc trắng bay chậm ở tầng trời cao.
+  const cranes=[
+    {dir:1,y:64,s:.52,speed:.000018,phase:.08},
+    {dir:-1,y:112,s:.42,speed:.000014,phase:.52}
+  ];
+  cranes.forEach((f,k)=>{
+    for(let j=0;j<2;j++){
+      const p=(time*f.speed+f.phase+j*.48)%1;
+      const x=f.dir>0?-70+p*(W+140):W+70-p*(W+140);
+      const y=f.y+Math.sin(time*.00055+j*1.7+k)*4;
+      const flap=Math.sin(time*.002+j*1.8+k)*.65;
+      ctx.save();ctx.translate(x,y);ctx.scale(f.dir*f.s,f.s);
+      ctx.fillStyle="#fffdf0";ctx.beginPath();ctx.ellipse(0,0,18,5,-.05,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle="#fffdf0";ctx.lineWidth=3;ctx.lineCap="round";ctx.beginPath();ctx.moveTo(12,-1);ctx.quadraticCurveTo(23,-12,21,-23);ctx.stroke();
+      ctx.fillStyle="#fffdf0";ctx.beginPath();ctx.arc(20,-24,3.5,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle="#c94d3e";ctx.beginPath();ctx.moveTo(23,-24);ctx.lineTo(32,-22);ctx.lineTo(23,-20);ctx.closePath();ctx.fill();
+      ctx.fillStyle="#fffdf5";ctx.beginPath();ctx.moveTo(-5,0);ctx.quadraticCurveTo(-22,-21-flap*5,-53,-20-flap*6);ctx.quadraticCurveTo(-36,6,-5,6);ctx.closePath();ctx.fill();
+      ctx.beginPath();ctx.moveTo(-5,3);ctx.quadraticCurveTo(-22,13+flap*3,-42,20+flap*4);ctx.quadraticCurveTo(-25,11,-5,6);ctx.closePath();ctx.fill();
+      ctx.strokeStyle="#b94c40";ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(-3,4);ctx.lineTo(-7,16);ctx.moveTo(5,4);ctx.lineTo(7,16);ctx.stroke();
+      ctx.restore();
+    }
+  });
+
+  // Chim én và linh điểu nhỏ: thân mảnh, hai cánh vỗ, bay thành nhóm thưa.
+  const flocks=[
+    {dir:1,y:86,s:.30,speed:.000031,phase:.34,count:3,color:"#354b54"},
+    {dir:-1,y:145,s:.24,speed:.000025,phase:.71,count:2,color:"#b58a4a"}
+  ];
+  flocks.forEach((f,k)=>{
+    for(let i=0;i<f.count;i++){
+      const p=(time*f.speed+f.phase+i*.29)%1;
+      const x=f.dir>0?-40+p*(W+80):W+40-p*(W+80);
+      const y=f.y+Math.sin(time*.0012+i*1.9+k)*6;
+      const flap=Math.sin(time*.004+i*1.7+k)*5;
+      ctx.save();ctx.translate(x,y);ctx.scale(f.dir*f.s,f.s);
+      ctx.fillStyle=f.color;
+      ctx.beginPath();ctx.ellipse(0,0,13,3,0,0,Math.PI*2);ctx.fill();
+      ctx.beginPath();ctx.moveTo(-2,0);ctx.quadraticCurveTo(-12,-flap-9,-24,-flap-3);ctx.quadraticCurveTo(-15,2,-2,2);ctx.closePath();ctx.fill();
+      ctx.beginPath();ctx.moveTo(-2,1);ctx.quadraticCurveTo(-13,flap+8,-23,flap+4);ctx.quadraticCurveTo(-13,0,-2,-1);ctx.closePath();ctx.fill();
+      ctx.beginPath();ctx.moveTo(9,0);ctx.lineTo(18,-2);ctx.lineTo(12,3);ctx.closePath();ctx.fill();
+      ctx.restore();
+    }
+  });
+}
+
+function drawScenery(time){
+  ctx.save();
+  ctx.globalAlpha=1;ctx.shadowBlur=0;
+  drawSky(time);
+
+  // Thu gọn tầng trời bằng cách nâng núi, mây và tiên môn lên vừa phải.
+  ctx.save();
+  ctx.translate(0,-62);
+  drawMountainRange();
+  drawMovingClouds(time);
+  drawWaterfall(112,292,25,190,time);
+  drawWaterfall(972,238,34,245,time);
+  drawSectArchitecture(time);
+  ctx.restore();
+
+  // Sân đá sạch: giữ mặt đất và dòng nước, bỏ cầu, bậc đá và cây cỏ trên quảng trường.
+  drawRiver(time);
+  drawSpiritBirds(time);
+  drawCrowd(time);
+  ctx.globalAlpha=1;ctx.shadowBlur=0;
+  ctx.restore();
+}
