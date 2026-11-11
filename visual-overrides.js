@@ -288,10 +288,11 @@ function drawScenery(time) {
 
 // Pháp bảo đua: chọn ổn định theo mã người chơi, không đổi giữa các khung hình.
 function artifactKind(racer) {
+  if (Number.isInteger(racer.swordStyle)) return ((racer.swordStyle % 12) + 12) % 12;
   const id = String(racer.id || racer.name || "0");
   let hash = 0;
   for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
-  return hash % 8;
+  return hash % 12;
 }
 
 function drawRacingArtifact(target, kind, phase) {
@@ -513,33 +514,59 @@ function drawScenery(time) {
   drawCrowd(time);
 }
 
-function drawRacingArtifact(target,kind,phase){
- target.save();target.translate(0,19);target.rotate(Math.sin(phase)*.012);
- const gold="#b98b49",dark="#49372a",steel=target.createLinearGradient(0,-9,0,9);
- steel.addColorStop(0,"#71818a");steel.addColorStop(.22,"#f5f8f4");steel.addColorStop(.52,"#b9c8ca");steel.addColorStop(.82,"#e8eee8");steel.addColorStop(1,"#64747c");
- target.globalAlpha=.24;target.strokeStyle="#ffe5a0";target.lineWidth=1.5;target.beginPath();target.ellipse(0,9,42,4,0,0,Math.PI*2);target.stroke();target.globalAlpha=1;
- target.fillStyle=dark;target.fillRect(-39,-2.6,22,5.2);target.fillStyle="#76553a";for(let k=0;k<4;k++)target.fillRect(-37+k*4,-2.4,1.3,4.8);
- target.fillStyle=gold;target.fillRect(-19,-7,3.5,14);target.fillStyle="#e1c27e";target.fillRect(-21,-5,7,2);target.fillRect(-21,3,7,2);target.fillStyle="#5a4431";target.fillRect(-42,-3.5,4,7);target.fillStyle=gold;target.beginPath();target.arc(-42,0,3.2,0,Math.PI*2);target.fill();
- target.fillStyle=steel;target.beginPath();
- if(kind===0){target.moveTo(-16,-4.5);target.lineTo(27,-4.5);target.lineTo(44,0);target.lineTo(27,4.5);target.lineTo(-16,4.5);}
- else if(kind===1){target.moveTo(-16,-4);target.quadraticCurveTo(16,-8,39,-2);target.lineTo(44,0);target.quadraticCurveTo(17,3,-16,4);}
- else if(kind===2){target.moveTo(-16,-7);target.lineTo(21,-7);target.lineTo(44,0);target.lineTo(21,7);target.lineTo(-16,7);}
- else if(kind===3){target.moveTo(-16,-2.7);target.lineTo(31,-2.7);target.lineTo(47,0);target.lineTo(31,2.7);target.lineTo(-16,2.7);}
- else if(kind===4){target.moveTo(-16,-3.5);target.quadraticCurveTo(12,-8,30,-3.5);target.lineTo(45,0);target.lineTo(30,3.5);target.quadraticCurveTo(12,8,-16,3.5);}
- else if(kind===5){target.moveTo(-16,-5);target.lineTo(-8,-5);target.lineTo(27,-3.5);target.lineTo(44,0);target.lineTo(27,3.5);target.lineTo(-8,5);target.lineTo(-16,5);}
- else if(kind===6){target.moveTo(-16,-3);target.quadraticCurveTo(17,-7,36,-5);target.lineTo(46,-1);target.lineTo(39,3);target.quadraticCurveTo(15,6,-16,3);}
- else{target.moveTo(-16,-3);target.lineTo(34,-2);target.lineTo(48,0);target.lineTo(34,2);target.lineTo(-16,3);}
- target.closePath();target.fill();target.strokeStyle="#65747a";target.lineWidth=.8;target.stroke();
- target.strokeStyle="#fff1c9";target.lineWidth=.85;target.beginPath();target.moveTo(-12,-1.2);target.lineTo(34,-.7);target.stroke();
- target.strokeStyle="rgba(255,255,255,.72)";target.lineWidth=.55;target.beginPath();target.moveTo(-12,-3);target.lineTo(26,-3);target.stroke();
- target.fillStyle="#6f5134";target.fillRect(-17,-2.3,2,4.6);target.restore();
+function drawRacingArtifact(target,kind,phase,colorIndex=0){
+  const palettes=[
+    ["#e7ffff","#41c8c2","#117f86"],["#e8f3ff","#78b8ff","#285caa"],
+    ["#f4eaff","#c49aff","#7042b0"],["#fff0f5","#ff91bd","#b53f76"],
+    ["#fff7d9","#f2cb65","#a87525"],["#fff0e8","#ff8b70","#a83d36"],
+    ["#edfff1","#8ee0a8","#277d54"],["#f1fbff","#b8eaff","#648ca8"],
+    ["#fff2e2","#ffad61","#a85c27"],["#f4f2ff","#b5b9d8","#555b87"]
+  ];
+  const colors=palettes[((colorIndex%palettes.length)+palettes.length)%palettes.length];
+  const bright=colors[0],glowColor=colors[1],deep=colors[2];
+  const blade=target.createLinearGradient(0,-9,0,9);
+  blade.addColorStop(0,deep);blade.addColorStop(.2,bright);
+  blade.addColorStop(.48,glowColor);blade.addColorStop(.72,bright);blade.addColorStop(1,deep);
+  target.save();target.translate(0,19);target.rotate(Math.sin(phase)*.012);
+  target.globalAlpha=.2;target.strokeStyle=glowColor;target.lineWidth=2.2;
+  target.beginPath();target.ellipse(1,9,45,5,0,0,Math.PI*2);target.stroke();target.globalAlpha=1;
+  target.fillStyle="#49372a";target.fillRect(-40,-2.8,23,5.6);
+  target.strokeStyle=bright;target.lineWidth=1;
+  for(let i=0;i<5;i++){target.beginPath();target.moveTo(-38+i*4,-2.5);target.lineTo(-35+i*4,2.5);target.stroke();}
+  target.fillStyle="#8e693c";target.fillRect(-20,-7,4,14);
+  target.fillStyle="#e8c77b";target.fillRect(-22,-5,8,2);target.fillRect(-22,3,8,2);
+  target.fillStyle="#4a342b";target.fillRect(-44,-3.5,5,7);
+  target.fillStyle=glowColor;target.beginPath();target.arc(-43,0,3.2,0,Math.PI*2);target.fill();
+  target.fillStyle=blade;target.beginPath();
+  switch(((kind%12)+12)%12){
+    case 0: target.moveTo(-16,-4.5);target.lineTo(29,-4.5);target.lineTo(47,0);target.lineTo(29,4.5);target.lineTo(-16,4.5);break;
+    case 1: target.moveTo(-16,-3.5);target.quadraticCurveTo(16,-9,35,-3);target.lineTo(48,0);target.quadraticCurveTo(17,9,-16,3.5);break;
+    case 2: target.moveTo(-16,-7);target.lineTo(23,-7);target.lineTo(47,0);target.lineTo(23,7);target.lineTo(-16,7);break;
+    case 3: target.moveTo(-16,-2.3);target.lineTo(34,-2.3);target.lineTo(49,0);target.lineTo(34,2.3);target.lineTo(-16,2.3);break;
+    case 4: target.moveTo(-16,-4);target.quadraticCurveTo(15,-9,38,-5);target.lineTo(48,-1);target.quadraticCurveTo(27,2,36,5);target.quadraticCurveTo(8,7,-16,4);break;
+    case 5: target.moveTo(-16,-5);target.lineTo(-7,-7);target.lineTo(25,-5);target.lineTo(47,0);target.lineTo(25,5);target.lineTo(-7,7);target.lineTo(-16,5);break;
+    case 6: target.moveTo(-16,-3);target.quadraticCurveTo(4,-8,26,-4);target.lineTo(47,0);target.quadraticCurveTo(5,8,-16,3);break;
+    case 7: target.moveTo(-16,-2.5);target.lineTo(39,-1.8);target.lineTo(51,0);target.lineTo(39,1.8);target.lineTo(-16,2.5);break;
+    case 8: target.moveTo(-16,-6);target.lineTo(15,-8);target.lineTo(38,-5);target.lineTo(48,0);target.lineTo(38,5);target.lineTo(15,8);target.lineTo(-16,6);break;
+    case 9: target.moveTo(-16,-4);target.lineTo(20,-4);target.lineTo(34,-2);target.lineTo(49,0);target.lineTo(34,2);target.lineTo(20,4);target.lineTo(-16,4);break;
+    case 10: target.moveTo(-16,-4);target.lineTo(27,-4);target.quadraticCurveTo(37,-4,42,-1);target.lineTo(49,0);target.lineTo(42,1);target.quadraticCurveTo(37,4,27,4);target.lineTo(-16,4);break;
+    default: target.moveTo(-16,-5);target.lineTo(27,-5);target.lineTo(35,-2);target.lineTo(48,0);target.lineTo(35,2);target.lineTo(27,5);target.lineTo(-16,5);
+  }
+  target.closePath();target.fill();target.strokeStyle=deep;target.lineWidth=1;target.stroke();
+  target.strokeStyle="rgba(255,255,255,.92)";target.lineWidth=.9;
+  target.beginPath();target.moveTo(-11,-1.1);target.lineTo(35,-.6);target.stroke();
+  target.strokeStyle=bright;target.lineWidth=.65;
+  target.beginPath();target.moveTo(-10,-3);target.lineTo(25,-3);target.stroke();
+  target.fillStyle="#fff4ce";
+  for(let i=0;i<3;i++){const x=-2+i*10;target.beginPath();target.moveTo(x,-1.7);target.lineTo(x+1.7,0);target.lineTo(x,1.7);target.lineTo(x-1.7,0);target.closePath();target.fill();}
+  target.restore();
 }
 function drawRacer(target,racer,x,y,scale,time) {
   target.save();target.translate(x,y+Math.sin(time*.009+racer.phase)*2);target.scale(scale,scale);
   const glow=target.createRadialGradient(0,0,3,0,0,43);
   glow.addColorStop(0,"rgba(255,225,139,.35)");glow.addColorStop(1,"rgba(255,225,139,0)");
   target.fillStyle=glow;target.fillRect(-48,-45,96,90);
-  drawRacingArtifact(target,artifactKind(racer),time*.004+racer.phase);
+  drawRacingArtifact(target,artifactKind(racer),time*.004+racer.phase,racer.swordColor||0);
   target.fillStyle=racer.dark;target.fillRect(-10,-5,20,22);
   target.fillStyle=racer.color;target.fillRect(-9,-7,18,21);
   target.fillRect(-14,-2,5,14);target.fillRect(9,-2,5,14);
@@ -589,8 +616,8 @@ function drawRaceHud() {
     ctx.save();ctx.fillStyle="rgba(20,48,39,.9)";ctx.fillRect(x,y,w,h);
     ctx.strokeStyle="rgba(224,194,126,.85)";ctx.lineWidth=1;ctx.strokeRect(x+.5,y+.5,w-1,h-1);
     ctx.textAlign="center";ctx.textBaseline="middle";
-    ctx.fillStyle="#e0c991";ctx.font="bold 10px Arial";ctx.fillText(label,x+w/2,y+13,w-12);
-    ctx.fillStyle="#fff0c7";ctx.font="bold 21px Arial";ctx.fillText(value,x+w/2,y+37,w-12);
+    ctx.fillStyle="#e0c991";ctx.font="bold 10px Georgia";ctx.fillText(label,x+w/2,y+13,w-12);
+    ctx.fillStyle="#fff0c7";ctx.font="bold 21px Georgia";ctx.fillText(value,x+w/2,y+37,w-12);
     ctx.restore();
   }
   centeredBox(left,leftWidth,"THỜI GIAN CÒN LẠI",timeText(remaining));
@@ -788,18 +815,18 @@ function drawRaceHud() {
     {x:W-12,label:"HOÀN THÀNH",value:String(completed)+" / "+String(racers.length),align:"right"}
   ];
   items.forEach(item=>{
-    ctx.save();ctx.font="bold 10px Arial";
+    ctx.save();ctx.font="bold 10px Georgia";
     const labelW=ctx.measureText(item.label).width;
-    ctx.font="bold 20px Arial";const valueW=ctx.measureText(item.value).width;
+    ctx.font="bold 20px Georgia";const valueW=ctx.measureText(item.value).width;
     const boxW=Math.ceil(Math.max(labelW,valueW)+22),boxH=49;
     const x=item.align==="left"?item.x:item.x-boxW,y=12;
     ctx.fillStyle="rgba(20,48,39,.92)";ctx.fillRect(x,y,boxW,boxH);
     ctx.strokeStyle="rgba(224,194,126,.88)";ctx.lineWidth=1;
     ctx.strokeRect(x+.5,y+.5,boxW-1,boxH-1);
     ctx.textAlign="center";ctx.textBaseline="middle";
-    ctx.fillStyle="#e0c991";ctx.font="bold 10px Arial";
+    ctx.fillStyle="#e0c991";ctx.font="bold 10px Georgia";
     ctx.fillText(item.label,x+boxW/2,y+12,boxW-8);
-    ctx.fillStyle="#fff0c7";ctx.font="bold 20px Arial";
+    ctx.fillStyle="#fff0c7";ctx.font="bold 20px Georgia";
     ctx.fillText(item.value,x+boxW/2,y+34,boxW-8);ctx.restore();
   });
 }
@@ -1100,17 +1127,17 @@ function drawRaceHud() {
     {x:W-12,label:"HOÀN THÀNH",value:String(completed)+" / "+String(racers.length),align:"right"}
   ];
   items.forEach(item=>{
-    ctx.save();ctx.font="bold 10px Arial";
+    ctx.save();ctx.font="bold 10px Georgia";
     const labelW=ctx.measureText(item.label).width;
-    ctx.font="bold 20px Arial";const valueW=ctx.measureText(item.value).width;
+    ctx.font="bold 20px Georgia";const valueW=ctx.measureText(item.value).width;
     const boxW=Math.ceil(Math.max(labelW,valueW)+22),boxH=49;
     const x=item.align==="left"?item.x:item.x-boxW,y=12;
     ctx.fillStyle="rgba(20,48,39,.92)";ctx.fillRect(x,y,boxW,boxH);
     ctx.strokeStyle="rgba(224,194,126,.88)";ctx.lineWidth=1;
     ctx.strokeRect(x+.5,y+.5,boxW-1,boxH-1);
     ctx.textAlign="center";ctx.textBaseline="middle";
-    ctx.fillStyle="#e0c991";ctx.font="bold 10px Arial";ctx.fillText(item.label,x+boxW/2,y+12,boxW-8);
-    ctx.fillStyle="#fff0c7";ctx.font="bold 20px Arial";ctx.fillText(item.value,x+boxW/2,y+34,boxW-8);
+    ctx.fillStyle="#e0c991";ctx.font="bold 10px Georgia";ctx.fillText(item.label,x+boxW/2,y+12,boxW-8);
+    ctx.fillStyle="#fff0c7";ctx.font="bold 20px Georgia";ctx.fillText(item.value,x+boxW/2,y+34,boxW-8);
     ctx.restore();
   });
 }
@@ -1578,9 +1605,9 @@ function drawRaceHud() {
   ];
   items.forEach(item => {
     ctx.save();
-    ctx.font = "bold 10px Arial";
+    ctx.font = "bold 10px Georgia";
     const labelW = ctx.measureText(item.label).width;
-    ctx.font = "bold 20px Arial";
+    ctx.font = "bold 20px Georgia";
     const valueW = ctx.measureText(item.value).width;
     const boxW = Math.ceil(Math.max(labelW, valueW) + 22);
     const boxH = 49;
@@ -1592,10 +1619,10 @@ function drawRaceHud() {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillStyle = "#e0c991";
-    ctx.font = "bold 10px Arial";
+    ctx.font = "bold 10px Georgia";
     ctx.fillText(item.label, item.x + boxW / 2, item.y + 12, boxW - 8);
     ctx.fillStyle = "#fff0c7";
-    ctx.font = "bold 20px Arial";
+    ctx.font = "bold 20px Georgia";
     ctx.fillText(item.value, item.x + boxW / 2, item.y + 34, boxW - 8);
     ctx.restore();
   });
@@ -1928,7 +1955,7 @@ function drawScenery(time) {
 function drawRaceHud() {
   const remaining = Math.max(0, duration - elapsed);
   ctx.save();
-  ctx.font = "bold 25px Arial";
+  ctx.font = "bold 25px Georgia";
   ctx.textAlign = "center";
   ctx.textBaseline = "top";
   ctx.lineWidth = 3;
@@ -2044,7 +2071,7 @@ TRACK.bottom = 575;
 function drawRaceHud() {
   const remaining = Math.max(0, duration - elapsed);
   ctx.save();
-  ctx.font = "bold 25px Arial";
+  ctx.font = "bold 25px Georgia";
   ctx.textAlign = "center";
   ctx.textBaseline = "top";
   ctx.lineWidth = 3;
@@ -2062,7 +2089,7 @@ function drawAnnouncement() {
   const life = isFinish ? finishMessageLife : eventTextLife;
   ctx.save();
   ctx.globalAlpha = clamp(life / .55, 0, 1);
-  ctx.font = "bold 15px Arial";
+  ctx.font = "bold 15px Georgia";
   const boxW = Math.min(W - 260, Math.max(230, ctx.measureText(message).width + 28));
   const boxH = 30, x = (W - boxW) / 2, y = 62;
   ctx.fillStyle = isFinish ? "rgba(99,59,26,.9)" : "rgba(24,52,41,.88)";
@@ -2344,17 +2371,56 @@ function drawVIPAura(x,y,radius,color,time,phase,intensity){
   ctx.restore();
 }
 
+// Đệ tử phổ thông đứng chung một khu vực, phân tầng bằng y phục và linh khí.
+const discipleCrowdLayout = (() => {
+  const fixed = new Map([
+    [39, "core"], [40, "core"], [41, "core"],
+    [11, "inner"], [12, "inner"], [14, "inner"], [15, "inner"],
+    [38, "inner"], [42, "inner"], [65, "inner"], [66, "inner"]
+  ]);
+  const pool = [...Array(48).fill("servant"), ...Array(22).fill("outer")];
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return Array.from({ length: 81 }, (_, i) => {
+    const role = fixed.get(i) || pool.shift();
+    const row = Math.floor(i / 27), col = i % 27;
+    const scale = role === "core" ? .57 : role === "inner" ? .53 : role === "outer" ? .50 : .47;
+    return { x: 20 + col * 41, y: [722, 752, 782][row], role, scale };
+  });
+})();
+
 function drawCrowd(time){
- const disciples=Array.from({length:10},(_,i)=>[80+i*40,680]);
- disciples.forEach(([x,y],i)=>{drawVIPAura(x,y-13,29,"#a9d7ff",time,i,.42);drawVIPChair(x,y,.58,"#405d82",time,i*.65);drawFormalSpectator(x,y-8,.58,"disciple",time,i);});
- drawRoleLabel(260,632,"10 THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.92);
- drawVIPAura(550,650,120,"#ffe5a0",time,.4,1);drawVIPAura(550,650,82,"#fff0bf",time,1.8,.9);drawVIPChair(550,674,1.38,"#762f32",time,0);drawFormalSpectator(550,662,1.16,"master",time,0);drawRoleLabel(550,606,"CHƯỞNG MÔN","#f2d17d",1.1);
- const elders=Array.from({length:10},(_,i)=>[660+i*40,680]);
- elders.forEach(([x,y],i)=>{drawVIPAura(x,y-12,36,"#d7baff",time,i*.75,.55);drawVIPChair(x,y,.60,"#5b456b",time,i);drawFormalSpectator(x,y-8,.60,"elder",time,i*.8);});
- drawRoleLabel(860,632,"10 TRƯỞNG LÃO","#d4b5fa",.92);
- const rows=[{y:748,count:35,x:4,step:32,scale:.62,role:"servant"},{y:773,count:36,x:-3,step:31,scale:.58,role:"outer"},{y:796,count:37,x:-8,step:30,scale:.52,role:"inner"}];
- rows.forEach((row,ri)=>{for(let i=0;i<row.count;i++){const sway=Math.sin(time*.002+i*.8+ri)*1.7;drawSpectator(row.x+i*row.step+(i%2)*6,row.y+sway,row.scale,row.role,time,i*.57+ri);}});
- drawCrowdFlag(12,728,"#a53f36",time);drawCrowdFlag(W-18,728,"#b18a43",time);
+  const disciples=Array.from({length:10},(_,i)=>[80+i*40,680]);
+  disciples.forEach(([x,y],i)=>{
+    drawVIPAura(x,y-13,29,"#a9d7ff",time,i,.42);
+    drawVIPChair(x,y,.58,"#405d82",time,i*.65);
+    drawFormalSpectator(x,y-8,.58,"disciple",time,i);
+  });
+  drawRoleLabel(260,632,"10 THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.92);
+
+  drawVIPAura(550,650,120,"#ffe5a0",time,.4,1);
+  drawVIPAura(550,650,82,"#fff0bf",time,1.8,.9);
+  drawVIPChair(550,674,1.38,"#762f32",time,0);
+  drawFormalSpectator(550,662,1.16,"master",time,0);
+  drawRoleLabel(550,606,"CHƯỞNG MÔN","#f2d17d",1.1);
+
+  const elders=Array.from({length:10},(_,i)=>[660+i*40,680]);
+  elders.forEach(([x,y],i)=>{
+    drawVIPAura(x,y-12,36,"#d7baff",time,i*.75,.55);
+    drawVIPChair(x,y,.60,"#5b456b",time,i);
+    drawFormalSpectator(x,y-8,.60,"elder",time,i*.8);
+  });
+  drawRoleLabel(860,632,"10 TRƯỞNG LÃO","#d4b5fa",.92);
+
+  // Ba hàng đệ tử xen kẽ; nòng cốt ít người ở trung tâm và được các cấp bao quanh.
+  discipleCrowdLayout.forEach((p,i)=>{
+    const sway=Math.sin(time*.002+i*.8)*1.35;
+    drawSpectator(p.x,p.y+sway,p.scale,p.role,time,i*.57);
+  });
+  drawCrowdFlag(12,710,"#a53f36",time);
+  drawCrowdFlag(W-18,710,"#b18a43",time);
 }
 function drawSpiritBirds(time){
  const flocks=[{count:3,rx:390,ry:31,cx:550,cy:220,speed:.00020,phase:.4,size:.78},{count:2,rx:455,ry:39,cx:550,cy:185,speed:-.00015,phase:2.1,size:.66}];
