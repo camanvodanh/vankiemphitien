@@ -4599,3 +4599,32 @@ body.game-page:after{
   position:absolute!important;
   z-index:99999!important;
 }
+
+
+/* REVISION 60 — chỉ giữ biểu tượng kiếm/phù, bỏ hoàn toàn nền xanh phía sau hai nút. */
+.arena-frame>.arena-controls{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  outline:0!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
+.arena-frame>.arena-controls::before,
+.arena-frame>.arena-controls::after{content:none!important;display:none!important;}
+.arena-frame>.arena-controls>#start,
+.arena-frame>.arena-controls>#stop{
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  outline:0!important;
+  padding:0!important;
+  appearance:none!important;
+  -webkit-appearance:none!important;
+}
+.arena-frame>.arena-controls>#start::before,
+.arena-frame>.arena-controls>#start::after,
+.arena-frame>.arena-controls>#stop::before,
+.arena-frame>.arena-controls>#stop::after{content:none!important;display:none!important;}
