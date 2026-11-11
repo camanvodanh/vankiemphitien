@@ -562,3 +562,13 @@ body,button,input,textarea,select,label,.lock-notice,.status,.camera-info,table,
  .ranking table,.ranking th,.ranking td{font-size:12px}
  .arena-controls .arena-start{min-width:100px;min-height:31px;font-size:13px}
 }
+
+
+/* REVISION 16 — chữ dễ đọc, tên và thứ hạng không có bảng nền. */
+body,button,input,textarea,select,label,.lock-notice,.status,.camera-info,table,footer,
+.camera-heading h3,.ranking-heading h3,.eyebrow,.subtitle {
+ font-family:Arial,"Noto Sans",sans-serif;
+}
+.camera-heading h3{color:#173c35;font-size:17px;font-weight:800;letter-spacing:.02em}
+.camera-info{display:none}
+.ranking table,.ranking th,.ranking td{font-family:Arial,"Noto Sans",sans-serif}
