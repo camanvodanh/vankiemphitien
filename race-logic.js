@@ -588,10 +588,10 @@ function finishRace(){
  cameraFocusId=null;
  finished=true;running=false;paused=false;started=true;
  eventText="";eventTextLife=0;finishMessage="";finishMessageLife=0;
- $("status").textContent="Đại hội kết thúc · Đang trao giải top 3";
+ $("status").textContent="Đại hội kết thúc · Vinh danh top 3";
  $("pause").textContent="Tạm dừng";
  setSettingsLocked(false);
- $("lockNotice").textContent="Đại hội đã kết thúc. Đang cử hành đại điển trao thưởng cho ba vị trí dẫn đầu.";
+ $("lockNotice").textContent="Đại hội đã kết thúc · Tam giáp tiên hội đang được vinh danh.";
  syncButtons();updateRanking();
 }
 function resetGame(){
