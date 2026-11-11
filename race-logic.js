@@ -73,9 +73,10 @@ function updateRace(dt){
  const rankedNow=sortedRacers();
  for(let i=0;i<rankedNow.length;i++){
   const racer=rankedNow[i],oldRank=rankBefore.get(racer.id),newRank=i+1;
-  if(racer.effectTimer>0&&racer.effectType==="boost"&&(racer.speedMultiplier||1)>1&&oldRank&&oldRank!==newRank){
-   const mult=racer.speedMultiplier||1;
-   racer.rankChangeText="Hạng "+oldRank+" --> Hạng "+newRank+" Tốc Độ Tăng x "+mult.toFixed(1);
+  if(racer.effectTimer>0&&oldRank&&oldRank!==newRank){
+   const multiplier=racer.speedMultiplier||1;
+   const direction=newRank<oldRank?"up":"down";
+   racer.rankChangeText=newRank+"|"+direction+"|"+multiplier.toFixed(1);
    racer.rankChangeTimer=3.2;
   }
  }
@@ -628,7 +629,17 @@ function drawCamera(time){
  cameraCtx.save();cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";
  if(racer.effectTimer>0&&racer.effectName){cameraCtx.font="bold 12px Arial, sans-serif";cameraCtx.lineWidth=3;cameraCtx.strokeStyle="rgba(15,27,25,.98)";cameraCtx.strokeText(racer.effectName,210,43,380);cameraCtx.fillStyle="#fff1bd";cameraCtx.fillText(racer.effectName,210,43,380);}
  cameraCtx.restore();
- $("leaderName").textContent=racer.name;const shift=racer.rankChangeTimer>0&&racer.rankChangeText;$("leaderProgress").textContent=shift?racer.rankChangeText:"Hạng "+rank;
+ $("leaderName").textContent=racer.name;
+ const shift=racer.rankChangeTimer>0&&racer.rankChangeText;
+ if(shift){
+  const parts=racer.rankChangeText.split("|"),shownRank=Number(parts[0]),direction=parts[1],speed=parts[2];
+  const arrow=direction==="up"
+   ? '<span style="color:#37d66b;font-weight:900;font-size:1.2em">↑</span>'
+   : '<span style="color:#ff4b4b;font-weight:900;font-size:1.2em">↓</span>';
+  $("leaderProgress").innerHTML="Hạng "+shownRank+" "+arrow+" Tốc Độ "+speed;
+ }else{
+  $("leaderProgress").textContent="Hạng "+rank;
+ }
 }
 function updateRanking(){
  const sorted=sortedRacers();if(!sorted.length){$("rankBody").innerHTML='<tr><td colspan="3" class="empty">Chưa có tiên nhân</td></tr>';return;}
