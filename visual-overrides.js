@@ -4394,7 +4394,6 @@ function drawRacer(target,racer,x,y,scale,time){
    case "faint":actionY=4+Math.abs(wave)*2;actionAngle=.34+Math.sin(phase*5)*.07;break;case "boost":actionX=3+Math.sin(phase*7)*3;actionY=-3-Math.sin(phase*6)*3;actionAngle=.08+Math.sin(phase*7)*.12;break;
    case "sword_intent":actionX=1+Math.sin(phase*5)*.8;actionY=-1;actionAngle=-.035+Math.sin(phase*4)*.018;break;case "cloud_step":actionY=-Math.abs(Math.sin(phase*8))*10;actionAngle=.11;break;
    case "formation":actionX=Math.sin(phase*4)*3;actionY=Math.cos(phase*4)*3;actionAngle=Math.sin(phase*4)*.08;break;
-   case "formation_guard":actionX=Math.sin(phase*3)*1.5;actionY=-1-Math.abs(Math.sin(phase*5))*2;actionAngle=-.04;break;
    case "formation_sword":actionX=3+Math.sin(phase*8)*2;actionAngle=-.18;break;
    case "formation_seal":actionX=Math.sin(phase*5)*2;actionY=-2-Math.abs(Math.sin(phase*6))*2;actionAngle=.06*Math.sin(phase*4);break;
    case "talisman":actionX=5+Math.sin(phase*9)*2;actionY=-2-Math.abs(Math.sin(phase*7))*3;actionAngle=-.12;break;
@@ -4621,15 +4620,10 @@ if(activeEffect==="sword_spin"){
       for(let n=0;n<8;n++){const a=n*Math.PI/4;target.fillText(["乾","坎","艮","震","巽","離","坤","兌"][n],Math.cos(a)*25,Math.sin(a)*25);}
       target.restore();
     }
-    if(activeEffect==="formation_guard"||activeEffect==="formation_sword"||activeEffect==="formation_seal"){
+    if(activeEffect==="formation_sword"||activeEffect==="formation_seal"){
       const rot=t*(activeEffect==="formation_sword"?1.15:.42);
       target.save();target.globalAlpha=.96*fade;
-      if(activeEffect==="formation_guard"){
-        // Hộ Sơn Trận: khiên lục giác dựng trước thân, ba tầng kết giới khép mở.
-        target.translate(15,-7);target.strokeStyle="#8ff0df";target.shadowColor="#5bd9cf";target.shadowBlur=14;target.lineWidth=2;
-        for(let layer=0;layer<3;layer++){const radius=22+layer*8+Math.sin(t*4+layer)*2;target.beginPath();for(let n=0;n<6;n++){const a=n*Math.PI/3+rot*.25,px=Math.cos(a)*radius,py=Math.sin(a)*radius;n?target.lineTo(px,py):target.moveTo(px,py);}target.closePath();target.stroke();}
-        target.shadowBlur=0;target.fillStyle="#e5fffa";target.font="bold 10px serif";target.textAlign="center";target.fillText("守",15,-7);
-      }else if(activeEffect==="formation_sword"){
+      if(activeEffect==="formation_sword"){
         // Vạn Kiếm Trận: sáu kiếm trận bay theo vòng cung, mũi kiếm cùng hướng ra ngoài.
         target.translate(5,-12);target.shadowColor="#9bdcff";target.shadowBlur=12;
         for(let n=0;n<6;n++){const a=rot+n*Math.PI/3,px=Math.cos(a)*34,py=Math.sin(a)*25;
