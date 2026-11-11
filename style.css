@@ -4440,3 +4440,56 @@ body.game-page:after{
 .arena-frame>.arena-controls>#stop .cultivation-art{
   filter:drop-shadow(0 1px 2px rgba(0,0,0,.9))!important;
 }
+
+
+/* REVISION 53 — bảng khởi tạo gọn vừa khung và luôn nằm chính giữa sân đấu. */
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]){
+  position:absolute!important;
+  z-index:40!important;
+  top:50%!important;
+  left:50%!important;
+  right:auto!important;
+  bottom:auto!important;
+  transform:translate(-50%,-50%)!important;
+  width:min(350px,calc(100% - 28px))!important;
+  max-width:350px!important;
+  max-height:calc(100% - 28px)!important;
+  height:auto!important;
+  box-sizing:border-box!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  margin:0!important;
+  padding:12px!important;
+  border-radius:13px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) *{
+  box-sizing:border-box;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea{
+  width:100%!important;
+  max-width:100%!important;
+  min-height:42px!important;
+  max-height:76px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .setup-heading{
+  gap:7px!important;
+  margin-bottom:8px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .setup-heading h2{
+  font-size:16px!important;
+}
+@media(max-width:760px){
+  .arena-frame>.game-setup:not(.is-minimized):not([hidden]){
+    top:50%!important;
+    left:50%!important;
+    width:min(340px,calc(100% - 22px))!important;
+    max-width:340px!important;
+    max-height:calc(100% - 22px)!important;
+    padding:10px!important;
+    transform:translate(-50%,-50%)!important;
+  }
+  .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea{
+    min-height:36px!important;
+    max-height:60px!important;
+  }
+}
