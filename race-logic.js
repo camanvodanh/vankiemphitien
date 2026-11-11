@@ -752,6 +752,7 @@ function advanceFinishAnnouncements(){
     handle.style.touchAction="none";
     handle.addEventListener("pointerdown",event=>{
       if(event.pointerType==="mouse"&&event.button!==0)return;
+      if(event.target.closest&&event.target.closest(".window-minimize"))return;
       const box=camera.getBoundingClientRect();
       const area=frame.getBoundingClientRect();
       drag={id:event.pointerId,dx:event.clientX-box.left,dy:event.clientY-box.top};
@@ -807,3 +808,27 @@ function syncButtons(){
  $("setupToggle").hidden=!racers.length||!panel||!panel.hidden||running||paused;
  $("summon").disabled=locked||running||paused;
 }
+
+
+// MINIMIZE / RESTORE: các bảng hoạt động như cửa sổ nổi.
+(function enablePanelWindows(){
+  function attach(){
+    if(document.documentElement.dataset.panelWindowsReady==="1")return;
+    document.documentElement.dataset.panelWindowsReady="1";
+    document.addEventListener("click",event=>{
+      const button=event.target.closest&&event.target.closest(".window-minimize");
+      if(!button)return;
+      const panel=button.closest(".game-setup,.game-camera,.game-ranking");
+      if(!panel)return;
+      const minimized=panel.classList.toggle("is-minimized");
+      button.textContent=minimized?"+":"−";
+      button.setAttribute("aria-expanded",String(!minimized));
+      button.setAttribute("aria-label",minimized?"Mở rộng bảng":"Thu nhỏ bảng");
+      button.title=minimized?"Mở rộng":"Thu nhỏ";
+      event.preventDefault();
+      event.stopPropagation();
+    });
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",attach,{once:true});
+  else attach();
+})();
