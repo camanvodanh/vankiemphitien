@@ -4628,3 +4628,24 @@ body.game-page:after{
 .arena-frame>.arena-controls>#start::after,
 .arena-frame>.arena-controls>#stop::before,
 .arena-frame>.arena-controls>#stop::after{content:none!important;display:none!important;}
+
+
+/* REVISION 61 — góc quan sát luôn kéo giãn bằng đúng chiều cao Tiên Bảng. */
+.arena-frame>.game-camera{
+  align-self:stretch!important;
+  height:100%!important;
+  min-height:100%!important;
+  max-height:none!important;
+  justify-self:stretch!important;
+  box-sizing:border-box!important;
+}
+.arena-frame>.game-ranking{
+  align-self:stretch!important;
+  height:100%!important;
+  min-height:100%!important;
+  box-sizing:border-box!important;
+}
+.arena-frame>.game-camera>.camera-screen{
+  flex:1 1 auto!important;
+  min-height:0!important;
+}
