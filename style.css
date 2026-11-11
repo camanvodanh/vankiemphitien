@@ -509,3 +509,9 @@ footer {
 .arena-start:disabled{opacity:.5}
 .summon-footer{gap:8px}.random-setting{width:110px;flex:0 1 110px}.compact-field{min-width:120px;flex:0 1 145px}
 @media(max-width:480px){.arena-start{top:8px;padding:4px 9px;font-size:10px}.summon-footer{gap:7px}.random-setting{flex:1 1 95px}}
+
+
+/* REVISION 11 — giữ sân đấu hiện rõ ngay khi mở trang. */
+.arena-frame{display:block;min-height:0;overflow:hidden;background:#173c35;border:1px solid #c69b4c;border-radius:12px;box-shadow:0 8px 24px rgba(22,40,31,.2)}
+#game{display:block;width:100%;height:auto;aspect-ratio:11/8;background:#486f87}
+.arena-start{top:10px;z-index:8}
