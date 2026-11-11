@@ -971,27 +971,71 @@ function syncButtons(){
   const stopButton=$("stop");
   const pauseButton=$("pause");
   const state=running
-    ? {icon:"❖",label:"Tạm ngưng"}
+    ? {art:"pause",label:"Tạm ngưng"}
     : paused
-      ? {icon:"⚔",label:"Tiếp tục"}
+      ? {art:"sword",label:"Tiếp tục"}
       : (finished||raceStopped)
-        ? {icon:"⟲",label:"Bắt đầu lại"}
-        : {icon:"⚔",label:"Chạy"};
+        ? {art:"return",label:"Bắt đầu lại"}
+        : {art:"sword",label:"Chạy"};
 
-  runButton.innerHTML='<span class="btn-icon" aria-hidden="true">'+state.icon+'</span><span class="btn-label">'+state.label+'</span>';
+  // Họa tiết vector tự vẽ riêng cho Vạn Kiếm Phi Tiên, không dùng bộ icon.
+  const artwork={
+    sword:`<svg class="cultivation-art art-sword" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+      <defs><linearGradient id="bladeGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff4c9"/><stop offset=".48" stop-color="#d9b66d"/><stop offset="1" stop-color="#8f6635"/></linearGradient></defs>
+      <path d="M43 5 51 13 24 43 19 45 21 39Z" fill="url(#bladeGold)" stroke="#f6df9e" stroke-width="1.2"/>
+      <path d="m43 5 8 8-27 30 8-19Z" fill="#fff0bd" opacity=".55"/>
+      <path d="m17 39 8 8-8 7-7-7Z" fill="#b58a4b" stroke="#f4d99a" stroke-width="1.2"/>
+      <path d="m9 45 10 10-4 4L5 49Z" fill="#d8b66e"/>
+      <path d="m14 35 15 15-3 3-15-15Z" fill="#e8ce91" stroke="#9a733e" stroke-width="1"/>
+      <path d="M46 8 55 2M50 16l10-3M37 10l-2-7" fill="none" stroke="#f2d58c" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M6 57q-2 3-4 3M27 56q7 2 10-3" fill="none" stroke="#8ed8c0" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>`,
+    pause:`<svg class="cultivation-art art-pause" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+      <path d="M19 12 26 12 25 49 19 54Z" fill="#e8d19a" stroke="#fff0c6" stroke-width="1"/>
+      <path d="M38 12 45 12 45 54 39 49Z" fill="#c49a55" stroke="#f4dda4" stroke-width="1"/>
+      <path d="M16 10 29 10M35 10 48 10" stroke="#f7e4b4" stroke-width="2" stroke-linecap="round"/>
+      <path d="M12 18q-7 14 1 27M52 18q7 14-1 27" fill="none" stroke="#8ed8c0" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="m32 4 1 4m-1 44 1 7" stroke="#f3d68f" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>`,
+    return:`<svg class="cultivation-art art-return" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+      <path d="M47 18A22 22 0 0 0 10 29" fill="none" stroke="#d9b66d" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="m8 17 2 13 12-4" fill="none" stroke="#f4dda4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M17 43 47 13M40 10l8 3 3 8" fill="none" stroke="#e8d19a" stroke-width="2" stroke-linecap="round"/>
+      <path d="m14 49 6-6 7 7-6 6Z" fill="#b58a4b" stroke="#f4dda4" stroke-width="1"/>
+      <path d="M48 42q5 5 10 3M7 38q-3 5 0 9" fill="none" stroke="#8ed8c0" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>`,
+    stop:`<svg class="cultivation-art art-stop" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+      <path d="M32 7 38 23 55 32 38 41 32 57 26 41 9 32 26 23Z" fill="none" stroke="#d9b66d" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M32 15 36 27 48 32 36 37 32 49 28 37 16 32 28 27Z" fill="#b58a4b" opacity=".38" stroke="#f4dda4" stroke-width="1.2"/>
+      <path d="M32 23v18M23 32h18" stroke="#f8e7bd" stroke-width="1.4" stroke-linecap="round"/>
+      <circle cx="32" cy="32" r="3" fill="#fff0c6"/>
+      <path d="M10 10 16 16M54 10l-6 6M10 54l6-6M54 54l-6-6" stroke="#8ed8c0" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>`,
+    setup:`<svg class="cultivation-art art-setup" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+      <path d="M13 13q9-5 19 1v37q-10-6-19-1Z" fill="none" stroke="#e4c37d" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M51 13q-9-5-19 1v37q10-6 19-1Z" fill="none" stroke="#e4c37d" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M18 20q6-2 10 1M18 27q6-2 10 1M36 21q5-3 10-1M36 28q5-3 10-1" stroke="#f5e4b6" stroke-width="1.3" stroke-linecap="round"/>
+      <path d="M32 8v48M27 13l5-5 5 5M27 51l5 5 5-5" fill="none" stroke="#8ed8c0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="m8 8 3 3m45-3-3 3" stroke="#d9b66d" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>`
+  };
+  runButton.innerHTML='<span class="btn-icon">'+artwork[state.art]+'</span><span class="btn-label">'+state.label+'</span>';
+  runButton.setAttribute("aria-label",state.label);
+  runButton.title=state.label;
   runButton.disabled=!racers.length;
 
-  // Nút tạm ngưng cũ được giữ ẩn để tương thích với các hàm hiện hữu.
   if(pauseButton){pauseButton.hidden=true;pauseButton.disabled=true;}
 
   stopButton.hidden=false;
+  const isSetup=finished||raceStopped;
   stopButton.disabled=!racers.length;
-  stopButton.innerHTML='<span class="btn-icon" aria-hidden="true">'+((finished||raceStopped)?"☯":"✥")+'</span><span class="btn-label">'+((finished||raceStopped)?"Khởi tạo":"Dừng")+'</span>';
+  stopButton.innerHTML='<span class="btn-icon">'+artwork[isSetup?"setup":"stop"]+'</span><span class="btn-label">'+(isSetup?"Khởi tạo":"Dừng")+'</span>';
+  stopButton.setAttribute("aria-label",isSetup?"Khởi tạo":"Dừng");
+  stopButton.title=isSetup?"Khởi tạo":"Dừng";
 
   $("setupToggle").hidden=true;
   $("summon").disabled=locked||running||paused;
 }
-
 function stopRace(){
   // Dừng đồng nghĩa trở về trạng thái ban đầu như vừa tải lại trang.
   resetGame();
