@@ -4401,3 +4401,42 @@ body.game-page:after{
   line-height:1.35!important;
 }
 .arena-frame>.game-camera #leaderEffect:empty{display:none!important;}
+
+
+/* REVISION 52 — căn giữa tiên hiệu tuyệt đối và bỏ nền nút che khuất đệ tử. */
+.arena-frame>.game-camera>.camera-screen>.camera-effect-overlay{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+.arena-frame>.game-camera #leaderEffect{
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  margin:0 auto!important;
+  padding:0!important;
+  text-align:center!important;
+  text-indent:0!important;
+  line-height:1.35!important;
+}
+.arena-frame>.arena-controls>#start,
+.arena-frame>.arena-controls>#stop{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  outline:0!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
+.arena-frame>.arena-controls>#start:focus,
+.arena-frame>.arena-controls>#stop:focus,
+.arena-frame>.arena-controls>#start:focus-visible,
+.arena-frame>.arena-controls>#stop:focus-visible{
+  outline:0!important;
+  box-shadow:none!important;
+}
+.arena-frame>.arena-controls>#start .cultivation-art,
+.arena-frame>.arena-controls>#stop .cultivation-art{
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.9))!important;
+}
