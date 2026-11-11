@@ -4332,6 +4332,24 @@ function drawRacer(target,racer,x,y,scale,time){
   if(female){target.strokeStyle="#b86e73";target.lineWidth=.8;target.beginPath();target.moveTo(-5,-17);target.lineTo(-3,-16);target.moveTo(3,-16);target.lineTo(5,-17);target.stroke();}
   target.save();target.globalAlpha=.78;target.fillStyle=racer.color;target.beginPath();target.moveTo(-7,-4);target.quadraticCurveTo(-26,-1,-17,-15);target.lineTo(-4,-8);target.closePath();target.fill();target.restore();
   if(racer.effectTimer>0&&racer.effectName&&target!==cameraCtx){target.save();target.font="bold 7px Arial,sans-serif";target.textAlign="center";target.textBaseline="middle";target.lineWidth=2;target.strokeStyle="rgba(14,25,24,.98)";target.strokeText(racer.effectName,0,-65,126);target.fillStyle="#fff1bd";target.fillText(racer.effectName,0,-65,126);target.restore();}
+  // Chi tiết trang phục bổ sung: nữ có tà váy xòe và dải lụa; nam có trường bào hai tà, giáp vai.
+  target.save();
+  target.translate(0,0);
+  if(female){
+    target.fillStyle=racer.color;target.globalAlpha=.96;target.beginPath();
+    target.moveTo(-8,2);target.lineTo(8,2);target.lineTo(22,22);target.quadraticCurveTo(0,28,-22,22);target.closePath();target.fill();
+    target.fillStyle=racer.dark;target.beginPath();target.moveTo(-4,3);target.lineTo(0,8);target.lineTo(-13,23);target.lineTo(-18,20);target.closePath();target.fill();
+    target.strokeStyle="#f4d99a";target.lineWidth=1.8;target.beginPath();target.moveTo(8,-5);target.quadraticCurveTo(27,2,31,18);target.stroke();
+  }else{
+    target.fillStyle=racer.dark;target.beginPath();
+    target.moveTo(-10,1);target.lineTo(-3,5);target.lineTo(-7,25);target.lineTo(-15,22);target.closePath();target.fill();
+    target.beginPath();target.moveTo(10,1);target.lineTo(3,5);target.lineTo(7,25);target.lineTo(15,22);target.closePath();target.fill();
+    target.fillStyle="#e7ca83";target.fillRect(-4,5,8,3);
+    target.strokeStyle="#e7ca83";target.lineWidth=1.6;target.beginPath();
+    target.moveTo(-11,-5);target.lineTo(-18,2);target.lineTo(-13,7);
+    target.moveTo(11,-5);target.lineTo(18,2);target.lineTo(13,7);target.stroke();
+  }
+  target.restore();
   target.restore();
 }
 
@@ -4369,26 +4387,6 @@ function drawFormalSpectator(x,y,scale,roleName,time,phase=0){
   drawSpectator(x,y,scale,roleName,time,phase);
 }
 
-
-const drawRacerBaseGenderCostume = drawRacer;
-function drawRacer(target,racer,x,y,scale,time){
- drawRacerBaseGenderCostume(target,racer,x,y,scale,time);
- target.save();target.translate(x,y+Math.sin(time*.009+racer.phase)*2);target.scale(scale,scale);
- if(racer.gender==="female"){
-  // Vạt váy dài hai lớp và dải lụa bay sau lưng.
-  target.fillStyle=racer.color;target.globalAlpha=.96;target.beginPath();
-  target.moveTo(-8,2);target.lineTo(8,2);target.lineTo(22,22);target.quadraticCurveTo(0,28,-22,22);target.closePath();target.fill();
-  target.fillStyle=racer.dark;target.beginPath();target.moveTo(-4,3);target.lineTo(0,8);target.lineTo(-13,23);target.lineTo(-18,20);target.closePath();target.fill();
-  target.strokeStyle="#f4d99a";target.lineWidth=1.8;target.beginPath();target.moveTo(8,-5);target.quadraticCurveTo(27,2,31,18);target.stroke();
- }else{
-  // Trường bào nam có hai tà áo dọc và đai ngọc nổi bật.
-  target.fillStyle=racer.dark;target.beginPath();target.moveTo(-10,1);target.lineTo(-3,5);target.lineTo(-7,25);target.lineTo(-15,22);target.closePath();target.fill();
-  target.beginPath();target.moveTo(10,1);target.lineTo(3,5);target.lineTo(7,25);target.lineTo(15,22);target.closePath();target.fill();
-  target.fillStyle="#e7ca83";target.fillRect(-4,5,8,3);
-  target.strokeStyle="#e7ca83";target.lineWidth=1.6;target.beginPath();target.moveTo(-11,-5);target.lineTo(-18,2);target.lineTo(-13,7);target.moveTo(11,-5);target.lineTo(18,2);target.lineTo(13,7);target.stroke();
- }
- target.restore();
-}
 
 function drawStandingSectMaster(target,x,y,scale){
  target.save();target.translate(x,y);target.scale(scale,scale);
