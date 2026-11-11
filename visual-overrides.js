@@ -4366,6 +4366,10 @@ function drawRacer(target,racer,x,y,scale,time){
    case "formation":actionX=Math.sin(phase*4)*3;actionY=Math.cos(phase*4)*3;actionAngle=Math.sin(phase*4)*.08;break;
    case "talisman":actionX=5+Math.sin(phase*9)*2;actionY=-2-Math.abs(Math.sin(phase*7))*3;actionAngle=-.12;break;
    case "sword_spin":actionAngle=Math.PI*2*progress;actionY=-Math.sin(progress*Math.PI)*3;break;
+   case "wind_step":actionX=Math.sin(phase*11+racer.phase)*7;actionY=-3-Math.abs(Math.sin(phase*8))*4;actionAngle=Math.sin(phase*11+racer.phase)*.22;break;
+   case "shadow_step":actionX=progress<.22?-9:progress<.48?17:Math.sin(phase*18)*2;actionY=-Math.sin(progress*Math.PI)*7;actionAngle=progress<.48?-.24:.08;break;
+   case "sword_dash":actionX=10+Math.sin(phase*16)*2;actionY=-2-Math.abs(Math.sin(phase*12))*2;actionAngle=-.34;break;
+   case "body_burst":actionY=progress<.22?4: -Math.abs(Math.sin(phase*9))*11;actionX=progress<.22?-3:5+Math.sin(phase*7)*2;actionAngle=progress<.22?.18:-.08;break;
   }
   const idleBob=Math.sin(time*.009+racer.phase)*2,impactJolt=activeEffect==="impact"||activeEffect==="lightning"?Math.sin(time*.075)*1.2:0;
   target.save();target.translate(x+actionX+impactJolt,y+idleBob+actionY);target.rotate(actionAngle);target.scale(scale,scale);
@@ -4450,7 +4454,7 @@ function drawRacer(target,racer,x,y,scale,time){
       target.globalAlpha=.8*fade;target.fillStyle="#d8e4e8";target.beginPath();target.ellipse(9,-24,2,4,0,0,Math.PI*2);target.fill();
       target.strokeStyle="#b9d0d2";target.lineWidth=1.3;target.beginPath();target.moveTo(-17,1);target.quadraticCurveTo(-26,7,-30,14);target.stroke();
       if(activeEffect==="faint"){target.globalAlpha=.72;target.fillStyle="#e2e8ed";target.font="bold 8px Arial";target.textAlign="center";target.fillText("Z",14,-39+Math.sin(t*3)*2);target.fillText("Z",21,-47+Math.sin(t*3+1)*2);}
-    }else if(activeEffect==="pill"||activeEffect==="boost"||activeEffect==="sword_intent"||activeEffect==="cloud_step"||activeEffect==="formation"){
+    }else if(activeEffect==="pill"||activeEffect==="boost"||activeEffect==="sword_intent"||activeEffect==="cloud_step"||activeEffect==="formation"||activeEffect==="wind_step"||activeEffect==="shadow_step"||activeEffect==="sword_dash"||activeEffect==="body_burst"){
       target.globalAlpha=.85*fade;target.strokeStyle="#ffe18a";target.lineWidth=2;
       for(let i=0;i<4;i++){const xx=-28+i*17,yy=12-Math.abs(Math.sin(t*5+i))*24;target.beginPath();target.moveTo(xx,yy+8);target.quadraticCurveTo(xx-5,yy,xx,yy-7);target.stroke();}
       target.globalAlpha=.55;target.fillStyle="#fff0ad";for(let i=0;i<7;i++){const xx=Math.sin(t*3+i*2.1)*27,yy=-10+Math.cos(t*4+i)*25;target.beginPath();target.arc(xx,yy,1.3,0,Math.PI*2);target.fill();}
@@ -4516,6 +4520,35 @@ function drawRacer(target,racer,x,y,scale,time){
       target.shadowBlur=0;target.fillStyle="#f2dcff";target.font="bold 8px serif";target.textAlign="center";target.textBaseline="middle";
       for(let n=0;n<6;n++){const a=n*Math.PI/3;target.fillText("符",Math.cos(a)*29,Math.sin(a)*29);}
       target.restore();
+    }
+    if(activeEffect==="wind_step"){
+      // Phong Hành: lướt zig-zag, tà áo và luồng khí uốn lượn theo hai bên.
+      target.globalAlpha=.88*fade;target.strokeStyle="#a9f5df";target.lineWidth=2;
+      for(let n=0;n<3;n++){const yy=-24+n*15,shift=Math.sin(t*10+n*1.7)*9;target.beginPath();target.moveTo(-43,yy+shift);target.bezierCurveTo(-22,yy-10-shift,2,yy+10+shift,30,yy-shift);target.stroke();}
+      target.fillStyle="#e0fff3";for(let n=0;n<5;n++){const xx=Math.sin(t*8+n*2)*27,yy=18+Math.cos(t*7+n)*9;target.beginPath();target.arc(xx,yy,1.8,0,Math.PI*2);target.fill();}
+    }
+    if(activeEffect==="shadow_step"){
+      // Ảnh Độn: thân ảnh phân thân mờ phía sau rồi lóe hiện ở vị trí mới.
+      const blink=.25+.65*Math.abs(Math.sin(progress*Math.PI*2.5));
+      target.globalAlpha=.42*fade;target.fillStyle="#aaa3ff";
+      for(let n=1;n<=3;n++){target.beginPath();target.ellipse(-n*13,2,12,19,0,0,Math.PI*2);target.fill();}
+      target.globalAlpha=blink*fade;target.strokeStyle="#d9d0ff";target.lineWidth=2;target.shadowColor="#a89aff";target.shadowBlur=12;
+      target.beginPath();target.arc(0,-4,29+t*2%7,0,Math.PI*2);target.stroke();target.shadowBlur=0;
+      target.fillStyle="#f0eaff";for(let n=0;n<8;n++){const a=n*Math.PI/4+t*2;target.beginPath();target.arc(Math.cos(a)*34,Math.sin(a)*22-3,1.7,0,Math.PI*2);target.fill();}
+    }
+    if(activeEffect==="sword_dash"){
+      // Kiếm Độn: chồm người, phi kiếm kéo một mũi kiếm quang dài về phía trước.
+      target.globalAlpha=.95*fade;target.strokeStyle="#d8f5ff";target.lineWidth=3;target.shadowColor="#70dfff";target.shadowBlur=13;
+      target.beginPath();target.moveTo(-8,19);target.quadraticCurveTo(18,5,58,-8);target.lineTo(31,3);target.stroke();target.shadowBlur=0;
+      for(let n=0;n<4;n++){const yy=-22+n*12;target.globalAlpha=(.8-n*.12)*fade;target.strokeStyle="#b8efff";target.lineWidth=1.5;target.beginPath();target.moveTo(-49,yy);target.lineTo(-15,yy-4);target.stroke();}
+      target.fillStyle="#fff5cb";target.globalAlpha=.95*fade;target.beginPath();target.arc(46,-8,3,0,Math.PI*2);target.fill();
+    }
+    if(activeEffect==="body_burst"){
+      // Bạo Bộ: thu người lấy đà, bật mạnh lên rồi hạ xuống theo nhịp.
+      const leap=Math.abs(Math.sin(progress*Math.PI*2.2));
+      target.globalAlpha=.85*fade;target.strokeStyle="#ffd58a";target.lineWidth=2.2;target.shadowColor="#ffb94e";target.shadowBlur=9;
+      target.beginPath();target.ellipse(0,26,17+leap*15,4+leap*3,0,0,Math.PI*2);target.stroke();target.shadowBlur=0;
+      for(let n=0;n<6;n++){const a=n*Math.PI/3+t*2,rad=22+leap*12;target.fillStyle="#ffe7ac";target.beginPath();target.arc(Math.cos(a)*rad,Math.sin(a)*rad+8,1.8,0,Math.PI*2);target.fill();}
     }
     if(activeEffect==="talisman"){
       // Bốn lá phù vàng có nét chu sa bay vòng quanh nhân vật.
