@@ -705,7 +705,7 @@ function updateRanking(){
    movedRows.forEach(({row,index})=>{
     row.style.transition="transform 620ms cubic-bezier(.18,.78,.22,1), filter 620ms ease";
     row.style.transform="translate3d(0,0,0) scale(1)";
-    row.style.filter="none";
+    row.style.filter="";
     row.style.transitionDelay=Math.min(index*16,96)+"ms";
     row.addEventListener("transitionend",function finishRowMove(event){
      if(event.propertyName!=="transform")return;
