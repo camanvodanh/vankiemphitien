@@ -4495,9 +4495,14 @@ function drawRacer(target,racer,x,y,scale,time){
       for(let n=0;n<3;n++){const aa=t*1.4+n*Math.PI*2/3,px=Math.cos(aa)*18,py=-43+Math.sin(aa)*7;target.beginPath();target.moveTo(px-3,py);target.lineTo(px+3,py);target.moveTo(px,py-3);target.lineTo(px,py+3);target.stroke();}
       target.fillStyle="#e2e8ed";target.font="bold 8px Arial";target.textAlign="center";target.fillText("Z",14,-39+Math.sin(t*3)*2);target.fillText("Z",21,-47+Math.sin(t*3+1)*2);
     }else if(activeEffect==="impact"){
-      target.globalAlpha=.9*fade;target.strokeStyle="#ffb27b";target.lineWidth=2.2;
-      for(let i=0;i<5;i++){const aa=i*Math.PI*2/5+t*2;target.beginPath();target.moveTo(Math.cos(aa)*12,Math.sin(aa)*8-5);target.lineTo(Math.cos(aa)*27,Math.sin(aa)*17-5);target.stroke();}
-      target.strokeStyle="#fff0c4";target.beginPath();target.moveTo(24,-34);target.lineTo(30,-40);target.lineTo(26,-27);target.lineTo(34,-30);target.stroke();
+      // Va chạm: giật lùi ngắn, tia va đập và vệt bụi; tuyệt đối không có chữ Z hay tư thế ngủ.
+      const hit=Math.abs(Math.sin(t*10));
+      target.globalAlpha=.95*fade;target.strokeStyle="#ffbd83";target.lineWidth=2.4;target.lineCap="round";
+      for(let i=0;i<7;i++){const aa=i*Math.PI*2/7+t*.35,inner=10+hit*3,outer=25+hit*5;
+        target.beginPath();target.moveTo(Math.cos(aa)*inner,Math.sin(aa)*inner-7);target.lineTo(Math.cos(aa)*outer,Math.sin(aa)*outer-7);target.stroke();}
+      target.fillStyle="#fff2c9";target.beginPath();target.arc(0,-7,4+hit*2,0,Math.PI*2);target.fill();
+      target.globalAlpha=.65*fade;target.strokeStyle="#dcecf0";target.lineWidth=1.5;
+      for(let i=0;i<3;i++){const yy=19+i*5,dx=Math.sin(t*8+i)*4;target.beginPath();target.moveTo(-26+dx,yy);target.quadraticCurveTo(-12,yy+3,0,yy);target.stroke();}
     }else if(activeEffect==="lightning"){
       target.globalAlpha=.95*fade;target.strokeStyle="#c8f3ff";target.lineWidth=2.8;target.shadowColor="#75dfff";target.shadowBlur=12;
       target.beginPath();target.moveTo(12,-48);target.lineTo(3,-30);target.lineTo(10,-28);target.lineTo(-3,-7);target.stroke();
@@ -4532,46 +4537,80 @@ if(activeEffect==="cloud_step"){
       target.strokeStyle="rgba(204,249,255,.8)";target.beginPath();target.moveTo(-18,31);target.quadraticCurveTo(0,39,20,30);target.stroke();
     }
     if(activeEffect==="boost"){
-       // Du Long Bộ: một con thanh long uốn mình bay song song với nhân vật.
-       const phase=t*2.7, sway=Math.sin(phase);
-       const dragonY=-15+sway*5;
-       target.save();
-       target.globalAlpha=.82*fade;
-       target.shadowColor="#43d8e8";target.shadowBlur=12;
-       // Thân rồng uốn nhiều khúc, đầu hướng về phía trước.
-       const body=target.createLinearGradient(-55,0,45,0);
-       body.addColorStop(0,"#176f83");body.addColorStop(.48,"#53d9d1");body.addColorStop(1,"#b8fff0");
-       target.strokeStyle=body;target.lineWidth=9;target.lineCap="round";target.lineJoin="round";
-       target.beginPath();target.moveTo(-55,dragonY+17);
-       target.bezierCurveTo(-43,dragonY-17+Math.sin(phase)*7,-24,dragonY+30, -8,dragonY+2);
-       target.bezierCurveTo(7,dragonY-22,18,dragonY+20,31,dragonY-4);
-       target.stroke();
-       // Vảy sáng chạy dọc thân.
-       target.shadowBlur=0;target.strokeStyle="rgba(220,255,244,.9)";target.lineWidth=1.3;
-       for(let i=0;i<8;i++){const x=-43+i*9,y=dragonY+Math.sin(phase+i*.75)*9;target.beginPath();target.arc(x,y,3.2,.15,Math.PI*.9);target.stroke();}
-       // Bụng rồng chia đốt.
-       target.strokeStyle="rgba(220,255,240,.85)";target.lineWidth=2;
-       for(let i=0;i<5;i++){const x=-31+i*10,y=dragonY+Math.sin(phase+i*.9)*8;target.beginPath();target.moveTo(x-2,y+4);target.lineTo(x+2,y+7);target.stroke();}
-       // Đầu rồng, mõm, sừng và râu.
-       const hx=43,hy=dragonY-7+Math.sin(phase+1)*3;
-       target.fillStyle="#75eadc";target.strokeStyle="#d7fff1";target.lineWidth=1.5;
-       target.beginPath();target.ellipse(hx,hy,11,8,-.12,0,Math.PI*2);target.fill();target.stroke();
-       target.fillStyle="#c5fff0";target.beginPath();target.moveTo(hx+5,hy-2);target.lineTo(hx+17,hy+1);target.lineTo(hx+6,hy+5);target.closePath();target.fill();
-       target.strokeStyle="#f3dc91";target.lineWidth=2.2;target.beginPath();
-       target.moveTo(hx-4,hy-6);target.quadraticCurveTo(hx-12,hy-17,hx-7,hy-20);
-       target.moveTo(hx+1,hy-6);target.quadraticCurveTo(hx+9,hy-17,hx+13,hy-16);target.stroke();
-       target.strokeStyle="#b9fff0";target.lineWidth=1.4;target.beginPath();
-       target.moveTo(hx+8,hy+4);target.quadraticCurveTo(hx+18,hy+12,hx+25,hy+8);
-       target.moveTo(hx+6,hy+5);target.quadraticCurveTo(hx+12,hy+17,hx+21,hy+17);target.stroke();
-       target.fillStyle="#fff2b2";target.beginPath();target.arc(hx+5,hy-2,1.7,0,Math.PI*2);target.fill();
-       // Chân rồng có móng.
-       target.strokeStyle="#b7fff0";target.lineWidth=2.2;target.beginPath();
-       for(const lx of [-19,8]){const ly=dragonY+Math.sin(phase+lx)*8;target.moveTo(lx,ly+4);target.lineTo(lx-4,ly+11);target.lineTo(lx-8,ly+9);target.moveTo(lx-4,ly+11);target.lineTo(lx-1,ly+14);}
-       target.stroke();
-       // Đuôi chẻ và mây khí theo hướng chuyển động.
-       target.strokeStyle="#70e9df";target.lineWidth=3;target.beginPath();target.moveTo(-52,dragonY+17);target.quadraticCurveTo(-66,dragonY+28,-72,dragonY+16);target.moveTo(-66,dragonY+23);target.lineTo(-75,dragonY+28);target.stroke();
-       target.globalAlpha=.55*fade;target.strokeStyle="#a9f4ff";target.lineWidth=2;
-       for(let i=0;i<3;i++){const yy=dragonY+20+i*7;target.beginPath();target.moveTo(-58-i*3,yy);target.quadraticCurveTo(-76-i*4,yy-7,-88-i*4,yy);target.stroke();}
+       // Du Long Bộ: thanh long hiện rõ đầu, hàm, bờm, sừng, vảy, bụng giáp, bốn chân và đuôi.
+       const phase=t*2.5,sway=Math.sin(phase),dragonY=-18+sway*3;
+       target.save();target.globalAlpha=.94*fade;target.lineJoin="round";target.lineCap="round";
+       const scaleDragon=1;
+       // Thân uốn lượn dài, có sống lưng và bụng sáng phân đốt.
+       const body=target.createLinearGradient(-72,dragonY-14,48,dragonY+16);
+       body.addColorStop(0,"#155b78");body.addColorStop(.3,"#168f9c");body.addColorStop(.7,"#54d9c5");body.addColorStop(1,"#c4fff0");
+       target.shadowColor="#39d9e8";target.shadowBlur=14;target.fillStyle=body;target.strokeStyle="#b8fff1";target.lineWidth=1.6;
+       target.beginPath();target.moveTo(-77,dragonY+12);
+       target.bezierCurveTo(-60,dragonY-2,-55,dragonY-24,-37,dragonY-15);
+       target.bezierCurveTo(-20,dragonY-6,-20,dragonY+17,-2,dragonY+9);
+       target.bezierCurveTo(16,dragonY+1,12,dragonY-22,31,dragonY-17);
+       target.bezierCurveTo(43,dragonY-14,48,dragonY-7,53,dragonY-5);
+       target.lineTo(47,dragonY+10);
+       target.bezierCurveTo(25,dragonY+17,18,dragonY+30,0,dragonY+23);
+       target.bezierCurveTo(-21,dragonY+18,-23,dragonY-1,-39,dragonY-3);
+       target.bezierCurveTo(-55,dragonY-5,-59,dragonY+16,-77,dragonY+12);target.closePath();target.fill();target.stroke();
+       target.shadowBlur=0;
+       // Bụng rồng màu ngà chia thành từng phiến giáp cong.
+       target.strokeStyle="#d9fff0";target.lineWidth=2.4;
+       for(let i=0;i<8;i++){const x=-61+i*14,y=dragonY+7+Math.sin(i*.95+phase)*9;
+         target.beginPath();target.moveTo(x-3,y-1);target.quadraticCurveTo(x,y+5,x+5,y+7);target.stroke();}
+       // Vảy lưng hình giọt ngọc, chạy dọc theo đường cong thân.
+       target.fillStyle="#a8fff0";target.strokeStyle="#e2fff6";target.lineWidth=.8;
+       for(let i=0;i<13;i++){const x=-67+i*9.2,y=dragonY-7+Math.sin(i*.72+phase)*9;
+         target.beginPath();target.moveTo(x-3,y);target.quadraticCurveTo(x,y-5,x+3,y);target.lineTo(x,y+3);target.closePath();target.fill();target.stroke();}
+       // Bờm gáy thành từng tua cong sau đầu.
+       target.strokeStyle="#9bfff0";target.lineWidth=2.2;
+       for(let i=0;i<5;i++){const x=24-i*4,y=dragonY-13+i*4;
+         target.beginPath();target.moveTo(x,y);target.quadraticCurveTo(x-11,y-7,x-15,y-15);target.stroke();}
+       // Bốn chân có khớp và móng vuốt.
+       target.strokeStyle="#bafff0";target.lineWidth=3;
+       for(const lx of [-43,-8,24]){
+         const ly=dragonY+8+Math.sin(phase+lx*.08)*3;
+         target.beginPath();target.moveTo(lx,ly);target.lineTo(lx-3,ly+9);target.lineTo(lx+2,ly+13);
+         target.moveTo(lx+2,ly+13);target.lineTo(lx+6,ly+10);target.moveTo(lx+2,ly+13);target.lineTo(lx+3,ly+17);target.stroke();
+       }
+       // Đầu rồng lớn, dáng đầu thú phương Đông nhìn nghiêng sang phải.
+       const hx=52,hy=dragonY-13+Math.sin(phase+1)*2;
+       const head=target.createLinearGradient(hx-13,hy-15,hx+17,hy+12);
+       head.addColorStop(0,"#16778a");head.addColorStop(.55,"#63e2cd");head.addColorStop(1,"#d8fff0");
+       target.fillStyle=head;target.strokeStyle="#e0fff5";target.lineWidth=1.7;
+       target.beginPath();target.moveTo(hx-15,hy-7);target.quadraticCurveTo(hx-10,hy-20,hx+2,hy-17);
+       target.quadraticCurveTo(hx+14,hy-17,hx+17,hy-7);target.quadraticCurveTo(hx+27,hy-3,hx+22,hy+4);
+       target.quadraticCurveTo(hx+15,hy+11,hx+1,hy+8);target.lineTo(hx-10,hy+5);
+       target.quadraticCurveTo(hx-20,hy+2,hx-15,hy-7);target.closePath();target.fill();target.stroke();
+       // Mõm vuông, hàm dưới và miệng tách rõ.
+       target.fillStyle="#aaffed";target.beginPath();target.moveTo(hx+5,hy-5);target.lineTo(hx+25,hy-2);
+       target.quadraticCurveTo(hx+31,hy+2,hx+22,hy+7);target.lineTo(hx+5,hy+5);target.closePath();target.fill();target.stroke();
+       target.fillStyle="#15576a";target.beginPath();target.moveTo(hx+4,hy+5);target.quadraticCurveTo(hx+17,hy+13,hx+25,hy+6);target.lineTo(hx+17,hy+12);target.closePath();target.fill();
+       // Mũi, lỗ mũi, răng nanh và ria rồng.
+       target.fillStyle="#164f5e";target.beginPath();target.arc(hx+23,hy+1,1.5,0,Math.PI*2);target.arc(hx+17,hy+1,1.2,0,Math.PI*2);target.fill();
+       target.fillStyle="#fff8d4";target.beginPath();target.moveTo(hx+12,hy+5);target.lineTo(hx+15,hy+10);target.lineTo(hx+17,hy+5);target.closePath();target.fill();
+       target.strokeStyle="#d7fff2";target.lineWidth=1.5;target.beginPath();
+       target.moveTo(hx+19,hy+5);target.quadraticCurveTo(hx+29,hy+14,hx+39,hy+10);
+       target.moveTo(hx+17,hy+7);target.quadraticCurveTo(hx+25,hy+20,hx+35,hy+20);target.stroke();
+       // Sừng phân nhánh, tai và cặp râu hướng ngược gió.
+       target.strokeStyle="#f4d68e";target.lineWidth=3;target.beginPath();
+       target.moveTo(hx-8,hy-12);target.quadraticCurveTo(hx-17,hy-26,hx-12,hy-32);
+       target.moveTo(hx+1,hy-15);target.quadraticCurveTo(hx+7,hy-29,hx+17,hy-28);
+       target.moveTo(hx-10,hy-6);target.quadraticCurveTo(hx-23,hy-13,hx-27,hy-5);target.stroke();
+       target.strokeStyle="#baffef";target.lineWidth=2;target.beginPath();
+       target.moveTo(hx-12,hy+1);target.quadraticCurveTo(hx-28,hy+5,hx-35,hy+1);
+       target.moveTo(hx-9,hy+5);target.quadraticCurveTo(hx-24,hy+15,hx-34,hy+12);target.stroke();
+       // Mắt hổ phách có đồng tử dọc và lông mày nổi.
+       target.fillStyle="#fff0a8";target.beginPath();target.ellipse(hx+7,hy-8,3.2,2.4,-.2,0,Math.PI*2);target.fill();
+       target.fillStyle="#173e45";target.fillRect(hx+6,hy-10,1.5,4);
+       target.strokeStyle="#155d69";target.lineWidth=2.4;target.beginPath();target.moveTo(hx+1,hy-12);target.lineTo(hx+12,hy-14);target.stroke();
+       // Đuôi dài chẻ đôi như đuôi cá rồng.
+       target.fillStyle="#37bcae";target.strokeStyle="#c4fff0";target.lineWidth=1.3;
+       target.beginPath();target.moveTo(-72,dragonY+10);target.quadraticCurveTo(-91,dragonY+12,-98,dragonY+2);
+       target.quadraticCurveTo(-84,dragonY+4,-81,dragonY-7);target.quadraticCurveTo(-74,dragonY+1,-72,dragonY+10);target.closePath();target.fill();target.stroke();
+       target.globalAlpha=.58*fade;target.strokeStyle="#b6fff2";target.lineWidth=2;
+       for(let i=0;i<3;i++){const yy=dragonY+22+i*6;target.beginPath();target.moveTo(-66-i*3,yy);target.quadraticCurveTo(-87-i*3,yy-6,-104-i*3,yy-1);target.stroke();}
        target.restore();
      }
 if(activeEffect==="sword_spin"){
@@ -4650,11 +4689,30 @@ if(activeEffect==="sword_spin"){
       target.restore();
     }
     if(activeEffect==="wind_step"){
-       // Phong Hành: thân lướt ngang liên tục, gió ép thành ba đường xiên sắc như cánh quạt.
-       const gust=t*7;target.globalAlpha=.9*fade;target.strokeStyle="#a9f5df";target.lineWidth=2;target.shadowColor="#5edfc4";target.shadowBlur=8;
-       for(let n=0;n<3;n++){const yy=-24+n*15,shift=Math.sin(gust+n*1.7)*9;target.beginPath();target.moveTo(-45,yy+shift);target.quadraticCurveTo(-12,yy-15-shift,15,yy+4+shift);target.lineTo(42,yy-9-shift);target.stroke();}
-       target.shadowBlur=0;target.strokeStyle="#e4fff5";target.lineWidth=1.2;
-       for(let n=0;n<2;n++){const y=-12+n*25;target.beginPath();target.moveTo(-31,y+Math.sin(gust)*5);target.lineTo(-8,y-7);target.lineTo(15,y+Math.sin(gust+1)*4);target.stroke();}
+       // Phong Hành: ba dải phong lụa song song, thuôn nhọn về sau như luồng khí lướt tốc độ cao.
+       const flow=t*2.8,drift=Math.sin(flow)*3;
+       target.save();target.globalAlpha=.88*fade;target.lineCap="round";target.lineJoin="round";
+       const bands=[{y:-25,w:5,a:.42},{y:-7,w:7,a:.72},{y:12,w:5,a:.48}];
+       for(let i=0;i<bands.length;i++){
+         const b=bands[i],s=Math.sin(flow+i*.7)*2;
+         target.globalAlpha=b.a*fade;
+         const ribbon=target.createLinearGradient(-68,b.y,42,b.y);
+         ribbon.addColorStop(0,"rgba(110,220,207,0)");ribbon.addColorStop(.38,"#65cfc2");ribbon.addColorStop(.78,"#c9fff0");ribbon.addColorStop(1,"rgba(240,255,247,0)");
+         target.fillStyle=ribbon;target.beginPath();
+         target.moveTo(-68,b.y+drift+s);target.bezierCurveTo(-38,b.y-7+s,-4,b.y-5-s,25,b.y-1);
+         target.lineTo(43,b.y-5);target.bezierCurveTo(19,b.y+7+s,-15,b.y+8+s,-68,b.y+4+s);target.closePath();target.fill();
+       }
+       // Những vệt khí mảnh chạy cùng một hướng, không giao cắt nguệch ngoạc.
+       target.globalAlpha=.72*fade;target.strokeStyle="#edfff8";target.lineWidth=1.35;target.shadowColor="#8cebd9";target.shadowBlur=7;
+       for(let i=0;i<4;i++){
+         const yy=-31+i*18,offset=((flow*19+i*23)%24);
+         target.beginPath();target.moveTo(-61+offset,yy);target.bezierCurveTo(-36+offset,yy-2,-14+offset,yy-1,12+offset,yy-4);target.stroke();
+       }
+       target.shadowBlur=0;
+       // Làn gió cuộn dưới phi kiếm thành hai cung mềm, cùng chiều chuyển động.
+       target.globalAlpha=.58*fade;target.strokeStyle="#a8f4e6";target.lineWidth=2;
+       for(let i=0;i<2;i++){target.beginPath();target.moveTo(-39,24+i*5);target.bezierCurveTo(-17,15+i*5,9,31+i*4,34,20+i*4);target.stroke();}
+       target.restore();
      }
 if(activeEffect==="shadow_step"){
        // Ảnh Độn: người chợt tan thành ba bóng lệch nhịp rồi hiện hình ở điểm kế tiếp; không dùng vòng tròn.
@@ -4666,15 +4724,25 @@ if(activeEffect==="shadow_step"){
        for(let n=0;n<4;n++){const px=-23+n*13,py=22+Math.sin(t*9+n)*3;target.fillRect(px,py,3,2);}
      }
 if(activeEffect==="sword_dash"){
-       // Kiếm Độn: thu thân nhập vào phi kiếm, kiếm quang thành mũi xuyên phá lao thẳng về trước.
-       const surge=.82+.18*Math.sin(t*17);
-       target.globalAlpha=.96*fade;target.shadowColor="#43cfff";target.shadowBlur=18;
-       const beam=target.createLinearGradient(-35,0,66,0);beam.addColorStop(0,"rgba(95,205,255,0)");beam.addColorStop(.55,"#8ceaff");beam.addColorStop(1,"#ffffff");
-       target.fillStyle=beam;target.beginPath();target.moveTo(-34,4);target.lineTo(48,-9*surge);target.lineTo(68,-13*surge);target.lineTo(53,-1);target.lineTo(68,8);target.lineTo(45,4);target.closePath();target.fill();
-       target.strokeStyle="#e7fcff";target.lineWidth=1.8;target.beginPath();target.moveTo(-24,2);target.lineTo(63,-12*surge);target.stroke();
-       target.shadowBlur=0;target.strokeStyle="#8ee5ff";
-       for(let n=0;n<5;n++){const yy=-24+n*12,offset=(t*45+n*13)%18;target.globalAlpha=(.72-n*.08)*fade;target.lineWidth=n===0?2:1.2;target.beginPath();target.moveTo(-57+offset,yy);target.lineTo(-20+offset,yy-3);target.stroke();}
-       target.globalAlpha=.95*fade;target.strokeStyle="#fff4c9";target.lineWidth=2.2;target.beginPath();target.moveTo(-17,24);target.lineTo(39,15);target.lineTo(55,12);target.stroke();
+       // Kiếm Độn: một thanh phi kiếm lam bạc hoàn chỉnh lao ngang, mũi nhọn hướng về trước.
+       const surge=.9+.1*Math.sin(t*15),bladeGlow=target.createLinearGradient(-42,0,66,0);
+       bladeGlow.addColorStop(0,"#4c9fc4");bladeGlow.addColorStop(.22,"#b9f3ff");bladeGlow.addColorStop(.72,"#f4ffff");bladeGlow.addColorStop(1,"#65cfff");
+       target.save();target.globalAlpha=.98*fade;target.shadowColor="#4bd5ff";target.shadowBlur=17;
+       // Lưỡi kiếm dài, sống kiếm nổi và hai cạnh rõ nét.
+       target.fillStyle=bladeGlow;target.strokeStyle="#eaffff";target.lineWidth=1.5;
+       target.beginPath();target.moveTo(-28,-5);target.lineTo(43,-6*surge);target.lineTo(68,0);target.lineTo(43,6*surge);target.lineTo(-28,5);target.closePath();target.fill();target.stroke();
+       target.strokeStyle="#ffffff";target.lineWidth=1.2;target.beginPath();target.moveTo(-20,-1);target.lineTo(59,0);target.stroke();
+       // Chắn tay kiếm có cánh cong, chuôi quấn dây và chụp chuôi.
+       target.shadowBlur=0;target.strokeStyle="#f4d28c";target.lineWidth=3.5;target.lineCap="round";
+       target.beginPath();target.moveTo(-28,-12);target.quadraticCurveTo(-17,0,-28,12);target.stroke();
+       target.strokeStyle="#9b6b38";target.lineWidth=5;target.beginPath();target.moveTo(-33,0);target.lineTo(-53,0);target.stroke();
+       target.strokeStyle="#f5dca4";target.lineWidth=1.4;
+       for(let n=0;n<4;n++){const xx=-50+n*4.5;target.beginPath();target.moveTo(xx,-3);target.lineTo(xx+5,3);target.stroke();}
+       target.fillStyle="#e9c47e";target.beginPath();target.arc(-56,0,3.4,0,Math.PI*2);target.fill();
+       // Kiếm quang kéo dài phía sau nhưng không che hình dáng thanh kiếm.
+       target.globalAlpha=.38*fade;target.strokeStyle="#78e7ff";target.lineWidth=3;
+       for(let n=0;n<3;n++){const yy=-13+n*13,off=(t*38+n*17)%22;target.beginPath();target.moveTo(-77+off,yy);target.bezierCurveTo(-56+off,yy-3,-44+off,yy+3,-31+off,yy);target.stroke();}
+       target.restore();
      }
 if(activeEffect==="cloud_stride"){
        // Lưu Vân Bộ: bước nhẹ liên hoàn, mây dài tách thành từng dải lụa trắng xanh trôi về sau.
