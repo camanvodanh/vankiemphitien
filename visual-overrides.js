@@ -3761,31 +3761,16 @@ function drawRiver(time){
 
 // Rừng tầng tầng trên sườn núi và hai mép cảnh; tuyệt đối tránh dải sông.
 function drawDenseForest(time){
-  ctx.save();
+  // Chỉ giữ vài cụm thông nhỏ sát mép khung; không trồng cây/bụi cỏ
+  // trên quảng trường hoặc phía trước hàng đệ tử.
   const clusters=[
-    {x:12,y:382,s:1.02},{x:38,y:415,s:.9},{x:68,y:365,s:.82},{x:92,y:425,s:.68},
-    {x:1008,y:420,s:.68},{x:1032,y:365,s:.82},{x:1062,y:415,s:.9},{x:1088,y:382,s:1.02},
-    {x:20,y:300,s:.58},{x:62,y:325,s:.54},{x:1040,y:320,s:.56},{x:1080,y:295,s:.6}
+    {x:8,y:438,s:.58},{x:48,y:452,s:.46},
+    {x:1092,y:438,s:.58},{x:1052,y:452,s:.46}
   ];
   clusters.forEach((p,i)=>{
-    const sway=Math.sin(time*.00055+i*1.8)*1.2;
+    const sway=Math.sin(time*.00055+i*1.8)*1.1;
     drawPine(p.x+sway,p.y,p.s);
-    drawTree(p.x+12,p.y+12,p.s*.68,i%2?"#315f49":"#3b704e");
-    ctx.fillStyle=i%2?"#244c3c":"#2d5941";
-    for(let k=0;k<5;k++){
-      const xx=p.x-24+k*12,yy=p.y+19+(k%2)*7;
-      ctx.beginPath();ctx.ellipse(xx,yy,12*p.s,8*p.s,-.15,0,Math.PI*2);ctx.fill();
-    }
   });
-  // Tán rừng xa bám theo sườn núi, dừng trước mép lòng sông.
-  for(let side=0;side<2;side++){
-    for(let i=0;i<9;i++){
-      const x=side?1012+i*10:5+i*10;
-      const y=345+(i%4)*19,s=.25+(i%3)*.06;
-      drawPine(x,y,s,i%2?"#315e48":"#426d4c");
-    }
-  }
-  ctx.restore();
 }
 
 // Chim chỉ lượn trên sườn núi ở hai hành lang ngoài đường đua.
@@ -3819,19 +3804,24 @@ function drawSpiritBirds(time){
 function drawScenery(time){
   ctx.save();
   ctx.globalAlpha=1;ctx.shadowBlur=0;
+
+  // Nền trời phủ kín canvas; rút ngắn tầng núi/mây/tiên môn lên 35px
+  // để giảm khoảng trời trống và dành thêm chiều cao cho trường đua.
   drawSky(time);
+  ctx.save();
+  ctx.translate(0,-35);
   drawMountainRange();
   drawMovingClouds(time);
-  // Hai thác đổ thẳng xuống dòng sông ngang.
   drawWaterfall(112,292,25,190,time);
   drawWaterfall(972,238,34,245,time);
+  drawSectArchitecture(time);
+  drawDenseForest(time);
+  ctx.restore();
+
+  // Giữ sông và quảng trường ở cao độ riêng, không kéo cây cỏ vào sân.
   drawRiver(time);
   drawBridge();
-  drawSectArchitecture(time);
-  drawNearBankTerraces(time);
-  drawDenseForest(time);
   drawAmbientEnergy(time);
-  // Chặn rò alpha từ bất kỳ hiệu ứng nền nào trước khi vẽ chim/khán đài.
   ctx.globalAlpha=1;ctx.shadowBlur=0;
   drawSpiritBirds(time);
   ctx.globalAlpha=1;ctx.shadowBlur=0;
