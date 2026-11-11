@@ -4493,3 +4493,57 @@ body.game-page:after{
     max-height:60px!important;
   }
 }
+
+
+/* REVISION 55 — bảng khởi tạo luôn nổi trên mọi cửa sổ và điều khiển. */
+.arena-frame>.game-setup{
+  z-index:1000!important;
+}
+.arena-frame>.game-setup:not([hidden]){
+  isolation:isolate;
+}
+.arena-frame>.game-setup.is-minimized{
+  z-index:1000!important;
+}
+
+/* Tiêu đề Góc Quan Sát luôn hiển thị bên trái, cùng hàng với nút thu/mở. */
+.arena-frame>.game-camera>.camera-heading{
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  flex-wrap:nowrap!important;
+  gap:7px!important;
+  min-height:20px!important;
+  white-space:nowrap!important;
+}
+.arena-frame>.game-camera .camera-title{
+  display:block!important;
+  flex:0 1 auto!important;
+  min-width:0!important;
+  margin:0!important;
+  color:#f1dba9!important;
+  font:700 11px/1.2 Arial,sans-serif!important;
+  white-space:nowrap!important;
+  text-align:left!important;
+}
+.arena-frame>.game-camera .camera-live{
+  display:flex!important;
+  flex:0 0 auto!important;
+  align-items:center!important;
+  margin:0!important;
+  white-space:nowrap!important;
+}
+.arena-frame>.game-camera .camera-heading>.window-minimize{
+  flex:0 0 20px!important;
+  width:20px!important;height:20px!important;
+  min-width:20px!important;min-height:20px!important;
+  margin-left:auto!important;
+}
+.arena-frame>.game-camera.is-minimized .camera-heading{
+  justify-content:flex-start!important;
+}
+@media(max-width:760px){
+  .arena-frame>.game-camera .camera-title{font-size:10px!important;}
+  .arena-frame>.game-camera .camera-heading{gap:5px!important;}
+}
