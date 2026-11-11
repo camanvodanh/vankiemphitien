@@ -4575,3 +4575,14 @@ body.game-page:after{
  .arena-frame>.game-camera>.camera-screen>.camera-effect-overlay{padding:3px 0 5px!important;}
  .arena-frame>.game-camera>.camera-screen #leaderEffect{font-size:9px!important;}
 }
+
+
+/* REVISION 58 — hệ số tăng/giảm tốc có màu riêng và thời lượng còn lại dễ đọc. */
+.arena-frame>.game-camera #leaderProgress .camera-speed-up{
+  display:inline-block!important;color:#45e58b!important;font-size:10px!important;font-weight:900!important;
+  text-shadow:0 0 7px rgba(69,229,139,.48)!important;white-space:nowrap!important;
+}
+.arena-frame>.game-camera #leaderProgress .camera-speed-down{
+  display:inline-block!important;color:#ff626b!important;font-size:10px!important;font-weight:900!important;
+  text-shadow:0 0 7px rgba(255,98,107,.42)!important;white-space:nowrap!important;
+}
