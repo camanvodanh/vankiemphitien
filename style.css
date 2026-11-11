@@ -617,3 +617,10 @@ body,button,input,textarea,select,label,.lock-notice,.status,.camera-info,table,
 /* REVISION 19 — icon cá mặn nhỏ ngang cỡ chữ ghi công. */
 .creator-credit{gap:.35em;font-size:.9em;letter-spacing:inherit;line-height:1}
 .salt-fish{width:1.35em;height:.79em;flex:0 0 auto;display:inline-block;vertical-align:middle}
+
+
+/* LIVE CAMERA — hiển thị hạng và thông tin tăng tốc dài mà không tràn khung. */
+.camera-heading{align-items:flex-start;}
+#leaderProgress{min-width:0;max-width:calc(100% - 74px);font-size:clamp(11px,1.45vw,15px);line-height:1.35;white-space:normal;overflow-wrap:anywhere;}
+.camera-live{flex:0 0 auto;margin-top:3px;}
+@media(max-width:480px){#leaderProgress{font-size:11px;letter-spacing:0;}}
