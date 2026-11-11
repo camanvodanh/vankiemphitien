@@ -4761,7 +4761,7 @@ function drawCrowd(time){
   // Ngoại môn và tạp dịch xếp thành các dải phía dưới, phủ đều chiều ngang.
   const groups=[
     {role:"outer",count:92,scale:.33,y0:746,y1:775},
-    {role:"servant",count:132,scale:.29,y0:778,y1:808}
+    {role:"servant",count:132,scale:.29,y0:790,y1:882}
   ];
   groups.forEach((g,gi)=>{
     for(let i=0;i<g.count;i++){
@@ -4828,102 +4828,102 @@ function drawScenery(time){
 function drawRacingArtifact(target,kind,phase){
   const female=arguments.length>3&&arguments[3]==="female";
   const palettes=[
-    ["#dcecf2","#fffdf0","#8ca9b0","#b58a4d"],
-    ["#9ed9e8","#e8ffff","#4d8795","#527e87"],
-    ["#c6b4ed","#f7edff","#7f6aa8","#72528c"],
-    ["#dfb96f","#fff0bf","#a87536","#81552f"],
-    ["#a8d2ad","#efffe7","#5b8a66","#47734d"],
-    ["#b9c5d2","#ffffff","#6d8197","#526075"],
-    ["#e6a5a8","#ffe9df","#a45a65","#8a3f4a"],
-    ["#d6c49a","#fff5d6","#8f7952","#66543b"]
+    ["#c7e4ed","#f7ffff","#5d8794","#a77b43"],
+    ["#9ed8e9","#efffff","#477d8a","#527d86"],
+    ["#c8b5ed","#fff2ff","#78649f","#79558c"],
+    ["#e4bd70","#fff2c7","#986b35","#79512e"],
+    ["#a8d2ad","#efffe8","#568260","#47704b"],
+    ["#b9c9da","#ffffff","#657b92","#526075"],
+    ["#e8a5aa","#fff0e8","#a45161","#813d4a"],
+    ["#d9c89d","#fff6dc","#88744d","#665239"]
   ];
   const p=palettes[((kind%palettes.length)+palettes.length)%palettes.length];
   const blade=p[0],edge=p[1],fuller=p[2],metal=p[3];
   const shape=((kind%8)+8)%8;
   target.save();
-  target.translate(0,17);
-  target.rotate(Math.PI/2+Math.sin(phase)*.018);
-  target.globalAlpha=.98;
-  target.shadowColor=blade;
-  target.shadowBlur=5;
+  target.translate(0,18);
+  target.rotate(Math.PI/2+Math.sin(phase)*.012);
+  target.globalAlpha=1;
 
-  // Bóng đổ mỏng dưới thân kiếm.
-  target.fillStyle="rgba(13,25,29,.32)";
-  target.beginPath();target.ellipse(0,3,43,4,0,0,Math.PI*2);target.fill();
+  // Bóng mảnh giúp thân kiếm tách khỏi áo và hiệu ứng bay.
+  target.fillStyle="rgba(10,20,28,.38)";
+  target.beginPath();target.ellipse(0,4,48,5,0,0,Math.PI*2);target.fill();
 
-  // Lưỡi kiếm: tám phom riêng biệt, đầu nhọn hướng về phía trước.
-  const bladeGrad=target.createLinearGradient(-10,0,10,0);
-  bladeGrad.addColorStop(0,"#536b72");
-  bladeGrad.addColorStop(.16,blade);
-  bladeGrad.addColorStop(.48,edge);
-  bladeGrad.addColorStop(.78,blade);
-  bladeGrad.addColorStop(1,"#536b72");
-  target.fillStyle=bladeGrad;
+  // Lưỡi kiếm dài, có sống, hai cạnh rõ và mũi nhọn thật sự.
+  const grad=target.createLinearGradient(-12,0,12,0);
+  grad.addColorStop(0,"#425c66");
+  grad.addColorStop(.13,blade);
+  grad.addColorStop(.48,edge);
+  grad.addColorStop(.82,blade);
+  grad.addColorStop(1,"#425c66");
+  target.fillStyle=grad;
   target.beginPath();
-  if(shape===0){ // Kiếm thẳng cổ điển
-    target.moveTo(-2,-39);target.lineTo(6,-29);target.lineTo(7,-5);
-    target.lineTo(4,1);target.lineTo(-4,1);target.lineTo(-7,-5);target.lineTo(-6,-29);
-  }else if(shape===1){ // Kiếm bản rộng
-    target.moveTo(0,-39);target.lineTo(9,-27);target.lineTo(10,-8);
-    target.lineTo(6,2);target.lineTo(-6,2);target.lineTo(-10,-8);target.lineTo(-9,-27);
-  }else if(shape===2){ // Kiếm liễu diệp cong nhẹ
-    target.moveTo(0,-40);target.quadraticCurveTo(13,-24,7,-5);
-    target.lineTo(3,2);target.lineTo(-5,1);target.quadraticCurveTo(4,-20,0,-40);
-  }else if(shape===3){ // Kiếm mảnh kiểu phi kiếm
-    target.moveTo(0,-43);target.lineTo(5,-28);target.lineTo(3,2);
-    target.lineTo(-3,2);target.lineTo(-5,-28);
-  }else if(shape===4){ // Kiếm hai rãnh, mũi tam giác
-    target.moveTo(0,-42);target.lineTo(8,-25);target.lineTo(6,-4);
-    target.lineTo(3,2);target.lineTo(-3,2);target.lineTo(-6,-4);target.lineTo(-8,-25);
-  }else if(shape===5){ // Kiếm bản cong nguyệt
-    target.moveTo(-1,-40);target.quadraticCurveTo(12,-22,9,-7);
-    target.lineTo(3,2);target.lineTo(-5,1);target.quadraticCurveTo(1,-17,-1,-40);
-  }else if(shape===6){ // Kiếm sống lưng dày
-    target.moveTo(-2,-40);target.lineTo(7,-29);target.lineTo(8,-9);
-    target.lineTo(5,2);target.lineTo(-5,2);target.lineTo(-8,-9);target.lineTo(-7,-29);
-  }else{ // Kiếm linh văn đầu nhọn dài
-    target.moveTo(0,-44);target.lineTo(7,-25);target.lineTo(5,-3);
-    target.lineTo(0,3);target.lineTo(-5,-3);target.lineTo(-7,-25);
+  if(shape===0){ // Trường kiếm thẳng
+    target.moveTo(0,-56);target.lineTo(8,-43);target.lineTo(8,-8);
+    target.lineTo(6,0);target.lineTo(-6,0);target.lineTo(-8,-8);target.lineTo(-8,-43);
+  }else if(shape===1){ // Trọng kiếm bản rộng
+    target.moveTo(0,-54);target.lineTo(12,-40);target.lineTo(11,-8);
+    target.lineTo(7,1);target.lineTo(-7,1);target.lineTo(-11,-8);target.lineTo(-12,-40);
+  }else if(shape===2){ // Liễu diệp kiếm
+    target.moveTo(0,-57);target.quadraticCurveTo(14,-38,10,-15);
+    target.lineTo(6,0);target.lineTo(-5,0);
+    target.quadraticCurveTo(5,-30,0,-57);
+  }else if(shape===3){ // Tế kiếm
+    target.moveTo(0,-60);target.lineTo(6,-43);target.lineTo(4,-5);
+    target.lineTo(3,1);target.lineTo(-3,1);target.lineTo(-4,-5);target.lineTo(-6,-43);
+  }else if(shape===4){ // Kiếm tam giác
+    target.moveTo(0,-57);target.lineTo(11,-37);target.lineTo(8,-7);
+    target.lineTo(5,1);target.lineTo(-5,1);target.lineTo(-8,-7);target.lineTo(-11,-37);
+  }else if(shape===5){ // Nguyệt nhận
+    target.moveTo(-2,-56);target.quadraticCurveTo(15,-38,12,-16);
+    target.lineTo(6,1);target.lineTo(-5,0);
+    target.quadraticCurveTo(2,-27,-2,-56);
+  }else if(shape===6){ // Hậu bối kiếm
+    target.moveTo(-2,-55);target.lineTo(9,-42);target.lineTo(10,-10);
+    target.lineTo(7,1);target.lineTo(-7,1);target.lineTo(-10,-10);target.lineTo(-9,-42);
+  }else{ // Linh văn kiếm mũi nhọn dài
+    target.moveTo(0,-62);target.lineTo(9,-39);target.lineTo(7,-7);
+    target.lineTo(4,2);target.lineTo(-4,2);target.lineTo(-7,-7);target.lineTo(-9,-39);
   }
   target.closePath();target.fill();
-  target.shadowBlur=0;
-  target.strokeStyle=edge;target.lineWidth=1.35;target.stroke();
+  target.strokeStyle=edge;target.lineWidth=1.7;target.stroke();
 
-  // Sống kiếm và rãnh dẫn sáng chạy dọc lưỡi.
-  target.strokeStyle=fuller;target.globalAlpha=.8;target.lineWidth=1.15;
-  target.beginPath();target.moveTo(0,-36);target.quadraticCurveTo(1,-18,0,-2);target.stroke();
-  target.strokeStyle="rgba(255,255,255,.68)";target.lineWidth=.65;
-  target.beginPath();target.moveTo(-3,-29);target.lineTo(-2,-7);target.stroke();
+  // Sống kiếm nổi và rãnh sáng ở giữa lưỡi.
+  target.strokeStyle=fuller;target.lineWidth=1.7;
+  target.beginPath();target.moveTo(0,-52);target.quadraticCurveTo(1,-27,0,-3);target.stroke();
+  target.strokeStyle="rgba(255,255,255,.82)";target.lineWidth=.9;
+  target.beginPath();target.moveTo(-3,-43);target.lineTo(-2,-12);target.stroke();
+  // Vệt sáng ở cạnh bén làm rõ hình khối kim loại.
+  target.strokeStyle="rgba(255,255,255,.72)";target.lineWidth=1;
+  target.beginPath();target.moveTo(6,-39);target.lineTo(5,-8);target.stroke();
 
-  // Họa tiết khắc rất nhỏ, không làm lưỡi kiếm rối.
-  target.globalAlpha=.72;target.fillStyle=female?"#fff0d4":"#f4e4b4";
-  target.beginPath();target.moveTo(0,-25);target.lineTo(2,-21);target.lineTo(0,-17);target.lineTo(-2,-21);target.closePath();target.fill();
-
-  // Chắn tay, chuôi bọc da và chụp chuôi.
-  target.globalAlpha=1;
-  const guard=target.createLinearGradient(-13,0,13,0);
-  guard.addColorStop(0,"#51402f");guard.addColorStop(.35,metal);guard.addColorStop(.7,"#f4d99a");guard.addColorStop(1,"#51402f");
+  // Chắn kiếm cong hai cánh — chi tiết nhận diện quan trọng.
+  const guard=target.createLinearGradient(-19,0,19,0);
+  guard.addColorStop(0,"#49372b");guard.addColorStop(.24,metal);
+  guard.addColorStop(.5,"#fff0b9");guard.addColorStop(.76,metal);guard.addColorStop(1,"#49372b");
   target.fillStyle=guard;
   target.beginPath();
-  target.moveTo(-12,-1);target.quadraticCurveTo(-8,4,0,4);
-  target.quadraticCurveTo(8,4,12,-1);target.lineTo(10,-4);
-  target.quadraticCurveTo(0,0,-10,-4);target.closePath();target.fill();
-  target.strokeStyle="#fff0bd";target.lineWidth=.8;target.stroke();
+  target.moveTo(-18,1);target.quadraticCurveTo(-12,8,0,7);
+  target.quadraticCurveTo(12,8,18,1);target.lineTo(14,-3);
+  target.quadraticCurveTo(0,2,-14,-3);target.closePath();target.fill();
+  target.strokeStyle="#fff0c7";target.lineWidth=1;target.stroke();
 
-  target.fillStyle="#59412f";target.fillRect(-3,3,6,15);
-  target.fillStyle=metal;target.fillRect(-4,5,8,2);
-  target.fillRect(-4,13,8,2);
-  target.strokeStyle="rgba(255,235,190,.7)";target.lineWidth=.8;
-  target.beginPath();target.moveTo(-2,7);target.lineTo(2,13);target.stroke();
-  target.fillStyle=metal;target.beginPath();target.arc(0,20,3.2,0,Math.PI*2);target.fill();
-  target.fillStyle=female?"#f4c9d9":"#bce7e8";
-  target.beginPath();target.arc(0,20,1.4,0,Math.PI*2);target.fill();
-
-  // Ngọc nhỏ tại chắn kiếm phân biệt từng hệ kiếm.
-  target.fillStyle=p[2];target.beginPath();target.arc(0,0,2.1,0,Math.PI*2);target.fill();
+  // Chuôi bọc da có khoen kim loại, nằm đối diện mũi kiếm.
+  target.fillStyle="#3c2c26";
+  target.beginPath();target.roundRect(-4,7,8,23,2);target.fill();
+  target.strokeStyle=metal;target.lineWidth=1.2;
+  for(let y=11;y<=25;y+=5){
+    target.beginPath();target.moveTo(-4,y);target.lineTo(4,y+3);target.stroke();
+  }
+  target.fillStyle=metal;target.fillRect(-5,8,10,2.5);target.fillRect(-5,27,10,2.5);
+  // Chụp chuôi và viên ngọc.
+  target.fillStyle=metal;target.beginPath();target.arc(0,33,5,0,Math.PI*2);target.fill();
+  target.fillStyle=female?"#f6c8dc":"#bcebed";
+  target.beginPath();target.arc(0,33,2.3,0,Math.PI*2);target.fill();
+  // Ngọc ở tâm chắn kiếm.
+  target.fillStyle=p[2];target.beginPath();target.arc(0,3,2.8,0,Math.PI*2);target.fill();
   target.restore();
 }
-
 function drawWaterfall(x,y,width,height,time){
   ctx.save();
   const bottom=y+height+10;
