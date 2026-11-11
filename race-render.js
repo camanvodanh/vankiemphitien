@@ -562,10 +562,10 @@ function drawCamera(time){
  if(!started||!racers.length){
   $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Hạng --/--";
   cameraCtx.fillStyle="#fff2c9";cameraCtx.font="bold 14px Arial, sans-serif";cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";
-  cameraCtx.fillText("Chờ khai mở tiên hội",210,96);return;
+  cameraCtx.fillText("Chờ khai mở tiên hội",210,120);return;
  }
  const leader=leaderOf();if(!leader)return;
- drawRacer(cameraCtx,leader,210,108,2.0,time);
+ drawRacer(cameraCtx,leader,210,137,2.65,time);
  cameraCtx.save();cameraCtx.font="bold 17px Arial, sans-serif";cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";cameraCtx.lineJoin="round";
  cameraCtx.lineWidth=4;cameraCtx.strokeStyle="rgba(15,27,25,.96)";cameraCtx.strokeText(leader.name,210,24,390);
  cameraCtx.fillStyle="#fff4d4";cameraCtx.fillText(leader.name,210,24,390);cameraCtx.restore();
