@@ -6588,55 +6588,70 @@ function drawAwardMaster(target,x,y,scale,time){
 // chưởng môn ở quảng trường với chưởng môn trao thưởng.
 // =====================================================
 function drawMasterBaguaHalo(target,x,y,scale,time){
-  // Chỉ còn một Thái Cực đồ âm dương, không Bát Quái,
-  // không vòng đồng tâm, không phù văn hay tia phương vị.
+  // Thái Cực đồ được kết tụ hoàn toàn từ chấm linh khí,
+  // đặt dưới chân chưởng môn; tuyệt đối không vẽ vòng trận sau lưng.
   target.save();
-  target.translate(x,y+43*scale);
-  target.scale(scale,.58*scale);
-  target.rotate(time*.00018);
+  target.translate(x,y+54*scale);
+  target.scale(scale,.62*scale);
+  target.rotate(time*.00016);
 
-  const R=53;
-  // Quầng linh khí rất nhẹ ôm sát pháp đồ, không tạo thêm vòng trận.
-  target.shadowColor="#b9f4e7";
-  target.shadowBlur=15;
-  target.fillStyle="rgba(110,224,205,.12)";
-  target.beginPath();target.arc(0,0,R+3,0,Math.PI*2);target.fill();
+  const R=48;
+  const pulse=.72+.28*Math.sin(time*.003);
+  const dot=(px,py,size,color,alpha=1)=>{
+    target.globalAlpha=alpha;
+    target.fillStyle=color;
+    target.shadowColor=color;
+    target.shadowBlur=3.5;
+    target.beginPath();target.arc(px,py,size,0,Math.PI*2);target.fill();
+  };
+
+  // Viền ngoài chỉ là chuỗi hạt linh quang rời, không có nét vẽ liền.
+  for(let i=0;i<88;i++){
+    const a=i*Math.PI*2/88;
+    const drift=Math.sin(time*.002+i*.71)*1.15;
+    const r=R+drift;
+    const size=(i%4===0?1.9:1.15)*pulse;
+    dot(Math.cos(a)*r,Math.sin(a)*r,size,i%3===0?"#f7d995":"#8de5d4",.48+.42*(.5+.5*Math.sin(time*.003+i)));
+  }
+
+  // Hạt bên trong tự sắp thành hai cực âm dương, phân cách bằng đường S.
+  // Mỗi hạt có độ lệch nhỏ để tạo cảm giác linh khí đang tụ hình.
+  for(let row=-11;row<=11;row++){
+    const py=row*4.05;
+    const half=Math.sqrt(Math.max(0,R*R-py*py));
+    for(let col=-11;col<=11;col++){
+      const px=col*4.05;
+      if(Math.abs(px)>half)continue;
+      const t=Math.acos(Math.max(-1,Math.min(1,-py/R)));
+      const boundary=(R*.5)*Math.sin(2*t);
+      const isYang=px>boundary;
+      const swirl=Math.sin(time*.0025+row*.8+col*.63)*.72;
+      const size=(1.05+(.35*Math.sin(time*.004+row+col)))*pulse;
+      const color=isYang?"#fff0c8":"#183b38";
+      dot(px+swirl,py+Math.cos(time*.002+col)*.48,size,color,.72);
+    }
+  }
+
+  // Hai mắt âm dương là các hạt sáng/đậm tụ thành vòng tròn nhỏ.
+  for(const eye of [{y:-R/2,light:false},{y:R/2,light:true}]){
+    for(let i=0;i<18;i++){
+      const a=i*Math.PI*2/18,rr=5.2+Math.sin(time*.003+i)*.45;
+      dot(Math.cos(a)*rr,eye.y+Math.sin(a)*rr,1.45,eye.light?"#fff0c8":"#183b38",.98);
+    }
+    dot(0,eye.y,2.15,eye.light?"#fff0c8":"#183b38",1);
+  }
+
+  // Một ít hạt bay tản ra rồi nhập lại, tạo cảm giác Thái Cực đang được kết tụ.
+  for(let i=0;i<16;i++){
+    const a=time*.0007+i*Math.PI*2/16;
+    const r=R+7+Math.sin(time*.002+i)*3;
+    const alpha=.2+.35*(.5+.5*Math.sin(time*.003+i*1.7));
+    dot(Math.cos(a)*r,Math.sin(a)*r,1.05,i%2?"#b5f4e5":"#ffe2a0",alpha);
+  }
+  target.globalAlpha=1;
   target.shadowBlur=0;
-
-  // Viền ngọc cổ đơn nhất.
-  const rim=target.createLinearGradient(-R,-R,R,R);
-  rim.addColorStop(0,"#f6e7b5");
-  rim.addColorStop(.48,"#9bd8c8");
-  rim.addColorStop(1,"#b18a4d");
-  target.fillStyle=rim;
-  target.beginPath();target.arc(0,0,R,0,Math.PI*2);target.fill();
-
-  // Thái Cực đồ chuẩn: nền âm đen, nửa dương trắng,
-  // đường phân giới chữ S và hai mắt âm dương.
-  target.fillStyle="#172321";
-  target.beginPath();target.arc(0,0,R-4,0,Math.PI*2);target.fill();
-  const r=R-5;
-  target.fillStyle="#f4edda";
-  target.beginPath();
-  target.moveTo(0,-r);
-  target.arc(0,0,r,-Math.PI/2,Math.PI/2,true);
-  target.bezierCurveTo(r, r*.5, r, -r*.5, 0, -r);
-  target.closePath();
-  target.fill();
-
-  // Hai chấm âm dương đặt đúng tâm hai nửa đối cực.
-  target.fillStyle="#172321";
-  target.beginPath();target.arc(0,-r/2,r/7,0,Math.PI*2);target.fill();
-  target.fillStyle="#f4edda";
-  target.beginPath();target.arc(0,r/2,r/7,0,Math.PI*2);target.fill();
-
-  // Viền mảnh khép kín, không có thêm quỹ đạo bao quanh.
-  target.strokeStyle="rgba(255,244,211,.8)";
-  target.lineWidth=1.2;
-  target.beginPath();target.arc(0,0,r,0,Math.PI*2);target.stroke();
   target.restore();
-}
-function drawSectMasterThrone(target,x,y,scale,tilt=0){
+}function drawSectMasterThrone(target,x,y,scale,tilt=0){
   target.save();target.translate(x,y);target.rotate(tilt);target.scale(scale,scale);
   const gold=target.createLinearGradient(-45,0,45,0);gold.addColorStop(0,"#513321");gold.addColorStop(.24,"#c99b53");gold.addColorStop(.5,"#fff0b4");gold.addColorStop(.76,"#b17b3e");gold.addColorStop(1,"#4b3024");
   // Lưng ngai cao, đỉnh chạm song long và khung gỗ tử đàn.
