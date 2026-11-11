@@ -582,114 +582,173 @@ function drawCrowd(time) {
 // =====================================================
 function drawSpectator(x,y,scale,roleName,time,phase=0){
   const role=ROLE[roleName]||ROLE.outer;
-  // phase được chuẩn hóa theo chỉ số nhân vật để các hàng trưởng lão
-  // và chân truyền luôn có cả nam lẫn nữ, không bị lệch toàn nam.
-  const personIndex=Math.abs(Math.round(phase*1.25));
+  // Luân phiên nam/nữ theo nhịp phase của từng hàng; giữ nguyên màu cấp bậc.
+  const personIndex=Math.abs(Math.round(phase*10));
   const female=personIndex%2===1;
-  const robe=role.robe,shadowRobe=role.dark,belt=role.belt;
-  const skin=female?"#f3c9a8":"#d9a783";
-  const ink=female?"#29212a":"#29232a";
-  const wave=Math.sin(time*.006+phase),armWave=Math.sin(time*.008+phase);
+  const robe=role.robe,shade=role.dark,trim=role.belt;
+  const skin=female?"#f2c8a8":"#d9a783";
+  const hair=female?"#211c2b":"#29232a";
   const beat=time*.00072+phase,pose=Math.floor((beat*.72)%5);
+  const armWave=Math.sin(time*.008+phase);
   const jump=pose===2?Math.max(0,Math.sin(beat*5))*5:Math.sin(beat*2)*.8;
-  ctx.save();ctx.translate(x,y-jump);ctx.scale(scale*role.scale,scale);
-  ctx.lineJoin="round";ctx.lineCap="round";
-  ctx.fillStyle="rgba(20,35,27,.32)";ctx.beginPath();ctx.ellipse(0,39,18,4,0,0,Math.PI*2);ctx.fill();
-  if(role.aura)drawAura(0,-14,roleName==="elder"?38:roleName==="disciple"?34:29,role.aura,time,phase);
 
-  // Đạo bào dài chấm gót: nam dáng thẳng, vai rộng; nữ chiết eo,
-  // tà váy xếp lớp xòe mềm. Giữ nguyên bảng màu theo cấp bậc.
-  ctx.fillStyle=shadowRobe;ctx.beginPath();
+  ctx.save();
+  ctx.translate(x,y-jump);
+  ctx.scale(scale*role.scale,scale);
+  ctx.lineJoin="round";ctx.lineCap="round";
+
+  // Bóng chân và hào quang cấp bậc.
+  ctx.fillStyle="rgba(20,27,30,.3)";
+  ctx.beginPath();ctx.ellipse(0,39,18,4,0,0,Math.PI*2);ctx.fill();
+  if(role.aura)drawAura(0,-14,roleName==="elder"?39:roleName==="disciple"?35:29,role.aura,time,phase);
+
+  // Giày và lớp áo trong.
+  ctx.fillStyle="#403b38";
   if(female){
-    ctx.moveTo(-7,-10);ctx.lineTo(7,-10);ctx.lineTo(11,5);
-    ctx.quadraticCurveTo(14,21,23,37);ctx.quadraticCurveTo(0,43,-23,37);
-    ctx.quadraticCurveTo(-14,21,-11,5);ctx.closePath();
+    ctx.beginPath();ctx.ellipse(-5,35,5,2.6,-.12,0,Math.PI*2);ctx.ellipse(5,35,5,2.6,.12,0,Math.PI*2);ctx.fill();
   }else{
-    ctx.moveTo(-11,-10);ctx.lineTo(11,-10);ctx.lineTo(16,8);
-    ctx.lineTo(19,37);ctx.quadraticCurveTo(0,41,-19,37);
-    ctx.lineTo(-16,8);ctx.closePath();
+    ctx.fillRect(-9,34,7,4);ctx.fillRect(2,34,7,4);
+  }
+
+  // Tà đạo bào: nam dáng thẳng, vai rộng; nữ chiết eo và váy xếp tầng.
+  ctx.fillStyle=shade;ctx.beginPath();
+  if(female){
+    ctx.moveTo(-7,-10);ctx.lineTo(7,-10);ctx.lineTo(11,4);
+    ctx.quadraticCurveTo(14,21,24,37);ctx.quadraticCurveTo(0,43,-24,37);
+    ctx.quadraticCurveTo(-14,21,-11,4);ctx.closePath();
+  }else{
+    ctx.moveTo(-12,-10);ctx.lineTo(12,-10);ctx.lineTo(17,7);
+    ctx.lineTo(20,37);ctx.quadraticCurveTo(0,41,-20,37);
+    ctx.lineTo(-17,7);ctx.closePath();
   }ctx.fill();
 
-  // Vạt áo ngoài nhiều lớp và viền thêu.
   ctx.fillStyle=robe;ctx.beginPath();
   if(female){
-    ctx.moveTo(-7,-10);ctx.lineTo(7,-10);ctx.lineTo(10,5);
-    ctx.quadraticCurveTo(13,21,19,35);ctx.quadraticCurveTo(0,39,-19,35);
-    ctx.quadraticCurveTo(-13,21,-10,5);ctx.closePath();
+    ctx.moveTo(-7,-10);ctx.lineTo(7,-10);ctx.lineTo(10,4);
+    ctx.quadraticCurveTo(13,21,20,35);ctx.quadraticCurveTo(0,39,-20,35);
+    ctx.quadraticCurveTo(-13,21,-10,4);ctx.closePath();
   }else{
-    ctx.moveTo(-9,-10);ctx.lineTo(9,-10);ctx.lineTo(13,8);
-    ctx.lineTo(16,35);ctx.quadraticCurveTo(0,39,-16,35);
-    ctx.lineTo(-13,8);ctx.closePath();
+    ctx.moveTo(-10,-10);ctx.lineTo(10,-10);ctx.lineTo(14,7);
+    ctx.lineTo(17,35);ctx.quadraticCurveTo(0,39,-17,35);
+    ctx.lineTo(-14,7);ctx.closePath();
   }ctx.fill();
-  ctx.strokeStyle=belt;ctx.lineWidth=1.35;ctx.stroke();
 
-  // Áo trong sáng màu, cổ giao lĩnh và nẹp áo kim tuyến.
-  ctx.fillStyle=female?"rgba(255,241,226,.88)":"rgba(255,239,213,.7)";
-  ctx.beginPath();ctx.moveTo(-4,-10);ctx.lineTo(0,2);ctx.lineTo(4,-10);
-  ctx.lineTo(7,26);ctx.lineTo(0,32);ctx.lineTo(-7,26);ctx.closePath();ctx.fill();
-  ctx.strokeStyle="rgba(255,232,179,.9)";ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(-9,-9);ctx.lineTo(-2,3);ctx.lineTo(0,6);ctx.lineTo(2,3);ctx.lineTo(9,-9);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(-15,29);ctx.quadraticCurveTo(0,34,15,29);ctx.stroke();
-
-  // Tay áo: nữ tay lụa dài rủ, nam tay áo vuông khỏe.
-  ctx.fillStyle=robe;ctx.strokeStyle=belt;ctx.lineWidth=1.2;
+  // Nẹp thêu viền tà áo và hoa văn cấp bậc.
+  ctx.strokeStyle=trim;ctx.lineWidth=1.5;
   ctx.beginPath();
-  if(female){ctx.moveTo(-8,-7);ctx.quadraticCurveTo(-17,-10,-20,3);ctx.lineTo(-25,20);ctx.quadraticCurveTo(-19,25,-13,16);ctx.lineTo(-5,3);ctx.closePath();}
-  else{ctx.moveTo(-9,-7);ctx.lineTo(-18,-4);ctx.lineTo(-22,13);ctx.lineTo(-14,18);ctx.lineTo(-5,3);ctx.closePath();}
-  ctx.fill();ctx.stroke();
-  ctx.beginPath();
-  if(female){ctx.moveTo(8,-7);ctx.quadraticCurveTo(17,-10,20,3);ctx.lineTo(25,20);ctx.quadraticCurveTo(19,25,13,16);ctx.lineTo(5,3);ctx.closePath();}
-  else{ctx.moveTo(9,-7);ctx.lineTo(18,-4);ctx.lineTo(22,13);ctx.lineTo(14,18);ctx.lineTo(5,3);ctx.closePath();}
-  ctx.fill();ctx.stroke();
-
-  // Đai lưng, khóa ngọc, tua rủ và huy hiệu riêng của cấp bậc.
-  ctx.fillStyle=shadowRobe;ctx.fillRect(-11,5,22,5);
-  ctx.fillStyle=belt;ctx.fillRect(-11,5,22,2.2);
-  ctx.fillStyle="#ead8a8";ctx.strokeStyle="#8e7447";ctx.lineWidth=.8;
-  ctx.beginPath();ctx.roundRect(-3,4,6,7,1.5);ctx.fill();ctx.stroke();
-  ctx.strokeStyle=belt;ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(4,9);ctx.lineTo(7,21);ctx.lineTo(4,25);ctx.stroke();
-  ctx.strokeStyle=belt;ctx.lineWidth=1.2;ctx.beginPath();ctx.arc(6,-2,3,0,Math.PI*2);ctx.stroke();
-  if(roleName==="elder"||roleName==="disciple"||roleName==="core"){
-    ctx.fillStyle="#f0d99c";ctx.beginPath();ctx.arc(0,15,2.2,0,Math.PI*2);ctx.fill();
-  }
-
-  // Cử chỉ cổ vũ; nữ có cổ tay mềm và dải tay áo bay.
-  const armY=pose===0?-5:pose===1?-29+armWave*3:pose===2?-25:pose===3?-20:-29;
-  ctx.strokeStyle=skin;ctx.lineWidth=female?2.8:3.8;
-  ctx.beginPath();ctx.moveTo(-13,0);ctx.quadraticCurveTo(-18,-7,-16,armY);
-  ctx.moveTo(13,0);ctx.quadraticCurveTo(18,-7,16,-armY*.68);ctx.stroke();
-  ctx.fillStyle=robe;ctx.beginPath();ctx.ellipse(-16,armY,4.2,6,-.25,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.ellipse(16,-armY*.68,4.2,6,.25,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle=skin;ctx.beginPath();ctx.arc(-16,armY,2.4,0,Math.PI*2);ctx.arc(16,-armY*.68,2.4,0,Math.PI*2);ctx.fill();
-
-  // Cổ và gương mặt có nét riêng.
-  ctx.fillStyle=skin;ctx.fillRect(-3.5,-19,7,9);
-  ctx.beginPath();ctx.ellipse(0,-24,female?6:6.8,7.8,0,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle=ink;
   if(female){
-    ctx.beginPath();ctx.arc(0,-27,7,Math.PI,Math.PI*2);ctx.fill();
-    ctx.beginPath();ctx.moveTo(-6,-27);ctx.quadraticCurveTo(-10,-15,-8,2);ctx.quadraticCurveTo(-5,-5,-4,-20);ctx.closePath();ctx.fill();
-    ctx.beginPath();ctx.moveTo(6,-27);ctx.quadraticCurveTo(10,-15,8,2);ctx.quadraticCurveTo(5,-5,4,-20);ctx.closePath();ctx.fill();
-    ctx.beginPath();ctx.ellipse(2,-32,4.5,3.5,-.3,0,Math.PI*2);ctx.fill();
-    ctx.strokeStyle=belt;ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(3,-33);ctx.lineTo(11,-38);ctx.stroke();
-    ctx.fillStyle="#f4dfaa";ctx.beginPath();ctx.arc(11,-38,2,0,Math.PI*2);ctx.fill();
-    ctx.strokeStyle=ink;ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(-5,-19);ctx.quadraticCurveTo(-10,-6,-7,5);ctx.moveTo(5,-19);ctx.quadraticCurveTo(10,-6,7,5);ctx.stroke();
+    ctx.moveTo(-9,-7);ctx.quadraticCurveTo(-8,16,-17,34);
+    ctx.moveTo(9,-7);ctx.quadraticCurveTo(8,16,17,34);
+    ctx.moveTo(-17,29);ctx.quadraticCurveTo(0,35,17,29);
   }else{
-    ctx.beginPath();ctx.arc(0,-27,7.5,Math.PI,Math.PI*2);ctx.fill();
-    ctx.fillRect(-7,-27,3,10);ctx.fillRect(4,-27,3,10);
-    ctx.beginPath();ctx.ellipse(1,-34,5,4,-.2,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle=belt;ctx.fillRect(-1,-39,4,6);
-    if(roleName==="elder"){ctx.fillStyle="#e3ded2";ctx.beginPath();ctx.moveTo(-3,-17);ctx.lineTo(3,-17);ctx.lineTo(2,-7);ctx.lineTo(0,-5);ctx.lineTo(-2,-7);ctx.closePath();ctx.fill();}
+    ctx.moveTo(-12,-6);ctx.lineTo(-14,34);
+    ctx.moveTo(12,-6);ctx.lineTo(14,34);
+    ctx.moveTo(-16,31);ctx.lineTo(16,31);
+  }ctx.stroke();
+
+  // Cổ giao lĩnh nhiều lớp, áo lót sáng và đai ngọc.
+  ctx.fillStyle=female?"#fff0df":"#f4e4c9";
+  ctx.beginPath();ctx.moveTo(-6,-11);ctx.lineTo(0,3);ctx.lineTo(6,-11);
+  ctx.lineTo(3,10);ctx.lineTo(0,14);ctx.lineTo(-3,10);ctx.closePath();ctx.fill();
+  ctx.strokeStyle=trim;ctx.lineWidth=1.2;
+  ctx.beginPath();ctx.moveTo(-10,-9);ctx.lineTo(-2,4);ctx.lineTo(0,7);ctx.lineTo(2,4);ctx.lineTo(10,-9);ctx.stroke();
+
+  // Đai lưng và khóa ngọc.
+  ctx.fillStyle=shade;ctx.fillRect(-11,5,22,5);
+  ctx.fillStyle=trim;ctx.fillRect(-11,5,22,2);
+  ctx.fillStyle="#ead8a8";ctx.strokeStyle="#8e7447";ctx.lineWidth=.8;
+  ctx.beginPath();ctx.roundRect(-3.2,4,6.4,7,1.4);ctx.fill();ctx.stroke();
+  ctx.fillStyle=role.aura||"#9ac8bd";
+  ctx.beginPath();ctx.arc(0,7.5,1.6,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle=trim;ctx.lineWidth=1.2;
+  ctx.beginPath();ctx.moveTo(5,9);ctx.lineTo(8,20);ctx.lineTo(5,24);ctx.stroke();
+
+  // Tay áo: nữ tay lụa dài rủ; nam tay áo rộng, góc cạnh.
+  ctx.fillStyle=robe;ctx.strokeStyle=trim;ctx.lineWidth=1.2;
+  const armY=pose===0?-5:pose===1?-29+armWave*3:pose===2?-25:pose===3?-20:-29;
+  ctx.beginPath();
+  if(female){
+    ctx.moveTo(-8,-8);ctx.quadraticCurveTo(-18,-13,-20,2);
+    ctx.lineTo(-27,21);ctx.quadraticCurveTo(-21,27,-14,17);
+    ctx.lineTo(-5,3);ctx.closePath();
+  }else{
+    ctx.moveTo(-10,-8);ctx.lineTo(-19,-5);ctx.lineTo(-24,13);
+    ctx.lineTo(-15,19);ctx.lineTo(-5,3);ctx.closePath();
+  }ctx.fill();ctx.stroke();
+  ctx.beginPath();
+  if(female){
+    ctx.moveTo(8,-8);ctx.quadraticCurveTo(18,-13,20,2);
+    ctx.lineTo(27,21);ctx.quadraticCurveTo(21,27,14,17);
+    ctx.lineTo(5,3);ctx.closePath();
+  }else{
+    ctx.moveTo(10,-8);ctx.lineTo(19,-5);ctx.lineTo(24,13);
+    ctx.lineTo(15,19);ctx.lineTo(5,3);ctx.closePath();
+  }ctx.fill();ctx.stroke();
+
+  // Cánh tay và bàn tay đang chào mừng.
+  ctx.strokeStyle=skin;ctx.lineWidth=female?2.8:4;
+  ctx.beginPath();
+  ctx.moveTo(-14,1);ctx.quadraticCurveTo(-19,-7,-16,armY);
+  ctx.moveTo(14,1);ctx.quadraticCurveTo(19,-7,16,-armY*.68);ctx.stroke();
+  ctx.fillStyle=robe;
+  ctx.beginPath();ctx.ellipse(-16,armY,female?4.5:5.5,6,-.2,0,Math.PI*2);
+  ctx.ellipse(16,-armY*.68,female?4.5:5.5,6,.2,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle=skin;
+  ctx.beginPath();ctx.arc(-16,armY,2.5,0,Math.PI*2);ctx.arc(16,-armY*.68,2.5,0,Math.PI*2);ctx.fill();
+
+  // Cổ, gương mặt.
+  ctx.fillStyle=skin;ctx.fillRect(-3.5,-19,7,9);
+  ctx.beginPath();ctx.ellipse(0,-25,female?6.1:6.9,8,0,0,Math.PI*2);ctx.fill();
+
+  if(female){
+    // Tóc dài, búi trâm ngọc, mái mềm và lọn tóc hai bên.
+    ctx.fillStyle=hair;
+    ctx.beginPath();ctx.arc(0,-28,7.3,Math.PI,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.moveTo(-6,-28);ctx.quadraticCurveTo(-11,-14,-9,5);
+    ctx.quadraticCurveTo(-5,-3,-4,-20);ctx.closePath();ctx.fill();
+    ctx.beginPath();ctx.moveTo(6,-28);ctx.quadraticCurveTo(11,-14,9,5);
+    ctx.quadraticCurveTo(5,-3,4,-20);ctx.closePath();ctx.fill();
+    ctx.beginPath();ctx.ellipse(2,-33,4.8,3.8,-.25,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle=trim;ctx.lineWidth=1.6;ctx.beginPath();
+    ctx.moveTo(3,-34);ctx.lineTo(12,-40);ctx.stroke();
+    ctx.fillStyle="#f4dfaa";ctx.beginPath();ctx.arc(12,-40,2.2,0,Math.PI*2);ctx.fill();
+    // Hoa tai.
+    ctx.fillStyle="#f0d99c";ctx.beginPath();ctx.arc(-6,-23,1.1,0,Math.PI*2);ctx.arc(6,-23,1.1,0,Math.PI*2);ctx.fill();
+  }else{
+    // Nam búi tóc cao, quan mão; trưởng lão có râu bạc.
+    ctx.fillStyle=hair;
+    ctx.beginPath();ctx.arc(0,-28,7.6,Math.PI,Math.PI*2);ctx.fill();
+    ctx.fillRect(-7,-28,3,11);ctx.fillRect(4,-28,3,11);
+    ctx.beginPath();ctx.ellipse(1,-35,5.2,4,-.2,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle=trim;ctx.fillRect(-2,-41,5,7);
+    ctx.beginPath();ctx.moveTo(-5,-34);ctx.lineTo(5,-34);ctx.lineTo(4,-31);ctx.lineTo(-4,-31);ctx.closePath();ctx.fill();
+    if(roleName==="elder"){
+      ctx.fillStyle="#e6e0d3";ctx.beginPath();
+      ctx.moveTo(-3,-18);ctx.lineTo(3,-18);ctx.lineTo(2,-7);
+      ctx.lineTo(0,-4);ctx.lineTo(-2,-7);ctx.closePath();ctx.fill();
+      ctx.strokeStyle="#e6e0d3";ctx.lineWidth=1.2;
+      ctx.beginPath();ctx.moveTo(-5,-17);ctx.lineTo(-7,-11);ctx.moveTo(5,-17);ctx.lineTo(7,-11);ctx.stroke();
+    }
   }
-  ctx.strokeStyle=ink;ctx.lineWidth=female?1:1.4;ctx.beginPath();
-  ctx.moveTo(-3.5,-25);ctx.lineTo(-1,-25);ctx.moveTo(1,-25);ctx.lineTo(3.5,-25);ctx.stroke();
-  ctx.fillStyle=ink;ctx.fillRect(-2.8,-23,1.2,1.2);ctx.fillRect(1.6,-23,1.2,1.2);
+
+  // Mắt, chân mày, mũi và nét miệng; nam góc cạnh, nữ thanh tú.
+  ctx.strokeStyle=hair;ctx.lineWidth=female?1:1.5;
+  ctx.beginPath();
+  ctx.moveTo(-4,-27);ctx.lineTo(-1.5,-27);ctx.moveTo(1.5,-27);ctx.lineTo(4,-27);
+  if(!female){ctx.moveTo(-4.5,-29);ctx.lineTo(-1.2,-30);ctx.moveTo(1.2,-30);ctx.lineTo(4.5,-29);}
+  ctx.stroke();
+  ctx.fillStyle="#30272a";
+  ctx.fillRect(-2.8,-25,1.2,1.4);ctx.fillRect(1.6,-25,1.2,1.4);
   ctx.strokeStyle=female?"#a85f66":"#70463d";ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(-2,-17);ctx.quadraticCurveTo(0,-15.8,2,-17);ctx.stroke();
-  if(roleName==="core"||roleName==="disciple"||roleName==="elder"){
-    ctx.fillStyle=belt;ctx.beginPath();ctx.arc(0,-39,2.4,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.moveTo(-2,-18);ctx.quadraticCurveTo(0,female?-16.5:-17,2,-18);ctx.stroke();
+
+  // Huy hiệu ngực và tua trang trí riêng theo thân phận.
+  if(roleName==="elder"||roleName==="disciple"||roleName==="core"){
+    ctx.fillStyle="#f0d99c";ctx.beginPath();ctx.arc(0,15,2.4,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle=trim;ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(0,17);ctx.lineTo(0,23);ctx.stroke();
   }
-  if(pose===3){ctx.fillStyle=ink;ctx.beginPath();ctx.ellipse(0,-19,2,2.8,0,0,Math.PI*2);ctx.fill();}
+  if(pose===3){ctx.fillStyle=hair;ctx.beginPath();ctx.ellipse(0,-20,2,2.8,0,0,Math.PI*2);ctx.fill();}
   ctx.restore();
   if(role.aura)drawEnergyRings(x,y,scale*role.scale,role.aura,time,phase);
 }
