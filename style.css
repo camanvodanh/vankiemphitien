@@ -373,7 +373,7 @@ td {
 }
 
 th:first-child, td:first-child {
-  width: 40px;
+  width: 48px;
   text-align: center;
 }
 
@@ -622,4 +622,4 @@ body,button,input,textarea,select,label,.lock-notice,.status,.camera-info,table,
 .rank-up{color:#159447;text-shadow:0 0 3px #15944733}
 .rank-down{color:#df3434;text-shadow:0 0 3px #df343433}
 .rank-stable{color:#a89b80;font-size:.82em}
-.rank-position{display:inline-block;min-width:1.25em;text-align:center}
+.rank-cell{display:inline-flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;flex-wrap:nowrap;min-width:max-content}.rank-position{display:inline-block;min-width:1.25em;text-align:center;white-space:nowrap}.rank-cell .rank-movement{flex:0 0 auto;margin:0;white-space:nowrap}
