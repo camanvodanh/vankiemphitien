@@ -62,63 +62,18 @@ function processFinish(racer, index) {
 // =====================================================
 
 function updateRace(dt) {
-  if (!running || paused || !started || finished) return;
-
-  const previousElapsed = elapsed;
-
-  elapsed = Math.min(duration, elapsed + dt);
-
-  racers.forEach(racer => {
-    if (racer.finished) return;
-
-    const targetTime = Math.max(
-      .001,
-      racer.targetFinishTime
-    );
-
-    const ratio = clamp(
-      elapsed / targetTime,
-      0,
-      1
-    );
-
-    racer.progress = distance * ratio;
-  });
-
-  const due = racers
-    .map((racer, index) => ({ racer, index }))
-    .filter(item =>
-      !item.racer.finished &&
-      previousElapsed < item.racer.targetFinishTime &&
-      elapsed >= item.racer.targetFinishTime
-    )
-    .sort((a, b) =>
-      a.racer.targetFinishTime -
-      b.racer.targetFinishTime
-    );
-
-  due.forEach(item => {
-    processFinish(item.racer, item.index);
-  });
-
-  eventClock += dt;
-
-  if (eventClock >= nextEvent && elapsed < duration) {
-    triggerEvent();
-
-    eventClock = 0;
-    nextEvent = rand(5, 9);
-  }
-
-  if (elapsed >= duration) {
-    racers.forEach((racer, index) => {
-      if (!racer.finished) {
-        processFinish(racer, index);
-      }
-    });
-
-    finishRace();
-  }
+ if(!running||paused||!started||finished)return;
+ elapsed=Math.min(duration,elapsed+dt);
+ racers.forEach(racer=>{
+  if(racer.finished)return;
+  if(racer.effectTimer>0){racer.effectTimer=Math.max(0,racer.effectTimer-dt);if(racer.effectTimer===0){racer.speedMultiplier=1;racer.effectType="";racer.effectName="";}}
+  const baseSpeed=distance/Math.max(.001,racer.targetFinishTime);
+  racer.progress=Math.min(distance,racer.progress+baseSpeed*dt*(racer.speedMultiplier||1));
+ });
+ racers.map((racer,index)=>({racer,index})).filter(o=>!o.racer.finished&&o.racer.progress>=distance).forEach(o=>processFinish(o.racer,o.index));
+ eventClock+=dt;
+ if(eventClock>=nextEvent&&elapsed<duration){triggerEvent();eventClock=0;nextEvent=rand(4.5,7.5);}
+ if(elapsed>=duration){racers.forEach((racer,index)=>{if(!racer.finished)processFinish(racer,index);});finishRace();}
 }
 
 // =====================================================
@@ -217,7 +172,11 @@ function createRacer(name, index) {
     finishTime: null,
     color: color[0],
     dark: color[1],
-    phase: rand(0, Math.PI * 2)
+    phase: rand(0, Math.PI * 2),
+    speedMultiplier: 1,
+    effectTimer: 0,
+    effectType: "",
+    effectName: ""
   };
 }
 
