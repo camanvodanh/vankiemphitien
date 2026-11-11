@@ -622,8 +622,8 @@ function resetGame(){
   racers=[];raceStopped=false;particles=[];running=false;paused=false;started=false;finished=false;
   countdown=0;countdownAccumulator=0;elapsed=0;eventClock=0;eventText="";eventTextLife=0;
   finishQueue=[];cameraFocusId=null;finishMessage="";finishMessageLife=0;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;
-  $("status").textContent="Chờ triệu hồi";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa khai mở";$("lockNotice").textContent="Bước 1: Nhập tên hoặc chọn số lượng, sau đó nhấn Triệu hồi.";
-  setSettingsLocked(false);syncButtons();updateRanking();render(performance.now());
+  $("status").textContent="Chờ triệu hồi";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa khai mở";$("leaderEffect").textContent="";$("lockNotice").textContent="Bước 1: Nhập danh sách hoặc chọn số lượng, sau đó nhấn Tạo.";
+  setSettingsLocked(false);setSetupPanel(true);syncButtons();updateRanking();render(performance.now());
 }
 function leaderOf(){
   const active=racers.filter(r=>!r.finished);
@@ -802,7 +802,14 @@ function setSetupPanel(show){
  if(!panel)return;
  panel.hidden=!show;
  if(show) panel.classList.remove("is-minimized");
- $("setupToggle").hidden=show||!racers.length||running||paused;
+ const button=panel.querySelector(".window-minimize");
+ if(button){
+  button.textContent=show?"−":"+";
+  button.setAttribute("aria-expanded",String(!!show));
+  button.setAttribute("aria-label",show?"Thu nhỏ khởi tạo đại hội":"Mở rộng khởi tạo đại hội");
+  button.title=show?"Thu nhỏ":"Mở rộng";
+ }
+ $("setupToggle").hidden=true;
 }
 function collapseSetupPanel(){
  const panel=document.querySelector(".arena-frame .game-setup");
@@ -981,15 +988,8 @@ function syncButtons(){
 }
 
 function stopRace(){
-  if(!racers.length)return;
-  running=false;paused=false;started=false;finished=false;raceStopped=true;
-  countdown=0;countdownAccumulator=0;
-  $("status").textContent="Cuộc đua đã dừng";
-  setSettingsLocked(false);
-  $("lockNotice").textContent="Cuộc đua đã dừng. Nhấn Khởi tạo để mở bảng thiết lập.";
-  collapseSetupPanel();
-  syncButtons();
-  render(performance.now());
+  // Dừng đồng nghĩa trở về trạng thái ban đầu như vừa tải lại trang.
+  resetGame();
 }
 
 function handleStopOrSetup(){
