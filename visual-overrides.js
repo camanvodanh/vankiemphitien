@@ -6374,14 +6374,71 @@ function drawMountainSpringArtifact(time){
   ctx.shadowColor="#9affdc";ctx.shadowBlur=18;ctx.fillStyle=pearl;ctx.beginPath();ctx.arc(38,391,13*pulse,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
   ctx.strokeStyle="rgba(244,228,172,.8)";ctx.lineWidth=1.2;ctx.beginPath();ctx.arc(38,391,17*pulse,0,Math.PI*2);ctx.stroke();
 
-  // Dòng linh tuyền có lòng nước, dải bọt và vệt chảy, nhập vào sông tại x=137.
-  const flow=()=>{ctx.beginPath();ctx.moveTo(82,424);ctx.bezierCurveTo(91,438,89,451,101,465);ctx.bezierCurveTo(111,480,119,495,137,519);};
-  flow();ctx.strokeStyle="rgba(17,66,59,.82)";ctx.lineWidth=19;ctx.stroke();
-  const water=ctx.createLinearGradient(82,424,137,519);water.addColorStop(0,"#d9ffe9");water.addColorStop(.2,"#91efd0");water.addColorStop(.55,"#43b9ad");water.addColorStop(1,"#267e88");
-  flow();ctx.strokeStyle=water;ctx.lineWidth=13;ctx.stroke();flow();ctx.strokeStyle="rgba(245,255,237,.92)";ctx.lineWidth=2.2;ctx.stroke();
-  for(let i=0;i<7;i++){const p=(time*.00042+i/7)%1,px=84+53*p,py=428+91*p+Math.sin(p*Math.PI)*5;ctx.globalAlpha=.35+.55*Math.sin(p*Math.PI);ctx.fillStyle=i%2?"#eaffdf":"#8ff6dc";ctx.beginPath();ctx.ellipse(px,py,2.2,1.25,-.9,0,Math.PI*2);ctx.fill();}
+  // Dòng linh tuyền đổ thành màn nước tự do, xòe rộng dần như thác nhỏ.
+  // Không còn hai mép song song hay tiết diện tròn kiểu ống dẫn.
+  const fall=()=>{
+    ctx.beginPath();
+    ctx.moveTo(83,423);
+    ctx.bezierCurveTo(91,431,96,441,94,451);
+    ctx.bezierCurveTo(91,464,107,476,111,489);
+    ctx.bezierCurveTo(118,501,130,510,146,521);
+    ctx.lineTo(128,531);
+    ctx.bezierCurveTo(112,518,99,505,91,491);
+    ctx.bezierCurveTo(80,475,78,462,84,449);
+    ctx.bezierCurveTo(88,439,82,430,77,426);
+    ctx.closePath();
+  };
+  // Bóng nước và lớp thân thác trong mờ, loang rộng ở chân.
+  fall();ctx.fillStyle="rgba(17,66,59,.48)";ctx.shadowColor="#5fe3c9";ctx.shadowBlur=13;ctx.fill();ctx.shadowBlur=0;
+  const cascade=ctx.createLinearGradient(80,425,145,527);
+  cascade.addColorStop(0,"rgba(224,255,233,.94)");
+  cascade.addColorStop(.18,"rgba(139,239,211,.91)");
+  cascade.addColorStop(.55,"rgba(66,190,177,.84)");
+  cascade.addColorStop(1,"rgba(48,137,151,.72)");
+  fall();ctx.fillStyle=cascade;ctx.fill();
+
+  // Các dải nước tách lớp, uốn lượn không đều như màn thác.
+  for(let i=0;i<5;i++){
+    const sway=Math.sin(time*.0011+i*1.7)*3.2;
+    const top=426+i*1.3;
+    ctx.beginPath();
+    ctx.moveTo(82+i*1.5,top);
+    ctx.bezierCurveTo(91+i*1.2+sway,443,82+i*3,459+i*3,93+i*2+sway,477+i*5);
+    ctx.bezierCurveTo(103+i*2,496+i*4,119+i*2,510+i*3,137+i*2,520+i*2);
+    ctx.strokeStyle=i%2?"rgba(225,255,239,.72)":"rgba(105,235,207,.72)";
+    ctx.lineWidth=i===2?3.4:1.8;ctx.stroke();
+  }
+
+  // Màn bọt trắng ở chân thác và những tia nước bắn ra hai bên.
+  ctx.fillStyle="rgba(235,255,239,.84)";
+  for(let i=0;i<13;i++){
+    const p=(time*.00055+i/13)%1;
+    const px=92+p*43+Math.sin(i*2.1)*4;
+    const py=435+p*83+Math.cos(i*1.4)*3;
+    const rr=1+Math.sin(p*Math.PI)*1.7;
+    ctx.globalAlpha=.25+.65*Math.sin(p*Math.PI);
+    ctx.beginPath();ctx.ellipse(px,py,rr*1.5,rr*.7,-.6,0,Math.PI*2);ctx.fill();
+  }
   ctx.globalAlpha=1;
-  for(let i=0;i<4;i++){ctx.strokeStyle=i%2?"rgba(218,255,237,.62)":"rgba(119,225,204,.7)";ctx.lineWidth=1.8;ctx.beginPath();ctx.ellipse(137+i*4,519+i*1.7,13+i*6,3+i*.8,0,0,Math.PI*2);ctx.stroke();}
+  for(let i=0;i<7;i++){
+    const side=i%2?1:-1,yy=500+(i%4)*4;
+    ctx.strokeStyle="rgba(221,255,239,.62)";ctx.lineWidth=1.4;
+    ctx.beginPath();ctx.moveTo(128+side*3,yy);ctx.quadraticCurveTo(136+side*(8+i),yy-5,140+side*(12+i),yy+2);ctx.stroke();
+  }
+
+  // Dòng nước loang ra thành cửa nhập sông, tạo gợn lan theo mặt sông.
+  for(let i=0;i<5;i++){
+    const spread= i*5;
+    ctx.strokeStyle=i%2?"rgba(220,255,237,.72)":"rgba(105,220,204,.76)";
+    ctx.lineWidth=1.8;ctx.beginPath();
+    ctx.ellipse(139,522,12+spread,3+spread*.16,0,0,Math.PI*2);ctx.stroke();
+  }
+  for(let i=0;i<8;i++){
+    const a=time*.00038+i*Math.PI/4;
+    ctx.fillStyle=i%2?"#efffed":"#a4f5dc";ctx.globalAlpha=.55;
+    ctx.beginPath();ctx.ellipse(139+Math.cos(a)*(8+(i%3)*5),522+Math.sin(a)*3,2.1,1.1,a,0,Math.PI*2);ctx.fill();
+  }
+  ctx.globalAlpha=1;
   ctx.restore();
 }
 function drawScenery(time){
