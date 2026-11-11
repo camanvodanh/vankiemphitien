@@ -2826,3 +2826,67 @@ body.game-page:after{
 .arena-frame>.arena-controls #start .btn-icon,.arena-frame>.arena-controls #stop .btn-icon{display:block!important;font-family:serif!important;font-size:23px!important;line-height:1!important;color:#ffe7ae!important;text-shadow:0 1px 4px #21190d!important;}
 .arena-frame>.arena-controls #start:active,.arena-frame>.arena-controls #stop:active{transform:scale(.94)!important;}
 @media(max-width:420px){.arena-frame>.game-camera .camera-info{padding:5px 6px 7px!important;gap:3px!important;}.arena-frame>.game-camera #leaderProgress{font-size:10px!important;min-height:25px!important;padding:2px 5px!important;}.arena-frame>.game-camera #leaderName{font-size:11px!important;}.arena-frame>.game-camera #leaderEffect{font-size:9px!important;padding-left:30px!important;}.arena-frame>.arena-controls #start,.arena-frame>.arena-controls #stop{width:38px!important;height:38px!important;min-width:38px!important;min-height:38px!important;}.arena-frame>.arena-controls #start .btn-icon,.arena-frame>.arena-controls #stop .btn-icon{font-size:20px!important;}}
+
+
+/* REVISION 36 — nút điều khiển dạng phù văn tu tiên, không nền/khung tròn. */
+.arena-frame>.arena-controls{
+  width:100%!important;
+  justify-content:center!important;
+  align-items:center!important;
+  gap:clamp(22px,4vw,42px)!important;
+}
+.arena-frame>.arena-controls #start,
+.arena-frame>.arena-controls #stop{
+  display:grid!important;
+  place-items:center!important;
+  width:44px!important;
+  height:44px!important;
+  min-width:44px!important;
+  min-height:44px!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  outline:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  color:#f3d58e!important;
+  line-height:1!important;
+  text-align:center!important;
+  transform:none!important;
+}
+.arena-frame>.arena-controls #stop{color:#e9bd78!important;}
+.arena-frame>.arena-controls #start .btn-icon,
+.arena-frame>.arena-controls #stop .btn-icon{
+  display:grid!important;
+  place-items:center!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  font-family:"Noto Serif",Georgia,serif!important;
+  font-size:31px!important;
+  line-height:1!important;
+  text-align:center!important;
+  color:inherit!important;
+  text-shadow:0 0 5px rgba(246,211,137,.8),0 0 14px rgba(196,147,69,.48),0 2px 2px #17120b!important;
+}
+.arena-frame>.arena-controls #stop .btn-icon{
+  text-shadow:0 0 5px rgba(232,188,117,.78),0 0 14px rgba(170,113,47,.5),0 2px 2px #17120b!important;
+}
+.arena-frame>.arena-controls #start .btn-label,
+.arena-frame>.arena-controls #stop .btn-label{display:none!important;}
+.arena-frame>.arena-controls #start:disabled,
+.arena-frame>.arena-controls #stop:disabled{opacity:.48!important;}
+.arena-frame>.arena-controls #start:active,
+.arena-frame>.arena-controls #stop:active{transform:scale(.92)!important;}
+@media(max-width:420px){
+ .arena-frame>.arena-controls{gap:18px!important;}
+ .arena-frame>.arena-controls #start,
+ .arena-frame>.arena-controls #stop{width:38px!important;height:38px!important;min-width:38px!important;min-height:38px!important;}
+ .arena-frame>.arena-controls #start .btn-icon,
+ .arena-frame>.arena-controls #stop .btn-icon{font-size:27px!important;}
+}
