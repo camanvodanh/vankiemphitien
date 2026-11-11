@@ -567,7 +567,7 @@ function summon(){
   setSettingsLocked(false);
   $("leaderEffect").textContent="";
   $("lockNotice").textContent="Tiếp theo: Nhấn Chạy để khai mở cuộc đua.";
-  setSetupPanel(true);
+  collapseSetupPanel();
   syncButtons();
   render(performance.now());
 }
