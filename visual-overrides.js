@@ -6363,73 +6363,100 @@ function drawMountainSpringArtifact(time){
   ctx.strokeStyle="rgba(245,224,164,.9)";ctx.lineWidth=1.3;for(let i=-1;i<=1;i++){ctx.beginPath();ctx.ellipse(i*7,24,4,8,i*.28,0,Math.PI*2);ctx.stroke();}
   ctx.fillStyle="#b9f4d9";ctx.beginPath();ctx.arc(0,14,3.3,0,Math.PI*2);ctx.fill();ctx.restore();
 
-  // Long thủ bằng ngọc hướng xuống dòng sông, miệng là điểm xuất thủy.
-  ctx.save();ctx.translate(58,414);ctx.rotate(.34);ctx.fillStyle="#287c69";ctx.strokeStyle="#e9cf8b";ctx.lineWidth=1.8;
-  ctx.beginPath();ctx.moveTo(-5,-5);ctx.quadraticCurveTo(8,-17,22,-8);ctx.quadraticCurveTo(34,-2,27,9);ctx.lineTo(13,8);ctx.quadraticCurveTo(7,17,-2,10);ctx.closePath();ctx.fill();ctx.stroke();
-  ctx.fillStyle="#e9cf8b";ctx.beginPath();ctx.arc(24,-3,2.1,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#e9cf8b";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(12,-10);ctx.quadraticCurveTo(17,-23,28,-20);ctx.moveTo(5,-10);ctx.quadraticCurveTo(3,-22,-5,-19);ctx.stroke();
-  ctx.fillStyle="#f5e4b0";ctx.beginPath();ctx.ellipse(30,8,5,2.5,.3,0,Math.PI*2);ctx.fill();ctx.restore();
+  // Vòi pháp bảo tạo hình vòi bình trà bằng ngọc, cong xuống theo hướng rót nước.
+  ctx.save();ctx.translate(56,414);ctx.rotate(.24);
+  const spoutGrad=ctx.createLinearGradient(0,-12,28,12);
+  spoutGrad.addColorStop(0,"#d5e5ae");spoutGrad.addColorStop(.28,"#4b9b7c");spoutGrad.addColorStop(.7,"#246b5c");spoutGrad.addColorStop(1,"#173f38");
+  ctx.fillStyle=spoutGrad;ctx.strokeStyle="#e9cf8b";ctx.lineWidth=1.8;
+  ctx.beginPath();
+  ctx.moveTo(-7,1);
+  ctx.quadraticCurveTo(1,-7,8,-4);
+  ctx.quadraticCurveTo(16,-2,20,5);
+  ctx.quadraticCurveTo(25,11,34,13);
+  ctx.quadraticCurveTo(39,15,37,20);
+  ctx.quadraticCurveTo(35,24,29,21);
+  ctx.quadraticCurveTo(18,17,14,11);
+  ctx.quadraticCurveTo(7,5,0,7);
+  ctx.closePath();ctx.fill();ctx.stroke();
+  // Viền miệng vòi hơi loe như miệng ấm trà.
+  ctx.fillStyle="#e8d39a";ctx.beginPath();
+  ctx.ellipse(34,17,5.5,2.8,.34,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle="rgba(255,244,202,.9)";ctx.lineWidth=1;
+  ctx.beginPath();ctx.ellipse(34,17,3.6,1.5,.34,0,Math.PI*2);ctx.stroke();
+  ctx.restore();
 
   // Linh châu nổi trên bình.
   const pearl=ctx.createRadialGradient(31,386,1,38,391,16);pearl.addColorStop(0,"#fff");pearl.addColorStop(.25,"#eaffd7");pearl.addColorStop(.62,"#75e6c1");pearl.addColorStop(1,"rgba(50,174,142,0)");
   ctx.shadowColor="#9affdc";ctx.shadowBlur=18;ctx.fillStyle=pearl;ctx.beginPath();ctx.arc(38,391,13*pulse,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
   ctx.strokeStyle="rgba(244,228,172,.8)";ctx.lineWidth=1.2;ctx.beginPath();ctx.arc(38,391,17*pulse,0,Math.PI*2);ctx.stroke();
 
-  // Linh tuyền dạng dải nước mảnh, xòe như rèm thác nhiều nhánh.
-  // Giữ khoảng trống giữa các dải để nước không dính thành một khối đặc.
-  const streams=[
-    {x:82,dx:-9,w:1.8,phase:0},
-    {x:84,dx:2,w:2.5,phase:1.2},
-    {x:86,dx:13,w:1.7,phase:2.1},
-    {x:88,dx:25,w:1.5,phase:3.2},
-    {x:83,dx:36,w:1.3,phase:4.1}
-  ];
-  // Một lớp màn nước nền rất nhẹ, chỉ tạo ánh ẩm chứ không tô kín lòng thác.
-  ctx.beginPath();ctx.moveTo(82,424);
-  ctx.bezierCurveTo(91,444,84,462,101,483);
-  ctx.bezierCurveTo(113,502,128,514,150,523);
-  ctx.strokeStyle="rgba(111,226,204,.18)";ctx.lineWidth=5;ctx.stroke();
-
-  // Những sợi nước riêng biệt rủ xuống, tỏa ngang dần khi gần mặt sông.
-  streams.forEach((stream,i)=>{
-    const sway=Math.sin(time*.0013+stream.phase)*2.4;
+  // Màn thác liền dải: nước tràn khỏi miệng vòi, mỏng ở đầu và xòe rộng dần.
+  // Lõi nước trong, mép tơi nhẹ; tránh các tia rời hoặc khối nước đặc.
+  const curtain=()=>{
     ctx.beginPath();
-    ctx.moveTo(stream.x,425+i*1.2);
-    ctx.bezierCurveTo(stream.x-4+sway,443,stream.x+stream.dx*.18+sway,459,stream.x+stream.dx*.42,478);
-    ctx.bezierCurveTo(stream.x+stream.dx*.68,497,stream.x+stream.dx*.86,510,stream.x+stream.dx,521+i*.9);
-    ctx.strokeStyle=i%2?"rgba(107,226,211,.78)":"rgba(216,255,236,.9)";
-    ctx.lineWidth=stream.w;ctx.lineCap="round";ctx.stroke();
-    // Vệt sáng mảnh chạy dọc từng nhánh.
-    ctx.beginPath();
-    ctx.moveTo(stream.x-.5,429);
-    ctx.quadraticCurveTo(stream.x-2+sway,454,stream.x+stream.dx*.48,480);
-    ctx.quadraticCurveTo(stream.x+stream.dx*.78,503,stream.x+stream.dx,519+i*.9);
-    ctx.strokeStyle="rgba(245,255,239,.62)";ctx.lineWidth=.65;ctx.stroke();
-  });
+    ctx.moveTo(87,426);
+    ctx.bezierCurveTo(91,438,94,448,98,460);
+    ctx.bezierCurveTo(104,479,119,500,151,520);
+    ctx.quadraticCurveTo(157,524,153,528);
+    ctx.bezierCurveTo(119,514,94,493,82,470);
+    ctx.bezierCurveTo(76,457,79,440,79,429);
+    ctx.closePath();
+  };
+  curtain();
+  const veil=ctx.createLinearGradient(80,426,151,525);
+  veil.addColorStop(0,"rgba(210,255,235,.55)");
+  veil.addColorStop(.24,"rgba(126,231,209,.32)");
+  veil.addColorStop(.62,"rgba(76,190,181,.24)");
+  veil.addColorStop(1,"rgba(66,153,163,.18)");
+  ctx.fillStyle=veil;ctx.fill();
 
-  // Tơ nước và giọt nhỏ rơi lệch nhịp, tạo cảm giác nước tơi và nhẹ.
-  for(let i=0;i<18;i++){
-    const p=(time*.00062+i/18)%1;
-    const x=82+(i%5)*2+p*(7+(i%4)*7)+Math.sin(time*.001+i)*1.6;
-    const y=431+p*87+(i%3)*1.7;
-    ctx.globalAlpha=.22+.62*Math.sin(p*Math.PI);
-    ctx.fillStyle=i%2?"#eaffed":"#8ff4dc";
-    ctx.beginPath();ctx.ellipse(x,y,.8+(i%3)*.35,1.5+(i%2)*.5,-.25,0,Math.PI*2);ctx.fill();
+  // Dải sáng dọc rất mảnh nằm bên trong màn nước, vẫn nối liền tổng thể.
+  for(let i=0;i<13;i++){
+    const u=i/12;
+    const sway=Math.sin(time*.0011+i*.72)*1.7;
+    const x0=81+u*6;
+    const x1=83+u*65;
+    ctx.beginPath();
+    ctx.moveTo(x0,430);
+    ctx.bezierCurveTo(x0+2+sway,452,x0+u*19+sway,477,x1-5,514+u*5);
+    ctx.strokeStyle=i%3===0?"rgba(237,255,240,.66)":"rgba(151,244,222,.34)";
+    ctx.lineWidth=i%4===0?1.45:.7;ctx.lineCap="round";ctx.stroke();
+  }
+
+  // Mép thác gợn tự nhiên, không chia thành các tia độc lập.
+  ctx.beginPath();
+  ctx.moveTo(80,430);
+  ctx.bezierCurveTo(77,448,78,460,87,477);
+  ctx.bezierCurveTo(101,499,126,517,151,526);
+  ctx.strokeStyle="rgba(220,255,239,.68)";ctx.lineWidth=1.2;ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(88,429);
+  ctx.bezierCurveTo(94,450,98,465,109,483);
+  ctx.bezierCurveTo(121,502,139,514,156,520);
+  ctx.strokeStyle="rgba(111,232,212,.45)";ctx.lineWidth=1.1;ctx.stroke();
+
+  // Những giọt li ti văng khỏi mép màn nước.
+  for(let i=0;i<15;i++){
+    const p=(time*.00058+i/15)%1;
+    const x=82+p*(18+(i%5)*8)+Math.sin(time*.001+i)*2;
+    const y=437+p*78+(i%3)*2;
+    ctx.globalAlpha=.18+.48*Math.sin(p*Math.PI);
+    ctx.fillStyle=i%2?"#eaffed":"#9af3dc";
+    ctx.beginPath();ctx.ellipse(x,y,.75,1.25,-.3,0,Math.PI*2);ctx.fill();
   }
   ctx.globalAlpha=1;
 
-  // Chân thác xòe thành quạt mỏng trên mặt sông, không tạo ụ bọt lớn.
-  for(let i=0;i<7;i++){
-    const spread=i*4.5;
+  // Chân thác trải thành quạt mỏng trên mặt sông.
+  for(let i=0;i<5;i++){
     ctx.beginPath();
-    ctx.ellipse(137,521,10+spread,1.7+spread*.11,0,0,Math.PI*2);
-    ctx.strokeStyle=i%2?"rgba(216,255,238,.58)":"rgba(103,222,205,.66)";
-    ctx.lineWidth=1.1;ctx.stroke();
+    ctx.ellipse(140,522,13+i*7,1.5+i*.35,0,0,Math.PI*2);
+    ctx.strokeStyle=i%2?"rgba(221,255,240,.48)":"rgba(106,222,206,.52)";
+    ctx.lineWidth=1;ctx.stroke();
   }
-  for(let i=0;i<7;i++){
-    const p=time*.0007+i*Math.PI*2/7;
-    ctx.globalAlpha=.4;
-    ctx.fillStyle="#dfffee";ctx.beginPath();
-    ctx.ellipse(137+Math.cos(p)*(9+(i%3)*5),522+Math.sin(p)*2,1.3,.65,p,0,Math.PI*2);ctx.fill();
+  for(let i=0;i<6;i++){
+    const p=time*.00065+i*Math.PI/3;
+    ctx.globalAlpha=.32;ctx.fillStyle="#e7fff0";
+    ctx.beginPath();ctx.ellipse(140+Math.cos(p)*(10+(i%3)*5),522+Math.sin(p)*2,1.1,.6,p,0,Math.PI*2);ctx.fill();
   }
   ctx.globalAlpha=1;
   ctx.restore();
