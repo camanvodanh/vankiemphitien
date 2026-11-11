@@ -4812,3 +4812,9 @@ body.game-page:after{
   .arena-frame>.arena-controls #start .art-sword{width:27px!important;height:46px!important;}
   .arena-frame>.arena-controls #stop .art-stop{width:37px!important;height:37px!important;}
 }
+
+/* REVISION 71 — nút nhạc nền tu tiên */
+.music-toggle{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:38px;padding:8px 12px;border:1px solid #d7b76d99;border-radius:999px;background:linear-gradient(145deg,#294b3d,#142b26);color:#f4dfaa;font-size:11px;font-weight:900;letter-spacing:.25px;white-space:nowrap;box-shadow:0 3px 12px #0003;cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
+.music-toggle:active{transform:translateY(1px)}
+.music-toggle[aria-pressed="false"]{color:#b9b5a7;border-color:#8e8a7b66;background:#17221f}
+@media(max-width:620px){.game-header{flex-wrap:wrap}.music-toggle{margin-left:auto;min-height:34px;padding:7px 10px;font-size:10px}.realm-status{margin-left:0;padding:8px 10px;font-size:9px}}
