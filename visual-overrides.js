@@ -4362,7 +4362,7 @@ function drawRacer(target,racer,x,y,scale,time){
   // Phi kiếm nằm ngang: mũi kiếm hướng về trước (phải), chuôi ở sau; người cưỡi nằm ngang dọc thân kiếm.
   // Giữ nhân vật đứng thẳng, không xoay hệ tọa độ.
   const glow=target.createRadialGradient(0,0,3,0,0,48);glow.addColorStop(0,"rgba(255,225,139,.38)");glow.addColorStop(1,"rgba(255,225,139,0)");target.fillStyle=glow;target.fillRect(-51,-48,102,96);
-  if(racer.effectTimer>0){const p=1+Math.sin(time*.025)*.12;target.strokeStyle=racer.effectType==="boost"?"#ffe17b":racer.effectType==="slow"?"#8de8ef":"#ff9a72";target.lineWidth=2.2;target.beginPath();target.ellipse(0,4,43*p,17*p,0,0,Math.PI*2);target.stroke();}
+  if(racer.effectTimer>0){const p=1+Math.sin(time*.025)*.12;target.strokeStyle=(racer.effectType==="boost"||racer.effectType==="pill")?"#ffe17b":racer.effectType==="sword_intent"?"#a9eaff":racer.effectType==="cloud_step"?"#8fe5d4":racer.effectType==="formation"?"#c9b0ff":racer.effectType==="slow"?"#8de8ef":"#ff9a72";target.lineWidth=2.2;target.beginPath();target.ellipse(0,4,43*p,17*p,0,0,Math.PI*2);target.stroke();}
   drawRacingArtifact(target,artifactKind(racer),time*.004+racer.phase,female?"female":"male");
   // Phom y phục khác nhau, màu áo vẫn lấy từ bảng màu riêng của từng tiên nhân.
   target.fillStyle=racer.dark;target.beginPath();
@@ -4440,7 +4440,7 @@ function drawRacer(target,racer,x,y,scale,time){
       target.globalAlpha=.8*fade;target.fillStyle="#d8e4e8";target.beginPath();target.ellipse(9,-24,2,4,0,0,Math.PI*2);target.fill();
       target.strokeStyle="#b9d0d2";target.lineWidth=1.3;target.beginPath();target.moveTo(-17,1);target.quadraticCurveTo(-26,7,-30,14);target.stroke();
       if(activeEffect==="faint"){target.globalAlpha=.72;target.fillStyle="#e2e8ed";target.font="bold 8px Arial";target.textAlign="center";target.fillText("Z",14,-39+Math.sin(t*3)*2);target.fillText("Z",21,-47+Math.sin(t*3+1)*2);}
-    }else if(activeEffect==="pill"||activeEffect==="boost"){
+    }else if(activeEffect==="pill"||activeEffect==="boost"||activeEffect==="sword_intent"||activeEffect==="cloud_step"||activeEffect==="formation"){
       target.globalAlpha=.85*fade;target.strokeStyle="#ffe18a";target.lineWidth=2;
       for(let i=0;i<4;i++){const xx=-28+i*17,yy=12-Math.abs(Math.sin(t*5+i))*24;target.beginPath();target.moveTo(xx,yy+8);target.quadraticCurveTo(xx-5,yy,xx,yy-7);target.stroke();}
       target.globalAlpha=.55;target.fillStyle="#fff0ad";for(let i=0;i<7;i++){const xx=Math.sin(t*3+i*2.1)*27,yy=-10+Math.cos(t*4+i)*25;target.beginPath();target.arc(xx,yy,1.3,0,Math.PI*2);target.fill();}
@@ -4459,6 +4459,13 @@ function drawRacer(target,racer,x,y,scale,time){
       target.globalAlpha=.9*fade;target.strokeStyle="#d8c6ff";target.lineWidth=1.8;
       target.beginPath();target.ellipse(0,-43,17,5,Math.sin(t*5)*.18,t*.012,t*.012+Math.PI*1.7);target.stroke();
       target.fillStyle="#d8c6ff";target.beginPath();target.arc(Math.sin(t*5)*17,-43+Math.cos(t*5)*4,2,0,Math.PI*2);target.fill();
+    }
+    if(activeEffect==="sword_intent"){
+      target.globalAlpha=.9*fade;target.strokeStyle="#c9f4ff";target.lineWidth=2.2;target.shadowColor="#78dfff";target.shadowBlur=9;target.beginPath();target.moveTo(-30,9);target.quadraticCurveTo(-2,-8,31,-37);target.stroke();target.shadowBlur=0;target.fillStyle="#fff2bd";target.beginPath();target.arc(30,-37,2.4,0,Math.PI*2);target.fill();
+    }else if(activeEffect==="cloud_step"){
+      target.globalAlpha=.72*fade;target.strokeStyle="#a9f4ed";target.lineWidth=2;for(let i=0;i<3;i++){const yy=15+i*5,shift=Math.sin(t*4+i)*5;target.beginPath();target.ellipse(-19+shift,yy,13+i*3,4,0,Math.PI,Math.PI*2);target.stroke();}target.fillStyle="#e6fff5";for(let i=0;i<5;i++){const xx=-28+i*13+Math.sin(t*5+i)*3;target.beginPath();target.arc(xx,17+Math.cos(t*4+i)*3,1.5,0,Math.PI*2);target.fill();}
+    }else if(activeEffect==="formation"){
+      target.globalAlpha=.78*fade;target.strokeStyle="#e0c5ff";target.lineWidth=1.3;target.beginPath();target.ellipse(0,7,34,12,t*.25,0,Math.PI*2);target.stroke();for(let i=0;i<6;i++){const a=i*Math.PI/3+t*.25;target.beginPath();target.arc(Math.cos(a)*29,7+Math.sin(a)*9,2,0,Math.PI*2);target.stroke();}
     }
     target.restore();
   }
@@ -5358,33 +5365,23 @@ function drawWaterfallMouth(x,y,time,side){
   ctx.restore();
 }
 
+// Dòng thác duy nhất bắt nguồn từ khe đỉnh tiên sơn bên trái.
+function drawMountainCascade(x,top,bottom,time){
+  ctx.save();const sway=Math.sin(time*.00075)*2.2;
+  const water=ctx.createLinearGradient(x-8,top,x+54,bottom);
+  water.addColorStop(0,"rgba(225,250,239,.96)");water.addColorStop(.18,"rgba(170,225,216,.94)");water.addColorStop(.56,"rgba(105,190,187,.96)");water.addColorStop(1,"rgba(62,145,151,.94)");ctx.fillStyle=water;
+  const path=()=>{ctx.beginPath();ctx.moveTo(x-5,top);ctx.bezierCurveTo(x-15,top+82,x-4,top+164,x+12,top+238);ctx.bezierCurveTo(x+23,bottom-78,x+31+sway,bottom-28,x+43+sway,bottom+2);ctx.lineTo(x+84+sway,bottom+2);ctx.bezierCurveTo(x+67+sway,bottom-42,x+56,bottom-92,x+43,bottom-151);ctx.bezierCurveTo(x+24,bottom-245,x+13,top+100,x+9,top+5);ctx.closePath();};
+  path();ctx.fill();ctx.save();path();ctx.clip();
+  for(let i=0;i<9;i++){const xx=x-1+i*8,drift=Math.sin(time*.0012+i*.8)*3,offset=(time*.012+i*43)%(bottom-top+80);ctx.strokeStyle=i%3===0?"rgba(248,255,241,.78)":"rgba(215,250,240,.42)";ctx.lineWidth=i%3===0?2:1.1;ctx.beginPath();ctx.moveTo(xx+drift,top+offset-35);ctx.bezierCurveTo(xx-5+drift,top+offset+8,xx+8+drift,top+offset+42,xx+13+drift,top+offset+78);ctx.stroke();}
+  ctx.restore();ctx.globalAlpha=.72;const foam=ctx.createRadialGradient(x+60,bottom-2,3,x+60,bottom-2,66);foam.addColorStop(0,"rgba(240,255,245,.9)");foam.addColorStop(.35,"rgba(163,229,218,.62)");foam.addColorStop(1,"rgba(111,194,190,0)");ctx.fillStyle=foam;ctx.beginPath();ctx.ellipse(x+60,bottom-1,68,17,0,0,Math.PI*2);ctx.fill();
+  for(let i=0;i<5;i++){const drift=(time*.014+i*23)%86-43;ctx.strokeStyle="rgba(230,255,245,.65)";ctx.lineWidth=1.4;ctx.beginPath();ctx.ellipse(x+60+drift,bottom+2+Math.sin(time*.001+i)*3,12+i*2,2.2,0,0,Math.PI*2);ctx.stroke();}ctx.restore();
+}
+
 function drawScenery(time){
-  ctx.save();
-  ctx.globalAlpha=1;ctx.shadowBlur=0;
-  drawSky(time);
-  drawMountainRange();
-  // Hai ngọn sơn phong riêng biệt được vẽ đủ chân núi và sống núi.
-  drawTwinWaterfallMountains(time);
-  drawMovingClouds(time);
-
-  // Nền và kiến trúc nằm phía sau dòng nước.
-  drawRiver(time);
-  drawSectArchitecture(time);
-  drawDenseForest(time);
-  drawAmbientEnergy(time);
-  drawSpiritBirds(time);
-
-  // Lòng sông liên tục được dựng trước; hai thác đổ chồng vào lòng sông,
-  // không dừng ở mép bờ hoặc để lại khoảng đất ngăn cách.
-  drawRiverCurrent(time);
-  drawWaterfall(112,260,25,260,time);
-  drawWaterfall(972,238,34,282,time);
-  drawWaterfallMouth(112,520,time,0);
-  drawWaterfallMouth(972,520,time,1.4);
-
-  drawCrowd(time);
-  ctx.globalAlpha=1;ctx.shadowBlur=0;
-  ctx.restore();
+  ctx.save();ctx.globalAlpha=1;ctx.shadowBlur=0;drawSky(time);drawMountainRange();drawTwinWaterfallMountains(time);drawMovingClouds(time);
+  drawRiver(time);drawSectArchitecture(time);drawDenseForest(time);drawAmbientEnergy(time);drawSpiritBirds(time);drawRiverCurrent(time);
+  // Thác trái chảy trực tiếp từ đỉnh núi; bỏ hẳn thác phải và trụ đá sau nước.
+  drawMountainCascade(82,132,548,time);drawCrowd(time);ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.restore();
 }
 
 // Thông báo nằm trên khoảng trời trống, tuyệt đối không đè lên biển hiệu
