@@ -553,13 +553,39 @@ function startRace(){
 }
 function togglePause(){if(!running||finished)return;running=false;paused=true;$("status").textContent="Đang tạm dừng";$("lockNotice").textContent="Tiên hội tạm dừng.";syncButtons();}
 function resumeRace(){if(!paused||finished)return;paused=false;running=true;$("status").textContent=started?"Đang tranh phong":"Bắt đầu sau "+countdown+"...";$("lockNotice").textContent=started?"Tiên hội tiếp tục tranh phong.":"Tiên hội tiếp tục khai mở.";syncButtons();}
-function finishRace(){
- elapsed=duration;
- racers.forEach(r=>{r.progress=distance;r.finished=true;if(r.finishTime===null)r.finishTime=duration;r.speedMultiplier=1;r.effectTimer=0;r.effectType="";r.effectName="";});
- cameraFocusId=null;finished=true;running=false;paused=false;started=true;eventText="";eventTextLife=0;finishMessage="";finishMessageLife=0;
- finishEndAnnouncementPending=false;finishEndAnnouncementShown=true;
- $("status").textContent="Đại hội kết thúc · Đang trao giải top 3";$("lockNotice").textContent="Đại hội đã khép lại. Tiên bảng vinh danh ba vị trí dẫn đầu.";
- setSettingsLocked(false);syncButtons();updateRanking();
+function finishRace() {
+  elapsed = duration;
+
+  racers.forEach(racer => {
+    racer.progress = distance;
+    racer.finished = true;
+
+    if (racer.finishTime === null) {
+      racer.finishTime = duration;
+    }
+  });
+
+  finished = true;
+  running = false;
+  paused = false;
+  started = true;
+
+  $("status").textContent = "Đại hội kết thúc";
+
+  finishMessage = "ĐẠI HỘI KẾT THÚC!";
+  finishMessageLife = 3;
+
+  $("pause").textContent = "Tạm dừng";
+
+  // MỞ KHÓA THỜI GIAN, KHOẢNG CÁCH,
+  // SỐ LƯỢNG VÀ DANH SÁCH TIÊN NHÂN
+  setSettingsLocked(false);
+
+  $("lockNotice").textContent =
+    "Đại hội đã kết thúc. Thiết lập đã được mở khóa, có thể triệu hồi đại hội mới.";
+
+  syncButtons();
+  updateRanking();
 }
 function resetGame(){
   racers=[];particles=[];running=false;paused=false;started=false;finished=false;
@@ -588,11 +614,12 @@ function drawCamera(time){
  let racer=cameraFocusId?racers.find(item=>item.id===cameraFocusId):null;
  if(!racer||racer.finished||racer.effectTimer<=0)racer=leaderOf();if(!racer)return;
  drawRacer(cameraCtx,racer,210,108,2.0,time);
- cameraCtx.save();cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";cameraCtx.lineJoin="round";cameraCtx.font="bold 17px Arial, sans-serif";cameraCtx.lineWidth=4;cameraCtx.strokeStyle="rgba(15,27,25,.96)";
- cameraCtx.strokeText(racer.name,210,20,390);cameraCtx.fillStyle="#fff4d4";cameraCtx.fillText(racer.name,210,20,390);
+ const rank=sortedRacers().findIndex(item=>item.id===racer.id)+1;
+ drawRacerNameOnTarget(cameraCtx,racer,210,20,rank,1);
+ cameraCtx.save();cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";
  if(racer.effectTimer>0&&racer.effectName){cameraCtx.font="bold 12px Arial, sans-serif";cameraCtx.lineWidth=3;cameraCtx.strokeStyle="rgba(15,27,25,.98)";cameraCtx.strokeText(racer.effectName,210,43,380);cameraCtx.fillStyle="#fff1bd";cameraCtx.fillText(racer.effectName,210,43,380);}
  cameraCtx.restore();
- $("leaderName").textContent=racer.name;const rank=sortedRacers().findIndex(item=>item.id===racer.id)+1;$("leaderProgress").textContent="Hạng "+rank+"/"+racers.length;
+ $("leaderName").textContent=racer.name;$("leaderProgress").textContent="Hạng "+rank+"/"+racers.length;
 }
 function updateRanking(){
  const sorted=sortedRacers();if(!sorted.length){$("rankBody").innerHTML='<tr><td colspan="3" class="empty">Chưa có tiên nhân</td></tr>';return;}
