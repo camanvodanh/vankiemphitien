@@ -569,7 +569,7 @@ function summon(){
   if(finalNames.length>100){$("lockNotice").textContent="Danh sách tối đa 100 tiên nhân.";return;}
   racers=finalNames.map((name,index)=>createRacer(name,index));
   racers.forEach((r,i)=>r.swordStyle=i%7);
-  duration=Number($("speed").value);distance=Number($("distance").value);
+  duration=Number($("speed").value);
   elapsed=0;running=false;paused=false;started=false;finished=false;
   countdown=0;countdownAccumulator=0;eventClock=0;nextEvent=rand(5,9);
   eventText="";eventTextLife=0;finishQueue=[];cameraFocusId=null;
@@ -577,11 +577,11 @@ function summon(){
   assignFinishTimes();
   $("status").textContent="Đã triệu hồi";
   $("lockNotice").textContent=typed.length?"Số lượng lấy theo danh sách tên, đã loại tên trùng.":"Đã tạo "+racers.length+" tiên nhân với tên tu tiên ngẫu nhiên.";
-  $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa bắt đầu";
+  $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Thời gian về đích: --:--";
   setSettingsLocked(false);syncButtons();render(performance.now());
 }
 function setSettingsLocked(value){
-  locked=value;["speed","distance","quantity","names","summon"].forEach(id=>$(id).disabled=value);
+  locked=value;["speed","quantity","names","summon"].forEach(id=>$(id).disabled=value);
   $("lockNotice").classList.toggle("locked",value);
 }
 function syncButtons(){
@@ -599,14 +599,14 @@ function toggleRaceControl(){
 }
 function startRace(){
   if(!racers.length||running||paused)return;
-  duration=Number($("speed").value);distance=Number($("distance").value);
+  duration=Number($("speed").value);
   elapsed=0;countdown=3;countdownAccumulator=0;eventClock=0;nextEvent=rand(5,9);
   finishQueue=[];cameraFocusId=null;finishMessage="";finishMessageLife=0;
   eventText="BẮT ĐẦU SAU 3";eventTextLife=1;
   racers.forEach(r=>{r.progress=0;r.finished=false;r.finishTime=null;});
   assignFinishTimes();started=false;finished=false;paused=false;running=true;
   $("status").textContent="Bắt đầu sau 3...";
-  $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa bắt đầu";
+  $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Thời gian về đích: --:--";
   setSettingsLocked(true);syncButtons();
 }
 function togglePause(){if(!running||finished)return;running=false;paused=true;$("status").textContent="Đang tạm dừng";syncButtons();}
@@ -622,11 +622,42 @@ function resetGame(){
   racers=[];particles=[];running=false;paused=false;started=false;finished=false;
   countdown=0;countdownAccumulator=0;elapsed=0;eventClock=0;eventText="";eventTextLife=0;
   finishQueue=[];cameraFocusId=null;finishMessage="";finishMessageLife=0;
-  $("status").textContent="Chờ triệu hồi";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa bắt đầu";
+  $("status").textContent="Chờ triệu hồi";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Thời gian về đích: --:--";
   setSettingsLocked(false);syncButtons();updateRanking();render(performance.now());
 }
 function leaderOf(){
   const active=racers.filter(r=>!r.finished);
   if(active.length)return active.sort((a,b)=>b.progress-a.progress)[0];
   return finishQueue.length?finishQueue[finishQueue.length-1]:null;
+}
+
+
+// REVISION 10 — lần lượt chiếu người đang dẫn đầu còn lại và thời gian về đích.
+function leaderOf(){
+  const active=racers.filter(r=>!r.finished).sort((a,b)=>b.progress-a.progress||a.targetFinishTime-b.targetFinishTime);
+  if(active.length)return active[0];
+  return finishQueue.length?finishQueue[finishQueue.length-1]:null;
+}
+function drawCamera(time){
+  drawCameraBackground();
+  if(!started||!racers.length){
+    $("leaderName").textContent="Đang chờ cuộc đua";
+    $("leaderProgress").textContent="Thời gian về đích: --:--";
+    cameraCtx.fillStyle="#f3dfa9";cameraCtx.font="13px Arial";cameraCtx.textAlign="center";
+    cameraCtx.fillText("Nhân vật sẽ xuất hiện khi cuộc đua bắt đầu",210,105);return;
+  }
+  const racer=leaderOf();if(!racer)return;
+  drawRacer(cameraCtx,racer,210,91,2.2,time);
+  $("leaderName").textContent=racer.name;
+  const remaining=racer.finished?Math.max(0,racer.finishTime||0):Math.max(0,racer.targetFinishTime-elapsed);
+  $("leaderProgress").textContent=racer.finished?"Đã về đích · "+timeText(remaining):"Dự kiến về đích sau "+timeText(remaining);
+}
+function updateRanking(){
+  const sorted=sortedRacers();
+  if(!sorted.length){$("rankBody").innerHTML='<tr><td colspan="3" class="empty">Chưa có tiên nhân</td></tr>';return;}
+  $("rankBody").innerHTML=sorted.map((r,i)=>{
+    const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":i+1;
+    const remaining=r.finished?timeText(r.finishTime||0):timeText(Math.max(0,r.targetFinishTime-elapsed));
+    return '<tr><td>'+medal+'</td><td title="'+escapeHTML(r.name)+'">'+escapeHTML(r.name)+'</td><td>'+remaining+'</td></tr>';
+  }).join("");
 }
