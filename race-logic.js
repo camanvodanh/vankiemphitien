@@ -44,7 +44,7 @@ function processFinish(racer, index) {
 
   racer.progress = distance;
   racer.finished = true;
-  racer.finishTime = racer.targetFinishTime;
+  racer.finishTime = elapsed;
 
   finishQueue.push(racer);
 
@@ -570,7 +570,7 @@ function summon(){
   assignFinishTimes();
   $("status").textContent="Đã triệu hồi";
   $("lockNotice").textContent=typed.length?"Số lượng lấy theo danh sách tên, đã loại tên trùng.":"Đã tạo "+racers.length+" tiên nhân với tên tu tiên ngẫu nhiên.";
-  $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Thời gian về đích: --:--";
+  $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa có thứ hạng";
   setSettingsLocked(false);syncButtons();render(performance.now());
 }
 function setSettingsLocked(value){
@@ -599,7 +599,7 @@ function startRace(){
   racers.forEach(r=>{r.progress=0;r.finished=false;r.finishTime=null;});
   assignFinishTimes();started=false;finished=false;paused=false;running=true;
   $("status").textContent="Bắt đầu sau 3...";
-  $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Thời gian về đích: --:--";
+  $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa có thứ hạng";
   setSettingsLocked(true);syncButtons();
 }
 function togglePause(){if(!running||finished)return;running=false;paused=true;$("status").textContent="Đang tạm dừng";syncButtons();}
@@ -632,29 +632,12 @@ function leaderOf(){
   return finishQueue.length?finishQueue[finishQueue.length-1]:null;
 }
 function drawCamera(time){
-  drawCameraBackground();
-  if(!started||!racers.length){
-    $("leaderName").textContent="Đang chờ cuộc đua";
-    $("leaderProgress").textContent="Thời gian về đích: --:--";
-    cameraCtx.fillStyle="#f3dfa9";cameraCtx.font="13px Arial";cameraCtx.textAlign="center";
-    cameraCtx.fillText("Nhân vật sẽ xuất hiện khi cuộc đua bắt đầu",210,105);return;
-  }
-  const racer=leaderOf();if(!racer)return;
-  drawRacer(cameraCtx,racer,210,91,2.2,time);
-  $("leaderName").textContent=racer.name;
-  const finishAt=racer.finished?(racer.finishTime||0):racer.targetFinishTime;
-  $("leaderProgress").textContent=(racer.finished?"Thời gian về đích: ":"Dự kiến về đích: ")+timeText(finishAt);
+ drawCameraBackground();
+ if(!started||!racers.length){$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa có thứ hạng";cameraCtx.fillStyle="#f3dfa9";cameraCtx.font="13px Arial";cameraCtx.textAlign="center";cameraCtx.fillText("Thứ hạng trực tiếp sẽ xuất hiện khi bắt đầu",210,105);return;}
+ const racer=leaderOf();if(!racer)return;drawRacer(cameraCtx,racer,210,91,2.2,time);$("leaderName").textContent=racer.name;
+ const rank=sortedRacers().findIndex(item=>item.id===racer.id)+1;$("leaderProgress").textContent="Hạng "+rank+"/"+racers.length;
 }
 function updateRanking(){
-  const sorted=sortedRacers();
-  if(!sorted.length){$("rankBody").innerHTML='<tr><td colspan="3" class="empty">Chưa có tiên nhân</td></tr>';return;}
-  $("rankBody").innerHTML=sorted.map((r,i)=>{
-    const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":i+1;
-    const finishAt=r.finished?timeText(r.finishTime||0):timeText(r.targetFinishTime);
-    return '<tr><td>'+medal+'</td><td title="'+escapeHTML(r.name)+'">'+escapeHTML(r.name)+'</td><td>'+finishAt+'</td></tr>';
-  }).join("");
+ const sorted=sortedRacers();if(!sorted.length){$("rankBody").innerHTML='<tr><td colspan="3" class="empty">Chưa có tiên nhân</td></tr>';return;}
+ $("rankBody").innerHTML=sorted.map((r,i)=>{const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":i+1;const actualTime=r.finished&&r.finishTime!==null?timeText(r.finishTime):"—";return '<tr><td>'+medal+'</td><td title="'+escapeHTML(r.name)+'">'+escapeHTML(r.name)+'</td><td>'+actualTime+'</td></tr>';}).join("");
 }
-
-
-// REVISION 11 — tự khởi tạo 10 tiên nhân mẫu ngay khi mở trang.
-if (!racers.length) summon();
