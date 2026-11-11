@@ -602,9 +602,8 @@ body,button,input,textarea,select,label,.lock-notice,.status,.camera-info,table,
   letter-spacing:clamp(.2px,.12vw,1.2px);
 }
 .footer-motto{line-height:1.4}
-.creator-credit{display:inline-flex;align-items:center;gap:5px;color:#6b604b;font-size:.9em;white-space:nowrap}
-.creator-credit strong{color:#9b6d28}
-.salt-fish{width:clamp(22px,2.3vw,30px);height:auto;flex:0 0 auto}
+.creator-credit{display:inline-flex;align-items:center;gap:4px;color:#6b604b;font-size:.9em;white-space:nowrap;line-height:1}
+.salt-fish{width:16px;height:9px;flex:0 0 auto;display:inline-block;vertical-align:middle}
 @media(max-width:520px){
  .hero{align-items:flex-start;padding:18px 2px;gap:10px}
  .logo{width:44px;height:44px;flex-basis:44px;font-size:25px}
