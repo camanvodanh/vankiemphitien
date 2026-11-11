@@ -965,3 +965,24 @@ body.game-page{
 @media(max-width:390px){
   .game-camera{width:clamp(150px,48%,205px)!important;}
 }
+
+
+/* BỐ CỤC TẤT CẢ TRONG KHUNG SÂN ĐẤU */
+.game-layout{display:block!important;min-width:0;}
+.arena-column{position:relative;width:100%;min-width:0;}
+.game-setup{position:relative;z-index:2;width:100%;box-sizing:border-box;margin:0 0 9px!important;}
+.arena-frame{position:relative;isolation:isolate;overflow:hidden;}
+.game-camera{position:absolute!important;z-index:12;left:10px;bottom:10px;top:auto;right:auto;}
+.game-ranking{position:absolute!important;z-index:11;top:12px;right:12px;left:auto;bottom:auto;width:clamp(210px,27%,320px);max-width:calc(100% - 24px);max-height:65%;margin:0;overflow:hidden;}
+.game-ranking .table-wrap{max-height:calc(65vh - 145px);overflow:auto;}
+.camera-heading{cursor:grab!important;touch-action:none!important;user-select:none!important;-webkit-user-select:none!important;}
+.camera-heading:active{cursor:grabbing!important;}
+@media(max-width:760px){
+ .game-setup{padding:8px!important;margin-bottom:6px!important;}
+ .game-ranking{top:6px;right:6px;width:48%;max-height:48%;padding:6px;}
+ .game-ranking .ranking-heading h3{font-size:12px;}
+ .game-ranking .ranking-meta{font-size:5px;}
+ .game-ranking .table-wrap{max-height:clamp(70px,18vh,150px);}
+ .game-ranking th,.game-ranking td{padding:4px 3px;font-size:8px;}
+ .game-camera{left:6px;bottom:6px;}
+}
