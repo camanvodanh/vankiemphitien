@@ -563,7 +563,7 @@ function summon(){
   assignFinishTimes();
   $("status").textContent="Đã triệu hồi";
   $("lockNotice").textContent="Tiếp theo: Nhấn Bắt đầu để khai mở cuộc đua.";
-  $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa khai mở";
+  $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="--";
   setSettingsLocked(false);$("lockNotice").textContent="Tiếp theo: Nhấn Bắt đầu để khai mở cuộc đua.";syncButtons();render(performance.now());
 }
 function setSettingsLocked(value){
