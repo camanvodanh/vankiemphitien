@@ -4364,7 +4364,12 @@ function drawRacer(target,racer,x,y,scale,time){
    case "faint":actionY=4+Math.abs(wave)*2;actionAngle=.34+Math.sin(phase*5)*.07;break;case "boost":actionX=4+Math.sin(phase*5)*2;actionY=-2-Math.abs(wave)*2;actionAngle=-.16;break;
    case "sword_intent":actionX=4+Math.sin(phase*12)*2;actionAngle=-.13+Math.sin(phase*9)*.035;break;case "cloud_step":actionY=-Math.abs(Math.sin(phase*8))*10;actionAngle=.11;break;
    case "formation":actionX=Math.sin(phase*4)*3;actionY=Math.cos(phase*4)*3;actionAngle=Math.sin(phase*4)*.08;break;
+   case "formation_guard":actionX=Math.sin(phase*3)*1.5;actionY=-1-Math.abs(Math.sin(phase*5))*2;actionAngle=-.04;break;
+   case "formation_sword":actionX=3+Math.sin(phase*8)*2;actionAngle=-.18;break;
+   case "formation_seal":actionX=Math.sin(phase*5)*2;actionY=-2-Math.abs(Math.sin(phase*6))*2;actionAngle=.06*Math.sin(phase*4);break;
    case "talisman":actionX=5+Math.sin(phase*9)*2;actionY=-2-Math.abs(Math.sin(phase*7))*3;actionAngle=-.12;break;
+   case "talisman_guard":actionX=Math.sin(phase*4)*1.5;actionAngle=-.08;break;
+   case "talisman_thunder":actionX=5+Math.sin(phase*14)*2;actionY=-3;actionAngle=-.22;break;
    case "sword_spin":actionAngle=Math.PI*2*progress;actionY=-Math.sin(progress*Math.PI)*3;break;
    case "wind_step":actionX=Math.sin(phase*11+racer.phase)*7;actionY=-3-Math.abs(Math.sin(phase*8))*4;actionAngle=Math.sin(phase*11+racer.phase)*.22;break;
    case "shadow_step":actionX=progress<.22?-9:progress<.48?17:Math.sin(phase*18)*2;actionY=-Math.sin(progress*Math.PI)*7;actionAngle=progress<.48?-.24:.08;break;
@@ -4518,13 +4523,47 @@ function drawRacer(target,racer,x,y,scale,time){
       if(progress>.48){target.globalAlpha=.35*fade;target.fillStyle="#ffe9a8";target.beginPath();target.ellipse(0,-20,10,12,0,0,Math.PI*2);target.fill();}
     }
     if(activeEffect==="formation"){
-      // Pháp trận nhiều tầng hiện dưới phi kiếm, có lục giác và phù văn xoay.
-      const rot=-t*.72;target.globalAlpha=.9*fade;target.save();target.translate(0,24);target.rotate(rot);
-      target.strokeStyle="#d9b7ff";target.shadowColor="#b98cff";target.shadowBlur=9;target.lineWidth=1.6;
-      target.beginPath();target.arc(0,0,34,0,Math.PI*2);target.stroke();target.beginPath();target.arc(0,0,25,0,Math.PI*2);target.stroke();
-      target.beginPath();for(let n=0;n<6;n++){const a=n*Math.PI/3-Math.PI/2,xx=Math.cos(a)*34,yy=Math.sin(a)*34;n?target.lineTo(xx,yy):target.moveTo(xx,yy);}target.closePath();target.stroke();
-      target.shadowBlur=0;target.fillStyle="#f2dcff";target.font="bold 8px serif";target.textAlign="center";target.textBaseline="middle";
-      for(let n=0;n<6;n++){const a=n*Math.PI/3;target.fillText("符",Math.cos(a)*29,Math.sin(a)*29);}
+      // Tụ Linh Trận: trận đồ ba tầng, bát quái, linh tuyến nối các trận nhãn và phù văn cổ.
+      const rot=-t*.58,pulse=.88+.12*Math.sin(t*5);
+      target.globalAlpha=.96*fade;target.save();target.translate(0,27);target.rotate(rot);
+      target.shadowColor="#b98cff";target.shadowBlur=13;target.strokeStyle="#d9c0ff";target.lineWidth=1.8;
+      for(const radius of [39,31,19]){target.beginPath();target.arc(0,0,radius*pulse,0,Math.PI*2);target.stroke();}
+      for(let n=0;n<8;n++){const a=n*Math.PI/4,px=Math.cos(a)*36,py=Math.sin(a)*36;
+        target.beginPath();target.moveTo(Math.cos(a)*19,Math.sin(a)*19);target.lineTo(px,py);target.stroke();
+        target.beginPath();target.moveTo(Math.cos(a)*31,Math.sin(a)*31);target.lineTo(Math.cos(a+.18)*39,Math.sin(a+.18)*39);target.stroke();
+        target.fillStyle="#f4e9ff";target.beginPath();target.arc(px,py,3,0,Math.PI*2);target.fill();
+      }
+      target.strokeStyle="#f3dcff";target.lineWidth=1.5;target.beginPath();
+      for(let n=0;n<8;n++){const a=n*Math.PI/4-Math.PI/2,px=Math.cos(a)*31,py=Math.sin(a)*31;n?target.lineTo(px,py):target.moveTo(px,py);}target.closePath();target.stroke();
+      target.shadowBlur=0;target.fillStyle="#fff0ff";target.font="bold 9px serif";target.textAlign="center";target.textBaseline="middle";
+      for(let n=0;n<8;n++){const a=n*Math.PI/4;target.fillText(["乾","坎","艮","震","巽","離","坤","兌"][n],Math.cos(a)*25,Math.sin(a)*25);}
+      target.restore();
+    }
+    if(activeEffect==="formation_guard"||activeEffect==="formation_sword"||activeEffect==="formation_seal"){
+      const rot=t*(activeEffect==="formation_sword"?1.15:.42);
+      target.save();target.globalAlpha=.96*fade;
+      if(activeEffect==="formation_guard"){
+        // Hộ Sơn Trận: khiên lục giác dựng trước thân, ba tầng kết giới khép mở.
+        target.translate(15,-7);target.strokeStyle="#8ff0df";target.shadowColor="#5bd9cf";target.shadowBlur=14;target.lineWidth=2;
+        for(let layer=0;layer<3;layer++){const radius=22+layer*8+Math.sin(t*4+layer)*2;target.beginPath();for(let n=0;n<6;n++){const a=n*Math.PI/3+rot*.25,px=Math.cos(a)*radius,py=Math.sin(a)*radius;n?target.lineTo(px,py):target.moveTo(px,py);}target.closePath();target.stroke();}
+        target.shadowBlur=0;target.fillStyle="#e5fffa";target.font="bold 10px serif";target.textAlign="center";target.fillText("守",15,-7);
+      }else if(activeEffect==="formation_sword"){
+        // Vạn Kiếm Trận: sáu kiếm trận bay theo vòng cung, mũi kiếm cùng hướng ra ngoài.
+        target.translate(5,-12);target.shadowColor="#9bdcff";target.shadowBlur=12;
+        for(let n=0;n<6;n++){const a=rot+n*Math.PI/3,px=Math.cos(a)*34,py=Math.sin(a)*25;
+          target.save();target.translate(px,py);target.rotate(a+Math.PI/2);
+          target.fillStyle="#e9fbff";target.strokeStyle="#79cfff";target.lineWidth=1.2;
+          target.beginPath();target.moveTo(0,-13);target.lineTo(3,-2);target.lineTo(2,9);target.lineTo(-2,9);target.lineTo(-3,-2);target.closePath();target.fill();target.stroke();
+          target.strokeStyle="#d6b878";target.beginPath();target.moveTo(-5,8);target.lineTo(5,8);target.stroke();target.restore();
+        }
+        target.shadowBlur=0;
+      }else{
+        // Bát Quái Trận: tám phù trận nhỏ mở ra theo vòng bát quái, nối bằng linh tuyến.
+        target.translate(0,5);target.rotate(rot*.35);target.strokeStyle="#d8b7ff";target.shadowColor="#b78aff";target.shadowBlur=10;target.lineWidth=1.6;
+        target.beginPath();target.arc(0,0,34,0,Math.PI*2);target.stroke();
+        for(let n=0;n<8;n++){const a=n*Math.PI/4,px=Math.cos(a)*34,py=Math.sin(a)*34;target.beginPath();target.moveTo(0,0);target.lineTo(px,py);target.stroke();target.fillStyle="#f5eaff";target.fillRect(px-3,py-5,6,10);}
+        target.shadowBlur=0;
+      }
       target.restore();
     }
     if(activeEffect==="wind_step"){
@@ -4556,17 +4595,23 @@ function drawRacer(target,racer,x,y,scale,time){
       for(let n=0;n<3;n++){const spread=12+leap*12+n*5;target.beginPath();target.moveTo(-spread,27+n*3);target.quadraticCurveTo(0,34+leap*9+n*3,spread,27+n*3);target.stroke();}
       target.shadowBlur=0;
     }
-    if(activeEffect==="talisman"){
-      // Bốn lá phù vàng có nét chu sa bay vòng quanh nhân vật.
-      target.globalAlpha=.98*fade;target.shadowColor="#ffd86e";target.shadowBlur=7;
-      for(let n=0;n<4;n++){
-        const a=t*2.6+n*Math.PI/2,px=Math.cos(a)*31,py=-17+Math.sin(a)*25;
-        target.save();target.translate(px,py);target.rotate(Math.sin(a)*.35);
-        target.fillStyle="#f5d77e";target.strokeStyle="#a94b32";target.lineWidth=1;
+    if(activeEffect==="talisman"||activeEffect==="talisman_guard"||activeEffect==="talisman_thunder"){
+      // Phù chú có hành động riêng: phù tốc xoay vòng, hộ thân kết thành khiên, lôi phù phóng sét.
+      const count=activeEffect==="talisman"?4:activeEffect==="talisman_guard"?5:3;
+      target.globalAlpha=.98*fade;target.shadowColor=activeEffect==="talisman_thunder"?"#7feaff":"#ffd86e";target.shadowBlur=10;
+      for(let n=0;n<count;n++){
+        const a=t*(activeEffect==="talisman_thunder"?-1.8:2.6)+n*Math.PI*2/count;
+        const px=activeEffect==="talisman_guard"?17+Math.cos(a)*24:Math.cos(a)*31;
+        const py=activeEffect==="talisman_guard"?-5+Math.sin(a)*24:-17+Math.sin(a)*25;
+        target.save();target.translate(px,py);target.rotate(activeEffect==="talisman_thunder"?-.3+Math.sin(a)*.18:Math.sin(a)*.35);
+        target.fillStyle=activeEffect==="talisman_thunder"?"#d9f7ff":"#f5d77e";target.strokeStyle=activeEffect==="talisman_thunder"?"#4b9fce":"#a94b32";target.lineWidth=1;
         target.fillRect(-4,-10,8,19);target.strokeRect(-4,-10,8,19);
         target.strokeStyle="#a94336";target.lineWidth=1.1;target.beginPath();target.moveTo(0,-7);target.lineTo(-2,-3);target.lineTo(2,0);target.lineTo(-1,4);target.lineTo(1,7);target.stroke();
-        target.fillStyle="#a94336";target.beginPath();target.arc(0,-8,1,0,Math.PI*2);target.fill();
         target.restore();
+        if(activeEffect==="talisman_thunder"){target.strokeStyle="#b7f5ff";target.lineWidth=2;target.beginPath();target.moveTo(px,py+9);target.lineTo(px-5,py+17);target.lineTo(px+1,py+22);target.lineTo(px-4,py+30);target.stroke();}
+      }
+      if(activeEffect==="talisman_guard"){
+        target.strokeStyle="#8fe8e5";target.lineWidth=2;target.beginPath();target.moveTo(12,-31);target.quadraticCurveTo(48,-5,15,27);target.stroke();
       }
       target.shadowBlur=0;
     }
@@ -5622,5 +5667,98 @@ function drawPodiumScene(target,time,mini=false){
   target.font=mini?"bold 7px Georgia":"bold 15px Georgia";
   target.fillStyle="#fff0c5";
   target.fillText(elapsed<mountStart?"CHƯỞNG MÔN CHUẨN BỊ BAN THƯỞNG":elapsed<mountEnd?"NGỰ KIẾM KHỞI HÀNH":elapsed<flightEnd?"BAN THƯỞNG TAM GIÁP":"VINH DANH HOÀN TẤT",w*.5,h*.965);
+  target.restore();
+}
+
+// =====================================================
+// REVISION 21 — nghi thức ban thưởng theo đúng hai cảnh
+// =====================================================
+function drawAwardPlazaBackdropV2(target,time,mini){
+  const w=target.canvas.width,h=target.canvas.height;
+  const sky=target.createLinearGradient(0,0,0,h);sky.addColorStop(0,"#9bc6c2");sky.addColorStop(.5,"#537d70");sky.addColorStop(1,"#203a32");
+  target.fillStyle=sky;target.fillRect(0,0,w,h);
+  target.fillStyle="#789b83";target.beginPath();target.moveTo(0,h*.52);target.lineTo(w*.13,h*.18);target.lineTo(w*.25,h*.43);target.lineTo(w*.43,h*.12);target.lineTo(w*.59,h*.44);target.lineTo(w*.8,h*.16);target.lineTo(w,h*.49);target.lineTo(w,h);target.lineTo(0,h);target.fill();
+  target.fillStyle="#345c4b";target.beginPath();target.moveTo(0,h*.62);target.lineTo(w*.2,h*.38);target.lineTo(w*.35,h*.56);target.lineTo(w*.57,h*.32);target.lineTo(w*.76,h*.55);target.lineTo(w*.9,h*.37);target.lineTo(w,h*.6);target.lineTo(w,h);target.lineTo(0,h);target.fill();
+  target.save();target.translate(w*.52,h*.43);target.scale(mini?.58:1,mini?.58:1);
+  target.fillStyle="#713c32";target.fillRect(-92,-55,184,94);target.fillStyle="#a64d3e";target.fillRect(-75,-45,150,83);
+  for(let n=0;n<3;n++){const yy=-55-n*25,ww=118-n*20;target.fillStyle=n===0?"#49332d":"#704638";target.beginPath();target.moveTo(-ww*.72,yy+7);target.quadraticCurveTo(0,yy-34,ww*.72,yy+7);target.lineTo(ww*.56,yy+12);target.quadraticCurveTo(0,yy-20,-ww*.56,yy+12);target.closePath();target.fill();target.strokeStyle="#e9c982";target.lineWidth=3;target.stroke();}
+  target.restore();
+  target.fillStyle="#b9a77c";target.beginPath();target.moveTo(w*.08,h*.69);target.lineTo(w*.92,h*.69);target.lineTo(w,h);target.lineTo(0,h);target.closePath();target.fill();
+  target.strokeStyle="rgba(91,73,54,.45)";target.lineWidth=1;
+  for(let n=0;n<7;n++){const y=h*(.73+n*.045);target.beginPath();target.moveTo(w*.08-n*5,y);target.lineTo(w*.92+n*5,y);target.stroke();}
+  for(const side of [0,1]){const x=side?w*.91:w*.09;target.strokeStyle="#d8bd7c";target.lineWidth=mini?2:4;target.beginPath();target.moveTo(x,h*.42);target.lineTo(x,h*.78);target.stroke();target.fillStyle=side?"#a84a42":"#456f91";target.beginPath();target.moveTo(x,h*.43);target.lineTo(x+(side?-1:1)*w*.075,h*.49);target.lineTo(x,h*.55);target.fill();}
+}
+function drawAwardThroneOnlyV2(target,x,y,scale){
+  target.save();target.translate(x,y);target.scale(scale,scale);
+  const g=target.createLinearGradient(-30,0,30,0);g.addColorStop(0,"#704526");g.addColorStop(.5,"#f3d58a");g.addColorStop(1,"#704526");
+  target.fillStyle=g;target.beginPath();target.moveTo(-28,8);target.lineTo(-25,-48);target.quadraticCurveTo(0,-67,25,-48);target.lineTo(28,8);target.closePath();target.fill();
+  target.strokeStyle="#ffe9ae";target.lineWidth=2;target.stroke();
+  target.fillStyle="#813b35";target.fillRect(-22,-37,44,43);target.strokeStyle="#e9c77f";target.strokeRect(-22,-37,44,43);
+  target.fillStyle="#6a4a31";target.fillRect(-30,7,60,8);target.fillStyle="#e9c77f";target.fillRect(-32,4,64,4);
+  target.restore();
+}
+function drawPodiumScene(target,time,mini=false){
+  const ordered=sortedRacers().slice(0,3),w=target.canvas.width,h=target.canvas.height;
+  const elapsed=Math.max(0,(performance.now()-ceremonyStartedAt)/1000);
+  const seatEnd=1.25,standEnd=1.85,jumpEnd=2.55,flyEnd=5.35,transitionEnd=5.85;
+  target.save();
+  if(elapsed<transitionEnd){
+    drawAwardPlazaBackdropV2(target,time,mini);
+    const tx=w*.17,ty=h*.80,sc=mini?.48:.88;
+    if(elapsed<seatEnd){
+      drawCeremonySeatedMaster(target,tx,ty,sc);
+    }else if(elapsed<standEnd){
+      drawAwardThroneOnlyV2(target,tx,ty,sc);
+      const p=awardSmoothstep((elapsed-seatEnd)/(standEnd-seatEnd));
+      drawStandingSectMaster(target,tx+w*.015*p,ty-h*.08*p,mini?.46:.86);
+      target.globalAlpha=1-p;target.strokeStyle="#fff0bd";target.lineWidth=mini?1.5:3;
+      target.beginPath();target.moveTo(tx-8,ty-3);target.lineTo(tx-30,ty+8);target.moveTo(tx-4,ty+1);target.lineTo(tx-24,ty+17);target.stroke();target.globalAlpha=1;
+    }else if(elapsed<jumpEnd){
+      drawAwardThroneOnlyV2(target,tx,ty,sc);
+      const p=awardSmoothstep((elapsed-standEnd)/(jumpEnd-standEnd));
+      const x=tx+w*.055*p,y=ty-h*(.18+.26*p)-Math.sin(p*Math.PI)*h*.06;
+      drawAwardMaster(target,x,y,mini?.40:.76,time);
+    }else{
+      const p=awardSmoothstep((elapsed-jumpEnd)/(flyEnd-jumpEnd));
+      const x=w*.18+w*1.18*p,y=h*(.29+Math.sin(p*Math.PI*2)*.025);
+      drawAwardMaster(target,x,y,mini?.40:.76,time);
+    }
+    if(elapsed>flyEnd){const alpha=clamp((elapsed-flyEnd)/(transitionEnd-flyEnd),0,1);target.fillStyle="rgba(8,18,18,"+alpha+")";target.fillRect(0,0,w,h);}
+    target.restore();return;
+  }
+  drawCeremonyBackdrop(target,mini,time);
+  const podiumX=[w*.25,w*.5,w*.75],rankAt=[2,1,3],base=h*.955;
+  const tops=[h*.655,h*.535,h*.715],metals={1:["#d9b45f","#fff0a7"],2:["#a9c7d8","#e5f7ff"],3:["#ad754d","#f2c08e"]};
+  target.textAlign="center";target.textBaseline="middle";
+  target.font=mini?"900 10px Georgia":"900 27px Georgia";target.fillStyle="#fff0b8";target.shadowColor="#ffcf64";target.shadowBlur=mini?7:18;
+  target.fillText("VINH DANH TAM GIÁP TIÊN HỘI",w*.5,h*.09);target.shadowBlur=0;
+  for(let i=0;i<3;i++){
+    const rank=rankAt[i],racer=ordered[rank-1],x=podiumX[i],top=tops[i],bw=w*.19;
+    const grad=target.createLinearGradient(x-bw/2,top,x+bw/2,base);grad.addColorStop(0,metals[rank][0]);grad.addColorStop(.5,"#72513a");grad.addColorStop(1,"#302c29");
+    target.fillStyle=grad;target.fillRect(x-bw/2,top,bw,base-top);target.strokeStyle=metals[rank][1];target.lineWidth=mini?1.2:3;target.strokeRect(x-bw/2,top,bw,base-top);
+    target.fillStyle=metals[rank][1];target.font=mini?"bold 7px Georgia":"bold 17px Georgia";target.fillText(rank===1?"ĐỆ NHẤT":rank===2?"ĐỆ NHỊ":"ĐỆ TAM",x,top+(mini?8:17));
+    if(!racer)continue;
+    const riderY=top-(mini?25:57),scale=mini?.48:1.12;
+    drawRacer(target,racer,x,riderY,scale,time);
+    target.font=mini?"bold 6px Arial":"bold 13px Arial";target.lineWidth=mini?2:3;target.strokeStyle="#172a25";target.fillStyle="#fff3d2";
+    target.strokeText(racer.name,x,riderY+26*scale,w*.21);target.fillText(racer.name,x,riderY+26*scale,w*.21);
+    target.font=mini?"bold 6px Georgia":"bold 12px Georgia";target.fillStyle=metals[rank][1];target.fillText(rank===1?"TOP 1 · QUÁN QUÂN":rank===2?"TOP 2 · Á QUÂN":"TOP 3 · QUÝ QUÂN",x,base-(mini?4:8),w*.22);
+  }
+  const awardStart=6.15,interval=.72,dropDuration=.62;
+  for(let i=0;i<3;i++){
+    const rank=rankAt[i],x=podiumX[i],racer=ordered[rank-1];if(!racer)continue;
+    const riderY=tops[i]-(mini?25:57),scale=mini?.48:1.12;
+    const p=clamp((elapsed-(awardStart+i*interval))/dropDuration,0,1),active=elapsed>=awardStart+i*interval;
+    if(!active)continue;
+    const eased=awardSmoothstep(p),giftY=h*.20+(riderY-h*.20)*eased-20*(mini?.48:1)*(1-eased);
+    const handY=riderY-12*(mini?.48:1);
+    target.save();target.strokeStyle="#efc39b";target.lineWidth=mini?2:5;target.lineCap="round";
+    const raise=p<.78?awardSmoothstep(p/.78):1;
+    target.beginPath();target.moveTo(x-9*scale,riderY-5*scale);target.lineTo(x-17*scale,riderY-15*scale-17*raise*scale);target.moveTo(x+9*scale,riderY-5*scale);target.lineTo(x+17*scale,riderY-15*scale-17*raise*scale);target.stroke();target.restore();
+    if(p<1)drawCeremonyRankGift(target,x,giftY,rank,mini?.55:.82);
+    else drawCeremonyRankGift(target,x,handY,rank,mini?.55:.82);
+  }
+  target.font=mini?"bold 7px Georgia":"bold 15px Georgia";target.fillStyle="#fff0c5";
+  target.fillText(elapsed<awardStart?"VINH DANH TAM GIÁP":elapsed<awardStart+interval*3+dropDuration?"TRAO TẶNG TIÊN BẢO":"VINH DANH HOÀN TẤT",w*.5,h*.965);
   target.restore();
 }
