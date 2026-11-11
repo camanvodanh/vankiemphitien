@@ -2540,13 +2540,13 @@ function drawSectPavilion(x,y,scale,title,type,accent){
 }
 function drawSectArchitecture(time){
  const buildings=[
-  [120,275,.51,"TỤ LINH THÁP","tower","#39766e"],[280,290,.49,"TÀNG KINH CÁC","scripture","#8c6043"],
-  [410,285,.52,"TÀNG BẢO CÁC","treasure","#b68a43"],[570,325,.82,"LĂNG TIÊU CHÍNH ĐIỆN","main","#9d4939"],
+  [150,275,.51,"TỤ LINH THÁP","tower","#39766e"],[300,290,.49,"TÀNG KINH CÁC","scripture","#8c6043"],
+  [440,285,.52,"TÀNG BẢO CÁC","treasure","#b68a43"],[575,325,.82,"LĂNG TIÊU CHÍNH ĐIỆN","main","#9d4939"],
   [730,285,.52,"GIẢNG ĐẠO CÁC","lecture","#577d83"],[870,290,.49,"BÁCH THẢO CÁC","herb","#648653"],
-  [1010,270,.51,"QUAN TINH ĐÀI","observatory","#536c91"],[130,445,.43,"BẾ QUAN ĐỘNG PHỦ","cave","#536b62"],
-  [295,450,.44,"ĐAN CÁC","alchemy","#9e543b"],[455,445,.44,"LUYỆN KHÍ ĐIỆN","forge","#82604a"],
-  [610,465,.42,"ĐỆ TỬ VIỆN","academy","#66817a"],[765,445,.44,"TRẬN PHÁP CÁC","array","#4f7b83"],
-  [920,445,.44,"NGOẠI VỤ ĐIỆN","foreign","#916c48"],[1040,425,.45,"HỘ SƠN TRẬN CÁC","guardian","#527e88"]
+  [970,270,.51,"QUAN TINH ĐÀI","observatory","#536c91"],[150,445,.43,"BẾ QUAN ĐỘNG PHỦ","cave","#536b62"],
+  [290,450,.44,"ĐAN CÁC","alchemy","#9e543b"],[430,445,.44,"LUYỆN KHÍ ĐIỆN","forge","#82604a"],
+  [570,465,.42,"ĐỆ TỬ VIỆN","academy","#66817a"],[710,445,.44,"TRẬN PHÁP CÁC","array","#4f7b83"],
+  [850,445,.44,"NGOẠI VỤ ĐIỆN","foreign","#916c48"],[970,425,.45,"HỘ SƠN TRẬN CÁC","guardian","#527e88"]
  ];
  buildings.forEach(([x,y,s,title,type,accent])=>{drawSectMountainLedge(x,y,s);drawSectPavilion(x,y-5,s,title,type,accent);});
 }
