@@ -3189,3 +3189,195 @@ body.game-page:after{
  .arena-frame>.game-camera #leaderEffect{font-size:9px!important;}
  .arena-frame>.game-camera>.camera-heading>.window-minimize{flex-basis:21px!important;width:21px!important;height:21px!important;min-width:21px!important;min-height:21px!important;}
 }
+
+
+/* REVISION 40 — bỏ mảng nền quanh hai nút, thu gọn cửa sổ khởi tạo và làm phù lục tạm ngưng mềm hơn. */
+.arena-frame>.arena-controls{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:clamp(18px,3vw,30px)!important;
+  width:max-content!important;
+  max-width:100%!important;
+  min-width:0!important;
+  min-height:0!important;
+  height:auto!important;
+  margin:0 auto!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  outline:0!important;
+  background:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  overflow:visible!important;
+}
+.arena-frame>.arena-controls::before,
+.arena-frame>.arena-controls::after{display:none!important;content:none!important;}
+.arena-frame>.arena-controls #start,
+.arena-frame>.arena-controls #stop{
+  background:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  outline:0!important;
+}
+.arena-frame>.arena-controls .cultivation-art{
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.arena-frame>.arena-controls .art-pause{
+  width:54px!important;
+  height:54px!important;
+  filter:drop-shadow(0 0 2px rgba(241,220,168,.52)) drop-shadow(0 0 8px rgba(111,190,159,.36))!important;
+}
+.arena-frame>.arena-controls #start:active .art-pause{
+  transform:scale(.9)!important;
+  filter:drop-shadow(0 0 6px rgba(210,244,210,.9))!important;
+}
+
+/* Cửa sổ Khởi tạo thu gọn, không che tên lầu các phía sau. */
+.arena-frame>.game-setup.is-minimized{
+  width:max-content!important;
+  min-width:0!important;
+  max-width:calc(100% - 10px)!important;
+  height:auto!important;
+  max-height:none!important;
+  padding:2px 4px 2px 6px!important;
+  margin:0!important;
+  border:1px solid rgba(213,184,120,.42)!important;
+  border-radius:5px!important;
+  background:rgba(12,34,29,.58)!important;
+  background-image:none!important;
+  box-shadow:0 1px 5px rgba(0,0,0,.16)!important;
+  backdrop-filter:blur(2px)!important;
+  -webkit-backdrop-filter:blur(2px)!important;
+  overflow:visible!important;
+}
+.arena-frame>.game-setup.is-minimized .setup-heading{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:3px!important;
+  min-height:0!important;
+  height:auto!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+}
+.arena-frame>.game-setup.is-minimized .setup-title-wrap{
+  display:flex!important;
+  align-items:center!important;
+  min-width:0!important;
+}
+.arena-frame>.game-setup.is-minimized .setup-heading h2{
+  margin:0!important;
+  padding:0!important;
+  font-family:Georgia,serif!important;
+  font-size:9px!important;
+  font-weight:700!important;
+  line-height:1!important;
+  letter-spacing:0!important;
+  white-space:nowrap!important;
+  color:rgba(245,226,185,.92)!important;
+  text-shadow:0 1px 2px rgba(0,0,0,.5)!important;
+}
+.arena-frame>.game-setup.is-minimized .window-minimize{
+  display:grid!important;
+  place-items:center!important;
+  flex:0 0 13px!important;
+  width:13px!important;
+  height:13px!important;
+  min-width:13px!important;
+  min-height:13px!important;
+  margin:0 0 0 2px!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:2px!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:#e8d19a!important;
+  font-size:10px!important;
+  line-height:1!important;
+}
+.arena-frame>.game-setup:not(.is-minimized){
+  width:clamp(220px,27%,300px)!important;
+  max-width:calc(100% - 16px)!important;
+  max-height:44%!important;
+  padding:7px 9px!important;
+  border:1px solid rgba(220,188,119,.55)!important;
+  border-radius:8px!important;
+  background:linear-gradient(145deg,rgba(12,34,29,.86),rgba(21,48,39,.86))!important;
+  box-shadow:0 4px 12px rgba(0,0,0,.2)!important;
+  backdrop-filter:blur(3px)!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) .setup-heading{
+  gap:5px!important;
+  margin:0 0 5px!important;
+  padding:0 0 4px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) .setup-heading h2{
+  font-size:12px!important;
+  line-height:1.1!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) .setup-hint{
+  display:none!important;
+}
+.arena-frame>.game-setup:not(.is-minimized)>label,
+.arena-frame>.game-setup:not(.is-minimized) .summon-footer label{
+  font-size:9px!important;
+  line-height:1.2!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) textarea{
+  min-height:48px!important;
+  height:48px!important;
+  padding:5px 7px!important;
+  font-size:10px!important;
+  line-height:1.25!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) input,
+.arena-frame>.game-setup:not(.is-minimized) select{
+  min-height:25px!important;
+  height:25px!important;
+  padding:3px 5px!important;
+  font-size:10px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) .summon-footer{
+  gap:5px!important;
+  margin-top:5px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) #summon{
+  min-width:42px!important;
+  min-height:25px!important;
+  height:25px!important;
+  padding:3px 7px!important;
+  border-radius:5px!important;
+  font-size:10px!important;
+  line-height:1!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) .lock-notice{
+  margin:4px 0 0!important;
+  font-size:8px!important;
+  line-height:1.2!important;
+}
+@media(max-width:760px){
+ .arena-frame>.arena-controls{gap:15px!important;padding:0!important;}
+ .arena-frame>.arena-controls #start,.arena-frame>.arena-controls #stop{background:transparent!important;box-shadow:none!important;border:0!important;}
+ .arena-frame>.arena-controls .art-pause{width:46px!important;height:46px!important;}
+ .arena-frame>.game-setup.is-minimized{padding:2px 3px 2px 5px!important;}
+ .arena-frame>.game-setup.is-minimized .setup-heading h2{font-size:8px!important;}
+ .arena-frame>.game-setup.is-minimized .window-minimize{width:12px!important;height:12px!important;min-width:12px!important;min-height:12px!important;flex-basis:12px!important;font-size:9px!important;}
+ .arena-frame>.game-setup:not(.is-minimized){width:clamp(175px,43%,245px)!important;max-width:calc(100% - 10px)!important;max-height:48%!important;padding:6px 7px!important;}
+ .arena-frame>.game-setup:not(.is-minimized) .setup-heading h2{font-size:11px!important;}
+ .arena-frame>.game-setup:not(.is-minimized)>label,
+ .arena-frame>.game-setup:not(.is-minimized) .summon-footer label{font-size:8px!important;}
+ .arena-frame>.game-setup:not(.is-minimized) textarea{height:42px!important;min-height:42px!important;font-size:9px!important;}
+ .arena-frame>.game-setup:not(.is-minimized) input,
+ .arena-frame>.game-setup:not(.is-minimized) select{height:23px!important;min-height:23px!important;font-size:9px!important;}
+ .arena-frame>.game-setup:not(.is-minimized) #summon{height:23px!important;min-height:23px!important;font-size:9px!important;}
+}
