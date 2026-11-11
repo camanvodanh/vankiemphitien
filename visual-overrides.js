@@ -5421,14 +5421,15 @@ function drawScenery(time) {
   drawMovingClouds(time);
   drawRiver(time);
 
+  // Rừng và tiên điện ở phía sau màn nước.
+  drawDenseForest(time);
+  drawSectArchitecture(time);
+  drawAmbientEnergy(time);
+  drawSpiritBirds(time);
+
   // Hai thác bắt nguồn từ khe núi, chân thác chạm trực tiếp lòng sông.
   drawWaterfall(112, 260, 25, 260, time);
   drawWaterfall(972, 238, 34, 282, time);
   drawRiverCurrent(time);
-
-  drawSectArchitecture(time);
-  drawDenseForest(time);
-  drawAmbientEnergy(time);
-  drawSpiritBirds(time);
   drawCrowd(time);
 }
