@@ -739,7 +739,7 @@ function advanceFinishAnnouncements(){
 (function enableDraggableCamera(){
   const camera=document.querySelector(".game-camera");
   if(!camera)return;
-  const stage=camera.parentElement;
+  const stage=camera.offsetParent||camera.parentElement;
   const handle=camera.querySelector(".camera-heading");
   if(!stage||!handle)return;
   let drag=null;
