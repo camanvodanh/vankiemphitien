@@ -5280,8 +5280,21 @@ function drawCrowd(time) {
     drawSpectator(x, y, .43, "core", time, i * .73);
   }
 
+  // Nội môn tách thành hai cánh, chừa khoảng trống rõ ràng cho nòng cốt ở giữa.
+  for (let i = 0; i < 64; i++) {
+    const side = i < 32 ? 0 : 1;
+    const local = i % 32;
+    const col = local % 8;
+    const row = Math.floor(local / 8);
+    const x = side === 0
+      ? 42 + col * 43 + (row % 2) * 4
+      : 762 + col * 43 + (row % 2) * 4;
+    const y = 656 + row * 16 + Math.sin(i * 1.73) * 1.8;
+    drawSpectator(x, y, .37, "inner", time, i * .59);
+  }
+
+  // Ngoại môn và tạp dịch tiếp tục phủ kín các hàng phía dưới.
   const groups = [
-    { role: "inner", count: 64, scale: .37, y0: 684, y1: 735 },
     { role: "outer", count: 92, scale: .34, y0: 705, y1: 765 },
     { role: "servant", count: 146, scale: .30, y0: 735, y1: 798 }
   ];
