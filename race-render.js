@@ -400,15 +400,22 @@ function triggerEvent(){
  const active=racers.filter(r=>!r.finished);if(!active.length)return;
  const racer=active[randInt(0,active.length-1)],index=racers.indexOf(racer);
  const effects=[
-  {type:"boost",name:"Thiên phong trợ lực",multiplier:1.62,duration:2.8},
-  {type:"boost",name:"Linh tuyền bùng nổ",multiplier:1.92,duration:1.65},
-  {type:"slow",name:"Loạn lưu cương phong",multiplier:.58,duration:2.7},
-  {type:"impact",name:"Kiếm khí va chạm",multiplier:.72,duration:2.15}
+  {type:"poison",name:"Trúng độc · Độc khí xâm thể",multiplier:.56,duration:3.4},
+  {type:"weak",name:"Linh lực suy kiệt",multiplier:.68,duration:3.0},
+  {type:"pill",name:"Phục dụng Hồi Linh Đan",multiplier:1.58,duration:2.7},
+  {type:"impact",name:"Va chạm chướng ngại",multiplier:.48,duration:1.8},
+  {type:"lightning",name:"Lôi điện oanh kích",multiplier:.42,duration:2.1},
+  {type:"gale",name:"Cuồng phong áp chế",multiplier:.62,duration:2.8},
+  {type:"dizzy",name:"Kiếm khí chấn động · Choáng váng",multiplier:.50,duration:2.3},
+  {type:"faint",name:"Linh lực đứt đoạn · Tạm ngất",multiplier:.32,duration:1.65},
+  {type:"boost",name:"Thiên phong trợ lực",multiplier:1.42,duration:2.5},
+  {type:"pill",name:"Linh tuyền hồi khí",multiplier:1.72,duration:1.9}
  ];
  const effect=effects[randInt(0,effects.length-1)];
  racer.speedMultiplier=effect.multiplier;racer.effectTimer=effect.duration;racer.effectType=effect.type;racer.effectName=effect.name;
  cameraFocusId=racer.id;const px=racerX(racer),py=laneY(index);addParticles(px,py,32);
- for(let i=0;i<12;i++){const angle=i*Math.PI/6;particles.push({x:px+Math.cos(angle)*8,y:py+Math.sin(angle)*6,vx:Math.cos(angle)*rand(1.2,3.1),vy:Math.sin(angle)*rand(1,2.6),life:rand(.45,.95),maxLife:.95,size:rand(2,4),color:effect.type==="boost"?"#ffe17b":effect.type==="slow"?"#8de8ef":"#ff9a72"});}
+ const burstColor=({poison:"#8bd66f",weak:"#b7bdc5",pill:"#ffd978",impact:"#ffab72",lightning:"#a9e9ff",gale:"#a9e4ed",dizzy:"#c8b2ff",faint:"#c4c9d2",boost:"#ffe17b"})[effect.type]||"#ffe7a0";
+ for(let i=0;i<18;i++){const angle=i*Math.PI/9;particles.push({x:px+Math.cos(angle)*8,y:py+Math.sin(angle)*6,vx:Math.cos(angle)*rand(1.2,3.1),vy:Math.sin(angle)*rand(1,2.6),life:rand(.45,.95),maxLife:.95,size:rand(2,4),color:burstColor});}
 }
 
 function showFinishAnnouncement(racer, rank) {
