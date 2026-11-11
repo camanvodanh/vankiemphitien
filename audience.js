@@ -69,7 +69,10 @@ function drawSpectator(x, y, scale, roleName, time, phase = 0) {
 
   ctx.save();
 
-  ctx.translate(x, y);
+  const beat = time * .00072 + phase;
+  const pose = Math.floor((beat * .72) % 5);
+  const jump = pose === 2 ? Math.max(0, Math.sin(beat * 5)) * 5 : Math.sin(beat * 2) * .8;
+  ctx.translate(x, y - jump);
   ctx.scale(scale * role.scale, scale * role.scale);
 
   // Bóng dưới chân
@@ -222,17 +225,17 @@ function drawSpectator(x, y, scale, roleName, time, phase = 0) {
   ctx.lineWidth = 3;
   ctx.lineCap = "round";
 
-  const pose = Math.floor(Math.abs(Math.sin(phase * 1.71)) * 5);
-  const leftArmY = pose === 0 ? -24 + armWave * 3 :
-                   pose === 1 ? -4 + armWave * 4 :
-                   pose === 2 ? -17 + armWave * 5 :
-                   pose === 3 ? -29 + armWave * 2 : -10 + armWave * 6;
-  const rightArmY = pose === 0 ? -5 - armWave * 4 :
-                    pose === 1 ? -28 - armWave * 3 :
-                    pose === 2 ? -23 - armWave * 4 :
-                    pose === 3 ? -8 - armWave * 5 : -31 - armWave * 2;
-  const leftArmX = pose === 4 ? -20 : -15;
-  const rightArmX = pose === 1 ? 20 : 15;
+  
+  const leftArmY = pose === 0 ? -5 + armWave * 2 :
+                   pose === 1 ? -31 + armWave * 4 :
+                   pose === 2 ? -25 + armWave * 5 :
+                   pose === 3 ? -23 + armWave * 3 : -30 + armWave * 5;
+  const rightArmY = pose === 0 ? -5 - armWave * 2 :
+                    pose === 1 ? -31 - armWave * 4 :
+                    pose === 2 ? -27 - armWave * 5 :
+                    pose === 3 ? -23 - armWave * 3 : -6 - armWave * 5;
+  const leftArmX = pose === 4 ? -20 : pose === 0 ? -8 : -15;
+  const rightArmX = pose === 4 ? 20 : pose === 0 ? 8 : 15;
 
   ctx.beginPath();
   ctx.moveTo(-7, 0);
@@ -244,6 +247,9 @@ function drawSpectator(x, y, scale, roleName, time, phase = 0) {
   ctx.fillStyle = role.robe;
   ctx.fillRect(leftArmX - 4, leftArmY - 4, 8, 7);
   ctx.fillRect(rightArmX - 4, rightArmY - 4, 8, 7);
+
+  // Biểu cảm reo hò rõ hơn theo nhịp hoạt ảnh.
+  if (pose === 3) { ctx.fillStyle = "#382b28"; ctx.beginPath(); ctx.ellipse(0,-10,2.8,3.6,0,0,Math.PI*2); ctx.fill(); }
 
   // Trang sức nòng cốt
   if (roleName === "core") {
