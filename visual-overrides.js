@@ -5067,130 +5067,140 @@ function drawCrowd(time){
 }
 
 function drawSpiritBirds(time){
-  // Bốn tiên hạc bay thong thả trên tầng mây, không vượt tốc độ phi kiếm.
-  const cranes=[
-    {dir:1,y:64,s:.58,speed:.000018,phase:.08},
-    {dir:-1,y:112,s:.47,speed:.000014,phase:.52}
+  // Tiên hạc đầu đỏ: thân trắng thanh thoát, cổ đen, cánh lông nhiều lớp.
+  const groups=[
+    {dir:1,y:66,s:.62,speed:.000017,phase:.04},
+    {dir:-1,y:119,s:.49,speed:.000014,phase:.51}
   ];
 
-  // Vẽ cánh theo từng lớp lông, xoay quanh khớp vai để tạo nhịp vỗ tự nhiên.
-  const drawCraneWing=(angle,far)=>{
+  const drawWing=(angle,far)=>{
     ctx.save();
-    ctx.translate(-3,-2);
+    ctx.translate(-7,-4);
     ctx.rotate(angle);
-    const base=far?"#d8e0df":"#fffdf4";
-    const mid=far?"#edf0e9":"#f5f2e8";
-    const edge=far?"#aebdbd":"#d6d9d1";
-    ctx.fillStyle=base;ctx.strokeStyle=edge;ctx.lineWidth=1.15;
+    const feather=far?"#d9e0dc":"#fffdf5";
+    const shade=far?"#aebdb9":"#d9ded8";
+    const tip=far?"#586568":"#343e42";
+    // Cánh chính có bầu cánh rộng, thuôn dần về đầu.
     ctx.beginPath();
     ctx.moveTo(0,0);
-    ctx.quadraticCurveTo(-10,-17,-24,-43);
-    ctx.quadraticCurveTo(-30,-48,-34,-42);
-    ctx.quadraticCurveTo(-36,-35,-31,-28);
-    ctx.quadraticCurveTo(-43,-39,-47,-31);
-    ctx.quadraticCurveTo(-49,-24,-39,-17);
-    ctx.quadraticCurveTo(-52,-25,-55,-16);
-    ctx.quadraticCurveTo(-56,-8,-43,-3);
-    ctx.quadraticCurveTo(-27,5,-8,7);
-    ctx.closePath();ctx.fill();ctx.stroke();
+    ctx.bezierCurveTo(-13,-12,-25,-34,-48,-61);
+    ctx.bezierCurveTo(-53,-67,-59,-64,-57,-57);
+    ctx.lineTo(-51,-43);
+    ctx.bezierCurveTo(-62,-53,-69,-47,-63,-37);
+    ctx.lineTo(-53,-25);
+    ctx.bezierCurveTo(-63,-32,-68,-24,-59,-15);
+    ctx.quadraticCurveTo(-39,3,-8,10);
+    ctx.closePath();
+    ctx.fillStyle=feather;ctx.strokeStyle=shade;ctx.lineWidth=1.2;ctx.fill();ctx.stroke();
 
-    // Từng lông cánh dài, xếp lớp và hơi tách ở đầu cánh.
-    for(let i=0;i<6;i++){
-      const t=i/5;
+    // Lông cánh dài riêng biệt, xòe thành quạt khi nâng/hạ cánh.
+    for(let i=0;i<8;i++){
+      const t=i/7;
       ctx.beginPath();
-      ctx.moveTo(-7-t*3,1+t*1.2);
-      ctx.quadraticCurveTo(-22-t*4,-11-t*3,-31-t*4,-37+t*22);
-      ctx.strokeStyle=i%2?mid:edge;ctx.lineWidth=1.15;ctx.stroke();
+      ctx.moveTo(-7-t*5,2+t*2);
+      ctx.bezierCurveTo(-22-t*5,-13-t*4,-37-t*3,-39+t*19,-49-t*2,-57+t*25);
+      ctx.strokeStyle=i%3===0?shade:"rgba(255,255,255,.9)";
+      ctx.lineWidth=1.15;ctx.stroke();
     }
-    ctx.strokeStyle=far?"rgba(255,255,255,.62)":"rgba(255,255,255,.9)";
-    ctx.lineWidth=1.3;ctx.beginPath();
-    ctx.moveTo(-5,-2);ctx.quadraticCurveTo(-21,-17,-32,-34);ctx.stroke();
+    // Đầu cánh đen đặc trưng của hạc đầu đỏ.
+    ctx.beginPath();
+    ctx.moveTo(-43,-47);ctx.quadraticCurveTo(-58,-60,-57,-55);
+    ctx.lineTo(-51,-39);ctx.quadraticCurveTo(-62,-49,-63,-39);
+    ctx.lineTo(-51,-23);ctx.quadraticCurveTo(-61,-31,-59,-17);
+    ctx.quadraticCurveTo(-51,-5,-39,-4);
+    ctx.quadraticCurveTo(-45,-25,-43,-47);
+    ctx.closePath();ctx.fillStyle=tip;ctx.globalAlpha=.88;ctx.fill();ctx.globalAlpha=1;
     ctx.restore();
   };
 
-  cranes.forEach((f,k)=>{
-    for(let j=0;j<2;j++){
-      const p=(time*f.speed+f.phase+j*.48)%1;
-      const x=f.dir>0?-85+p*(W+170):W+85-p*(W+170);
-      const flapPhase=time*.00175+j*1.35+k*.7;
-      const flap=Math.sin(flapPhase);
-      const y=f.y+Math.sin(time*.00055+j*1.7+k)*3+Math.abs(flap)*1.1;
-      const wingAngle=flap*.78;
-      ctx.save();ctx.translate(x,y);ctx.scale(f.dir*f.s,f.s);
+  groups.forEach((g,gi)=>{
+    for(let n=0;n<2;n++){
+      const p=(time*g.speed+g.phase+n*.48)%1;
+      const x=g.dir>0?-100+p*(W+200):W+100-p*(W+200);
+      const phase=time*.00155+n*1.7+gi*.8;
+      const flap=Math.sin(phase);
+      const y=g.y+Math.sin(time*.00048+n*1.4+gi)*3;
+      ctx.save();
+      ctx.translate(x,y);
+      ctx.scale(g.dir*g.s,g.s);
 
-      // Cánh xa ở phía sau thân, vỗ lệch pha nhẹ để có chiều sâu.
-      drawCraneWing(-wingAngle*.82-.08,true);
-
-      // Đuôi xòe thành các lông trắng ngà.
-      ctx.fillStyle="#f4f1e8";ctx.strokeStyle="#d6d9d1";ctx.lineWidth=1;
-      for(let q=0;q<5;q++){
-        ctx.beginPath();ctx.moveTo(-15,1);
-        ctx.quadraticCurveTo(-29-q*1.4,-5+q*2,-43-q*1.2,-2+q*2.2);
-        ctx.quadraticCurveTo(-31-q,-1+q*2,-15,4);ctx.closePath();ctx.fill();ctx.stroke();
+      // Chân đỏ nâu kéo thẳng về sau, có ngón chân nhỏ.
+      ctx.strokeStyle="#8f5146";ctx.lineWidth=1.7;ctx.lineCap="round";
+      for(let leg=0;leg<2;leg++){
+        const z=leg*3;
+        ctx.beginPath();ctx.moveTo(-1,5+z);ctx.lineTo(-10,17+z);ctx.lineTo(-29,18+z+flap*1.2);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(-29,18+z+flap*1.2);ctx.lineTo(-34,16+z+flap*1.2);ctx.stroke();
       }
 
-      // Thân hạc thuôn dài, có bụng sáng và lớp lông phủ mềm.
-      const body=ctx.createLinearGradient(-5,-8,8,9);
-      body.addColorStop(0,"#fffef8");body.addColorStop(.55,"#f5f2e9");body.addColorStop(1,"#cbd3d0");
-      ctx.fillStyle=body;ctx.strokeStyle="#c6cfca";ctx.lineWidth=1;
-      ctx.beginPath();ctx.ellipse(-1,1,19,7.2,-.08,0,Math.PI*2);ctx.fill();ctx.stroke();
-      ctx.strokeStyle="rgba(177,190,185,.62)";ctx.lineWidth=.75;
-      for(let q=0;q<5;q++){
-        ctx.beginPath();ctx.moveTo(-13+q*4,-2);ctx.quadraticCurveTo(-8+q*3,2,-4+q*4,5);ctx.stroke();
+      // Cánh xa vỗ lệch pha phía sau thân.
+      drawWing(-flap*.82-.12,true);
+
+      // Đuôi xếp lớp, phần lông đuôi sẫm màu lộ nhẹ.
+      ctx.fillStyle="#f6f4eb";ctx.strokeStyle="#cbd3ce";ctx.lineWidth=1;
+      for(let i=0;i<6;i++){
+        ctx.beginPath();ctx.moveTo(-13,1);
+        ctx.quadraticCurveTo(-28-i*2,-7+i*1.5,-47-i*1.2,-5+i*2);
+        ctx.quadraticCurveTo(-30-i,-1+i*1.5,-13,5);ctx.closePath();ctx.fill();ctx.stroke();
+      }
+      ctx.fillStyle="#343e42";
+      ctx.beginPath();ctx.moveTo(-38,-3);ctx.quadraticCurveTo(-49,-7,-54,-3);ctx.quadraticCurveTo(-44,3,-35,2);ctx.fill();
+
+      // Thân hạc thuôn dài, ngực sáng và lưng có sắc xám tự nhiên.
+      const body=ctx.createLinearGradient(-8,-11,10,12);
+      body.addColorStop(0,"#fffef9");body.addColorStop(.52,"#f5f3ec");body.addColorStop(1,"#c7d0cb");
+      ctx.fillStyle=body;ctx.strokeStyle="#c4cec8";ctx.lineWidth=1.1;
+      ctx.beginPath();ctx.ellipse(-1,0,24,9.5,-.08,0,Math.PI*2);ctx.fill();ctx.stroke();
+      ctx.strokeStyle="rgba(171,185,179,.65)";ctx.lineWidth=.85;
+      for(let i=0;i<7;i++){
+        ctx.beginPath();ctx.moveTo(-17+i*4,-4);ctx.quadraticCurveTo(-9+i*3,1,-4+i*3,6);ctx.stroke();
       }
 
-      // Cánh gần thân: bản cánh lớn, lông vũ tách lớp và nhịp vỗ rõ.
-      drawCraneWing(wingAngle,false);
-      // Lớp lông cánh trước sáng hơn, tạo cảm giác cánh có độ dày.
-      ctx.save();ctx.translate(-3,-2);ctx.rotate(wingAngle);
-      ctx.strokeStyle="rgba(255,255,255,.9)";ctx.lineWidth=1.35;
-      for(let q=0;q<5;q++){
-        ctx.beginPath();ctx.moveTo(-8-q,-1+q*.5);ctx.quadraticCurveTo(-24-q*2,-14-q*2,-35-q*2,-29+q*3);ctx.stroke();
+      // Cánh gần thân: nhịp vỗ lớn, có khớp vai và lớp lông phủ.
+      drawWing(flap*.92,false);
+      ctx.save();ctx.translate(-7,-4);ctx.rotate(flap*.92);
+      ctx.strokeStyle="rgba(255,255,255,.94)";ctx.lineWidth=1.25;
+      for(let i=0;i<6;i++){
+        ctx.beginPath();ctx.moveTo(-9-i,-2+i*.4);
+        ctx.quadraticCurveTo(-29-i*2,-18-i*2,-49-i,-42+i*4);ctx.stroke();
       }
       ctx.restore();
 
-      // Cổ dài uốn chữ S, đầu nhỏ, mào đỏ và mỏ nhọn đặc trưng hạc.
-      ctx.strokeStyle="#f7f4eb";ctx.lineWidth=4.2;ctx.lineCap="round";ctx.lineJoin="round";
-      ctx.beginPath();ctx.moveTo(12,-1);ctx.bezierCurveTo(19,-7,17,-17,23,-22);ctx.quadraticCurveTo(27,-26,30,-22);ctx.stroke();
-      ctx.strokeStyle="rgba(190,201,195,.85)";ctx.lineWidth=1.1;
-      ctx.beginPath();ctx.moveTo(14,-3);ctx.quadraticCurveTo(20,-12,22,-19);ctx.stroke();
-      ctx.fillStyle="#fffdf5";ctx.beginPath();ctx.ellipse(29,-23,4.4,3.2,-.25,0,Math.PI*2);ctx.fill();
-      ctx.fillStyle="#bd3f39";ctx.beginPath();ctx.ellipse(27,-26,2.8,2.1,-.4,0,Math.PI*2);ctx.fill();
-      ctx.fillStyle="#b94a3b";ctx.beginPath();ctx.moveTo(32,-23);ctx.lineTo(42,-21);ctx.lineTo(32,-20);ctx.closePath();ctx.fill();
-      ctx.fillStyle="#283a38";ctx.beginPath();ctx.arc(30,-24,0.8,0,Math.PI*2);ctx.fill();
+      // Cổ dài hình chữ S, mảng đen sau cổ và đầu đỏ đặc trưng.
+      ctx.lineCap="round";ctx.lineJoin="round";
+      ctx.strokeStyle="#f8f6ee";ctx.lineWidth=7.2;
+      ctx.beginPath();ctx.moveTo(15,-2);ctx.bezierCurveTo(27,-7,20,-24,31,-31);ctx.quadraticCurveTo(37,-36,42,-29);ctx.stroke();
+      ctx.strokeStyle="#303a3d";ctx.lineWidth=3.1;
+      ctx.beginPath();ctx.moveTo(21,-8);ctx.bezierCurveTo(26,-14,23,-26,33,-32);ctx.stroke();
+      ctx.strokeStyle="rgba(255,255,255,.8)";ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(17,-3);ctx.quadraticCurveTo(25,-14,29,-27);ctx.stroke();
 
-      // Chân dài mảnh duỗi về sau, khớp gối gập nhẹ theo nhịp bay.
-      ctx.strokeStyle="#bd5546";ctx.lineWidth=1.45;ctx.lineCap="round";
-      for(let leg=0;leg<2;leg++){
-        const yy=4+leg*2;
-        ctx.beginPath();ctx.moveTo(2,yy);ctx.lineTo(-4,10+leg*2);ctx.lineTo(-19,11+leg*2+flap*1.1);ctx.stroke();
-        ctx.beginPath();ctx.moveTo(-19,11+leg*2+flap*1.1);ctx.lineTo(-23,9+leg*2+flap*1.1);ctx.stroke();
-      }
+      // Đầu nhỏ, mảng da đỏ trên đỉnh, mắt đen và mỏ nhọn.
+      ctx.fillStyle="#fffdf6";ctx.beginPath();ctx.ellipse(41,-31,5.2,3.8,-.18,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle="#bd3938";ctx.beginPath();ctx.ellipse(39,-35,3.6,2.5,-.35,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle="#b65a45";ctx.beginPath();ctx.moveTo(45,-31);ctx.lineTo(57,-29);ctx.lineTo(45,-27);ctx.closePath();ctx.fill();
+      ctx.fillStyle="#202d31";ctx.beginPath();ctx.arc(43,-32,1,0,Math.PI*2);ctx.fill();
 
-      // Viền sáng lông cổ và vài sợi lông đuôi bay theo gió.
-      ctx.strokeStyle="rgba(255,255,255,.9)";ctx.lineWidth=.8;
-      ctx.beginPath();ctx.moveTo(17,-6);ctx.quadraticCurveTo(21,-17,27,-20);ctx.stroke();
+      // Viền sáng chạy dọc cổ và vài hạt bụi mây quanh cánh.
+      ctx.strokeStyle="rgba(255,255,255,.75)";ctx.lineWidth=.9;
+      ctx.beginPath();ctx.moveTo(18,-5);ctx.quadraticCurveTo(29,-17,36,-28);ctx.stroke();
       ctx.restore();
     }
   });
 
-  // Giữ ít chim én và linh điểu nhỏ bay thưa ở xa để tạo chiều sâu bầu trời.
-  const flocks=[
-    {dir:1,y:86,s:.30,speed:.000031,phase:.34,count:3,color:"#354b54"},
-    {dir:-1,y:145,s:.24,speed:.000025,phase:.71,count:2,color:"#b58a4a"}
+  // Chim nhỏ ở xa, giữ thưa để không lấn át đàn tiên hạc.
+  const distant=[
+    {dir:1,y:91,s:.25,speed:.000029,phase:.32,count:3,color:"#42565a"},
+    {dir:-1,y:151,s:.21,speed:.000023,phase:.68,count:2,color:"#9d8055"}
   ];
-  flocks.forEach((f,k)=>{
+  distant.forEach((f,k)=>{
     for(let i=0;i<f.count;i++){
       const p=(time*f.speed+f.phase+i*.29)%1;
-      const x=f.dir>0?-40+p*(W+80):W+40-p*(W+80);
-      const y=f.y+Math.sin(time*.0012+i*1.9+k)*6;
-      const flap=Math.sin(time*.004+i*1.7+k)*5;
-      ctx.save();ctx.translate(x,y);ctx.scale(f.dir*f.s,f.s);
-      ctx.fillStyle=f.color;
-      ctx.beginPath();ctx.ellipse(0,0,13,3,0,0,Math.PI*2);ctx.fill();
-      ctx.beginPath();ctx.moveTo(-2,0);ctx.quadraticCurveTo(-12,-flap-9,-24,-flap-3);ctx.quadraticCurveTo(-15,2,-2,2);ctx.closePath();ctx.fill();
-      ctx.beginPath();ctx.moveTo(-2,1);ctx.quadraticCurveTo(-13,flap+8,-23,flap+4);ctx.quadraticCurveTo(-13,0,-2,-1);ctx.closePath();ctx.fill();
-      ctx.beginPath();ctx.moveTo(9,0);ctx.lineTo(18,-2);ctx.lineTo(12,3);ctx.closePath();ctx.fill();
+      const x=f.dir>0?-45+p*(W+90):W+45-p*(W+90);
+      const y=f.y+Math.sin(time*.001+i*1.8+k)*5;
+      const flap=Math.sin(time*.0038+i*1.6+k)*5;
+      ctx.save();ctx.translate(x,y);ctx.scale(f.dir*f.s,f.s);ctx.fillStyle=f.color;
+      ctx.beginPath();ctx.moveTo(0,0);ctx.quadraticCurveTo(-12,-flap-11,-24,-flap-3);ctx.quadraticCurveTo(-14,2,0,1);ctx.closePath();ctx.fill();
+      ctx.beginPath();ctx.moveTo(0,0);ctx.quadraticCurveTo(-12,flap+10,-23,flap+4);ctx.quadraticCurveTo(-12,0,0,-1);ctx.closePath();ctx.fill();
       ctx.restore();
     }
   });
