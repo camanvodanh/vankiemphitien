@@ -500,7 +500,7 @@ $("quantity").addEventListener("change", getRandomQuantity);
 $("names").addEventListener("input",()=>{const n=getInputNames().length;if(n)$("quantity").value=n;});
 
 $("summon").addEventListener("click", summon);
-$("start").addEventListener("click", startRace);
+$("start").addEventListener("click", toggleRaceControl);
 
 $("pause").addEventListener("click", () => {
   if (paused) {
@@ -543,3 +543,90 @@ render(0);
 lastTime = 0;
 
 requestAnimationFrame(frame);
+
+
+// REVISION 9 — một nút điều khiển, tên tu tiên duy nhất và camera người dẫn đầu.
+function uniqueNames(list) {
+  const seen=new Set();
+  return list.filter(name=>{
+    const key=name.normalize("NFC").toLocaleLowerCase("vi").replace(/\s+/g," ").trim();
+    if(!key||seen.has(key))return false;seen.add(key);return true;
+  });
+}
+function generateCultivationNames(amount) {
+  const surnames=["Diệp","Tiêu","Lâm","Tô","Mộ Dung","Cố","Thẩm","Bạch","Vân","Tần","Lạc","Ninh","Hàn","Thượng Quan","Đoan Mộc","Phong","Dạ","Mặc","Sở","Giang","Âu Dương","Tư Đồ","Long","Trần","Hứa","Tạ","Lục","Đường","Yến","Kỷ"];
+  const given=["Trường Phong","Vô Trần","Thanh Huyền","Tử Mặc","Nguyệt Dao","Thiên Vũ","Kiếm Tâm","Hạo Nhiên","Vân Khê","Minh Nguyệt","Bạch Y","Tử Yên","Cảnh Hành","Thanh Liên","Phi Vũ","Lăng Tiêu","Mộng Dao","Thiên Hà","Ngọc Khanh","Tĩnh Uyên","Huyền Dạ","Vân Sam","Sơ Ảnh","Dạ Bạch","Tuyết Nhi","Phong Nhiên","Thừa Phong","Tử Dương","Uyển Nhi","Vô Ưu","Kinh Hồng","Trường Ca","Tầm Chân","Linh Quân","Hành Chu","Vãn Tình","Tịch Nhan","Thiếu Khanh","Tuyết Kiến","Vân Trạch"];
+  const pool=[];for(const s of surnames)for(const g of given)pool.push(s+" "+g);
+  for(let i=pool.length-1;i>0;i--){const j=randInt(0,i);[pool[i],pool[j]]=[pool[j],pool[i]];}
+  return pool.slice(0,Math.min(amount,pool.length));
+}
+function getInputNames(){return uniqueNames($("names").value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean));}
+function summon(){
+  if(running||paused)return;
+  const typed=getInputNames(),amount=getRandomQuantity();
+  const finalNames=typed.length?typed:generateCultivationNames(amount);
+  if(!finalNames.length)return;
+  if(finalNames.length>100){$("lockNotice").textContent="Danh sách tối đa 100 tiên nhân.";return;}
+  racers=finalNames.map((name,index)=>createRacer(name,index));
+  racers.forEach((r,i)=>r.swordStyle=i%7);
+  duration=Number($("speed").value);distance=Number($("distance").value);
+  elapsed=0;running=false;paused=false;started=false;finished=false;
+  countdown=0;countdownAccumulator=0;eventClock=0;nextEvent=rand(5,9);
+  eventText="";eventTextLife=0;finishQueue=[];cameraFocusId=null;
+  finishMessage="";finishMessageLife=0;particles=[];
+  assignFinishTimes();
+  $("status").textContent="Đã triệu hồi";
+  $("lockNotice").textContent=typed.length?"Số lượng lấy theo danh sách tên, đã loại tên trùng.":"Đã tạo "+racers.length+" tiên nhân với tên tu tiên ngẫu nhiên.";
+  $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa bắt đầu";
+  setSettingsLocked(false);syncButtons();render(performance.now());
+}
+function setSettingsLocked(value){
+  locked=value;["speed","distance","quantity","names","summon"].forEach(id=>$(id).disabled=value);
+  $("lockNotice").classList.toggle("locked",value);
+}
+function syncButtons(){
+  const b=$("start");
+  b.textContent=running?"Ⅱ Tạm dừng":paused?"▶ Tiếp tục":finished?"↻ Bắt đầu lại":"✦ Bắt đầu vào trường đua";
+  b.disabled=!racers.length;
+  if($("pause")){$("pause").hidden=true;$("pause").disabled=true;}
+  $("summon").disabled=running||paused;
+}
+function toggleRaceControl(){
+  if(!racers.length)return;
+  if(running){togglePause();return;}
+  if(paused){resumeRace();return;}
+  startRace();
+}
+function startRace(){
+  if(!racers.length||running||paused)return;
+  duration=Number($("speed").value);distance=Number($("distance").value);
+  elapsed=0;countdown=3;countdownAccumulator=0;eventClock=0;nextEvent=rand(5,9);
+  finishQueue=[];cameraFocusId=null;finishMessage="";finishMessageLife=0;
+  eventText="BẮT ĐẦU SAU 3";eventTextLife=1;
+  racers.forEach(r=>{r.progress=0;r.finished=false;r.finishTime=null;});
+  assignFinishTimes();started=false;finished=false;paused=false;running=true;
+  $("status").textContent="Bắt đầu sau 3...";
+  $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa bắt đầu";
+  setSettingsLocked(true);syncButtons();
+}
+function togglePause(){if(!running||finished)return;running=false;paused=true;$("status").textContent="Đang tạm dừng";syncButtons();}
+function resumeRace(){if(!paused||finished)return;paused=false;running=true;$("status").textContent=started?"Đang tranh phong":"Bắt đầu sau "+countdown+"...";syncButtons();}
+function finishRace(){
+  elapsed=duration;racers.forEach(r=>{r.progress=distance;r.finished=true;if(r.finishTime===null)r.finishTime=duration;});
+  finished=true;running=false;paused=false;started=true;$("status").textContent="Đại hội kết thúc";
+  finishMessage="ĐẠI HỘI KẾT THÚC!";finishMessageLife=3;setSettingsLocked(false);
+  $("lockNotice").textContent="Cuộc đua hoàn thành. Bấm Bắt đầu lại để chạy lại với đúng danh sách nhân vật này.";
+  syncButtons();updateRanking();
+}
+function resetGame(){
+  racers=[];particles=[];running=false;paused=false;started=false;finished=false;
+  countdown=0;countdownAccumulator=0;elapsed=0;eventClock=0;eventText="";eventTextLife=0;
+  finishQueue=[];cameraFocusId=null;finishMessage="";finishMessageLife=0;
+  $("status").textContent="Chờ triệu hồi";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa bắt đầu";
+  setSettingsLocked(false);syncButtons();updateRanking();render(performance.now());
+}
+function leaderOf(){
+  const active=racers.filter(r=>!r.finished);
+  if(active.length)return active.sort((a,b)=>b.progress-a.progress)[0];
+  return finishQueue.length?finishQueue[finishQueue.length-1]:null;
+}
