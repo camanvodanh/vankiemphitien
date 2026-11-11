@@ -5787,10 +5787,12 @@ function drawPodiumScene(target,time,mini=false){
       drawAwardThroneOnlyV2(target,tx-12,ty,sc,0);
       const p=awardSmoothstep((elapsed-standEnd)/(jumpEnd-standEnd));
       const x=tx+w*.055*p,y=ty-h*(.18+.26*p)-Math.sin(p*Math.PI)*h*.06;
+      drawCeremonyFlyingSword(target,x,y+24*(mini?.40:.76),mini?.40:.76,time);
       drawAwardMaster(target,x,y,mini?.40:.76,time);
     }else{
       const p=awardSmoothstep((elapsed-jumpEnd)/(flyEnd-jumpEnd));
       const x=w*.18+w*1.18*p,y=h*(.29+Math.sin(p*Math.PI*2)*.025);
+      drawCeremonyFlyingSword(target,x,y+24*(mini?.40:.76),mini?.40:.76,time);
       drawAwardMaster(target,x,y,mini?.40:.76,time);
     }
     if(elapsed>flyEnd){const alpha=clamp((elapsed-flyEnd)/(transitionEnd-flyEnd),0,1);target.fillStyle="rgba(8,18,18,"+alpha+")";target.fillRect(0,0,w,h);}
