@@ -2725,3 +2725,234 @@ function drawPodiumScene(target,time,mini=false){
  }
  target.globalAlpha=1;target.restore();
 }
+
+
+// =====================================================
+// REVISION 17 — THÁC SƠN TUYỀN, KIẾN TRÚC VÀ KHÁN ĐÀI
+// =====================================================
+
+function drawCascadeCliff(x, topY, bottomY, width, time) {
+  ctx.save();
+  ctx.lineJoin="round";
+  const span=width*3.35, mid=topY+(bottomY-topY)*.52;
+  const rock=ctx.createLinearGradient(x-span,topY-70,x+span,bottomY+20);
+  rock.addColorStop(0,"#71836a");rock.addColorStop(.28,"#526b56");
+  rock.addColorStop(.62,"#344f43");rock.addColorStop(1,"#1d3934");
+  ctx.fillStyle=rock;
+  ctx.beginPath();
+  ctx.moveTo(x-span,bottomY+15);
+  ctx.lineTo(x-span*.94,mid+55);
+  ctx.lineTo(x-span*.72,mid+4);
+  ctx.lineTo(x-span*.56,topY+75);
+  ctx.lineTo(x-span*.34,topY+38);
+  ctx.lineTo(x-span*.18,topY-34);
+  ctx.lineTo(x-span*.03,topY-62);
+  ctx.lineTo(x+span*.19,topY-27);
+  ctx.lineTo(x+span*.34,topY+39);
+  ctx.lineTo(x+span*.58,topY+74);
+  ctx.lineTo(x+span*.76,mid+8);
+  ctx.lineTo(x+span*.94,mid+62);
+  ctx.lineTo(x+span,bottomY+15);
+  ctx.closePath();ctx.fill();
+
+  const face=ctx.createLinearGradient(x-span*.4,topY,x+span*.5,bottomY);
+  face.addColorStop(0,"rgba(164,177,133,.55)");
+  face.addColorStop(.5,"rgba(83,112,82,.28)");
+  face.addColorStop(1,"rgba(18,43,38,.6)");
+  ctx.fillStyle=face;ctx.beginPath();
+  ctx.moveTo(x-span*.68,topY+88);ctx.lineTo(x-span*.34,topY+38);
+  ctx.lineTo(x-span*.18,topY-34);ctx.lineTo(x-span*.03,topY-62);
+  ctx.lineTo(x+span*.19,topY-27);ctx.lineTo(x+span*.34,topY+39);
+  ctx.lineTo(x+span*.58,topY+74);ctx.lineTo(x+span*.35,topY+58);
+  ctx.lineTo(x+span*.12,topY+2);ctx.lineTo(x-span*.05,topY-22);
+  ctx.lineTo(x-span*.22,topY+48);ctx.lineTo(x-span*.43,topY+106);
+  ctx.closePath();ctx.fill();
+
+  ctx.strokeStyle="rgba(208,220,174,.55)";ctx.lineWidth=2.4;
+  ctx.beginPath();ctx.moveTo(x-span*.34,topY+38);ctx.lineTo(x-span*.18,topY-34);
+  ctx.lineTo(x-span*.03,topY-62);ctx.lineTo(x+span*.19,topY-27);
+  ctx.lineTo(x+span*.34,topY+39);ctx.stroke();
+
+  // Các vân đá chạy dọc vách, tránh tạo cảm giác bức tường ngang.
+  for(let i=0;i<13;i++){
+    const px=x-span*.82+i*span*.137;
+    const py=topY+70+(i%4)*47;
+    ctx.strokeStyle=i%2?"rgba(18,42,36,.34)":"rgba(210,216,174,.25)";
+    ctx.lineWidth=i%3===0?3:1.2;
+    ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px-8,py+25);ctx.lineTo(px+5,py+48);ctx.lineTo(px-3,py+72);ctx.stroke();
+  }
+  for(let i=0;i<15;i++){
+    const px=x-span*.88+i*span*.126,py=topY+95+(i%4)*64;
+    ctx.fillStyle=i%2?"#536c50":"#788365";
+    ctx.beginPath();ctx.moveTo(px-15,py+12);ctx.lineTo(px-5,py-8);
+    ctx.lineTo(px+8,py-16);ctx.lineTo(px+18,py+8);ctx.closePath();ctx.fill();
+  }
+  ctx.restore();
+}
+
+function drawLinkedCascade(x, topY, bottomY, width, time, side) {
+  ctx.save();ctx.lineJoin="round";ctx.lineCap="round";
+  const drift=Math.sin(time*.0011+side)*2.4;
+  const mid=topY+(bottomY-topY)*.52;
+  const leftTop=x-width*.48,rightTop=x+width*.48;
+  const leftFoot=x-width*1.62,rightFoot=x+width*1.62;
+
+  // Hốc đá lõm nơi dòng suối tràn khỏi sườn núi.
+  ctx.fillStyle="#203d37";ctx.beginPath();
+  ctx.moveTo(x-width*1.1,topY-5);ctx.quadraticCurveTo(x-width*.55,topY-19,x,topY-9);
+  ctx.quadraticCurveTo(x+width*.62,topY-18,x+width*1.1,topY-4);
+  ctx.lineTo(x+width*.86,topY+13);ctx.quadraticCurveTo(x,topY+2,x-width*.86,topY+13);
+  ctx.closePath();ctx.fill();
+  ctx.fillStyle="#78906e";ctx.beginPath();
+  ctx.moveTo(x-width*1.02,topY-5);ctx.quadraticCurveTo(x-width*.5,topY-17,x,topY-7);
+  ctx.quadraticCurveTo(x+width*.56,topY-16,x+width*1.02,topY-4);
+  ctx.lineTo(x+width*.8,topY+3);ctx.quadraticCurveTo(x,topY-5,x-width*.8,topY+3);
+  ctx.closePath();ctx.fill();
+
+  // Vách đá ôm lấy dòng thác, hai mép đá lởm chởm.
+  ctx.fillStyle="#304c40";ctx.beginPath();
+  ctx.moveTo(x-width*1.15,topY+5);ctx.lineTo(x-width*.82,topY+38);
+  ctx.lineTo(x-width*1.18,mid-12);ctx.lineTo(leftFoot-width*.32,bottomY+8);
+  ctx.lineTo(leftFoot-width*.08,bottomY-3);ctx.lineTo(x-width*.8,mid+15);
+  ctx.lineTo(x-width*.58,topY+42);ctx.closePath();ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(x+width*1.15,topY+5);ctx.lineTo(x+width*.82,topY+38);
+  ctx.lineTo(x+width*1.18,mid-12);ctx.lineTo(rightFoot+width*.32,bottomY+8);
+  ctx.lineTo(rightFoot+width*.08,bottomY-3);ctx.lineTo(x+width*.8,mid+15);
+  ctx.lineTo(x+width*.58,topY+42);ctx.closePath();ctx.fill();
+
+  // Màn nước loe dần theo vách, uốn nhẹ theo địa hình.
+  const water=ctx.createLinearGradient(x-width*1.5,0,x+width*1.5,0);
+  water.addColorStop(0,"#276f7b");water.addColorStop(.17,"#72c6c6");
+  water.addColorStop(.39,"#d9fff0");water.addColorStop(.57,"#8edbd3");
+  water.addColorStop(.82,"#4ca7ad");water.addColorStop(1,"#245f70");
+  ctx.fillStyle=water;ctx.beginPath();
+  ctx.moveTo(leftTop,topY-5);
+  ctx.bezierCurveTo(x-width*.42,topY+72,x-width*.95,mid-15,leftFoot,bottomY-2);
+  ctx.quadraticCurveTo(x-width*.72,bottomY+11,x,bottomY+5);
+  ctx.quadraticCurveTo(x+width*.92,bottomY+12,rightFoot,bottomY-2);
+  ctx.bezierCurveTo(x+width*.95,mid-15,x+width*.42,topY+72,rightTop,topY-5);
+  ctx.closePath();ctx.fill();
+
+  // Vệt sáng dọc và những dải nước mỏng tạo chiều sâu.
+  ctx.save();ctx.beginPath();
+  ctx.moveTo(leftTop,topY-4);ctx.bezierCurveTo(x-width*.42,topY+72,x-width*.95,mid-15,leftFoot,bottomY-2);
+  ctx.quadraticCurveTo(x-width*.72,bottomY+11,x,bottomY+5);
+  ctx.quadraticCurveTo(x+width*.92,bottomY+12,rightFoot,bottomY-2);
+  ctx.bezierCurveTo(x+width*.95,mid-15,x+width*.42,topY+72,rightTop,topY-5);
+  ctx.closePath();ctx.clip();
+  const offset=(time*.018)%54;
+  for(let i=0;i<13;i++){
+    const px=x-width*.85+i*width*.142;
+    const sway=Math.sin(i*1.7+time*.0012+side)*width*.12;
+    const yy=topY-4+((i*23+offset)%Math.max(1,bottomY-topY));
+    ctx.strokeStyle=i%4===0?"rgba(255,255,245,.82)":i%3===0?"rgba(32,103,119,.42)":"rgba(221,255,245,.38)";
+    ctx.lineWidth=i%4===0?2.6:1.15+(i%3)*.45;
+    ctx.beginPath();ctx.moveTo(px,yy);ctx.bezierCurveTo(px+sway-4,yy+38,px+sway+5,yy+90,px+sway,Math.min(bottomY+5,yy+145));ctx.stroke();
+  }
+  for(let i=0;i<7;i++){
+    const px=x-width*.58+i*width*.19+drift;
+    ctx.strokeStyle="rgba(255,255,245,.48)";ctx.lineWidth=1.1;
+    ctx.beginPath();ctx.moveTo(px,topY+18);ctx.bezierCurveTo(px-7,mid,px+8,bottomY-35,px+drift,bottomY-4);ctx.stroke();
+  }
+  ctx.restore();
+
+  // Bọt trắng ở các gờ đá giữa dòng và chân thác.
+  for(let tier=0;tier<3;tier++){
+    const yy=topY+90+tier*(bottomY-topY)*.34;
+    const xx=x+Math.sin(time*.001+tier+side)*width*.22;
+    ctx.strokeStyle="rgba(235,255,248,.68)";ctx.lineWidth=2.2;
+    ctx.beginPath();ctx.moveTo(xx-width*.65,yy);ctx.quadraticCurveTo(xx,yy+5,xx+width*.65,yy-2);ctx.stroke();
+  }
+  const pool=ctx.createRadialGradient(x,bottomY+4,2,x,bottomY+4,width*2.9);
+  pool.addColorStop(0,"rgba(240,255,248,.58)");pool.addColorStop(.36,"rgba(120,213,205,.28)");pool.addColorStop(1,"rgba(130,222,215,0)");
+  ctx.fillStyle=pool;ctx.beginPath();ctx.ellipse(x,bottomY+5,width*2.9,17,0,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle="rgba(238,255,247,.74)";ctx.lineWidth=2.2;
+  ctx.beginPath();ctx.ellipse(x,bottomY+5,width*2.1,8,0,0,Math.PI*2);ctx.stroke();
+
+  // Hơi nước và giọt bắn chuyển động chậm.
+  for(let i=0;i<20;i++){
+    const px=x+Math.sin(time*.0015+i*1.31+side)*width*2.2;
+    const py=bottomY-4+Math.cos(i*2.17+time*.001)*5;
+    ctx.globalAlpha=.34+.35*(.5+.5*Math.sin(time*.002+i));
+    ctx.fillStyle="#f0fff6";ctx.beginPath();ctx.ellipse(px,py,1.5+(i%3),2+(i%2),0,0,Math.PI*2);ctx.fill();
+  }
+  ctx.globalAlpha=1;ctx.restore();
+}
+
+function drawSectArchitecture(time){
+  // Hai công trình phía đông được đưa hẳn khỏi vùng cổng đích.
+  const buildings=[
+    [125,276,.51,"TỤ LINH THÁP","tower","#39766e"],
+    [270,290,.49,"TÀNG KINH CÁC","scripture","#8c6043"],
+    [420,285,.52,"TÀNG BẢO CÁC","treasure","#b68a43"],
+    [570,325,.82,"LĂNG TIÊU CHÍNH ĐIỆN","main","#9d4939"],
+    [710,285,.52,"GIẢNG ĐẠO CÁC","lecture","#577d83"],
+    [805,305,.49,"BÁCH THẢO CÁC","herb","#648653"],
+    [805,175,.51,"QUAN TINH LÂU","observatory","#536c91"],
+    [150,445,.43,"BẾ QUAN ĐỘNG PHỦ","cave","#536b62"],
+    [290,450,.44,"ĐAN CÁC","alchemy","#9e543b"],
+    [430,445,.44,"LUYỆN KHÍ ĐIỆN","forge","#82604a"],
+    [570,465,.42,"ĐỆ TỬ VIỆN","academy","#66817a"],
+    [710,445,.44,"TRẬN PHÁP CÁC","array","#4f7b83"],
+    [805,445,.44,"HỘ SƠN TRẬN CÁC","guardian","#527e88"],
+    [940,445,.42,"NGOẠI VỤ ĐIỆN","foreign","#916c48"]
+  ];
+  buildings.forEach(([x,y,s,title,type,accent])=>{
+    drawSectMountainLedge(x,y,s);
+    drawSectPavilion(x,y-5,s,title,type,accent);
+  });
+}
+
+function drawCrowd(time){
+  // Khu vực tôn vị: môn chủ ở chính giữa, hai hàng thân truyền và trưởng lão tách biệt.
+  drawVIPAura(550,646,145,"#ffe5a0",time,.4,1.9);
+  drawVIPAura(550,646,92,"#fff0bf",time,1.8,1.5);
+  drawVIPChair(550,674,1.48,"#762f32",time,0);
+  drawFormalSpectator(550,662,1.16,"master",time,0);
+  drawRoleLabel(550,596,"CHƯỞNG MÔN","#f2d17d",1.12);
+
+  const disciples=Array.from({length:10},(_,i)=>[265+i*19,665]);
+  disciples.forEach(([x,y],i)=>{
+    drawVIPAura(x,y-12,30,"#a9d7ff",time,i*.7,.55);
+    drawVIPChair(x,y,.70,"#405d82",time,i*.65);
+    drawFormalSpectator(x,y-8,.62,"disciple",time,i);
+  });
+  drawRoleLabel(360,628,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.88);
+
+  const elders=Array.from({length:10},(_,i)=>[645+i*19,665]);
+  elders.forEach(([x,y],i)=>{
+    drawVIPAura(x,y-12,32,"#d7baff",time,i*.75,.62);
+    drawVIPChair(x,y,.74,"#5b456b",time,i);
+    drawFormalSpectator(x,y-8,.65,"elder",time,i*.8);
+  });
+  drawRoleLabel(740,628,"TRƯỞNG LÃO","#d4b5fa",.88);
+
+  // Nòng cốt đứng thành hai cụm nghi lễ, không có ghế.
+  for(let i=0;i<18;i++){
+    const x=75+i*55+(i%2)*5,y=710+Math.sin(i*1.7)*3;
+    drawVIPAura(x,y-10,20,"#b8e5d6",time,i*.61,.22);
+    drawSpectator(x,y,.55,"core",time,i*.73);
+  }
+  for(let i=0;i<14;i++){
+    const x=165+i*55,y=728+Math.sin(i*1.9)*2;
+    drawSpectator(x,y,.43,"core",time,i*1.13+2);
+  }
+
+  // Đám đông đứng dày phía sau, phân lớp theo cấp bậc.
+  const rows=[
+    {role:"inner",count:42,y:748,start:-5,step:27,scale:.39,spread:7},
+    {role:"outer",count:58,y:765,start:-5,step:20,scale:.35,spread:8},
+    {role:"servant",count:76,y:782,start:-5,step:15,scale:.32,spread:8},
+    {role:"servant",count:88,y:797,start:-5,step:13,scale:.29,spread:7}
+  ];
+  rows.forEach((row,ri)=>{
+    for(let i=0;i<row.count;i++){
+      const x=row.start+i*row.step+Math.sin(i*2.399+ri)*5+(i%2)*2;
+      const y=row.y+Math.sin(i*1.73+ri*2.1)*row.spread+Math.cos(i*.43+ri)*2;
+      drawSpectator(x,y,row.scale,row.role,time,i*.59+ri*1.7);
+    }
+  });
+  drawCrowdFlag(12,724,"#a53f36",time);
+  drawCrowdFlag(W-18,724,"#b18a43",time);
+}
