@@ -4828,99 +4828,44 @@ function drawScenery(time){
 function drawRacingArtifact(target,kind,phase){
   const female=arguments.length>3&&arguments[3]==="female";
   const palettes=[
-    ["#c7e4ed","#f7ffff","#5d8794","#a77b43"],
-    ["#9ed8e9","#efffff","#477d8a","#527d86"],
-    ["#c8b5ed","#fff2ff","#78649f","#79558c"],
-    ["#e4bd70","#fff2c7","#986b35","#79512e"],
-    ["#a8d2ad","#efffe8","#568260","#47704b"],
-    ["#b9c9da","#ffffff","#657b92","#526075"],
-    ["#e8a5aa","#fff0e8","#a45161","#813d4a"],
-    ["#d9c89d","#fff6dc","#88744d","#665239"]
+    ["#c7e4ed","#f7ffff","#5d8794","#a77b43"],["#9ed8e9","#efffff","#477d8a","#527d86"],
+    ["#c8b5ed","#fff2ff","#78649f","#79558c"],["#e4bd70","#fff2c7","#986b35","#79512e"],
+    ["#a8d2ad","#efffe8","#568260","#47704b"],["#b9c9da","#ffffff","#657b92","#526075"],
+    ["#e8a5aa","#fff0e8","#a45161","#813d4a"],["#d9c89d","#fff6dc","#88744d","#665239"]
   ];
   const p=palettes[((kind%palettes.length)+palettes.length)%palettes.length];
-  const blade=p[0],edge=p[1],fuller=p[2],metal=p[3];
-  const shape=((kind%8)+8)%8;
-  target.save();
-  target.translate(0,18);
-  target.rotate(Math.PI/2+Math.sin(phase)*.012);
+  const blade=p[0],edge=p[1],fuller=p[2],metal=p[3],shape=((kind%8)+8)%8;
+  target.save();target.translate(0,18);target.rotate(Math.PI/2+Math.sin(phase)*.012);
   target.globalAlpha=1;
 
-  // Bóng mảnh giúp thân kiếm tách khỏi áo và hiệu ứng bay.
-  target.fillStyle="rgba(10,20,28,.38)";
-  target.beginPath();target.ellipse(0,4,48,5,0,0,Math.PI*2);target.fill();
-
-  // Lưỡi kiếm dài, có sống, hai cạnh rõ và mũi nhọn thật sự.
+  // Lưỡi kiếm không vẽ bóng đen bên dưới nhân vật.
   const grad=target.createLinearGradient(-12,0,12,0);
-  grad.addColorStop(0,"#425c66");
-  grad.addColorStop(.13,blade);
-  grad.addColorStop(.48,edge);
-  grad.addColorStop(.82,blade);
-  grad.addColorStop(1,"#425c66");
-  target.fillStyle=grad;
-  target.beginPath();
-  if(shape===0){ // Trường kiếm thẳng
-    target.moveTo(0,-56);target.lineTo(8,-43);target.lineTo(8,-8);
-    target.lineTo(6,0);target.lineTo(-6,0);target.lineTo(-8,-8);target.lineTo(-8,-43);
-  }else if(shape===1){ // Trọng kiếm bản rộng
-    target.moveTo(0,-54);target.lineTo(12,-40);target.lineTo(11,-8);
-    target.lineTo(7,1);target.lineTo(-7,1);target.lineTo(-11,-8);target.lineTo(-12,-40);
-  }else if(shape===2){ // Liễu diệp kiếm
-    target.moveTo(0,-57);target.quadraticCurveTo(14,-38,10,-15);
-    target.lineTo(6,0);target.lineTo(-5,0);
-    target.quadraticCurveTo(5,-30,0,-57);
-  }else if(shape===3){ // Tế kiếm
-    target.moveTo(0,-60);target.lineTo(6,-43);target.lineTo(4,-5);
-    target.lineTo(3,1);target.lineTo(-3,1);target.lineTo(-4,-5);target.lineTo(-6,-43);
-  }else if(shape===4){ // Kiếm tam giác
-    target.moveTo(0,-57);target.lineTo(11,-37);target.lineTo(8,-7);
-    target.lineTo(5,1);target.lineTo(-5,1);target.lineTo(-8,-7);target.lineTo(-11,-37);
-  }else if(shape===5){ // Nguyệt nhận
-    target.moveTo(-2,-56);target.quadraticCurveTo(15,-38,12,-16);
-    target.lineTo(6,1);target.lineTo(-5,0);
-    target.quadraticCurveTo(2,-27,-2,-56);
-  }else if(shape===6){ // Hậu bối kiếm
-    target.moveTo(-2,-55);target.lineTo(9,-42);target.lineTo(10,-10);
-    target.lineTo(7,1);target.lineTo(-7,1);target.lineTo(-10,-10);target.lineTo(-9,-42);
-  }else{ // Linh văn kiếm mũi nhọn dài
-    target.moveTo(0,-62);target.lineTo(9,-39);target.lineTo(7,-7);
-    target.lineTo(4,2);target.lineTo(-4,2);target.lineTo(-7,-7);target.lineTo(-9,-39);
-  }
-  target.closePath();target.fill();
-  target.strokeStyle=edge;target.lineWidth=1.7;target.stroke();
+  grad.addColorStop(0,"#425c66");grad.addColorStop(.13,blade);
+  grad.addColorStop(.48,edge);grad.addColorStop(.82,blade);grad.addColorStop(1,"#425c66");
+  target.fillStyle=grad;target.beginPath();
+  if(shape===0){target.moveTo(0,-56);target.lineTo(8,-43);target.lineTo(8,-8);target.lineTo(6,0);target.lineTo(-6,0);target.lineTo(-8,-8);target.lineTo(-8,-43);}
+  else if(shape===1){target.moveTo(0,-54);target.lineTo(12,-40);target.lineTo(11,-8);target.lineTo(7,1);target.lineTo(-7,1);target.lineTo(-11,-8);target.lineTo(-12,-40);}
+  else if(shape===2){target.moveTo(0,-57);target.quadraticCurveTo(14,-38,10,-15);target.lineTo(6,0);target.lineTo(-5,0);target.quadraticCurveTo(5,-30,0,-57);}
+  else if(shape===3){target.moveTo(0,-60);target.lineTo(6,-43);target.lineTo(4,-5);target.lineTo(3,1);target.lineTo(-3,1);target.lineTo(-4,-5);target.lineTo(-6,-43);}
+  else if(shape===4){target.moveTo(0,-57);target.lineTo(11,-37);target.lineTo(8,-7);target.lineTo(5,1);target.lineTo(-5,1);target.lineTo(-8,-7);target.lineTo(-11,-37);}
+  else if(shape===5){target.moveTo(-2,-56);target.quadraticCurveTo(15,-38,12,-16);target.lineTo(6,1);target.lineTo(-5,0);target.quadraticCurveTo(2,-27,-2,-56);}
+  else if(shape===6){target.moveTo(-2,-55);target.lineTo(9,-42);target.lineTo(10,-10);target.lineTo(7,1);target.lineTo(-7,1);target.lineTo(-10,-10);target.lineTo(-9,-42);}
+  else{target.moveTo(0,-62);target.lineTo(9,-39);target.lineTo(7,-7);target.lineTo(4,2);target.lineTo(-4,2);target.lineTo(-7,-7);target.lineTo(-9,-39);}
+  target.closePath();target.fill();target.strokeStyle=edge;target.lineWidth=1.7;target.stroke();
+  target.strokeStyle=fuller;target.lineWidth=1.7;target.beginPath();target.moveTo(0,-52);target.quadraticCurveTo(1,-27,0,-3);target.stroke();
+  target.strokeStyle="rgba(255,255,255,.82)";target.lineWidth=.9;target.beginPath();target.moveTo(-3,-43);target.lineTo(-2,-12);target.stroke();
+  target.strokeStyle="rgba(255,255,255,.72)";target.lineWidth=1;target.beginPath();target.moveTo(6,-39);target.lineTo(5,-8);target.stroke();
 
-  // Sống kiếm nổi và rãnh sáng ở giữa lưỡi.
-  target.strokeStyle=fuller;target.lineWidth=1.7;
-  target.beginPath();target.moveTo(0,-52);target.quadraticCurveTo(1,-27,0,-3);target.stroke();
-  target.strokeStyle="rgba(255,255,255,.82)";target.lineWidth=.9;
-  target.beginPath();target.moveTo(-3,-43);target.lineTo(-2,-12);target.stroke();
-  // Vệt sáng ở cạnh bén làm rõ hình khối kim loại.
-  target.strokeStyle="rgba(255,255,255,.72)";target.lineWidth=1;
-  target.beginPath();target.moveTo(6,-39);target.lineTo(5,-8);target.stroke();
-
-  // Chắn kiếm cong hai cánh — chi tiết nhận diện quan trọng.
   const guard=target.createLinearGradient(-19,0,19,0);
-  guard.addColorStop(0,"#49372b");guard.addColorStop(.24,metal);
-  guard.addColorStop(.5,"#fff0b9");guard.addColorStop(.76,metal);guard.addColorStop(1,"#49372b");
-  target.fillStyle=guard;
-  target.beginPath();
-  target.moveTo(-18,1);target.quadraticCurveTo(-12,8,0,7);
-  target.quadraticCurveTo(12,8,18,1);target.lineTo(14,-3);
-  target.quadraticCurveTo(0,2,-14,-3);target.closePath();target.fill();
+  guard.addColorStop(0,"#49372b");guard.addColorStop(.24,metal);guard.addColorStop(.5,"#fff0b9");guard.addColorStop(.76,metal);guard.addColorStop(1,"#49372b");
+  target.fillStyle=guard;target.beginPath();target.moveTo(-18,1);target.quadraticCurveTo(-12,8,0,7);target.quadraticCurveTo(12,8,18,1);target.lineTo(14,-3);target.quadraticCurveTo(0,2,-14,-3);target.closePath();target.fill();
   target.strokeStyle="#fff0c7";target.lineWidth=1;target.stroke();
-
-  // Chuôi bọc da có khoen kim loại, nằm đối diện mũi kiếm.
-  target.fillStyle="#3c2c26";
-  target.beginPath();target.roundRect(-4,7,8,23,2);target.fill();
+  target.fillStyle="#3c2c26";target.beginPath();target.roundRect(-4,7,8,23,2);target.fill();
   target.strokeStyle=metal;target.lineWidth=1.2;
-  for(let y=11;y<=25;y+=5){
-    target.beginPath();target.moveTo(-4,y);target.lineTo(4,y+3);target.stroke();
-  }
+  for(let y=11;y<=25;y+=5){target.beginPath();target.moveTo(-4,y);target.lineTo(4,y+3);target.stroke();}
   target.fillStyle=metal;target.fillRect(-5,8,10,2.5);target.fillRect(-5,27,10,2.5);
-  // Chụp chuôi và viên ngọc.
-  target.fillStyle=metal;target.beginPath();target.arc(0,33,5,0,Math.PI*2);target.fill();
-  target.fillStyle=female?"#f6c8dc":"#bcebed";
-  target.beginPath();target.arc(0,33,2.3,0,Math.PI*2);target.fill();
-  // Ngọc ở tâm chắn kiếm.
+  target.beginPath();target.arc(0,33,5,0,Math.PI*2);target.fill();
+  target.fillStyle=female?"#f6c8dc":"#bcebed";target.beginPath();target.arc(0,33,2.3,0,Math.PI*2);target.fill();
   target.fillStyle=p[2];target.beginPath();target.arc(0,3,2.8,0,Math.PI*2);target.fill();
   target.restore();
 }
@@ -5091,86 +5036,37 @@ function drawScenery(time){
 // =====================================================
 
 function drawMasterBaguaAura(time) {
-  const cx = 550, cy = 566;
-  const rotation = time * .00016;
+  const cx=550,cy=566,rotation=time*.00022;
+  ctx.save();ctx.translate(cx,cy);
 
-  ctx.save();
-  ctx.translate(cx, cy);
-
-  // Ba vòng trận pháp nằm ngang, phát sáng và xoay chậm quanh chưởng môn.
-  for (let i = 0; i < 3; i++) {
-    ctx.save();
-    ctx.rotate(rotation * (i % 2 ? -1 : 1));
-    ctx.strokeStyle = i === 0 ? "rgba(255,238,176,.92)" : "rgba(164,235,222,.58)";
-    ctx.lineWidth = i === 0 ? 2.4 : 1.35;
-    ctx.shadowColor = i === 0 ? "#ffe8a4" : "#9de8dd";
-    ctx.shadowBlur = i === 0 ? 13 : 7;
-    ctx.beginPath();
-    ctx.ellipse(0, 0, 76 + i * 24, 26 + i * 9, 0, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.restore();
-  }
-
-  // Tám quẻ với ba hào âm/dương rõ ràng.
-  for (let i = 0; i < 8; i++) {
-    const a = rotation * .7 + i * Math.PI / 4;
-    const px = Math.cos(a) * 132;
-    const py = Math.sin(a) * 48;
-    ctx.save();
-    ctx.translate(px, py);
-    ctx.rotate(a + Math.PI / 2);
-    ctx.strokeStyle = "rgba(255,239,190,.94)";
-    ctx.lineWidth = 2.5;
-    ctx.shadowColor = "#ffe5a0";
-    ctx.shadowBlur = 8;
-    for (let j = 0; j < 3; j++) {
-      const yy = (j - 1) * 7;
+  // Chỉ giữ đồ hình Bát Quái: tám quẻ xoay quanh Thái Cực, không có
+  // các vòng tròn hào quang bên ngoài.
+  for(let i=0;i<8;i++){
+    const a=rotation+i*Math.PI/4;
+    const px=Math.cos(a)*91,py=Math.sin(a)*36;
+    ctx.save();ctx.translate(px,py);ctx.rotate(a+Math.PI/2);
+    ctx.strokeStyle="rgba(255,239,190,.96)";ctx.lineWidth=2.7;
+    ctx.shadowColor="#ffe5a0";ctx.shadowBlur=7;
+    for(let j=0;j<3;j++){
+      const yy=(j-1)*7;
       ctx.beginPath();
-      if ((i + j) % 2 === 0) {
-        ctx.moveTo(-8, yy); ctx.lineTo(8, yy);
-      } else {
-        ctx.moveTo(-8, yy); ctx.lineTo(-2, yy);
-        ctx.moveTo(2, yy); ctx.lineTo(8, yy);
-      }
+      if((i+j)%2===0){ctx.moveTo(-8,yy);ctx.lineTo(8,yy);}
+      else{ctx.moveTo(-8,yy);ctx.lineTo(-2,yy);ctx.moveTo(2,yy);ctx.lineTo(8,yy);}
       ctx.stroke();
     }
-    ctx.fillStyle = "#fff0bc";
-    ctx.beginPath(); ctx.arc(0, -17, 2.2, 0, Math.PI * 2); ctx.fill();
     ctx.restore();
   }
 
-  // Thái cực đồ ở tâm, có hai mắt âm dương.
-  ctx.save();
-  ctx.rotate(-rotation * 1.4);
-  ctx.fillStyle = "rgba(255,241,204,.96)";
-  ctx.beginPath(); ctx.arc(0, 0, 17, 0, Math.PI * 2); ctx.fill();
-  ctx.fillStyle = "#315e59";
-  ctx.beginPath();
-  ctx.arc(0, -8.5, 8.5, Math.PI / 2, -Math.PI / 2);
-  ctx.arc(0, 8.5, 8.5, -Math.PI / 2, Math.PI / 2);
-  ctx.fill();
-  ctx.fillStyle = "#fff0c4";
-  ctx.beginPath(); ctx.arc(0, -8.5, 2.6, 0, Math.PI * 2); ctx.fill();
-  ctx.fillStyle = "#315e59";
-  ctx.beginPath(); ctx.arc(0, 8.5, 2.6, 0, Math.PI * 2); ctx.fill();
-  ctx.restore();
-  ctx.restore();
-
-  // Linh châu bay theo quỹ đạo quanh ngai, không che mặt chưởng môn.
-  for (let i = 0; i < 24; i++) {
-    const a = -rotation * 1.8 + i * Math.PI * 2 / 24;
-    const rx = 151 + Math.sin(time * .001 + i) * 5;
-    const ry = 57 + Math.cos(time * .0012 + i * .8) * 3;
-    const x = cx + Math.cos(a) * rx;
-    const y = cy + Math.sin(a) * ry;
-    ctx.save();
-    ctx.globalAlpha = .35 + .55 * Math.pow(Math.sin(time * .002 + i * 1.7), 2);
-    ctx.fillStyle = i % 3 === 0 ? "#fff1c4" : "#a9eee2";
-    ctx.shadowColor = ctx.fillStyle;
-    ctx.shadowBlur = 10;
-    ctx.beginPath(); ctx.arc(x, y, 1.4 + (i % 3) * .45, 0, Math.PI * 2); ctx.fill();
-    ctx.restore();
-  }
+  // Thái Cực ở chính giữa, xoay ngược chiều với tám quẻ.
+  ctx.save();ctx.rotate(-rotation*1.5);
+  ctx.fillStyle="rgba(255,241,204,.98)";
+  ctx.beginPath();ctx.arc(0,0,17,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#315e59";ctx.beginPath();
+  ctx.arc(0,-8.5,8.5,Math.PI/2,-Math.PI/2);
+  ctx.arc(0,8.5,8.5,-Math.PI/2,Math.PI/2);ctx.fill();
+  ctx.fillStyle="#fff0c4";ctx.beginPath();ctx.arc(0,-8.5,2.6,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#315e59";ctx.beginPath();ctx.arc(0,8.5,2.6,0,Math.PI*2);ctx.fill();
+  ctx.restore();ctx.restore();
 }
 
 // Thác bắt nguồn từ khe nước trong lòng núi, đổ thành màn nước nhiều sợi.
@@ -5356,8 +5252,6 @@ function drawMountainRange() {
 function drawCrowd(time) {
   // Bát quái được vẽ trước ngai để nằm phía sau chưởng môn.
   drawMasterBaguaAura(time);
-  drawVIPAura(550, 552, 112, "#ffe5a0", time, .4, 2.2);
-  drawVIPAura(550, 552, 70, "#fff0bf", time, 1.8, 1.7);
   drawVIPChair(550, 579, 1.38, "#762f32", time, 0);
   drawFormalSpectator(550, 566, 1.04, "master", time, 0);
   drawRoleLabel(550, 493, "CHƯỞNG MÔN", "#f2d17d", 1.05);
