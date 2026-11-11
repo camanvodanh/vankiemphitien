@@ -3945,3 +3945,137 @@ body.game-page:after{
 .arena-frame>.game-camera>.camera-effect-slot #leaderEffect:empty{
   display:none!important;
 }
+
+
+/* REVISION 47 — mở rộng bảng Khởi tạo, giữ ô Số lượng và nút Tạo luôn nhìn thấy. */
+.arena-frame>.game-setup:not(.is-minimized){
+  position:absolute!important;
+  top:12px!important;left:12px!important;right:auto!important;bottom:auto!important;
+  z-index:80!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  gap:9px!important;
+  width:clamp(320px,38vw,470px)!important;
+  max-width:min( calc(100% - 24px), 470px )!important;
+  max-height:calc(100% - 24px)!important;
+  height:auto!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  box-sizing:border-box!important;
+  padding:14px 16px!important;
+  background:linear-gradient(145deg,rgba(12,37,31,.97),rgba(24,52,41,.96))!important;
+  border:1px solid rgba(224,190,117,.88)!important;
+  border-radius:12px!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.48),inset 0 0 0 1px rgba(255,230,174,.12)!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) .setup-heading{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:10px!important;
+  min-height:32px!important;
+  flex:0 0 auto!important;
+  margin:0 0 2px!important;
+  padding:0 0 8px!important;
+  border-bottom:1px solid rgba(224,190,117,.35)!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) .setup-title-full{
+  font-size:clamp(15px,1.5vw,19px)!important;
+  line-height:1.25!important;
+}
+.arena-frame>.game-setup:not(.is-minimized)>label{
+  display:block!important;
+  flex:0 0 auto!important;
+  font-size:clamp(11px,1vw,13px)!important;
+  line-height:1.4!important;
+  margin:0!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) #names{
+  display:block!important;
+  flex:0 0 auto!important;
+  width:100%!important;
+  height:clamp(88px,12vh,128px)!important;
+  min-height:88px!important;
+  max-height:128px!important;
+  resize:vertical!important;
+  box-sizing:border-box!important;
+  padding:9px 10px!important;
+  font-size:14px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) .summon-footer{
+  display:grid!important;
+  grid-template-columns:minmax(76px,1fr) minmax(110px,1fr) minmax(76px,auto)!important;
+  align-items:end!important;
+  gap:10px!important;
+  width:100%!important;
+  flex:0 0 auto!important;
+  min-width:0!important;
+  margin:2px 0 0!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) .random-setting,
+.arena-frame>.game-setup:not(.is-minimized) .compact-field{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:5px!important;
+  min-width:0!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) #quantity,
+.arena-frame>.game-setup:not(.is-minimized) #speed{
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+  height:40px!important;
+  box-sizing:border-box!important;
+  font-size:14px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) #summon{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-width:76px!important;
+  width:100%!important;
+  height:40px!important;
+  white-space:nowrap!important;
+  margin:0!important;
+  padding:0 10px!important;
+  font-size:14px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) .lock-notice{
+  display:block!important;
+  flex:0 0 auto!important;
+  margin:0!important;
+  font-size:11px!important;
+  line-height:1.35!important;
+}
+@media(max-width:760px){
+ .arena-frame>.game-setup:not(.is-minimized){
+   top:8px!important;left:8px!important;
+   width:clamp(285px,84vw,390px)!important;
+   max-width:calc(100% - 16px)!important;
+   max-height:calc(100% - 16px)!important;
+   padding:12px 12px!important;
+   gap:8px!important;
+ }
+ .arena-frame>.game-setup:not(.is-minimized) .setup-title-full{font-size:16px!important;}
+ .arena-frame>.game-setup:not(.is-minimized) #names{
+   height:clamp(78px,13vh,112px)!important;min-height:78px!important;
+ }
+ .arena-frame>.game-setup:not(.is-minimized) .summon-footer{
+   grid-template-columns:minmax(72px,1fr) minmax(98px,1fr) minmax(70px,auto)!important;
+   gap:7px!important;
+ }
+ .arena-frame>.game-setup:not(.is-minimized) #quantity,
+ .arena-frame>.game-setup:not(.is-minimized) #speed,
+ .arena-frame>.game-setup:not(.is-minimized) #summon{height:38px!important;font-size:13px!important;}
+}
+@media(max-width:360px){
+ .arena-frame>.game-setup:not(.is-minimized){
+   width:calc(100% - 12px)!important;max-width:calc(100% - 12px)!important;
+   top:6px!important;left:6px!important;padding:10px!important;
+ }
+ .arena-frame>.game-setup:not(.is-minimized) .summon-footer{
+   grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+ }
+ .arena-frame>.game-setup:not(.is-minimized) #summon{grid-column:1 / -1!important;}
+}
