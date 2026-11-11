@@ -1158,7 +1158,7 @@ body.game-page:before{
   background-size:113px 127px,157px 149px,181px 163px,auto;
 }
 body.game-page:after{
-  content:"✧　　　　　　　　　☯　　　　　　　　　✧";
+  content:"✧　　　　　　　　　✧";
   position:fixed;left:0;right:0;bottom:8px;z-index:0;pointer-events:none;
   color:rgba(213,179,111,.18);font:clamp(18px,3vw,34px) Georgia,serif;
   letter-spacing:clamp(12px,5vw,70px);text-align:center;white-space:nowrap;
