@@ -3490,3 +3490,135 @@ body.game-page:after{
  .arena-frame>.arena-controls>#start .cultivation-art,
  .arena-frame>.arena-controls>#stop .cultivation-art{width:42px!important;height:42px!important;}
 }
+
+
+/* REVISION 42 — căn giữa thông tin góc quan sát và đặt nút trong hàng canvas, không đè Tiên Bảng. */
+.arena-frame>.game-camera .camera-info{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  text-align:center!important;
+  gap:5px!important;
+}
+.arena-frame>.game-camera .camera-rank-slot{
+  display:flex!important;
+  width:100%!important;
+  justify-content:center!important;
+  align-items:center!important;
+  text-align:center!important;
+  margin:0!important;
+}
+.arena-frame>.game-camera #leaderProgress{
+  display:inline-flex!important;
+  justify-content:center!important;
+  align-items:center!important;
+  text-align:center!important;
+  width:auto!important;
+  margin:0 auto!important;
+  white-space:nowrap!important;
+}
+.arena-frame>.game-camera #leaderProgress::before{
+  content:"HẠNG"!important;
+  display:inline-block!important;
+  color:#c9ad72!important;
+  font-size:9px!important;
+  font-weight:800!important;
+  letter-spacing:.08em!important;
+  margin-right:6px!important;
+}
+.arena-frame>.game-camera #leaderName,
+.arena-frame>.game-camera #leaderEffect{
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  margin:0 auto!important;
+  padding:0!important;
+  text-align:center!important;
+  text-indent:0!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.arena-frame>.game-camera #leaderName::before,
+.arena-frame>.game-camera #leaderEffect::before{
+  content:none!important;
+  display:none!important;
+}
+/* Điều khiển là lớp phủ ở đáy hàng canvas; không dùng đáy toàn khung vì sẽ rơi vào Tiên Bảng. */
+.arena-frame>.arena-controls{
+  position:relative!important;
+  z-index:120!important;
+  grid-column:1 / -1!important;
+  grid-row:1!important;
+  left:auto!important;
+  right:auto!important;
+  top:auto!important;
+  bottom:auto!important;
+  transform:none!important;
+  justify-self:center!important;
+  align-self:end!important;
+  width:max-content!important;
+  height:max-content!important;
+  min-height:0!important;
+  margin:0 0 8px!important;
+  padding:0!important;
+  gap:24px!important;
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+.arena-frame>.arena-controls>#start,
+.arena-frame>.arena-controls>#stop{
+  display:grid!important;
+  visibility:visible!important;
+  opacity:1!important;
+  flex:0 0 52px!important;
+  position:relative!important;
+  width:52px!important;
+  height:52px!important;
+  min-width:52px!important;
+  min-height:52px!important;
+  margin:0!important;
+  padding:0!important;
+  place-items:center!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.arena-frame>.arena-controls>#start .btn-icon,
+.arena-frame>.arena-controls>#stop .btn-icon{
+  display:grid!important;
+  place-items:center!important;
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+  padding:0!important;
+}
+.arena-frame>.arena-controls>#start .cultivation-art,
+.arena-frame>.arena-controls>#stop .cultivation-art{
+  display:block!important;
+  width:48px!important;
+  height:48px!important;
+}
+@media(max-width:760px){
+ .arena-frame>.arena-controls{
+   grid-column:1 / -1!important;
+   grid-row:1!important;
+   margin-bottom:5px!important;
+   gap:16px!important;
+ }
+ .arena-frame>.arena-controls>#start,
+ .arena-frame>.arena-controls>#stop{
+   flex-basis:44px!important;width:44px!important;height:44px!important;
+   min-width:44px!important;min-height:44px!important;
+ }
+ .arena-frame>.arena-controls>#start .cultivation-art,
+ .arena-frame>.arena-controls>#stop .cultivation-art{width:42px!important;height:42px!important;}
+}
