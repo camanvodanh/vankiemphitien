@@ -5773,17 +5773,31 @@ function drawPodiumScene(target,time,mini=false){
     target.strokeText(racer.name,x,riderY+26*scale,w*.21);target.fillText(racer.name,x,riderY+26*scale,w*.21);
     target.font=mini?"bold 6px Georgia":"bold 12px Georgia";target.fillStyle=metals[rank][1];target.fillText(rank===1?"TOP 1 · QUÁN QUÂN":rank===2?"TOP 2 · Á QUÂN":"TOP 3 · QUÝ QUÂN",x,base-(mini?4:8),w*.22);
   }
-  const awardStart=6.15,interval=.72,dropDuration=.62;
+  /* Chưởng môn chỉ xuất hiện sau khi đã rời khỏi quảng trường và cảnh trao thưởng hoàn tất chuyển cảnh. */
+  const awardStart=6.05,masterFlightDuration=3.9,dropDuration=.72;
+  const flightP=clamp((elapsed-awardStart)/masterFlightDuration,0,1);
+  const masterX=w*(-.16+1.32*flightP);
+  const masterY=h*(.205+Math.sin(flightP*Math.PI*2)*.012);
+  if(elapsed>=awardStart&&elapsed<=awardStart+masterFlightDuration+.12){
+    drawAwardMaster(target,masterX,masterY,mini?.36:.70,time);
+  }
+  /* Mỗi hộp quà được thả đúng lúc chưởng môn bay ngang qua thí sinh tương ứng. */
   for(let i=0;i<count;i++){
     const rank=rankAt[i],x=podiumX[i],racer=ordered[rank-1];if(!racer)continue;
     const top=topByRank[rank],riderY=top-(mini?25:57),scale=mini?.48:1.12;
-    const p=clamp((elapsed-(awardStart+i*interval))/dropDuration,0,1),active=elapsed>=awardStart+i*interval;
-    if(!active)continue;
-    const eased=awardSmoothstep(p),giftY=h*.20+(riderY-h*.20)*eased-20*(mini?.48:1)*(1-eased);
+    const passP=clamp((x/w+.16)/1.32,0,1);
+    const dropStart=awardStart+passP*masterFlightDuration;
+    const p=clamp((elapsed-dropStart)/dropDuration,0,1);
+    if(elapsed<dropStart)continue;
+    const eased=awardSmoothstep(p);
+    const giftY=masterY+(riderY-masterY)*eased;
     const handY=riderY-12*(mini?.48:1);
     target.save();target.strokeStyle="#efc39b";target.lineWidth=mini?2:5;target.lineCap="round";
     const raise=p<.78?awardSmoothstep(p/.78):1;
-    target.beginPath();target.moveTo(x-9*scale,riderY-5*scale);target.lineTo(x-17*scale,riderY-15*scale-17*raise*scale);target.moveTo(x+9*scale,riderY-5*scale);target.lineTo(x+17*scale,riderY-15*scale-17*raise*scale);target.stroke();target.restore();
+    target.beginPath();
+    target.moveTo(x-9*scale,riderY-5*scale);target.lineTo(x-17*scale,riderY-15*scale-17*raise*scale);
+    target.moveTo(x+9*scale,riderY-5*scale);target.lineTo(x+17*scale,riderY-15*scale-17*raise*scale);
+    target.stroke();target.restore();
     if(p<1)drawCeremonyRankGift(target,x,giftY,rank,mini?.55:.82);
     else drawCeremonyRankGift(target,x,handY,rank,mini?.55:.82);
   }
