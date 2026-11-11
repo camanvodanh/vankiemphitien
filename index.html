@@ -44,7 +44,7 @@
 
           <div class="camera panel">
             <div class="camera-heading">
-              <h3>Hạng hiện tại</h3>
+              <h3 id="leaderProgress">Hạng --/--</h3>
               <span class="camera-live"><i></i> TRỰC TIẾP</span>
             </div>
 
@@ -52,9 +52,8 @@
               <canvas id="leaderCanvas" width="420" height="190"></canvas>
             </div>
 
-            <div class="camera-info">
+            <div class="camera-info" aria-hidden="true">
               <strong id="leaderName">Đang chờ cuộc đua</strong>
-              <span id="leaderProgress">Thời gian về đích: --:--</span>
             </div>
           </div>
         </div>
