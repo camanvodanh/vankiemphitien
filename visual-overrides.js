@@ -5684,7 +5684,8 @@ function drawAnnouncement(){
   ctx.globalAlpha=clamp(life/.55,0,1);
   ctx.font="bold 15px Georgia";
   const boxW=Math.min(W-36,Math.max(230,ctx.measureText(message).width+28));
-  const boxH=29,x=(W-boxW)/2,y=12;
+  // Đồng hồ ở y=13; đặt thông báo thấp hơn để không chồng chữ và vẫn cách biển hiệu chính điện (y≈170).
+  const boxH=29,x=(W-boxW)/2,y=49;
   ctx.fillStyle=isFinish?"rgba(99,59,26,.92)":"rgba(24,52,41,.9)";
   ctx.fillRect(x,y,boxW,boxH);
   ctx.strokeStyle="#e4c27e";ctx.lineWidth=1.3;
