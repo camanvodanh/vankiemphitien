@@ -409,7 +409,7 @@ function triggerEvent(){
   {type:"dizzy",name:"Choáng",multiplier:.50,duration:2.3},
   {type:"faint",name:"Ngất",multiplier:.32,duration:1.65},
   {type:"boost",name:"Thân pháp",multiplier:1.42,duration:2.5},
-  {type:"pill",name:"Tụ Khí Đan",multiplier:1.72,duration:1.9},
+  {type:"qi_pill",name:"Tụ Khí Đan",multiplier:1.72,duration:1.9},
   {type:"sword_intent",name:"Kiếm ý",multiplier:1.34,duration:2.35},
   {type:"cloud_step",name:"Đạp Vân",multiplier:1.48,duration:2.15},
   {type:"formation",name:"Tụ Linh Trận",multiplier:1.27,duration:3.1},
