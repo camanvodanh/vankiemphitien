@@ -4120,7 +4120,7 @@ function drawSpiritBirds(time){
   cranes.forEach((g,gi)=>{
     for(let j=0;j<2;j++){
       const p=(time*g.speed/Math.PI*2+g.phase+j*.5)%1;
-      const x=g.side?1015+p*105:85-p*105;
+      const x=g.side?1060+p*105:40-p*105;
       const y=g.baseY+Math.sin(p*Math.PI*2+gi)*22;
       const flap=Math.sin(time*.0011+j*1.9+gi)*.62;
       ctx.save();ctx.translate(x,y);ctx.scale(g.side?-g.scale:g.scale,g.scale);
@@ -4139,7 +4139,7 @@ function drawSpiritBirds(time){
   // Chim én bay theo vòng khép kín ở rìa núi, tốc độ thấp hơn phi kiếm.
   for(let i=0;i<10;i++){
     const side=i%2,p=(time*(.00028+(i%3)*.000025)+i*.137)%1;
-    const x=side?1018+p*88:82-p*88;
+    const x=side?1058+p*88:42-p*88;
     const y=270+Math.sin(p*Math.PI*2+i)*42+(i%3)*8;
     const wing=Math.sin(time*.0017+i)*4;
     ctx.save();ctx.translate(x,y);ctx.scale(side?-1:1,1);
@@ -4150,7 +4150,7 @@ function drawSpiritBirds(time){
   // Linh điểu vàng tuần hoàn quanh đỉnh núi, không lấn vào khu vực thi đấu.
   for(let i=0;i<4;i++){
     const side=i%2,p=(time*.00013+i*.25)%1;
-    const x=side?1018+p*78:82-p*78,y=132+Math.sin(p*Math.PI*2)*20;
+    const x=side?1058+p*78:42-p*78,y=132+Math.sin(p*Math.PI*2)*20;
     const wing=Math.sin(time*.0013+i)*5;
     ctx.save();ctx.translate(x,y);ctx.scale(side?-1:1,1);
     ctx.fillStyle="#d8b56b";ctx.beginPath();ctx.ellipse(0,0,9,4,0,0,Math.PI*2);ctx.fill();
@@ -4249,6 +4249,10 @@ function drawPodiumScene(target,time,mini=false){
       const handoff=awardSmoothstep((flightPhase-.42)/.22);
       const masterHandX=masterX+73*masterScale,masterHandY=masterY-53*masterScale;
       const receiverHandX=winnerX-27,receiverHandY=winnerY-25;
+      // Người nhận đưa tay ra đón pháp bảo, không chỉ đứng nhìn.
+      target.save();target.strokeStyle=racer.color;target.lineWidth=7;target.lineCap="round";
+      target.beginPath();target.moveTo(winnerX-7,winnerY-5);target.lineTo(receiverHandX,receiverHandY);target.stroke();
+      target.strokeStyle="#efc39b";target.lineWidth=5;target.beginPath();target.moveTo(receiverHandX-2,receiverHandY);target.lineTo(receiverHandX+5,receiverHandY-2);target.stroke();target.restore();
       const giftX=masterHandX+(receiverHandX-masterHandX)*handoff;
       const giftY=masterHandY+(receiverHandY-masterHandY)*handoff-Math.sin(handoff*Math.PI)*h*.045;
       if(flightPhase<.42)drawGiftBox(target,masterHandX,masterHandY,mini?.52:.9,color);
