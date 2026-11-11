@@ -5875,3 +5875,168 @@ function drawPodiumScene(target,time,mini=false){
   }
   target.restore();
 }
+
+/* REVISION 74 — bục trao thưởng tam giáp bằng đá ngọc, kim loại chạm khắc nhiều tầng. */
+function drawGrandAwardPedestalV2(target,x,top,base,width,rank,mini=false){
+  const depth=mini?4:13;
+  const palette={
+    1:{main:"#b98535",light:"#fff0ad",dark:"#51351d",stone:"#5b4635"},
+    2:{main:"#9ebbc9",light:"#f0ffff",dark:"#344d5e",stone:"#43545a"},
+    3:{main:"#a96e43",light:"#f4cf9b",dark:"#4c3027",stone:"#554039"}
+  }[rank]||{main:"#98734b",light:"#f5dfa9",dark:"#49382b",stone:"#514236"};
+  const left=x-width/2,right=x+width/2,cap=mini?4:11;
+  target.save();
+  // Mặt hông phải tạo chiều sâu khối đá.
+  const side=target.createLinearGradient(right,0,right+depth,0);
+  side.addColorStop(0,palette.dark);side.addColorStop(1,"#171f20");
+  target.fillStyle=side;target.beginPath();target.moveTo(right,top+cap);target.lineTo(right+depth,top+cap-depth*.35);target.lineTo(right+depth,base-depth*.25);target.lineTo(right,base);target.closePath();target.fill();
+  // Thân bục đá nguyên khối, có vát cạnh và gờ kim loại.
+  const face=target.createLinearGradient(left,top,left,base);
+  face.addColorStop(0,palette.main);face.addColorStop(.12,palette.stone);face.addColorStop(.72,"#39332d");face.addColorStop(1,palette.dark);
+  target.fillStyle=face;target.beginPath();target.moveTo(left,top+cap);target.lineTo(right,top+cap);target.lineTo(right,base-8);target.lineTo(left,base-8);target.closePath();target.fill();
+  target.strokeStyle=palette.light;target.lineWidth=mini?1:2;target.stroke();
+  // Bệ chân ba tầng.
+  for(let n=0;n<3;n++){
+    const inset=n*(mini?2:5),yy=base-(n+1)*(mini?4:10);
+    target.fillStyle=n===1?palette.main:palette.dark;
+    target.fillRect(left-inset,yy,width+inset*2,mini?3:7);
+    target.strokeStyle=palette.light;target.lineWidth=mini?.65:1.4;
+    target.strokeRect(left-inset,yy,width+inset*2,mini?3:7);
+  }
+  // Đỉnh bục nhiều lớp, có mặt đá sáng và đường viền vàng.
+  const topGrad=target.createLinearGradient(left,top,right,top+cap);
+  topGrad.addColorStop(0,palette.light);topGrad.addColorStop(.35,palette.main);topGrad.addColorStop(1,palette.dark);
+  target.fillStyle=topGrad;target.beginPath();target.moveTo(left-3,top+cap);target.lineTo(x,top);target.lineTo(right+3,top+cap);target.lineTo(right,top+cap+5);target.lineTo(left,top+cap+5);target.closePath();target.fill();
+  target.strokeStyle=palette.light;target.lineWidth=mini?1:2.4;target.stroke();
+  // Trụ chạm khắc hai bên và các đai kim loại.
+  for(const px of [left+width*.13,right-width*.13]){
+    target.fillStyle="rgba(12,20,20,.42)";target.fillRect(px-(mini?1:3),top+cap+8,mini?2:6,base-top-cap-25);
+    target.strokeStyle=palette.light;target.lineWidth=mini?.6:1.3;
+    target.beginPath();target.moveTo(px,top+cap+10);target.lineTo(px,base-22);target.stroke();
+    target.fillStyle=palette.main;target.fillRect(px-(mini?2:5),top+cap+12,mini?4:10,mini?2:4);
+    target.fillRect(px-(mini?2:5),base-25,mini?4:10,mini?2:4);
+  }
+  target.strokeStyle=palette.light;target.lineWidth=mini?.7:1.5;
+  target.beginPath();target.moveTo(left+5,top+cap+18);target.lineTo(right-5,top+cap+18);target.moveTo(left+5,base-18);target.lineTo(right-5,base-18);target.stroke();
+  // Huy hiệu ngọc khắc hạng trên mặt trước.
+  const badgeY=top+(base-top)*.34;
+  target.fillStyle=palette.dark;target.strokeStyle=palette.light;target.lineWidth=mini?1:2;
+  target.beginPath();target.moveTo(x,badgeY-(mini?7:18));target.lineTo(x+(mini?6:16),badgeY);target.lineTo(x,badgeY+(mini?7:18));target.lineTo(x-(mini?6:16),badgeY);target.closePath();target.fill();target.stroke();
+  target.fillStyle=palette.light;target.font=mini?"bold 6px Georgia":"bold 15px Georgia";target.textAlign="center";target.textBaseline="middle";
+  target.fillText(String(rank),x,badgeY);
+  // Chạm hoa văn dọc hai mặt.
+  target.globalAlpha=.65;target.strokeStyle=palette.light;target.lineWidth=mini?.55:1;
+  for(let n=0;n<3;n++){
+    const yy=top+cap+30+n*(base-top-cap-60)/3;
+    target.beginPath();target.moveTo(x-width*.28,yy);target.lineTo(x-width*.18,yy-4);target.lineTo(x-width*.08,yy);target.moveTo(x+width*.08,yy);target.lineTo(x+width*.18,yy-4);target.lineTo(x+width*.28,yy);target.stroke();
+  }
+  target.restore();
+}
+
+/* REVISION 74 — người nhận quà ôm hộp trước ngực và bật nhảy vui mừng liên tục. */
+function drawRecipientCelebrationGiftV2(target,x,riderY,rank,scale,bounce,mini){
+  target.save();target.translate(x,riderY-bounce);target.scale(scale,scale);
+  target.strokeStyle="#efc39b";target.lineWidth=mini?2.4:4.5;target.lineCap="round";target.lineJoin="round";
+  target.beginPath();
+  target.moveTo(-9,-6);target.quadraticCurveTo(-17,-1,-12,7);target.lineTo(-7,10);
+  target.moveTo(9,-6);target.quadraticCurveTo(17,-1,12,7);target.lineTo(7,10);
+  target.stroke();
+  target.fillStyle="#f1c8a6";target.beginPath();target.arc(-7,10,2.2,0,Math.PI*2);target.arc(7,10,2.2,0,Math.PI*2);target.fill();
+  target.restore();
+  drawCeremonyRankGift(target,x,riderY-bounce+7*scale,rank,mini?.58:.82);
+  // Sao vui mừng nhấp nháy phía trên đầu.
+  target.save();target.globalAlpha=.72+.28*Math.sin(performance.now()*.012+rank);
+  target.strokeStyle=rank===1?"#fff0a2":"#dffaff";target.lineWidth=mini?1:2;
+  const sy=riderY-bounce-48*scale;
+  for(let n=0;n<3;n++){const sx=x+(n-1)*(mini?13:25),yy=sy+Math.sin(performance.now()*.008+n)*3;
+    target.beginPath();target.moveTo(sx,yy- (mini?3:6));target.lineTo(sx,yy+(mini?3:6));target.moveTo(sx-(mini?3:6),yy);target.lineTo(sx+(mini?3:6),yy);target.stroke();}
+  target.restore();
+}
+
+
+function drawPodiumScene(target,time,mini=false){
+  const ordered=sortedRacers().slice(0,3),w=target.canvas.width,h=target.canvas.height;
+  const elapsed=Math.max(0,(performance.now()-ceremonyStartedAt)/1000);
+  const count=ordered.length,title="BAN THƯỞNG TOP "+count+" TIÊN HỘI";
+  const seatEnd=1.25,standEnd=1.85,jumpEnd=2.55,flyEnd=5.35,transitionEnd=5.85;
+  target.save();
+  if(elapsed<transitionEnd){
+    drawAwardPlazaBackdropV2(target,time,mini);
+    const tx=w*.17,ty=h*.80,sc=mini?.48:.88;
+    if(elapsed<seatEnd)drawCeremonySeatedMaster(target,tx,ty,sc);
+    else if(elapsed<standEnd){
+      const p=awardSmoothstep((elapsed-seatEnd)/(standEnd-seatEnd));
+      drawAwardThroneOnlyV2(target,tx-12*p,ty,sc,0);
+      drawStandingSectMaster(target,tx+w*.015*p,ty-h*.08*p,mini?.46:.86);
+      target.globalAlpha=1-p;target.strokeStyle="#fff0bd";target.lineWidth=mini?1.5:3;
+      target.beginPath();target.moveTo(tx-8,ty-3);target.lineTo(tx-30,ty+8);target.moveTo(tx-4,ty+1);target.lineTo(tx-24,ty+17);target.stroke();target.globalAlpha=1;
+    }else if(elapsed<jumpEnd){
+      drawAwardThroneOnlyV2(target,tx-12,ty,sc,0);
+      const p=awardSmoothstep((elapsed-standEnd)/(jumpEnd-standEnd));
+      const x=tx+w*.055*p,y=ty-h*(.18+.26*p)-Math.sin(p*Math.PI)*h*.06;
+      drawCeremonyFlyingSword(target,x,y+24*(mini?.40:.76),mini?.40:.76,time);
+      drawAwardMaster(target,x,y,mini?.40:.76,time);
+    }else{
+      const p=awardSmoothstep((elapsed-jumpEnd)/(flyEnd-jumpEnd));
+      const x=w*.18+w*1.18*p,y=h*(.29+Math.sin(p*Math.PI*2)*.025);
+      drawCeremonyFlyingSword(target,x,y+24*(mini?.40:.76),mini?.40:.76,time);
+      drawAwardMaster(target,x,y,mini?.40:.76,time);
+    }
+    if(elapsed>flyEnd){const alpha=clamp((elapsed-flyEnd)/(transitionEnd-flyEnd),0,1);target.fillStyle="rgba(8,18,18,"+alpha+")";target.fillRect(0,0,w,h);}
+    target.restore();return;
+  }
+
+  drawCeremonyBackdrop(target,mini,time);
+  const podiumX=count===1?[w*.5]:count===2?[w*.25,w*.5]:[w*.25,w*.5,w*.75];
+  const rankAt=count===1?[1]:count===2?[2,1]:[2,1,3];
+  const topByRank={1:h*.535,2:h*.655,3:h*.715},base=h*.955;
+  const metals={1:["#d9b45f","#fff0a7"],2:["#a9c7d8","#e5f7ff"],3:["#ad754d","#f2c08e"]};
+  const awardStart=6.05,masterFlightDuration=3.9,dropDuration=.72;
+  target.textAlign="center";target.textBaseline="middle";
+  target.font=mini?"900 10px Georgia":"900 27px Georgia";
+  target.fillStyle="#fff0b8";target.shadowColor="#ffcf64";target.shadowBlur=mini?7:18;
+  target.fillText(title,w*.5,h*.09);target.shadowBlur=0;
+
+  for(let i=0;i<count;i++){
+    const rank=rankAt[i],racer=ordered[rank-1],x=podiumX[i],top=topByRank[rank],bw=count===1?w*.24:w*.19;
+    drawGrandAwardPedestalV2(target,x,top,base,bw,rank,mini);
+    if(!racer)continue;
+    const riderY=top-(mini?25:57),scale=mini?.48:1.12;
+    const passP=clamp((x/w+.16)/1.32,0,1),dropStart=awardStart+passP*masterFlightDuration;
+    const receivedAt=dropStart+dropDuration,celebrating=elapsed>=receivedAt;
+    const bounce=celebrating?Math.abs(Math.sin((elapsed-receivedAt)*5.4+rank*.7))*(mini?4:13):0;
+    drawRacer(target,racer,x,riderY-bounce,scale,time);
+    target.font=mini?"bold 6px Arial":"bold 13px Arial";target.lineWidth=mini?2:3;
+    target.strokeStyle="#172a25";target.fillStyle="#fff3d2";
+    target.strokeText(racer.name,x,riderY-bounce+26*scale,w*.21);
+    target.fillText(racer.name,x,riderY-bounce+26*scale,w*.21);
+    target.font=mini?"bold 6px Georgia":"bold 12px Georgia";target.fillStyle=metals[rank][1];
+    target.fillText(rank===1?"TOP 1 · QUÁN QUÂN":rank===2?"TOP 2 · Á QUÂN":"TOP 3 · QUÝ QUÂN",x,base-(mini?4:8),w*.22);
+  }
+
+  const flightP=clamp((elapsed-awardStart)/masterFlightDuration,0,1);
+  const masterX=w*(-.16+1.32*flightP),masterY=h*(.205+Math.sin(flightP*Math.PI*2)*.012);
+  if(elapsed>=awardStart&&elapsed<=awardStart+masterFlightDuration+.12)drawAwardMaster(target,masterX,masterY,mini?.36:.70,time);
+
+  for(let i=0;i<count;i++){
+    const rank=rankAt[i],x=podiumX[i],racer=ordered[rank-1];if(!racer)continue;
+    const top=topByRank[rank],riderY=top-(mini?25:57),scale=mini?.48:1.12;
+    const passP=clamp((x/w+.16)/1.32,0,1),dropStart=awardStart+passP*masterFlightDuration;
+    const p=clamp((elapsed-dropStart)/dropDuration,0,1);
+    if(elapsed<dropStart)continue;
+    if(p<1){
+      const eased=awardSmoothstep(p),giftY=masterY+(riderY-masterY)*eased;
+      target.save();target.strokeStyle="#efc39b";target.lineWidth=mini?2:5;target.lineCap="round";
+      const raise=awardSmoothstep(p/.78);
+      target.beginPath();
+      target.moveTo(x-9*scale,riderY-5*scale);target.lineTo(x-17*scale,riderY-15*scale-17*raise*scale);
+      target.moveTo(x+9*scale,riderY-5*scale);target.lineTo(x+17*scale,riderY-15*scale-17*raise*scale);
+      target.stroke();target.restore();
+      drawCeremonyRankGift(target,x,giftY,rank,mini?.55:.82);
+    }else{
+      const bounce=Math.abs(Math.sin((elapsed-(dropStart+dropDuration))*5.4+rank*.7))*(mini?4:13);
+      drawRecipientCelebrationGiftV2(target,x,riderY,rank,scale,bounce,mini);
+    }
+  }
+  target.restore();
+}
