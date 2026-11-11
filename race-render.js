@@ -400,18 +400,26 @@ function triggerEvent(){
  const active=racers.filter(r=>!r.finished);if(!active.length)return;
  const racer=active[randInt(0,active.length-1)],index=racers.indexOf(racer);
  const effects=[
-  {type:"poison",name:"Trúng độc",multiplier:.56,duration:3.4},{type:"weak",name:"Linh lực yếu",multiplier:.68,duration:3.0},
-  {type:"pill",name:"Hồi Linh Đan",multiplier:1.58,duration:2.7},{type:"impact",name:"Va chạm",multiplier:.48,duration:1.8},
-  {type:"lightning",name:"Lôi kích",multiplier:.42,duration:2.1},{type:"gale",name:"Cuồng phong",multiplier:.62,duration:2.8},
-  {type:"dizzy",name:"Choáng váng",multiplier:.50,duration:2.3},{type:"faint",name:"Ngất xỉu",multiplier:.32,duration:1.65},
-  {type:"boost",name:"Thiên phong",multiplier:1.42,duration:2.5},{type:"pill",name:"Linh tuyền",multiplier:1.72,duration:1.9},
-  {type:"sword_intent",name:"Kiếm ý",multiplier:1.34,duration:2.35},{type:"cloud_step",name:"Đạp Vân",multiplier:1.48,duration:2.15},
-  {type:"formation",name:"Tụ Linh Trận",multiplier:1.27,duration:3.1},{type:"sword_spin",name:"Kiếm Vũ",multiplier:1.18,duration:2.2}
+  {type:"poison",name:"Độc",multiplier:.56,duration:3.4},
+  {type:"weak",name:"Suy lực",multiplier:.68,duration:3.0},
+  {type:"pill",name:"Dùng đan",multiplier:1.58,duration:2.7},
+  {type:"impact",name:"Va chạm",multiplier:.48,duration:1.8},
+  {type:"lightning",name:"Lôi kích",multiplier:.42,duration:2.1},
+  {type:"gale",name:"Cuồng phong",multiplier:.62,duration:2.8},
+  {type:"dizzy",name:"Choáng",multiplier:.50,duration:2.3},
+  {type:"faint",name:"Ngất",multiplier:.32,duration:1.65},
+  {type:"boost",name:"Thiên phong",multiplier:1.42,duration:2.5},
+  {type:"pill",name:"Hồi khí",multiplier:1.72,duration:1.9},
+  {type:"sword_intent",name:"Kiếm ý",multiplier:1.34,duration:2.35},
+  {type:"cloud_step",name:"Đạp Vân",multiplier:1.48,duration:2.15},
+  {type:"formation",name:"Trận pháp",multiplier:1.27,duration:3.1},
+  {type:"sword_spin",name:"Kiếm Vũ",multiplier:1.18,duration:2.2},
+  {type:"talisman",name:"Phù tốc",multiplier:1.55,duration:2.65}
  ];
  const effect=effects[randInt(0,effects.length-1)];
  racer.speedMultiplier=effect.multiplier;racer.effectTimer=effect.duration;racer.effectDuration=effect.duration;racer.effectType=effect.type;racer.effectName=effect.name;
  cameraFocusId=racer.id;const px=racerX(racer),py=laneY(index);addParticles(px,py,32);
- const burstColor=({poison:"#8bd66f",weak:"#b7bdc5",pill:"#ffd978",impact:"#ffab72",lightning:"#a9e9ff",gale:"#a9e4ed",dizzy:"#c8b2ff",faint:"#c4c9d2",boost:"#ffe17b",sword_intent:"#a9eaff",cloud_step:"#8fe5d4",formation:"#c9b0ff",sword_spin:"#b9f0ff"})[effect.type]||"#ffe7a0";
+ const burstColor=({poison:"#8bd66f",weak:"#b7bdc5",pill:"#ffd978",impact:"#ffab72",lightning:"#a9e9ff",gale:"#a9e4ed",dizzy:"#c8b2ff",faint:"#c4c9d2",boost:"#ffe17b",sword_intent:"#a9eaff",cloud_step:"#8fe5d4",formation:"#c9b0ff",sword_spin:"#b9f0ff",talisman:"#ffe18a"})[effect.type]||"#ffe7a0";
  for(let i=0;i<18;i++){const angle=i*Math.PI/9;particles.push({x:px+Math.cos(angle)*8,y:py+Math.sin(angle)*6,vx:Math.cos(angle)*rand(1.2,3.1),vy:Math.sin(angle)*rand(1,2.6),life:rand(.45,.95),maxLife:.95,size:rand(2,4),color:burstColor});}
 }
 
