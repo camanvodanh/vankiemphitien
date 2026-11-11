@@ -2257,7 +2257,7 @@ function drawMountainStream(time) {
   ctx.restore();
 
   // Đá cuội chỉ nằm trên bờ, chìm một phần vào nền đất.
-  for(let i=0;i<22;i++) {
+  for(let i=0;i<8;i++) {
     const side=i%2?1:-1, x=i*54-30;
     const y=side<0?428+Math.sin(i*1.4)*4:586+Math.sin(i*1.1)*4;
     const r=7+(i%4)*2;
@@ -2410,6 +2410,7 @@ function drawScenery(time) {
     ctx.restore();
   });
 
+  drawTempleAuras(time);
   drawMountainStream(time);
   drawLinkedCascade(72,285,510,30,time,.2);
   drawLinkedCascade(1028,260,510,34,time,1.4);
@@ -2421,4 +2422,196 @@ function drawScenery(time) {
 
   drawRiver(time);
   drawCrowd(time);
+}
+
+
+// REVISION 9 — tiên khí quanh VIP, đàn hạc bay theo quỹ đạo sơn mạch.
+function drawVIPAura(x,y,radius,color,time,phase,intensity){
+  ctx.save();
+  const pulse=1+Math.sin(time*.0018+phase)*.12;
+  const glow=ctx.createRadialGradient(x,y-12,2,x,y-12,radius*pulse);
+  glow.addColorStop(0,color+"55");glow.addColorStop(.48,color+"22");glow.addColorStop(1,color+"00");
+  ctx.fillStyle=glow;ctx.fillRect(x-radius*1.3,y-radius*1.3,radius*2.6,radius*2.6);
+  ctx.globalAlpha=intensity;
+  for(let k=0;k<3;k++){
+    const a=time*.00045+phase+k*2.094;
+    ctx.strokeStyle=k===0?"rgba(255,231,169,.8)":k===1?"rgba(179,231,255,.65)":"rgba(218,197,255,.62)";
+    ctx.lineWidth=k===0?2:1.25;ctx.beginPath();
+    ctx.moveTo(x-radius*.85,y+Math.sin(a)*radius*.16);
+    ctx.bezierCurveTo(x-radius*.48,y-radius*.55+Math.cos(a)*13,
+      x+radius*.38,y+radius*.48+Math.sin(a+1)*12,
+      x+radius*.9,y+Math.cos(a+1)*radius*.14);
+    ctx.stroke();
+  }
+  for(let i=0;i<5;i++){
+    const a=time*.0007+phase+i*1.256;
+    const px=x+Math.cos(a)*radius*.72,py=y-8+Math.sin(a)*radius*.38;
+    ctx.fillStyle="rgba(255,236,181,.8)";ctx.beginPath();ctx.arc(px,py,1.3+(i%2),0,Math.PI*2);ctx.fill();
+  }
+  ctx.restore();
+}
+
+function drawCrowd(time){
+  // Thân truyền đệ tử ngồi bên trái Chưởng môn.
+  const disciples=[[340,680],[405,674],[470,670],[510,680],[375,718],[450,718]];
+  disciples.forEach(([x,y],i)=>{
+    drawVIPChair(x,y,.78,"#405d82",time,i*.7);
+    drawFormalSpectator(x,y-8,.73,"disciple",time,i);
+    drawVIPAura(x,y-14,34,"#a9d7ff",time,i,.5);
+  });
+  drawRoleLabel(418,632,"THÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.94);
+
+  // Chưởng môn ngồi chính giữa, linh khí mạnh và dày nhất.
+  drawVIPChair(550,674,1.42,"#762f32",time,0);
+  drawFormalSpectator(550,663,1.2,"master",time,0);
+  drawVIPAura(550,653,112,"#ffe5a0",time,.4,1);
+  drawVIPAura(550,653,76,"#fff0bf",time,1.8,.85);
+  drawRoleLabel(550,610,"CHƯỞNG MÔN","#f2d17d",1.12);
+
+  // Trưởng lão ngồi bên phải, hào quang thấp hơn Chưởng môn.
+  const elders=[[635,680],[700,674],[765,670],[830,674],[895,680],[960,688],[680,720],[780,720],[880,720]];
+  elders.forEach(([x,y],i)=>{
+    drawVIPChair(x,y,.84,"#5b456b",time,i);
+    drawFormalSpectator(x,y-8,.77,"elder",time,i*.8);
+    drawVIPAura(x,y-14,55,"#d7baff",time,i*.9,.68);
+  });
+  drawRoleLabel(800,632,"TRƯỞNG LÃO","#d4b5fa",.98);
+
+  const rows=[
+    {y:748,count:35,x:4,step:32,scale:.62,role:"servant"},
+    {y:773,count:36,x:-3,step:31,scale:.58,role:"outer"},
+    {y:796,count:37,x:-8,step:30,scale:.52,role:"inner"}
+  ];
+  rows.forEach((row,ri)=>{for(let i=0;i<row.count;i++){
+    drawSpectator(row.x+i*row.step+(i%2)*6,row.y+Math.sin(time*.002+i+ri)*1.6,row.scale,row.role,time,i*.57+ri);
+  }});
+  drawCrowdFlag(12,728,"#a53f36",time);drawCrowdFlag(W-18,728,"#b18a43",time);
+}
+
+function drawSpiritBirds(time){
+  // Ba đàn hạc bay vòng quanh tiên sơn. Hướng thân luôn theo tiếp tuyến quỹ đạo.
+  const flocks=[
+    {count:5,rx:420,ry:172,cx:548,cy:280,speed:.00019,phase:.3,size:.88},
+    {count:4,rx:350,ry:132,cx:548,cy:285,speed:-.00024,phase:2.1,size:.68},
+    {count:3,rx:465,ry:205,cx:548,cy:270,speed:.00014,phase:4.2,size:.58}
+  ];
+  flocks.forEach((flock,fi)=>{
+    for(let i=0;i<flock.count;i++){
+      const a=time*flock.speed+flock.phase+i*(Math.PI*2/flock.count);
+      const x=flock.cx+Math.cos(a)*flock.rx;
+      const y=flock.cy+Math.sin(a)*flock.ry;
+      const dx=-Math.sin(a)*flock.rx*flock.speed;
+      const dy=Math.cos(a)*flock.ry*flock.speed;
+      const heading=Math.atan2(dy,dx);
+      const flap=Math.sin(time*.0026+i*1.7+fi)*.24;
+      const s=flock.size;
+      ctx.save();ctx.translate(x,y);ctx.rotate(heading);ctx.scale(s,s);
+
+      // Cánh lớn, bản rộng, lông cánh phân tầng.
+      ctx.fillStyle="#e9eee7";ctx.beginPath();ctx.moveTo(-5,0);
+      ctx.bezierCurveTo(-19,-12-flap*42,-43,-30-flap*55,-70,-17-flap*38);
+      ctx.bezierCurveTo(-48,-9-flap*18,-27,10,-5,8);ctx.closePath();ctx.fill();
+      ctx.fillStyle="#fffdf4";ctx.beginPath();ctx.moveTo(-5,0);
+      ctx.bezierCurveTo(-18,10+flap*40,-43,29+flap*54,-70,16+flap*36);
+      ctx.bezierCurveTo(-47,7+flap*16,-26,-8,-5,-5);ctx.closePath();ctx.fill();
+      ctx.strokeStyle="rgba(167,183,174,.8)";ctx.lineWidth=1;
+      for(let k=0;k<7;k++){
+        ctx.beginPath();ctx.moveTo(-8-k,0);
+        ctx.quadraticCurveTo(-35-k*2,-12-flap*35,-66+k*2,-16-flap*30);ctx.stroke();
+      }
+
+      // Thân hạc thanh, cổ dài hình chữ S và đầu có mào đỏ.
+      ctx.fillStyle="#fffdf4";ctx.beginPath();ctx.ellipse(0,3,24,7,-.04,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle="#fffdf4";ctx.lineWidth=5;ctx.lineCap="round";
+      ctx.beginPath();ctx.moveTo(15,1);ctx.bezierCurveTo(28,0,27,-15,39,-19);
+      ctx.bezierCurveTo(47,-23,46,-35,39,-38);ctx.stroke();
+      ctx.fillStyle="#fffdf4";ctx.beginPath();ctx.ellipse(41,-39,6,4,-.25,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle="#b83e3c";ctx.beginPath();ctx.arc(39,-44,3,Math.PI,Math.PI*2);ctx.fill();
+      ctx.fillStyle="#bd5948";ctx.beginPath();ctx.moveTo(46,-40);ctx.lineTo(58,-37);ctx.lineTo(46,-35);ctx.closePath();ctx.fill();
+      ctx.fillStyle="#3c3932";ctx.beginPath();ctx.arc(43,-40,1.2,0,Math.PI*2);ctx.fill();
+
+      // Đuôi nhọn và đôi chân dài buông sau khi bay.
+      ctx.strokeStyle="#fffdf4";ctx.lineWidth=2.2;ctx.beginPath();
+      ctx.moveTo(-19,3);ctx.lineTo(-43,-2);ctx.moveTo(-18,5);ctx.lineTo(-41,9);ctx.stroke();
+      ctx.strokeStyle="#b84e45";ctx.lineWidth=1.6;ctx.beginPath();
+      ctx.moveTo(-5,8);ctx.lineTo(-10,23);ctx.lineTo(-15,26);
+      ctx.moveTo(3,8);ctx.lineTo(0,22);ctx.lineTo(-4,25);ctx.stroke();
+      ctx.restore();
+    }
+  });
+}
+
+function drawTempleAuras(time){
+  const sites=[[230,310,72,.2],[430,230,62,1.3],[675,279,78,2.4],[865,245,66,3.5],[540,386,54,4.4]];
+  sites.forEach(([x,y,r,p])=>{
+    ctx.save();
+    const glow=ctx.createRadialGradient(x,y-15,3,x,y-15,r);
+    glow.addColorStop(0,"rgba(255,230,172,.23)");
+    glow.addColorStop(.45,"rgba(169,225,222,.13)");
+    glow.addColorStop(1,"rgba(169,225,222,0)");
+    ctx.fillStyle=glow;ctx.fillRect(x-r,y-r,r*2,r*2);
+    for(let k=0;k<5;k++){
+      const a=time*.00025+p+k*1.256;
+      const sway=Math.sin(a)*14;
+      ctx.strokeStyle=k%2?"rgba(255,226,164,.56)":"rgba(179,237,229,.58)";
+      ctx.lineWidth=k===0?2:1.1;ctx.beginPath();
+      ctx.moveTo(x-r*.9,y+Math.sin(a)*9);
+      ctx.bezierCurveTo(x-r*.5,y-r*.55+sway,x+r*.2,y+r*.38-sway,x+r*.9,y+Math.cos(a)*11);
+      ctx.stroke();
+    }
+    ctx.restore();
+  });
+}
+
+// Cổng tiên môn có mặt trước, mặt bên và hai trụ nghiêng theo phối cảnh.
+function drawImmortalFinishGate(){
+  const x=TRACK.right,ground=TRACK.bottom+27,top=TRACK.top-57;
+  ctx.save();
+  const aura=ctx.createRadialGradient(x,top+70,4,x,top+70,150);
+  aura.addColorStop(0,"rgba(255,231,160,.25)");aura.addColorStop(1,"rgba(255,231,160,0)");
+  ctx.fillStyle=aura;ctx.fillRect(x-160,top-40,320,235);
+
+  ctx.fillStyle="rgba(24,45,31,.42)";ctx.beginPath();
+  ctx.moveTo(x-86,ground);ctx.lineTo(x+72,ground-9);ctx.lineTo(x+105,ground+8);ctx.lineTo(x-55,ground+18);ctx.closePath();ctx.fill();
+
+  const posts=[
+    {bx:x-50,tx:x-42,by:ground,ty:top+35,w:17,d:11},
+    {bx:x+45,tx:x+37,by:ground-9,ty:top+40,w:15,d:10}
+  ];
+  posts.forEach(p=>{
+    const grad=ctx.createLinearGradient(p.tx-p.w/2,0,p.tx+p.w/2,0);
+    grad.addColorStop(0,"#5c402c");grad.addColorStop(.3,"#f0d99b");grad.addColorStop(.68,"#b58b4d");grad.addColorStop(1,"#4b382a");
+    ctx.fillStyle=grad;ctx.beginPath();
+    ctx.moveTo(p.tx-p.w/2,p.ty);ctx.lineTo(p.tx+p.w/2,p.ty+2);
+    ctx.lineTo(p.bx+p.w/2,p.by);ctx.lineTo(p.bx-p.w/2,p.by-5);ctx.closePath();ctx.fill();
+    ctx.strokeStyle="#f1d28b";ctx.lineWidth=1.6;ctx.stroke();
+    ctx.fillStyle="#503a2a";ctx.beginPath();
+    ctx.moveTo(p.tx+p.w/2,p.ty+2);ctx.lineTo(p.tx+p.w/2+p.d,p.ty-3);
+    ctx.lineTo(p.bx+p.w/2+p.d,p.by-5);ctx.lineTo(p.bx+p.w/2,p.by);ctx.closePath();ctx.fill();
+    ctx.fillStyle="#8c673b";ctx.beginPath();
+    ctx.moveTo(p.bx-p.w,p.by-8);ctx.lineTo(p.bx+p.w,p.by-6);
+    ctx.lineTo(p.bx+p.w*1.4,p.by+5);ctx.lineTo(p.bx-p.w*.8,p.by+3);ctx.closePath();ctx.fill();
+  });
+
+  // Xà ngang nghiêng, có mặt trên và cạnh khuất.
+  ctx.fillStyle="#513a2a";ctx.beginPath();
+  ctx.moveTo(x-73,top+39);ctx.lineTo(x+61,top+31);ctx.lineTo(x+72,top+43);ctx.lineTo(x-62,top+53);ctx.closePath();ctx.fill();
+  ctx.fillStyle="#d1ad68";ctx.beginPath();
+  ctx.moveTo(x-73,top+31);ctx.lineTo(x+61,top+23);ctx.lineTo(x+61,top+34);ctx.lineTo(x-73,top+42);ctx.closePath();ctx.fill();
+
+  // Mái cong kiểu tiên môn nhìn xiên từ trước và bên phải.
+  ctx.fillStyle="#49372c";ctx.beginPath();
+  ctx.moveTo(x-88,top+31);ctx.quadraticCurveTo(x-15,top-57,x+75,top+18);
+  ctx.lineTo(x+61,top+32);ctx.quadraticCurveTo(x-12,top-34,x-73,top+42);ctx.closePath();ctx.fill();
+  ctx.strokeStyle="#e8c77b";ctx.lineWidth=7;ctx.beginPath();
+  ctx.moveTo(x-83,top+28);ctx.quadraticCurveTo(x-13,top-50,x+72,top+17);ctx.stroke();
+  ctx.strokeStyle="#fff0b8";ctx.lineWidth=1.5;ctx.stroke();
+
+  // Biển hiệu hình thang, xoay theo trục cổng.
+  ctx.fillStyle="#68432f";ctx.beginPath();
+  ctx.moveTo(x-54,top+45);ctx.lineTo(x+49,top+39);ctx.lineTo(x+53,top+66);ctx.lineTo(x-50,top+72);ctx.closePath();ctx.fill();
+  ctx.strokeStyle="#f0d28a";ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle="#ffe9ad";ctx.font="bold 13px serif";ctx.textAlign="center";ctx.textBaseline="middle";
+  ctx.fillText("TIÊN MÔN",x,top+56);
+  ctx.restore();
 }
