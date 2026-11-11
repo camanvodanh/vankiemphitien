@@ -4880,3 +4880,25 @@ body.game-page:after{
     gap:15px!important;margin:0!important;
   }
 }
+
+
+/* REVISION 78 — nút điều khiển nằm trong khoảng trống giữa ngoại môn và tạp dịch. */
+.arena-frame>.arena-controls{
+  top:67.5cqw!important;
+  height:58px!important;min-height:58px!important;
+}
+@media(max-width:760px){
+  .arena-frame>.arena-controls{
+    top:67.5cqw!important;
+    height:34px!important;min-height:34px!important;
+    gap:13px!important;
+  }
+  .arena-frame>.arena-controls>#start,
+  .arena-frame>.arena-controls>#stop{
+    flex-basis:32px!important;width:32px!important;height:34px!important;
+    min-width:32px!important;min-height:34px!important;
+    max-width:32px!important;max-height:34px!important;
+  }
+  .arena-frame>.arena-controls #start .art-sword{width:22px!important;height:32px!important;}
+  .arena-frame>.arena-controls #stop .art-stop{width:28px!important;height:28px!important;}
+}
