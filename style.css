@@ -777,3 +777,34 @@ body.game-page{
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
 }
+
+
+/* GÓC QUAN SÁT GỌN NHẸ – KHÔNG CHE LÒNG ĐƯỜNG ĐUA */
+.game-camera{
+  left:10px;right:auto;top:auto;bottom:10px;
+  width:clamp(164px,22%,228px);
+  padding:6px;
+  border-radius:9px;
+  background:rgba(13,35,30,.94);
+  z-index:9;
+}
+.game-camera .camera-heading{
+  margin:0 0 4px;
+  gap:5px;
+  cursor:grab;
+  touch-action:none;
+  user-select:none;
+}
+.game-camera .camera-heading:active{cursor:grabbing}
+.game-camera .camera-heading h3{font-size:10px;line-height:1.15}
+.game-camera .eyebrow{font-size:7px;line-height:1.1}
+.game-camera .camera-live{font-size:7px;gap:3px}
+.game-camera .camera-live i{width:5px;height:5px}
+.game-camera .camera-screen{border-radius:5px}
+.game-camera #leaderCanvas{max-height:88px;object-fit:cover}
+@media(max-width:700px){
+  .game-camera{width:clamp(132px,29%,184px);left:6px;bottom:6px;padding:5px}
+  .game-camera #leaderCanvas{max-height:72px}
+  .game-camera .camera-heading h3{font-size:9px}
+  .game-camera .eyebrow,.game-camera .camera-live{font-size:6px}
+}
