@@ -4902,3 +4902,50 @@ body.game-page:after{
   .arena-frame>.arena-controls #start .art-sword{width:22px!important;height:32px!important;}
   .arena-frame>.arena-controls #stop .art-stop{width:28px!important;height:28px!important;}
 }
+
+
+/* REVISION 80 — thống nhất typography tiên hiệp và căn lại tiêu đề góc quan sát. */
+:root{
+  --cultivation-font:"Noto Serif","Noto Serif SC","Songti SC","STSong",Georgia,serif;
+}
+html,body,button,input,textarea,select,
+.page,.hero,.hero *,.panel,.panel *,
+.game-header,.game-header *,.game-setup,.game-setup *,
+.game-camera,.game-camera *,.game-ranking,.game-ranking *,
+.stage-bottomline,footer,.music-toggle,.music-attribution{
+  font-family:var(--cultivation-font)!important;
+}
+.arena-frame>.game-camera>.camera-heading>.camera-title,
+.arena-frame>.game-ranking>.ranking-heading h3{
+  font-family:var(--cultivation-font)!important;
+  font-size:clamp(11px,1.05vw,14px)!important;
+  font-weight:700!important;
+  letter-spacing:.055em!important;
+  line-height:1.2!important;
+}
+.arena-frame>.game-camera>.camera-heading{
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important;
+}
+.arena-frame>.game-camera>.camera-heading>.camera-live{
+  flex:0 0 auto!important;
+  margin:0 8px 0 auto!important;
+  font-family:var(--cultivation-font)!important;
+  font-size:clamp(8px,.72vw,10px)!important;
+  letter-spacing:.09em!important;
+}
+.arena-frame>.game-camera>.camera-heading>.window-minimize{
+  flex:0 0 20px!important;
+  margin:0!important;
+}
+@media(max-width:760px){
+  .arena-frame>.game-camera>.camera-heading>.camera-title,
+  .arena-frame>.game-ranking>.ranking-heading h3{
+    font-size:clamp(10px,3.05vw,12px)!important;
+  }
+  .arena-frame>.game-camera>.camera-heading>.camera-live{
+    font-size:8px!important;
+    margin-right:7px!important;
+  }
+}
