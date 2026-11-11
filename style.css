@@ -1067,3 +1067,74 @@ body.game-page{
  .arena-controls{right:6px;bottom:6px;gap:4px;}
  .arena-controls button{min-height:28px;padding:4px 7px;font-size:9px;}
 }
+
+
+/* TIÊN BẢNG CỐ ĐỊNH Ở CỘT RIÊNG BÊN PHẢI — KHÔNG ĐÈ LÊN TRƯỜNG ĐUA */
+.arena-frame{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr) clamp(210px,25%,310px);
+ grid-template-rows:minmax(0,1fr);
+ align-items:stretch;
+ aspect-ratio:16/9!important;
+ min-height:0!important;
+ height:auto!important;
+}
+.arena-frame>#game{
+ position:relative!important;
+ grid-column:1;grid-row:1;
+ width:100%!important;height:100%!important;
+ min-width:0;object-fit:fill;
+}
+.arena-frame>.arena-overlay-top{
+ position:absolute;left:0;top:0;width:calc(100% - clamp(210px,25%,310px));
+}
+.arena-frame>.game-ranking{
+ position:relative!important;
+ grid-column:2;grid-row:1;
+ top:auto!important;right:auto!important;bottom:auto!important;left:auto!important;
+ width:100%!important;max-width:none!important;
+ max-height:none!important;height:100%;
+ box-sizing:border-box;
+ margin:0!important;
+ border-radius:0 12px 12px 0;
+ border-left:1px solid rgba(196,163,95,.42);
+ overflow:hidden;
+ z-index:18;
+}
+.arena-frame>.game-ranking .table-wrap{
+ max-height:none!important;height:calc(100% - 92px);
+ overflow-y:auto;overflow-x:hidden;
+}
+.arena-frame>.game-setup{
+ top:42px;left:10px;
+ width:min(360px,calc(100% - clamp(210px,25%,310px) - 20px));
+ max-height:52%;
+}
+.arena-frame>.game-camera{
+ left:10px;bottom:10px;
+ max-width:calc(100% - clamp(210px,25%,310px) - 20px);
+}
+.arena-frame>.arena-controls{
+ right:calc(clamp(210px,25%,310px) + 10px);
+}
+@media(max-width:760px){
+ .arena-frame{
+  grid-template-columns:minmax(0,1fr) minmax(118px,36%);
+  aspect-ratio:1.18!important;
+ }
+ .arena-frame>#game{width:100%!important;height:100%!important;}
+ .arena-frame>.arena-overlay-top{width:64%;}
+ .arena-frame>.game-ranking{
+  grid-column:2;grid-row:1;
+  padding:5px!important;
+  border-radius:0 8px 8px 0;
+ }
+ .arena-frame>.game-ranking .ranking-heading h3{font-size:10px!important;}
+ .arena-frame>.game-ranking .ranking-meta{font-size:5px!important;}
+ .arena-frame>.game-ranking .table-wrap{height:calc(100% - 76px)!important;max-height:none!important;}
+ .arena-frame>.game-ranking th,.arena-frame>.game-ranking td{font-size:7px!important;padding:3px 2px!important;}
+ .arena-frame>.game-setup{width:calc(64% - 12px);max-height:56%;top:34px;left:6px;}
+ .arena-frame>.game-camera{left:6px;bottom:6px;width:clamp(112px,34%,170px)!important;max-width:calc(64% - 12px)!important;}
+ .arena-frame>.arena-controls{right:calc(36% + 5px);bottom:6px;max-width:calc(64% - 12px);}
+ .arena-controls button{font-size:8px!important;padding:4px 5px!important;}
+}
