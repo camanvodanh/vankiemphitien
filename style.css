@@ -4217,3 +4217,66 @@ body.game-page:after{
  text-shadow:0 0 7px rgba(255,91,98,.5)!important;
 }
 .arena-frame>.game-camera #leaderProgress small{color:#e8d6aa!important;font-size:.9em!important;font-weight:700!important;margin-left:1px!important;}
+
+
+/* REVISION 50 — căn giữa tiên hiệu và loại bỏ khoảng rỗng dưới khung camera. */
+.arena-frame>.game-camera>.camera-screen{
+  display:block!important;
+  flex:0 0 auto!important;
+  align-self:stretch!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  aspect-ratio:7 / 4!important;
+  margin:0!important;
+  padding:0!important;
+  line-height:0!important;
+}
+.arena-frame>.game-camera>.camera-screen>canvas,
+.arena-frame>.game-camera>#leaderCanvas{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  max-height:none!important;
+  object-fit:fill!important;
+  margin:0!important;
+}
+.arena-frame>.game-camera>.camera-screen>.camera-effect-overlay{
+  left:0!important;right:0!important;bottom:0!important;
+  width:100%!important;
+  min-height:24px!important;
+  padding:6px 10px 7px!important;
+  justify-content:center!important;
+  text-align:center!important;
+  background:linear-gradient(180deg,rgba(7,22,19,0),rgba(7,22,19,.92) 40%)!important;
+}
+.arena-frame>.game-camera #leaderEffect{
+  width:100%!important;
+  margin:0 auto!important;
+  text-align:center!important;
+  line-height:1.35!important;
+  letter-spacing:.025em!important;
+}
+.arena-frame>.arena-controls>#start .cultivation-art.art-sword{
+  width:48px!important;height:38px!important;
+  overflow:visible!important;
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.65)) drop-shadow(0 0 4px rgba(188,224,205,.25))!important;
+}
+.arena-frame>.arena-controls>#start{
+  display:grid!important;
+  place-items:center!important;
+  padding:0!important;
+}
+.arena-frame>.arena-controls>#start .btn-icon{
+  display:grid!important;
+  place-items:center!important;
+  width:100%!important;
+  margin:0!important;
+}
+.arena-frame>.arena-controls>#start .btn-label{display:none!important;}
+@media(max-width:760px){
+ .arena-frame>.game-camera>.camera-screen{aspect-ratio:7 / 4!important;}
+ .arena-frame>.game-camera>.camera-screen>.camera-effect-overlay{min-height:21px!important;padding:4px 6px 5px!important;}
+ .arena-frame>.game-camera #leaderEffect{font-size:9px!important;}
+ .arena-frame>.arena-controls>#start .cultivation-art.art-sword{width:42px!important;height:34px!important;}
+}
