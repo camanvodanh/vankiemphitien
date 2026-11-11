@@ -258,7 +258,7 @@ function summon() {
   assignFinishTimes();
 
   $("status").textContent = "Đã triệu hồi";
-  setSetupPanel(false);
+  collapseSetupPanel();
 
   $("lockNotice").textContent =
     "Tiếp theo: Nhấn Bắt đầu để khai mở cuộc đua.";
@@ -310,7 +310,7 @@ function syncButtons() {
     running ||
     paused;
 
-  $("reset").disabled = false;
+  // Nút reset đã được thay bằng Dừng; không tham chiếu phần tử không còn tồn tại.
 }
 
 // =====================================================
@@ -785,7 +785,22 @@ function setSetupPanel(show){
  const panel=document.querySelector(".arena-frame .game-setup");
  if(!panel)return;
  panel.hidden=!show;
+ if(show) panel.classList.remove("is-minimized");
  $("setupToggle").hidden=show||!racers.length||running||paused;
+}
+function collapseSetupPanel(){
+ const panel=document.querySelector(".arena-frame .game-setup");
+ if(!panel)return;
+ panel.hidden=false;
+ panel.classList.add("is-minimized");
+ const button=panel.querySelector(".window-minimize");
+ if(button){
+  button.textContent="+";
+  button.setAttribute("aria-expanded","false");
+  button.setAttribute("aria-label","Mở rộng khởi tạo đại hội");
+  button.title="Mở rộng";
+ }
+ $("setupToggle").hidden=true;
 }
 function stopRace(){
  if(!racers.length)return;
@@ -819,10 +834,12 @@ function syncButtons(){
       const panel=button.closest(".game-setup,.game-camera,.game-ranking");
       if(!panel)return;
       const minimized=panel.classList.toggle("is-minimized");
+      if(panel.classList.contains("game-setup")) panel.hidden=false;
       button.textContent=minimized?"+":"−";
       button.setAttribute("aria-expanded",String(!minimized));
       button.setAttribute("aria-label",minimized?"Mở rộng bảng":"Thu nhỏ bảng");
       button.title=minimized?"Mở rộng":"Thu nhỏ";
+      if(panel.classList.contains("game-setup")) $("setupToggle").hidden=true;
       event.preventDefault();
       event.stopPropagation();
     });
