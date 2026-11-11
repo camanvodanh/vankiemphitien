@@ -69,11 +69,11 @@ function drawHudBox(x, y, w, h, label, value, align = "left") {
   const tx = align === "left" ? x + 12 : x + w - 12;
 
   ctx.fillStyle = "#d9c58f";
-  ctx.font = "bold 10px Arial";
+  ctx.font = "bold 10px Georgia";
   ctx.fillText(label, tx, y + 13);
 
   ctx.fillStyle = "#fff0c7";
-  ctx.font = "bold 21px Arial";
+  ctx.font = "bold 21px Georgia";
   ctx.fillText(value, tx, y + 34);
 
   ctx.restore();
@@ -312,7 +312,7 @@ function drawRacerName(racer, x, y, scale) {
 
   const fontSize = clamp(11 * scale + 3, 7, 12);
 
-  ctx.font = `bold ${fontSize}px Arial`;
+  ctx.font = `bold ${fontSize}px Georgia`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
@@ -374,7 +374,7 @@ function drawRacers(time) {
 
     if (racer.finished) {
       ctx.fillStyle = "#ffe7a8";
-      ctx.font = "bold 12px Arial";
+      ctx.font = "bold 12px Georgia";
       ctx.textAlign = "center";
       ctx.fillText("✦", x, y - 31 * scale);
     }
@@ -476,7 +476,7 @@ function drawAnnouncement() {
 
   const fontSize = isFinish ? 22 : 20;
 
-  ctx.font = `bold ${fontSize}px Arial`;
+  ctx.font = `bold ${fontSize}px Georgia`;
 
   const maxWidth = W - 260;
   const measured = ctx.measureText(message).width;
@@ -565,7 +565,7 @@ function drawCamera(time) {
     $("leaderProgress").textContent = "Chưa bắt đầu";
 
     cameraCtx.fillStyle = "#f3dfa9";
-    cameraCtx.font = "13px Arial";
+    cameraCtx.font = "13px Georgia";
     cameraCtx.textAlign = "center";
 
     cameraCtx.fillText(
