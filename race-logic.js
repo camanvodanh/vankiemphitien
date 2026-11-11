@@ -85,11 +85,13 @@ function updateRace(dt){
    racer.rankMovement=newRank<oldRank?"up":"down";
    racer.rankMovementTimer=3.5;
   }
-  if(racer.effectTimer>0&&oldRank&&oldRank!==newRank){
+  // Khi có hiệu ứng, luôn hiển thị hệ số tốc độ dù thứ hạng không đổi.
+  // Tăng tốc dùng mũi tên xanh; giảm tốc dùng mũi tên đỏ.
+  if(racer.effectTimer>0){
    const multiplier=racer.speedMultiplier||1;
-   const direction=newRank<oldRank?"up":"down";
+   const direction=multiplier>=1?"up":"down";
    racer.rankChangeText=newRank+"|"+direction+"|"+multiplier.toFixed(1);
-   racer.rankChangeTimer=3.2;
+   racer.rankChangeTimer=racer.effectTimer;
   }
  }
  racers.map((racer,index)=>({racer,index})).filter(o=>!o.racer.finished&&o.racer.progress>=distance).forEach(o=>processFinish(o.racer,o.index));
