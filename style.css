@@ -2405,3 +2405,88 @@ body.game-page:after{
  .arena-frame>.game-camera{grid-column:1!important;grid-row:2!important;position:relative!important;width:100%!important;max-width:none!important;}
  .arena-frame>.game-ranking{grid-column:2!important;grid-row:2!important;max-height:190px!important;}
 }
+
+
+/* REVISION 30 — tinh gọn tiêu đề đấu trường và làm mới cửa sổ khởi tạo đại hội. */
+.arena-overlay-top{display:none!important;}
+.setup-title-wrap{min-width:0;display:flex;align-items:center;}
+.setup-heading .eyebrow{display:none!important;}
+.setup-heading h2{
+  margin:0!important;color:#f4e6c3!important;
+  font-family:"Noto Serif",Georgia,serif!important;
+  font-size:clamp(15px,1.45vw,19px)!important;
+  font-weight:800!important;letter-spacing:.035em!important;
+  line-height:1.2!important;
+}
+.setup-title-short{display:none;}
+.arena-frame>.game-setup:not(.is-minimized){
+  color:#f5ecd8!important;
+  padding:14px 16px!important;
+  border:1px solid rgba(220,188,119,.78)!important;
+  border-radius:13px!important;
+  background:
+    radial-gradient(ellipse at 0 0,rgba(201,164,91,.18),transparent 58%),
+    linear-gradient(145deg,rgba(12,39,33,.97),rgba(26,58,47,.97) 58%,rgba(16,43,38,.98))!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,239,194,.12)!important;
+  backdrop-filter:blur(8px)!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) .setup-heading{
+  padding:0 0 9px!important;margin:0 0 10px!important;
+  border-bottom:1px solid rgba(211,178,111,.32)!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) .setup-hint{
+  color:#d7c69f!important;font-size:11px!important;letter-spacing:.02em!important;
+}
+.arena-frame>.game-setup:not(.is-minimized)>label,
+.arena-frame>.game-setup:not(.is-minimized) .summon-footer label{
+  color:#e5d7b7!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) textarea,
+.arena-frame>.game-setup:not(.is-minimized) input,
+.arena-frame>.game-setup:not(.is-minimized) select{
+  color:#24382f!important;background:#f7f1e2!important;
+  border:1px solid #b99a61!important;border-radius:8px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) textarea::placeholder{color:#998b70!important;}
+.arena-frame>.game-setup:not(.is-minimized) .lock-notice{
+  color:#d7c69f!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) #summon{
+  color:#fff1cb!important;
+  border:1px solid #d6b46e!important;
+  background:linear-gradient(135deg,#9a7437,#c49a50 55%,#8c672f)!important;
+  box-shadow:0 2px 8px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,239,194,.35)!important;
+}
+.arena-frame>.game-setup.is-minimized{
+  width:max-content!important;min-width:0!important;
+  max-width:calc(100% - 12px)!important;
+  padding:4px 6px 4px 10px!important;
+  border:1px solid rgba(221,187,113,.82)!important;
+  border-radius:8px!important;
+  background:linear-gradient(135deg,rgba(12,39,33,.97),rgba(35,67,52,.98))!important;
+  box-shadow:0 3px 12px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,239,194,.13)!important;
+}
+.arena-frame>.game-setup.is-minimized .setup-heading{
+  display:flex!important;align-items:center!important;
+  justify-content:flex-start!important;gap:7px!important;
+  margin:0!important;padding:0!important;border:0!important;
+}
+.arena-frame>.game-setup.is-minimized .setup-title-full{display:none!important;}
+.arena-frame>.game-setup.is-minimized .setup-title-short{
+  display:inline!important;color:#f4e6c3!important;
+}
+.arena-frame>.game-setup.is-minimized .setup-heading h2{
+  font-size:12px!important;line-height:1!important;white-space:nowrap!important;
+}
+.arena-frame>.game-setup.is-minimized .setup-hint{display:none!important;}
+.arena-frame>.game-setup.is-minimized .window-minimize{
+  flex:0 0 18px!important;width:18px!important;height:18px!important;
+  min-width:18px!important;min-height:18px!important;margin:0 0 0 2px!important;
+  border-radius:5px!important;font-size:12px!important;
+}
+@media(max-width:760px){
+ .arena-frame>.game-setup:not(.is-minimized){padding:10px 11px!important;}
+ .arena-frame>.game-setup:not(.is-minimized) .setup-heading h2{font-size:14px!important;}
+ .arena-frame>.game-setup.is-minimized{padding:4px 5px 4px 8px!important;}
+ .arena-frame>.game-setup.is-minimized .setup-heading h2{font-size:11px!important;}
+}
