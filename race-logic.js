@@ -970,34 +970,25 @@ function syncButtons(){
 
   // Họa tiết vector tự vẽ riêng cho Vạn Kiếm Phi Tiên, không dùng bộ icon.
   const artwork={
-    sword:`<svg class="cultivation-art art-sword" viewBox="0 0 120 64" aria-hidden="true" focusable="false">
+    sword:`<svg class="cultivation-art art-sword" viewBox="0 0 64 120" aria-hidden="true" focusable="false">
       <defs>
-        <linearGradient id="swordSteelFinal" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fffef0"/><stop offset=".16" stop-color="#d9e9e4"/><stop offset=".38" stop-color="#829f9b"/><stop offset=".54" stop-color="#f7f5df"/><stop offset=".78" stop-color="#91aaa0"/><stop offset="1" stop-color="#526d68"/></linearGradient>
-        <linearGradient id="swordGoldFinal" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff4cb"/><stop offset=".32" stop-color="#dfbd72"/><stop offset=".68" stop-color="#a7793e"/><stop offset="1" stop-color="#654326"/></linearGradient>
-        <linearGradient id="swordGripFinal" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#66836a"/><stop offset=".48" stop-color="#17352d"/><stop offset="1" stop-color="#8b9c70"/></linearGradient>
-        <filter id="swordGlowFinal" x="-25%" y="-60%" width="150%" height="220%"><feGaussianBlur stdDeviation="2"/></filter>
+        <linearGradient id="swordSteelFinal" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#718f8b"/><stop offset=".22" stop-color="#e8f4e8"/><stop offset=".5" stop-color="#fffef0"/><stop offset=".78" stop-color="#b7d2c5"/><stop offset="1" stop-color="#58756f"/></linearGradient>
+        <linearGradient id="swordGoldFinal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff4c9"/><stop offset=".48" stop-color="#d6ad62"/><stop offset="1" stop-color="#80572f"/></linearGradient>
+        <linearGradient id="swordGripFinal" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#9b7847"/><stop offset=".5" stop-color="#23463a"/><stop offset="1" stop-color="#b18a50"/></linearGradient>
+        <filter id="swordGlowFinal" x="-100%" y="-30%" width="300%" height="160%"><feGaussianBlur stdDeviation="3"/></filter>
       </defs>
-      <path d="M34 31 105 8 117 31 105 56Z" fill="#8fe5d2" opacity=".24" filter="url(#swordGlowFinal)"/>
-      <!-- Lưỡi kiếm hai cạnh, sống kiếm và rãnh sáng -->
-      <path d="M31 31 105 9 118 31 105 53Z" fill="url(#swordSteelFinal)" stroke="#fff0c5" stroke-width="1.35" stroke-linejoin="round"/>
-      <path d="M34 30 106 12 113 30Z" fill="#fffef0" opacity=".78"/>
-      <path d="M34 32 106 50 113 32Z" fill="#405f5d" opacity=".32"/>
-      <path d="M37 31 107 28 118 31 107 34Z" fill="#f9f2d6" opacity=".85"/>
-      <path d="M37 31 105 10M37 31 105 52" stroke="#fff" stroke-width=".85" opacity=".72"/>
-      <path d="M42 29 103 13" stroke="#fff" stroke-width="1.2" opacity=".7"/>
-      <!-- Chắn tay kiếm chạm hoa văn -->
-      <path d="M28 19Q34 24 32 31Q34 38 28 44L22 40 20 31 22 23Z" fill="url(#swordGoldFinal)" stroke="#fff0c1" stroke-width="1.4" stroke-linejoin="round"/>
-      <path d="M24 23Q30 31 24 39M29 26 33 31 29 36" fill="none" stroke="#fff4d0" stroke-width="1" opacity=".85"/>
-      <path d="M31 25 37 31 31 37 26 31Z" fill="#b98b4b" stroke="#fff1c5" stroke-width="1"/>
-      <circle cx="31" cy="31" r="2" fill="#e9d69e"/>
-      <!-- Chuôi bọc da xanh, vòng kim loại và chụp chuôi -->
-      <path d="M23 31 5 31" stroke="url(#swordGoldFinal)" stroke-width="10" stroke-linecap="round"/>
-      <path d="M22 31 5 31" stroke="url(#swordGripFinal)" stroke-width="7" stroke-linecap="round"/>
-      <path d="m20 27-4 8m-3-8-4 8m-3-8-3 8" stroke="#d9c18a" stroke-width="1.25" stroke-linecap="round"/>
-      <path d="M22 25 22 37M4 26 4 36" stroke="#fff0c6" stroke-width="2" stroke-linecap="round"/>
-      <path d="M4 31 1 27 1 35Z" fill="url(#swordGoldFinal)" stroke="#fff0c6" stroke-width=".8"/>
-      <path d="M30 17Q37 10 43 14M30 45Q37 52 43 48" fill="none" stroke="#8ed8c0" stroke-width="1.2" stroke-linecap="round" opacity=".85"/>
-      <path d="m91 9 8-4m-8 54 8 4" stroke="#fff0c6" stroke-width="1.1" stroke-linecap="round" opacity=".8"/>
+      <path d="M32 2 42 70 32 83 22 70Z" fill="#8fe5d2" opacity=".3" filter="url(#swordGlowFinal)"/>
+      <path d="M32 3 40 68 32 81 24 68Z" fill="url(#swordSteelFinal)" stroke="#fff0c5" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M32 7 36 67 32 75Z" fill="#fff" opacity=".78"/>
+      <path d="M32 7 28 67 32 75Z" fill="#5b8179" opacity=".34"/>
+      <path d="M32 10 32 76" stroke="#fff" stroke-width="1.1" opacity=".9"/>
+      <path d="M17 72Q25 66 32 72Q39 66 47 72L43 80Q32 76 21 80Z" fill="url(#swordGoldFinal)" stroke="#fff0c4" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M22 74 32 77 42 74M32 73v9" stroke="#fff7d7" stroke-width="1" fill="none"/>
+      <path d="M29 80 35 80 36 103 32 109 28 103Z" fill="url(#swordGripFinal)" stroke="#e8d19a" stroke-width="1.2"/>
+      <path d="m29 85 6 4m-6 3 6 4m-6 3 6 4" stroke="#f0d7a0" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M32 107 26 113 32 118 38 113Z" fill="url(#swordGoldFinal)" stroke="#fff0c5" stroke-width="1.3"/>
+      <circle cx="32" cy="113" r="2" fill="#e7fff0"/>
+      <path d="M14 23 19 18M50 23 45 18M12 44 18 42M52 44 46 42" stroke="#b8f4e2" stroke-width="1.5" stroke-linecap="round" opacity=".8"/>
     </svg>`,
     pause:`<svg class="cultivation-art art-pause" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
       <path d="M18 13 25 8 28 18 25 46 19 53 15 45Z" fill="#d9bd7e" stroke="#fff0c6" stroke-width="1.2" stroke-linejoin="round"/>
