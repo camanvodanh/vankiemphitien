@@ -636,8 +636,8 @@ function leaderOf(){
 }
 function drawCamera(time){
  drawCameraBackground(time);
- if(finished){drawPodiumScene(cameraCtx,time,true);$("leaderName").textContent="Lễ trao giải · Top 3";$("leaderProgress").textContent="VINH DANH TOP 3";return;}
- if(!started||!racers.length){$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Hạng --/--";cameraCtx.fillStyle="#fff2c9";cameraCtx.font="bold 14px Arial, sans-serif";cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";cameraCtx.fillText("Chờ khai mở tiên hội",210,96);return;}
+ if(finished){drawPodiumScene(cameraCtx,time,true);$("leaderName").textContent="Lễ trao giải · Top 3";$("leaderProgress").textContent="VINH DANH TOP 3";$("leaderEffect").textContent="Đã kết thúc";return;}
+ if(!started||!racers.length){$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Hạng --/--";$("leaderEffect").textContent="Chưa có hiệu ứng";cameraCtx.fillStyle="#fff2c9";cameraCtx.font="bold 14px Arial, sans-serif";cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";cameraCtx.fillText("Chờ khai mở tiên hội",210,96);return;}
  let racer=cameraFocusId?racers.find(item=>item.id===cameraFocusId):null;
  if(!racer||racer.finished||racer.effectTimer<=0)racer=leaderOf();if(!racer)return;
  drawRacer(cameraCtx,racer,210,108,2.0,time);
@@ -645,6 +645,7 @@ function drawCamera(time){
  drawRacerNameOnTarget(cameraCtx,racer,210,20,rank,1);
  cameraCtx.save();cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";
  if(racer.effectTimer>0&&racer.effectName){cameraCtx.font="bold 12px Arial, sans-serif";cameraCtx.lineWidth=3;cameraCtx.strokeStyle="rgba(15,27,25,.98)";cameraCtx.strokeText(racer.effectName,210,43,380);cameraCtx.fillStyle="#fff1bd";cameraCtx.fillText(racer.effectName,210,43,380);}
+ $("leaderEffect").textContent=(racer.effectTimer>0&&racer.effectName)?racer.effectName:"Không có hiệu ứng";
  cameraCtx.restore();
  $("leaderName").textContent=racer.name;
  const shift=racer.rankChangeTimer>0&&racer.rankChangeText;
