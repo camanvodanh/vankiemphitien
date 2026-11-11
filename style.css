@@ -2970,3 +2970,78 @@ body.game-page:after{
  .arena-frame>.game-camera #leaderName{font-size:11px!important;}
  .arena-frame>.game-camera #leaderEffect{font-size:9px!important;}
 }
+
+
+/* REVISION 38 — phù văn kiếm trận tự họa, không icon font, không nền hay khung nút. */
+.arena-frame>.arena-controls #start,
+.arena-frame>.arena-controls #stop{
+  display:grid!important;
+  place-items:center!important;
+  width:58px!important;
+  height:58px!important;
+  min-width:58px!important;
+  min-height:58px!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  outline:0!important;
+  background:none!important;
+  background-color:transparent!important;
+  box-shadow:none!important;
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  overflow:visible!important;
+  color:inherit!important;
+  cursor:pointer!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+.arena-frame>.arena-controls #start .btn-icon,
+.arena-frame>.arena-controls #stop .btn-icon{
+  display:grid!important;
+  place-items:center!important;
+  width:100%!important;
+  height:100%!important;
+  padding:0!important;
+  margin:0!important;
+  background:none!important;
+  border:0!important;
+  box-shadow:none!important;
+  line-height:0!important;
+  font-size:0!important;
+}
+.arena-frame>.arena-controls .cultivation-art{
+  display:block!important;
+  width:54px!important;
+  height:54px!important;
+  overflow:visible!important;
+  background:none!important;
+  filter:drop-shadow(0 0 2px rgba(246,218,157,.48)) drop-shadow(0 0 7px rgba(104,190,163,.28))!important;
+  transform-origin:50% 50%;
+  transition:transform .18s ease,filter .18s ease;
+}
+.arena-frame>.arena-controls #stop .cultivation-art{
+  filter:drop-shadow(0 0 2px rgba(231,194,124,.5)) drop-shadow(0 0 7px rgba(173,126,61,.28))!important;
+}
+.arena-frame>.arena-controls #start .btn-label,
+.arena-frame>.arena-controls #stop .btn-label{display:none!important;}
+.arena-frame>.arena-controls #start:disabled,
+.arena-frame>.arena-controls #stop:disabled{opacity:.38!important;}
+.arena-frame>.arena-controls #start:active .cultivation-art,
+.arena-frame>.arena-controls #stop:active .cultivation-art{
+  transform:scale(.88) rotate(-4deg)!important;
+  filter:drop-shadow(0 0 5px rgba(255,228,165,.9))!important;
+}
+.arena-frame>.arena-controls #start:focus-visible,
+.arena-frame>.arena-controls #stop:focus-visible{
+  outline:1px solid rgba(224,192,125,.55)!important;
+  outline-offset:2px!important;
+}
+@media(max-width:420px){
+ .arena-frame>.arena-controls #start,
+ .arena-frame>.arena-controls #stop{width:48px!important;height:48px!important;min-width:48px!important;min-height:48px!important;}
+ .arena-frame>.arena-controls .cultivation-art{width:46px!important;height:46px!important;}
+}
+@media(prefers-reduced-motion:reduce){
+ .arena-frame>.arena-controls .cultivation-art{transition:none!important;}
+}
