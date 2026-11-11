@@ -515,3 +515,8 @@ footer {
 .arena-frame{display:block;min-height:0;overflow:hidden;background:#173c35;border:1px solid #c69b4c;border-radius:12px;box-shadow:0 8px 24px rgba(22,40,31,.2)}
 #game{display:block;width:100%;height:auto;aspect-ratio:11/8;background:#486f87}
 .arena-start{top:10px;z-index:8}
+
+
+/* REVISION 12 — nút đua gọn, không che phần thông báo và HUD. */
+.arena-start{top:12px;left:50%;right:auto;min-width:0;width:auto;min-height:26px;padding:4px 10px;font-size:10px;line-height:1;transform:translateX(-50%);box-shadow:0 2px 7px rgba(15,30,25,.24)}
+@media(max-width:480px){.arena-start{top:8px;padding:3px 8px;font-size:9px}}
