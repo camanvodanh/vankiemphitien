@@ -5177,8 +5177,8 @@ function drawCrowd(time){
 
   // Ngoại môn và tạp dịch xếp thành các dải phía dưới, phủ đều chiều ngang.
   const groups=[
-    {role:"outer",count:92,scale:.33,y0:746,y1:775},
-    {role:"servant",count:132,scale:.29,y0:790,y1:882}
+    {role:"outer",count:92,scale:.33,y0:690,y1:720},
+    {role:"servant",count:132,scale:.29,y0:850,y1:895}
   ];
   groups.forEach((g,gi)=>{
     for(let i=0;i<g.count;i++){
