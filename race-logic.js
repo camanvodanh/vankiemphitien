@@ -564,7 +564,12 @@ function summon(){
   $("status").textContent="Đã triệu hồi";
   $("lockNotice").textContent="Tiếp theo: Nhấn Bắt đầu để khai mở cuộc đua.";
   $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="--";
-  setSettingsLocked(false);$("lockNotice").textContent="Tiếp theo: Nhấn Bắt đầu để khai mở cuộc đua.";syncButtons();render(performance.now());
+  setSettingsLocked(false);
+  $("leaderEffect").textContent="";
+  $("lockNotice").textContent="Tiếp theo: Nhấn Chạy để khai mở cuộc đua.";
+  setSetupPanel(true);
+  syncButtons();
+  render(performance.now());
 }
 function setSettingsLocked(value){
   locked=value;["speed","quantity","names","summon"].forEach(id=>$(id).disabled=value);
