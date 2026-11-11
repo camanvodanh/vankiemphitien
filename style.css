@@ -3622,3 +3622,178 @@ body.game-page:after{
  .arena-frame>.arena-controls>#start .cultivation-art,
  .arena-frame>.arena-controls>#stop .cultivation-art{width:42px!important;height:42px!important;}
 }
+
+
+/* REVISION 43 — cố định hai nút ở hàng riêng ngay dưới canvas; căn giữa thông tin camera. */
+.arena-frame{
+  display:grid!important;
+  grid-template-columns:minmax(0,4fr) minmax(0,6fr)!important;
+  grid-template-rows:auto auto auto!important;
+}
+.arena-frame>#game{
+  grid-column:1 / -1!important;
+  grid-row:1!important;
+  min-width:0!important;
+}
+.arena-frame>.arena-controls{
+  position:relative!important;
+  inset:auto!important;
+  transform:none!important;
+  grid-column:1 / -1!important;
+  grid-row:2!important;
+  justify-self:center!important;
+  align-self:center!important;
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:max-content!important;
+  height:54px!important;
+  min-height:54px!important;
+  margin:0 auto!important;
+  padding:0!important;
+  gap:clamp(22px,4vw,38px)!important;
+  z-index:130!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+.arena-frame>.arena-controls>#start,
+.arena-frame>.arena-controls>#stop{
+  display:grid!important;
+  visibility:visible!important;
+  opacity:1!important;
+  flex:0 0 52px!important;
+  width:52px!important;height:52px!important;
+  min-width:52px!important;min-height:52px!important;
+  margin:0!important;padding:0!important;
+  place-items:center!important;
+}
+.arena-frame>.game-camera{
+  grid-column:1!important;
+  grid-row:3!important;
+  align-self:stretch!important;
+  justify-self:stretch!important;
+  width:100%!important;
+  min-width:0!important;
+}
+.arena-frame>.game-ranking{
+  grid-column:2!important;
+  grid-row:3!important;
+  align-self:stretch!important;
+  justify-self:stretch!important;
+  width:100%!important;
+  min-width:0!important;
+}
+.arena-frame>.game-camera .camera-info{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  width:100%!important;
+  gap:5px!important;
+}
+.arena-frame>.game-camera .camera-rank-slot{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  text-align:center!important;
+}
+.arena-frame>.game-camera #leaderProgress,
+.arena-frame>.game-camera #leaderName,
+.arena-frame>.game-camera #leaderEffect{
+  text-align:center!important;
+  justify-content:center!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+.arena-frame>.game-camera #leaderProgress::before{
+  content:"HẠNG"!important;
+  display:inline-block!important;
+  margin-right:6px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized){
+  width:clamp(280px,34vw,420px)!important;
+  max-width:min( min( calc(100% - 16px), 420px), 48vw )!important;
+  max-height: min(72%, 540px)!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  box-sizing:border-box!important;
+  padding:12px 14px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) textarea{
+  width:100%!important;
+  min-height:76px!important;
+  height:76px!important;
+  box-sizing:border-box!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) .summon-footer{
+  display:grid!important;
+  grid-template-columns:minmax(72px,1fr) minmax(90px,1fr) auto!important;
+  align-items:end!important;
+  gap:8px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) .random-setting,
+.arena-frame>.game-setup:not(.is-minimized) .compact-field{
+  min-width:0!important;
+}
+.arena-frame>.game-setup:not(.is-minimized) #quantity,
+.arena-frame>.game-setup:not(.is-minimized) #speed{
+  width:100%!important;
+  min-width:0!important;
+}
+.arena-frame>.game-setup.is-minimized{
+  width:max-content!important;
+  max-width:calc(100% - 8px)!important;
+  padding:1px 3px 1px 5px!important;
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+  background:rgba(12,34,29,.36)!important;
+}
+.arena-frame>.game-setup.is-minimized .window-minimize,
+.arena-frame>.game-setup .window-minimize{
+  outline:0!important;
+  box-shadow:none!important;
+}
+.arena-frame>.game-setup .window-minimize:focus,
+.arena-frame>.game-setup .window-minimize:focus-visible{
+  outline:0!important;
+  box-shadow:none!important;
+}
+@media(max-width:760px){
+ .arena-frame{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-template-rows:auto auto auto!important;}
+ .arena-frame>#game{grid-column:1 / -1!important;grid-row:1!important;}
+ .arena-frame>.arena-controls{
+   grid-column:1 / -1!important;grid-row:2!important;
+   height:46px!important;min-height:46px!important;
+   margin:0 auto!important;gap:22px!important;
+ }
+ .arena-frame>.arena-controls>#start,
+ .arena-frame>.arena-controls>#stop{
+   flex-basis:44px!important;width:44px!important;height:44px!important;
+   min-width:44px!important;min-height:44px!important;
+ }
+ .arena-frame>.arena-controls .cultivation-art{width:42px!important;height:42px!important;}
+ .arena-frame>.game-camera{grid-column:1!important;grid-row:3!important;}
+ .arena-frame>.game-ranking{grid-column:2!important;grid-row:3!important;}
+ .arena-frame>.game-setup:not(.is-minimized){
+   width:clamp(260px,72vw,360px)!important;
+   max-width:calc(100% - 12px)!important;
+   max-height:70%!important;
+   padding:10px 11px!important;
+ }
+ .arena-frame>.game-setup:not(.is-minimized) textarea{height:68px!important;min-height:68px!important;}
+ .arena-frame>.game-setup:not(.is-minimized) .summon-footer{
+   grid-template-columns:minmax(66px,1fr) minmax(82px,1fr) auto!important;
+   gap:6px!important;
+ }
+}
+@media(max-width:360px){
+ .arena-frame>.game-setup:not(.is-minimized){width:calc(100% - 10px)!important;max-width:calc(100% - 10px)!important;}
+ .arena-frame>.game-setup:not(.is-minimized) .summon-footer{grid-template-columns:1fr 1fr!important;}
+ .arena-frame>.game-setup:not(.is-minimized) #summon{grid-column:1 / -1!important;width:100%!important;}
+}
