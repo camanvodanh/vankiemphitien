@@ -3136,8 +3136,83 @@ function drawRacerName(racer,x,y,scale){
 // REVISION 3 — nghi lễ trao giải, bố trí khán đài và tiên hạc
 // =====================================================
 
+
+function drawMasterBaguaAura(time){
+  // Đại bát quái trận riêng quanh chưởng môn: tám quẻ, thái cực và linh châu.
+  const cx=550,cy=646,rot=time*.00012;
+  ctx.save();
+  ctx.translate(cx,cy);
+  ctx.rotate(rot);
+
+  // Ba vòng trận pháp đồng tâm, chuyển động chậm.
+  for(let i=0;i<3;i++){
+    ctx.strokeStyle=i===0?"rgba(255,231,166,.78)":"rgba(190,225,208,.38)";
+    ctx.lineWidth=i===0?2.2:1.25;
+    ctx.beginPath();
+    ctx.ellipse(0,0,48+i*17,17+i*6,0,0,Math.PI*2);
+    ctx.stroke();
+  }
+
+  // Tám quẻ phân bố đều trên vòng ngoài.
+  for(let i=0;i<8;i++){
+    ctx.save();
+    ctx.rotate(i*Math.PI/4);
+    ctx.strokeStyle="rgba(255,235,184,.72)";
+    ctx.lineWidth=1.8;
+    ctx.beginPath();
+    ctx.moveTo(0,-61);
+    ctx.lineTo(0,-78);
+    ctx.stroke();
+    for(let j=0;j<3;j++){
+      const yy=-83-j*5;
+      if((i+j)%2===0){
+        ctx.beginPath();ctx.moveTo(-5,yy);ctx.lineTo(5,yy);ctx.stroke();
+      }else{
+        ctx.beginPath();
+        ctx.moveTo(-5,yy);ctx.lineTo(-1,yy);
+        ctx.moveTo(1,yy);ctx.lineTo(5,yy);
+        ctx.stroke();
+      }
+    }
+    // Linh châu nhỏ ở đầu mỗi quẻ.
+    ctx.fillStyle="rgba(255,231,166,.9)";
+    ctx.beginPath();ctx.arc(0,-58,1.8,0,Math.PI*2);ctx.fill();
+    ctx.restore();
+  }
+
+  // Thái cực đồ ở tâm trận.
+  ctx.fillStyle="rgba(255,239,194,.92)";
+  ctx.beginPath();ctx.arc(0,0,14,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#345d59";
+  ctx.beginPath();
+  ctx.arc(0,-7,7,Math.PI/2,-Math.PI/2);
+  ctx.arc(0,7,7,-Math.PI/2,Math.PI/2);
+  ctx.fill();
+  ctx.fillStyle="#f8e6b5";
+  ctx.beginPath();ctx.arc(0,-7,2.2,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#345d59";
+  ctx.beginPath();ctx.arc(0,7,2.2,0,Math.PI*2);ctx.fill();
+  ctx.restore();
+
+  // Các hạt linh khí bay chậm quanh ngai, không che khuất nhân vật.
+  ctx.save();
+  for(let i=0;i<18;i++){
+    const a=-time*.00032+i*Math.PI*2/18;
+    const rx=94+Math.sin(time*.001+i)*5;
+    const ry=34+Math.cos(time*.0013+i*.7)*3;
+    const x=cx+Math.cos(a)*rx;
+    const y=cy+Math.sin(a)*ry;
+    ctx.globalAlpha=.28+.48*Math.pow(Math.sin(time*.002+i),2);
+    ctx.fillStyle=i%3===0?"#fff0bc":"#bde9dc";
+    ctx.shadowColor=ctx.fillStyle;ctx.shadowBlur=7;
+    ctx.beginPath();ctx.arc(x,y,1.2+(i%3)*.45,0,Math.PI*2);ctx.fill();
+  }
+  ctx.restore();
+}
+
 function drawCrowd(time){
   // Chưởng môn ở chính giữa, hai nhóm danh dự ngồi tách hẳn hai bên.
+  drawMasterBaguaAura(time);
   drawVIPAura(550,552,112,"#ffe5a0",time,.4,2.2);
   drawVIPAura(550,552,70,"#fff0bf",time,1.8,1.7);
   drawVIPChair(550,579,1.38,"#762f32",time,0);
