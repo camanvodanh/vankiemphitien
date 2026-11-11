@@ -555,7 +555,7 @@ function summon(){
   const amount=getRandomQuantity();const finalNames=typed.length?typed:generateCultivationNames(amount);
   if(finalNames.length<2){$("lockNotice").textContent="Đại hội cần tối thiểu 2 tiên nhân mới có thể khởi tạo.";return;}
   if(finalNames.length>100){$("lockNotice").textContent="Tối đa 100 tiên nhân. Hãy rút gọn danh sách rồi triệu hồi lại.";return;}
-  racers=finalNames.map((name,index)=>createRacer(name,index));raceStopped=false;
+  racers=finalNames.map((name,index)=>createRacer(name,index));if(window.CultivationMusic)window.CultivationMusic.setPhase("setup");raceStopped=false;
   racers.forEach(r=>{r.swordStyle=randInt(0,11);r.swordColor=randInt(0,9);if(r.gender==="female")r.swordColor=randInt(0,3);else r.swordColor=randInt(4,7);});
   duration=Number($("speed").value);elapsed=0;running=false;paused=false;started=false;finished=false;countdown=0;countdownAccumulator=0;eventClock=0;nextEvent=rand(5,9);
   eventText="";eventTextLife=0;finishQueue=[];cameraFocusId=null;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;finishMessage="";finishMessageLife=0;particles=[];assignFinishTimes();
@@ -588,14 +588,15 @@ function startRace(){
   finishQueue=[];cameraFocusId=null;finishMessage="";finishMessageLife=0;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;
   eventText="BẮT ĐẦU SAU 3";eventTextLife=1;
   racers.forEach(r=>{r.progress=0;r.finished=false;r.finishTime=null;r.speedMultiplier=1;r.effectTimer=0;r.effectType="";r.effectName="";});
-  assignFinishTimes();started=false;finished=false;paused=false;running=true;
+  assignFinishTimes();started=false;finished=false;paused=false;running=true;if(window.CultivationMusic)window.CultivationMusic.setPhase("race");
   $("status").textContent="Bắt đầu sau 3...";
   $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa có thứ hạng";
   setSettingsLocked(true);$("lockNotice").textContent="Tiếp theo: Chờ đếm ngược rồi theo dõi cuộc đua.";syncButtons();
 }
-function togglePause(){if(!running||finished)return;running=false;paused=true;$("status").textContent="Đang tạm dừng";$("lockNotice").textContent="Cuộc đua đang tạm dừng. Nhấn Tiếp tục để xem tiếp.";syncButtons();}
-function resumeRace(){if(!paused||finished)return;paused=false;running=true;$("status").textContent=started?"Đang tranh phong":"Bắt đầu sau "+countdown+"...";$("lockNotice").textContent=started?"Cuộc đua đang tiếp tục. Theo dõi nhân vật dẫn đầu.":"Tiếp theo: Chờ đếm ngược rồi theo dõi cuộc đua.";syncButtons();}
+function togglePause(){if(!running||finished)return;running=false;paused=true;if(window.CultivationMusic)window.CultivationMusic.pause();$("status").textContent="Đang tạm dừng";$("lockNotice").textContent="Cuộc đua đang tạm dừng. Nhấn Tiếp tục để xem tiếp.";syncButtons();}
+function resumeRace(){if(!paused||finished)return;paused=false;running=true;if(window.CultivationMusic)window.CultivationMusic.resume();$("status").textContent=started?"Đang tranh phong":"Bắt đầu sau "+countdown+"...";$("lockNotice").textContent=started?"Cuộc đua đang tiếp tục. Theo dõi nhân vật dẫn đầu.":"Tiếp theo: Chờ đếm ngược rồi theo dõi cuộc đua.";syncButtons();}
 function finishRace(){
+ if(window.CultivationMusic)window.CultivationMusic.setPhase("award");
  collapseSetupPanel();
  elapsed=duration;
  ceremonyStartedAt=performance.now();
@@ -615,6 +616,7 @@ function finishRace(){
  syncButtons();updateRanking();
 }
 function resetGame(){
+  if(window.CultivationMusic)window.CultivationMusic.setPhase("setup");
   racers=[];raceStopped=false;particles=[];running=false;paused=false;started=false;finished=false;
   countdown=0;countdownAccumulator=0;elapsed=0;eventClock=0;eventText="";eventTextLife=0;
   finishQueue=[];cameraFocusId=null;finishMessage="";finishMessageLife=0;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;
