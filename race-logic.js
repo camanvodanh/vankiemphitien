@@ -258,6 +258,7 @@ function summon() {
   assignFinishTimes();
 
   $("status").textContent = "Đã triệu hồi";
+  setSetupPanel(false);
 
   $("lockNotice").textContent =
     "Tiếp theo: Nhấn Bắt đầu để khai mở cuộc đua.";
@@ -402,6 +403,7 @@ function resumeRace() {
 
 function finishRace() {
   elapsed = duration;
+  setSetupPanel(true);
 
   racers.forEach(racer => {
     racer.progress = distance;
@@ -496,7 +498,8 @@ $("pause").addEventListener("click", () => {
   }
 });
 
-$("reset").addEventListener("click", resetGame);
+$("stop").addEventListener("click", stopRace);
+$("setupToggle").addEventListener("click", () => setSetupPanel(true));
 
 $("speed").addEventListener("change", () => {
   if (!locked) {
@@ -777,3 +780,29 @@ function advanceFinishAnnouncements(){
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",attach,{once:true});
   else attach();
 })();
+
+function setSetupPanel(show){
+ const panel=document.querySelector(".arena-frame .game-setup");
+ if(!panel)return;
+ panel.hidden=!show;
+ $("setupToggle").hidden=show||!racers.length||running||paused;
+}
+function stopRace(){
+ if(!racers.length)return;
+ running=false;paused=false;started=false;finished=false;
+ countdown=0;countdownAccumulator=0;
+ $("status").textContent="Cuộc đua đã dừng";
+ $("pause").hidden=true;$("pause").disabled=true;
+ $("start").querySelector(".btn-label").textContent="Bắt đầu lại";
+ setSettingsLocked(false);
+ $("lockNotice").textContent="Cuộc đua đã dừng. Có thể bắt đầu lại hoặc mở Thiết lập để thay đổi danh sách.";
+ setSetupPanel(true);syncButtons();render(performance.now());
+}
+function syncButtons(){
+ $("start").disabled=!racers.length||running||paused||finished;
+ $("pause").disabled=!running&&!paused;
+ $("stop").disabled=!racers.length||(!running&&!paused&&!started);
+ const panel=document.querySelector(".arena-frame .game-setup");
+ $("setupToggle").hidden=!racers.length||!panel||!panel.hidden||running||paused;
+ $("summon").disabled=locked||running||paused;
+}
