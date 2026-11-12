@@ -65,6 +65,9 @@ Object.assign(DICT.cn,{
 Object.assign(DICT.en,{"LIVE":"LIVE","CREATED BY":"CREATED BY","Created by Salted Fish":"Created by Salted Fish"});
 Object.assign(DICT.cn,{"LIVE":"直播","CREATED BY":"创作者","Created by Salted Fish":"由 Salted Fish 制作"});
 
+Object.assign(DICT.en,{"Vạn Kiếm Phi Tiên":"Myriad Swords Flying Immortals","VẠN ĐẠO QUY TÔNG":"ALL PATHS RETURN TO THE SOURCE","VẠN KIẾM TRANH HÙNG":"MYRIAD SWORDS COMPETE"});
+Object.assign(DICT.cn,{"Vạn Kiếm Phi Tiên":"万剑飞仙","VẠN ĐẠO QUY TÔNG":"万道归宗","VẠN KIẾM TRANH HÙNG":"万剑争锋"});
+
 const LANGS={vi:"VN",en:"EN",cn:"CN"};
 const STORAGE_KEY="vankiemphitien-language";
 let language="vi";
