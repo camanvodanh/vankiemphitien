@@ -5459,3 +5459,32 @@ html body .page *{
  .arena-frame>.game-setup .summon-name-label svg,
  .arena-frame>.game-setup .summon-footer label svg{width:21px;height:21px;}
 }
+
+
+/* REVISION 87 — nút khai trận thuần phù văn, bỏ hoàn toàn nền tròn và khung vuông. */
+.arena-frame>.game-setup #summon{
+  appearance:none!important;-webkit-appearance:none!important;
+  width:64px!important;height:64px!important;min-width:64px!important;min-height:64px!important;
+  padding:0!important;margin:0!important;
+  display:grid!important;place-items:center!important;
+  border:0!important;border-radius:0!important;outline:0!important;
+  background:transparent!important;background-color:transparent!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+.arena-frame>.game-setup #summon::before,
+.arena-frame>.game-setup #summon::after{
+  content:none!important;display:none!important;
+}
+.arena-frame>.game-setup #summon svg{
+  display:block!important;width:100%!important;height:100%!important;
+  background:transparent!important;border:0!important;border-radius:0!important;
+  box-shadow:none!important;filter:drop-shadow(0 0 5px rgba(206,242,207,.55))!important;
+}
+.arena-frame>.game-setup #summon:active:not(:disabled){
+  transform:scale(.94)!important;filter:brightness(1.2)!important;
+}
+.arena-frame>.game-setup #summon:focus,
+.arena-frame>.game-setup #summon:focus-visible{
+  outline:none!important;box-shadow:none!important;
+}
