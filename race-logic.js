@@ -1183,3 +1183,95 @@ function drawSummonArrival(time){
 }
 const renderBeforeSummonArrival=render;
 render=function(time){renderBeforeSummonArrival(time);drawSummonArrival(time);};
+
+
+// REVISION 34 — xoay pháp luân: vòng ngoài chọn số tiên nhân, vòng trong chọn thời lượng.
+(function enableRotarySummonDial(){
+  const quantity=$("quantity"),speed=$("speed"),button=$("summon");
+  const qValue=$("dialQuantityValue"),tValue=$("dialDurationValue");
+  const qRing=document.querySelector('[data-dial="quantity"]');
+  const tRing=document.querySelector('[data-dial="duration"]');
+  if(!quantity||!speed||!button||!qRing||!tRing)return;
+  const durations=[30,60,120,180,300];
+  let qRotation=0,tRotation=0,drag=null;
+  const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
+  function refresh(){
+    const q=clamp(Number(quantity.value)||10,2,100);
+    const t=durations.indexOf(Number(speed.value));
+    qValue.textContent=String(q);
+    tValue.textContent=(Number(speed.value)||60)+"s";
+    qRing.setAttribute("aria-valuenow",String(q));
+    tRing.setAttribute("aria-valuenow",String(Math.max(0,t)));
+    qRing.style.transform="translate(-50%,-50%) rotate("+qRotation+"deg)";
+    tRing.style.transform="translate(-50%,-50%) rotate("+tRotation+"deg)";
+    const disabled=locked||running||paused;
+    [qRing,tRing].forEach(r=>{r.style.pointerEvents=disabled?"none":"auto";r.setAttribute("aria-disabled",String(disabled));});
+  }
+  function pointAngle(event,ring){
+    const rect=ring.getBoundingClientRect();
+    return Math.atan2(event.clientY-(rect.top+rect.height/2),event.clientX-(rect.left+rect.width/2))*180/Math.PI;
+  }
+  function angleDelta(next,previous){
+    let d=next-previous;
+    if(d>180)d-=360;
+    if(d< -180)d+=360;
+    return d;
+  }
+  function setQuantity(next){
+    const value=clamp(Math.round(next),2,100);
+    quantity.value=String(value);
+    quantity.dispatchEvent(new Event("input",{bubbles:true}));
+    refresh();
+  }
+  function setDuration(index){
+    const value=durations[clamp(Math.round(index),0,durations.length-1)];
+    speed.value=String(value);
+    speed.dispatchEvent(new Event("change",{bubbles:true}));
+    refresh();
+  }
+  [qRing,tRing].forEach(ring=>{
+    ring.addEventListener("pointerdown",event=>{
+      if(locked||running||paused)return;
+      event.preventDefault();
+      ring.setPointerCapture(event.pointerId);
+      drag={ring,angle:pointAngle(event,ring),remainder:0};
+    });
+    ring.addEventListener("pointermove",event=>{
+      if(!drag||drag.ring!==ring)return;
+      const next=pointAngle(event,ring);
+      drag.remainder+=angleDelta(next,drag.angle);
+      drag.angle=next;
+      if(ring===qRing){
+        const step=360/98;
+        const steps=drag.remainder>0?Math.floor(drag.remainder/step):Math.ceil(drag.remainder/step);
+        if(steps){setQuantity(Number(quantity.value)+steps);drag.remainder-=steps*step;qRotation+=steps*step;}
+      }else{
+        const step=72;
+        const steps=drag.remainder>0?Math.floor(drag.remainder/step):Math.ceil(drag.remainder/step);
+        if(steps){setDuration(durations.indexOf(Number(speed.value))+steps);drag.remainder-=steps*step;tRotation+=steps*step;}
+      }
+      refresh();
+    });
+    const end=()=>{if(drag&&drag.ring===ring)drag=null;};
+    ring.addEventListener("pointerup",end);
+    ring.addEventListener("pointercancel",end);
+    ring.addEventListener("lostpointercapture",end);
+    ring.addEventListener("keydown",event=>{
+      if(locked||running||paused)return;
+      if(!["ArrowUp","ArrowRight","ArrowDown","ArrowLeft"].includes(event.key))return;
+      event.preventDefault();
+      const step=(event.key==="ArrowUp"||event.key==="ArrowRight")?1:-1;
+      if(ring===qRing)setQuantity(Number(quantity.value)+step);
+      else setDuration(durations.indexOf(Number(speed.value))+step);
+    });
+  });
+  quantity.addEventListener("input",refresh);
+  quantity.addEventListener("change",refresh);
+  speed.addEventListener("change",refresh);
+  button.addEventListener("click",refresh,true);
+  refresh();
+  const oldSyncButtons=syncButtons;
+  syncButtons=function(){oldSyncButtons();refresh();};
+  const oldSetSettingsLocked=setSettingsLocked;
+  setSettingsLocked=function(value){oldSetSettingsLocked(value);refresh();};
+})();
