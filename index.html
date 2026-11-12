@@ -72,22 +72,21 @@
               </g>
             </svg>
             <span class="summon-art-caption">✧</span>
-            <div class="altar-settings" aria-label="Thiết lập đại hội">
-              <div class="random-setting altar-setting">
-                <label for="quantity"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="17" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="24" r="11" fill="none" stroke="#c69b4c" stroke-width="1.5" stroke-dasharray="2 3"/><path d="M24 10 28 21 38 24 28 27 24 38 20 27 10 24 20 21Z" fill="#4e8a76" stroke="currentColor" stroke-width="1"/></svg><span>Số tiên nhân</span></label>
-                <input id="quantity" type="number" min="2" max="100" value="10" aria-label="Số lượng tiên nhân">
-              </div>
-              <div class="field compact-field altar-setting">
-                <label for="speed"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 7h20M14 41h20M17 8c0 10 14 10 14 16S17 30 17 40M31 8c0 10-14 10-14 16s14 6 14 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M19 13h10l-5 7Zm0 22h10l-5-7Z" fill="#c69b4c"/></svg><span>Thời lượng</span></label>
-                <select id="speed" aria-label="Thời lượng cuộc đua"><option value="30">30 giây</option><option value="60" selected>60 giây</option><option value="120">120 giây</option><option value="180">180 giây</option><option value="300">300 giây</option></select>
-              </div>
+            <div class="altar-dial" aria-label="Pháp luân thiết lập triệu hồi">
+              <div class="dial-track dial-quantity" data-dial="quantity" role="slider" tabindex="0" aria-label="Xoay vòng ngoài để chọn số tiên nhân" aria-valuemin="2" aria-valuemax="100" aria-valuenow="10"><span class="dial-pointer"></span></div>
+              <div class="dial-track dial-duration" data-dial="duration" role="slider" tabindex="0" aria-label="Xoay vòng trong để chọn thời lượng" aria-valuemin="0" aria-valuemax="4" aria-valuenow="1"><span class="dial-pointer"></span></div>
+              <div class="dial-readout dial-quantity-readout"><small>SỐ TIÊN NHÂN</small><strong id="dialQuantityValue">10</strong></div>
+              <div class="dial-readout dial-duration-readout"><small>THỜI LƯỢNG</small><strong id="dialDurationValue">60s</strong></div>
+              <button id="summon" class="btn primary dial-summon" type="button" aria-label="Chạm tâm pháp trận để triệu hồi"><svg viewBox="0 0 72 72" aria-hidden="true"><defs><linearGradient id="summonButtonGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff2c8"/><stop offset=".5" stop-color="#d5ad66"/><stop offset="1" stop-color="#8d6535"/></linearGradient></defs><path d="M36 9 42 26 60 20 50 36 60 52 42 46 36 63 30 46 12 52 22 36 12 20 30 26Z" fill="none" stroke="url(#summonButtonGold)" stroke-width="1.5"/><path d="M36 17 44 34 36 48 28 34Z" fill="#d8edcb" stroke="#fff0c1" stroke-width="1.2"/><path d="M19 36h34M36 19v34" stroke="#e5c783" stroke-width="1.2"/></svg></button>
+            </div>
+            <div class="altar-native-settings" aria-hidden="true">
+              <input id="quantity" type="number" min="2" max="100" value="10" tabindex="-1">
+              <select id="speed" tabindex="-1" aria-label="Thời lượng cuộc đua"><option value="30">30 giây</option><option value="60" selected>60 giây</option><option value="120">120 giây</option><option value="180">180 giây</option><option value="300">300 giây</option></select>
             </div>
           </div>
           <label class="summon-name-label" for="names"><span aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M9 7h23l7 7v27H9Z" fill="#e6d2a0" stroke="currentColor" stroke-width="1.8"/><path d="M32 7v8h7M15 22h18M15 28h18M15 34h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="m6 16 5-5m-5 5 5 5" stroke="#4e8a76" stroke-width="2"/></svg></span></label>
           <textarea id="names" rows="3" aria-label="Nhập đạo danh, mỗi dòng một tên" placeholder="Khắc đạo danh vào linh phù…&#10;Mỗi dòng một vị · để trống gọi ngẫu nhiên"></textarea>
-          <div class="summon-footer">
-            <button id="summon" class="btn primary" aria-label="Triệu hồi tiên nhân"><svg viewBox="0 0 72 72" aria-hidden="true"><defs><linearGradient id="summonButtonGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff2c8"/><stop offset=".5" stop-color="#d5ad66"/><stop offset="1" stop-color="#8d6535"/></linearGradient></defs><path d="M36 9 42 26 60 20 50 36 60 52 42 46 36 63 30 46 12 52 22 36 12 20 30 26Z" fill="none" stroke="url(#summonButtonGold)" stroke-width="1.5"/><path d="M36 17 44 34 36 48 28 34Z" fill="#d8edcb" stroke="#fff0c1" stroke-width="1.2"/><path d="M19 36h34M36 19v34" stroke="#e5c783" stroke-width="1.2"/></svg></button>
-          </div>
+
           <p id="lockNotice" class="lock-notice" aria-live="polite">Nhập tên từng dòng hoặc chọn số lượng, rồi nhấn Triệu hồi.</p>
         </section>
 
