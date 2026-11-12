@@ -22,10 +22,11 @@ function applyNode(node){
   if(node.nodeType===Node.TEXT_NODE){
     const parent=node.parentElement;
     if(!parent||skipTags.has(parent.tagName)||parent.closest("[data-no-translate]"))return;
-    if(!textOriginals.has(node))textOriginals.set(node,node.nodeValue);
-    const original=textOriginals.get(node);
-    const translated=translateText(original);
-    if(node.nodeValue!==translated)node.nodeValue=translated;
+    let record=textOriginals.get(node);
+    if(!record){record={original:node.nodeValue,last:null};textOriginals.set(node,record);}
+    else if(record.last!==null&&node.nodeValue!==record.last){record.original=node.nodeValue;record.last=null;}
+    const translated=translateText(record.original);
+    if(node.nodeValue!==translated){record.last=translated;node.nodeValue=translated;}else record.last=translated;
     return;
   }
   if(node.nodeType!==Node.ELEMENT_NODE)return;
@@ -33,9 +34,12 @@ function applyNode(node){
   for(const attr of ["aria-label","aria-description","title","placeholder","alt"]){
     if(!node.hasAttribute(attr))continue;
     let record=attrOriginals.get(node);if(!record){record={};attrOriginals.set(node,record);}
-    if(!(attr in record))record[attr]=node.getAttribute(attr);
-    const translated=translateText(record[attr]);
-    if(node.getAttribute(attr)!==translated)node.setAttribute(attr,translated);
+    let item=record[attr];
+    const current=node.getAttribute(attr);
+    if(!item){item=record[attr]={original:current,last:null};}
+    else if(item.last!==null&&current!==item.last){item.original=current;item.last=null;}
+    const translated=translateText(item.original);
+    if(current!==translated){item.last=translated;node.setAttribute(attr,translated);}else item.last=translated;
   }
   for(const child of node.childNodes)applyNode(child);
 }
