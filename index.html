@@ -16,8 +16,11 @@
         <h1>VẠN KIẾM PHI TIÊN</h1>
         <p class="subtitle">NHẤT KIẾM PHÁ THIÊN · VẠN ĐẠO QUY TÔNG</p>
       </div>
-      <button id="musicToggle" class="music-toggle" type="button" aria-pressed="true">♫ Bật nhạc</button>
-      <select id="languageSelect" class="language-select" aria-label="Chọn ngôn ngữ" title="Ngôn ngữ hiện tại: Việt"><option value="vi" selected disabled>VN</option><option value="en">EN</option><option value="cn">CN</option></select>
+      <div class="hero-actions" aria-label="Điều khiển âm thanh và ngôn ngữ">
+        <button id="musicToggle" class="music-toggle" type="button" aria-pressed="true">♫ Bật nhạc</button>
+        <span id="languageCurrent" class="language-current" aria-hidden="true">VN</span>
+        <select id="languageSelect" class="language-select" aria-label="Chọn ngôn ngữ" title="Chọn ngôn ngữ"><option value="en">EN</option><option value="cn">CN</option></select>
+      </div>
       <div class="realm-status"><i></i><span>TIÊN MÔN ĐANG MỞ</span></div>
     </header>
 
@@ -36,43 +39,8 @@
             <button class="window-minimize summon-seal-trigger" type="button" aria-label="Thu nhỏ bảng triệu hồi" aria-expanded="true" title="Thu nhỏ">−</button>
           </div>
           <div class="summon-artwork" aria-hidden="true">
-            <svg viewBox="0 0 340 190" role="presentation">
-              <defs>
-                <radialGradient id="altarCore"><stop stop-color="#fff8cf"/><stop offset=".24" stop-color="#b9efd0"/><stop offset=".55" stop-color="#398b75"/><stop offset="1" stop-color="#153d35" stop-opacity="0"/></radialGradient>
-                <linearGradient id="altarGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0bd"/><stop offset=".48" stop-color="#d5aa60"/><stop offset="1" stop-color="#8b6236"/></linearGradient>
-                <linearGradient id="altarJade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d9f7dc"/><stop offset=".48" stop-color="#62b99a"/><stop offset="1" stop-color="#1b5142"/></linearGradient>
-                <filter id="altarGlow"><feGaussianBlur stdDeviation="4"/></filter>
-              </defs>
-              <ellipse cx="170" cy="99" rx="90" ry="83" fill="url(#altarCore)" opacity=".6"/>
-              <g fill="none" stroke="url(#altarGold)" stroke-linecap="round">
-                <circle cx="170" cy="94" r="78" stroke-width="1.5"/>
-                <circle cx="170" cy="94" r="68" stroke-width=".9" stroke-dasharray="2 4"/>
-                <circle cx="170" cy="94" r="51" stroke-width="1.2"/>
-                <circle cx="170" cy="94" r="43" stroke-width=".8" stroke-dasharray="4 5"/>
-                <path d="M170 13 180 39 207 29 204 57 232 65 211 86 232 108 204 117 207 146 180 137 170 165 160 137 133 146 136 117 108 108 129 86 108 65 136 57 133 29 160 39Z" stroke-width="1.1"/>
-                <path d="M170 23V165M99 94H241M120 44 220 144M220 44 120 144" stroke-width=".7" opacity=".8"/>
-              </g>
-              <g fill="url(#altarGold)" opacity=".95">
-                <path d="m170 18 4 9-4 9-4-9Z"/><path d="m170 152 4 9-4 9-4-9Z"/>
-                <path d="m94 94 9-4 9 4-9 4Z"/><path d="m228 94 9-4 9 4-9 4Z"/>
-                <circle cx="170" cy="43" r="2.5"/><circle cx="170" cy="145" r="2.5"/>
-                <circle cx="119" cy="94" r="2.5"/><circle cx="221" cy="94" r="2.5"/>
-              </g>
-              <circle cx="170" cy="94" r="34" fill="url(#altarCore)" stroke="#f4d98e" stroke-width="1.5"/>
-              <g transform="translate(170 92)" stroke="url(#altarGold)" stroke-linejoin="round">
-                <path d="M0-27 8 1 0 12-8 1Z" fill="url(#altarJade)" stroke-width="1.4"/>
-                <path d="M0-23 2 1 0 6-2 1Z" fill="#fff7d4" stroke="none"/>
-                <path d="M-14 1Q-7-4 0 2 7-4 14 1L10 7Q0 4-10 7Z" fill="#d5aa60" stroke-width="1"/>
-                <path d="M-3 7H3L4 22 0 26-4 22Z" fill="#285a49" stroke-width="1"/>
-                <path d="M-4 12 4 16M-4 17 4 21" fill="none" stroke="#f4d98e" stroke-width="1"/>
-              </g>
-              <g fill="#f7e7b2"><path d="m63 40 3 8 8 3-8 3-3 8-3-8-8-3 8-3Z"/><path d="m276 38 3 8 8 3-8 3-3 8-3-8-8-3 8-3Z"/><path d="m82 137 2 6 6 2-6 2-2 6-2-6-6-2 6-2Z"/><path d="m260 134 2 6 6 2-6 2-2 6-2-6-6-2 6-2Z"/></g>
-              <g fill="none" stroke="#8dbfa2" stroke-width="1.3" opacity=".8">
-                <path d="M12 159q22-22 44 0t44 0M240 159q22-22 44 0t44 0"/>
-                <path d="M20 169q18-13 36 0t36 0M248 169q18-13 36 0t36 0"/>
-              </g>
-            </svg>
-            <span class="summon-art-caption">✧</span>
+            
+            
             <div class="altar-dial" aria-label="Pháp luân thiết lập triệu hồi">
               <div class="dial-track dial-quantity" data-dial="quantity" role="slider" tabindex="0" aria-label="Xoay vòng ngoài để chọn số tiên nhân" aria-valuemin="2" aria-valuemax="100" aria-valuenow="10"><span class="dial-pointer"></span></div>
               <div class="dial-track dial-duration" data-dial="duration" role="slider" tabindex="0" aria-label="Xoay vòng trong để chọn thời lượng" aria-valuemin="0" aria-valuemax="4" aria-valuenow="1"><span class="dial-pointer"></span></div>
@@ -148,6 +116,6 @@
   <script src="visual-overrides.js?v=leader-camera-scenery-v110"></script>
   <script src="music.js?v=20261112-music-v99"></script>
   <script src="race-logic.js?v=responsive-touch-v105"></script>
-  <script src="i18n.js?v=language-v6"></script>
+  <script src="i18n.js?v=language-v7"></script>
 </body>
 </html>
