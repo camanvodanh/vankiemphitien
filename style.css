@@ -5561,3 +5561,68 @@ html body .page *{
  .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-setting input,
  .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-setting select{height:27px!important;min-height:27px!important;font-size:11px!important}
 }
+
+
+/* REVISION 89 — pháp luân xoay chọn số lượng và thời lượng, tâm trận là nút triệu hồi. */
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-artwork{
+  position:relative!important;height:196px!important;margin:0 auto 5px!important;overflow:visible!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-artwork>svg{
+  position:absolute!important;inset:0!important;width:min(100%,340px)!important;height:196px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial{
+  position:absolute!important;z-index:4!important;left:50%!important;top:50%!important;
+  width:180px!important;height:180px!important;transform:translate(-50%,-50%)!important;
+  border-radius:50%!important;touch-action:none!important;user-select:none!important;
+}
+.altar-dial .dial-track{
+  position:absolute;left:50%;top:50%;display:block;border-radius:50%;
+  transform:translate(-50%,-50%);touch-action:none;cursor:grab;
+  background:conic-gradient(from 0deg,rgba(255,232,174,.08),rgba(218,178,101,.5),rgba(151,218,186,.16),rgba(255,232,174,.08));
+  box-shadow:0 0 9px rgba(225,190,112,.22),inset 0 0 0 1px rgba(255,239,192,.34);
+}
+.altar-dial .dial-track:active{cursor:grabbing}
+.altar-dial .dial-quantity{width:174px;height:174px;border:2px solid rgba(229,194,119,.9)}
+.altar-dial .dial-duration{width:136px;height:136px;border:2px dashed rgba(180,232,202,.9);background:rgba(13,55,44,.2)}
+.altar-dial .dial-pointer{
+  position:absolute;left:50%;top:-5px;width:9px;height:9px;border-radius:50%;
+  transform:translateX(-50%);background:#fff0bd;border:1px solid #a67b3d;
+  box-shadow:0 0 8px #fff0bd,0 0 14px rgba(166,238,206,.9);
+}
+.altar-dial .dial-duration .dial-pointer{width:7px;height:7px;top:-4px;background:#bdf1d6;border-color:#e8d19a}
+.altar-dial .dial-readout{
+  position:absolute;z-index:5;left:50%;display:flex;flex-direction:column;align-items:center;
+  min-width:72px;padding:2px 7px;border:1px solid rgba(225,193,128,.76);border-radius:5px;
+  background:linear-gradient(145deg,rgba(12,43,35,.96),rgba(24,72,56,.96));
+  box-shadow:0 2px 7px rgba(0,0,0,.38);color:#fff0c2;pointer-events:none;
+  transform:translateX(-50%);white-space:nowrap;
+}
+.altar-dial .dial-quantity-readout{top:13px}
+.altar-dial .dial-duration-readout{bottom:12px}
+.altar-dial .dial-readout small{font:700 7px/1.1 Arial,sans-serif;letter-spacing:.8px;color:#d9bd80}
+.altar-dial .dial-readout strong{font:700 12px/1.15 Georgia,serif;color:#f8e9bd}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon{
+  position:absolute!important;z-index:7!important;left:50%!important;top:50%!important;
+  display:grid!important;place-items:center!important;width:54px!important;height:54px!important;
+  min-width:54px!important;min-height:54px!important;padding:0!important;margin:0!important;
+  border:1px solid rgba(246,221,157,.9)!important;border-radius:50%!important;
+  transform:translate(-50%,-50%)!important;
+  background:radial-gradient(circle at 35% 25%,#4d8b70,#143e33 72%)!important;
+  box-shadow:0 0 0 3px rgba(220,187,111,.22),0 0 17px rgba(204,246,218,.55),inset 0 0 9px rgba(255,242,196,.35)!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon svg{
+  width:42px!important;height:42px!important;filter:drop-shadow(0 0 4px rgba(255,241,190,.85))!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon:active:not(:disabled){transform:translate(-50%,-50%) scale(.92)!important}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-native-settings{
+  position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;
+  clip-path:inset(50%)!important;white-space:nowrap!important;pointer-events:none!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-footer{display:none!important}
+@media(max-width:380px){
+ .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-artwork{height:188px!important}
+ .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-artwork>svg{height:188px!important}
+ .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial{width:174px!important;height:174px!important}
+ .altar-dial .dial-quantity{width:168px;height:168px}
+ .altar-dial .dial-duration{width:132px;height:132px}
+}
