@@ -84,6 +84,7 @@ function translateText(value,lang=language){
     if(result===from)return to;
     if(result.includes(from))result=result.split(from).join(to);
   }
+  if(lang==="cn")result=result.replace(/([\\u3400-\\u9fff])\\s+([\\u3400-\\u9fff])/g,"$1$2");
   return result;
 }
 function applyNode(node){
