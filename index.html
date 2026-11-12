@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#102b27">
   <title>Vạn Kiếm Phi Tiên</title>
-  <link rel="stylesheet" href="style.css?v=responsive-cross-device-v119">
+  <link rel="stylesheet" href="style.css?v=mobile-halves-language-v120">
 </head>
 <body class="game-page">
   <main class="page game-app">
@@ -17,6 +17,7 @@
         <p class="subtitle">NHẤT KIẾM PHÁ THIÊN · VẠN ĐẠO QUY TÔNG</p>
       </div>
       <button id="musicToggle" class="music-toggle" type="button" aria-pressed="true">♫ Bật nhạc</button>
+      <select id="languageSelect" class="language-select" aria-label="Chọn ngôn ngữ" title="Ngôn ngữ hiện tại: Việt"><option value="vi" selected disabled>VN</option><option value="en">EN</option><option value="cn">CN</option></select>
       <div class="realm-status"><i></i><span>TIÊN MÔN ĐANG MỞ</span></div>
     </header>
 
@@ -147,5 +148,6 @@
   <script src="visual-overrides.js?v=leader-camera-scenery-v110"></script>
   <script src="music.js?v=20261112-music-v99"></script>
   <script src="race-logic.js?v=responsive-touch-v105"></script>
+  <script src="i18n.js?v=language-v1"></script>
 </body>
 </html>
