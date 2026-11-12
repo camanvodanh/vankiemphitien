@@ -18,7 +18,10 @@
       </div>
       <div class="hero-actions" aria-label="Điều khiển âm thanh và ngôn ngữ">
         <button id="musicToggle" class="music-toggle" type="button" aria-pressed="true">♫ Bật nhạc</button>
-        <select id="languageSelect" class="language-select" aria-label="Chọn ngôn ngữ" title="Chọn ngôn ngữ"><option value="en">EN</option><option value="cn">CN</option></select>
+        <div class="language-picker">
+          <button id="languageButton" class="language-select" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="languageMenu">VN <span aria-hidden="true">▾</span></button>
+          <div id="languageMenu" class="language-menu" role="menu" hidden></div>
+        </div>
       </div>
       <div class="realm-status"><i></i><span>TIÊN MÔN ĐANG MỞ</span></div>
     </header>
