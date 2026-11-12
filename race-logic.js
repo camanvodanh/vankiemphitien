@@ -1081,14 +1081,29 @@ function handleStopOrSetup(){
 // REVISION 33 — thiên quang giáng thế, từng tiên nhân hiện thân theo thứ tự.
 let summonArrivalStartedAt=0;
 let summonRacersBeforeClick=null;
-const summonRevealStep=.16;
+let summonBatchSize=1;
+const summonGroupStep=.30;
+const summonRevealDuration=.42;
 const summonBeamDuration=.78;
+// Tối đa 12 lượt giáng lâm; ít người đi riêng, đông người tự chia nhóm tăng dần.
+function getSummonBatchSize(count){
+  return Math.max(1,Math.ceil(count/12));
+}
+function getSummonGroupDelay(index){
+  return .18+Math.floor(Math.max(0,index)/summonBatchSize)*summonGroupStep;
+}
 $("summon").addEventListener("click",()=>{summonRacersBeforeClick=racers;},true);
 $("summon").addEventListener("click",()=>{
   if(racers.length>=2&&racers!==summonRacersBeforeClick&&!running&&!paused){
     summonArrivalStartedAt=performance.now();
-    $("status").textContent="Thiên quang giáng thế · tiên nhân lần lượt hiện thân";
-    $("lockNotice").textContent="✧ Thiên quang chiếu thế · tiên nhân giáng lâm ✧";
+    summonBatchSize=getSummonBatchSize(racers.length);
+    const groupCount=Math.ceil(racers.length/summonBatchSize);
+    $("status").textContent=summonBatchSize===1
+      ?"Thiên quang giáng thế · tiên nhân lần lượt hiện thân"
+      :`Thiên quang giáng thế · mỗi lượt ${summonBatchSize} tiên nhân · ${groupCount} lượt`;
+    $("lockNotice").textContent=summonBatchSize===1
+      ?"✧ Tiên nhân lần lượt giáng lâm ✧"
+      :`✧ ${summonBatchSize} tiên nhân mỗi lượt · ${groupCount} lượt giáng lâm ✧`;
   }
 });
 const summonOriginalDrawRacer=drawRacer;
@@ -1096,9 +1111,9 @@ drawRacer=function(target,racer,x,y,scale,time){
   if(target===ctx&&summonArrivalStartedAt){
     const index=racers.indexOf(racer);
     const age=(time-summonArrivalStartedAt)/1000;
-    const delay=.18+Math.max(0,index)*summonRevealStep;
+    const delay=getSummonGroupDelay(index);
     if(age<delay)return;
-    const reveal=Math.max(0,Math.min(1,(age-delay)/.42));
+    const reveal=Math.max(0,Math.min(1,(age-delay)/summonRevealDuration));
     target.save();target.globalAlpha*=reveal;
     summonOriginalDrawRacer(target,racer,x,y,scale*(.82+.18*reveal),time);
     target.restore();return;
@@ -1110,7 +1125,7 @@ drawRacerName=function(racer,x,y,scale){
   if(summonArrivalStartedAt){
     const index=racers.indexOf(racer);
     const age=(performance.now()-summonArrivalStartedAt)/1000;
-    const reveal=Math.max(0,Math.min(1,(age-(.18+Math.max(0,index)*summonRevealStep))/.42));
+    const reveal=Math.max(0,Math.min(1,(age-getSummonGroupDelay(index))/summonRevealDuration));
     if(reveal<=0)return;
     ctx.save();ctx.globalAlpha*=reveal;summonOriginalDrawRacerName(racer,x,y,scale);ctx.restore();return;
   }
@@ -1119,11 +1134,11 @@ drawRacerName=function(racer,x,y,scale){
 function drawSummonArrival(time){
   if(!summonArrivalStartedAt)return;
   const age=Math.max(0,(time-summonArrivalStartedAt)/1000);
-  const lastDelay=.18+Math.max(0,racers.length-1)*summonRevealStep;
+  const lastDelay=getSummonGroupDelay(Math.max(0,racers.length-1));
   if(age>lastDelay+1.05){summonArrivalStartedAt=0;return;}
   ctx.save();
   racers.forEach((racer,index)=>{
-    const delay=.18+index*summonRevealStep;
+    const delay=getSummonGroupDelay(index);
     const local=age-delay;
     if(local<-.22||local>summonBeamDuration)return;
     const x=racerX(racer),y=laneY(index);
