@@ -5626,3 +5626,35 @@ html body .page *{
  .altar-dial .dial-quantity{width:168px;height:168px}
  .altar-dial .dial-duration{width:132px;height:132px}
 }
+
+
+/* REVISION 90 — vạch số trên pháp luân, vùng kéo lớn và bảng nhập nhanh khi chạm thông số. */
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial{width:196px!important;height:196px!important}
+.altar-dial .dial-quantity{width:190px!important;height:190px!important;border-width:3px!important;
+ background:repeating-conic-gradient(from -90deg,rgba(255,228,164,.0) 0deg 3deg,rgba(255,224,155,.72) 3deg 3.7deg,rgba(255,228,164,0) 3.7deg 15deg),radial-gradient(circle,transparent 63%,rgba(15,61,48,.35) 64%,rgba(213,177,102,.3) 100%)!important}
+.altar-dial .dial-duration{width:148px!important;height:148px!important;border-width:3px!important;
+ background:repeating-conic-gradient(from -90deg,rgba(175,237,203,0) 0deg 14deg,rgba(175,237,203,.85) 14deg 15deg,rgba(175,237,203,0) 15deg 30deg),radial-gradient(circle,rgba(13,55,44,.2),rgba(13,55,44,.45))!important}
+.altar-dial .dial-readout{cursor:pointer;pointer-events:auto!important;min-width:91px!important;padding:4px 8px!important}
+.altar-dial .dial-readout:active{filter:brightness(1.25);transform:translateX(-50%) scale(.96)}
+.altar-dial .dial-readout small{font-size:7px!important}
+.altar-dial .dial-readout strong{font-size:14px!important}
+.altar-dial .dial-editor{
+ position:absolute;z-index:12;left:50%;top:50%;transform:translate(-50%,-50%);
+ display:flex;flex-direction:column;align-items:stretch;gap:6px;width:138px;padding:9px;
+ border:1px solid #e5c47e;border-radius:10px;background:linear-gradient(145deg,#123d32,#1e614b);
+ box-shadow:0 0 0 3px rgba(226,193,119,.25),0 5px 18px rgba(0,0,0,.55);color:#f7e6b9;
+}
+.altar-dial .dial-editor[hidden]{display:none!important}
+.altar-dial .dial-editor label{text-align:center;font:700 9px Georgia,serif;letter-spacing:.4px}
+.altar-dial .dial-editor input,.altar-dial .dial-editor select{
+ width:100%;height:34px;border:1px solid #d9bd80;border-radius:5px;
+ background:#f3e4bd;color:#173d31;text-align:center;font:700 16px Georgia,serif;
+}
+.altar-dial .dial-editor button{height:27px;border:1px solid #e5c47e;border-radius:5px;background:linear-gradient(#e8d29d,#b99150);color:#173d31;font-weight:800}
+.altar-dial .dial-markers{position:absolute;inset:0;z-index:4;pointer-events:none}
+.altar-dial .dial-marker{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:700 8px Georgia,serif;color:#fff0c1;text-shadow:0 1px 3px #102b22,0 0 5px #0a211b;white-space:nowrap}
+@media(max-width:380px){
+ .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial{width:186px!important;height:186px!important}
+ .altar-dial .dial-quantity{width:180px!important;height:180px!important}
+ .altar-dial .dial-duration{width:140px!important;height:140px!important}
+}
