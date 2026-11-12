@@ -36,6 +36,16 @@ Object.assign(DICT.cn,{
 "VẠN KIẾM QUY TÔNG":"万剑归宗","THIÊN ĐỊA TRANH PHONG":"天地争锋",
 "Nhạc: ":"音乐："
 });
+\nObject.assign(DICT.en,{
+"Bắt đầu sau":"Starting in","BAN THƯỞNG TAM GIÁP":"TOP THREE AWARDS","BAN THƯỞNG TOP":"TOP AWARDS",
+"HẠNG":"RANK","TIÊN HỘI":"IMMORTAL TOURNAMENT",
+"TRAO THƯỞNG ĐỆ NHỊ":"SECOND PLACE AWARD","TRAO THƯỞNG ĐỆ TAM":"THIRD PLACE AWARD"
+});
+Object.assign(DICT.cn,{
+"Bắt đầu sau":"开始倒计时","BAN THƯỞNG TAM GIÁP":"前三颁奖","BAN THƯỞNG TOP":"前三颁奖",
+"HẠNG":"排名","TIÊN HỘI":"仙会",
+"TRAO THƯỞNG ĐỆ NHỊ":"亚军颁奖","TRAO THƯỞNG ĐỆ TAM":"季军颁奖"
+});
 \nconst LANGS={vi:"VN",en:"EN",cn:"CN"};
 const STORAGE_KEY="vankiemphitien-language";
 let language="vi";
