@@ -5344,3 +5344,90 @@ html body .page *{
 
 /* REVISION 84 — cổng dị giới khi tiên nhân giáng lâm. */
 @keyframes summonSealPulse{0%,100%{filter:drop-shadow(0 0 2px rgba(227,194,119,.35))}50%{filter:drop-shadow(0 0 8px rgba(151,225,199,.75))}}
+
+
+/* REVISION 85 — giao diện manhua: trận đồ tự họa là trọng tâm, chữ tối giản. */
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]){
+  width:min(356px,calc(100% - 18px))!important;
+  padding:11px 14px 12px!important;
+  overflow:hidden!important;
+  border:2px solid #c5a05d!important;
+  border-radius:12px!important;
+  background:
+    radial-gradient(ellipse at 50% 40%,rgba(48,115,88,.13),transparent 58%),
+    linear-gradient(145deg,#f8f0d9,#e9d9b5 54%,#f6edcf)!important;
+  box-shadow:0 0 0 3px rgba(19,58,45,.88),0 0 0 5px rgba(206,169,98,.7),0 18px 42px rgba(0,0,0,.48),inset 0 0 0 1px #fff7dc!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .setup-heading{
+  margin:-11px -14px 0!important;padding:7px 10px!important;min-height:39px!important;
+  border:0!important;border-bottom:1px solid #bd9856!important;
+  background:linear-gradient(100deg,#102e29,#1d4d3c 60%,#15372f)!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .setup-title-full{
+  color:#f9e9bd!important;font-size:13px!important;letter-spacing:.09em!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-artwork{
+  position:relative!important;width:100%!important;height:166px!important;margin:0 auto 0!important;
+  display:grid!important;place-items:center!important;overflow:hidden!important;
+  background:radial-gradient(ellipse at center,rgba(57,139,105,.12),transparent 66%)!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-artwork svg{
+  width:min(100%,330px)!important;height:166px!important;overflow:visible!important;
+  filter:drop-shadow(0 2px 5px rgba(88,66,32,.22));animation:summonSealPulse 3.4s ease-in-out infinite;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-art-caption{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  color:#fff2c5;font:16px Georgia,serif;text-shadow:0 0 12px #8bd9b4;pointer-events:none;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-name-label{
+  height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;
+  font-size:0!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) #names{
+  display:block!important;width:100%!important;height:63px!important;min-height:63px!important;
+  margin:0!important;padding:9px 12px!important;resize:vertical!important;
+  border:1px solid #b99a60!important;border-radius:7px!important;
+  background:linear-gradient(180deg,rgba(255,251,232,.97),rgba(242,232,203,.97))!important;
+  color:#234637!important;font:12px/1.45 Georgia,serif!important;
+  box-shadow:inset 0 2px 7px rgba(88,64,29,.1),0 1px 0 #fff!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) #names::placeholder{
+  color:#887650!important;font-style:italic!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-footer{
+  grid-template-columns:68px 100px 64px!important;gap:9px!important;margin:9px auto 0!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .random-setting label,
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .compact-field label{
+  display:grid!important;place-items:center!important;height:17px!important;
+  color:#98743b!important;font-size:16px!important;font-weight:900!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) #quantity,
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) #speed{
+  height:34px!important;padding:0 5px!important;border:1px solid #b99a60!important;
+  border-radius:6px!important;background:#fff9e7!important;color:#1d4938!important;
+  font-size:12px!important;font-weight:800!important;text-align:center!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) #summon{
+  display:grid!important;place-items:center!important;width:64px!important;height:36px!important;
+  padding:0!important;border:1px solid #e7c77d!important;border-radius:50%!important;
+  background:radial-gradient(circle at 35% 25%,#427b5e,#153b30 72%)!important;
+  color:#ffedb8!important;font:24px/1 Georgia,serif!important;
+  box-shadow:0 0 0 3px rgba(183,145,73,.2),0 0 15px rgba(64,135,100,.4),inset 0 1px rgba(255,255,255,.3)!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .lock-notice{
+  margin:5px 0 0!important;padding:0!important;border:0!important;
+  min-height:9px!important;color:#8a744c!important;font-size:9px!important;text-align:center!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden])::before,
+.arena-frame>.game-setup:not(.is-minimized):not([hidden])::after{display:none!important}
+@media(max-width:380px){
+ .arena-frame>.game-setup:not(.is-minimized):not([hidden]){width:min(330px,calc(100% - 12px))!important;padding:9px 10px 10px!important}
+ .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .setup-heading{margin:-9px -10px 0!important}
+ .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-artwork{height:148px!important}
+ .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-artwork svg{height:148px!important}
+ .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-footer{grid-template-columns:62px 92px 60px!important;gap:7px!important}
+ .arena-frame>.game-setup:not(.is-minimized):not([hidden]) #summon{width:60px!important}
+}
+
+/* Cổng dị giới: màn sáng trung tâm và pháp trận lớn dễ nhận ra trên đường đua. */
