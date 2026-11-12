@@ -5253,3 +5253,94 @@ html body .page *{
   }
   .arena-frame>.game-setup:not(.is-minimized):not([hidden]) #summon{width:76px!important;}
 }
+
+
+/* REVISION 83 — bảng triệu hồi tối giản, tiêu đề tương phản và họa tiết tiên môn tự vẽ. */
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]){
+  width:min(330px,calc(100% - 22px))!important;
+  padding:12px 14px 11px!important;
+  border:2px solid #b88e49!important;
+  background:
+    radial-gradient(ellipse at 50% 108%,rgba(176,139,66,.16),transparent 56%),
+    linear-gradient(145deg,#fff9e8 0%,#eee2c3 54%,#faf3dc 100%)!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .setup-heading{
+  min-height:42px!important;
+  margin:-12px -14px 10px!important;
+  padding:7px 10px 7px 13px!important;
+  border:0!important;
+  border-bottom:2px solid #c5a15d!important;
+  background:linear-gradient(100deg,#102f2a,#1c4a3c 62%,#285a47)!important;
+  box-shadow:inset 0 1px rgba(255,240,190,.28),0 3px 8px rgba(24,48,35,.18)!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .setup-title-wrap{
+  display:flex!important;align-items:center!important;gap:8px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-title-mark{
+  display:grid;place-items:center;width:29px;height:29px;flex:0 0 29px;
+  border:1px solid #e0c17b;border-radius:50%;
+  color:#f8e6b2;background:radial-gradient(circle,#47745a,#173b32 72%);
+  box-shadow:0 0 10px rgba(226,194,120,.35),inset 0 0 0 2px rgba(255,238,190,.12);
+  font:700 17px/1 Georgia,serif;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .setup-title-full{
+  color:#fff0c5!important;font-size:16px!important;letter-spacing:.08em!important;
+  text-shadow:0 1px 3px #071d18!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .window-minimize{
+  width:27px;height:27px;padding:0!important;display:grid;place-items:center;
+  color:#ffefc7!important;border:1px solid #c5a15d!important;background:#285344!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-name-label{
+  display:flex;align-items:center;gap:6px;margin:0 0 5px!important;
+  color:#244a3b!important;font-size:11px!important;font-weight:800!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-name-label span{
+  color:#a27a36;font-size:15px;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) #names{
+  min-height:68px!important;height:68px!important;padding:8px 10px!important;
+  border:1px solid #b59b69!important;border-radius:6px!important;
+  background:rgba(255,253,243,.96)!important;color:#203d31!important;
+  font:12px/1.45 Georgia,serif!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-footer{
+  grid-template-columns:70px 106px 78px!important;gap:8px!important;margin-top:9px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .random-setting label,
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .compact-field label{
+  display:flex;align-items:center;gap:4px;color:#345440!important;font-size:10px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .random-setting label span,
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .compact-field label span{
+  color:#a27a36;font-size:12px;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) #quantity,
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) #speed{
+  height:34px!important;background:#fffdf4!important;color:#173e34!important;
+  border:1px solid #b39a68!important;font-size:12px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) #summon{
+  width:78px!important;height:34px!important;min-height:34px!important;
+  border:1px solid #e0c17b!important;border-radius:6px!important;
+  background:linear-gradient(145deg,#285d48,#12372f)!important;
+  color:#fff0c6!important;font-size:12px!important;font-weight:800!important;
+  box-shadow:0 3px 9px rgba(18,54,41,.28),inset 0 1px rgba(255,255,255,.22)!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .lock-notice{
+  margin:7px 0 0!important;padding-top:6px!important;
+  border-top:1px solid rgba(153,119,58,.24)!important;
+  color:#776441!important;font-size:9px!important;line-height:1.3!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden])::before{
+  content:"✧   ☯   ✧"!important;top:54px!important;color:rgba(153,119,58,.18)!important;
+}
+@media(max-width:380px){
+ .arena-frame>.game-setup:not(.is-minimized):not([hidden]){width:min(306px,calc(100% - 14px))!important;padding:10px 10px 9px!important}
+ .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .setup-heading{margin:-10px -10px 8px!important}
+ .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-footer{grid-template-columns:64px 98px 72px!important;gap:6px!important}
+ .arena-frame>.game-setup:not(.is-minimized):not([hidden]) #summon{width:72px!important}
+}
+
+/* REVISION 84 — cổng dị giới khi tiên nhân giáng lâm. */
+@keyframes summonSealPulse{0%,100%{filter:drop-shadow(0 0 2px rgba(227,194,119,.35))}50%{filter:drop-shadow(0 0 8px rgba(151,225,199,.75))}}
