@@ -760,9 +760,12 @@ function advanceFinishAnnouncements(){
     if(!camera||!frame||camera.dataset.dragReady==="1")return;
     camera.dataset.dragReady="1";
     let drag=null;
-    camera.style.touchAction="none";
+    // Chỉ kéo bằng chuột trên màn hình rộng; thao tác chạm trên điện thoại
+    // phải được dành cho cuộn trang và thu phóng trình duyệt.
+    camera.style.touchAction="auto";
     camera.addEventListener("pointerdown",event=>{
-      if(event.pointerType==="mouse"&&event.button!==0)return;
+      if(event.pointerType!=="mouse"||window.matchMedia("(max-width:760px)").matches)return;
+      if(event.button!==0)return;
       if(event.target.closest&&event.target.closest(".window-minimize"))return;
       const box=camera.getBoundingClientRect();
       const area=frame.getBoundingClientRect();
