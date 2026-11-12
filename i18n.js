@@ -119,8 +119,6 @@ function refreshDocument(){
   applyNode(document.body);
   const selector=document.getElementById("languageSelect");
   if(selector){
-    const currentBadge=document.getElementById("languageCurrent");
-    if(currentBadge)currentBadge.textContent=LANGS[language];
     selector.innerHTML="";
     ["vi","en","cn"].filter(code=>code!==language).forEach(code=>{
       const option=document.createElement("option");option.value=code;option.textContent=LANGS[code];selector.appendChild(option);
