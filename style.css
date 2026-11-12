@@ -5103,3 +5103,153 @@ html body .page *{
   }
   .arena-frame>.game-setup:not(.is-minimized):not([hidden]) #summon{width:70px!important;}
 }
+
+
+/* REVISION 82 — Bảng Triệu Hồi: trận văn ngọc bích và kim văn đồng bộ mỹ thuật Vạn Kiếm Đài. */
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]){
+  position:absolute!important;
+  width:min(348px,calc(100% - 24px))!important;
+  max-width:348px!important;
+  padding:15px 16px 13px!important;
+  overflow:hidden!important;
+  color:#263c31!important;
+  border:2px solid #b68b43!important;
+  border-radius:10px!important;
+  background:
+    linear-gradient(135deg,rgba(255,250,231,.97),rgba(238,226,193,.97) 52%,rgba(250,244,220,.98))!important;
+  box-shadow:
+    0 0 0 3px rgba(24,65,52,.78),
+    0 0 0 5px rgba(197,157,82,.72),
+    0 15px 34px rgba(9,24,19,.48),
+    inset 0 0 0 1px rgba(255,255,255,.9),
+    inset 0 0 26px rgba(181,143,71,.17)!important;
+  isolation:isolate!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden])::before{
+  content:"✦  ☯  ✦";
+  position:absolute!important;
+  z-index:0!important;
+  top:5px!important;left:0!important;right:0!important;
+  color:rgba(155,111,42,.34)!important;
+  font:16px/1 Georgia,serif!important;
+  letter-spacing:18px!important;
+  text-align:center!important;
+  pointer-events:none!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden])::after{
+  content:"";
+  position:absolute!important;
+  z-index:0!important;
+  left:50%!important;bottom:-94px!important;
+  width:250px!important;height:250px!important;
+  transform:translateX(-50%)!important;
+  border:1px solid rgba(159,119,51,.27)!important;
+  border-radius:50%!important;
+  pointer-events:none!important;
+  background:
+    radial-gradient(circle,transparent 0 31%,rgba(157,117,50,.13) 31.3% 31.8%,transparent 32.1% 42%,rgba(157,117,50,.17) 42.3% 42.8%,transparent 43.1% 57%,rgba(157,117,50,.16) 57.3% 57.8%,transparent 58.1%),
+    repeating-conic-gradient(from 0deg,rgba(157,117,50,.19) 0deg 1deg,transparent 1deg 15deg);
+  box-shadow:0 0 0 9px rgba(157,117,50,.055),inset 0 0 0 8px rgba(157,117,50,.045)!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden])>*{
+  position:relative!important;
+  z-index:1!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .setup-heading{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:8px!important;
+  margin:0 0 10px!important;
+  padding:0 0 9px!important;
+  border-bottom:1px solid rgba(137,102,45,.48)!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .setup-title-full{
+  color:#173e34!important;
+  font-size:clamp(15px,1.45vw,18px)!important;
+  font-weight:900!important;
+  letter-spacing:.055em!important;
+  text-shadow:0 1px 0 #fff9e9,0 2px 8px rgba(181,140,63,.25)!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .setup-hint{
+  color:#8b6a34!important;
+  font-size:10px!important;
+  font-weight:700!important;
+  text-align:right!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden])>label{
+  color:#425b48!important;
+  font-size:11px!important;
+  font-weight:700!important;
+  line-height:1.45!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) #names{
+  border:1px solid #b9a477!important;
+  border-radius:6px!important;
+  background:rgba(255,253,243,.88)!important;
+  color:#263b30!important;
+  box-shadow:inset 0 2px 6px rgba(79,62,30,.08),0 1px 0 #fff!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) #names::placeholder{color:#9b927c!important;}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-footer{
+  display:grid!important;
+  grid-template-columns:76px 112px 82px!important;
+  justify-content:center!important;
+  align-items:end!important;
+  gap:9px!important;
+  width:max-content!important;
+  max-width:100%!important;
+  margin:12px auto 0!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .random-setting,
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .compact-field{
+  display:flex!important;flex-direction:column!important;gap:5px!important;
+  width:100%!important;min-width:0!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .random-setting label,
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .compact-field label{
+  margin:0!important;color:#4d6049!important;font-size:11px!important;font-weight:800!important;
+  white-space:nowrap!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) #quantity,
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) #speed{
+  width:100%!important;min-width:0!important;height:36px!important;
+  padding:0 6px!important;border:1px solid #aa9564!important;border-radius:6px!important;
+  background:rgba(255,253,244,.96)!important;color:#173e34!important;
+  box-shadow:inset 0 1px 3px rgba(74,55,24,.08)!important;
+  font-size:12px!important;font-weight:700!important;text-align:center!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) #speed{
+  padding-right:3px!important;text-align-last:center!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) #summon{
+  width:82px!important;min-width:0!important;height:36px!important;min-height:36px!important;
+  padding:0 5px!important;border:1px solid #d9b66e!important;border-radius:6px!important;
+  color:#fff2ce!important;
+  background:linear-gradient(145deg,#285b49,#153c34 65%,#102d29)!important;
+  box-shadow:0 2px 8px rgba(20,55,43,.3),inset 0 1px rgba(255,255,255,.2)!important;
+  font-size:12px!important;font-weight:800!important;white-space:nowrap!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .lock-notice{
+  margin:9px 0 0!important;color:#7a6a4a!important;
+  font-size:10px!important;line-height:1.4!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .window-minimize{
+  color:#f8e7bd!important;border:1px solid #b58b49!important;
+  background:linear-gradient(145deg,#285847,#173b32)!important;border-radius:5px!important;
+}
+.arena-frame>.game-setup.is-minimized{
+  border:1px solid #c69b4c!important;
+  background:linear-gradient(145deg,#214b3d,#102b27)!important;
+  box-shadow:0 3px 12px rgba(0,0,0,.32),inset 0 0 0 1px rgba(255,230,174,.2)!important;
+}
+.arena-frame>.game-setup.is-minimized .setup-title-short{color:#f0d99c!important;}
+@media(max-width:380px){
+  .arena-frame>.game-setup:not(.is-minimized):not([hidden]){
+    width:min(326px,calc(100% - 16px))!important;padding:12px 10px 11px!important;
+  }
+  .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-footer{
+    grid-template-columns:70px 104px 76px!important;gap:7px!important;
+  }
+  .arena-frame>.game-setup:not(.is-minimized):not([hidden]) #summon{width:76px!important;}
+}
