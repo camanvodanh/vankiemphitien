@@ -49,6 +49,19 @@ Object.assign(DICT.cn,{
 "TRAO THƯỞNG ĐỆ NHỊ":"亚军颁奖","TRAO THƯỞNG ĐỆ TAM":"季军颁奖"
 });
 
+Object.assign(DICT.en,{
+"Thiên quang giáng thế · tiên nhân lần lượt hiện thân":"Heavenly light descends · immortals appear one by one",
+"Thiên quang giáng thế · mỗi lượt ":"Heavenly light descends · ",
+" tiên nhân · ":" immortals per wave · ",
+" lượt":" waves"
+});
+Object.assign(DICT.cn,{
+"Thiên quang giáng thế · tiên nhân lần lượt hiện thân":"天光降临 · 仙人依次现身",
+"Thiên quang giáng thế · mỗi lượt ":"天光降临 · 每批",
+" tiên nhân · ":"位仙人 · ",
+" lượt":"批"
+});
+
 const LANGS={vi:"VN",en:"EN",cn:"CN"};
 const STORAGE_KEY="vankiemphitien-language";
 let language="vi";
