@@ -6316,3 +6316,34 @@ html,body.game-page{min-width:0!important;}
 .language-current{display:none!important;}
 .hero-actions{gap:6px!important;}
 @media(max-width:760px){.game-header .hero-actions{gap:4px!important;}}
+
+
+/* REVISION 97 — custom language picker displays current code and only alternative choices. */
+.language-picker{position:relative;flex:0 0 auto;z-index:30;}
+.hero-actions .language-picker .language-select{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:5px!important;
+  width:52px!important;min-width:52px!important;max-width:52px!important;height:34px!important;min-height:34px!important;
+  padding:0 5px!important;border:1px solid #d7b76d99!important;border-radius:999px!important;
+  color:#f4dfaa!important;background:linear-gradient(145deg,#294b3d,#142b26)!important;
+  font:900 10px Arial,sans-serif!important;letter-spacing:.4px!important;white-space:nowrap!important;
+  cursor:pointer!important;appearance:none!important;
+}
+.language-menu{
+  position:absolute;top:calc(100% + 7px);right:0;z-index:100;
+  display:flex;flex-direction:column;gap:3px;min-width:64px;padding:5px;
+  border:1px solid #c69b4c;border-radius:10px;background:#173c35;
+  box-shadow:0 8px 20px #102b2766;
+}
+.language-menu[hidden]{display:none!important;}
+.language-option{
+  min-height:34px;padding:0 10px;border:0;border-radius:6px;
+  color:#f4dfaa;background:transparent;font:900 11px Arial,sans-serif;
+  text-align:center;cursor:pointer;
+}
+.language-option:hover,.language-option:focus-visible{background:#ffffff20;outline:1px solid #d7b76d;}
+@media(max-width:760px){
+  .hero-actions .language-picker .language-select{width:46px!important;min-width:46px!important;max-width:46px!important;height:32px!important;min-height:32px!important;font-size:9px!important;}
+}
+@media(max-width:380px){
+  .hero-actions .language-picker .language-select{width:41px!important;min-width:41px!important;max-width:41px!important;height:29px!important;min-height:29px!important;font-size:8px!important;}
+}
