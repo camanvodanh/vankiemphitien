@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#102b27">
   <title>Vạn Kiếm Phi Tiên</title>
-  <link rel="stylesheet" href="style.css?v=jade-gold-summoning-array-v109">
+  <link rel="stylesheet" href="style.css?v=celestial-summon-portal-v110">
 </head>
 <body class="game-page">
   <main class="page game-app">
@@ -31,18 +31,17 @@
 
         <section class="panel summon-panel game-setup">
           <div class="setup-heading window-heading">
-            <div class="setup-title-wrap"><h2><span class="setup-title-full">Bảng Triệu Hồi</span><span class="setup-title-short">Triệu Hồi</span></h2></div>
-            <span class="setup-hint">Khai trận · thỉnh tiên nhân giáng thế</span>
+            <div class="setup-title-wrap"><span class="summon-title-mark" aria-hidden="true">召</span><h2><span class="setup-title-full">Triệu Hồi</span><span class="setup-title-short">Triệu Hồi</span></h2></div>
             <button class="window-minimize" type="button" aria-label="Thu nhỏ bảng triệu hồi" aria-expanded="true" title="Thu nhỏ">−</button>
           </div>
-          <label for="names">Danh sách tiên nhân · mỗi dòng một đạo danh</label>
+          <label class="summon-name-label" for="names"><span aria-hidden="true">☯</span> Đạo danh</label>
           <textarea id="names" rows="3" placeholder="Diệp Trường Phong&#10;Tô Thanh Huyền&#10;Mộ Dung Vô Trần"></textarea>
           <div class="summon-footer">
-            <div class="random-setting"><label for="quantity">Số lượng</label><input id="quantity" type="number" min="2" max="100" value="10"></div>
-            <div class="field compact-field"><label for="speed">Thời gian</label><select id="speed"><option value="30">30 giây</option><option value="60" selected>60 giây</option><option value="120">120 giây</option><option value="180">180 giây</option><option value="300">300 giây</option></select></div>
-            <button id="summon" class="btn primary">✧ Triệu hồi</button>
+            <div class="random-setting"><label for="quantity"><span aria-hidden="true">✥</span> Số vị</label><input id="quantity" type="number" min="2" max="100" value="10"></div>
+            <div class="field compact-field"><label for="speed"><span aria-hidden="true">⌛</span> Thời lượng</label><select id="speed"><option value="30">30 giây</option><option value="60" selected>60 giây</option><option value="120">120 giây</option><option value="180">180 giây</option><option value="300">300 giây</option></select></div>
+            <button id="summon" class="btn primary"><span aria-hidden="true">✧</span> Triệu</button>
           </div>
-          <p id="lockNotice" class="lock-notice">Nhập danh sách tên hoặc chọn số lượng để tạo ngẫu nhiên.</p>
+          <p id="lockNotice" class="lock-notice">Để trống đạo danh để triệu hồi ngẫu nhiên.</p>
         </section>
 
         <div class="arena-controls">
