@@ -1082,9 +1082,9 @@ function handleStopOrSetup(){
 let summonArrivalStartedAt=0;
 const summonBaseAction=summon;
 summon=function(){
-  const beforeCount=racers.length;
+  const beforeRacers=racers;
   summonBaseAction();
-  if(racers.length>=2&&racers.length!==beforeCount){
+  if(racers.length>=2&&racers!==beforeRacers){
     summonArrivalStartedAt=performance.now();
     $("status").textContent="Dị giới khai môn · tiên nhân giáng lâm";
     $("lockNotice").textContent="Tiên nhân đã giáng lâm · chờ khai mở tiên hội.";
