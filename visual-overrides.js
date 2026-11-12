@@ -6729,9 +6729,10 @@ function drawAwardMaster(target,x,y,scale,time){
 // chưởng môn ở quảng trường với chưởng môn trao thưởng.
 // =====================================================
 function drawMasterBaguaHalo(target,x,y,scale,time){
-  // Thái Cực Ngọc Luân: đĩa âm dương rõ nét, xoay chậm sau lưng chưởng môn.
+  // Thái Cực Ngọc Luân: đĩa âm dương tự vận chuyển liên tục sau lưng chưởng môn.
+  const motionTime=performance.now();
   // Không có quẻ, phù văn hoặc các vòng Bát Quái đồng tâm.
-  target.save();target.translate(x,y-48*scale);target.rotate(time*.00013);target.scale(scale,.94*scale);
+  target.save();target.translate(x,y-48*scale);target.rotate(motionTime*.00042);target.scale(scale,.94*scale);
   const r=76;
   const aura=target.createRadialGradient(0,0,r*.35,0,0,r*1.35);aura.addColorStop(0,"rgba(103,222,198,.22)");aura.addColorStop(.72,"rgba(89,193,171,.10)");aura.addColorStop(1,"rgba(89,193,171,0)");
   target.fillStyle=aura;target.beginPath();target.arc(0,0,r*1.35,0,Math.PI*2);target.fill();
@@ -6755,7 +6756,7 @@ function drawMasterBaguaHalo(target,x,y,scale,time){
   target.globalAlpha=.52;target.strokeStyle="#f0d99b";target.lineWidth=1.1;
   for(let i=0;i<8;i++){const a=i*Math.PI/4,px=Math.cos(a)*68,py=Math.sin(a)*68;target.save();target.translate(px,py);target.rotate(a);target.beginPath();target.arc(0,0,4,-Math.PI*.8,Math.PI*.8);target.stroke();target.restore();}
   target.globalAlpha=1;
-  for(let i=0;i<18;i++){const a=-time*.00022+i*Math.PI*2/18,rr=r+5+Math.sin(time*.002+i)*2;target.globalAlpha=.35+.45*(.5+.5*Math.sin(time*.003+i));target.fillStyle=i%2?"#b9f7e4":"#ffe4a7";target.shadowColor=target.fillStyle;target.shadowBlur=7;target.beginPath();target.arc(Math.cos(a)*rr,Math.sin(a)*rr,1.5,0,Math.PI*2);target.fill();}
+  for(let i=0;i<18;i++){const a=-motionTime*.00032+i*Math.PI*2/18,rr=r+5+Math.sin(motionTime*.002+i)*2;target.globalAlpha=.35+.45*(.5+.5*Math.sin(motionTime*.003+i));target.fillStyle=i%2?"#b9f7e4":"#ffe4a7";target.shadowColor=target.fillStyle;target.shadowBlur=7;target.beginPath();target.arc(Math.cos(a)*rr,Math.sin(a)*rr,1.5,0,Math.PI*2);target.fill();}
   target.globalAlpha=1;target.shadowBlur=0;target.restore();
 }
 function drawAmbientEnergy(time){
