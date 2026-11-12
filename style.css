@@ -6310,3 +6310,9 @@ html,body.game-page{min-width:0!important;}
   .language-current{height:29px!important;flex-basis:23px!important;width:23px!important;min-width:23px!important;}
   .hero-actions .language-select{height:29px!important;min-height:29px!important;flex-basis:39px!important;width:39px!important;min-width:39px!important;max-width:39px!important;}
 }
+
+
+/* REVISION 96 — language selector sits directly beside music; no current-language badge. */
+.language-current{display:none!important;}
+.hero-actions{gap:6px!important;}
+@media(max-width:760px){.game-header .hero-actions{gap:4px!important;}}
