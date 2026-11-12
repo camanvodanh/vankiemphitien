@@ -68,6 +68,8 @@ Object.assign(DICT.cn,{"LIVE":"直播","CREATED BY":"创作者","Created by Salt
 Object.assign(DICT.en,{"Vạn Kiếm Phi Tiên":"Myriad Swords Flying Immortals","VẠN ĐẠO QUY TÔNG":"ALL PATHS RETURN TO THE SOURCE","VẠN KIẾM TRANH HÙNG":"MYRIAD SWORDS COMPETE"});
 Object.assign(DICT.cn,{"Vạn Kiếm Phi Tiên":"万剑飞仙","VẠN ĐẠO QUY TÔNG":"万道归宗","VẠN KIẾM TRANH HÙNG":"万剑争锋"});
 
+Object.assign(DICT.en,{"Diệp":"Ye","Tiêu":"Xiao","Lâm":"Lin","Tô":"Su","Mộ Dung":"Murong","Cố":"Gu","Thẩm":"Shen","Bạch":"Bai","Vân":"Yun","Tần":"Qin","Lạc":"Luo","Ninh":"Ning","Hàn":"Han","Thượng Quan":"Shangguan","Đoan Mộc":"Duanmu","Phong":"Feng","Dạ":"Ye","Mặc":"Mo","Sở":"Chu","Giang":"Jiang","Âu Dương":"Ouyang","Tư Đồ":"Situ","Long":"Long","Trần":"Chen","Hứa":"Xu","Tạ":"Xie","Lục":"Lu","Đường":"Tang","Yến":"Yan","Kỷ":"Ji","Trường Phong":"Changfeng","Vô Trần":"Wuchen","Thanh Huyền":"Qingxuan","Tử Mặc":"Zimo","Nguyệt Dao":"Yueyao","Thiên Vũ":"Tianyu","Kiếm Tâm":"Jianxin","Hạo Nhiên":"Haoran","Vân Khê":"Yunxi","Minh Nguyệt":"Mingyue","Bạch Y":"Baiyi","Tử Yên":"Ziyan","Cảnh Hành":"Jingxing","Thanh Liên":"Qinglian","Phi Vũ":"Feiyu","Lăng Tiêu":"Lingxiao","Mộng Dao":"Mengyao","Thiên Hà":"Tianhe","Ngọc Khanh":"Yuqing","Tĩnh Uyên":"Jingyuan","Huyền Dạ":"Xuanye","Vân Sam":"Yunshan","Sơ Ảnh":"Shuying","Dạ Bạch":"Yebai","Tuyết Nhi":"Xue'er","Phong Nhiên":"Fengran","Thừa Phong":"Chengfeng","Tử Dương":"Ziyang","Uyển Nhi":"Wan'er","Vô Ưu":"Wuyou","Kinh Hồng":"Jinghong","Trường Ca":"Changge","Tầm Chân":"Xunzhen","Linh Quân":"Lingjun","Hành Chu":"Xingzhou","Vãn Tình":"Wanqing","Tịch Nhan":"Xiyan","Thiếu Khanh":"Shaoqing","Tuyết Kiến":"Xuejian","Vân Trạch":"Yunze"});
+Object.assign(DICT.cn,{"Diệp":"叶","Tiêu":"萧","Lâm":"林","Tô":"苏","Mộ Dung":"慕容","Cố":"顾","Thẩm":"沈","Bạch":"白","Vân":"云","Tần":"秦","Lạc":"洛","Ninh":"宁","Hàn":"韩","Thượng Quan":"上官","Đoan Mộc":"端木","Phong":"风","Dạ":"夜","Mặc":"墨","Sở":"楚","Giang":"江","Âu Dương":"欧阳","Tư Đồ":"司徒","Long":"龙","Trần":"陈","Hứa":"许","Tạ":"谢","Lục":"陆","Đường":"唐","Yến":"燕","Kỷ":"纪","Trường Phong":"长风","Vô Trần":"无尘","Thanh Huyền":"清玄","Tử Mặc":"子墨","Nguyệt Dao":"月瑶","Thiên Vũ":"天宇","Kiếm Tâm":"剑心","Hạo Nhiên":"浩然","Vân Khê":"云溪","Minh Nguyệt":"明月","Bạch Y":"白衣","Tử Yên":"紫嫣","Cảnh Hành":"景行","Thanh Liên":"青莲","Phi Vũ":"飞羽","Lăng Tiêu":"凌霄","Mộng Dao":"梦瑶","Thiên Hà":"天河","Ngọc Khanh":"玉卿","Tĩnh Uyên":"静渊","Huyền Dạ":"玄夜","Vân Sam":"云杉","Sơ Ảnh":"疏影","Dạ Bạch":"夜白","Tuyết Nhi":"雪儿","Phong Nhiên":"风然","Thừa Phong":"乘风","Tử Dương":"子阳","Uyển Nhi":"婉儿","Vô Ưu":"无忧","Kinh Hồng":"惊鸿","Trường Ca":"长歌","Tầm Chân":"寻真","Linh Quân":"灵均","Hành Chu":"行舟","Vãn Tình":"晚晴","Tịch Nhan":"夕颜","Thiếu Khanh":"少卿","Tuyết Kiến":"雪见","Vân Trạch":"云泽"});
 const LANGS={vi:"VN",en:"EN",cn:"CN"};
 const STORAGE_KEY="vankiemphitien-language";
 let language="vi";
@@ -116,16 +118,15 @@ function refreshDocument(){
   applyNode(document.body);
   const selector=document.getElementById("languageSelect");
   if(selector){
+    const currentBadge=document.getElementById("languageCurrent");
+    if(currentBadge)currentBadge.textContent=LANGS[language];
     selector.innerHTML="";
-    const current=document.createElement("option");
-    current.value=language;current.textContent=LANGS[language];current.disabled=true;current.selected=true;
-    selector.appendChild(current);
     ["vi","en","cn"].filter(code=>code!==language).forEach(code=>{
       const option=document.createElement("option");option.value=code;option.textContent=LANGS[code];selector.appendChild(option);
     });
-    selector.value=language;
-    selector.setAttribute("aria-label",language==="vi"?"Chọn ngôn ngữ":language==="cn"?"选择语言":"Choose language");
-    selector.title=language==="vi"?"Ngôn ngữ hiện tại: Việt":language==="cn"?"当前语言：中文":"Current language: "+LANGS[language];
+    selector.selectedIndex=-1;
+    selector.setAttribute("aria-label",language==="vi"?"Chọn EN hoặc CN":language==="cn"?"选择 VN 或 EN":"Choose VN or CN");
+    selector.title=language==="vi"?"Ngôn ngữ hiện tại: Việt":language==="cn"?"当前语言：中文":"Current language: English";
   }
   document.querySelectorAll("[data-i18n-key]").forEach(el=>{
     const key=el.getAttribute("data-i18n-key");
