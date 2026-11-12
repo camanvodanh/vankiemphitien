@@ -18,7 +18,8 @@ Object.assign(DICT.cn,{
 "NGỰ KIẾM KHỞI HÀNH":"御剑启程","BAN THƯỞNG TAM GIÁP":"前三颁奖","VINH DANH HOÀN TẤT":"荣耀仪式完成",
 "Tĩnh Tâm Tu Luyện":"静心修炼","Vạn Kiếm Tranh Phong":"万剑争锋","Tiên Hội Vinh Danh":"仙会荣耀"
 });
-\nObject.assign(DICT.en,{
+
+Object.assign(DICT.en,{
 "Bắt đầu sau ":"Starting in ","BẮT ĐẦU SAU ":"STARTS IN "," ĐÃ VỀ ĐÍCH!":" FINISHED!",
 "Ban thưởng Top ":"Top "," Tiên Hội":" Immortal Tournament","TOP ":"TOP "," TIÊN HỘI":" IMMORTAL TOURNAMENT",
 "Đang ngang":"Landscape","Tạm":"Pause","Lại":"Again",
@@ -36,7 +37,8 @@ Object.assign(DICT.cn,{
 "VẠN KIẾM QUY TÔNG":"万剑归宗","THIÊN ĐỊA TRANH PHONG":"天地争锋",
 "Nhạc: ":"音乐："
 });
-\nObject.assign(DICT.en,{
+
+Object.assign(DICT.en,{
 "Bắt đầu sau":"Starting in","BAN THƯỞNG TAM GIÁP":"TOP THREE AWARDS","BAN THƯỞNG TOP":"TOP AWARDS",
 "HẠNG":"RANK","TIÊN HỘI":"IMMORTAL TOURNAMENT",
 "TRAO THƯỞNG ĐỆ NHỊ":"SECOND PLACE AWARD","TRAO THƯỞNG ĐỆ TAM":"THIRD PLACE AWARD"
@@ -46,7 +48,8 @@ Object.assign(DICT.cn,{
 "HẠNG":"排名","TIÊN HỘI":"仙会",
 "TRAO THƯỞNG ĐỆ NHỊ":"亚军颁奖","TRAO THƯỞNG ĐỆ TAM":"季军颁奖"
 });
-\nconst LANGS={vi:"VN",en:"EN",cn:"CN"};
+
+const LANGS={vi:"VN",en:"EN",cn:"CN"};
 const STORAGE_KEY="vankiemphitien-language";
 let language="vi";
 const textOriginals=new WeakMap(),attrOriginals=new WeakMap();
