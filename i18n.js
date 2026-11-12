@@ -120,11 +120,20 @@ function refreshDocument(){
   const selector=document.getElementById("languageSelect");
   if(selector){
     selector.innerHTML="";
+    // Selected hidden option keeps the current language visible on the closed control,
+    // but is omitted from the opened choices; only the other two languages are selectable.
+    const currentOption=document.createElement("option");
+    currentOption.value=language;
+    currentOption.textContent=LANGS[language];
+    currentOption.hidden=true;
+    currentOption.disabled=true;
+    currentOption.selected=true;
+    selector.appendChild(currentOption);
     ["vi","en","cn"].filter(code=>code!==language).forEach(code=>{
       const option=document.createElement("option");option.value=code;option.textContent=LANGS[code];selector.appendChild(option);
     });
-    selector.selectedIndex=-1;
-    selector.setAttribute("aria-label",language==="vi"?"Chọn EN hoặc CN":language==="cn"?"选择 VN 或 EN":"Choose VN or CN");
+    selector.selectedIndex=0;
+    selector.setAttribute("aria-label",language==="vi"?"Ngôn ngữ hiện tại VN; chọn EN hoặc CN":language==="cn"?"当前语言 CN；可选择 VN 或 EN":"Current language EN; choose VN or CN");
     selector.title=language==="vi"?"Ngôn ngữ hiện tại: Việt":language==="cn"?"当前语言：中文":"Current language: English";
   }
   document.querySelectorAll("[data-i18n-key]").forEach(el=>{
