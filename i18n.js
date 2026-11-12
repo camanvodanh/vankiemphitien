@@ -62,6 +62,9 @@ Object.assign(DICT.cn,{
 " lượt":"批"
 });
 
+Object.assign(DICT.en,{"LIVE":"LIVE","CREATED BY":"CREATED BY","Created by Salted Fish":"Created by Salted Fish"});
+Object.assign(DICT.cn,{"LIVE":"直播","CREATED BY":"创作者","Created by Salted Fish":"由 Salted Fish 制作"});
+
 const LANGS={vi:"VN",en:"EN",cn:"CN"};
 const STORAGE_KEY="vankiemphitien-language";
 let language="vi";
@@ -118,8 +121,8 @@ function refreshDocument(){
       const option=document.createElement("option");option.value=code;option.textContent=LANGS[code];selector.appendChild(option);
     });
     selector.value=language;
-    selector.setAttribute("aria-label",language==="vi"?"Chọn ngôn ngữ":"Choose language");
-    selector.title=language==="vi"?"Ngôn ngữ hiện tại: Việt":"Current language: "+LANGS[language];
+    selector.setAttribute("aria-label",language==="vi"?"Chọn ngôn ngữ":language==="cn"?"选择语言":"Choose language");
+    selector.title=language==="vi"?"Ngôn ngữ hiện tại: Việt":language==="cn"?"当前语言：中文":"Current language: "+LANGS[language];
   }
   document.querySelectorAll("[data-i18n-key]").forEach(el=>{
     const key=el.getAttribute("data-i18n-key");
