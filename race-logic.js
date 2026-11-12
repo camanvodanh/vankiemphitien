@@ -1101,9 +1101,7 @@ $("summon").addEventListener("click",()=>{
     $("status").textContent=summonBatchSize===1
       ?"Thiên quang giáng thế · tiên nhân lần lượt hiện thân"
       :`Thiên quang giáng thế · mỗi lượt ${summonBatchSize} tiên nhân · ${groupCount} lượt`;
-    $("lockNotice").textContent=summonBatchSize===1
-      ?"✧ Tiên nhân lần lượt giáng lâm ✧"
-      :`✧ ${summonBatchSize} tiên nhân mỗi lượt · ${groupCount} lượt giáng lâm ✧`;
+    $("lockNotice").textContent=`Đã triệu hồi ${racers.length} tiên nhân. Nhấn Chạy để bắt đầu.`;
   }
 });
 const summonOriginalDrawRacer=drawRacer;
