@@ -40,7 +40,7 @@ Object.assign(DICT.cn,{
 const STORAGE_KEY="vankiemphitien-language";
 let language="vi";
 const textOriginals=new WeakMap(),attrOriginals=new WeakMap();
-const skipTags=new Set(["SCRIPT","STYLE","TEXTAREA","INPUT","SELECT","OPTION","NOSCRIPT"]);
+const skipTags=new Set(["SCRIPT","STYLE","NOSCRIPT"]);
 const allEntries=Object.fromEntries(Object.entries(DICT).map(([lang,map])=>[lang,Object.entries(map).sort((a,b)=>b[0].length-a[0].length)]));
 function translateText(value,lang=language){
   const source=String(value==null?"":value);
@@ -75,6 +75,7 @@ function applyNode(node){
     const translated=translateText(item.original);
     if(current!==translated){item.last=translated;node.setAttribute(attr,translated);}else item.last=translated;
   }
+  if(node.tagName==="INPUT"||node.tagName==="TEXTAREA")return;
   for(const child of node.childNodes)applyNode(child);
 }
 function refreshDocument(){
