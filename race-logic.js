@@ -1080,21 +1080,20 @@ function handleStopOrSetup(){
 
 // REVISION 32 — nghi thức giáng lâm: mở cổng dị giới khi triệu hồi tiên nhân.
 let summonArrivalStartedAt=0;
-const summonBaseAction=summon;
-summon=function(){
-  const beforeRacers=racers;
-  summonBaseAction();
-  if(racers.length>=2&&racers!==beforeRacers){
+// Click handler cũ đã được đăng ký trước khi các bản override được nạp.
+// Gắn listener riêng sau handler khởi tạo để bắt đúng thời điểm danh sách đã tạo xong.
+$("summon").addEventListener("click",()=>{
+  if(racers.length>=2&&!running&&!paused){
     summonArrivalStartedAt=performance.now();
     $("status").textContent="Dị giới khai môn · tiên nhân giáng lâm";
-    $("lockNotice").textContent="Tiên nhân đã giáng lâm · chờ khai mở tiên hội.";
+    $("lockNotice").textContent="✧ Tiên nhân giáng lâm ✧";
   }
-};
+});
 function drawSummonArrival(time){
   if(!summonArrivalStartedAt)return;
   const age=(time-summonArrivalStartedAt)/1000;
-  if(age>2.65){summonArrivalStartedAt=0;return;}
-  const p=Math.max(0,Math.min(1,age/2.65));
+  if(age>3.6){summonArrivalStartedAt=0;return;}
+  const p=Math.max(0,Math.min(1,age/3.6));
   const pulse=.5+.5*Math.sin(age*10);
   ctx.save();
   racers.forEach((racer,index)=>{
@@ -1102,21 +1101,21 @@ function drawSummonArrival(time){
     const appear=Math.max(0,Math.min(1,(age-.12)/.8));
     const radius=18+age*45;
     ctx.save();ctx.translate(x,y);
-    ctx.globalAlpha=(1-p)*.92;
+    ctx.globalAlpha=(1-p)*.98;
     // Trụ quang dựng đứng, như khe nứt nối hai cõi.
     const beam=ctx.createLinearGradient(0,-94,0,30);
     beam.addColorStop(0,"rgba(225,255,236,0)");
     beam.addColorStop(.45,"rgba(185,246,222,.52)");
     beam.addColorStop(1,"rgba(255,225,157,.04)");
-    ctx.fillStyle=beam;ctx.fillRect(-13,-94,26,124);
+    ctx.fillStyle=beam;ctx.fillRect(-22,-118,44,148);
     // Hai vòng truyền tống xoay ngược chiều, co dần dưới phi kiếm.
     for(let ring=0;ring<3;ring++){
       ctx.save();ctx.rotate((ring%2? -1:1)*(age*2.8+ring));
       ctx.strokeStyle=ring===1?"rgba(255,235,174,.96)":"rgba(130,232,202,.88)";
       ctx.lineWidth=ring===1?2.2:1.25;
       ctx.shadowColor=ring===1?"#ffe6a4":"#8cebd0";ctx.shadowBlur=10;
-      ctx.beginPath();ctx.ellipse(0,14,radius+ring*8,(radius+ring*8)*.28,0,0,Math.PI*2);ctx.stroke();
-      ctx.setLineDash([5,7]);ctx.beginPath();ctx.ellipse(0,14,radius+ring*8,(radius+ring*8)*.28,0,age*2,Math.PI*1.7+age*2);ctx.stroke();ctx.setLineDash([]);
+      ctx.beginPath();ctx.ellipse(0,14,radius+ring*12,(radius+ring*12)*.34,0,0,Math.PI*2);ctx.stroke();
+      ctx.setLineDash([5,7]);ctx.beginPath();ctx.ellipse(0,14,radius+ring*12,(radius+ring*12)*.34,0,age*2,Math.PI*1.7+age*2);ctx.stroke();ctx.setLineDash([]);
       ctx.restore();
     }
     // Tám tinh tú bắn lên quanh nhân vật.
@@ -1128,11 +1127,11 @@ function drawSummonArrival(time){
       ctx.beginPath();ctx.arc(Math.cos(a)*rr,14+Math.sin(a)*rr*.3,1.4+pulse,0,Math.PI*2);ctx.fill();
     }
     // Ánh sáng bùng ở khoảnh khắc nhân vật bước qua cổng.
-    if(age<.95){
-      ctx.globalAlpha=(1-age/.95)*.65;
+    if(age<1.35){
+      ctx.globalAlpha=(1-age/1.35)*.82;
       ctx.fillStyle="rgba(210,255,231,.8)";
       ctx.shadowColor="#baffdf";ctx.shadowBlur=20;
-      ctx.beginPath();ctx.ellipse(0,-4,16+age*15,32+age*16,0,0,Math.PI*2);ctx.fill();
+      ctx.beginPath();ctx.ellipse(0,-4,23+age*22,42+age*22,0,0,Math.PI*2);ctx.fill();
     }
     ctx.restore();
   });
