@@ -6092,3 +6092,69 @@ textarea:focus-visible,
   html:focus-within{scroll-behavior:auto!important;}
   *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
 }
+
+
+/* REVISION 93 — narrow viewport and zoom edge cases. */
+html,body.game-page{min-width:0!important;}
+@media (min-width:761px){
+  .game-setup:not(.is-minimized){
+    width:min(390px,calc(100% - 24px))!important;
+    max-width:min(390px,calc(100% - 24px))!important;
+  }
+}
+@media (min-width:761px) and (max-width:1000px){
+  .game-setup:not(.is-minimized){
+    width:min(380px,calc(100% - 24px))!important;
+    max-width:min(380px,calc(100% - 24px))!important;
+  }
+}
+@media (max-width:420px){
+  .game-setup:not(.is-minimized) .altar-dial{
+    width:148px!important;height:148px!important;
+  }
+  .game-setup:not(.is-minimized) .altar-dial .dial-quantity{
+    width:142px!important;height:142px!important;
+  }
+  .game-setup:not(.is-minimized) .altar-dial .dial-duration{
+    width:112px!important;height:112px!important;
+  }
+}
+@media (max-width:340px){
+  .game-setup:not(.is-minimized) .summon-artwork{
+    height:238px!important;min-height:238px!important;
+  }
+  .game-setup:not(.is-minimized) .summon-artwork>svg{height:238px!important;}
+  .game-setup:not(.is-minimized) .altar-dial{
+    width:128px!important;height:128px!important;
+  }
+  .game-setup:not(.is-minimized) .altar-dial .dial-quantity{
+    width:122px!important;height:122px!important;
+  }
+  .game-setup:not(.is-minimized) .altar-dial .dial-duration{
+    width:96px!important;height:96px!important;
+  }
+  .game-setup:not(.is-minimized) .altar-dial .dial-readout{
+    left:50%!important;right:auto!important;
+    width:66px!important;min-width:66px!important;
+    transform:translateX(-50%)!important;
+  }
+  .game-setup:not(.is-minimized) .altar-dial .dial-quantity-readout{
+    top:auto!important;bottom:calc(100% + 4px)!important;
+  }
+  .game-setup:not(.is-minimized) .altar-dial .dial-duration-readout{
+    top:calc(100% + 4px)!important;bottom:auto!important;
+  }
+  .game-setup:not(.is-minimized) .altar-dial .dial-readout:active{
+    transform:translateX(-50%) scale(.96)!important;
+  }
+}
+@media (max-width:760px) and (orientation:landscape){
+  #game{
+    width:auto!important;
+    height:calc(100vh - 125px)!important;
+    height:calc(100svh - 125px)!important;
+    max-width:100%!important;
+    max-height:calc(100svh - 125px)!important;
+    align-self:center!important;
+  }
+}
