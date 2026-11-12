@@ -1082,8 +1082,10 @@ function handleStopOrSetup(){
 let summonArrivalStartedAt=0;
 // Click handler cũ đã được đăng ký trước khi các bản override được nạp.
 // Gắn listener riêng sau handler khởi tạo để bắt đúng thời điểm danh sách đã tạo xong.
+let summonRacersBeforeClick=null;
+$("summon").addEventListener("click",()=>{summonRacersBeforeClick=racers;},true);
 $("summon").addEventListener("click",()=>{
-  if(racers.length>=2&&!running&&!paused){
+  if(racers.length>=2&&racers!==summonRacersBeforeClick&&!running&&!paused){
     summonArrivalStartedAt=performance.now();
     $("status").textContent="Dị giới khai môn · tiên nhân giáng lâm";
     $("lockNotice").textContent="✧ Tiên nhân giáng lâm ✧";
