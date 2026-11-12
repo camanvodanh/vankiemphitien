@@ -6264,3 +6264,49 @@ html,body.game-page{min-width:0!important;}
   .game-camera .window-minimize,.game-ranking .window-minimize{width:20px!important;min-width:20px!important;height:20px!important;min-height:20px!important;}
   .game-ranking th,.game-ranking td{padding:4px 1px!important;}
 }
+
+
+/* REVISION 95 — single visible summoning wheel and fixed header language controls. */
+.game-setup .summon-artwork>svg,
+.game-setup .summon-art-caption{display:none!important;}
+.game-setup .summon-artwork{isolation:isolate!important;}
+.game-setup .altar-dial{z-index:5!important;}
+.hero-actions{
+  display:flex!important;flex:0 0 auto!important;flex-flow:row nowrap!important;
+  align-items:center!important;justify-content:flex-end!important;gap:6px!important;
+  min-width:0!important;max-width:48%!important;margin-left:auto!important;white-space:nowrap!important;
+}
+.hero-actions .music-toggle{
+  flex:0 1 auto!important;min-width:0!important;max-width:clamp(70px,12vw,132px)!important;
+  padding-left:clamp(4px,.8vw,12px)!important;padding-right:clamp(4px,.8vw,12px)!important;
+  overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;
+  word-break:keep-all!important;overflow-wrap:normal!important;font-size:clamp(7px,.8vw,11px)!important;letter-spacing:0!important;
+}
+.language-current{
+  display:inline-flex!important;flex:0 0 28px!important;width:28px!important;min-width:28px!important;height:34px!important;
+  align-items:center!important;justify-content:center!important;border:1px solid #d7b76d99!important;border-radius:999px!important;
+  color:#f4dfaa!important;background:linear-gradient(145deg,#294b3d,#142b26)!important;
+  font:900 9px Arial,sans-serif!important;white-space:nowrap!important;
+}
+.hero-actions .language-select{
+  flex:0 0 48px!important;width:48px!important;min-width:48px!important;max-width:48px!important;
+  height:34px!important;min-height:34px!important;padding:0 3px!important;font-size:9px!important;
+  white-space:nowrap!important;word-break:keep-all!important;overflow-wrap:normal!important;
+}
+@media(max-width:760px){
+  .game-header{flex-wrap:wrap!important;}
+  .game-header .hero-copy{flex:1 1 110px!important;min-width:0!important;}
+  .game-header .hero-actions{order:3!important;flex:0 0 auto!important;max-width:none!important;margin-left:auto!important;gap:4px!important;}
+  .game-header .realm-status{order:4!important;flex:0 0 auto!important;margin-left:0!important;}
+  .hero-actions .music-toggle{max-width:clamp(62px,20vw,104px)!important;min-height:32px!important;height:32px!important;padding:0 5px!important;font-size:clamp(6px,2vw,9px)!important;}
+  .language-current{height:32px!important;flex-basis:25px!important;width:25px!important;min-width:25px!important;font-size:8px!important;}
+  .hero-actions .language-select{height:32px!important;min-height:32px!important;flex-basis:43px!important;width:43px!important;min-width:43px!important;max-width:43px!important;font-size:8px!important;}
+}
+@media(max-width:380px){
+  .game-header .logo{flex-basis:24px!important;width:24px!important;height:24px!important;}
+  .game-header .hero-copy{flex-basis:90px!important;}
+  .game-header .hero-actions{gap:3px!important;}
+  .hero-actions .music-toggle{max-width:65px!important;min-height:29px!important;height:29px!important;font-size:6px!important;padding:0 3px!important;}
+  .language-current{height:29px!important;flex-basis:23px!important;width:23px!important;min-width:23px!important;}
+  .hero-actions .language-select{height:29px!important;min-height:29px!important;flex-basis:39px!important;width:39px!important;min-width:39px!important;max-width:39px!important;}
+}
