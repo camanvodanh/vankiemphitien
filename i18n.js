@@ -117,24 +117,22 @@ function refreshDocument(){
   document.documentElement.lang=language==="cn"?"zh-CN":language;
   document.querySelectorAll("title").forEach(applyNode);
   applyNode(document.body);
-  const selector=document.getElementById("languageSelect");
-  if(selector){
-    selector.innerHTML="";
-    // Selected hidden option keeps the current language visible on the closed control,
-    // but is omitted from the opened choices; only the other two languages are selectable.
-    const currentOption=document.createElement("option");
-    currentOption.value=language;
-    currentOption.textContent=LANGS[language];
-    currentOption.hidden=true;
-    currentOption.disabled=true;
-    currentOption.selected=true;
-    selector.appendChild(currentOption);
+  const button=document.getElementById("languageButton");
+  const menu=document.getElementById("languageMenu");
+  if(button&&menu){
+    button.textContent=LANGS[language]+" ▾";
+    button.setAttribute("aria-label",language==="vi"?"Ngôn ngữ hiện tại: Việt. Mở danh sách ngôn ngữ":language==="cn"?"当前语言：中文。打开语言列表":"Current language: English. Open language list");
+    button.title=language==="vi"?"Ngôn ngữ hiện tại: Việt":language==="cn"?"当前语言：中文":"Current language: English";
+    menu.innerHTML="";
     ["vi","en","cn"].filter(code=>code!==language).forEach(code=>{
-      const option=document.createElement("option");option.value=code;option.textContent=LANGS[code];selector.appendChild(option);
+      const option=document.createElement("button");
+      option.type="button";
+      option.className="language-option";
+      option.role="menuitem";
+      option.dataset.language=code;
+      option.textContent=LANGS[code];
+      menu.appendChild(option);
     });
-    selector.selectedIndex=0;
-    selector.setAttribute("aria-label",language==="vi"?"Ngôn ngữ hiện tại VN; chọn EN hoặc CN":language==="cn"?"当前语言 CN；可选择 VN 或 EN":"Current language EN; choose VN or CN");
-    selector.title=language==="vi"?"Ngôn ngữ hiện tại: Việt":language==="cn"?"当前语言：中文":"Current language: English";
   }
   document.querySelectorAll("[data-i18n-key]").forEach(el=>{
     const key=el.getAttribute("data-i18n-key");
@@ -150,8 +148,31 @@ function setLanguage(next){
 }
 function init(){
   try{const saved=localStorage.getItem(STORAGE_KEY);if(saved==="en"||saved==="cn"||saved==="vi")language=saved;}catch(_){}
-  const selector=document.getElementById("languageSelect");
-  if(selector)selector.addEventListener("change",()=>setLanguage(selector.value));
+  const button=document.getElementById("languageButton");
+  const menu=document.getElementById("languageMenu");
+  if(button&&menu){
+    button.addEventListener("click",()=>{
+      const open=menu.hidden;
+      menu.hidden=!open;
+      button.setAttribute("aria-expanded",String(open));
+    });
+    menu.addEventListener("click",event=>{
+      const option=event.target.closest("[data-language]");
+      if(!option)return;
+      setLanguage(option.dataset.language);
+      menu.hidden=true;
+      button.setAttribute("aria-expanded","false");
+    });
+    document.addEventListener("click",event=>{
+      if(!event.target.closest(".language-picker")){
+        menu.hidden=true;
+        button.setAttribute("aria-expanded","false");
+      }
+    });
+    button.addEventListener("keydown",event=>{
+      if(event.key==="Escape"){menu.hidden=true;button.setAttribute("aria-expanded","false");}
+    });
+  }
   refreshDocument();
   const observer=new MutationObserver(records=>{
     for(const record of records){
