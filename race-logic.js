@@ -1147,17 +1147,23 @@ function drawSummonArrival(time){
       ctx.fillRect(x+ray*5,0,ray===0?1.5:.8,Math.max(0,beamBottom-18));
     }
     ctx.globalAlpha=Math.max(0,fade);
-    const ring=18+Math.max(0,local)*38;
-    ctx.translate(x,y);
-    ctx.strokeStyle="#e9d59a";ctx.lineWidth=1.8;ctx.shadowColor="#b8ffe7";ctx.shadowBlur=14;
-    ctx.beginPath();ctx.ellipse(0,12,ring,ring*.25,0,0,Math.PI*2);ctx.stroke();
-    ctx.strokeStyle="rgba(185,246,222,.9)";ctx.lineWidth=1;
-    ctx.setLineDash([3,5]);ctx.beginPath();ctx.ellipse(0,12,ring+9,(ring+9)*.25,0,-age*2,Math.PI*1.7-age*2);ctx.stroke();ctx.setLineDash([]);
-    ctx.fillStyle="#fff1bd";ctx.shadowBlur=12;
-    for(let star=0;star<6;star++){
-      const a=star*Math.PI/3+age*1.8,rr=ring+8;
-      ctx.beginPath();ctx.arc(Math.cos(a)*rr,12+Math.sin(a)*rr*.25,1.4,0,Math.PI*2);ctx.fill();
+    // Một trận đồ duy nhất dưới chân: không còn hai vòng tròn đồng tâm.
+    const sealScale=.72+Math.min(1,Math.max(0,local)/.28)*.28;
+    ctx.translate(x,y+10);
+    ctx.scale(sealScale,sealScale);
+    ctx.strokeStyle="#f0d99d";ctx.lineWidth=2;ctx.shadowColor="#b8ffe7";ctx.shadowBlur=16;
+    ctx.beginPath();ctx.ellipse(0,0,31,8,0,0,Math.PI*2);ctx.stroke();
+    // Nét phù văn ngắn nằm trên cùng một trận đồ, không tạo thêm vòng bao.
+    ctx.shadowBlur=8;ctx.lineWidth=1.2;ctx.strokeStyle="rgba(190,248,222,.95)";
+    for(let mark=0;mark<8;mark++){
+      const a=mark*Math.PI/4;
+      const px=Math.cos(a)*31,py=Math.sin(a)*8;
+      ctx.save();ctx.translate(px,py);ctx.rotate(a);
+      ctx.beginPath();ctx.moveTo(-3,-2);ctx.lineTo(0,2);ctx.lineTo(3,-2);ctx.stroke();
+      ctx.restore();
     }
+    ctx.fillStyle="#fff1bd";ctx.shadowBlur=14;
+    ctx.beginPath();ctx.moveTo(0,-5);ctx.lineTo(3,0);ctx.lineTo(0,5);ctx.lineTo(-3,0);ctx.closePath();ctx.fill();
     ctx.restore();
   });
   ctx.restore();
