@@ -18,6 +18,24 @@ Object.assign(DICT.cn,{
 "NGỰ KIẾM KHỞI HÀNH":"御剑启程","BAN THƯỞNG TAM GIÁP":"前三颁奖","VINH DANH HOÀN TẤT":"荣耀仪式完成",
 "Tĩnh Tâm Tu Luyện":"静心修炼","Vạn Kiếm Tranh Phong":"万剑争锋","Tiên Hội Vinh Danh":"仙会荣耀"
 });
+\nObject.assign(DICT.en,{
+"Bắt đầu sau ":"Starting in ","BẮT ĐẦU SAU ":"STARTS IN "," ĐÃ VỀ ĐÍCH!":" FINISHED!",
+"Ban thưởng Top ":"Top "," Tiên Hội":" Immortal Tournament","TOP ":"TOP "," TIÊN HỘI":" IMMORTAL TOURNAMENT",
+"Đang ngang":"Landscape","Tạm":"Pause","Lại":"Again",
+"Mở rộng khởi tạo đại hội":"Expand tournament setup","Xoay điện thoại về dọc để trở lại":"Rotate phone to portrait to return",
+"Xoay ngang điện thoại để mở rộng sân đua":"Rotate phone to landscape to expand the arena",
+"VẠN KIẾM QUY TÔNG":"MYRIAD SWORDS RETURN TO THE SOURCE","THIÊN ĐỊA TRANH PHONG":"HEAVEN AND EARTH COMPETE",
+"Nhạc: ":"Music: "
+});
+Object.assign(DICT.cn,{
+"Bắt đầu sau ":"开始倒计时 ","BẮT ĐẦU SAU ":"距离开始 "," ĐÃ VỀ ĐÍCH!":" 已抵达终点！",
+"Ban thưởng Top ":"仙会前三颁奖 · "," Tiên Hội":"位仙人","TOP ":"排名 "," TIÊN HỘI":"位仙人",
+"Đang ngang":"横屏中","Tạm":"暂停","Lại":"重来",
+"Mở rộng khởi tạo đại hội":"展开仙会设置","Xoay điện thoại về dọc để trở lại":"旋转手机至竖屏返回",
+"Xoay ngang điện thoại để mở rộng sân đua":"横向旋转手机以扩大赛场",
+"VẠN KIẾM QUY TÔNG":"万剑归宗","THIÊN ĐỊA TRANH PHONG":"天地争锋",
+"Nhạc: ":"音乐："
+});
 \nconst LANGS={vi:"VN",en:"EN",cn:"CN"};
 const STORAGE_KEY="vankiemphitien-language";
 let language="vi";
