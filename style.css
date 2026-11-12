@@ -5658,3 +5658,32 @@ html body .page *{
  .altar-dial .dial-quantity{width:180px!important;height:180px!important}
  .altar-dial .dial-duration{width:140px!important;height:140px!important}
 }
+
+
+/* REVISION 91 — nhãn thông số đặt hai bên, để lộ toàn bộ pháp luân; tâm là phi kiếm đơn. */
+.altar-dial .dial-readout{
+ min-width:62px!important;width:66px!important;padding:4px 3px!important;
+ border-radius:7px!important;background:linear-gradient(145deg,rgba(10,39,32,.96),rgba(24,67,52,.96))!important;
+ box-shadow:0 2px 7px rgba(0,0,0,.42),0 0 7px rgba(226,194,126,.18)!important;
+}
+.altar-dial .dial-quantity-readout{
+ left:auto!important;right:calc(100% + 7px)!important;top:50%!important;
+ transform:translateY(-50%)!important;
+}
+.altar-dial .dial-duration-readout{
+ left:calc(100% + 7px)!important;right:auto!important;bottom:auto!important;top:50%!important;
+ transform:translateY(-50%)!important;
+}
+.altar-dial .dial-readout:active{transform:translateY(-50%) scale(.96)!important}
+.altar-dial .dial-readout small{font-size:6px!important;letter-spacing:.25px!important}
+.altar-dial .dial-readout strong{font-size:13px!important}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon svg{
+ width:39px!important;height:46px!important;
+ filter:drop-shadow(0 0 3px rgba(255,241,190,.9))!important;
+}
+@media(max-width:380px){
+ .altar-dial .dial-readout{width:58px!important;min-width:58px!important}
+ .altar-dial .dial-quantity-readout{right:calc(100% + 5px)!important}
+ .altar-dial .dial-duration-readout{left:calc(100% + 5px)!important}
+ .altar-dial .dial-readout small{font-size:5.5px!important}
+}
