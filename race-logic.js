@@ -1275,3 +1275,115 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonArrival(time);};
   const oldSetSettingsLocked=setSettingsLocked;
   setSettingsLocked=function(value){oldSetSettingsLocked(value);refresh();};
 })();
+
+
+// REVISION 35 — vạch chỉ số, xoay mượt hơn, chạm thông số để nhập/chọn trực tiếp.
+(function refineRotarySummonDial(){
+ const q=$("quantity"),speed=$("speed"),names=$("names");
+ const qRing=document.querySelector('[data-dial="quantity"]'),tRing=document.querySelector('[data-dial="duration"]');
+ const qButton=$("openQuantityDial"),tButton=$("openDurationDial"),editor=$("dialEditor");
+ const editorLabel=$("dialEditorLabel"),editorInput=$("dialEditorInput"),editorSelect=$("dialEditorSelect");
+ const done=$("dialEditorDone"),qText=$("dialQuantityValue"),tText=$("dialDurationValue");
+ if(!q||!speed||!names||!qRing||!tRing||!editor)return;
+ const durations=[30,60,120,180,300];
+ let activeEditor="",drag=null;
+ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+ function update(){
+   const typed=getInputNames().length;
+   if(typed){q.value=String(clamp(typed,2,100));}
+   else q.value=String(clamp(Number(q.value)||10,2,100));
+   qText.textContent=q.value+(typed>100?"+":"");
+   tText.textContent=(Number(speed.value)||60)+"s";
+   qRing.setAttribute("aria-valuenow",q.value);
+   tRing.setAttribute("aria-valuenow",String(Math.max(0,durations.indexOf(Number(speed.value)))));
+   const disabled=locked||running||paused;
+   [qRing,tRing,qButton,tButton].forEach(el=>{if(el)el.setAttribute("aria-disabled",String(disabled));});
+ }
+ function openEditor(kind){
+   if(locked||running||paused)return;
+   activeEditor=kind;editor.hidden=false;
+   const isQ=kind==="quantity";
+   editorLabel.textContent=isQ?"Nhập số tiên nhân (2–100)":"Chọn thời lượng cuộc đua";
+   editorInput.hidden=!isQ;editorSelect.hidden=isQ;
+   if(isQ){editorInput.value=q.value;editorInput.min="2";editorInput.max="100";editorInput.focus();editorInput.select();}
+   else{editorSelect.value=speed.value;editorSelect.focus();}
+ }
+ function closeEditor(){
+   if(activeEditor==="quantity"){
+     const value=clamp(Math.round(Number(editorInput.value)||2),2,100);
+     q.value=String(value);q.dispatchEvent(new Event("change",{bubbles:true}));
+   }else if(activeEditor==="duration"){
+     speed.value=editorSelect.value;speed.dispatchEvent(new Event("change",{bubbles:true}));
+   }
+   editor.hidden=true;activeEditor="";update();
+ }
+ qButton.addEventListener("click",()=>openEditor("quantity"));
+ tButton.addEventListener("click",()=>openEditor("duration"));
+ done.addEventListener("click",closeEditor);
+ editorInput.addEventListener("keydown",e=>{if(e.key==="Enter")closeEditor();});
+ editorSelect.addEventListener("change",closeEditor);
+ names.addEventListener("input",()=>{
+   const count=getInputNames().length;
+   q.value=String(clamp(count||10,2,100));
+   if(count>100)$("lockNotice").textContent="Danh sách có "+count+" tên; tối đa 100 tiên nhân. Hãy rút gọn danh sách.";
+   update();
+ });
+ q.addEventListener("input",update);q.addEventListener("change",update);
+ speed.addEventListener("change",update);
+ function markers(ring,labels,radius){
+   let layer=ring.querySelector(".dial-markers");
+   if(!layer){layer=document.createElement("div");layer.className="dial-markers";ring.appendChild(layer);}
+   layer.replaceChildren();
+   labels.forEach((label,i)=>{
+     const angle=(-90+i*360/labels.length)*Math.PI/180;
+     const span=document.createElement("span");span.className="dial-marker";span.textContent=label;
+     span.style.left=(50+Math.cos(angle)*radius)+"%";
+     span.style.top=(50+Math.sin(angle)*radius)+"%";
+     layer.appendChild(span);
+   });
+ }
+ markers(qRing,["2","20","40","60","80","100"],43);
+ markers(tRing,["30s","60s","120s","180s","300s"],43);
+ function angleAt(e,ring){const r=ring.getBoundingClientRect();return Math.atan2(e.clientY-r.top-r.height/2,e.clientX-r.left-r.width/2)*180/Math.PI;}
+ function delta(a,b){let d=a-b;if(d>180)d-=360;if(d< -180)d+=360;return d;}
+ function begin(e,ring,kind){
+   if(locked||running||paused)return;
+   e.preventDefault();e.stopImmediatePropagation();
+   ring.setPointerCapture(e.pointerId);
+   drag={ring,kind,angle:angleAt(e,ring),carry:0};
+ }
+ function move(e,ring){
+   if(!drag||drag.ring!==ring)return;
+   e.preventDefault();e.stopImmediatePropagation();
+   const next=angleAt(e,ring);drag.carry+=delta(next,drag.angle);drag.angle=next;
+   const step=drag.kind==="quantity"?4:45;
+   const count=drag.carry>0?Math.floor(drag.carry/step):Math.ceil(drag.carry/step);
+   if(count){
+     if(drag.kind==="quantity"){
+       const typed=getInputNames().length;
+       if(!typed){q.value=String(clamp(Number(q.value)+count,2,100));q.dispatchEvent(new Event("change",{bubbles:true}));}
+     }else{
+       const idx=durations.indexOf(Number(speed.value));
+       speed.value=String(durations[clamp(idx+count,0,durations.length-1)]);
+       speed.dispatchEvent(new Event("change",{bubbles:true}));
+     }
+     drag.carry-=count*step;
+     ring.style.transform="translate(-50%,-50%) rotate("+(Number(ring.dataset.rotation||0)+count*step)+"deg)";
+     ring.dataset.rotation=String(Number(ring.dataset.rotation||0)+count*step);
+     update();
+   }
+ }
+ [ [qRing,"quantity"],[tRing,"duration"] ].forEach(([ring,kind])=>{
+   ring.addEventListener("pointerdown",e=>begin(e,ring,kind),true);
+   ring.addEventListener("pointermove",e=>move(e,ring),true);
+   const end=e=>{if(drag&&drag.ring===ring){e.stopImmediatePropagation();drag=null;}};
+   ring.addEventListener("pointerup",end,true);ring.addEventListener("pointercancel",end,true);
+   ring.addEventListener("lostpointercapture",end,true);
+   ring.addEventListener("click",e=>{e.preventDefault();e.stopImmediatePropagation();},true);
+ });
+ const oldSync=syncButtons;
+ syncButtons=function(){oldSync();update();};
+ const oldLock=setSettingsLocked;
+ setSettingsLocked=function(v){oldLock(v);update();};
+ update();
+})();
