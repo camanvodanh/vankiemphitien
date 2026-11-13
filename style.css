@@ -6685,3 +6685,38 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
     text-size-adjust:100%!important;
   }
 }
+
+
+/* REVISION 105 — đưa điều khiển xuống dưới hai bảng và thu gọn khoảng nền xanh thừa. */
+@media(min-width:920px){
+  .arena-frame{
+    grid-template-rows:minmax(175px,.82fr) minmax(220px,1.18fr) auto!important;
+    row-gap:0!important;
+  }
+  .arena-frame>#game{grid-row:1 / span 3!important;}
+  .arena-frame>.game-camera{grid-row:1!important;}
+  .arena-frame>.game-ranking{grid-row:2!important;}
+  .arena-frame>.arena-controls{
+    grid-column:2!important;grid-row:3!important;
+    position:relative!important;inset:auto!important;left:auto!important;right:auto!important;
+    top:auto!important;bottom:auto!important;transform:none!important;
+    width:100%!important;max-width:100%!important;min-height:42px!important;
+    margin:0!important;padding:5px 4px 3px!important;
+    justify-content:center!important;gap:9px!important;
+    background:transparent!important;
+  }
+  .arena-frame:has(>.game-camera.is-minimized){grid-template-rows:42px minmax(220px,1fr) auto!important;}
+  .arena-frame:has(>.game-ranking.is-minimized){grid-template-rows:minmax(175px,1fr) 42px auto!important;}
+  .arena-frame:has(>.game-camera.is-minimized):has(>.game-ranking.is-minimized){grid-template-rows:42px 42px auto!important;}
+}
+@media(max-width:919px){
+  .arena-frame>.game-camera{order:3!important;}
+  .arena-frame>.game-ranking{order:4!important;}
+  .arena-frame>.arena-controls{order:5!important;}
+}
+.arena-controls .arena-start:disabled,
+.arena-controls .arena-stop:disabled{
+  opacity:.38!important;
+  filter:grayscale(.65)!important;
+  cursor:not-allowed!important;
+}
