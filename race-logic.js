@@ -1567,8 +1567,10 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonRitual(time);dra
  speed.addEventListener("change",update);
  function syncMarkerOrientation(ring){
   const rotation=Number(ring.dataset.rotation||0);
+  const layer=ring.querySelector(".dial-markers");
+  if(layer)layer.style.transform="rotate("+(-rotation)+"deg)";
   ring.querySelectorAll(".dial-marker").forEach(marker=>{
-    marker.style.transform="translate(-50%,-50%) rotate("+(-rotation)+"deg)";
+    marker.style.transform="translate(-50%,-50%)";
   });
  }
  function markers(ring,labels,radius){
