@@ -1,0 +1,15 @@
+{
+  "ritualDuration": 5,
+  "maximumWaves": 12,
+  "minimumBatchSize": 1,
+  "groupStep": 0.3,
+  "groupStartDelay": 0.18,
+  "revealDuration": 0.42,
+  "beamDuration": 0.78,
+  "beamTailDuration": 1.05,
+  "maximumRacers": 100,
+  "formationCenter": {
+    "x": 550,
+    "y": 674
+  }
+}
