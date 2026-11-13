@@ -1416,7 +1416,9 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonRitual(time);dra
   const qRing=document.querySelector('[data-dial="quantity"]');
   const tRing=document.querySelector('[data-dial="duration"]');
   if(!quantity||!speed||!button||!qRing||!tRing)return;
-  const durations=[30,60,120,180,300];
+  const durationConfig=(window.VKP_DATA&&window.VKP_DATA.summoning)||{};
+  const durationMin=Number(durationConfig.minimumDuration)||5,durationMax=Number(durationConfig.maximumDuration)||600,durationStep=Number(durationConfig.durationStep)||5;
+  const durations=Array.from({length:Math.floor((durationMax-durationMin)/durationStep)+1},(_,i)=>durationMin+i*durationStep);
   let qRotation=0,tRotation=0,drag=null;
   const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
   function refresh(){
@@ -1470,7 +1472,7 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonRitual(time);dra
         const steps=drag.remainder>0?Math.floor(drag.remainder/step):Math.ceil(drag.remainder/step);
         if(steps){setQuantity(Number(quantity.value)+steps);drag.remainder-=steps*step;qRotation+=steps*step;}
       }else{
-        const step=72;
+        const step=360/durations.length;
         const steps=drag.remainder>0?Math.floor(drag.remainder/step):Math.ceil(drag.remainder/step);
         if(steps){setDuration(durations.indexOf(Number(speed.value))+steps);drag.remainder-=steps*step;tRotation+=steps*step;}
       }
@@ -1509,7 +1511,16 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonRitual(time);dra
  const editorLabel=$("dialEditorLabel"),editorInput=$("dialEditorInput"),editorSelect=$("dialEditorSelect");
  const done=$("dialEditorDone"),qText=$("dialQuantityValue"),tText=$("dialDurationValue");
  if(!q||!speed||!names||!qRing||!tRing||!editor)return;
- const durations=[30,60,120,180,300];
+ const durationOptions=Array.from({length:Math.floor((Number((window.VKP_DATA&&window.VKP_DATA.summoning||{}).maximumDuration||600)-Number((window.VKP_DATA&&window.VKP_DATA.summoning||{}).minimumDuration||5))/Number((window.VKP_DATA&&window.VKP_DATA.summoning||{}).durationStep||5))+1},(_,i)=>Number((window.VKP_DATA&&window.VKP_DATA.summoning||{}).minimumDuration||5)+i*Number((window.VKP_DATA&&window.VKP_DATA.summoning||{}).durationStep||5));
+ [speed,editorSelect].forEach(select=>{
+   if(!select)return;
+   const current=Number(select.value)||60;
+   select.replaceChildren(...durationOptions.map(value=>{const option=document.createElement("option");option.value=String(value);option.textContent=value+" giây";return option;}));
+   select.value=String(durationOptions.includes(current)?current:60);
+ });
+ const durationConfig=(window.VKP_DATA&&window.VKP_DATA.summoning)||{};
+  const durationMin=Number(durationConfig.minimumDuration)||5,durationMax=Number(durationConfig.maximumDuration)||600,durationStep=Number(durationConfig.durationStep)||5;
+  const durations=Array.from({length:Math.floor((durationMax-durationMin)/durationStep)+1},(_,i)=>durationMin+i*durationStep);
  let activeEditor="",drag=null;
  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
  function update(){
@@ -1574,7 +1585,7 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonRitual(time);dra
   syncMarkerOrientation(ring);
  }
  markers(qRing,["2","20","40","60","80","100"],43);
- markers(tRing,["30s","60s","120s","180s","300s"],43);
+ markers(tRing,["5s","60s","120s","180s","240s","300s","360s","420s","480s","540s","600s"],43);
  function angleAt(e,ring){const r=ring.getBoundingClientRect();return Math.atan2(e.clientY-r.top-r.height/2,e.clientX-r.left-r.width/2)*180/Math.PI;}
  function delta(a,b){let d=a-b;if(d>180)d-=360;if(d< -180)d+=360;return d;}
  function begin(e,ring,kind){
@@ -1587,7 +1598,7 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonRitual(time);dra
    if(!drag||drag.ring!==ring)return;
    e.preventDefault();e.stopImmediatePropagation();
    const next=angleAt(e,ring);drag.carry+=delta(next,drag.angle);drag.angle=next;
-   const step=drag.kind==="quantity"?4:45;
+   const step=drag.kind==="quantity"?4:360/(durations.length-1);
    const count=drag.carry>0?Math.floor(drag.carry/step):Math.ceil(drag.carry/step);
    if(count){
      if(drag.kind==="quantity"){
