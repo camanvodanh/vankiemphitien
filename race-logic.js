@@ -857,6 +857,25 @@ function syncButtons(){
     if(document.documentElement.dataset.panelWindowsReady==="1")return;
     document.documentElement.dataset.panelWindowsReady="1";
     document.addEventListener("click",event=>{
+      const title=event.target.closest&&event.target.closest(".game-setup .setup-title-wrap");
+      if(title){
+        const panel=title.closest(".game-setup");
+        if(panel&&panel.classList.contains("is-minimized")){
+          panel.classList.remove("is-minimized");
+          panel.hidden=false;
+          const control=panel.querySelector(".window-minimize");
+          if(control){
+            control.textContent="−";
+            control.setAttribute("aria-expanded","true");
+            control.setAttribute("aria-label","Thu nhỏ bảng triệu hồi");
+            control.title="Thu nhỏ";
+          }
+          $("setupToggle").hidden=true;
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+      }
       const button=event.target.closest&&event.target.closest(".window-minimize");
       if(!button)return;
       const panel=button.closest(".game-setup,.game-camera,.game-ranking");
