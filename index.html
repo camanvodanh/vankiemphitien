@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#102b27">
   <title>Vạn Kiếm Phi Tiên</title>
-  <link rel="stylesheet" href="style.css?v=music-memory-guidance-v127">
+  <link rel="stylesheet" href="style.css?v=seamless-panels-header-fit-game-zoom-v128">
 </head>
 <body class="game-page">
   <main class="page game-app">
@@ -33,6 +33,7 @@
       </div>
       <div class="arena-frame">
         <canvas id="game" width="1100" height="825" aria-label="Hoạt cảnh trường đua"></canvas>
+        <div class="game-zoom-controls" role="group" aria-label="Phóng to hoặc thu nhỏ màn hình game"><button id="gameZoomOut" type="button" aria-label="Thu nhỏ màn hình game" title="Thu nhỏ">−</button><button id="gameZoomReset" type="button" aria-label="Đặt lại mức thu phóng" title="Đặt lại">100%</button><button id="gameZoomIn" type="button" aria-label="Phóng to màn hình game" title="Phóng to">+</button></div>
 
         <section class="panel summon-panel game-setup">
           <div class="setup-heading window-heading">
@@ -113,7 +114,7 @@
   <script src="core.js?v=20261112-core-v99"></script>
   <script src="scenery.js?v=20261112-scenery-v99"></script>
   <script src="audience.js?v=sect-robes-gender-refined-v100"></script>
-  <script src="race-render.js?v=20261112-render-v99"></script>
+  <script src="race-render.js?v=game-zoom-controls-v100"></script>
   <script src="visual-overrides.js?v=leader-camera-scenery-v110"></script>
   <script src="music.js?v=music-memory-v100"></script>
   <script src="race-logic.js?v=disabled-guidance-v107"></script>
