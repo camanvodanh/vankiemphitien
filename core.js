@@ -3,7 +3,7 @@
 const $ = id => document.getElementById(id);
 
 const canvas = $("game");
-const ctx = canvas.getContext("2d");
+let ctx = canvas.getContext("2d");
 const cameraCanvas = $("leaderCanvas");
 const cameraCtx = cameraCanvas.getContext("2d");
 
