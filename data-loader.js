@@ -8,14 +8,14 @@
  }));
  window.VKP_DATA=Object.fromEntries(entries);
  const scripts=[
-  "core.js?v=race-balance-v142",
-  "scenery.js?v=race-balance-v142",
-  "audience.js?v=race-balance-v142",
-  "race-render.js?v=race-balance-v142",
-  "visual-overrides.js?v=race-balance-v142",
-  "music.js?v=race-balance-v142",
-  "race-logic.js?v=race-balance-v142",
-  "i18n.js?v=race-balance-v142"
+  "core.js?v=duration-effects-v143",
+  "scenery.js?v=duration-effects-v143",
+  "audience.js?v=duration-effects-v143",
+  "race-render.js?v=duration-effects-v143",
+  "visual-overrides.js?v=duration-effects-v143",
+  "music.js?v=duration-effects-v143",
+  "race-logic.js?v=duration-effects-v143",
+  "i18n.js?v=duration-effects-v143"
  ];
  for(const src of scripts){
   await new Promise((resolve,reject)=>{
