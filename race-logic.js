@@ -149,7 +149,7 @@ function frame(time) {
   advanceFinishAnnouncements();
 
   // 20 FPS khi chờ, 30 FPS khi đua. Logic thời gian vẫn cập nhật mỗi RAF.
-  const renderInterval = running && !paused ? 1000 / 30 : 1000 / 20;
+  const renderInterval = running && !paused ? 1000 / 24 : 1000 / 15;
   if (!canvasRenderDisabled && (!lastCanvasRenderAt || time - lastCanvasRenderAt >= renderInterval)) {
     lastCanvasRenderAt = time;
     try {
