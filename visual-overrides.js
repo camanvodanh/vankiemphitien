@@ -6301,13 +6301,13 @@ function drawPodiumScene(target,time,mini=false){
   const ordered=sortedRacers().slice(0,3),w=target.canvas.width,h=target.canvas.height;
   const elapsed=Math.max(0,(performance.now()-ceremonyStartedAt)/1000);
   const count=ordered.length;
-  const {awardStart,masterFlightDuration}=VKP_DATA.ceremony.awards;
+  const miniAwardStart=VKP_DATA.ceremony.awards.awardStart,miniMasterFlightDuration=VKP_DATA.ceremony.awards.masterFlightDuration;
 
   // Thiên Lý Kính chỉ theo dõi quỹ đạo chưởng môn ở cảnh trao giải chính.
   // Không dựng quảng trường, ngai chưởng môn hay bục trao giải giả trong khung mini.
   if(mini){
-    const flightP=clamp((elapsed-awardStart)/masterFlightDuration,0,1);
-    if(elapsed>=awardStart&&elapsed<=awardStart+masterFlightDuration+.12){
+    const flightP=clamp((elapsed-miniAwardStart)/miniMasterFlightDuration,0,1);
+    if(elapsed>=miniAwardStart&&elapsed<=miniAwardStart+miniMasterFlightDuration+.12){
       const masterX=w*(-.16+1.32*flightP);
       const masterY=h*(.205+Math.sin(flightP*Math.PI*2)*.012);
       drawAwardMaster(target,masterX,masterY,.36,time);
