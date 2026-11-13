@@ -6840,3 +6840,89 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
     line-height:1.2!important;
   }
 }
+
+
+/* REVISION 107 — ép chiều cao từng hàng theo nội dung thật, bỏ mọi khoảng đệm dọc ở cột phải. */
+@media (min-width:920px){
+  .arena-frame{
+    grid-template-rows:max-content max-content max-content!important;
+    row-gap:0!important;
+    align-items:start!important;
+    min-height:0!important;
+  }
+  .arena-frame>#game{
+    grid-column:1!important;
+    grid-row:1 / span 3!important;
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+    max-height:none!important;
+    aspect-ratio:auto!important;
+    align-self:stretch!important;
+  }
+  .arena-frame>.game-camera{
+    grid-column:2!important;
+    grid-row:1!important;
+    display:flex!important;
+    height:max-content!important;
+    min-height:0!important;
+    max-height:none!important;
+    align-self:start!important;
+    margin:0!important;
+    padding:clamp(6px,.65vw,9px)!important;
+    border-bottom:0!important;
+  }
+  .arena-frame>.game-camera .camera-screen{
+    flex:0 0 auto!important;
+    height:auto!important;
+    min-height:0!important;
+    aspect-ratio:7 / 4!important;
+  }
+  .arena-frame>.game-camera .camera-screen canvas{
+    display:block!important;
+    width:100%!important;
+    height:100%!important;
+  }
+  .arena-frame>.game-ranking{
+    grid-column:2!important;
+    grid-row:2!important;
+    display:flex!important;
+    height:max-content!important;
+    min-height:0!important;
+    max-height:min(42vh,340px)!important;
+    align-self:start!important;
+    margin:0!important;
+    padding:clamp(6px,.65vw,9px)!important;
+    border-top:0!important;
+  }
+  .arena-frame>.game-ranking .table-wrap{
+    flex:0 1 auto!important;
+    min-height:0!important;
+    max-height:min(34vh,270px)!important;
+    overflow:auto!important;
+  }
+  .arena-frame>.arena-controls{
+    grid-column:2!important;
+    grid-row:3!important;
+    position:relative!important;
+    inset:auto!important;
+    transform:none!important;
+    justify-self:stretch!important;
+    align-self:start!important;
+    width:100%!important;
+    min-height:0!important;
+    height:max-content!important;
+    margin:0!important;
+    padding:0!important;
+    gap:8px!important;
+    background:transparent!important;
+  }
+}
+@media (min-width:761px){
+  .stage-emblem{display:none!important;}
+  .stage-bottomline{gap:8px!important;}
+  .stage-bottomline span{min-width:0!important;}
+}
+@media (max-width:760px){
+  .stage-emblem{display:none!important;}
+}
