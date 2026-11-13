@@ -1198,7 +1198,7 @@ function drawSummonRitual(time){
   const formation=smooth((age-.25)/.95);
   const energy=smooth((age-1.05)/2.7);
   const omen=smooth((age-3.8)/1.65);
-  const cx=550,cy=704;
+  const cx=550,cy=674;
   ctx.save();
   ctx.globalCompositeOperation="screen";
 
@@ -1286,18 +1286,18 @@ function drawSummonRitual(time){
   if(age>3.25){
     ctx.save();ctx.globalAlpha=omen;
     // Tường thụy phải phủ rõ bầu trời trước thời điểm cột sáng giáng xuống.
-    const skyGlow=ctx.createLinearGradient(0,45,0,365);
-    skyGlow.addColorStop(0,"rgba(255,239,190,.02)");
-    skyGlow.addColorStop(.38,"rgba(255,226,164,.36)");
+    const skyGlow=ctx.createLinearGradient(0,8,0,255);
+    skyGlow.addColorStop(0,"rgba(255,239,190,.12)");
+    skyGlow.addColorStop(.42,"rgba(255,226,164,.38)");
     skyGlow.addColorStop(1,"rgba(166,255,226,.04)");
-    ctx.fillStyle=skyGlow;ctx.fillRect(0,45,W,320);
+    ctx.fillStyle=skyGlow;ctx.fillRect(0,8,W,250);
     // Quầng nhật hoa vàng ngọc và các tia sáng tỏa rộng trên tầng mây.
-    const sunX=550+Math.sin(age*.55)*34,sunY=174;
+    const sunX=550+Math.sin(age*.55)*34,sunY=112;
     const halo=ctx.createRadialGradient(sunX,sunY,8,sunX,sunY,220);
-    halo.addColorStop(0,"rgba(255,250,211,.62)");
+    halo.addColorStop(0,"rgba(255,250,211,.72)");
     halo.addColorStop(.32,"rgba(255,220,151,.22)");
     halo.addColorStop(1,"rgba(255,220,151,0)");
-    ctx.fillStyle=halo;ctx.fillRect(sunX-220,sunY-220,440,440);
+    ctx.fillStyle=halo;ctx.fillRect(sunX-220,sunY-150,440,300);
     ctx.save();ctx.translate(sunX,sunY);ctx.rotate(-.12);
     ctx.strokeStyle="rgba(255,239,185,.34)";ctx.lineWidth=2;ctx.shadowColor="#ffe8a7";ctx.shadowBlur=12;
     for(let ray=0;ray<18;ray++){
@@ -1312,7 +1312,7 @@ function drawSummonRitual(time){
       ctx.lineWidth=band===1?4:2.4;ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=19;
       ctx.beginPath();
       for(let x=0;x<=W;x+=14){
-        const y=95+band*57+Math.sin(x*.012+age*1.3+band)*17+Math.sin(x*.025-age*.7)*5;
+        const y=35+band*39+Math.sin(x*.012+age*1.3+band)*12+Math.sin(x*.025-age*.7)*4;
         if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
       }
       ctx.stroke();
@@ -1321,7 +1321,7 @@ function drawSummonRitual(time){
     for(let side=0;side<2;side++){
       for(let puff=0;puff<5;puff++){
         const x=(side?W-65:65)+(puff-2)*24+Math.sin(age*.7+puff)*8;
-        const y=132+puff*31+Math.sin(age+puff)*5;
+        const y=68+puff*23+Math.sin(age+puff)*4;
         ctx.globalAlpha=omen*.72;
         ctx.fillStyle=puff%2?"rgba(171,255,230,.72)":"rgba(255,230,171,.78)";
         ctx.beginPath();ctx.arc(x,y,11+(puff%3)*3,Math.PI,Math.PI*2);
@@ -1330,7 +1330,7 @@ function drawSummonRitual(time){
       }
     }
     for(let i=0;i<38;i++){
-      const x=(i*83+age*25)%W,y=68+(i*47)%260;
+      const x=(i*83+age*25)%W,y=22+(i*47)%205;
       ctx.globalAlpha=omen*(.38+.52*Math.sin(age*3+i));
       ctx.fillStyle=i%3?"#caffec":"#fff0bd";
       ctx.shadowBlur=12;ctx.beginPath();ctx.arc(x,y,1.8+(i%3)*.7,0,Math.PI*2);ctx.fill();
