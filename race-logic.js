@@ -691,6 +691,14 @@ function drawCamera(time){
 }
 
 
+function formatRankingTime(seconds){
+ const totalCentiseconds=Math.max(0,Math.floor(Number(seconds||0)*100));
+ const minutes=Math.floor(totalCentiseconds/6000);
+ const wholeSeconds=Math.floor(totalCentiseconds/100)%60;
+ const centiseconds=totalCentiseconds%100;
+ return String(minutes).padStart(2,"0")+":"+String(wholeSeconds).padStart(2,"0")+":"+String(centiseconds).padStart(2,"0");
+}
+
 function updateRanking(){
  const body=$("rankBody");
  let revealing=window.__vkSummonRevealActive===true;
@@ -699,18 +707,25 @@ function updateRanking(){
  const raceOver=finished===true&&racers.length>0&&racers.every(r=>r.finished===true);
  // Chỉ giữ trạng thái triệu hồi khi vẫn còn ít nhất một tiên nhân chưa đến lượt hiện thân.
  // Nếu bộ hẹn giờ bị trễ/hủy, bảng vẫn tự hoàn tất khi mốc hiện thân cuối cùng đã qua.
- if(revealing&&racers.length&&racers.every(r=>!Number.isFinite(r.summonRevealAt)||now>=r.summonRevealAt)){
+ // Tự kết thúc trạng thái chờ ngay khi toàn bộ nhân vật đã hiện thân.
+ // summonVisualReady được bật bởi bộ hẹn giờ; mốc reveal là phương án dự phòng
+ // nếu timer bị trễ hoặc bị trình duyệt tạm ngưng.
+ const lastRevealAt=racers.length?Math.max(...racers.map(r=>Number.isFinite(r.summonRevealAt)?r.summonRevealAt:0)):0;
+ const revealTimelineComplete=lastRevealAt>0&&now>=lastRevealAt+summonRevealDuration*1000;
+ if(revealing&&(summonVisualReady===true||revealTimelineComplete)){
   revealing=false;
   window.__vkSummonRevealActive=false;
+  if(typeof summonUnlockTimer!=="undefined"&&summonUnlockTimer){clearTimeout(summonUnlockTimer);summonUnlockTimer=0;}
   rankingOrderSignature="";
  }
  // Trước cuộc đua giữ đúng thứ tự triệu hồi, chỉ thêm tên khi tiên nhân hiện thân.
  const source=raceActive?sortedRacers():racers;
  const sorted=source.filter(r=>!revealing||!Number.isFinite(r.summonRevealAt)||now>=r.summonRevealAt);
  if(!sorted.length){
-  // Chỉ hiện dòng chờ khi chưa có dữ liệu tiên nhân; không để placeholder che danh sách đã triệu hồi.
-  body.innerHTML='<tr><td colspan="3" class="empty">'+(racers.length?"Đang triệu hồi tiên nhân…":"Chưa có tiên nhân")+'</td></tr>';
-  rankingOrderSignature=(raceActive?"race|":"idle|")+(racers.length?"summoning|":"empty|");
+  // Khi có danh sách, không để placeholder "Đang triệu hồi" tồn tại dai dẳng.
+  // Bảng tạm để trống trong lúc chờ nhóm đầu tiên; khi hoàn tất sẽ hiện đủ tên.
+  body.innerHTML=racers.length?"":'<tr><td colspan="3" class="empty">Chưa có tiên nhân</td></tr>';
+  rankingOrderSignature=(raceActive?"race|":"idle|")+(racers.length?"waiting|":"empty|");
   rankingPendingSignature="";
   rankingPendingSince=0;
   return;
@@ -749,7 +764,7 @@ function updateRanking(){
    :raceActive&&!raceOver&&r.rankMovement==="down"
     ?'<span class="rank-movement rank-down" aria-label="Giảm hạng" title="Giảm hạng">▼</span>':"";
   const actualTime=raceActive&&r.finished&&r.finishTime!==null
-   ?Math.round(Math.max(0,r.finishTime)*1000).toLocaleString("vi-VN")+" ms":"—";
+   ?formatRankingTime(r.finishTime):"—";
   const nameLength=Array.from(String(r.name||"")).length;
   const nameScale=Math.max(.62,Math.min(1,18/Math.max(18,nameLength)));
   row.innerHTML='<td><span class="rank-cell">'+arrow+'<span class="rank-position">'+medal+'</span></span></td><td class="rank-name-cell" title="'+escapeHTML(r.name)+'"><span class="rank-name" style="font-size:'+nameScale.toFixed(3)+'em">'+escapeHTML(r.name)+'</span></td><td class="rank-time">'+actualTime+'</td>';
