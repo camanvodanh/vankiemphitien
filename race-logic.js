@@ -767,8 +767,8 @@ function updateRanking(){
   rankingPendingSince=0;
   return;
  }
- // Đồng bộ các ô dữ liệu ngay cả khi thứ tự hàng không đổi.
- // Nếu chỉ chờ signature đổi, thời gian về đích có thể mãi giữ dấu "—".
+ // Đồng bộ thời gian và mũi tên mỗi lần render, độc lập với việc thứ tự hàng có đổi hay không.
+ // Nhờ vậy mũi tên xuất hiện/biến mất đúng theo timer, không bị giữ trạng thái cũ trên DOM.
  const racerById=new Map(sorted.map(r=>[String(r.id),r]));
  body.querySelectorAll("tr[data-racer-id]").forEach(row=>{
   const racer=racerById.get(row.dataset.racerId);
@@ -776,9 +776,22 @@ function updateRanking(){
   const timeCell=row.querySelector(".rank-time");
   if(timeCell)timeCell.textContent=raceActive&&racer.finished&&Number.isFinite(racer.finishTime)
    ?formatRankingTime(racer.finishTime):"—";
+  const rankCell=row.querySelector(".rank-cell");
+  const rankPosition=rankCell&&rankCell.querySelector(".rank-position");
+  if(rankCell&&rankPosition){
+   const movementDirection=raceActive&&!raceOver&&!racer.finished&&racer.rankMovementTimer>0
+    ?racer.rankMovement:"";
+   let movement=rankCell.querySelector(".rank-movement");
+   if(movementDirection==="up"||movementDirection==="down"){
+    if(!movement){movement=document.createElement("span");movement.setAttribute("aria-label",movementDirection==="up"?"Tăng hạng":"Giảm hạng");movement.setAttribute("title",movementDirection==="up"?"Tăng hạng":"Giảm hạng");}
+    movement.className="rank-movement "+(movementDirection==="up"?"rank-up":"rank-down");
+    movement.textContent=movementDirection==="up"?"▲":"▼";
+    rankCell.insertBefore(movement,rankPosition);
+   }else if(movement){
+    movement.remove();
+   }
+  }
   if(racer.finished){
-   const movement=row.querySelector(".rank-movement");
-   if(movement)movement.remove();
    row.classList.remove("rank-row-moving");
    row.style.transition="";
    row.style.transform="";
@@ -786,15 +799,15 @@ function updateRanking(){
  });
  const mode=raceActive?"race":"idle";
  const signature=mode+"|"+sorted.map(r=>String(r.id)).join("|");
- // Chỉ trì hoãn thay đổi thứ tự trong lúc đua: tránh các lần vượt sát nhau
- // làm FLIP bị khởi động lại liên tục ở từng khung hình.
+ // Giới hạn tần suất sắp xếp lại bảng, nhưng không debounce theo kiểu chờ thứ tự đứng yên.
+ // Nếu thứ hạng đổi liên tục, chỉ giữ chữ ký mới nhất và vẫn cập nhật tối đa mỗi 150 ms.
  if(signature!==rankingOrderSignature&&raceActive){
-  if(rankingPendingSignature!==signature){
-   rankingPendingSignature=signature;
-   rankingPendingSince=now;
-   return;
-  }
-  if(now-rankingPendingSince<190)return;
+  if(!rankingPendingSignature)rankingPendingSince=now;
+  rankingPendingSignature=signature;
+  if(now-rankingPendingSince<150)return;
+ }else{
+  rankingPendingSignature="";
+  rankingPendingSince=0;
  }
  if(signature===rankingOrderSignature)return;
  rankingPendingSignature="";
@@ -850,7 +863,7 @@ function updateRanking(){
   void body.offsetHeight;
   requestAnimationFrame(()=>{
    moving.forEach(row=>{
-    row.style.transition="transform 640ms cubic-bezier(.22,.61,.36,1)";
+    row.style.transition="transform 180ms cubic-bezier(.22,.61,.36,1)";
     row.style.transform="translate3d(0,0,0)";
     const cleanup=event=>{
      if(event.propertyName!=="transform")return;
