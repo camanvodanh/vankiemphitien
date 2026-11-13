@@ -645,6 +645,13 @@ function render(time){
   ctx.translate(W/2+gamePanX,H/2+gamePanY);
   ctx.scale(gameZoom,gameZoom);
   ctx.translate(-W/2,-H/2);
+  if(finished){
+    // drawPodiumScene tự dựng đúng nền nghi lễ/quảng trường theo từng giai đoạn.
+    // Không vẽ drawScenery lần thứ hai ở đây: khán đài có hàng trăm nhân vật
+    // và việc lặp lại toàn bộ phong cảnh mỗi frame gây tụt FPS rõ rệt.
+    drawPodiumScene(ctx,time,false);drawParticles();drawCamera(time);
+    ctx.restore();updateRanking();return;
+  }
   // Lỗi ở một chi tiết phong cảnh/khán đài không được phép chặn toàn bộ
   // nhân vật và vòng lặp render. Nếu scenery lỗi, vẫn tiếp tục vẽ đường đua.
   try {
@@ -654,10 +661,6 @@ function render(time){
       window.__vkSceneryErrorLogged = true;
       console.error("Lỗi riêng lớp phong cảnh/khán đài:", error);
     }
-  }
-  if(finished){
-    drawPodiumScene(ctx,time,false);drawParticles();drawCamera(time);
-    ctx.restore();updateRanking();return;
   }
   drawTrackLines();drawRaceHud();drawRacers(time);drawAnnouncement();drawParticles();drawCamera(time);
   ctx.restore();
