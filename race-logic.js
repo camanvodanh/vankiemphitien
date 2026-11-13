@@ -1110,7 +1110,8 @@ function handleStopOrSetup(){
 // REVISION 33 — thiên quang giáng thế, từng tiên nhân hiện thân theo thứ tự.
 let summonArrivalStartedAt=0;
 let summonRitualStartedAt=0;
-const summonRitualDuration=2.65;
+const summonRitualDuration=6.2;
+let summonRitualReturnAt=0;
 let summonRacersBeforeClick=null;
 let summonBatchSize=1;
 const summonGroupStep=.30;
@@ -1130,9 +1131,11 @@ $("summon").addEventListener("click",()=>{
     summonArrivalStartedAt=summonRitualStartedAt+summonRitualDuration*1000;
     summonBatchSize=getSummonBatchSize(racers.length);
     const groupCount=Math.ceil(racers.length/summonBatchSize);
+    const lastDelay=getSummonGroupDelay(Math.max(0,racers.length-1));
+    summonRitualReturnAt=summonArrivalStartedAt+(lastDelay+1.05)*1000;
     $("status").textContent=summonBatchSize===1
-      ?"Thiên quang giáng thế · tiên nhân lần lượt hiện thân"
-      :`Thiên quang giáng thế · mỗi lượt ${summonBatchSize} tiên nhân · ${groupCount} lượt`;
+      ?"Chưởng môn khai trận · linh lực hội tụ · thiên quang giáng lâm"
+      :`Chưởng môn khai trận · mỗi lượt ${summonBatchSize} tiên nhân · ${groupCount} lượt`;
     $("lockNotice").textContent=`Đã triệu hồi ${racers.length} tiên nhân. Nhấn Chạy để bắt đầu.`;
   }
 });
@@ -1161,64 +1164,158 @@ drawRacerName=function(racer,x,y,scale){
   }
   summonOriginalDrawRacerName(racer,x,y,scale);
 };
+// Tư thế được áp dụng lên chính các nhân vật đang ngồi tại quảng trường.
+function getPlazaRitualPose(time){
+  if(!summonRitualStartedAt)return 0;
+  const age=(time-summonRitualStartedAt)/1000;
+  const rise=Math.max(0,Math.min(1,(age-.12)/.82));
+  const returnStart=summonRitualReturnAt? summonRitualReturnAt-950:Infinity;
+  const lower=summonRitualReturnAt?Math.max(0,Math.min(1,(summonRitualReturnAt-time)/950)):1;
+  const smooth=value=>value*value*(3-2*value);
+  return Math.min(smooth(rise),smooth(lower));
+}
+const summonBaseDrawSpectator=drawSpectator;
+drawSpectator=function(x,y,scale,roleName,time,phase=0){
+  const affected=roleName==="master"||roleName==="disciple"||roleName==="elder";
+  const pose=affected?getPlazaRitualPose(time):0;
+  if(pose<=.01){summonBaseDrawSpectator(x,y,scale,roleName,time,phase);return;}
+  const role=ROLE[roleName]||ROLE.outer;
+  const lift=(roleName==="master"?23:roleName==="elder"?17:18)*pose;
+  const raisedY=y-lift;
+  summonBaseDrawSpectator(x,raisedY,scale,roleName,time,phase);
+  // Tay áo được nâng lên khỏi tư thế ngồi: chưởng môn kết ấn,
+  // chân truyền và trưởng lão đồng loạt hướng linh lực vào trung tâm.
+  ctx.save();
+  ctx.translate(x,raisedY);
+  ctx.scale(scale*role.scale,scale);
+  const inward=x<550?1:-1;
+  const pulse=.72+.28*Math.sin(time*.012+phase);
+  const chief=roleName==="master";
+  const robe=chief?"#f0d18b":roleName==="elder"?"#d8c4f5":"#b8e6ef";
+  const glow=chief?"#ffe6a1":roleName==="elder"?"#d9b8ff":"#a9fff0";
+  ctx.lineCap="round";ctx.lineJoin="round";
+  ctx.strokeStyle=robe;ctx.lineWidth=chief?8:6;
+  ctx.shadowColor=glow;ctx.shadowBlur=8;
+  ctx.beginPath();
+  if(chief){
+    ctx.moveTo(-9,-8);ctx.quadraticCurveTo(-18,-23,-12,-37);
+    ctx.moveTo(9,-8);ctx.quadraticCurveTo(18,-23,12,-37);
+  }else{
+    ctx.moveTo(inward*8,-7);ctx.quadraticCurveTo(inward*19,-18,inward*25,-31);
+    ctx.moveTo(-inward*8,-7);ctx.quadraticCurveTo(-inward*15,-18,-inward*16,-27);
+  }
+  ctx.stroke();
+  ctx.strokeStyle="#f6d5b8";ctx.lineWidth=2.6;ctx.shadowBlur=5;
+  ctx.beginPath();
+  if(chief){
+    ctx.moveTo(-12,-37);ctx.lineTo(-3,-44);ctx.moveTo(12,-37);ctx.lineTo(3,-44);
+  }else{
+    ctx.moveTo(inward*25,-31);ctx.lineTo(inward*28,-38);
+    ctx.moveTo(-inward*16,-27);ctx.lineTo(-inward*18,-33);
+  }
+  ctx.stroke();
+  ctx.fillStyle=glow;ctx.shadowColor=glow;ctx.shadowBlur=12;
+  ctx.beginPath();
+  if(chief){ctx.arc(0,-45,3.4*pulse,0,Math.PI*2);}
+  else{ctx.arc(inward*28,-39,2.8*pulse,0,Math.PI*2);ctx.arc(-inward*18,-34,2.2*pulse,0,Math.PI*2);}
+  ctx.fill();
+  ctx.restore();
+};
+
 function drawSummonRitual(time){
   if(!summonRitualStartedAt)return;
-  const age=(time-summonRitualStartedAt)/1000;
-  if(age<0)return;
-  if(age>=summonRitualDuration){summonRitualStartedAt=0;return;}
-  const p=Math.max(0,Math.min(1,age/summonRitualDuration));
-  const pulse=.78+.22*Math.sin(age*8);
-  const cx=W*.5,cy=H*.49;
+  const age=Math.max(0,(time-summonRitualStartedAt)/1000);
+  if(summonRitualReturnAt&&time>=summonRitualReturnAt){
+    summonRitualStartedAt=0;summonRitualReturnAt=0;return;
+  }
+  if(age<0||age>=summonRitualDuration)return;
+  const clamp01=value=>Math.max(0,Math.min(1,value));
+  const smooth=value=>{const v=clamp01(value);return v*v*(3-2*v);};
+  const formation=smooth((age-.25)/.95);
+  const energy=smooth((age-1.05)/2.7);
+  const omen=smooth((age-3.8)/1.65);
+  const cx=550,cy=704;
   ctx.save();
   ctx.globalCompositeOperation="screen";
-  // Đại pháp trận của chưởng môn mở ra dưới quảng trường.
-  ctx.save();ctx.translate(cx,cy);ctx.rotate(age*.72);
-  ctx.globalAlpha=(.35+.5*Math.sin(p*Math.PI))*pulse;
-  ctx.strokeStyle="#b8f7df";ctx.shadowColor="#8fffe0";ctx.shadowBlur=22;
-  ctx.lineWidth=2.2;ctx.beginPath();ctx.ellipse(0,0,145+10*Math.sin(age*5),43+4*Math.sin(age*5),0,0,Math.PI*2);ctx.stroke();
-  ctx.lineWidth=1.2;ctx.strokeStyle="#ffe5a8";
-  ctx.beginPath();ctx.ellipse(0,0,116,32,0,0,Math.PI*2);ctx.stroke();
+
+  // Pháp trận mở ngay dưới chân chưởng môn đang đứng trên đài chủ tọa.
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(age*.16);
+  ctx.globalAlpha=formation*(.72+.18*Math.sin(age*5));
+  ctx.strokeStyle="#baffe9";ctx.shadowColor="#8effdf";ctx.shadowBlur=18;
+  ctx.lineWidth=2.6;ctx.beginPath();ctx.ellipse(0,0,154+5*Math.sin(age*3),36+2*Math.sin(age*3),0,0,Math.PI*2);ctx.stroke();
+  ctx.strokeStyle="#ffe6a8";ctx.lineWidth=1.5;ctx.beginPath();ctx.ellipse(0,0,119,27,0,0,Math.PI*2);ctx.stroke();
+  for(let i=0;i<8;i++){
+    const a=i*Math.PI/4;ctx.save();ctx.rotate(a);
+    ctx.beginPath();ctx.moveTo(0,-8);ctx.lineTo(0,-143);ctx.stroke();
+    ctx.translate(0,-127);ctx.rotate(-a);ctx.strokeRect(-6,-6,12,12);ctx.restore();
+  }
   for(let i=0;i<16;i++){
-    const a=i*Math.PI/8, r=i%2?130:145;
-    ctx.save();ctx.rotate(a);ctx.translate(r,0);
-    ctx.beginPath();ctx.moveTo(-5,0);ctx.lineTo(0,-5);ctx.lineTo(5,0);ctx.lineTo(0,5);ctx.closePath();ctx.stroke();
-    ctx.restore();
+    const a=i*Math.PI/8+age*.12;
+    ctx.fillStyle=i%2?"#c8fff0":"#fff0bd";
+    ctx.beginPath();ctx.arc(Math.cos(a)*140,Math.sin(a)*31,2.1,0,Math.PI*2);ctx.fill();
   }
   ctx.restore();
-  // Chưởng môn đứng trung tâm, bốn trưởng lão hai bên cùng kết ấn truyền công.
-  const masters=[{x:cx,y:cy-94,scale:1.18,chief:true},{x:cx-150,y:cy-55,scale:.92},{x:cx-88,y:cy-78,scale:.88},{x:cx+88,y:cy-78,scale:.88},{x:cx+150,y:cy-55,scale:.92}];
-  masters.forEach((m,i)=>{
-    const bob=Math.sin(age*5+i*.8)*2;
-    ctx.save();ctx.translate(m.x,m.y+bob);ctx.globalAlpha*=Math.min(1,p*3);
-    // Áo bào và thân pháp sư.
-    ctx.fillStyle=m.chief?"#d9bd78":"#b7d9c5";
-    ctx.shadowColor=m.chief?"#ffe6a4":"#a8ffe0";ctx.shadowBlur=13;
-    ctx.beginPath();ctx.moveTo(-7,-15);ctx.lineTo(7,-15);ctx.lineTo(16,19);ctx.lineTo(-16,19);ctx.closePath();ctx.fill();
-    ctx.shadowBlur=5;ctx.fillStyle=m.chief?"#fff0bd":"#e9f4dc";
-    ctx.beginPath();ctx.arc(0,-22,7,0,Math.PI*2);ctx.fill();
-    ctx.strokeStyle=m.chief?"#fff0b5":"#c8f7e2";ctx.lineWidth=3;ctx.lineCap="round";
-    ctx.beginPath();ctx.moveTo(-7,-9);ctx.lineTo(-20,-19);ctx.moveTo(7,-9);ctx.lineTo(20,-19);ctx.stroke();
-    // Pháp lực từ hai tay hội tụ về pháp trận.
-    ctx.strokeStyle=m.chief?"rgba(255,224,154,.9)":"rgba(157,255,218,.78)";
-    ctx.lineWidth=m.chief?3:2;ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=12;
-    ctx.beginPath();ctx.moveTo(-20,-19);ctx.quadraticCurveTo((cx-m.x)*.45,-45,cx-m.x,cy-m.y+4);ctx.stroke();
+
+  // Chưởng môn niệm chú và kết ấn ngay tại ngai; không tạo nhân vật giả.
+  const chant=smooth((age-.65)/1.1);
+  ctx.save();ctx.translate(cx,642);
+  ctx.globalAlpha=chant;
+  ctx.strokeStyle="#fff0bd";ctx.lineWidth=2.4;ctx.shadowColor="#ffe4a0";ctx.shadowBlur=16;
+  ctx.beginPath();ctx.arc(0,-43,9+7*Math.sin(age*5),0,Math.PI*2);ctx.stroke();
+  for(let i=0;i<8;i++){
+    const a=i*Math.PI/4+age*.8;
+    ctx.beginPath();ctx.moveTo(Math.cos(a)*13,Math.sin(a)*13-43);
+    ctx.lineTo(Math.cos(a)*27,Math.sin(a)*27-43);ctx.stroke();
+  }
+  ctx.restore();
+
+  // Linh lực từ 7 chân truyền và 8 trưởng lão hội tụ vào đúng pháp trận.
+  const donors=[
+    [395,601,1],[450,597,1],[505,594,1],[560,594,-1],[615,597,-1],[670,601,-1],[725,601,-1],
+    [145,637,1],[195,633,1],[245,633,1],[295,637,1],
+    [755,637,-1],[805,633,-1],[855,633,-1],[905,637,-1]
+  ];
+  if(age>1.05){
+    donors.forEach(([sx,sy,side],i)=>{
+      const handX=sx+side*25,handY=sy-31;
+      const controlX=(handX+cx)*.5,controlY=Math.min(handY,cy)-65-(i%3)*13;
+      ctx.save();ctx.globalAlpha=.12+.72*energy;
+      ctx.strokeStyle=i<7?"#a9fff0":"#d8c0ff";
+      ctx.lineWidth=i<7?2.2:2.7;ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=10;
+      ctx.beginPath();ctx.moveTo(handX,handY);ctx.quadraticCurveTo(controlX,controlY,cx,cy);ctx.stroke();
+      const travel=(age*0.58+i*.071)%1;
+      const bx=(1-travel)*(1-travel)*handX+2*(1-travel)*travel*controlX+travel*travel*cx;
+      const by=(1-travel)*(1-travel)*handY+2*(1-travel)*travel*controlY+travel*travel*cy;
+      ctx.fillStyle="#fff3c4";ctx.beginPath();ctx.arc(bx,by,2.1+(i%2),0,Math.PI*2);ctx.fill();
+      ctx.restore();
+    });
+  }
+
+  // Khi linh lực đã tụ đủ, tường thụy mới hiện trên tầng mây.
+  if(age>3.8){
+    ctx.save();ctx.globalAlpha=omen;
+    const skyGlow=ctx.createLinearGradient(0,65,0,330);
+    skyGlow.addColorStop(0,"rgba(255,239,190,0)");
+    skyGlow.addColorStop(.45,"rgba(255,226,164,.22)");
+    skyGlow.addColorStop(1,"rgba(166,255,226,0)");
+    ctx.fillStyle=skyGlow;ctx.fillRect(0,65,W,265);
+    for(let band=0;band<3;band++){
+      ctx.strokeStyle=band===1?"rgba(255,238,184,.82)":"rgba(174,255,230,.62)";
+      ctx.lineWidth=band===1?3:1.8;ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=16;
+      ctx.beginPath();
+      for(let x=0;x<=W;x+=22){
+        const y=105+band*54+Math.sin(x*.012+age*1.3+band)*13;
+        if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+      }
+      ctx.stroke();
+    }
+    for(let i=0;i<26;i++){
+      const x=(i*83+age*22)%W,y=80+(i*47)%230;
+      ctx.globalAlpha=omen*(.25+.5*Math.sin(age*3+i));
+      ctx.fillStyle=i%3?"#caffec":"#fff0bd";
+      ctx.beginPath();ctx.arc(x,y,1.5+(i%3)*.5,0,Math.PI*2);ctx.fill();
+    }
     ctx.restore();
-  });
-  // Linh lực tụ hội thành cột sáng ở tâm trận, báo hiệu thiên quang sắp giáng.
-  const gather=Math.min(1,p*1.35);
-  ctx.globalAlpha=.2+.65*gather;
-  const glow=ctx.createRadialGradient(cx,cy,2,cx,cy,100+50*gather);
-  glow.addColorStop(0,"rgba(255,250,207,.8)");glow.addColorStop(.35,"rgba(147,255,220,.28)");glow.addColorStop(1,"rgba(120,255,220,0)");
-  ctx.fillStyle=glow;ctx.beginPath();ctx.ellipse(cx,cy,100+50*gather,32+15*gather,0,0,Math.PI*2);ctx.fill();
-  ctx.globalAlpha=.55*gather;
-  ctx.strokeStyle="#fff0bd";ctx.lineWidth=2;ctx.shadowColor="#baffdf";ctx.shadowBlur=18;
-  ctx.beginPath();ctx.moveTo(cx,cy-165*gather);ctx.lineTo(cx,cy-38);ctx.stroke();
-  for(let i=0;i<24;i++){
-    const a=i*2.399+age*2.4, r=24+(i%6)*17+(1-gather)*34;
-    const x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r*.28;
-    ctx.globalAlpha=(.2+.65*gather)*(0.5+0.5*Math.sin(age*9+i));
-    ctx.fillStyle=i%3?"#baffdf":"#fff0bd";ctx.shadowBlur=12;
-    ctx.beginPath();ctx.arc(x,y,1.2+(i%3)*.6,0,Math.PI*2);ctx.fill();
   }
   ctx.restore();
 }
