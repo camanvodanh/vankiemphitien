@@ -646,32 +646,28 @@ function updateRanking() {
 // VẼ TOÀN BỘ KHUNG HÌNH
 // =====================================================
 
-let gameZoom=1;
-function refreshGameZoom(){
-  const readout=document.getElementById("gameZoomReset");
-  const out=document.getElementById("gameZoomOut");
-  const plus=document.getElementById("gameZoomIn");
-  if(readout)readout.textContent=Math.round(gameZoom*100)+"%";
-  if(out)out.disabled=gameZoom<=.7;
-  if(plus)plus.disabled=gameZoom>=2.5;
-}
-(function enableGameZoom(){
-  const out=document.getElementById("gameZoomOut");
-  const plus=document.getElementById("gameZoomIn");
-  const reset=document.getElementById("gameZoomReset");
-  if(!out||!plus||!reset)return;
-  out.addEventListener("click",()=>{gameZoom=Math.max(.7,Math.round((gameZoom-.15)*100)/100);refreshGameZoom();});
-  plus.addEventListener("click",()=>{gameZoom=Math.min(2.5,Math.round((gameZoom+.15)*100)/100);refreshGameZoom();});
-  reset.addEventListener("click",()=>{gameZoom=1;refreshGameZoom();});
-  refreshGameZoom();
+let gameZoom=1,gamePanX=0,gamePanY=0;
+const gamePointers=new Map();
+let gameGesture=null;
+function clampGamePan(){const maxX=W*(gameZoom-1)/2,maxY=H*(gameZoom-1)/2;gamePanX=Math.max(-maxX,Math.min(maxX,gamePanX));gamePanY=Math.max(-maxY,Math.min(maxY,gamePanY));}
+function canvasPoint(event){const rect=canvas.getBoundingClientRect();return{x:(event.clientX-rect.left)*W/rect.width,y:(event.clientY-rect.top)*H/rect.height};}
+function zoomGameAt(nextZoom,point){const next=Math.max(1,Math.min(3.5,nextZoom)),anchor=point||{x:W/2,y:H/2};const worldX=(anchor.x-W/2-gamePanX)/gameZoom+W/2,worldY=(anchor.y-H/2-gamePanY)/gameZoom+H/2;gameZoom=next;gamePanX=anchor.x-W/2-(worldX-W/2)*gameZoom;gamePanY=anchor.y-H/2-(worldY-H/2)*gameZoom;if(gameZoom===1){gamePanX=0;gamePanY=0;}clampGamePan();}
+function pointerCenter(){const a=Array.from(gamePointers.values());return a.length<2?null:{x:(a[0].x+a[1].x)/2,y:(a[0].y+a[1].y)/2};}
+function pointerDistance(){const a=Array.from(gamePointers.values());return a.length<2?0:Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);}
+(function enableGestureGameView(){
+if(!canvas)return;canvas.style.touchAction="none";
+canvas.addEventListener("pointerdown",event=>{if(event.pointerType==="mouse"&&event.button!==0)return;const point=canvasPoint(event);gamePointers.set(event.pointerId,{...point,type:event.pointerType});try{canvas.setPointerCapture(event.pointerId);}catch(_){}if(gamePointers.size>=2){const center=pointerCenter();gameGesture={mode:"pinch",distance:pointerDistance(),zoom:gameZoom,worldX:(center.x-W/2-gamePanX)/gameZoom+W/2,worldY:(center.y-H/2-gamePanY)/gameZoom+H/2};event.preventDefault();}else if(event.pointerType==="mouse"||gameZoom>1){gameGesture={mode:"pan",last:point};event.preventDefault();}else gameGesture=null;});
+canvas.addEventListener("pointermove",event=>{if(!gamePointers.has(event.pointerId))return;const point=canvasPoint(event);gamePointers.set(event.pointerId,{...point,type:event.pointerType});if(gamePointers.size>=2){if(!gameGesture||gameGesture.mode!=="pinch"){const center=pointerCenter();gameGesture={mode:"pinch",distance:pointerDistance(),zoom:gameZoom,worldX:(center.x-W/2-gamePanX)/gameZoom+W/2,worldY:(center.y-H/2-gamePanY)/gameZoom+H/2};}const center=pointerCenter(),distance=pointerDistance(),next=Math.max(1,Math.min(3.5,gameGesture.zoom*(distance/Math.max(1,gameGesture.distance))));gameZoom=next;gamePanX=center.x-W/2-(gameGesture.worldX-W/2)*gameZoom;gamePanY=center.y-H/2-(gameGesture.worldY-H/2)*gameZoom;if(gameZoom===1){gamePanX=0;gamePanY=0;}clampGamePan();event.preventDefault();}else if(gameGesture&&gameGesture.mode==="pan"){gamePanX+=point.x-gameGesture.last.x;gamePanY+=point.y-gameGesture.last.y;gameGesture.last=point;clampGamePan();event.preventDefault();}});
+const endPointer=event=>{gamePointers.delete(event.pointerId);if(gamePointers.size===1){const point=gamePointers.values().next().value;gameGesture=gameZoom>1?{mode:"pan",last:point}:null;}else if(gamePointers.size===0)gameGesture=null;};
+canvas.addEventListener("pointerup",endPointer);canvas.addEventListener("pointercancel",endPointer);canvas.addEventListener("lostpointercapture",endPointer);
+canvas.addEventListener("wheel",event=>{event.preventDefault();zoomGameAt(gameZoom*(event.deltaY<0?1.12:1/1.12),canvasPoint(event));},{passive:false});
 })();
-
 function render(time){
   ctx.clearRect(0,0,W,H);
   // Khung gọn theo chiều cao mới: giữ nguyên tọa độ gốc của trường đua,
   // không dịch toàn cảnh xuống dưới làm dư bầu trời và quảng trường.
   ctx.save();
-  ctx.translate(W/2,H/2);
+  ctx.translate(W/2+gamePanX,H/2+gamePanY);
   ctx.scale(gameZoom,gameZoom);
   ctx.translate(-W/2,-H/2);
   drawScenery(time);
