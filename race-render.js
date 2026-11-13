@@ -646,11 +646,34 @@ function updateRanking() {
 // VẼ TOÀN BỘ KHUNG HÌNH
 // =====================================================
 
+let gameZoom=1;
+function refreshGameZoom(){
+  const readout=document.getElementById("gameZoomReset");
+  const out=document.getElementById("gameZoomOut");
+  const plus=document.getElementById("gameZoomIn");
+  if(readout)readout.textContent=Math.round(gameZoom*100)+"%";
+  if(out)out.disabled=gameZoom<=.7;
+  if(plus)plus.disabled=gameZoom>=2.5;
+}
+(function enableGameZoom(){
+  const out=document.getElementById("gameZoomOut");
+  const plus=document.getElementById("gameZoomIn");
+  const reset=document.getElementById("gameZoomReset");
+  if(!out||!plus||!reset)return;
+  out.addEventListener("click",()=>{gameZoom=Math.max(.7,Math.round((gameZoom-.15)*100)/100);refreshGameZoom();});
+  plus.addEventListener("click",()=>{gameZoom=Math.min(2.5,Math.round((gameZoom+.15)*100)/100);refreshGameZoom();});
+  reset.addEventListener("click",()=>{gameZoom=1;refreshGameZoom();});
+  refreshGameZoom();
+})();
+
 function render(time){
   ctx.clearRect(0,0,W,H);
   // Khung gọn theo chiều cao mới: giữ nguyên tọa độ gốc của trường đua,
   // không dịch toàn cảnh xuống dưới làm dư bầu trời và quảng trường.
   ctx.save();
+  ctx.translate(W/2,H/2);
+  ctx.scale(gameZoom,gameZoom);
+  ctx.translate(-W/2,-H/2);
   drawScenery(time);
   if(finished){
     drawPodiumScene(ctx,time,false);drawParticles();drawCamera(time);
