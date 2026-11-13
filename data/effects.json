@@ -217,6 +217,96 @@
     "sameEffect": "extend",
     "oppositeEffect": "replace",
     "oppositePolarity": "clear-and-apply",
-    "antiBadLuck": "gentle-only"
+    "antiBadLuck": "gentle-only",
+    "durationProfiles": [
+      {
+        "maxRaceSeconds": 5,
+        "eventIntervalSeconds": [
+          0.35,
+          0.65
+        ],
+        "activationDelaySeconds": [
+          0.15,
+          0.35
+        ]
+      },
+      {
+        "maxRaceSeconds": 10,
+        "eventIntervalSeconds": [
+          0.45,
+          0.8
+        ],
+        "activationDelaySeconds": [
+          0.2,
+          0.45
+        ]
+      },
+      {
+        "maxRaceSeconds": 15,
+        "eventIntervalSeconds": [
+          0.6,
+          1
+        ],
+        "activationDelaySeconds": [
+          0.25,
+          0.55
+        ]
+      },
+      {
+        "maxRaceSeconds": 30,
+        "eventIntervalSeconds": [
+          0.8,
+          1.4
+        ],
+        "activationDelaySeconds": [
+          0.4,
+          0.8
+        ]
+      },
+      {
+        "maxRaceSeconds": 60,
+        "eventIntervalSeconds": [
+          1.2,
+          2
+        ],
+        "activationDelaySeconds": [
+          0.6,
+          1.2
+        ]
+      },
+      {
+        "maxRaceSeconds": 120,
+        "eventIntervalSeconds": [
+          1.5,
+          2.8
+        ],
+        "activationDelaySeconds": [
+          0.8,
+          1.8
+        ]
+      },
+      {
+        "maxRaceSeconds": 300,
+        "eventIntervalSeconds": [
+          2,
+          3.5
+        ],
+        "activationDelaySeconds": [
+          1,
+          2.5
+        ]
+      },
+      {
+        "maxRaceSeconds": 600,
+        "eventIntervalSeconds": [
+          2.5,
+          4
+        ],
+        "activationDelaySeconds": [
+          1,
+          4
+        ]
+      }
+    ]
   }
 }
