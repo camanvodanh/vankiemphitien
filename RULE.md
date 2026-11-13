@@ -51,12 +51,15 @@
    - Không để mũi tên tăng/giảm hạng tiếp tục xuất hiện cho nhân vật đã về đích.
    - Thời gian hoàn thành phải được cập nhật vào ô thời gian ngay cả khi thứ tự các hàng không thay đổi.
 6. Nhân vật chưa về đích vẫn có thể tiếp tục đổi thứ hạng và có hiệu ứng tương ứng.
-7. Khi toàn bộ nhân vật về đích: dừng hiệu ứng tăng/giảm hạng và chuyển Tiên Bảng sang trạng thái kết quả ổn định.
-8. Định dạng thời gian Tiên Bảng: `MM:SS:mmm` (phút:giây:mili giây), ví dụ `00:30:015` nghĩa là 30 giây 15 mili giây. Phần mili giây luôn đủ 3 chữ số từ `000` đến `999`.
-9. Thời gian về đích phải được nội suy từ thời điểm nhân vật thực sự vượt vạch đích trong khung cập nhật, không lấy chung thời điểm cuối khung hình cho mọi nhân vật.
-10. Các nhân vật về đích cùng một khung cập nhật phải được xử lý theo thời điểm vượt vạch nội suy; nếu làm tròn đến mili giây bị trùng, phải đảm bảo thời gian kết quả tăng tối thiểu 1 ms theo đúng thứ tự về đích.
-11. Không để thời gian là dấu gạch ngang với nhân vật đã có trạng thái về đích hợp lệ. Nếu thiếu `finishTime`, phải tìm và sửa điểm ghi nhận thời gian khi về đích; không chỉ thay chuỗi hiển thị.
-12. Giữ tên nhân vật trên một dòng, tự thu nhỏ khi tên dài; không làm tràn bảng hoặc che cột thời gian.
+7. Cập nhật thứ hạng trực tiếp không được dùng debounce yêu cầu thứ tự phải đứng yên trong một khoảng thời gian cố định; khi thứ hạng đổi liên tục phải dùng throttle/coalescing giữ trạng thái mới nhất để bảng vẫn cập nhật đều.
+8. Mũi tên tăng/giảm hạng và thời gian phải được đồng bộ DOM độc lập với việc chữ ký thứ tự hàng có thay đổi hay không; timer hết thì mũi tên phải tự biến mất.
+9. Chuyển động FLIP phải ngắn và phù hợp với chu kỳ cập nhật; không để animation dài hơn nhiều lần chu kỳ cập nhật khiến chuyển động bị khởi động lại liên tục.
+10. Khi toàn bộ nhân vật về đích: dừng hiệu ứng tăng/giảm hạng và chuyển Tiên Bảng sang trạng thái kết quả ổn định.
+11. Định dạng thời gian Tiên Bảng: `MM:SS:mmm` (phút:giây:mili giây), ví dụ `00:30:015` nghĩa là 30 giây 15 mili giây. Phần mili giây luôn đủ 3 chữ số từ `000` đến `999`.
+12. Thời gian về đích phải được nội suy từ thời điểm nhân vật thực sự vượt vạch đích trong khung cập nhật, không lấy chung thời điểm cuối khung hình cho mọi nhân vật.
+13. Các nhân vật về đích cùng một khung cập nhật phải được xử lý theo thời điểm vượt vạch nội suy; nếu làm tròn đến mili giây bị trùng, phải đảm bảo thời gian kết quả tăng tối thiểu 1 ms theo đúng thứ tự về đích.
+14. Không để thời gian là dấu gạch ngang với nhân vật đã có trạng thái về đích hợp lệ. Nếu thiếu `finishTime`, phải tìm và sửa điểm ghi nhận thời gian khi về đích; không chỉ thay chuỗi hiển thị.
+15. Giữ tên nhân vật trên một dòng, tự thu nhỏ khi tên dài; không làm tràn bảng hoặc che cột thời gian.
 
 ## 5. Quy tắc giao diện và responsive
 - Phải giữ tương thích màn hình iPhone/Safari và desktop.
