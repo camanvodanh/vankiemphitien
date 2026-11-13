@@ -19,83 +19,8 @@ const TRACK = {
   bottom: 525
 };
 
-const palette = [
-  ["#d95c4b", "#853c35"],
-  ["#4d8db2", "#315a7a"],
-  ["#a78ac9", "#66517f"],
-  ["#d4a64d", "#8c682e"],
-  ["#5b9b76", "#376447"],
-  ["#d17b9c", "#8e4c68"],
-  ["#b8b9c6", "#747583"],
-  ["#c77a45", "#804b2e"],
-  ["#6c9eaa", "#426c75"],
-  ["#b4a05d", "#76652f"]
-];
-
-const ROLE = {
-  servant: {
-    name: "Tạp dịch",
-    robe: "#817b6a",
-    dark: "#4f4b42",
-    belt: "#a99b77",
-    aura: null,
-    scale: .72
-  },
-
-  outer: {
-    name: "Ngoại môn",
-    robe: "#4d83a1",
-    dark: "#294f6c",
-    belt: "#c3a86b",
-    aura: null,
-    scale: .8
-  },
-
-  inner: {
-    name: "Nội môn",
-    robe: "#d8dfd0",
-    dark: "#719b9a",
-    belt: "#d5b86e",
-    aura: "#b5e5d8",
-    scale: .88
-  },
-
-  core: {
-    name: "Nòng cốt",
-    robe: "#d6b45e",
-    dark: "#89602e",
-    belt: "#fff0b2",
-    aura: "#ffe3a0",
-    scale: .98
-  },
-
-  disciple: {
-    name: "Thân truyền",
-    robe: "#c9d7e8",
-    dark: "#526d91",
-    belt: "#f3d88b",
-    aura: "#b9d8ff",
-    scale: 1.08
-  },
-
-  elder: {
-    name: "Trưởng lão",
-    robe: "#755b91",
-    dark: "#443451",
-    belt: "#e5c67d",
-    aura: "#d8c2ff",
-    scale: 1.15
-  },
-
-  master: {
-    name: "Môn chủ",
-    robe: "#a83f36",
-    dark: "#592b2b",
-    belt: "#f6d88b",
-    aura: "#ffe8a4",
-    scale: 1.38
-  }
-};
+const palette = VKP_DATA.characters.racerPalette;
+const ROLE = VKP_DATA.characters.roles;
 
 let racers = [];
 let particles = [];
