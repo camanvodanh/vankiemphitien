@@ -1071,13 +1071,13 @@ function syncButtons(){
   runButton.innerHTML='<span class="btn-icon">'+artwork[state.art]+'</span><span class="btn-label">'+state.label+'</span>';
   runButton.setAttribute("aria-label",state.label);
   runButton.title=state.label;
-  runButton.disabled=!racers.length;
+  runButton.disabled=!racers.length||!summonVisualReady;
 
   if(pauseButton){pauseButton.hidden=true;pauseButton.disabled=true;}
 
   stopButton.hidden=false;
   const isSetup=finished||raceStopped;
-  stopButton.disabled=!racers.length;
+  stopButton.disabled=!racers.length||!summonVisualReady;
   stopButton.innerHTML='<span class="btn-icon">'+artwork[isSetup?"setup":"stop"]+'</span><span class="btn-label">'+(isSetup?"Khởi tạo":"Dừng")+'</span>';
   stopButton.setAttribute("aria-label",isSetup?"Khởi tạo":"Dừng");
   stopButton.title=isSetup?"Khởi tạo":"Dừng";
