@@ -1174,52 +1174,13 @@ function getPlazaRitualPose(time){
   const smooth=value=>value*value*(3-2*value);
   return Math.min(smooth(rise),smooth(lower));
 }
+// Chỉ nâng nhẹ toàn bộ nhân vật thật tại chỗ; tay và bàn tay do drawSpectator vẽ.
 const summonBaseDrawSpectator=drawSpectator;
 drawSpectator=function(x,y,scale,roleName,time,phase=0){
   const affected=roleName==="master"||roleName==="disciple"||roleName==="elder";
   const pose=affected?getPlazaRitualPose(time):0;
-  if(pose<=.01){summonBaseDrawSpectator(x,y,scale,roleName,time,phase);return;}
-  const role=ROLE[roleName]||ROLE.outer;
-  const lift=(roleName==="master"?23:roleName==="elder"?17:18)*pose;
-  const raisedY=y-lift;
-  summonBaseDrawSpectator(x,raisedY,scale,roleName,time,phase);
-  // Tay áo được nâng lên khỏi tư thế ngồi: chưởng môn kết ấn,
-  // chân truyền và trưởng lão đồng loạt hướng linh lực vào trung tâm.
-  ctx.save();
-  ctx.translate(x,raisedY);
-  ctx.scale(scale*role.scale,scale);
-  const inward=x<550?1:-1;
-  const pulse=.72+.28*Math.sin(time*.012+phase);
-  const chief=roleName==="master";
-  const robe=chief?"#f0d18b":roleName==="elder"?"#d8c4f5":"#b8e6ef";
-  const glow=chief?"#ffe6a1":roleName==="elder"?"#d9b8ff":"#a9fff0";
-  ctx.lineCap="round";ctx.lineJoin="round";
-  ctx.strokeStyle=robe;ctx.lineWidth=chief?8:6;
-  ctx.shadowColor=glow;ctx.shadowBlur=8;
-  ctx.beginPath();
-  if(chief){
-    ctx.moveTo(-9,-8);ctx.quadraticCurveTo(-18,-23,-12,-37);
-    ctx.moveTo(9,-8);ctx.quadraticCurveTo(18,-23,12,-37);
-  }else{
-    ctx.moveTo(inward*8,-7);ctx.quadraticCurveTo(inward*19,-18,inward*25,-31);
-    ctx.moveTo(-inward*8,-7);ctx.quadraticCurveTo(-inward*15,-18,-inward*16,-27);
-  }
-  ctx.stroke();
-  ctx.strokeStyle="#f6d5b8";ctx.lineWidth=2.6;ctx.shadowBlur=5;
-  ctx.beginPath();
-  if(chief){
-    ctx.moveTo(-12,-37);ctx.lineTo(-3,-44);ctx.moveTo(12,-37);ctx.lineTo(3,-44);
-  }else{
-    ctx.moveTo(inward*25,-31);ctx.lineTo(inward*28,-38);
-    ctx.moveTo(-inward*16,-27);ctx.lineTo(-inward*18,-33);
-  }
-  ctx.stroke();
-  ctx.fillStyle=glow;ctx.shadowColor=glow;ctx.shadowBlur=12;
-  ctx.beginPath();
-  if(chief){ctx.arc(0,-45,3.4*pulse,0,Math.PI*2);}
-  else{ctx.arc(inward*28,-39,2.8*pulse,0,Math.PI*2);ctx.arc(-inward*18,-34,2.2*pulse,0,Math.PI*2);}
-  ctx.fill();
-  ctx.restore();
+  const lift=(roleName==="master"?12:roleName==="elder"?8:7)*pose;
+  summonBaseDrawSpectator(x,y-lift,scale,roleName,time,phase);
 };
 
 function drawSummonRitual(time){
@@ -1239,22 +1200,24 @@ function drawSummonRitual(time){
   ctx.globalCompositeOperation="screen";
 
   // Pháp trận mở ngay dưới chân chưởng môn đang đứng trên đài chủ tọa.
-  ctx.save();ctx.translate(cx,cy);ctx.rotate(age*.16);
-  ctx.globalAlpha=formation*(.72+.18*Math.sin(age*5));
+  ctx.save();ctx.translate(cx,cy);
+  ctx.globalAlpha=formation*(.78+.16*Math.sin(age*5));
+  // Pháp trận nhìn thẳng từ trên xuống: hình tròn phẳng, không kéo dẹt phối cảnh.
   ctx.strokeStyle="#baffe9";ctx.shadowColor="#8effdf";ctx.shadowBlur=18;
-  ctx.lineWidth=2.6;ctx.beginPath();ctx.ellipse(0,0,154+5*Math.sin(age*3),36+2*Math.sin(age*3),0,0,Math.PI*2);ctx.stroke();
-  ctx.strokeStyle="#ffe6a8";ctx.lineWidth=1.5;ctx.beginPath();ctx.ellipse(0,0,119,27,0,0,Math.PI*2);ctx.stroke();
+  ctx.lineWidth=2.6;ctx.beginPath();ctx.arc(0,0,78+2*Math.sin(age*3),0,Math.PI*2);ctx.stroke();
+  ctx.strokeStyle="#ffe6a8";ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(0,0,62,0,Math.PI*2);ctx.stroke();
+  ctx.save();ctx.rotate(age*.42);
   for(let i=0;i<8;i++){
-    const a=i*Math.PI/4;ctx.save();ctx.rotate(a);
-    ctx.beginPath();ctx.moveTo(0,-8);ctx.lineTo(0,-143);ctx.stroke();
-    ctx.translate(0,-127);ctx.rotate(-a);ctx.strokeRect(-6,-6,12,12);ctx.restore();
+    const a=i*Math.PI/4;ctx.save();ctx.rotate(a);ctx.beginPath();
+    ctx.moveTo(0,-8);ctx.lineTo(0,-72);ctx.stroke();
+    ctx.translate(0,-67);ctx.rotate(-a);ctx.strokeRect(-4,-4,8,8);ctx.restore();
   }
   for(let i=0;i<16;i++){
-    const a=i*Math.PI/8+age*.12;
+    const a=i*Math.PI/8;
     ctx.fillStyle=i%2?"#c8fff0":"#fff0bd";
-    ctx.beginPath();ctx.arc(Math.cos(a)*140,Math.sin(a)*31,2.1,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(Math.cos(a)*70,Math.sin(a)*70,2.1,0,Math.PI*2);ctx.fill();
   }
-  ctx.restore();
+  ctx.restore();ctx.restore();
 
   // Chưởng môn niệm chú và kết ấn ngay tại ngai; không tạo nhân vật giả.
   const chant=smooth((age-.65)/1.1);
@@ -1267,6 +1230,18 @@ function drawSummonRitual(time){
     ctx.beginPath();ctx.moveTo(Math.cos(a)*13,Math.sin(a)*13-43);
     ctx.lineTo(Math.cos(a)*27,Math.sin(a)*27-43);ctx.stroke();
   }
+  // Chú văn bay thành từng nhịp ngay phía trên chưởng môn đang niệm chú.
+  const mantra=["唵","灵","召","玄","引","天"];
+  ctx.textAlign="center";ctx.textBaseline="middle";
+  ctx.font="bold 17px serif";ctx.fillStyle="#fff0bd";
+  ctx.shadowColor="#ffe4a0";ctx.shadowBlur=13;
+  mantra.forEach((glyph,i)=>{
+    const phase=(age*1.05+i*.19)%1;
+    const gx=Math.sin(age*1.4+i*1.1)*32+(i-2.5)*15;
+    const gy=-91-phase*34;
+    ctx.globalAlpha=chant*(1-phase)*.9;
+    ctx.fillText(glyph,gx,gy);
+  });
   ctx.restore();
 
   // Linh lực từ 7 chân truyền và 8 trưởng lão hội tụ vào đúng pháp trận.
@@ -1292,28 +1267,57 @@ function drawSummonRitual(time){
   }
 
   // Khi linh lực đã tụ đủ, tường thụy mới hiện trên tầng mây.
-  if(age>3.8){
+  if(age>3.25){
     ctx.save();ctx.globalAlpha=omen;
-    const skyGlow=ctx.createLinearGradient(0,65,0,330);
-    skyGlow.addColorStop(0,"rgba(255,239,190,0)");
-    skyGlow.addColorStop(.45,"rgba(255,226,164,.22)");
-    skyGlow.addColorStop(1,"rgba(166,255,226,0)");
-    ctx.fillStyle=skyGlow;ctx.fillRect(0,65,W,265);
-    for(let band=0;band<3;band++){
-      ctx.strokeStyle=band===1?"rgba(255,238,184,.82)":"rgba(174,255,230,.62)";
-      ctx.lineWidth=band===1?3:1.8;ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=16;
+    // Tường thụy phải phủ rõ bầu trời trước thời điểm cột sáng giáng xuống.
+    const skyGlow=ctx.createLinearGradient(0,45,0,365);
+    skyGlow.addColorStop(0,"rgba(255,239,190,.02)");
+    skyGlow.addColorStop(.38,"rgba(255,226,164,.36)");
+    skyGlow.addColorStop(1,"rgba(166,255,226,.04)");
+    ctx.fillStyle=skyGlow;ctx.fillRect(0,45,W,320);
+    // Quầng nhật hoa vàng ngọc và các tia sáng tỏa rộng trên tầng mây.
+    const sunX=550+Math.sin(age*.55)*34,sunY=174;
+    const halo=ctx.createRadialGradient(sunX,sunY,8,sunX,sunY,220);
+    halo.addColorStop(0,"rgba(255,250,211,.62)");
+    halo.addColorStop(.32,"rgba(255,220,151,.22)");
+    halo.addColorStop(1,"rgba(255,220,151,0)");
+    ctx.fillStyle=halo;ctx.fillRect(sunX-220,sunY-220,440,440);
+    ctx.save();ctx.translate(sunX,sunY);ctx.rotate(-.12);
+    ctx.strokeStyle="rgba(255,239,185,.34)";ctx.lineWidth=2;ctx.shadowColor="#ffe8a7";ctx.shadowBlur=12;
+    for(let ray=0;ray<18;ray++){
+      const a=ray*Math.PI/9+age*.08;
+      ctx.beginPath();ctx.moveTo(Math.cos(a)*34,Math.sin(a)*34);
+      ctx.lineTo(Math.cos(a)*210,Math.sin(a)*210);ctx.stroke();
+    }
+    ctx.restore();
+    // Ba dải mây tường vân uốn lượn rõ nét.
+    for(let band=0;band<4;band++){
+      ctx.strokeStyle=band%2===0?"rgba(255,238,184,.95)":"rgba(145,255,226,.82)";
+      ctx.lineWidth=band===1?4:2.4;ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=19;
       ctx.beginPath();
-      for(let x=0;x<=W;x+=22){
-        const y=105+band*54+Math.sin(x*.012+age*1.3+band)*13;
+      for(let x=0;x<=W;x+=14){
+        const y=95+band*57+Math.sin(x*.012+age*1.3+band)*17+Math.sin(x*.025-age*.7)*5;
         if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
       }
       ctx.stroke();
     }
-    for(let i=0;i<26;i++){
-      const x=(i*83+age*22)%W,y=80+(i*47)%230;
-      ctx.globalAlpha=omen*(.25+.5*Math.sin(age*3+i));
+    // Mây lành cuộn hai bên trời, ánh vàng và xanh ngọc.
+    for(let side=0;side<2;side++){
+      for(let puff=0;puff<5;puff++){
+        const x=(side?W-65:65)+(puff-2)*24+Math.sin(age*.7+puff)*8;
+        const y=132+puff*31+Math.sin(age+puff)*5;
+        ctx.globalAlpha=omen*.72;
+        ctx.fillStyle=puff%2?"rgba(171,255,230,.72)":"rgba(255,230,171,.78)";
+        ctx.beginPath();ctx.arc(x,y,11+(puff%3)*3,Math.PI,Math.PI*2);
+        ctx.arc(x+13,y-3,12,Math.PI,Math.PI*2);ctx.arc(x+26,y,10,Math.PI,Math.PI*2);
+        ctx.lineTo(x+26,y+5);ctx.lineTo(x,y+5);ctx.closePath();ctx.fill();
+      }
+    }
+    for(let i=0;i<38;i++){
+      const x=(i*83+age*25)%W,y=68+(i*47)%260;
+      ctx.globalAlpha=omen*(.38+.52*Math.sin(age*3+i));
       ctx.fillStyle=i%3?"#caffec":"#fff0bd";
-      ctx.beginPath();ctx.arc(x,y,1.5+(i%3)*.5,0,Math.PI*2);ctx.fill();
+      ctx.shadowBlur=12;ctx.beginPath();ctx.arc(x,y,1.8+(i%3)*.7,0,Math.PI*2);ctx.fill();
     }
     ctx.restore();
   }
