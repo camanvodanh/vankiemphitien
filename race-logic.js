@@ -3,6 +3,8 @@
 
 // Khai báo trước lần updateRanking() khởi tạo ở cuối file.
 let rankingOrderSignature = "";
+let rankingPendingSignature = "";
+let rankingPendingSince = 0;
 let raceStopped = false;
 
 // =====================================================
@@ -691,18 +693,33 @@ function updateRanking(){
  const body=$("rankBody");
  const revealing=window.__vkSummonRevealActive===true;
  const now=performance.now();
- const sorted=sortedRacers().filter(r=>!revealing||(Number.isFinite(r.summonRevealAt)&&now>=r.summonRevealAt));
+ const raceActive=started===true||finished===true;
+ // Trước cuộc đua giữ đúng thứ tự triệu hồi, chỉ thêm tên khi tiên nhân hiện thân.
+ const source=raceActive?sortedRacers():racers;
+ const sorted=source.filter(r=>!revealing||(Number.isFinite(r.summonRevealAt)&&now>=r.summonRevealAt));
  if(!sorted.length){
   body.innerHTML='<tr><td colspan="3" class="empty">'+(revealing?"Đang triệu hồi tiên nhân…":"Chưa có tiên nhân")+'</td></tr>';
-  rankingOrderSignature=revealing?"summoning|":"";
+  rankingOrderSignature=(raceActive?"race|":"idle|")+(revealing?"summoning|":"empty|");
+  rankingPendingSignature="";
+  rankingPendingSince=0;
   return;
  }
- const allFinished=sorted.every(r=>r.finished===true);
- const signature=(allFinished?"finished|":"racing|")+sorted.map(r=>r.id+":"+(r.rankMovement||"")+":"+(r.finished&&r.finishTime!==null?r.finishTime:"")).join("|");
+ const mode=raceActive?"race":"idle";
+ const signature=mode+"|"+sorted.map(r=>String(r.id)).join("|");
+ // Chỉ trì hoãn thay đổi thứ tự trong lúc đua: tránh các lần vượt sát nhau
+ // làm FLIP bị khởi động lại liên tục ở từng khung hình.
+ if(signature!==rankingOrderSignature&&raceActive){
+  if(rankingPendingSignature!==signature){
+   rankingPendingSignature=signature;
+   rankingPendingSince=now;
+   return;
+  }
+  if(now-rankingPendingSince<190)return;
+ }
  if(signature===rankingOrderSignature)return;
+ rankingPendingSignature="";
+ rankingPendingSince=0;
 
- // Giữ nguyên DOM node của từng tiên nhân để FLIP thực sự trượt hàng,
- // thay vì xóa toàn bộ tbody rồi tạo lại khiến hiệu ứng bị mất/giật.
  const oldRows=new Map();
  body.querySelectorAll("tr[data-racer-id]").forEach(row=>{
   oldRows.set(row.dataset.racerId,{row,top:row.getBoundingClientRect().top});
@@ -715,12 +732,12 @@ function updateRanking(){
   const previous=oldRows.get(key);
   const row=previous?previous.row:document.createElement("tr");
   row.dataset.racerId=key;
-  const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":String(i+1);
-  const arrow=!allFinished&&r.rankMovement==="up"
+  const medal=raceActive?(i===0?"🥇":i===1?"🥈":i===2?"🥉":String(i+1)):"";
+  const arrow=raceActive&&r.rankMovement==="up"
    ?'<span class="rank-movement rank-up" aria-label="Tăng hạng" title="Tăng hạng">▲</span>'
-   :!allFinished&&r.rankMovement==="down"
+   :raceActive&&r.rankMovement==="down"
     ?'<span class="rank-movement rank-down" aria-label="Giảm hạng" title="Giảm hạng">▼</span>':"";
-  const actualTime=r.finished&&r.finishTime!==null?timeText(r.finishTime):"—";
+  const actualTime=raceActive&&r.finished&&r.finishTime!==null?timeText(r.finishTime):"—";
   row.innerHTML='<td><span class="rank-cell">'+arrow+'<span class="rank-position">'+medal+'</span></span></td><td title="'+escapeHTML(r.name)+'">'+escapeHTML(r.name)+'</td><td>'+actualTime+'</td>';
   orderedRows.push({row,oldTop:previous?previous.top:null});
  });
@@ -743,7 +760,7 @@ function updateRanking(){
   void body.offsetHeight;
   requestAnimationFrame(()=>{
    moving.forEach(row=>{
-    row.style.transition="transform 480ms cubic-bezier(.2,.72,.25,1)";
+    row.style.transition="transform 640ms cubic-bezier(.22,.61,.36,1)";
     row.style.transform="translate3d(0,0,0)";
     const cleanup=event=>{
      if(event.propertyName!=="transform")return;
