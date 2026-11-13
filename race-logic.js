@@ -726,7 +726,7 @@ function updateRanking(){
   // sau đó trượt đến vị trí mới và hạ xuống êm.
   row.classList.add("rank-row-moving");
   row.style.transition="none";
-  row.style.transform="translate3d(0,"+delta+"px,0) scale(1.018)";
+  row.style.transform="translate3d(0,"+delta+"px,0)";
   movedRows.push({row,index});
  });
  if(movedRows.length){
@@ -734,10 +734,10 @@ function updateRanking(){
   void body.offsetHeight;
   requestAnimationFrame(()=>{
    movedRows.forEach(({row,index})=>{
-    row.style.transition="transform 620ms cubic-bezier(.18,.78,.22,1), filter 620ms ease";
+    row.style.transition="transform 420ms cubic-bezier(.2,.72,.25,1)";
     row.style.transform="translate3d(0,0,0) scale(1)";
     row.style.filter="";
-    row.style.transitionDelay=Math.min(index*16,96)+"ms";
+    row.style.transitionDelay="0ms";
     row.addEventListener("transitionend",function finishRowMove(event){
      if(event.propertyName!=="transform")return;
      row.removeEventListener("transitionend",finishRowMove);
