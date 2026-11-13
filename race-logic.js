@@ -693,9 +693,10 @@ function updateRanking(){
   return;
  }
 
- // Chỉ dựng lại bảng khi thứ tự hoặc trạng thái hàng thay đổi,
- // tránh làm mới DOM mỗi khung hình và giữ hiệu ứng chuyển động mượt.
- const signature=sorted.map(r=>r.id+":"+r.rankMovement+":"+(r.finished&&r.finishTime!==null?r.finishTime:"")).join("|");
+ // Khi tất cả đã về đích, ẩn hoàn toàn ký hiệu tăng/giảm hạng.
+ const allFinished=sorted.length>0&&sorted.every(r=>r.finished===true);
+ // Chỉ dựng lại bảng khi thứ tự hoặc trạng thái hàng thay đổi.
+ const signature=(allFinished?"finished|":"racing|")+sorted.map(r=>r.id+":"+r.rankMovement+":"+(r.finished&&r.finishTime!==null?r.finishTime:"")).join("|");
  if(signature===rankingOrderSignature)return;
 
  const previousPositions=new Map();
@@ -706,7 +707,7 @@ function updateRanking(){
 
  body.innerHTML=sorted.map((r,i)=>{
   const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":i+1;
-  const arrow=r.rankMovement==="up"?'<span class="rank-movement rank-up" aria-label="Tăng hạng" title="Tăng hạng">▲</span>':r.rankMovement==="down"?'<span class="rank-movement rank-down" aria-label="Giảm hạng" title="Giảm hạng">▼</span>':"";
+  const arrow=!allFinished&&r.rankMovement==="up"?'<span class="rank-movement rank-up" aria-label="Tăng hạng" title="Tăng hạng">▲</span>':!allFinished&&r.rankMovement==="down"?'<span class="rank-movement rank-down" aria-label="Giảm hạng" title="Giảm hạng">▼</span>':"";
   const actualTime=r.finished&&r.finishTime!==null?timeText(r.finishTime):"—";
   return '<tr data-racer-id="'+r.id+'"><td><span class="rank-cell">'+arrow+'<span class="rank-position">'+medal+'</span></span></td><td title="'+escapeHTML(r.name)+'">'+escapeHTML(r.name)+'</td><td>'+actualTime+'</td></tr>';
  }).join("");
