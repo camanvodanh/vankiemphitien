@@ -413,7 +413,18 @@ function triggerEvent(){
   return;
  }
  const ranked=sortedRacers();
- const racer=active[randInt(0,active.length-1)];
+ // Tập trung một phần sự kiện vào nhóm dẫn đầu để cuộc đua top 10 luôn biến động,
+ // nhưng vẫn dành cơ hội cho nhóm sau bứt tốc chen vào.
+ const topGroup=ranked.slice(0,Math.min(10,ranked.length));
+ const topEligible=active.filter(r=>topGroup.includes(r));
+ const outsideEligible=active.filter(r=>!topGroup.includes(r));
+ let poolToTarget=active;
+ if(topEligible.length&&outsideEligible.length){
+  poolToTarget=Math.random()<.65?topEligible:outsideEligible;
+ }else if(topEligible.length){
+  poolToTarget=topEligible;
+ }
+ const racer=poolToTarget[randInt(0,poolToTarget.length-1)];
  const rank=Math.max(0,ranked.indexOf(racer));
  const ratio=ranked.length>1?rank/(ranked.length-1):0.5;
  const position=ratio<1/3?"front":ratio>2/3?"back":"middle";
