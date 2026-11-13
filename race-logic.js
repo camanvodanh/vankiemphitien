@@ -1130,9 +1130,9 @@ $("summon").addEventListener("click",()=>{
   if(racers.length>=2&&racers!==summonRacersBeforeClick&&!running&&!paused){
     summonRitualStartedAt=performance.now();
     summonArrivalStartedAt=summonRitualStartedAt+summonRitualDuration*1000;
-    summonRitualReturnAt=summonArrivalStartedAt+(Math.ceil(racers.length/summonBatchSize)-1)*summonGroupStep*1000+summonBeamDuration*1000+650;
     summonBatchSize=getSummonBatchSize(racers.length);
     const groupCount=Math.ceil(racers.length/summonBatchSize);
+    summonRitualReturnAt=summonArrivalStartedAt+(groupCount-1)*summonGroupStep*1000+summonBeamDuration*1000+950;
     $("status").textContent=summonBatchSize===1
       ?"Thiên quang giáng thế · tiên nhân lần lượt hiện thân"
       :`Thiên quang giáng thế · mỗi lượt ${summonBatchSize} tiên nhân · ${groupCount} lượt`;
@@ -1168,7 +1168,8 @@ function drawSummonRitual(time){
   if(!summonRitualStartedAt)return;
   const age=(time-summonRitualStartedAt)/1000;
   if(age<0)return;
-  if(age>=summonRitualDuration){summonRitualStartedAt=0;return;}
+  if(time>=summonRitualReturnAt){summonRitualStartedAt=0;summonRitualReturnAt=0;return;}
+  if(age>=summonRitualDuration)return;
   const p=Math.max(0,Math.min(1,age/summonRitualDuration));
   const rise=Math.max(0,Math.min(1,age/.72));
   const chant=Math.max(0,Math.min(1,(age-.72)/1.25));
