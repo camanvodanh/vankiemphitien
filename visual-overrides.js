@@ -6344,14 +6344,18 @@ function drawPodiumScene(target,time,mini=false){
       drawStandingSectMaster(target,tx,ty-h*.055*p,mini?.46:.82);
     }else if(elapsed<swordEnd){
       drawAwardThroneOnlyV2(target,tx,ty,masterScale,0);
-      drawStandingSectMaster(target,tx,ty-h*.055,mini?.46:.82);
       // Phi kiếm từ bên phải lao tới, giảm tốc và dừng ngay dưới chân chưởng môn.
       const p=awardSmoothstep((elapsed-standEnd)/(swordEnd-standEnd));
       const swordX=w*(.91-.41*p),swordY=ty-h*.055;
       drawCeremonyFlyingSword(target,swordX,swordY+24*(mini?.40:.76),mini?.40:.76,time);
-      if(p>.72){
-        const mount=awardSmoothstep((p-.72)/.28);
-        drawAwardMaster(target,tx,ty-h*.055*mount,mini?.40:.76,time);
+      const mount=p>.72?awardSmoothstep((p-.72)/.28):0;
+      target.save();target.globalAlpha=1-mount;
+      drawStandingSectMaster(target,tx,ty-h*.055,mini?.46:.82);
+      target.restore();
+      if(mount>0){
+        target.save();target.globalAlpha=mount;
+        drawAwardMaster(target,tx,ty-h*.055*(1+mount*.5),mini?.40:.76,time);
+        target.restore();
       }
     }else{
       drawAwardThroneOnlyV2(target,tx,ty,masterScale,0);
