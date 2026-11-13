@@ -712,7 +712,7 @@ function updateRanking(){
  // nếu timer bị trễ hoặc bị trình duyệt tạm ngưng.
  const lastRevealAt=racers.length?Math.max(...racers.map(r=>Number.isFinite(r.summonRevealAt)?r.summonRevealAt:0)):0;
  const revealTimelineComplete=lastRevealAt>0&&now>=lastRevealAt+summonRevealDuration*1000;
- if(revealing&&(summonVisualReady===true||revealTimelineComplete)){
+ if(revealing&&revealTimelineComplete){
   revealing=false;
   window.__vkSummonRevealActive=false;
   if(typeof summonUnlockTimer!=="undefined"&&summonUnlockTimer){clearTimeout(summonUnlockTimer);summonUnlockTimer=0;}
