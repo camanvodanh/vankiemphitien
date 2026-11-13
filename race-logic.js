@@ -148,8 +148,8 @@ function frame(time) {
   finishMessageLife = Math.max(0, finishMessageLife - dt);
   advanceFinishAnnouncements();
 
-  // 20 FPS khi chờ, 30 FPS khi đua. Logic thời gian vẫn cập nhật mỗi RAF.
-  const renderInterval = running && !paused ? 1000 / 24 : 1000 / 15;
+  // Hạ tải dựng hình trên điện thoại; logic cuộc đua vẫn cập nhật mỗi RAF.
+  const renderInterval = running && !paused ? 1000 / 18 : 1000 / 10;
   if (!canvasRenderDisabled && (!lastCanvasRenderAt || time - lastCanvasRenderAt >= renderInterval)) {
     lastCanvasRenderAt = time;
     try {
@@ -531,9 +531,8 @@ updateRanking();
 setSettingsLocked(false);
 syncButtons();
 
-drawCameraBackground();
-render(0);
-
+// Không dựng toàn bộ đại cảnh đồng bộ trong lúc parser vừa khởi tạo trang.
+// Khung hình đầu tiên sẽ được vẽ ở RAF để trình duyệt kịp hiển thị giao diện.
 lastTime = 0;
 
 requestAnimationFrame(frame);
