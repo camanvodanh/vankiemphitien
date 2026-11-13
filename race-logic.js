@@ -1114,7 +1114,7 @@ function handleStopOrSetup(){
 // REVISION 33 — thiên quang giáng thế, từng tiên nhân hiện thân theo thứ tự.
 let summonArrivalStartedAt=0;
 let summonRitualStartedAt=0;
-const summonRitualDuration=6.2;
+const summonRitualDuration=5.0;
 let summonRitualReturnAt=0;
 let summonRacersBeforeClick=null;
 let summonBatchSize=1;
@@ -1209,9 +1209,9 @@ function drawSummonRitual(time){
   if(age<0||age>=summonRitualDuration)return;
   const clamp01=value=>Math.max(0,Math.min(1,value));
   const smooth=value=>{const v=clamp01(value);return v*v*(3-2*v);};
-  const formation=smooth((age-.25)/.95);
-  const energy=smooth((age-1.05)/2.7);
-  const omen=smooth((age-3.8)/1.65);
+  const formation=smooth((age-.18)/.72);
+  const energy=smooth((age-.78)/2.15);
+  const omen=smooth((age-2.85)/1.25);
   const cx=550,cy=674;
   ctx.save();
   ctx.globalCompositeOperation="screen";
@@ -1297,7 +1297,7 @@ function drawSummonRitual(time){
   }
 
   // Khi linh lực đã tụ đủ, tường thụy mới hiện trên tầng mây.
-  if(age>3.25){
+  if(age>2.8){
     ctx.save();ctx.globalAlpha=omen;
     // Tường thụy phải phủ rõ bầu trời trước thời điểm cột sáng giáng xuống.
     const skyGlow=ctx.createLinearGradient(0,8,0,255);
