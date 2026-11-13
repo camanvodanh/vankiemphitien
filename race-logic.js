@@ -798,15 +798,16 @@ function updateRanking(){
  });
  const mode=raceActive?"race":"idle";
  const signature=mode+"|"+sorted.map(r=>String(r.id)).join("|");
- // Throttle theo thời điểm cập nhật thành công, không chờ thứ tự ổn định.
- // Mọi biến động trong khoảng giới hạn được gộp lại; đến nhịp kế tiếp luôn lấy thứ hạng mới nhất.
+ // Cập nhật thứ tự Tiên Bảng theo nhịp 1 giây trên mọi thời lượng đua.
+ // Trong khoảng chờ, luôn giữ chữ ký mới nhất; không debounce nên biến động liên tục
+ // cũng không thể làm bảng bị đói cập nhật. Khi cuộc đua kết thúc, chốt kết quả ngay.
  if(signature===rankingOrderSignature){
   rankingPendingSignature="";
   return;
  }
- if(raceActive){
+ if(raceActive&&!raceOver){
   rankingPendingSignature=signature;
-  if(now-rankingLastCommitAt<150)return;
+  if(now-rankingLastCommitAt<1000)return;
  }
  rankingPendingSignature="";
  rankingLastCommitAt=now;
@@ -861,7 +862,7 @@ function updateRanking(){
   void body.offsetHeight;
   requestAnimationFrame(()=>{
    moving.forEach(row=>{
-    row.style.transition="transform 180ms cubic-bezier(.22,.61,.36,1)";
+    row.style.transition="transform 240ms cubic-bezier(.22,.61,.36,1)";
     row.style.transform="translate3d(0,0,0)";
     const cleanup=event=>{
      if(event.propertyName!=="transform")return;
