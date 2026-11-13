@@ -397,17 +397,66 @@ function drawParticles() {
 }
 
 function triggerEvent(){
- const active=racers.filter(r=>!r.finished);if(!active.length)return;
- const racer=active[randInt(0,active.length-1)],index=racers.indexOf(racer);
- const effects=VKP_DATA.effects.raceEvents;
- const effect=effects[randInt(0,effects.length-1)];
- racer.speedMultiplier=effect.multiplier;racer.effectTimer=effect.duration;racer.effectDuration=effect.duration;racer.effectType=effect.type;racer.effectName=effect.name;
- cameraFocusId=racer.id;const px=racerX(racer),py=laneY(index);addParticles(px,py,32);
- const burstColor=effect.color||"#ffe7a0";
- for(let i=0;i<VKP_DATA.effects.particleBurst.count;i++){const angle=i*VKP_DATA.effects.particleBurst.angleStep;particles.push({x:px+Math.cos(angle)*8,y:py+Math.sin(angle)*6,vx:Math.cos(angle)*rand(VKP_DATA.effects.particleBurst.speedMin,VKP_DATA.effects.particleBurst.speedMax),vy:Math.sin(angle)*rand(VKP_DATA.effects.particleBurst.speedMin,VKP_DATA.effects.particleBurst.speedMax),life:rand(VKP_DATA.effects.particleBurst.lifeMin,VKP_DATA.effects.particleBurst.lifeMax),maxLife:VKP_DATA.effects.particleBurst.lifeMax,size:rand(VKP_DATA.effects.particleBurst.sizeMin,VKP_DATA.effects.particleBurst.sizeMax),color:burstColor});}
+ const config=VKP_DATA.effects.balance;
+ const active=racers.filter(r=>!r.finished&&!(r.pendingEffectTimer>0)&&!(r.effectCooldown>0));
+ if(!active.length)return;
+ if(Math.random()<config.noEffectChance){
+  eventText="LINH LỰC DAO ĐỘNG · KHÔNG CÓ HIỆU ỨNG";
+  eventTextLife=1.1;
+  return;
+ }
+ const ranked=sortedRacers();
+ const racer=active[randInt(0,active.length-1)];
+ const rank=Math.max(0,ranked.indexOf(racer));
+ const ratio=ranked.length>1?rank/(ranked.length-1):0.5;
+ const position=ratio<1/3?"front":ratio>2/3?"back":"middle";
+ const goodChance=config.positionGoodChance[position];
+ const polarity=Math.random()<goodChance?"positive":"negative";
+ const tierRoll=Math.random(),weights=config.tierWeights;
+ const tier=tierRoll<weights.light?"light":tierRoll<weights.light+weights.medium?"medium":"strong";
+ const pool=VKP_DATA.effects.raceEvents.filter(effect=>effect.polarity===polarity);
+ if(!pool.length)return;
+ const effect=pool[randInt(0,pool.length-1)];
+ const range=(polarity==="positive"?config.multipliers.boost:config.multipliers.slow)[tier];
+ const base=rand(range[0],range[1]);
+ const variation=1+(Math.random()*2-1)*config.multiplierVariation;
+ const multiplier=clamp(base*variation,config.speedLimits.min,config.speedLimits.max);
+ racer.pendingEffect={type:effect.type,name:effect.name,color:effect.color,polarity,tier,multiplier,duration:rand(config.durationSeconds[0],config.durationSeconds[1])};
+ racer.pendingEffectTimer=rand(config.waitSeconds[0],config.waitSeconds[1]);
 }
-
-function showFinishAnnouncement(racer, rank) {
+function activateRaceEffect(racer){
+ const effect=racer.pendingEffect;
+ if(!effect||racer.finished)return;
+ const config=VKP_DATA.effects.balance;
+ const same=racer.effectType===effect.type&&racer.effectTimer>0;
+ if(same){
+  racer.effectTimer+=effect.duration;
+ }else{
+  // Hiệu ứng mới thay thế hiệu ứng cũ; hiệu ứng trái ngược xóa hẳn hiệu ứng trước.
+  racer.speedMultiplier=effect.multiplier;
+  racer.effectTimer=effect.duration;
+  racer.effectDuration=effect.duration;
+  racer.effectType=effect.type;
+  racer.effectName=effect.name;
+  racer.effectPolarity=effect.polarity;
+ }
+ if(same){
+  racer.speedMultiplier=clamp(effect.multiplier,config.speedLimits.min,config.speedLimits.max);
+  racer.effectDuration=racer.effectTimer;
+ }
+ racer.pendingEffect=null;
+ racer.pendingEffectTimer=0;
+ const index=racers.indexOf(racer),px=racerX(racer),py=laneY(index);
+ cameraFocusId=racer.id;
+ addParticles(px,py,32);
+ const burstColor=effect.color||"#ffe7a0",burst=VKP_DATA.effects.particleBurst;
+ for(let i=0;i<burst.count;i++){
+  const angle=i*burst.angleStep;
+  particles.push({x:px+Math.cos(angle)*8,y:py+Math.sin(angle)*6,vx:Math.cos(angle)*rand(burst.speedMin,burst.speedMax),vy:Math.sin(angle)*rand(burst.speedMin,burst.speedMax),life:rand(burst.lifeMin,burst.lifeMax),maxLife:burst.lifeMax,size:rand(burst.sizeMin,burst.sizeMax),color:burstColor});
+ }
+ eventText=effect.name+" · "+(effect.polarity==="positive"?"TĂNG TỐC":"GIẢM TỐC")+" "+effect.multiplier.toFixed(2)+"×";
+ eventTextLife=1.35;
+}function showFinishAnnouncement(racer, rank) {
   finishMessage = `HẠNG ${rank}: ${racer.name} ĐÃ VỀ ĐÍCH!`;
   finishMessageLife = 3.2;
   $("event").textContent = finishMessage;
