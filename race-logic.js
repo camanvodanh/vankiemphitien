@@ -569,7 +569,9 @@ function summon(){
   racers.forEach(r=>{r.swordStyle=randInt(0,11);r.swordColor=randInt(0,9);if(r.gender==="female")r.swordColor=randInt(0,3);else r.swordColor=randInt(4,7);});
   duration=Number($("speed").value);elapsed=0;running=false;paused=false;started=false;finished=false;countdown=0;countdownAccumulator=0;eventClock=0;nextEvent=rand(5,9);
   eventText="";eventTextLife=0;finishQueue=[];cameraFocusId=null;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;finishMessage="";finishMessageLife=0;particles=[];assignFinishTimes();
-  $("status").textContent="Đã triệu hồi";$("lockNotice").textContent="Tiếp theo: Nhấn Chạy để khai mở cuộc đua.";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="--";setSettingsLocked(false);$("leaderEffect").textContent="";collapseSetupPanel();syncButtons();render(performance.now());
+  $("status").textContent="Đã triệu hồi";$("lockNotice").textContent="Tiếp theo: Nhấn Chạy để khai mở cuộc đua.";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="--";setSettingsLocked(false);$("leaderEffect").textContent="";collapseSetupPanel();syncButtons();
+  // Không dựng Canvas đồng bộ trong sự kiện chạm; ưu tiên phản hồi nút trên iPhone.
+  lastCanvasRenderAt=0;
 }
 
 function setSettingsLocked(value){
@@ -629,13 +631,19 @@ function finishRace(){
 function resetGame(){
   if(typeof summonUnlockTimer!=="undefined"&&summonUnlockTimer){clearTimeout(summonUnlockTimer);summonUnlockTimer=0;}
   if(typeof summonVisualReady!=="undefined")summonVisualReady=true;
+  // Hủy mọi hiệu ứng triệu hồi còn treo khi dừng giữa chừng.
+  if(typeof summonArrivalStartedAt!=="undefined")summonArrivalStartedAt=0;
+  if(typeof summonRitualStartedAt!=="undefined")summonRitualStartedAt=0;
+  if(typeof summonRitualReturnAt!=="undefined")summonRitualReturnAt=0;
   if(window.CultivationMusic)window.CultivationMusic.setPhase("setup");
   window.__awardMasterDepartureActive=false;
   racers=[];raceStopped=false;particles=[];running=false;paused=false;started=false;finished=false;
   countdown=0;countdownAccumulator=0;elapsed=0;eventClock=0;eventText="";eventTextLife=0;
   finishQueue=[];cameraFocusId=null;finishMessage="";finishMessageLife=0;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;
   $("status").textContent="Chờ triệu hồi";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa khai mở";$("leaderEffect").textContent="";$("lockNotice").textContent="Bước 1: Nhập danh sách hoặc chọn số lượng, sau đó nhấn Tạo.";
-  setSettingsLocked(false);setSetupPanel(true);syncButtons();updateRanking();render(performance.now());
+  setSettingsLocked(false);setSetupPanel(true);syncButtons();updateRanking();
+  // Để RAF vẽ khung hình kế tiếp thay vì khóa luồng thao tác Dừng/Triệu hồi.
+  lastCanvasRenderAt=0;
 }
 function leaderOf(){
   const active=racers.filter(r=>!r.finished);
