@@ -5174,7 +5174,7 @@ function drawSpiritBirds(time){
       }
 
       // Cánh xa vỗ lệch pha phía sau thân.
-      drawWing(-flap*.82-.12,true);
+      drawWing(flap*.92,false);
 
       // Đuôi xếp lớp, phần lông đuôi sẫm màu lộ nhẹ.
       ctx.fillStyle="#f6f4eb";ctx.strokeStyle="#cbd3ce";ctx.lineWidth=1;
