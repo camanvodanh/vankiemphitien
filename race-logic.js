@@ -564,7 +564,7 @@ function summon(){
   if(typed.length===1){$("lockNotice").textContent="Cần ít nhất 2 tiên nhân. Hãy nhập thêm một tên hoặc xóa danh sách để tạo theo số lượng."; $("names").focus();return;}
   const amount=getRandomQuantity();const finalNames=typed.length?typed:generateCultivationNames(amount);
   if(finalNames.length<2){$("lockNotice").textContent="Đại hội cần tối thiểu 2 tiên nhân mới có thể khởi tạo.";return;}
-  if(finalNames.length>100){$("lockNotice").textContent="Tối đa 100 tiên nhân. Hãy rút gọn danh sách rồi triệu hồi lại.";return;}
+  if(finalNames.length>VKP_DATA.summoning.maximumRacers){$("lockNotice").textContent="Tối đa 100 tiên nhân. Hãy rút gọn danh sách rồi triệu hồi lại.";return;}
   racers=finalNames.map((name,index)=>createRacer(name,index));if(window.CultivationMusic)window.CultivationMusic.setPhase("setup");raceStopped=false;
   racers.forEach(r=>{r.swordStyle=randInt(0,11);r.swordColor=randInt(0,9);if(r.gender==="female")r.swordColor=randInt(0,3);else r.swordColor=randInt(4,7);});
   duration=Number($("speed").value);elapsed=0;running=false;paused=false;started=false;finished=false;countdown=0;countdownAccumulator=0;eventClock=0;nextEvent=rand(5,9);
@@ -1114,21 +1114,21 @@ function handleStopOrSetup(){
 // REVISION 33 — thiên quang giáng thế, từng tiên nhân hiện thân theo thứ tự.
 let summonArrivalStartedAt=0;
 let summonRitualStartedAt=0;
-const summonRitualDuration=5.0;
+const summonRitualDuration=VKP_DATA.summoning.ritualDuration;
 let summonRitualReturnAt=0;
 let summonRacersBeforeClick=null;
 let summonBatchSize=1;
 let summonVisualReady=true;
 let summonUnlockTimer=0;
-const summonGroupStep=.30;
-const summonRevealDuration=.42;
-const summonBeamDuration=.78;
+const summonGroupStep=VKP_DATA.summoning.groupStep;
+const summonRevealDuration=VKP_DATA.summoning.revealDuration;
+const summonBeamDuration=VKP_DATA.summoning.beamDuration;
 // Tối đa 12 lượt giáng lâm; ít người đi riêng, đông người tự chia nhóm tăng dần.
 function getSummonBatchSize(count){
-  return Math.max(1,Math.ceil(count/12));
+  return Math.max(VKP_DATA.summoning.minimumBatchSize,Math.ceil(count/VKP_DATA.summoning.maximumWaves));
 }
 function getSummonGroupDelay(index){
-  return .18+Math.floor(Math.max(0,index)/summonBatchSize)*summonGroupStep;
+  return VKP_DATA.summoning.groupStartDelay+Math.floor(Math.max(0,index)/summonBatchSize)*summonGroupStep;
 }
 $("summon").addEventListener("click",()=>{summonRacersBeforeClick=racers;},true);
 $("summon").addEventListener("click",()=>{
@@ -1138,7 +1138,7 @@ $("summon").addEventListener("click",()=>{
     summonBatchSize=getSummonBatchSize(racers.length);
     const groupCount=Math.ceil(racers.length/summonBatchSize);
     const lastDelay=getSummonGroupDelay(Math.max(0,racers.length-1));
-    summonRitualReturnAt=summonArrivalStartedAt+(lastDelay+1.05)*1000;
+    summonRitualReturnAt=summonArrivalStartedAt+(lastDelay+VKP_DATA.summoning.beamTailDuration)*1000;
     // Khóa nút Chạy cho đến khi nhóm cuối cùng đã hiện thân hoàn toàn.
     summonVisualReady=false;
     if(summonUnlockTimer)clearTimeout(summonUnlockTimer);
