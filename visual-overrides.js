@@ -6845,3 +6845,52 @@ function drawAwardMaster(target,x,y,scale,time){
   target.restore();
   drawSectMasterFigure(target,x,y,scale,time,"flying");
 }
+
+;
+// REVISION 112 — hoạt ảnh nghi lễ tại quảng trường, đứng dậy, truyền công và hồi tọa.
+(function installPlazaSummoningChoreography(){
+  const baseCrowd=drawCrowd;
+  const baseMaster=drawSectMasterFigure;
+  drawSectMasterFigure=function(target,x,y,scale,time,mode){
+    baseMaster(target,x,y,scale,time,mode==="ritualStanding"?"standing":mode);
+    if(mode!=="ritualStanding")return;
+    target.save();target.translate(x,y);target.scale(scale,scale);
+    const pulse=.7+.3*Math.sin(time*.009);
+    target.strokeStyle="#f8e5a6";target.lineWidth=6;target.lineCap="round";
+    target.shadowColor="#ffe6a0";target.shadowBlur=8+8*pulse;
+    target.beginPath();target.moveTo(-20,-24);target.quadraticCurveTo(-31,-20,-25,-43);target.moveTo(20,-24);target.quadraticCurveTo(31,-20,25,-43);target.stroke();
+    target.fillStyle="#fff0bd";target.beginPath();target.arc(0,-42,5+2*pulse,0,Math.PI*2);target.fill();
+    target.restore();
+  };
+  function donor(x,y,scale,role,time,phase,center){
+    drawSpectator(x,y-23,scale,role,time,phase);
+    ctx.save();ctx.translate(x,y-23);ctx.scale(scale,scale);
+    const pulse=.7+.3*Math.sin(time*.008+phase);
+    const handX=center>x?18:-18;
+    ctx.strokeStyle=role==="elder"?"#e0c5ff":"#bcefff";
+    ctx.lineWidth=4.2;ctx.lineCap="round";ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=7;
+    ctx.beginPath();ctx.moveTo(handX*.48,-5);ctx.quadraticCurveTo(handX*.9,-20,handX,-30);ctx.stroke();
+    ctx.fillStyle="#fff0bd";ctx.beginPath();ctx.arc(handX,-30,3.3*pulse,0,Math.PI*2);ctx.fill();
+    ctx.restore();
+  }
+  drawCrowd=function(time){
+    baseCrowd(time);
+    if(typeof summonRitualStartedAt==="undefined"||!summonRitualStartedAt)return;
+    const pose=getSummonRitualPose(time);
+    if(pose<=.015)return;
+    const smooth=pose*pose*(3-2*pose);
+    // Ngai vẫn ở nguyên vị trí; chưởng môn đứng lên phía trước ngai.
+    drawSectMasterThrone(ctx,550,612,.82);
+    drawSectMasterFigure(ctx,550,594+16*(1-smooth),.82,time,"ritualStanding");
+    for(let i=0;i<10;i++){
+      const x=78+i*41,y=612;
+      drawVIPChair(x,y,.58,"#405d82",time,i*.65);
+      donor(x,y-7+16*(1-smooth),.52,"disciple",time,i,550);
+    }
+    for(let i=0;i<10;i++){
+      const x=662+i*41,y=612;
+      drawVIPChair(x,y,.60,"#5b456b",time,i);
+      donor(x,y-7+16*(1-smooth),.54,"elder",time,i*.8,550);
+    }
+  };
+})();
