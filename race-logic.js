@@ -1417,8 +1417,8 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonRitual(time);dra
   const tRing=document.querySelector('[data-dial="duration"]');
   if(!quantity||!speed||!button||!qRing||!tRing)return;
   const durationConfig=(window.VKP_DATA&&window.VKP_DATA.summoning)||{};
-  const durationMin=Number(durationConfig.minimumDuration)||5,durationMax=Number(durationConfig.maximumDuration)||600,durationStep=Number(durationConfig.durationStep)||5;
-  const durations=Array.from({length:Math.floor((durationMax-durationMin)/durationStep)+1},(_,i)=>durationMin+i*durationStep);
+  const durations=Array.isArray(durationConfig.durationOptions)&&durationConfig.durationOptions.length
+    ?durationConfig.durationOptions.map(Number):[5,10,15,30,60,120,180,240,300,600];
   let qRotation=0,tRotation=0,drag=null;
   const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
   function refresh(){
@@ -1511,7 +1511,7 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonRitual(time);dra
  const editorLabel=$("dialEditorLabel"),editorInput=$("dialEditorInput"),editorSelect=$("dialEditorSelect");
  const done=$("dialEditorDone"),qText=$("dialQuantityValue"),tText=$("dialDurationValue");
  if(!q||!speed||!names||!qRing||!tRing||!editor)return;
- const durationOptions=Array.from({length:Math.floor((Number((window.VKP_DATA&&window.VKP_DATA.summoning||{}).maximumDuration||600)-Number((window.VKP_DATA&&window.VKP_DATA.summoning||{}).minimumDuration||5))/Number((window.VKP_DATA&&window.VKP_DATA.summoning||{}).durationStep||5))+1},(_,i)=>Number((window.VKP_DATA&&window.VKP_DATA.summoning||{}).minimumDuration||5)+i*Number((window.VKP_DATA&&window.VKP_DATA.summoning||{}).durationStep||5));
+ const durationOptions=Array.isArray((window.VKP_DATA&&window.VKP_DATA.summoning||{}).durationOptions)?(window.VKP_DATA.summoning.durationOptions.map(Number)):[5,10,15,30,60,120,180,240,300,600];
  [speed,editorSelect].forEach(select=>{
    if(!select)return;
    const current=Number(select.value)||60;
@@ -1519,8 +1519,8 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonRitual(time);dra
    select.value=String(durationOptions.includes(current)?current:60);
  });
  const durationConfig=(window.VKP_DATA&&window.VKP_DATA.summoning)||{};
-  const durationMin=Number(durationConfig.minimumDuration)||5,durationMax=Number(durationConfig.maximumDuration)||600,durationStep=Number(durationConfig.durationStep)||5;
-  const durations=Array.from({length:Math.floor((durationMax-durationMin)/durationStep)+1},(_,i)=>durationMin+i*durationStep);
+  const durations=Array.isArray(durationConfig.durationOptions)&&durationConfig.durationOptions.length
+    ?durationConfig.durationOptions.map(Number):[5,10,15,30,60,120,180,240,300,600];
  let activeEditor="",drag=null;
  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
  function update(){
@@ -1578,7 +1578,7 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonRitual(time);dra
   if(!layer){layer=document.createElement("div");layer.className="dial-markers";ring.appendChild(layer);}
   layer.replaceChildren();
   labels.forEach((label,i)=>{
-    const markerRatio=ring===tRing?(Number(String(label).replace("s",""))-durationMin)/(durationMax-durationMin):i/labels.length;
+    const markerRatio=ring===tRing?i/Math.max(1,labels.length-1):i/labels.length;
     const angle=(-90+markerRatio*360)*Math.PI/180;
     const span=document.createElement("span");span.className="dial-marker";span.textContent=label;
     span.style.left=(50+Math.cos(angle)*radius)+"%";
@@ -1588,7 +1588,7 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonRitual(time);dra
   syncMarkerOrientation(ring);
  }
  markers(qRing,["2","20","40","60","80","100"],43);
- markers(tRing,["5s","60s","120s","180s","240s","300s","360s","420s","480s","540s","600s"],43);
+ markers(tRing,durations.map(value=>value+"s"),43);
  function angleAt(e,ring){const r=ring.getBoundingClientRect();return Math.atan2(e.clientY-r.top-r.height/2,e.clientX-r.left-r.width/2)*180/Math.PI;}
  function delta(a,b){let d=a-b;if(d>180)d-=360;if(d< -180)d+=360;return d;}
  function begin(e,ring,kind){
