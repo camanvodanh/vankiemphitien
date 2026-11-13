@@ -3102,7 +3102,7 @@ function drawCeremonyBackdrop(target,mini,time){
  }
  const plaque=target.createLinearGradient(-112,-115,112,-78);plaque.addColorStop(0,"#552b2a");plaque.addColorStop(.5,"#a65d38");plaque.addColorStop(1,"#4a2828");
  target.fillStyle=plaque;target.beginPath();target.roundRect(-111,-119,222,38,7);target.fill();target.strokeStyle="#f6dc9a";target.lineWidth=4;target.stroke();target.strokeStyle="rgba(255,246,207,.75)";target.lineWidth=1.2;target.strokeRect(-101,-111,202,22);
- target.fillStyle="#fff0b9";target.textAlign="center";target.textBaseline="middle";target.font="900 21px Georgia,serif";target.shadowColor="#ffe29a";target.shadowBlur=13;target.fillText("LĂNG TIÊU TIÊN ĐIỆN",0,-100);target.shadowBlur=0;
+ target.fillStyle="#fff0b9";target.textAlign="center";target.textBaseline="middle";target.font="900 21px Georgia,serif";target.shadowColor="#ffe29a";target.shadowBlur=13;target.fillText("LĂNG TIÊU TIÊN ĐIỆN",0,-100,184);target.shadowBlur=0;
  for(let i=0;i<4;i++){const yy=76+i*13,half=128+i*18;target.fillStyle=i%2?"#746044":"#a88b5c";target.beginPath();target.moveTo(-half,yy);target.lineTo(half,yy);target.lineTo(half+13,yy+9);target.lineTo(-half-13,yy+9);target.closePath();target.fill();target.strokeStyle="#ead29a";target.lineWidth=1.6;target.stroke();}
  for(const side of [-1,1]){const x=side*171;target.fillStyle="#5a382b";target.fillRect(x-8,-16,16,105);target.strokeStyle="#e8c77d";target.lineWidth=2.5;target.strokeRect(x-8,-16,16,105);target.fillStyle="#e6c477";target.beginPath();target.moveTo(x-18,-17);target.lineTo(x,-37);target.lineTo(x+18,-17);target.closePath();target.fill();target.fillStyle="#fff0b8";target.shadowColor="#ffe5a0";target.shadowBlur=12;target.beginPath();target.arc(x,-42,5,0,Math.PI*2);target.fill();target.shadowBlur=0;}
  target.restore();
@@ -6352,17 +6352,19 @@ function drawPodiumScene(target,time,mini=false){
       target.save();target.globalAlpha=1-mount;
       drawStandingSectMaster(target,tx,ty-h*.055,mini?.46:.82);
       target.restore();
-      if(mount>0){
+      if(mount>0&&!mini){
         target.save();target.globalAlpha=mount;
         drawAwardMaster(target,tx,ty-h*.055*(1+mount*.5),mini?.40:.76,time);
         target.restore();
       }
     }else{
       drawAwardThroneOnlyV2(target,tx,ty,masterScale,0);
-      const p=awardSmoothstep((elapsed-swordEnd)/(flyEnd-swordEnd));
-      const x=tx+w*.82*p,y=ty-h*(.055+.31*p)+Math.sin(p*Math.PI*2)*h*.018;
-      drawCeremonyFlyingSword(target,x,y+24*(mini?.40:.76),mini?.40:.76,time);
-      drawAwardMaster(target,x,y,mini?.40:.76,time);
+      if(!mini){
+        const p=awardSmoothstep((elapsed-swordEnd)/(flyEnd-swordEnd));
+        const x=tx+w*.82*p,y=ty-h*(.055+.31*p)+Math.sin(p*Math.PI*2)*h*.018;
+        drawCeremonyFlyingSword(target,x,y+24*(mini?.40:.76),mini?.40:.76,time);
+        drawAwardMaster(target,x,y,mini?.40:.76,time);
+      }
     }
     if(elapsed>flyEnd){
       const alpha=clamp((elapsed-flyEnd)/(transitionEnd-flyEnd),0,1);
@@ -6400,24 +6402,22 @@ function drawPodiumScene(target,time,mini=false){
     target.save();target.textAlign="center";target.textBaseline="middle";
     target.font=mini?"900 8px Georgia":"900 21px Georgia";
     target.lineJoin="round";target.lineWidth=mini?2.5:5;
-    target.strokeStyle="#17231f";target.strokeText(rankTitle,x,base-(mini?7:62),w*.29);
+    const rankTextWidth=target.measureText(rankTitle).width;
+    const rankPlateWidth=Math.min(w*(mini?.24:.29),rankTextWidth+(mini?12:28));
+    target.globalAlpha=mini?.42:.28;target.fillStyle=metals[rank][0];
+    target.beginPath();target.roundRect(x-rankPlateWidth/2,base-(mini?14:79),rankPlateWidth,mini?14:34,mini?4:10);target.fill();
+    target.globalAlpha=1;
+    target.strokeStyle="#17231f";target.strokeText(rankTitle,x,base-(mini?7:62),rankPlateWidth-10);
     target.shadowColor=metals[rank][0];target.shadowBlur=mini?5:16;
     target.fillStyle=rank===1?"#fff0a4":rank===2?"#edf8ff":"#ffd0a0";
-    target.fillText(rankTitle,x,base-(mini?7:62),w*.29);
+    target.fillText(rankTitle,x,base-(mini?7:62),rankPlateWidth-10);
     target.shadowBlur=0;
-    target.globalAlpha=mini?.42:.28;target.fillStyle=metals[rank][0];
-    target.beginPath();target.roundRect(x-w*(mini?.12:.145),base-(mini?14:79),w*(mini?.24:.29),mini?14:34,mini?4:10);target.fill();
-    target.globalAlpha=1;
-    target.font=mini?"900 8px Georgia":"900 21px Georgia";
-    target.strokeText(rankTitle,x,base-(mini?7:62),w*.29);
-    target.fillStyle=rank===1?"#fff0a4":rank===2?"#edf8ff":"#ffd0a0";
-    target.fillText(rankTitle,x,base-(mini?7:62),w*.29);
     target.restore();
   }
 
   const flightP=clamp((elapsed-awardStart)/masterFlightDuration,0,1);
   const masterX=w*(-.16+1.32*flightP),masterY=h*(.205+Math.sin(flightP*Math.PI*2)*.012);
-  if(elapsed>=awardStart&&elapsed<=awardStart+masterFlightDuration+.12)drawAwardMaster(target,masterX,masterY,mini?.36:.70,time);
+  if(!mini&&elapsed>=awardStart&&elapsed<=awardStart+masterFlightDuration+.12)drawAwardMaster(target,masterX,masterY,.70,time);
 
   for(let i=0;i<count;i++){
     const rank=rankAt[i],x=podiumX[i],racer=ordered[rank-1];if(!racer)continue;
@@ -6440,6 +6440,13 @@ function drawPodiumScene(target,time,mini=false){
       const bounce=Math.abs(Math.sin((elapsed-(dropStart+dropDuration))*5.4+rank*.7))*(mini?4:13);
       drawRecipientCelebrationGiftV2(target,x,riderY,rank,scale,bounce,mini);
     }
+  }
+  // Chỉ đưa chưởng môn ngự kiếm vào Thiên Lý Kính sau khi đã trao xong toàn bộ quà.
+  const postGiftElapsed=elapsed-(awardStart+masterFlightDuration+dropDuration);
+  if(mini&&postGiftElapsed>=0&&postGiftElapsed<1.8){
+    const p=awardSmoothstep(postGiftElapsed/1.8);
+    const x=-w*.18+w*1.36*p,y=h*(.20+Math.sin(p*Math.PI*2)*.018);
+    drawAwardMaster(target,x,y,.36,time);
   }
   target.restore();
 }
