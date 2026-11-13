@@ -7709,3 +7709,23 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
 }
 .game-ranking tbody tr.rank-row-moving td{box-shadow:inset 0 1px 0 rgba(255,255,255,.72),inset 0 -1px 0 rgba(184,145,65,.35)!important;}
 .game-ranking th,.game-ranking td{box-sizing:border-box!important;min-width:0!important;}
+
+
+/* REVISION 118 — Tiên Bảng: chuyển hạng êm, tránh nhấp nháy khi vượt sát nhau. */
+.ranking tbody tr.rank-row-moving{
+ will-change:transform;
+ z-index:2;
+ filter:none!important;
+}
+.ranking tbody tr.rank-row-moving td{
+ transition:background-color 420ms ease,box-shadow 420ms ease;
+ background:linear-gradient(90deg,rgba(73,105,78,.16),rgba(174,139,69,.12),rgba(73,105,78,.16))!important;
+ box-shadow:inset 0 1px 0 rgba(214,185,116,.12),inset 0 -1px 0 rgba(214,185,116,.12)!important;
+}
+.ranking tbody tr:not(.rank-row-moving) td{
+ transition:background-color 420ms ease,box-shadow 420ms ease;
+}
+@media(prefers-reduced-motion:reduce){
+ .ranking tbody tr.rank-row-moving{will-change:auto!important}
+ .ranking tbody tr.rank-row-moving td,.ranking tbody tr:not(.rank-row-moving) td{transition:none!important}
+}
