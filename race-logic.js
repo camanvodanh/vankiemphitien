@@ -31,7 +31,11 @@ function processFinish(racer,index){
  if(racer.finished)return;
  racer.progress=distance;
  racer.finished=true;
- racer.finishTime=Number.isFinite(elapsed)?Math.max(0,elapsed):0;
+ const crossingTime=Number.isFinite(racer.finishCrossingTime)?racer.finishCrossingTime:elapsed;
+ const latestRecorded=racers.reduce((latest,other)=>other!==racer&&other.finished&&Number.isFinite(other.finishTime)?Math.max(latest,other.finishTime):latest,0);
+ // Lưu độ chính xác đến 1 ms và bảo đảm hai vị trí liên tiếp không trùng thời gian.
+ racer.finishTime=Math.max(Math.round(Math.max(0,crossingTime)*1000)/1000,latestRecorded+0.001);
+ racer.finishCrossingTime=null;
  // Chốt hoàn toàn trạng thái thi đấu của người đã về đích.
  racer.rankMovement="";
  racer.rankMovementTimer=0;
@@ -84,10 +88,16 @@ function updateRace(dt){
   const limits=VKP_DATA.effects.balance.speedLimits;
   racer.speedMultiplier=clamp(racer.speedMultiplier||1,limits.min,limits.max);
   const baseSpeed=distance/Math.max(.001,racer.targetFinishTime);
-  // Nhịp phi hành dao động nhẹ theo từng cá thể, tạo cơ hội vượt lên và tụt lại
-  // thay vì giữ nguyên một tốc độ tuyến tính từ đầu đến cuối.
+  // Nhịp phi hành dao động nhẹ theo từng cá thể, tạo cơ hội vượt lên và tụt lại.
   const paceWave=1+Math.sin(elapsed*1.65+(racer.pacePhase||0))*(racer.paceAmplitude||.025);
-  racer.progress=Math.min(distance,racer.progress+baseSpeed*paceWave*dt*racer.speedMultiplier);
+  const previousProgress=racer.progress;
+  const frameDistance=baseSpeed*paceWave*dt*racer.speedMultiplier;
+  const nextProgress=Math.min(distance,previousProgress+frameDistance);
+  if(nextProgress>=distance&&previousProgress<distance&&frameDistance>0){
+   const crossingFraction=clamp((distance-previousProgress)/frameDistance,0,1);
+   racer.finishCrossingTime=Math.max(0,elapsed-dt+dt*crossingFraction);
+  }
+  racer.progress=nextProgress;
  });
  const rankedNow=sortedRacers();
  for(let i=0;i<rankedNow.length;i++){
@@ -103,11 +113,22 @@ function updateRace(dt){
    racer.rankChangeTimer=racer.effectTimer;
   }
  }
- racers.map((racer,index)=>({racer,index})).filter(o=>!o.racer.finished&&o.racer.progress>=distance).forEach(o=>processFinish(o.racer,o.index));
+ racers.map((racer,index)=>({racer,index})).filter(o=>!o.racer.finished&&o.racer.progress>=distance)
+  .sort((a,b)=>(a.racer.finishCrossingTime??elapsed)-(b.racer.finishCrossingTime??elapsed))
+  .forEach(o=>processFinish(o.racer,o.index));
  eventClock+=dt;
  if(eventClock>=nextEvent&&elapsed<duration){triggerEvent();eventClock=0;nextEvent=rand(getRaceEffectTimingProfile(duration).eventIntervalSeconds[0],getRaceEffectTimingProfile(duration).eventIntervalSeconds[1]);}
  if(racers.length&&racers.every(racer=>racer.finished)){finishRace();return;}
- if(elapsed>=duration){racers.forEach((racer,index)=>{if(!racer.finished)processFinish(racer,index);});finishRace();}
+ if(elapsed>=duration){
+  const remaining=racers.map((racer,index)=>({racer,index})).filter(o=>!o.racer.finished)
+   .sort((a,b)=>b.racer.progress-a.racer.progress);
+  remaining.forEach((o,index)=>{
+   // Trường hợp chạm giới hạn thời lượng: xếp thời gian sát mốc kết thúc theo tiến độ thực tế.
+   o.racer.finishCrossingTime=Math.max(0,elapsed-(remaining.length-index)*0.001);
+   processFinish(o.racer,o.index);
+  });
+  finishRace();
+ }
 }
 // =====================================================
 // ĐẾM NGƯỢC VÀ VÒNG LẶP ANIMATION
@@ -708,11 +729,11 @@ function drawCamera(time){
 
 
 function formatRankingTime(seconds){
- const totalCentiseconds=Math.max(0,Math.floor(Number(seconds||0)*100));
- const minutes=Math.floor(totalCentiseconds/6000);
- const wholeSeconds=Math.floor(totalCentiseconds/100)%60;
- const centiseconds=totalCentiseconds%100;
- return String(minutes).padStart(2,"0")+":"+String(wholeSeconds).padStart(2,"0")+":"+String(centiseconds).padStart(2,"0");
+ const totalMilliseconds=Math.max(0,Math.round(Number(seconds||0)*1000));
+ const minutes=Math.floor(totalMilliseconds/60000);
+ const wholeSeconds=Math.floor(totalMilliseconds/1000)%60;
+ const milliseconds=totalMilliseconds%1000;
+ return String(minutes).padStart(2,"0")+":"+String(wholeSeconds).padStart(2,"0")+":"+String(milliseconds).padStart(3,"0");
 }
 
 function updateRanking(){
