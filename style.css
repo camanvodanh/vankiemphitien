@@ -6720,3 +6720,123 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
   filter:grayscale(.65)!important;
   cursor:not-allowed!important;
 }
+
+
+/* REVISION 106 — bỏ hẳn dải nền xanh giữa bảng và nút; tiêu đề co theo bề rộng thực tế. */
+@media (min-width:920px){
+  .arena-frame{
+    grid-template-rows:auto auto auto!important;
+    row-gap:clamp(5px,.55vw,9px)!important;
+    align-items:start!important;
+    min-height:0!important;
+  }
+  .arena-frame>#game{
+    grid-row:1 / span 3!important;
+    align-self:stretch!important;
+    min-height:0!important;
+  }
+  .arena-frame>.game-camera{
+    grid-row:1!important;
+    height:auto!important;
+    min-height:0!important;
+    padding:clamp(7px,.8vw,11px)!important;
+  }
+  .arena-frame>.game-camera .camera-heading{
+    display:flex!important;
+    flex-wrap:nowrap!important;
+    align-items:center!important;
+    gap:clamp(3px,.45vw,7px)!important;
+    width:100%!important;
+    min-width:0!important;
+  }
+  .arena-frame>.game-camera .camera-title{
+    display:block!important;
+    flex:1 1 0!important;
+    width:auto!important;
+    min-width:0!important;
+    max-width:none!important;
+    overflow:visible!important;
+    text-overflow:clip!important;
+    white-space:nowrap!important;
+    font-size:clamp(9px,.95vw,12px)!important;
+    letter-spacing:0!important;
+    line-height:1.2!important;
+  }
+  .arena-frame>.game-camera .camera-live{
+    flex:0 0 auto!important;
+    margin:0!important;
+    font-size:clamp(6px,.62vw,8px)!important;
+    letter-spacing:.35px!important;
+  }
+  .arena-frame>.game-camera .window-minimize{
+    flex:0 0 22px!important;
+    width:22px!important;
+    min-width:22px!important;
+    height:22px!important;
+    min-height:22px!important;
+  }
+  .arena-frame>.game-ranking{
+    grid-row:2!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:min(46vh,360px)!important;
+    padding:clamp(7px,.8vw,11px)!important;
+  }
+  .arena-frame>.game-ranking .ranking-heading{
+    min-width:0!important;
+    gap:6px!important;
+  }
+  .arena-frame>.game-ranking .ranking-heading h3{
+    font-size:clamp(11px,.95vw,13px)!important;
+    line-height:1.2!important;
+  }
+  .arena-frame>.arena-controls{
+    grid-column:2!important;
+    grid-row:3!important;
+    position:relative!important;
+    inset:auto!important;
+    transform:none!important;
+    justify-self:stretch!important;
+    align-self:start!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-height:34px!important;
+    height:auto!important;
+    margin:0!important;
+    padding:0 2px 2px!important;
+    gap:8px!important;
+    background:transparent!important;
+  }
+}
+@media (max-width:919px){
+  .arena-frame>.game-camera .camera-heading{
+    min-width:0!important;
+    gap:3px!important;
+  }
+  .arena-frame>.game-camera .camera-title{
+    flex:1 1 auto!important;
+    min-width:0!important;
+    max-width:none!important;
+    overflow:visible!important;
+    text-overflow:clip!important;
+    white-space:nowrap!important;
+    font-size:clamp(8px,2.45vw,10px)!important;
+    letter-spacing:0!important;
+  }
+  .arena-frame>.game-camera .camera-live{
+    flex:0 0 auto!important;
+    font-size:6px!important;
+    letter-spacing:0!important;
+  }
+  .arena-frame>.game-camera .window-minimize{
+    flex:0 0 20px!important;
+    width:20px!important;
+    min-width:20px!important;
+    height:20px!important;
+    min-height:20px!important;
+  }
+  .arena-frame>.game-ranking .ranking-heading h3{
+    font-size:clamp(10px,2.8vw,13px)!important;
+    line-height:1.2!important;
+  }
+}
