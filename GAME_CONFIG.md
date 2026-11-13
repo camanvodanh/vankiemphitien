@@ -30,6 +30,14 @@
 
 **Lưu ý đồng bộ:** native select ẩn trong `index.html` hiện chỉ khai báo 30, 60, 120, 180, 300 giây, trong khi dữ liệu pháp luân có đủ 10 mức. Khi sửa danh sách thời lượng, phải kiểm tra pháp luân, select dự phòng, nhãn hiển thị và giá trị được dùng lúc bắt đầu đua; không được mặc định rằng tất cả các giao diện đã tự đồng bộ.
 
+## 2A. Nhịp cập nhật Tiên Bảng
+
+- Trong khi đua, thứ tự hàng của Tiên Bảng được làm mới theo nhịp 1 giây, áp dụng đồng nhất cho tất cả thời lượng: 5, 10, 15, 30, 60, 120, 180, 240, 300 và 600 giây.
+- Các thay đổi thứ hạng phát sinh giữa hai nhịp được gộp lại; lần cập nhật kế tiếp luôn dùng thứ tự mới nhất, không yêu cầu thứ tự phải ổn định.
+- Thời gian về đích và mũi tên tăng/giảm hạng vẫn được đồng bộ riêng mỗi khung hình; việc giảm tần suất sắp xếp hàng không làm chậm các chỉ báo này.
+- Khi tất cả tiên nhân về đích, bảng kết quả được chốt ngay, không chờ hết chu kỳ 1 giây.
+- Đây là nhịp cập nhật giao diện, không thay đổi tốc độ mô phỏng, thời lượng cuộc đua hay tần suất phát sinh sự kiện.
+
 ## 3. Triệu hồi tiên nhân — `data/summoning.json`
 
 Giá trị hiện tại:
