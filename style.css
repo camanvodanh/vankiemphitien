@@ -7529,3 +7529,167 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
   .arena-frame>.game-ranking td{padding:2px!important;}
   .arena-frame>.game-setup{max-height:calc(100% - 48px)!important;}
 }
+
+
+/* REVISION 116 — confine the summoning altar and controls to the game column; compact the full UI on wide landscape. */
+@media screen and (orientation:landscape) and (min-width:1000px){
+  .arena-frame{
+    --race-column:46%;
+    grid-template-columns:minmax(0,1.48fr) minmax(0,.86fr) minmax(0,.86fr)!important;
+    grid-template-rows:minmax(0,1fr)!important;
+    overflow:hidden!important;
+    isolation:isolate!important;
+  }
+  /* The altar is anchored to the left game viewport only, never to either right-hand panel. */
+  .arena-frame>.game-setup,
+  .arena-frame>.game-setup:not(.is-minimized){
+    position:absolute!important;
+    z-index:100!important;
+    inset:clamp(5px,.65vw,9px) auto auto clamp(5px,.65vw,9px)!important;
+    width:clamp(148px,24%,270px)!important;
+    max-width:calc(var(--race-column) - 18px)!important;
+    max-height:calc(100% - 54px)!important;
+    height:auto!important;
+    box-sizing:border-box!important;
+    padding:clamp(5px,.55vw,8px)!important;
+    margin:0!important;
+    overflow:auto!important;
+    border-radius:8px!important;
+    transform:none!important;
+    font-size:clamp(8px,.72vw,11px)!important;
+  }
+  .arena-frame>.game-setup .setup-heading{
+    display:flex!important;
+    align-items:center!important;
+    gap:4px!important;
+    margin:0 0 3px!important;
+  }
+  .arena-frame>.game-setup .setup-heading h2{
+    margin:0!important;
+    font-size:clamp(9px,.92vw,12px)!important;
+    line-height:1.12!important;
+  }
+  .arena-frame>.game-setup .setup-title-wrap{min-width:0!important;}
+  .arena-frame>.game-setup .setup-hint,
+  .arena-frame>.game-setup .summon-name-label{display:none!important;}
+  .arena-frame>.game-setup .window-minimize{
+    flex:0 0 auto!important;
+    width:22px!important;height:22px!important;min-width:22px!important;min-height:22px!important;
+    font-size:12px!important;
+  }
+  .arena-frame>.game-setup .summon-artwork{
+    height:clamp(104px,20dvh,145px)!important;
+    min-height:0!important;
+    margin:0!important;
+    overflow:visible!important;
+  }
+  .arena-frame>.game-setup:not(.is-minimized) .altar-dial{
+    width:clamp(98px,17dvh,132px)!important;
+    height:clamp(98px,17dvh,132px)!important;
+    max-width:100%!important;
+    max-height:100%!important;
+  }
+  .arena-frame>.game-setup .altar-dial .dial-quantity{width:96%!important;height:96%!important;}
+  .arena-frame>.game-setup .altar-dial .dial-duration{width:75%!important;height:75%!important;}
+  .arena-frame>.game-setup .altar-dial .dial-readout{
+    width:clamp(34px,5.4dvh,43px)!important;
+    min-width:0!important;
+    padding:2px!important;
+    font-size:clamp(6px,.58vw,8px)!important;
+    line-height:1.05!important;
+  }
+  .arena-frame>.game-setup .dial-readout small{font-size:clamp(5px,.48vw,7px)!important;}
+  .arena-frame>.game-setup .dial-readout strong{font-size:clamp(9px,.9vw,12px)!important;}
+  .arena-frame>.game-setup .dial-summon{
+    width:clamp(27px,4.5dvh,36px)!important;
+    height:clamp(27px,4.5dvh,36px)!important;
+    min-width:0!important;min-height:0!important;
+    padding:2px!important;
+  }
+  .arena-frame>.game-setup .dial-summon svg{width:100%!important;height:100%!important;}
+  .arena-frame>.game-setup textarea#names{
+    display:block!important;
+    width:100%!important;
+    height:clamp(28px,5.2dvh,39px)!important;
+    min-height:clamp(28px,5.2dvh,39px)!important;
+    padding:3px 5px!important;
+    font-size:clamp(8px,.68vw,10px)!important;
+    line-height:1.2!important;
+  }
+  .arena-frame>.game-setup .lock-notice{
+    margin:3px 0 0!important;
+    font-size:clamp(7px,.58vw,9px)!important;
+    line-height:1.15!important;
+  }
+  .arena-frame>.game-setup.is-minimized{
+    width:max-content!important;
+    max-width:calc(var(--race-column) - 18px)!important;
+    max-height:none!important;
+    padding:4px 6px!important;
+  }
+  /* Run / pause / stop controls are centered under the game canvas only. */
+  .arena-frame>.arena-controls{
+    position:absolute!important;
+    z-index:180!important;
+    left:23%!important;right:auto!important;
+    top:auto!important;bottom:clamp(4px,.6vw,8px)!important;
+    width:max-content!important;
+    max-width:calc(var(--race-column) - 20px)!important;
+    min-width:0!important;height:auto!important;min-height:0!important;
+    display:flex!important;flex-flow:row nowrap!important;
+    align-items:center!important;justify-content:center!important;
+    gap:clamp(4px,.55vw,8px)!important;
+    margin:0!important;padding:2px!important;
+    transform:translateX(-50%)!important;
+    background:#102b27a8!important;
+    border:1px solid #c69b4c55!important;
+    border-radius:7px!important;
+    box-shadow:none!important;
+    backdrop-filter:blur(4px)!important;
+  }
+  .arena-frame>.arena-controls>#start,
+  .arena-frame>.arena-controls>#pause,
+  .arena-frame>.arena-controls>#stop,
+  .arena-frame>.arena-controls>#setupToggle{
+    flex:0 1 auto!important;
+    min-width:0!important;max-width:100%!important;
+    width:auto!important;
+    height:clamp(24px,4.8dvh,32px)!important;
+    min-height:clamp(24px,4.8dvh,32px)!important;
+    max-height:32px!important;
+    padding:3px clamp(5px,.6vw,9px)!important;
+    margin:0!important;
+    font-size:clamp(8px,.7vw,10px)!important;
+    line-height:1!important;
+    white-space:nowrap!important;
+  }
+  .arena-frame>.arena-controls .btn-icon{font-size:clamp(10px,1vw,14px)!important;margin-right:3px!important;}
+  .arena-frame>.arena-controls .btn-label{font-size:inherit!important;}
+  /* Compact the two information panels without clipping their useful content. */
+  .arena-frame>.game-camera .camera-heading,
+  .arena-frame>.game-ranking .ranking-heading{gap:3px!important;}
+  .arena-frame>.game-camera .camera-title,
+  .arena-frame>.game-ranking .ranking-heading h3{font-size:clamp(9px,.88vw,12px)!important;line-height:1.1!important;}
+  .arena-frame>.game-camera .camera-live{font-size:clamp(7px,.55vw,9px)!important;}
+  .arena-frame>.game-camera .camera-info{font-size:clamp(7px,.62vw,9px)!important;}
+  .arena-frame>.game-ranking table{font-size:clamp(7px,.62vw,9px)!important;}
+  .arena-frame>.game-ranking th,
+  .arena-frame>.game-ranking td{padding:clamp(2px,.35dvh,4px) 2px!important;line-height:1.12!important;}
+  .arena-frame>.game-ranking th:first-child,
+  .arena-frame>.game-ranking td:first-child{width:27px!important;}
+  .arena-frame>.game-ranking th:last-child,
+  .arena-frame>.game-ranking td:last-child{width:43px!important;}
+}
+@media screen and (orientation:landscape) and (min-width:1000px) and (max-height:600px){
+  .arena-frame>.game-setup .summon-artwork{height:clamp(88px,18dvh,112px)!important;}
+  .arena-frame>.game-setup:not(.is-minimized) .altar-dial{
+    width:clamp(82px,16dvh,100px)!important;
+    height:clamp(82px,16dvh,100px)!important;
+  }
+  .arena-frame>.game-setup textarea#names{
+    height:clamp(24px,4.5dvh,30px)!important;
+    min-height:clamp(24px,4.5dvh,30px)!important;
+  }
+  .arena-frame>.game-setup .lock-notice{font-size:7px!important;}
+  .arena-frame>.arena-controls{bottom:3px!important;}
+}
