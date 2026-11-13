@@ -5118,8 +5118,10 @@ function drawSpiritBirds(time){
 
   const drawWing=(angle,far,underside=false)=>{
     ctx.save();
-    ctx.translate(-7,-4);
+    // Cánh sau lùi sâu vào phía đối diện thân và nhỏ hơn, chỉ lộ một phần.
+    ctx.translate(far?-12:-7,far?-1:-4);
     if(underside)ctx.scale(1,-1);
+    if(far)ctx.scale(.58,.68);
     ctx.rotate(angle);
     const feather=far?"#d9e0dc":"#fffdf5";
     const shade=far?"#aebdb9":"#d9ded8";
@@ -5176,9 +5178,9 @@ function drawSpiritBirds(time){
         ctx.beginPath();ctx.moveTo(-29,18+z+flap*1.2);ctx.lineTo(-34,16+z+flap*1.2);ctx.stroke();
       }
 
-      // Cánh xa nằm ở mặt dưới thân theo góc nhìn nghiêng, tô xám nhẹ để
-      // tách rõ khỏi cánh gần; cả hai cùng vỗ theo một nhịp.
-      drawWing(-flap*.78,true,true);
+      // Cánh sau ở phía xa: thu nhỏ, lùi sau thân và chỉ để lộ phần lông ngoài.
+      // Góc vỗ nhẹ hơn cánh trước để tạo phối cảnh chính diện tự nhiên.
+      drawWing(-flap*.48,true,true);
 
       // Đuôi xếp lớp, phần lông đuôi sẫm màu lộ nhẹ.
       ctx.fillStyle="#f6f4eb";ctx.strokeStyle="#cbd3ce";ctx.lineWidth=1;
