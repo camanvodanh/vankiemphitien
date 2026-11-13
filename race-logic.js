@@ -627,6 +627,8 @@ function finishRace(){
  syncButtons();updateRanking();
 }
 function resetGame(){
+  if(typeof summonUnlockTimer!=="undefined"&&summonUnlockTimer){clearTimeout(summonUnlockTimer);summonUnlockTimer=0;}
+  if(typeof summonVisualReady!=="undefined")summonVisualReady=true;
   if(window.CultivationMusic)window.CultivationMusic.setPhase("setup");
   racers=[];raceStopped=false;particles=[];running=false;paused=false;started=false;finished=false;
   countdown=0;countdownAccumulator=0;elapsed=0;eventClock=0;eventText="";eventTextLife=0;
@@ -1148,7 +1150,10 @@ $("summon").addEventListener("click",()=>{
       summonVisualReady=true;
       summonUnlockTimer=0;
       syncButtons();
-      $("lockNotice").textContent="Toàn bộ tiên nhân đã hiện thân. Có thể nhấn Chạy để bắt đầu đại hội.";
+      $("status").textContent="Toàn bộ tiên nhân đã hiện thân · Đại hội bắt đầu!";
+      $("lockNotice").textContent="Đã triệu hồi hoàn tất. Tự động bắt đầu sau 3 giây đếm ngược.";
+      // Tự động khai cuộc ngay khi nhân vật cuối cùng hiện thân hoàn toàn.
+      if(racers.length>=2&&!running&&!paused&&!finished)startRace();
     },Math.max(0,revealCompleteAt-performance.now()));
     syncButtons();
     $("status").textContent=summonBatchSize===1
