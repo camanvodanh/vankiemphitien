@@ -1511,7 +1511,7 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonRitual(time);dra
   });
   syncMarkerOrientation(ring);
  }
- markers(qRing,["2","20","40","60","80","100"],43);
+ markers(qRing,["2","20","40","60","80","100"],46);
  markers(tRing,durations.map(value=>value+"s"),43);
  function angleAt(e,ring){const r=ring.getBoundingClientRect();return Math.atan2(e.clientY-r.top-r.height/2,e.clientX-r.left-r.width/2)*180/Math.PI;}
  function delta(a,b){let d=a-b;if(d>180)d-=360;if(d< -180)d+=360;return d;}
