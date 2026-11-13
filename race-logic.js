@@ -1243,21 +1243,34 @@ function drawSummonRitual(time){
   });
   ctx.restore();
 
-  // Linh lực từ 7 chân truyền và 8 trưởng lão hội tụ vào đúng pháp trận.
-  const donors=[
-    [395,601,1],[450,597,1],[505,594,1],[560,594,-1],[615,597,-1],[670,601,-1],[725,601,-1],
-    [145,637,1],[195,633,1],[245,633,1],[295,637,1],
-    [755,637,-1],[805,633,-1],[855,633,-1],[905,637,-1]
-  ];
+  // Điểm phát linh lực lấy đúng tọa độ bàn tay của 10 chân truyền và 10 trưởng lão
+  // đang được vẽ trong drawCrowd: không dùng lại tọa độ của bố cục khán đài cũ.
+  const pose=getPlazaRitualPose(time);
+  const donors=[];
+  for(let i=0;i<10;i++){
+    const x=78+i*41,scale=.52,phase=i;
+    const bob=Math.sin(time*.006+phase)*.8;
+    const handLift=10*pose,bodyLift=7*pose;
+    // Chân truyền ở cánh trái hướng bàn tay phải về pháp trận.
+    donors.push({x:x+8*scale,y:605-bodyLift+(5-handLift)*scale+bob,color:"#a9fff0",group:0,phase:i});
+  }
+  for(let i=0;i<10;i++){
+    const x=662+i*41,scale=.54,phase=i*.8;
+    const bob=Math.sin(time*.006+phase)*.8;
+    const handLift=12*pose,bodyLift=8*pose;
+    // Trưởng lão ở cánh phải hướng bàn tay trái về pháp trận.
+    donors.push({x:x-8*scale,y:605-bodyLift+(5-handLift)*scale+bob,color:"#d8c0ff",group:1,phase:i+10});
+  }
   if(age>1.05){
-    donors.forEach(([sx,sy,side],i)=>{
-      const handX=sx+side*25,handY=sy-31;
-      const controlX=(handX+cx)*.5,controlY=Math.min(handY,cy)-65-(i%3)*13;
+    donors.forEach((donor,i)=>{
+      const {x:handX,y:handY,color,phase}=donor;
+      const controlX=(handX+cx)*.5;
+      const controlY=Math.min(handY,cy)-58-(i%4)*11;
       ctx.save();ctx.globalAlpha=.12+.72*energy;
-      ctx.strokeStyle=i<7?"#a9fff0":"#d8c0ff";
-      ctx.lineWidth=i<7?2.2:2.7;ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=10;
+      ctx.strokeStyle=color;
+      ctx.lineWidth=2.2;ctx.shadowColor=color;ctx.shadowBlur=10;
       ctx.beginPath();ctx.moveTo(handX,handY);ctx.quadraticCurveTo(controlX,controlY,cx,cy);ctx.stroke();
-      const travel=(age*0.58+i*.071)%1;
+      const travel=(age*.58+phase*.071)%1;
       const bx=(1-travel)*(1-travel)*handX+2*(1-travel)*travel*controlX+travel*travel*cx;
       const by=(1-travel)*(1-travel)*handY+2*(1-travel)*travel*controlY+travel*travel*cy;
       ctx.fillStyle="#fff3c4";ctx.beginPath();ctx.arc(bx,by,2.1+(i%2),0,Math.PI*2);ctx.fill();
