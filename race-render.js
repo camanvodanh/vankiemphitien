@@ -396,6 +396,13 @@ function drawParticles() {
   ctx.restore();
 }
 
+function getRaceEffectTimingProfile(raceDuration=duration){
+ const profiles=VKP_DATA.effects.balance.durationProfiles||[];
+ return profiles.find(profile=>raceDuration<=profile.maxRaceSeconds)||profiles[profiles.length-1]||{
+  eventIntervalSeconds:VKP_DATA.effects.balance.waitSeconds,
+  activationDelaySeconds:VKP_DATA.effects.balance.waitSeconds
+ };
+}
 function triggerEvent(){
  const config=VKP_DATA.effects.balance;
  const active=racers.filter(r=>!r.finished&&!(r.pendingEffectTimer>0)&&!(r.effectCooldown>0));
@@ -422,7 +429,8 @@ function triggerEvent(){
  const variation=1+(Math.random()*2-1)*config.multiplierVariation;
  const multiplier=clamp(base*variation,config.speedLimits.min,config.speedLimits.max);
  racer.pendingEffect={type:effect.type,name:effect.name,color:effect.color,polarity,tier,multiplier,duration:rand(config.durationSeconds[0],config.durationSeconds[1])};
- racer.pendingEffectTimer=rand(config.waitSeconds[0],config.waitSeconds[1]);
+ const timing=getRaceEffectTimingProfile(duration);
+ racer.pendingEffectTimer=rand(timing.activationDelaySeconds[0],timing.activationDelaySeconds[1]);
 }
 function activateRaceEffect(racer){
  const effect=racer.pendingEffect;
