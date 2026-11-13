@@ -11,5 +11,8 @@
   "formationCenter": {
     "x": 550,
     "y": 674
-  }
+  },
+  "minimumDuration": 5,
+  "maximumDuration": 600,
+  "durationStep": 5
 }
