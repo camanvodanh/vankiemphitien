@@ -630,23 +630,23 @@ function drawCamera(time){
 // =====================================================
 
 function sortedRacers() {
-  // Chỉ đổi thứ tự khi khoảng cách tiến độ đủ rõ, tránh các vị trí sát nhau
-  // đảo qua đảo lại liên tục do dao động tốc độ từng khung hình.
-  const stableIndex=new Map(racers.map((r,index)=>[r.id,index]));
-  const progressBucket=r=>Math.round(progressOf(r)*400); // mỗi nấc tương đương 0,25%
+  // Thứ hạng khi đang đua luôn dựa trên quãng đường thực tế đã đi.
+  // Chỉ coi hai tiến độ gần như tuyệt đối bằng nhau là hòa để tránh rung do sai số số thực.
+  const originalOrder=new Map(racers.map((r,index)=>[r.id,index]));
   return [...racers].sort((a,b)=>{
     if(a.finished&&b.finished){
-      const timeA=Number.isFinite(a.finishTime)?a.finishTime:Number.POSITIVE_INFINITY;
-      const timeB=Number.isFinite(b.finishTime)?b.finishTime:Number.POSITIVE_INFINITY;
-      return timeA-timeB||
+      const ta=Number.isFinite(a.finishTime)?a.finishTime:Number.POSITIVE_INFINITY;
+      const tb=Number.isFinite(b.finishTime)?b.finishTime:Number.POSITIVE_INFINITY;
+      return ta-tb||
         (a.targetFinishTime||Number.POSITIVE_INFINITY)-(b.targetFinishTime||Number.POSITIVE_INFINITY)||
-        stableIndex.get(a.id)-stableIndex.get(b.id);
+        originalOrder.get(a.id)-originalOrder.get(b.id);
     }
     if(a.finished)return -1;
     if(b.finished)return 1;
-    return progressBucket(b)-progressBucket(a)||
-      (a.targetFinishTime||Number.POSITIVE_INFINITY)-(b.targetFinishTime||Number.POSITIVE_INFINITY)||
-      stableIndex.get(a.id)-stableIndex.get(b.id);
+    const delta=progressOf(b)-progressOf(a);
+    if(Math.abs(delta)>0.000001)return delta>0?1:-1;
+    return (a.targetFinishTime||Number.POSITIVE_INFINITY)-(b.targetFinishTime||Number.POSITIVE_INFINITY)||
+      originalOrder.get(a.id)-originalOrder.get(b.id);
   });
 }
 
