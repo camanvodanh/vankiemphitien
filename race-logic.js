@@ -68,15 +68,23 @@ function updateRace(dt){
    racer.rankMovementTimer=Math.max(0,racer.rankMovementTimer-dt);
    if(racer.rankMovementTimer===0)racer.rankMovement="";
   }
+  if(racer.effectCooldown>0)racer.effectCooldown=Math.max(0,racer.effectCooldown-dt);
+  if(racer.pendingEffectTimer>0){
+   racer.pendingEffectTimer=Math.max(0,racer.pendingEffectTimer-dt);
+   if(racer.pendingEffectTimer===0&&racer.pendingEffect)activateRaceEffect(racer);
+  }
   if(racer.effectTimer>0){
    racer.effectTimer=Math.max(0,racer.effectTimer-dt);
    if(racer.effectTimer===0){
-    racer.speedMultiplier=1;racer.effectType="";racer.effectName="";
+    racer.speedMultiplier=1;racer.effectType="";racer.effectName="";racer.effectPolarity="";
+    racer.effectCooldown=rand(VKP_DATA.effects.balance.recoverySeconds[0],VKP_DATA.effects.balance.recoverySeconds[1]);
     if(cameraFocusId===racer.id)cameraFocusId=null;
    }
   }
+  const limits=VKP_DATA.effects.balance.speedLimits;
+  racer.speedMultiplier=clamp(racer.speedMultiplier||1,limits.min,limits.max);
   const baseSpeed=distance/Math.max(.001,racer.targetFinishTime);
-  racer.progress=Math.min(distance,racer.progress+baseSpeed*dt*(racer.speedMultiplier||1));
+  racer.progress=Math.min(distance,racer.progress+baseSpeed*dt*racer.speedMultiplier);
  });
  const rankedNow=sortedRacers();
  for(let i=0;i<rankedNow.length;i++){
@@ -85,18 +93,16 @@ function updateRace(dt){
    racer.rankMovement=newRank<oldRank?"up":"down";
    racer.rankMovementTimer=3.5;
   }
-  // Khi có hiệu ứng, luôn hiển thị hệ số tốc độ dù thứ hạng không đổi.
-  // Tăng tốc dùng mũi tên xanh; giảm tốc dùng mũi tên đỏ.
   if(racer.effectTimer>0){
    const multiplier=racer.speedMultiplier||1;
    const direction=multiplier>=1?"up":"down";
-   racer.rankChangeText=newRank+"|"+direction+"|"+multiplier.toFixed(1);
+   racer.rankChangeText=newRank+"|"+direction+"|"+multiplier.toFixed(2);
    racer.rankChangeTimer=racer.effectTimer;
   }
  }
  racers.map((racer,index)=>({racer,index})).filter(o=>!o.racer.finished&&o.racer.progress>=distance).forEach(o=>processFinish(o.racer,o.index));
  eventClock+=dt;
- if(eventClock>=nextEvent&&elapsed<duration){triggerEvent();eventClock=0;nextEvent=rand(4.5,7.5);}
+ if(eventClock>=nextEvent&&elapsed<duration){triggerEvent();eventClock=0;nextEvent=rand(VKP_DATA.effects.balance.waitSeconds[0],VKP_DATA.effects.balance.waitSeconds[1]);}
  if(elapsed>=duration){racers.forEach((racer,index)=>{if(!racer.finished)processFinish(racer,index);});finishRace();}
 }
 // =====================================================
