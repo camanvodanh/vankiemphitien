@@ -28,10 +28,26 @@ function assignFinishTimes() {
 // =====================================================
 
 function processFinish(racer,index){
- if(racer.finished)return;racer.progress=distance;racer.finished=true;racer.finishTime=elapsed;
- racer.speedMultiplier=1;racer.effectTimer=0;racer.effectType="";racer.effectName="";
+ if(racer.finished)return;
+ racer.progress=distance;
+ racer.finished=true;
+ racer.finishTime=Number.isFinite(elapsed)?Math.max(0,elapsed):0;
+ // Chốt hoàn toàn trạng thái thi đấu của người đã về đích.
+ racer.rankMovement="";
+ racer.rankMovementTimer=0;
+ racer.rankChangeText="";
+ racer.rankChangeTimer=0;
+ racer.pendingEffect=null;
+ racer.pendingEffectTimer=0;
+ racer.speedMultiplier=1;
+ racer.effectTimer=0;
+ racer.effectType="";
+ racer.effectName="";
+ racer.effectPolarity="";
  if(cameraFocusId===racer.id)cameraFocusId=null;
- finishQueue.push(racer);showFinishAnnouncement(racer,finishQueue.length);addParticles(TRACK.right-35,laneY(index),28);
+ finishQueue.push(racer);
+ showFinishAnnouncement(racer,finishQueue.length);
+ addParticles(TRACK.right-35,laneY(index),28);
 }
 
 // =====================================================
@@ -730,6 +746,23 @@ function updateRanking(){
   rankingPendingSince=0;
   return;
  }
+ // Đồng bộ các ô dữ liệu ngay cả khi thứ tự hàng không đổi.
+ // Nếu chỉ chờ signature đổi, thời gian về đích có thể mãi giữ dấu "—".
+ const racerById=new Map(sorted.map(r=>[String(r.id),r]));
+ body.querySelectorAll("tr[data-racer-id]").forEach(row=>{
+  const racer=racerById.get(row.dataset.racerId);
+  if(!racer)return;
+  const timeCell=row.querySelector(".rank-time");
+  if(timeCell)timeCell.textContent=raceActive&&racer.finished&&Number.isFinite(racer.finishTime)
+   ?formatRankingTime(racer.finishTime):"—";
+  if(racer.finished){
+   const movement=row.querySelector(".rank-movement");
+   if(movement)movement.remove();
+   row.classList.remove("rank-row-moving");
+   row.style.transition="";
+   row.style.transform="";
+  }
+ });
  const mode=raceActive?"race":"idle";
  const signature=mode+"|"+sorted.map(r=>String(r.id)).join("|");
  // Chỉ trì hoãn thay đổi thứ tự trong lúc đua: tránh các lần vượt sát nhau
@@ -759,9 +792,9 @@ function updateRanking(){
   const row=previous?previous.row:document.createElement("tr");
   row.dataset.racerId=key;
   const medal=raceActive?(i===0?"🥇":i===1?"🥈":i===2?"🥉":String(i+1)):"";
-  const arrow=raceActive&&!raceOver&&r.rankMovement==="up"
+  const arrow=raceActive&&!raceOver&&!r.finished&&r.rankMovement==="up"
    ?'<span class="rank-movement rank-up" aria-label="Tăng hạng" title="Tăng hạng">▲</span>'
-   :raceActive&&!raceOver&&r.rankMovement==="down"
+   :raceActive&&!raceOver&&!r.finished&&r.rankMovement==="down"
     ?'<span class="rank-movement rank-down" aria-label="Giảm hạng" title="Giảm hạng">▼</span>':"";
   const actualTime=raceActive&&r.finished&&r.finishTime!==null
    ?formatRankingTime(r.finishTime):"—";
