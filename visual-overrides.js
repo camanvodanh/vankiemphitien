@@ -6825,8 +6825,8 @@ function drawAwardMaster(target,x,y,scale,time){
 // chưởng môn ở quảng trường với chưởng môn trao thưởng.
 // =====================================================
 function drawMasterBaguaHalo(target,x,y,scale,time){
-  // Thái Cực Ngọc Luân: đĩa âm dương tự vận chuyển liên tục sau lưng chưởng môn.
-  const motionTime=performance.now();
+  // Thái Cực Ngọc Luân: dùng chung mốc thời gian của khung hình để chuyển động ổn định.
+  const motionTime=Number.isFinite(time)?time:performance.now();
   // Không có quẻ, phù văn hoặc các vòng Bát Quái đồng tâm.
   target.save();target.translate(x,y-48*scale);target.rotate(motionTime*.00042);target.scale(scale,.94*scale);
   const r=94;
@@ -6852,7 +6852,9 @@ function drawMasterBaguaHalo(target,x,y,scale,time){
   target.globalAlpha=.52;target.strokeStyle="#f0d99b";target.lineWidth=1.1;
   for(let i=0;i<8;i++){const a=i*Math.PI/4,px=Math.cos(a)*84,py=Math.sin(a)*84;target.save();target.translate(px,py);target.rotate(a);target.beginPath();target.arc(0,0,4,-Math.PI*.8,Math.PI*.8);target.stroke();target.restore();}
   target.globalAlpha=1;
-  for(let i=0;i<18;i++){const a=-motionTime*.00032+i*Math.PI*2/18,rr=r+5+Math.sin(motionTime*.002+i)*2;target.globalAlpha=.35+.45*(.5+.5*Math.sin(motionTime*.003+i));target.fillStyle=i%2?"#b9f7e4":"#ffe4a7";target.shadowColor=target.fillStyle;target.shadowBlur=7;target.beginPath();target.arc(Math.cos(a)*rr,Math.sin(a)*rr,1.5,0,Math.PI*2);target.fill();}
+  // Ít hạt sáng hơn, gom chung một path để giảm lệnh vẽ/shadow trên iPhone.
+  target.shadowBlur=0;target.beginPath();
+  for(let i=0;i<10;i++){const a=-motionTime*.00032+i*Math.PI*2/10,rr=r+5+Math.sin(motionTime*.002+i)*2;target.globalAlpha=.38+.38*(.5+.5*Math.sin(motionTime*.003+i));target.fillStyle=i%2?"#b9f7e4":"#ffe4a7";target.moveTo(Math.cos(a)*rr+1.5,Math.sin(a)*rr);target.arc(Math.cos(a)*rr,Math.sin(a)*rr,1.5,0,Math.PI*2);}
   target.globalAlpha=1;target.shadowBlur=0;target.restore();
 }
 function drawAmbientEnergy(time){
