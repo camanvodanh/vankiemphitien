@@ -399,37 +399,12 @@ function drawParticles() {
 function triggerEvent(){
  const active=racers.filter(r=>!r.finished);if(!active.length)return;
  const racer=active[randInt(0,active.length-1)],index=racers.indexOf(racer);
- const effects=[
-  {type:"poison",name:"Trúng độc",multiplier:.56,duration:3.4},
-  {type:"weak",name:"Suy lực",multiplier:.68,duration:3.0},
-  {type:"pill",name:"Hồi Linh Đan",multiplier:1.58,duration:2.7},
-  {type:"impact",name:"Va chạm",multiplier:.48,duration:1.8},
-  {type:"lightning",name:"Lôi kích",multiplier:.42,duration:2.1},
-  {type:"gale",name:"Cuồng phong",multiplier:.62,duration:2.8},
-  {type:"dizzy",name:"Choáng",multiplier:.50,duration:2.3},
-  {type:"faint",name:"Ngất",multiplier:.32,duration:1.65},
-  {type:"boost",name:"Du Long Bộ",multiplier:1.44,duration:2.75},
-  {type:"qi_pill",name:"Tụ Khí Đan",multiplier:1.72,duration:1.9},
-  {type:"sword_intent",name:"Kiếm ý",multiplier:1.34,duration:2.35},
-  {type:"cloud_step",name:"Đạp Vân",multiplier:1.48,duration:2.15},
-  {type:"formation",name:"Tụ Linh Trận",multiplier:1.27,duration:3.1},
-  {type:"formation_sword",name:"Vạn Kiếm Trận",multiplier:1.46,duration:2.25},
-  {type:"formation_seal",name:"Bát Quái Trận",multiplier:1.22,duration:3.8},
-  {type:"sword_spin",name:"Kiếm Vũ",multiplier:1.18,duration:2.2},
-  {type:"talisman",name:"Phù tốc",multiplier:1.55,duration:2.65},
-  {type:"talisman_guard",name:"Hộ Thân Phù",multiplier:1.31,duration:3.0},
-  {type:"talisman_thunder",name:"Lôi Phù",multiplier:1.62,duration:1.8},
-  {type:"wind_step",name:"Phong Hành",multiplier:1.36,duration:2.9},
-  {type:"shadow_step",name:"Ảnh Độn",multiplier:1.82,duration:1.35},
-  {type:"sword_dash",name:"Kiếm Độn",multiplier:1.68,duration:1.65},
-  {type:"body_burst",name:"Bạo Bộ",multiplier:1.24,duration:3.6},
-   {type:"cloud_stride",name:"Lưu Vân Bộ",multiplier:1.32,duration:3.25}
- ];
+ const effects=VKP_DATA.effects.raceEvents;
  const effect=effects[randInt(0,effects.length-1)];
  racer.speedMultiplier=effect.multiplier;racer.effectTimer=effect.duration;racer.effectDuration=effect.duration;racer.effectType=effect.type;racer.effectName=effect.name;
  cameraFocusId=racer.id;const px=racerX(racer),py=laneY(index);addParticles(px,py,32);
- const burstColor=({poison:"#8bd66f",weak:"#b7bdc5",pill:"#ffd978",impact:"#ffab72",lightning:"#a9e9ff",gale:"#a9e4ed",dizzy:"#c8b2ff",faint:"#c4c9d2",boost:"#a7e9ff",sword_intent:"#a9eaff",cloud_step:"#8fe5d4",formation:"#c9b0ff",formation_sword:"#b8d8ff",formation_seal:"#c8a8ff",sword_spin:"#b9f0ff",talisman:"#ffe18a",talisman_guard:"#8be3df",talisman_thunder:"#a9e8ff",wind_step:"#9debd7",shadow_step:"#b9b4ff",sword_dash:"#b8eaff",body_burst:"#ffd08a",cloud_stride:"#d6f4ff"})[effect.type]||"#ffe7a0";
- for(let i=0;i<18;i++){const angle=i*Math.PI/9;particles.push({x:px+Math.cos(angle)*8,y:py+Math.sin(angle)*6,vx:Math.cos(angle)*rand(1.2,3.1),vy:Math.sin(angle)*rand(1,2.6),life:rand(.45,.95),maxLife:.95,size:rand(2,4),color:burstColor});}
+ const burstColor=effect.color||"#ffe7a0";
+ for(let i=0;i<VKP_DATA.effects.particleBurst.count;i++){const angle=i*VKP_DATA.effects.particleBurst.angleStep;particles.push({x:px+Math.cos(angle)*8,y:py+Math.sin(angle)*6,vx:Math.cos(angle)*rand(VKP_DATA.effects.particleBurst.speedMin,VKP_DATA.effects.particleBurst.speedMax),vy:Math.sin(angle)*rand(VKP_DATA.effects.particleBurst.speedMin,VKP_DATA.effects.particleBurst.speedMax),life:rand(VKP_DATA.effects.particleBurst.lifeMin,VKP_DATA.effects.particleBurst.lifeMax),maxLife:VKP_DATA.effects.particleBurst.lifeMax,size:rand(VKP_DATA.effects.particleBurst.sizeMin,VKP_DATA.effects.particleBurst.sizeMax),color:burstColor});}
 }
 
 function showFinishAnnouncement(racer, rank) {
