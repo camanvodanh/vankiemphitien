@@ -1530,10 +1530,19 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonRitual(time);dra
    if(count){
      if(drag.kind==="quantity"){
        const typed=getInputNames().length;
-       if(!typed){q.value=String(clamp(Number(q.value)+count,2,100));q.dispatchEvent(new Event("change",{bubbles:true}));}
+       if(!typed){
+         // Vòng số lượng tuần hoàn từ 2 đến 100, không bị kẹt ở hai đầu.
+         const current=clamp(Number(q.value)||10,2,100);
+         const next=2+((((current-2)+count)%99)+99)%99;
+         q.value=String(next);
+         q.dispatchEvent(new Event("change",{bubbles:true}));
+       }
      }else{
-       const idx=durations.indexOf(Number(speed.value));
-       speed.value=String(durations[clamp(idx+count,0,durations.length-1)]);
+       // Thời lượng tuần hoàn: qua 600s quay về 5s và ngược lại.
+       const found=durations.indexOf(Number(speed.value));
+       const idx=found>=0?found:(durations.indexOf(60)>=0?durations.indexOf(60):0);
+       const nextIndex=((idx+count)%durations.length+durations.length)%durations.length;
+       speed.value=String(durations[nextIndex]);
        speed.dispatchEvent(new Event("change",{bubbles:true}));
      }
      drag.carry-=count*step;
