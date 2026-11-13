@@ -628,6 +628,7 @@ function resetGame(){
   if(typeof summonRitualReturnAt!=="undefined")summonRitualReturnAt=0;
   if(window.CultivationMusic)window.CultivationMusic.setPhase("setup");
   window.__awardMasterDepartureActive=false;
+  window.__vkSummonRevealActive=false;
   racers=[];raceStopped=false;particles=[];running=false;paused=false;started=false;finished=false;
   countdown=0;countdownAccumulator=0;elapsed=0;eventClock=0;eventText="";eventTextLife=0;
   finishQueue=[];cameraFocusId=null;finishMessage="";finishMessageLife=0;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;
@@ -688,10 +689,12 @@ function drawCamera(time){
 
 function updateRanking(){
  const body=$("rankBody");
- const sorted=sortedRacers();
+ const revealing=window.__vkSummonRevealActive===true;
+ const now=performance.now();
+ const sorted=sortedRacers().filter(r=>!revealing||(Number.isFinite(r.summonRevealAt)&&now>=r.summonRevealAt));
  if(!sorted.length){
-  body.innerHTML='<tr><td colspan="3" class="empty">Chưa có tiên nhân</td></tr>';
-  rankingOrderSignature="";
+  body.innerHTML='<tr><td colspan="3" class="empty">'+(revealing?"Đang triệu hồi tiên nhân…":"Chưa có tiên nhân")+'</td></tr>';
+  rankingOrderSignature=revealing?"summoning|":"";
   return;
  }
  const allFinished=sorted.every(r=>r.finished===true);
@@ -1142,6 +1145,12 @@ $("summon").addEventListener("click",()=>{
     summonRitualStartedAt=performance.now();
     summonArrivalStartedAt=summonRitualStartedAt+summonRitualDuration*1000;
     summonBatchSize=getSummonBatchSize(racers.length);
+    // Tiên Bảng chỉ mở tên đúng lúc từng nhóm bắt đầu hiện thân.
+    window.__vkSummonRevealActive=true;
+    racers.forEach((racer,index)=>{
+      racer.summonRevealAt=summonArrivalStartedAt+getSummonGroupDelay(index)*1000;
+    });
+    rankingOrderSignature="";
     const groupCount=Math.ceil(racers.length/summonBatchSize);
     const lastDelay=getSummonGroupDelay(Math.max(0,racers.length-1));
     summonRitualReturnAt=summonArrivalStartedAt+(lastDelay+VKP_DATA.summoning.beamTailDuration)*1000;
@@ -1152,6 +1161,9 @@ $("summon").addEventListener("click",()=>{
     summonUnlockTimer=setTimeout(()=>{
       summonVisualReady=true;
       summonUnlockTimer=0;
+      window.__vkSummonRevealActive=false;
+      rankingOrderSignature="";
+      updateRanking();
       syncButtons();
       $("status").textContent="Toàn bộ tiên nhân đã hiện thân · Đại hội bắt đầu!";
       $("lockNotice").textContent="Đã triệu hồi hoàn tất. Tự động bắt đầu sau 3 giây đếm ngược.";
