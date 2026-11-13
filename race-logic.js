@@ -705,6 +705,8 @@ function updateRanking(){
   oldRows.set(row.dataset.racerId,{row,top:row.getBoundingClientRect().top});
  });
  const orderedRows=[];
+ const liveIds=new Set(sorted.map(r=>String(r.id)));
+ oldRows.forEach((entry,id)=>{if(!liveIds.has(id))entry.row.remove();});
  sorted.forEach((r,i)=>{
   const key=String(r.id);
   const previous=oldRows.get(key);
