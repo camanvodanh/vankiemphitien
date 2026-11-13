@@ -6455,7 +6455,9 @@ function drawScenery(time){
 // chưởng môn trẻ đồng nhất và Hậu Thiên Bát Quái dưới chân.
 // =====================================================
 function drawMountainRange(){
-  const layer=(pts,top,mid,base)=>{const g=ctx.createLinearGradient(0,90,0,590);g.addColorStop(0,top);g.addColorStop(.52,mid);g.addColorStop(1,base);ctx.fillStyle=g;ctx.beginPath();ctx.moveTo(0,H);pts.forEach((p,i)=>{if(!i)ctx.lineTo(p[0],p[1]);else{const a=pts[i-1];ctx.quadraticCurveTo((a[0]+p[0])*.5,Math.min(a[1],p[1])-19,p[0],p[1]);}});ctx.lineTo(W,H);ctx.closePath();ctx.fill();};
+  // Hạ toàn bộ dãy núi một chút để mở rộng tầng trời cho tiên hạc và tường thụy.
+  ctx.save();ctx.translate(0,38);
+  const layer=(pts,top,mid,base)=>{const g=ctx.createLinearGradient(0,128,0,628);g.addColorStop(0,top);g.addColorStop(.52,mid);g.addColorStop(1,base);ctx.fillStyle=g;ctx.beginPath();ctx.moveTo(0,H);pts.forEach((p,i)=>{if(!i)ctx.lineTo(p[0],p[1]);else{const a=pts[i-1];ctx.quadraticCurveTo((a[0]+p[0])*.5,Math.min(a[1],p[1])-19,p[0],p[1]);}});ctx.lineTo(W,H);ctx.closePath();ctx.fill();};
   // Một dãy núi lớn liên tục, đỉnh trung tâm cao và nhiều lớp sống núi.
   layer([[0,385],[75,340],[150,352],[235,286],[315,315],[390,205],[465,258],[545,126],[615,205],[690,158],[765,250],[845,278],[925,316],[1010,330],[W,375]],"#e5ecdf","#afc4b0","#718d78");
   layer([[0,450],[85,405],[165,414],[245,350],[325,385],[405,278],[480,328],[555,218],[630,286],[705,230],[785,330],[865,360],[950,386],[W,425]],"#b8cbb7","#78967c","#4b6e56");
@@ -6472,7 +6474,8 @@ function drawMountainRange(){
   ctx.save();ctx.globalAlpha=.28;ctx.strokeStyle="#e4e8d2";ctx.lineWidth=3;
   for(let i=0;i<8;i++){const x=250+i*78;ctx.beginPath();ctx.moveTo(x,330+i%3*13);ctx.quadraticCurveTo(x+35,365+i%2*18,x+78,390+i%3*12);ctx.stroke();}
   ctx.restore();
-  const haze=ctx.createLinearGradient(0,290,0,510);haze.addColorStop(0,"rgba(229,240,224,0)");haze.addColorStop(.5,"rgba(229,240,224,.24)");haze.addColorStop(1,"rgba(229,240,224,0)");ctx.fillStyle=haze;ctx.fillRect(0,290,W,220);
+  const haze=ctx.createLinearGradient(0,290,0,510);haze.addColorStop(0,"rgba(229,240,224,0)");haze.addColorStop(.5,"rgba(229,240,224,.24)");haze.addColorStop(1,"rgba(229,240,224,0)");ctx.fillStyle=haze;ctx.fillRect(0,328,W,220);
+  ctx.restore();
 }
 
 function drawMountainSpringArtifact(time){
