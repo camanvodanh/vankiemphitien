@@ -1576,7 +1576,8 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonRitual(time);dra
   if(!layer){layer=document.createElement("div");layer.className="dial-markers";ring.appendChild(layer);}
   layer.replaceChildren();
   labels.forEach((label,i)=>{
-    const angle=(-90+i*360/labels.length)*Math.PI/180;
+    const markerRatio=ring===tRing?(Number(String(label).replace("s",""))-durationMin)/(durationMax-durationMin):i/labels.length;
+    const angle=(-90+markerRatio*360)*Math.PI/180;
     const span=document.createElement("span");span.className="dial-marker";span.textContent=label;
     span.style.left=(50+Math.cos(angle)*radius)+"%";
     span.style.top=(50+Math.sin(angle)*radius)+"%";
