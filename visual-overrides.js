@@ -5925,8 +5925,8 @@ function drawAnnouncement(){
   ctx.globalAlpha=clamp(life/.55,0,1);
   ctx.font="bold 15px Georgia";
   const boxW=Math.min(W-36,Math.max(230,ctx.measureText(message).width+28));
-  // Đồng hồ ở y=13; đặt thông báo thấp hơn để không chồng chữ và vẫn cách biển hiệu chính điện (y≈170).
-  const boxH=29,x=(W-boxW)/2,y=49;
+  // Đồng hồ ở y=13; hạ thông báo xuống vùng trời trống, không phủ biển hiệu Lăng Tiêu Bảo Điện.
+  const boxH=29,x=(W-boxW)/2,y=96;
   ctx.fillStyle=isFinish?"rgba(99,59,26,.92)":"rgba(24,52,41,.9)";
   ctx.fillRect(x,y,boxW,boxH);
   ctx.strokeStyle="#e4c27e";ctx.lineWidth=1.3;
@@ -6396,18 +6396,18 @@ function drawPodiumScene(target,time,mini=false){
     target.save();target.textAlign="center";target.textBaseline="middle";
     target.font=mini?"900 8px Georgia":"900 21px Georgia";
     target.lineJoin="round";target.lineWidth=mini?2.5:5;
-    target.strokeStyle="#17231f";target.strokeText(rankTitle,x,base-(mini?7:17),w*.29);
+    target.strokeStyle="#17231f";target.strokeText(rankTitle,x,base-(mini?7:62),w*.29);
     target.shadowColor=metals[rank][0];target.shadowBlur=mini?5:16;
     target.fillStyle=rank===1?"#fff0a4":rank===2?"#edf8ff":"#ffd0a0";
-    target.fillText(rankTitle,x,base-(mini?7:17),w*.29);
+    target.fillText(rankTitle,x,base-(mini?7:62),w*.29);
     target.shadowBlur=0;
     target.globalAlpha=mini?.42:.28;target.fillStyle=metals[rank][0];
-    target.beginPath();target.roundRect(x-w*(mini?.12:.145),base-(mini?14:34),w*(mini?.24:.29),mini?14:34,mini?4:10);target.fill();
+    target.beginPath();target.roundRect(x-w*(mini?.12:.145),base-(mini?14:79),w*(mini?.24:.29),mini?14:34,mini?4:10);target.fill();
     target.globalAlpha=1;
     target.font=mini?"900 8px Georgia":"900 21px Georgia";
-    target.strokeText(rankTitle,x,base-(mini?7:17),w*.29);
+    target.strokeText(rankTitle,x,base-(mini?7:62),w*.29);
     target.fillStyle=rank===1?"#fff0a4":rank===2?"#edf8ff":"#ffd0a0";
-    target.fillText(rankTitle,x,base-(mini?7:17),w*.29);
+    target.fillText(rankTitle,x,base-(mini?7:62),w*.29);
     target.restore();
   }
 
