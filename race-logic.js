@@ -106,7 +106,7 @@ function updateRace(dt){
 // Giới hạn tốc độ vẽ để Safari/iPhone không phải dựng lại toàn bộ
 // quảng trường, khán đài và tiểu cảnh camera ở cả 60 khung hình/giây.
 let lastCanvasRenderAt = 0;
-let canvasRenderDisabled = false;
+let canvasRenderDisabled = false; // Giữ biến tương thích; không tự khóa khi gặp lỗi render.
 
 function frame(time) {
   const dt = lastTime
@@ -155,10 +155,14 @@ function frame(time) {
     try {
       render(time);
     } catch (error) {
-      canvasRenderDisabled = true;
-      console.error("Vạn Kiếm Phi Tiên: lỗi khi dựng khung hình", error);
+      // Không khóa vĩnh viễn canvas sau một lỗi đơn lẻ.
+      // Render tiếp ở khung kế tiếp để tránh màn hình trắng/mất toàn bộ nhân vật.
+      if (!window.__vkRenderErrorLogged) {
+        window.__vkRenderErrorLogged = true;
+        console.error("Vạn Kiếm Phi Tiên: lỗi khung hình (sẽ tự thử lại)", error);
+      }
       const status = $("status");
-      if (status) status.textContent = "Lỗi hiển thị cảnh — vui lòng tải lại trang.";
+      if (status) status.textContent = "Đang khôi phục hiển thị…";
     }
   }
 
