@@ -5728,11 +5728,11 @@ function drawCrowd(time) {
   const stand=pose*pose*(3-2*pose);
   // Ghế và bệ vẫn giữ nguyên vị trí; người chủ lễ bước lên phía trước khi nghi thức bắt đầu.
   drawSectMasterThrone(ctx,550,612,.82);
+  drawMasterBaguaHalo(ctx,550,612,.82,time);
   if(stand>.03){
-    drawMasterBaguaHalo(ctx,550,612,.82,time);
     drawSectMasterFigure(ctx,550,612+18*stand,.82,time,"standing");
   }else{
-    drawCeremonySeatedMaster(ctx,550,612,.82);
+    drawSectMasterFigure(ctx,550,609,.82,time,"seated");
   }
   drawRoleLabel(550,493,"CHƯỞNG MÔN","#f2d17d",1.05);
 
