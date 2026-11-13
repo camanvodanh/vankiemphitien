@@ -6347,3 +6347,161 @@ html,body.game-page{min-width:0!important;}
 @media(max-width:380px){
   .hero-actions .language-picker .language-select{width:41px!important;min-width:41px!important;max-width:41px!important;height:29px!important;min-height:29px!important;font-size:8px!important;}
 }
+
+
+/* REVISION 98 — desktop split arena: game left, observer and leaderboard stacked right. */
+.hero-actions{
+  display:flex!important;flex-flow:row nowrap!important;align-items:center!important;
+  align-self:center!important;gap:6px!important;white-space:nowrap!important;
+}
+.hero-actions #musicToggle,
+.hero-actions .language-picker,
+.hero-actions #languageButton{
+  position:relative!important;top:auto!important;bottom:auto!important;
+  align-self:center!important;vertical-align:middle!important;transform:none!important;
+  margin-top:0!important;margin-bottom:0!important;line-height:1!important;
+}
+.hero-actions #musicToggle{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  height:34px!important;min-height:34px!important;
+}
+.hero-actions #languageButton{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  height:34px!important;min-height:34px!important;
+}
+
+/* At desktop widths keep the playfield large and reserve a separate right rail. */
+@media (min-width:920px){
+  .game-stage{width:100%!important;min-width:0!important;}
+  .arena-frame{
+    display:grid!important;
+    position:relative!important;
+    grid-template-columns:minmax(0,1.72fr) minmax(300px,1fr)!important;
+    grid-template-rows:minmax(175px,.82fr) minmax(220px,1.18fr)!important;
+    column-gap:clamp(10px,1.2vw,18px)!important;
+    row-gap:clamp(10px,1.2vw,16px)!important;
+    align-items:stretch!important;
+    width:100%!important;height:auto!important;min-height:460px!important;
+    overflow:visible!important;
+  }
+  .arena-frame>#game{
+    grid-column:1!important;grid-row:1 / span 2!important;
+    align-self:stretch!important;justify-self:stretch!important;
+    width:100%!important;height:auto!important;min-width:0!important;
+    max-width:100%!important;aspect-ratio:4 / 3!important;
+    border-radius:8px!important;
+  }
+  .arena-frame>.game-camera{
+    position:relative!important;inset:auto!important;transform:none!important;
+    grid-column:2!important;grid-row:1!important;
+    display:flex!important;flex-direction:column!important;
+    width:100%!important;min-width:0!important;max-width:none!important;
+    min-height:175px!important;height:100%!important;max-height:none!important;
+    margin:0!important;padding:clamp(9px,1vw,14px)!important;
+    overflow:hidden!important;align-self:stretch!important;
+    border-radius:10px!important;
+  }
+  .arena-frame>.game-camera .camera-screen{
+    flex:1 1 auto!important;width:100%!important;min-height:0!important;
+    height:auto!important;aspect-ratio:7 / 4!important;
+  }
+  .arena-frame>.game-camera .camera-screen canvas{
+    display:block!important;width:100%!important;height:100%!important;
+    max-height:none!important;object-fit:contain!important;
+  }
+  .arena-frame>.game-camera .camera-info{flex:0 0 auto!important;}
+  .arena-frame>.game-ranking{
+    position:relative!important;inset:auto!important;transform:none!important;
+    grid-column:2!important;grid-row:2!important;
+    display:flex!important;flex-direction:column!important;
+    width:100%!important;min-width:0!important;max-width:none!important;
+    min-height:220px!important;height:100%!important;max-height:none!important;
+    margin:0!important;padding:clamp(9px,1vw,14px)!important;
+    overflow:hidden!important;align-self:stretch!important;
+    border-radius:10px!important;
+  }
+  .arena-frame>.game-ranking .table-wrap{
+    flex:1 1 auto!important;min-height:0!important;max-height:none!important;
+    overflow:auto!important;
+  }
+  .arena-frame>.game-ranking table{width:100%!important;min-width:0!important;}
+  /* Setup and race controls remain floating over the playfield, never over the right rail. */
+  .arena-frame>.game-setup{
+    position:absolute!important;z-index:100!important;
+    left:clamp(8px,1.2vw,18px)!important;right:auto!important;
+    top:clamp(8px,1.2vw,18px)!important;bottom:auto!important;
+    width:min(360px,calc(100% - 24px))!important;
+    max-width:min(360px,calc(100% - 24px))!important;
+    max-height:min(72vh,640px)!important;overflow:auto!important;
+  }
+  .arena-frame>.game-setup.is-minimized{
+    width:max-content!important;max-width:calc(100% - 24px)!important;
+    max-height:none!important;overflow:hidden!important;
+  }
+  .arena-frame>.arena-controls{
+    position:absolute!important;z-index:180!important;
+    left:50%!important;right:auto!important;top:auto!important;
+    bottom:clamp(8px,1.2vw,16px)!important;transform:translateX(-50%)!important;
+    display:flex!important;flex-flow:row nowrap!important;align-items:center!important;
+    justify-content:center!important;width:max-content!important;
+    max-width:calc(100% - 16px)!important;min-height:42px!important;height:auto!important;
+    margin:0!important;padding:4px!important;gap:7px!important;
+  }
+  .arena-frame:has(>.game-camera.is-minimized){
+    grid-template-rows:42px minmax(220px,1fr)!important;
+  }
+  .arena-frame:has(>.game-ranking.is-minimized){
+    grid-template-rows:minmax(175px,1fr) 42px!important;
+  }
+  .arena-frame:has(>.game-camera.is-minimized):has(>.game-ranking.is-minimized){
+    grid-template-rows:42px 42px!important;
+  }
+}
+
+/* Narrow desktop/tablet widths fall back to a vertical, phone-like document flow.
+   This prevents the playfield or its controls from being squeezed under the side panels. */
+@media (min-width:761px) and (max-width:919px){
+  .arena-frame{
+    display:flex!important;flex-direction:column!important;align-items:stretch!important;
+    gap:var(--panel-gap)!important;width:100%!important;height:auto!important;
+    min-height:0!important;overflow:visible!important;
+  }
+  .arena-frame>#game{order:0!important;position:relative!important;width:100%!important;height:auto!important;max-width:100%!important;}
+  .arena-frame>.game-setup{
+    order:1!important;position:relative!important;inset:auto!important;
+    width:100%!important;max-width:100%!important;max-height:none!important;
+    height:auto!important;margin:0!important;transform:none!important;
+  }
+  .arena-frame>.game-setup.is-minimized{width:100%!important;max-width:100%!important;}
+  .arena-frame>.arena-controls{
+    order:2!important;position:relative!important;inset:auto!important;
+    left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;
+    transform:none!important;width:100%!important;max-width:100%!important;
+    min-height:44px!important;height:auto!important;margin:0!important;
+    display:flex!important;flex-flow:row wrap!important;justify-content:center!important;
+  }
+  .arena-frame>.game-camera{
+    order:3!important;position:relative!important;inset:auto!important;transform:none!important;
+    width:100%!important;max-width:100%!important;min-width:0!important;
+    min-height:0!important;height:auto!important;max-height:none!important;margin:0!important;
+  }
+  .arena-frame>.game-camera .camera-screen{width:100%!important;height:auto!important;aspect-ratio:7 / 4!important;}
+  .arena-frame>.game-camera .camera-screen canvas{width:100%!important;height:auto!important;}
+  .arena-frame>.game-ranking{
+    order:4!important;position:relative!important;inset:auto!important;transform:none!important;
+    width:100%!important;max-width:100%!important;min-width:0!important;
+    min-height:0!important;height:auto!important;max-height:420px!important;margin:0!important;
+  }
+  .arena-frame>.game-ranking .table-wrap{max-height:340px!important;overflow:auto!important;}
+}
+
+@media(max-width:760px){
+  .hero-actions{align-items:center!important;align-self:center!important;gap:5px!important;}
+  .hero-actions #musicToggle,.hero-actions #languageButton{
+    position:relative!important;top:auto!important;bottom:auto!important;
+    align-self:center!important;transform:none!important;margin:0!important;
+    vertical-align:middle!important;line-height:1!important;
+  }
+  .hero-actions #musicToggle{height:32px!important;min-height:32px!important;}
+  .hero-actions #languageButton{height:32px!important;min-height:32px!important;}
+}
