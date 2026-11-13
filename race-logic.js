@@ -102,7 +102,7 @@ function updateRace(dt){
  }
  racers.map((racer,index)=>({racer,index})).filter(o=>!o.racer.finished&&o.racer.progress>=distance).forEach(o=>processFinish(o.racer,o.index));
  eventClock+=dt;
- if(eventClock>=nextEvent&&elapsed<duration){triggerEvent();eventClock=0;nextEvent=rand(VKP_DATA.effects.balance.waitSeconds[0],VKP_DATA.effects.balance.waitSeconds[1]);}
+ if(eventClock>=nextEvent&&elapsed<duration){triggerEvent();eventClock=0;nextEvent=rand(getRaceEffectTimingProfile(duration).eventIntervalSeconds[0],getRaceEffectTimingProfile(duration).eventIntervalSeconds[1]);}
  if(elapsed>=duration){racers.forEach((racer,index)=>{if(!racer.finished)processFinish(racer,index);});finishRace();}
 }
 // =====================================================
@@ -573,7 +573,7 @@ function summon(){
   if(finalNames.length>VKP_DATA.summoning.maximumRacers){$("lockNotice").textContent="Tối đa 100 tiên nhân. Hãy rút gọn danh sách rồi triệu hồi lại.";return;}
   racers=finalNames.map((name,index)=>createRacer(name,index));if(window.CultivationMusic)window.CultivationMusic.setPhase("setup");window.__awardMasterDepartureActive=false;raceStopped=false;
   racers.forEach(r=>{r.swordStyle=randInt(0,11);r.swordColor=randInt(0,9);if(r.gender==="female")r.swordColor=randInt(0,3);else r.swordColor=randInt(4,7);});
-  duration=Number($("speed").value);elapsed=0;running=false;paused=false;started=false;finished=false;countdown=0;countdownAccumulator=0;eventClock=0;nextEvent=rand(VKP_DATA.effects.balance.waitSeconds[0],VKP_DATA.effects.balance.waitSeconds[1]);
+  duration=Number($("speed").value);elapsed=0;running=false;paused=false;started=false;finished=false;countdown=0;countdownAccumulator=0;eventClock=0;nextEvent=rand(getRaceEffectTimingProfile(duration).eventIntervalSeconds[0],getRaceEffectTimingProfile(duration).eventIntervalSeconds[1]);
   eventText="";eventTextLife=0;finishQueue=[];cameraFocusId=null;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;finishMessage="";finishMessageLife=0;particles=[];assignFinishTimes();
   $("status").textContent="Đã triệu hồi";$("lockNotice").textContent="Tiếp theo: Nhấn Chạy để khai mở cuộc đua.";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="--";setSettingsLocked(false);$("leaderEffect").textContent="";collapseSetupPanel();syncButtons();
   // Không dựng Canvas đồng bộ trong sự kiện chạm; ưu tiên phản hồi nút trên iPhone.
@@ -603,7 +603,7 @@ function startRace(){
   if(!summonVisualReady||!racers.length||running||paused)return;
   duration=Number($("speed").value);
   raceStopped=false;
-  elapsed=0;countdown=3;countdownAccumulator=0;eventClock=0;nextEvent=rand(VKP_DATA.effects.balance.waitSeconds[0],VKP_DATA.effects.balance.waitSeconds[1]);
+  elapsed=0;countdown=3;countdownAccumulator=0;eventClock=0;nextEvent=rand(getRaceEffectTimingProfile(duration).eventIntervalSeconds[0],getRaceEffectTimingProfile(duration).eventIntervalSeconds[1]);
   finishQueue=[];cameraFocusId=null;finishMessage="";finishMessageLife=0;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;
   eventText="BẮT ĐẦU SAU 3";eventTextLife=1;
   racers.forEach(r=>{r.progress=0;r.finished=false;r.finishTime=null;r.speedMultiplier=1;r.effectTimer=0;r.effectType="";r.effectName="";});
