@@ -694,59 +694,60 @@ function updateRanking(){
   rankingOrderSignature="";
   return;
  }
-
- // Khi tất cả đã về đích, ẩn hoàn toàn ký hiệu tăng/giảm hạng.
- const allFinished=sorted.length>0&&sorted.every(r=>r.finished===true);
- // Chỉ dựng lại bảng khi thứ tự hoặc trạng thái hàng thay đổi.
- const signature=(allFinished?"finished|":"racing|")+sorted.map(r=>r.id+":"+r.rankMovement+":"+(r.finished&&r.finishTime!==null?r.finishTime:"")).join("|");
+ const allFinished=sorted.every(r=>r.finished===true);
+ const signature=(allFinished?"finished|":"racing|")+sorted.map(r=>r.id+":"+(r.rankMovement||"")+":"+(r.finished&&r.finishTime!==null?r.finishTime:"")).join("|");
  if(signature===rankingOrderSignature)return;
 
- const previousPositions=new Map();
+ // Giữ nguyên DOM node của từng tiên nhân để FLIP thực sự trượt hàng,
+ // thay vì xóa toàn bộ tbody rồi tạo lại khiến hiệu ứng bị mất/giật.
+ const oldRows=new Map();
  body.querySelectorAll("tr[data-racer-id]").forEach(row=>{
-  const id=row.dataset.racerId;
-  if(id)previousPositions.set(id,row.getBoundingClientRect().top);
+  oldRows.set(row.dataset.racerId,{row,top:row.getBoundingClientRect().top});
  });
-
- body.innerHTML=sorted.map((r,i)=>{
-  const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":i+1;
-  const arrow=!allFinished&&r.rankMovement==="up"?'<span class="rank-movement rank-up" aria-label="Tăng hạng" title="Tăng hạng">▲</span>':!allFinished&&r.rankMovement==="down"?'<span class="rank-movement rank-down" aria-label="Giảm hạng" title="Giảm hạng">▼</span>':"";
+ const orderedRows=[];
+ sorted.forEach((r,i)=>{
+  const key=String(r.id);
+  const previous=oldRows.get(key);
+  const row=previous?previous.row:document.createElement("tr");
+  row.dataset.racerId=key;
+  const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":String(i+1);
+  const arrow=!allFinished&&r.rankMovement==="up"
+   ?'<span class="rank-movement rank-up" aria-label="Tăng hạng" title="Tăng hạng">▲</span>'
+   :!allFinished&&r.rankMovement==="down"
+    ?'<span class="rank-movement rank-down" aria-label="Giảm hạng" title="Giảm hạng">▼</span>':"";
   const actualTime=r.finished&&r.finishTime!==null?timeText(r.finishTime):"—";
-  return '<tr data-racer-id="'+r.id+'"><td><span class="rank-cell">'+arrow+'<span class="rank-position">'+medal+'</span></span></td><td title="'+escapeHTML(r.name)+'">'+escapeHTML(r.name)+'</td><td>'+actualTime+'</td></tr>';
- }).join("");
+  row.innerHTML='<td><span class="rank-cell">'+arrow+'<span class="rank-position">'+medal+'</span></span></td><td title="'+escapeHTML(r.name)+'">'+escapeHTML(r.name)+'</td><td>'+actualTime+'</td>';
+  orderedRows.push({row,oldTop:previous?previous.top:null});
+ });
+ const fragment=document.createDocumentFragment();
+ orderedRows.forEach(item=>fragment.appendChild(item.row));
+ body.appendChild(fragment);
 
- const movedRows=[];
- body.querySelectorAll("tr[data-racer-id]").forEach((row,index)=>{
-  const oldTop=previousPositions.get(row.dataset.racerId);
-  if(oldTop===undefined)return;
+ const moving=[];
+ orderedRows.forEach(({row,oldTop})=>{
+  if(oldTop===null)return;
   const newTop=row.getBoundingClientRect().top;
   const delta=oldTop-newTop;
   if(Math.abs(delta)<1)return;
-
-  // Giữ nguyên cả hàng như một khối: nâng nhẹ lên khỏi mặt bảng,
-  // sau đó trượt đến vị trí mới và hạ xuống êm.
   row.classList.add("rank-row-moving");
   row.style.transition="none";
   row.style.transform="translate3d(0,"+delta+"px,0)";
-  movedRows.push({row,index});
+  moving.push(row);
  });
- if(movedRows.length){
-  // Buộc trình duyệt ghi nhận trạng thái nhấc hàng trước khi chạy chuyển động.
+ if(moving.length){
   void body.offsetHeight;
   requestAnimationFrame(()=>{
-   movedRows.forEach(({row,index})=>{
-    row.style.transition="transform 420ms cubic-bezier(.2,.72,.25,1)";
-    row.style.transform="translate3d(0,0,0) scale(1)";
-    row.style.filter="";
-    row.style.transitionDelay="0ms";
-    row.addEventListener("transitionend",function finishRowMove(event){
+   moving.forEach(row=>{
+    row.style.transition="transform 480ms cubic-bezier(.2,.72,.25,1)";
+    row.style.transform="translate3d(0,0,0)";
+    const cleanup=event=>{
      if(event.propertyName!=="transform")return;
-     row.removeEventListener("transitionend",finishRowMove);
+     row.removeEventListener("transitionend",cleanup);
      row.classList.remove("rank-row-moving");
      row.style.transition="";
-     row.style.transitionDelay="";
      row.style.transform="";
-     row.style.filter="";
-    });
+   };
+   row.addEventListener("transitionend",cleanup);
    });
   });
  }
