@@ -6303,24 +6303,16 @@ function drawPodiumScene(target,time,mini=false){
   const count=ordered.length;
   const miniAwardStart=VKP_DATA.ceremony.awards.awardStart,miniMasterFlightDuration=VKP_DATA.ceremony.awards.masterFlightDuration;
 
-  // Thiên Lý Kính chỉ theo dõi quỹ đạo chưởng môn ở cảnh trao giải chính.
-  // Không dựng quảng trường, ngai chưởng môn hay bục trao giải giả trong khung mini.
-  if(mini){
-    const flightP=clamp((elapsed-miniAwardStart)/miniMasterFlightDuration,0,1);
-    if(elapsed>=miniAwardStart&&elapsed<=miniAwardStart+miniMasterFlightDuration+.12){
-      const masterX=w*(-.16+1.32*flightP);
-      const masterY=h*(.205+Math.sin(flightP*Math.PI*2)*.012);
-      drawAwardMaster(target,masterX,masterY,.36,time);
-    }
-    return;
-  }
+  // Thiên Lý Kính bỏ qua cảnh giải tán, đứng dậy và nhảy lên phi kiếm tại quảng trường.
+  // Khung mini đi thẳng tới cùng cảnh trao giải, cùng nền, bục, người nhận và quỹ đạo chưởng môn.
+  if(mini)window.__awardMasterDepartureActive=false;
   const title="BAN THƯỞNG TOP "+count+" TIÊN HỘI";
   const departure=VKP_DATA.ceremony.departure;
   const {disperseEnd,seatEnd,standEnd,swordArrivalEnd:swordEnd,flightEnd:flyEnd,transitionEnd}=departure;
   target.save();
 
   // Cảnh 1: toàn bộ tiên nhân giải tán khỏi quảng trường sau thông báo kết thúc.
-  if(elapsed<transitionEnd){
+  if(!mini&&elapsed<transitionEnd){
     if(!mini&&target===ctx){
       window.__awardMasterDepartureActive=elapsed>=seatEnd;
       drawScenery(time);
@@ -6433,7 +6425,7 @@ function drawPodiumScene(target,time,mini=false){
 
   const flightP=clamp((elapsed-awardStart)/masterFlightDuration,0,1);
   const masterX=w*(-.16+1.32*flightP),masterY=h*(.205+Math.sin(flightP*Math.PI*2)*.012);
-  if(!mini&&elapsed>=awardStart&&elapsed<=awardStart+masterFlightDuration+.12)drawAwardMaster(target,masterX,masterY,.70,time);
+  if(elapsed>=awardStart&&elapsed<=awardStart+masterFlightDuration+.12)drawAwardMaster(target,masterX,masterY,mini?.36:.70,time);
 
   for(let i=0;i<count;i++){
     const rank=rankAt[i],x=podiumX[i],racer=ordered[rank-1];if(!racer)continue;
@@ -6456,13 +6448,6 @@ function drawPodiumScene(target,time,mini=false){
       const bounce=Math.abs(Math.sin((elapsed-(dropStart+dropDuration))*5.4+rank*.7))*(mini?4:13);
       drawRecipientCelebrationGiftV2(target,x,riderY,rank,scale,bounce,mini);
     }
-  }
-  // Chỉ đưa chưởng môn ngự kiếm vào Thiên Lý Kính sau khi đã trao xong toàn bộ quà.
-  const postGiftElapsed=elapsed-(awardStart+masterFlightDuration+dropDuration);
-  if(mini&&postGiftElapsed>=0&&postGiftElapsed<1.8){
-    const p=awardSmoothstep(postGiftElapsed/1.8);
-    const x=-w*.18+w*1.36*p,y=h*(.20+Math.sin(p*Math.PI*2)*.018);
-    drawAwardMaster(target,x,y,.36,time);
   }
   target.restore();
 }
