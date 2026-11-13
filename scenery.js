@@ -39,11 +39,7 @@ function initStars() {
 function drawSky(time) {
   const g = ctx.createLinearGradient(0, 0, 0, H);
 
-  g.addColorStop(0, "#486f87");
-  g.addColorStop(.2, "#83a9a6");
-  g.addColorStop(.48, "#b6cbb1");
-  g.addColorStop(.75, "#d9d8ae");
-  g.addColorStop(1, "#e8d6a7");
+  VKP_DATA.scenery.sky.gradient.forEach(([stop,color])=>g.addColorStop(stop,color));
 
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, W, H);
@@ -60,15 +56,13 @@ function drawSky(time) {
   ctx.globalAlpha = 1;
 
   const sun = ctx.createRadialGradient(
-    835, 95, 5, 835, 95, 190
+    VKP_DATA.scenery.sky.sun.x, VKP_DATA.scenery.sky.sun.y, VKP_DATA.scenery.sky.sun.innerRadius, VKP_DATA.scenery.sky.sun.x, VKP_DATA.scenery.sky.sun.y, VKP_DATA.scenery.sky.sun.outerRadius
   );
 
-  sun.addColorStop(0, "rgba(255,248,208,.95)");
-  sun.addColorStop(.35, "rgba(255,231,171,.35)");
-  sun.addColorStop(1, "rgba(255,248,200,0)");
+  VKP_DATA.scenery.sky.sun.stops.forEach(([stop,color])=>sun.addColorStop(stop,color));
 
   ctx.fillStyle = sun;
-  ctx.fillRect(630, -80, 410, 370);
+  ctx.fillRect(...VKP_DATA.scenery.sky.sun.rect);
 
   ctx.save();
   ctx.globalAlpha = .1;
