@@ -6926,8 +6926,3 @@ function __sectCrowdSaveCache(canvasElement){
   },"image/png");
 }
 
-function drawCrowd(time){
-  // Khẩn cấp vô hiệu hóa lớp chờ IndexedDB: luôn vẽ nhân vật trực tiếp
-  // để Safari/iPhone không thể làm mất khán đài khi thao tác cache bị treo.
-  __sectCrowdDrawOriginal(time);
-}
