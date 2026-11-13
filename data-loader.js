@@ -8,14 +8,14 @@
  }));
  window.VKP_DATA=Object.fromEntries(entries);
  const scripts=[
-  "core.js?v=live-ranking-refresh-throttle-v157",
-  "scenery.js?v=live-ranking-refresh-throttle-v157",
-  "audience.js?v=live-ranking-refresh-throttle-v157",
-  "race-render.js?v=live-ranking-refresh-throttle-v157",
-  "visual-overrides.js?v=live-ranking-refresh-throttle-v157",
-  "music.js?v=live-ranking-refresh-throttle-v157",
-  "race-logic.js?v=live-ranking-refresh-throttle-v157",
-  "i18n.js?v=live-ranking-refresh-throttle-v157"
+  "core.js?v=leaderboard-one-second-v158",
+  "scenery.js?v=leaderboard-one-second-v158",
+  "audience.js?v=leaderboard-one-second-v158",
+  "race-render.js?v=leaderboard-one-second-v158",
+  "visual-overrides.js?v=leaderboard-one-second-v158",
+  "music.js?v=leaderboard-one-second-v158",
+  "race-logic.js?v=leaderboard-one-second-v158",
+  "i18n.js?v=leaderboard-one-second-v158"
  ];
  for(const src of scripts){
   await new Promise((resolve,reject)=>{
