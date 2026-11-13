@@ -6665,3 +6665,9 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
   .game-zoom-controls button{height:28px!important;min-height:28px!important;font-size:16px!important;}
   .game-zoom-controls #gameZoomReset{height:22px!important;min-height:22px!important;font-size:8px!important;}
 }
+
+
+/* REVISION 103 — gesture zoom/pan for game canvas; no overlay zoom buttons. */
+.game-zoom-controls{display:none!important;}
+#game{touch-action:none;cursor:grab;}
+#game:active{cursor:grabbing;}
