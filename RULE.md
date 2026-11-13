@@ -3,7 +3,7 @@
 > Đây là tài liệu chuẩn cho mọi lần sửa mã nguồn. Trước khi chỉnh bất kỳ tệp nào, phải đọc file này và đối chiếu yêu cầu với kiến trúc thực tế trong nhánh `main`. Khi quy định được cập nhật, các lần sửa sau phải tuân theo bản mới nhất.
 
 ## 1. Quy trình bắt buộc trước khi sửa
-1. Đọc toàn bộ `RULE.md` trước mỗi yêu cầu chỉnh sửa.
+1. Đọc toàn bộ `RULE.md` và `GAME_CONFIG.md` trước mỗi yêu cầu chỉnh sửa. `RULE.md` quy định quy trình/kỹ thuật; `GAME_CONFIG.md` quy định các thiết lập, giá trị hiện hành, nguồn dữ liệu và nguyên tắc cân bằng.
 2. Xác định đúng tệp, đúng hàm và đúng đoạn mã đang thực sự hoạt động; không giả định đoạn đầu tiên là đoạn có hiệu lực.
 3. Lấy phiên bản mới nhất từ nhánh `main` trước khi sửa. Không dùng bản cũ trong hội thoại hoặc bản cache làm nguồn chỉnh sửa.
 4. Tìm các hàm/biến/selector trùng lặp, khai báo ghi đè và các khối CSS append-only. Với hàm trùng tên, xác định định nghĩa cuối cùng hoặc luồng gọi thực tế.
@@ -18,6 +18,7 @@
 - `data-loader.js` nạp dữ liệu JSON và lần lượt nạp các script trò chơi theo thứ tự:
   `core.js`, `scenery.js`, `audience.js`, `race-render.js`, `visual-overrides.js`, `music.js`, `race-logic.js`, `i18n.js`.
 - Dữ liệu cấu hình nằm trong `data/characters.json`, `data/swords.json`, `data/effects.json`, `data/summoning.json`, `data/ceremony.json`, `data/scenery.json`.
+- `GAME_CONFIG.md` ghi nhận các thiết lập gameplay/UI, giá trị mặc định, giới hạn, nguồn thực thi và nguyên tắc cân bằng; phải cập nhật cùng khi thay đổi thiết lập.
 - `core.js`: biến và tiện ích lõi.
 - `scenery.js`, `audience.js`: cảnh quan, kiến trúc và khán giả.
 - `race-render.js`: dựng cảnh đua và camera.
@@ -96,3 +97,4 @@
 - Không tự ý xóa dữ liệu, nhân vật, hiệu ứng, âm thanh, bản dịch hoặc cấu hình.
 - Không giả định thao tác người dùng đã thành công nếu chưa có xác nhận từ hệ thống.
 - Khi yêu cầu mới mâu thuẫn với quy chuẩn cũ, làm theo yêu cầu mới nhất của người dùng và cập nhật tài liệu này để các lần sau thống nhất.
+- Khi thay đổi thông số, giới hạn, lựa chọn hoặc cân bằng game, cập nhật `GAME_CONFIG.md` trong cùng đợt sửa.
