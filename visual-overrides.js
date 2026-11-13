@@ -5737,7 +5737,7 @@ function drawMountainRange(){
 
 function drawCrowd(time) {
   // Cùng áo bào đỏ, mão vàng và bát quái linh khí như chưởng môn ngự kiếm ban thưởng.
-  drawCeremonySeatedMaster(ctx,550,612,.82);
+  if(!window.__awardMasterDepartureActive)drawCeremonySeatedMaster(ctx,550,612,.82);
   drawRoleLabel(550,493,"CHƯỞNG MÔN","#f2d17d",1.05);
 
   for(let i=0;i<10;i++){
@@ -6300,40 +6300,80 @@ function drawPodiumScene(target,time,mini=false){
   const ordered=sortedRacers().slice(0,3),w=target.canvas.width,h=target.canvas.height;
   const elapsed=Math.max(0,(performance.now()-ceremonyStartedAt)/1000);
   const count=ordered.length,title="BAN THƯỞNG TOP "+count+" TIÊN HỘI";
-  const seatEnd=1.25,standEnd=1.85,jumpEnd=2.55,flyEnd=5.35,transitionEnd=5.85;
+  const disperseEnd=2.0,seatEnd=3.0,standEnd=3.55,swordEnd=4.55,flyEnd=7.15,transitionEnd=7.7;
   target.save();
+
+  // Cảnh 1: toàn bộ tiên nhân giải tán khỏi quảng trường sau thông báo kết thúc.
   if(elapsed<transitionEnd){
-    drawAwardPlazaBackdropV2(target,time,mini);
-    const tx=w*.17,ty=h*.80,sc=mini?.48:.88;
-    if(elapsed<seatEnd)drawCeremonySeatedMaster(target,tx,ty,sc);
-    else if(elapsed<standEnd){
-      const p=awardSmoothstep((elapsed-seatEnd)/(standEnd-seatEnd));
-      drawAwardThroneOnlyV2(target,tx-12*p,ty,sc,0);
-      drawStandingSectMaster(target,tx+w*.015*p,ty-h*.08*p,mini?.46:.86);
-      target.globalAlpha=1-p;target.strokeStyle="#fff0bd";target.lineWidth=mini?1.5:3;
-      target.beginPath();target.moveTo(tx-8,ty-3);target.lineTo(tx-30,ty+8);target.moveTo(tx-4,ty+1);target.lineTo(tx-24,ty+17);target.stroke();target.globalAlpha=1;
-    }else if(elapsed<jumpEnd){
-      drawAwardThroneOnlyV2(target,tx-12,ty,sc,0);
-      const p=awardSmoothstep((elapsed-standEnd)/(jumpEnd-standEnd));
-      const x=tx+w*.055*p,y=ty-h*(.18+.26*p)-Math.sin(p*Math.PI)*h*.06;
-      drawCeremonyFlyingSword(target,x,y+24*(mini?.40:.76),mini?.40:.76,time);
-      drawAwardMaster(target,x,y,mini?.40:.76,time);
+    if(!mini&&target===ctx){
+      window.__awardMasterDepartureActive=elapsed>=seatEnd;
+      drawScenery(time);
     }else{
-      const p=awardSmoothstep((elapsed-jumpEnd)/(flyEnd-jumpEnd));
-      const x=w*.18+w*1.18*p,y=h*(.29+Math.sin(p*Math.PI*2)*.025);
+      window.__awardMasterDepartureActive=elapsed>=seatEnd;
+      drawAwardPlazaBackdropV2(target,time,mini);
+    }
+    if(elapsed<disperseEnd){
+      const p=awardSmoothstep(elapsed/disperseEnd);
+      const fade=1-p;
+      racers.forEach((racer,index)=>{
+        const col=index%10,row=Math.floor(index/10);
+        const startX=w*(.08+col*.093),startY=h*(.49+row*.026);
+        const side=index%2===0?-1:1;
+        const x=startX+side*w*.42*p;
+        const y=startY-h*.16*p-Math.sin(p*Math.PI)*h*.07;
+        target.save();target.globalAlpha=fade;
+        drawRacer(target,racer,x,y,mini?.19:.34,time);
+        target.restore();
+      });
+      target.textAlign="center";target.textBaseline="middle";
+      target.font=mini?"900 10px Georgia":"900 27px Georgia";
+      target.lineWidth=mini?2:5;target.strokeStyle="rgba(20,35,31,.9)";
+      target.fillStyle="#fff0bd";target.shadowColor="#f5d58b";target.shadowBlur=mini?6:16;
+      target.strokeText("ĐẠI HỘI KẾT THÚC!",w*.5,h*.16);
+      target.fillText("ĐẠI HỘI KẾT THÚC!",w*.5,h*.16);
+      target.restore();return;
+    }
+
+    // Cảnh 2: chưởng môn đứng dậy ngay tại ngai giữa quảng trường có đủ khán giả.
+    const tx=w*.5,ty=h*(612/825),masterScale=mini?.48:.82;
+    if(elapsed<seatEnd){
+      drawCeremonySeatedMaster(target,tx,ty,masterScale);
+    }else if(elapsed<standEnd){
+      const p=awardSmoothstep((elapsed-seatEnd)/(standEnd-seatEnd));
+      drawAwardThroneOnlyV2(target,tx,ty,masterScale,0);
+      drawStandingSectMaster(target,tx,ty-h*.055*p,mini?.46:.82);
+    }else if(elapsed<swordEnd){
+      drawAwardThroneOnlyV2(target,tx,ty,masterScale,0);
+      drawStandingSectMaster(target,tx,ty-h*.055,mini?.46:.82);
+      // Phi kiếm từ bên phải lao tới, giảm tốc và dừng ngay dưới chân chưởng môn.
+      const p=awardSmoothstep((elapsed-standEnd)/(swordEnd-standEnd));
+      const swordX=w*(.91-.41*p),swordY=ty-h*.055;
+      drawCeremonyFlyingSword(target,swordX,swordY+24*(mini?.40:.76),mini?.40:.76,time);
+      if(p>.72){
+        const mount=awardSmoothstep((p-.72)/.28);
+        drawAwardMaster(target,tx,ty-h*.055*mount,mini?.40:.76,time);
+      }
+    }else{
+      drawAwardThroneOnlyV2(target,tx,ty,masterScale,0);
+      const p=awardSmoothstep((elapsed-swordEnd)/(flyEnd-swordEnd));
+      const x=tx+w*.82*p,y=ty-h*(.055+.31*p)+Math.sin(p*Math.PI*2)*h*.018;
       drawCeremonyFlyingSword(target,x,y+24*(mini?.40:.76),mini?.40:.76,time);
       drawAwardMaster(target,x,y,mini?.40:.76,time);
     }
-    if(elapsed>flyEnd){const alpha=clamp((elapsed-flyEnd)/(transitionEnd-flyEnd),0,1);target.fillStyle="rgba(8,18,18,"+alpha+")";target.fillRect(0,0,w,h);}
+    if(elapsed>flyEnd){
+      const alpha=clamp((elapsed-flyEnd)/(transitionEnd-flyEnd),0,1);
+      target.fillStyle="rgba(8,18,18,"+alpha+")";target.fillRect(0,0,w,h);
+    }
     target.restore();return;
   }
 
+  window.__awardMasterDepartureActive=false;
   drawCeremonyBackdrop(target,mini,time);
   const podiumX=count===1?[w*.5]:count===2?[w*.25,w*.5]:[w*.25,w*.5,w*.75];
   const rankAt=count===1?[1]:count===2?[2,1]:[2,1,3];
   const topByRank={1:h*.535,2:h*.655,3:h*.715},base=h*.955;
   const metals={1:["#d9b45f","#fff0a7"],2:["#a9c7d8","#e5f7ff"],3:["#ad754d","#f2c08e"]};
-  const awardStart=6.05,masterFlightDuration=3.9,dropDuration=.72;
+  const awardStart=8.05,masterFlightDuration=3.9,dropDuration=.72;
   target.textAlign="center";target.textBaseline="middle";
   target.font=mini?"900 10px Georgia":"900 27px Georgia";
   target.fillStyle="#fff0b8";target.shadowColor="#ffcf64";target.shadowBlur=mini?7:18;
@@ -6361,7 +6401,6 @@ function drawPodiumScene(target,time,mini=false){
     target.fillStyle=rank===1?"#fff0a4":rank===2?"#edf8ff":"#ffd0a0";
     target.fillText(rankTitle,x,base-(mini?7:17),w*.29);
     target.shadowBlur=0;
-    // Huy hiệu sáng phía sau dòng thứ hạng giúp TOP nổi bật trên bục trao giải.
     target.globalAlpha=mini?.42:.28;target.fillStyle=metals[rank][0];
     target.beginPath();target.roundRect(x-w*(mini?.12:.145),base-(mini?14:34),w*(mini?.24:.29),mini?14:34,mini?4:10);target.fill();
     target.globalAlpha=1;
@@ -6383,7 +6422,9 @@ function drawPodiumScene(target,time,mini=false){
     const p=clamp((elapsed-dropStart)/dropDuration,0,1);
     if(elapsed<dropStart)continue;
     if(p<1){
-      const eased=awardSmoothstep(p),giftY=masterY+(riderY-masterY)*eased;
+      const eased=awardSmoothstep(p),masterAt=clamp((elapsed-awardStart)/masterFlightDuration,0,1);
+      const masterGiftX=w*(-.16+1.32*masterAt),masterGiftY=h*(.205+Math.sin(masterAt*Math.PI*2)*.012);
+      const giftY=masterGiftY+(riderY-masterGiftY)*eased;
       target.save();target.strokeStyle="#efc39b";target.lineWidth=mini?2:5;target.lineCap="round";
       const raise=awardSmoothstep(p/.78);
       target.beginPath();
@@ -6398,8 +6439,6 @@ function drawPodiumScene(target,time,mini=false){
   }
   target.restore();
 }
-
-
 // REVISION 77 — pháp bảo Ngự Long và linh tuyền đổ thẳng xuống lòng sông.
 // Được vẽ ở lớp tiền cảnh sau mặt sông để nhìn rõ điểm phát nguồn và đường nước.
 
