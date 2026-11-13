@@ -4503,8 +4503,8 @@ function drawRacingArtifact(target,kind,phase){
 // Nhân vật triệu hồi: gương mặt, sắc da, tóc và trang phục có biến thể.
 function drawRacer(target,racer,x,y,scale,time){
   const female=racer.gender==="female";
-  const skins=["#f6d0b0","#e6b58e","#c98767","#f0c29e","#ad7658"];
-  const hairs=["#211a25","#39251f","#171d2c","#6a3429","#29242a","#4b315d"];
+  const skins=VKP_DATA.characters.appearance.skinTones;
+  const hairs=VKP_DATA.characters.appearance.hairColors;
   const seed=(racer.appearanceSeed??0)%5,skin=skins[seed],hair=hairs[(seed+(female?1:0))%hairs.length];
   const activeEffect=racer.effectTimer>0?racer.effectType:"";
    const phase=time*.001,duration=Math.max(.001,racer.effectDuration||racer.effectTimer||1),progress=clamp(1-racer.effectTimer/duration,0,1);
@@ -5411,12 +5411,7 @@ function drawScenery(time){
 
 function drawRacingArtifact(target,kind,phase){
   const female=arguments.length>3&&arguments[3]==="female";
-  const palettes=[
-    ["#c7e4ed","#f7ffff","#5d8794","#a77b43"],["#9ed8e9","#efffff","#477d8a","#527d86"],
-    ["#c8b5ed","#fff2ff","#78649f","#79558c"],["#e4bd70","#fff2c7","#986b35","#79512e"],
-    ["#a8d2ad","#efffe8","#568260","#47704b"],["#b9c9da","#ffffff","#657b92","#526075"],
-    ["#e8a5aa","#fff0e8","#a45161","#813d4a"],["#d9c89d","#fff6dc","#88744d","#665239"]
-  ];
+  const palettes=VKP_DATA.swords.racingPalettes;
   const p=palettes[((kind%palettes.length)+palettes.length)%palettes.length];
   const blade=p[0],edge=p[1],fuller=p[2],metal=p[3],shape=((kind%8)+8)%8;
   target.save();target.translate(0,18);target.rotate(Math.PI/2+Math.sin(phase)*.012);
@@ -6300,7 +6295,8 @@ function drawPodiumScene(target,time,mini=false){
   const ordered=sortedRacers().slice(0,3),w=target.canvas.width,h=target.canvas.height;
   const elapsed=Math.max(0,(performance.now()-ceremonyStartedAt)/1000);
   const count=ordered.length,title="BAN THƯỞNG TOP "+count+" TIÊN HỘI";
-  const disperseEnd=2.0,seatEnd=3.0,standEnd=3.55,swordEnd=4.55,flyEnd=7.15,transitionEnd=7.7;
+  const departure=VKP_DATA.ceremony.departure;
+  const {disperseEnd,seatEnd,standEnd,swordArrivalEnd:swordEnd,flightEnd:flyEnd,transitionEnd}=departure;
   target.save();
 
   // Cảnh 1: toàn bộ tiên nhân giải tán khỏi quảng trường sau thông báo kết thúc.
@@ -6377,7 +6373,7 @@ function drawPodiumScene(target,time,mini=false){
   const rankAt=count===1?[1]:count===2?[2,1]:[2,1,3];
   const topByRank={1:h*.535,2:h*.655,3:h*.715},base=h*.955;
   const metals={1:["#d9b45f","#fff0a7"],2:["#a9c7d8","#e5f7ff"],3:["#ad754d","#f2c08e"]};
-  const awardStart=8.05,masterFlightDuration=3.9,dropDuration=.72;
+  const {awardStart,masterFlightDuration,giftDropDuration:dropDuration}=VKP_DATA.ceremony.awards;
   target.textAlign="center";target.textBaseline="middle";
   target.font=mini?"900 10px Georgia":"900 27px Georgia";
   target.fillStyle="#fff0b8";target.shadowColor="#ffcf64";target.shadowBlur=mini?7:18;
