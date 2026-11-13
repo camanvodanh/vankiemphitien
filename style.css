@@ -6926,3 +6926,30 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
 @media (max-width:760px){
   .stage-emblem{display:none!important;}
 }
+
+
+/* REVISION 108 — dọn biểu tượng góc và giữ nhãn vinh danh tách khỏi cụm nút. */
+.game-header>.logo,
+.game-stage .stage-emblem{
+  display:none!important;
+}
+.game-header .hero-copy{min-width:0!important;}
+.stage-bottomline,
+.stage-bottomline span{
+  position:relative!important;
+  z-index:2!important;
+  min-width:0!important;
+}
+.stage-bottomline::before,
+.stage-bottomline::after,
+.stage-bottomline span::before,
+.stage-bottomline span::after,
+.game-stage::before,
+.game-stage::after{
+  content:none!important;
+  display:none!important;
+}
+.stage-bottomline span:last-child{
+  text-align:right!important;
+  padding-right:2px!important;
+}
