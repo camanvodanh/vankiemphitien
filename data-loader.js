@@ -8,14 +8,14 @@
  }));
  window.VKP_DATA=Object.fromEntries(entries);
  const scripts=[
-  "core.js?v=ranking-mm-ss-centiseconds-summon-clean-v153",
-  "scenery.js?v=ranking-mm-ss-centiseconds-summon-clean-v153",
-  "audience.js?v=ranking-mm-ss-centiseconds-summon-clean-v153",
-  "race-render.js?v=ranking-mm-ss-centiseconds-summon-clean-v153",
-  "visual-overrides.js?v=ranking-mm-ss-centiseconds-summon-clean-v153",
-  "music.js?v=ranking-mm-ss-centiseconds-summon-clean-v153",
-  "race-logic.js?v=ranking-mm-ss-centiseconds-summon-clean-v153",
-  "i18n.js?v=ranking-mm-ss-centiseconds-summon-clean-v153"
+  "core.js?v=ranking-finish-lock-live-time-v154",
+  "scenery.js?v=ranking-finish-lock-live-time-v154",
+  "audience.js?v=ranking-finish-lock-live-time-v154",
+  "race-render.js?v=ranking-finish-lock-live-time-v154",
+  "visual-overrides.js?v=ranking-finish-lock-live-time-v154",
+  "music.js?v=ranking-finish-lock-live-time-v154",
+  "race-logic.js?v=ranking-finish-lock-live-time-v154",
+  "i18n.js?v=ranking-finish-lock-live-time-v154"
  ];
  for(const src of scripts){
   await new Promise((resolve,reject)=>{
