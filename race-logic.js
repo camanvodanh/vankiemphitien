@@ -90,6 +90,7 @@ function updateRace(dt){
  racers.map((racer,index)=>({racer,index})).filter(o=>!o.racer.finished&&o.racer.progress>=distance).forEach(o=>processFinish(o.racer,o.index));
  eventClock+=dt;
  if(eventClock>=nextEvent&&elapsed<duration){triggerEvent();eventClock=0;nextEvent=rand(getRaceEffectTimingProfile(duration).eventIntervalSeconds[0],getRaceEffectTimingProfile(duration).eventIntervalSeconds[1]);}
+ if(racers.length&&racers.every(racer=>racer.finished)){finishRace();return;}
  if(elapsed>=duration){racers.forEach((racer,index)=>{if(!racer.finished)processFinish(racer,index);});finishRace();}
 }
 // =====================================================
@@ -614,6 +615,7 @@ function finishRace(){
  });
  cameraFocusId=null;
  finished=true;running=false;paused=false;started=true;
+ racers.forEach(r=>{r.rankMovement="";r.rankMovementTimer=0;r.rankChangeText="";r.rankChangeTimer=0;});
  eventText="";eventTextLife=0;finishMessage="";finishMessageLife=0;
  $("status").textContent="Đại hội kết thúc · Vinh danh top 3";
  $("pause").textContent="Tiếp";
@@ -694,6 +696,7 @@ function updateRanking(){
  const revealing=window.__vkSummonRevealActive===true;
  const now=performance.now();
  const raceActive=started===true||finished===true;
+ const raceOver=finished===true&&racers.length>0&&racers.every(r=>r.finished===true);
  // Trước cuộc đua giữ đúng thứ tự triệu hồi, chỉ thêm tên khi tiên nhân hiện thân.
  const source=raceActive?sortedRacers():racers;
  const sorted=source.filter(r=>!revealing||(Number.isFinite(r.summonRevealAt)&&now>=r.summonRevealAt));
@@ -733,9 +736,9 @@ function updateRanking(){
   const row=previous?previous.row:document.createElement("tr");
   row.dataset.racerId=key;
   const medal=raceActive?(i===0?"🥇":i===1?"🥈":i===2?"🥉":String(i+1)):"";
-  const arrow=raceActive&&r.rankMovement==="up"
+  const arrow=raceActive&&!raceOver&&r.rankMovement==="up"
    ?'<span class="rank-movement rank-up" aria-label="Tăng hạng" title="Tăng hạng">▲</span>'
-   :raceActive&&r.rankMovement==="down"
+   :raceActive&&!raceOver&&r.rankMovement==="down"
     ?'<span class="rank-movement rank-down" aria-label="Giảm hạng" title="Giảm hạng">▼</span>':"";
   const actualTime=raceActive&&r.finished&&r.finishTime!==null?timeText(r.finishTime):"—";
   row.innerHTML='<td><span class="rank-cell">'+arrow+'<span class="rank-position">'+medal+'</span></span></td><td title="'+escapeHTML(r.name)+'">'+escapeHTML(r.name)+'</td><td>'+actualTime+'</td>';
@@ -746,7 +749,14 @@ function updateRanking(){
  body.appendChild(fragment);
 
  const moving=[];
+ if(raceOver){
+  body.querySelectorAll("tr[data-racer-id]").forEach(row=>{
+   row.classList.remove("rank-row-moving");
+   row.style.transition="";row.style.transform="";
+  });
+ }
  orderedRows.forEach(({row,oldTop})=>{
+  if(raceOver)return;
   if(oldTop===null)return;
   const newTop=row.getBoundingClientRect().top;
   const delta=oldTop-newTop;
