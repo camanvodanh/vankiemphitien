@@ -8,14 +8,14 @@
  }));
  window.VKP_DATA=Object.fromEntries(entries);
  const scripts=[
-  "core.js?v=data-driven-v127",
-  "scenery.js?v=data-driven-v127",
-  "audience.js?v=data-driven-v127",
-  "race-render.js?v=data-driven-v127",
-  "visual-overrides.js?v=data-driven-v127",
-  "music.js?v=data-driven-v127",
-  "race-logic.js?v=data-driven-v127",
-  "i18n.js?v=data-driven-v127"
+  "core.js?v=data-driven-v128",
+  "scenery.js?v=data-driven-v128",
+  "audience.js?v=data-driven-v128",
+  "race-render.js?v=data-driven-v128",
+  "visual-overrides.js?v=data-driven-v128",
+  "music.js?v=data-driven-v128",
+  "race-logic.js?v=data-driven-v128",
+  "i18n.js?v=data-driven-v128"
  ];
  for(const src of scripts){
   await new Promise((resolve,reject)=>{
