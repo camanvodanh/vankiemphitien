@@ -711,7 +711,7 @@ function updateRanking(){
  // summonVisualReady được bật bởi bộ hẹn giờ; mốc reveal là phương án dự phòng
  // nếu timer bị trễ hoặc bị trình duyệt tạm ngưng.
  const lastRevealAt=racers.length?Math.max(...racers.map(r=>Number.isFinite(r.summonRevealAt)?r.summonRevealAt:0)):0;
- const revealTimelineComplete=lastRevealAt>0&&now>=lastRevealAt+summonRevealDuration*1000;
+ const revealTimelineComplete=lastRevealAt>0&&now>=lastRevealAt+Number(VKP_DATA.summoning.revealDuration||0)*1000;
  if(revealing&&revealTimelineComplete){
   revealing=false;
   window.__vkSummonRevealActive=false;
