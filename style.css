@@ -7424,3 +7424,37 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
     object-fit:contain!important;
   }
 }
+
+
+/* REVISION 114 — enlarge the live observer column and use its width for a clearer mini-screen. */
+@media screen and (orientation:landscape) and (min-width:600px){
+  .arena-frame{
+    grid-template-columns:minmax(0,1.48fr) minmax(0,1.12fr)!important;
+  }
+  .arena-frame>.game-camera{
+    min-width:0!important;
+  }
+  .arena-frame>.game-camera .camera-screen{
+    flex:1 1 0!important;
+    width:100%!important;
+    min-width:0!important;
+    min-height:0!important;
+    aspect-ratio:7 / 4!important;
+  }
+  .arena-frame>.game-camera .camera-screen canvas{
+    display:block!important;
+    width:100%!important;
+    height:100%!important;
+    min-width:0!important;
+    min-height:0!important;
+    max-width:100%!important;
+    max-height:100%!important;
+    object-fit:fill!important;
+  }
+  .arena-frame>.game-setup{
+    right:calc(42.8% + 7px)!important;
+  }
+}
+@media screen and (orientation:landscape) and (min-width:600px) and (max-height:430px){
+  .arena-frame>.game-setup{right:calc(42.8% + 4px)!important;}
+}
