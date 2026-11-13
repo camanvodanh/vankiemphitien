@@ -670,7 +670,16 @@ function render(time){
   ctx.translate(W/2+gamePanX,H/2+gamePanY);
   ctx.scale(gameZoom,gameZoom);
   ctx.translate(-W/2,-H/2);
-  drawScenery(time);
+  // Lỗi ở một chi tiết phong cảnh/khán đài không được phép chặn toàn bộ
+  // nhân vật và vòng lặp render. Nếu scenery lỗi, vẫn tiếp tục vẽ đường đua.
+  try {
+    drawScenery(time);
+  } catch (error) {
+    if (!window.__vkSceneryErrorLogged) {
+      window.__vkSceneryErrorLogged = true;
+      console.error("Lỗi riêng lớp phong cảnh/khán đài:", error);
+    }
+  }
   if(finished){
     drawPodiumScene(ctx,time,false);drawParticles();drawCamera(time);
     ctx.restore();updateRanking();return;
