@@ -1352,17 +1352,24 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonArrival(time);};
  });
  q.addEventListener("input",update);q.addEventListener("change",update);
  speed.addEventListener("change",update);
+ function syncMarkerOrientation(ring){
+  const rotation=Number(ring.dataset.rotation||0);
+  ring.querySelectorAll(".dial-marker").forEach(marker=>{
+    marker.style.transform="translate(-50%,-50%) rotate("+(-rotation)+"deg)";
+  });
+ }
  function markers(ring,labels,radius){
-   let layer=ring.querySelector(".dial-markers");
-   if(!layer){layer=document.createElement("div");layer.className="dial-markers";ring.appendChild(layer);}
-   layer.replaceChildren();
-   labels.forEach((label,i)=>{
-     const angle=(-90+i*360/labels.length)*Math.PI/180;
-     const span=document.createElement("span");span.className="dial-marker";span.textContent=label;
-     span.style.left=(50+Math.cos(angle)*radius)+"%";
-     span.style.top=(50+Math.sin(angle)*radius)+"%";
-     layer.appendChild(span);
-   });
+  let layer=ring.querySelector(".dial-markers");
+  if(!layer){layer=document.createElement("div");layer.className="dial-markers";ring.appendChild(layer);}
+  layer.replaceChildren();
+  labels.forEach((label,i)=>{
+    const angle=(-90+i*360/labels.length)*Math.PI/180;
+    const span=document.createElement("span");span.className="dial-marker";span.textContent=label;
+    span.style.left=(50+Math.cos(angle)*radius)+"%";
+    span.style.top=(50+Math.sin(angle)*radius)+"%";
+    layer.appendChild(span);
+  });
+  syncMarkerOrientation(ring);
  }
  markers(qRing,["2","20","40","60","80","100"],43);
  markers(tRing,["30s","60s","120s","180s","300s"],43);
@@ -1390,8 +1397,10 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonArrival(time);};
        speed.dispatchEvent(new Event("change",{bubbles:true}));
      }
      drag.carry-=count*step;
-     ring.style.transform="translate(-50%,-50%) rotate("+(Number(ring.dataset.rotation||0)+count*step)+"deg)";
-     ring.dataset.rotation=String(Number(ring.dataset.rotation||0)+count*step);
+     ring.style.transform="translate(-50%,-50%) rotate("+rotation+"deg)";
+     syncMarkerOrientation(ring);
+     const rotation=Number(ring.dataset.rotation||0)+count*step;
+     ring.dataset.rotation=String(rotation);
      update();
    }
  }
