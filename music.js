@@ -20,7 +20,10 @@ const tracks={
   }
 };
 
-let enabled=true,unlocked=false,paused=false,phase="setup",button=null;
+const MUSIC_STORAGE_KEY="vankiemphitien-music-enabled";
+let enabled=true;
+try{const saved=localStorage.getItem(MUSIC_STORAGE_KEY);if(saved==="0")enabled=false;else if(saved==="1")enabled=true;}catch(_){}
+let unlocked=false,paused=false,phase="setup",button=null;
 let currentAudio=null,fadeTimer=null,fadeToken=0;
 const audioPool={};
 
@@ -112,6 +115,7 @@ function resume(){
 }
 function toggle(){
   enabled=!enabled;
+  try{localStorage.setItem(MUSIC_STORAGE_KEY,enabled?"1":"0");}catch(_){}
   if(!enabled){
     stopFade();
     Object.values(audioPool).forEach(audio=>{audio.pause();audio.currentTime=0;audio.volume=0;});
