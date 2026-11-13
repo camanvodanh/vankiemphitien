@@ -407,29 +407,17 @@ function triggerEvent(){
  const config=VKP_DATA.effects.balance;
  const active=racers.filter(r=>!r.finished&&!(r.pendingEffectTimer>0)&&!(r.effectCooldown>0));
  if(!active.length)return;
- if(Math.random()<config.noEffectChance){
+ const timing=getRaceEffectTimingProfile(duration);
+ const effectChance=timing.effectChance??(1-config.noEffectChance);
+ if(Math.random()>effectChance){
   eventText="LINH LỰC DAO ĐỘNG · KHÔNG CÓ HIỆU ỨNG";
-  eventTextLife=1.1;
+  eventTextLife=.8;
   return;
  }
- const ranked=sortedRacers();
- // Tập trung một phần sự kiện vào nhóm dẫn đầu để cuộc đua top 10 luôn biến động,
- // nhưng vẫn dành cơ hội cho nhóm sau bứt tốc chen vào.
- const topGroup=ranked.slice(0,Math.min(10,ranked.length));
- const topEligible=active.filter(r=>topGroup.includes(r));
- const outsideEligible=active.filter(r=>!topGroup.includes(r));
- let poolToTarget=active;
- if(topEligible.length&&outsideEligible.length){
-  poolToTarget=Math.random()<.65?topEligible:outsideEligible;
- }else if(topEligible.length){
-  poolToTarget=topEligible;
- }
- const racer=poolToTarget[randInt(0,poolToTarget.length-1)];
- const rank=Math.max(0,ranked.indexOf(racer));
- const ratio=ranked.length>1?rank/(ranked.length-1):0.5;
- const position=ratio<1/3?"front":ratio>2/3?"back":"middle";
- const goodChance=config.positionGoodChance[position];
- const polarity=Math.random()<goodChance?"positive":"negative";
+ // Chọn ngẫu nhiên toàn bộ người còn thi đấu, không ưu tiên hay phân biệt thứ hạng.
+ const racer=active[randInt(0,active.length-1)];
+ // Hai loại hiệu ứng có xác suất ngang nhau ở mọi vị trí.
+ const polarity=Math.random()<.5?"positive":"negative";
  const tierRoll=Math.random(),weights=config.tierWeights;
  const tier=tierRoll<weights.light?"light":tierRoll<weights.light+weights.medium?"medium":"strong";
  const pool=VKP_DATA.effects.raceEvents.filter(effect=>effect.polarity===polarity);
@@ -440,7 +428,6 @@ function triggerEvent(){
  const variation=1+(Math.random()*2-1)*config.multiplierVariation;
  const multiplier=clamp(base*variation,config.speedLimits.min,config.speedLimits.max);
  racer.pendingEffect={type:effect.type,name:effect.name,color:effect.color,polarity,tier,multiplier,duration:rand(config.durationSeconds[0],config.durationSeconds[1])};
- const timing=getRaceEffectTimingProfile(duration);
  racer.pendingEffectTimer=rand(timing.activationDelaySeconds[0],timing.activationDelaySeconds[1]);
 }
 function activateRaceEffect(racer){
