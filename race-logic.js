@@ -103,6 +103,11 @@ function updateRace(dt){
 // ĐẾM NGƯỢC VÀ VÒNG LẶP ANIMATION
 // =====================================================
 
+// Giới hạn tốc độ vẽ để Safari/iPhone không phải dựng lại toàn bộ
+// quảng trường, khán đài và tiểu cảnh camera ở cả 60 khung hình/giây.
+let lastCanvasRenderAt = 0;
+let canvasRenderDisabled = false;
+
 function frame(time) {
   const dt = lastTime
     ? Math.min((time - lastTime) / 1000, .05)
@@ -115,45 +120,47 @@ function frame(time) {
     if (countdown > 0) {
       countdownAccumulator += dt;
 
-      while (
-        countdown > 0 &&
-        countdownAccumulator >= 1
-      ) {
+      while (countdown > 0 && countdownAccumulator >= 1) {
         countdownAccumulator -= 1;
         countdown--;
 
         if (countdown > 0) {
-          $("status").textContent =
-            `Bắt đầu sau ${countdown}...`;
-
+          $("status").textContent = `Bắt đầu sau ${countdown}...`;
           eventText = `BẮT ĐẦU SAU ${countdown}`;
           eventTextLife = .9;
         } else {
           started = true;
           elapsed = 0;
           countdownAccumulator = 0;
-
           $("status").textContent = "Đang tranh phong";
           $("lockNotice").textContent = "Cuộc đua đang diễn ra. Theo dõi trực tiếp hoặc nhấn Tạm dừng.";
-
           eventText = "ĐẠI HỘI BẮT ĐẦU!";
           eventTextLife = 1.5;
         }
       }
     }
 
-    if (started && countdown === 0 && !finished) {
-      updateRace(dt);
-    }
+    if (started && countdown === 0 && !finished) updateRace(dt);
   }
 
   updateParticles(dt);
-
   eventTextLife = Math.max(0, eventTextLife - dt);
   finishMessageLife = Math.max(0, finishMessageLife - dt);
   advanceFinishAnnouncements();
 
-  render(time);
+  // 20 FPS khi chờ, 30 FPS khi đua. Logic thời gian vẫn cập nhật mỗi RAF.
+  const renderInterval = running && !paused ? 1000 / 30 : 1000 / 20;
+  if (!canvasRenderDisabled && (!lastCanvasRenderAt || time - lastCanvasRenderAt >= renderInterval)) {
+    lastCanvasRenderAt = time;
+    try {
+      render(time);
+    } catch (error) {
+      canvasRenderDisabled = true;
+      console.error("Vạn Kiếm Phi Tiên: lỗi khi dựng khung hình", error);
+      const status = $("status");
+      if (status) status.textContent = "Lỗi hiển thị cảnh — vui lòng tải lại trang.";
+    }
+  }
 
   requestAnimationFrame(frame);
 }
