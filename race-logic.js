@@ -12,31 +12,13 @@ let raceStopped = false;
 function assignFinishTimes() {
   if (!racers.length) return;
 
-  const shuffled = [...racers].sort(
-    () => Math.random() - .5
-  );
-
-  const lastRacer = shuffled[shuffled.length - 1];
-  const others = racers.filter(r => r !== lastRacer);
-
-  const times = others.map((r, index) => {
-    const ratio = others.length <= 1
-      ? .7
-      : .48 + (index / (others.length - 1)) * .43;
-
-    return duration * ratio;
+  // Mỗi tiên nhân nhận nhịp độ xuất phát ngẫu nhiên, không ấn định sẵn
+  // người cuối hay dàn thứ hạng theo một dải thời gian cố định.
+  racers.forEach(racer => {
+    racer.targetFinishTime = duration * rand(.89, .995);
+    racer.pacePhase = Math.random() * Math.PI * 2;
+    racer.paceAmplitude = rand(.018, .042);
   });
-
-  for (let i = times.length - 1; i > 0; i--) {
-    const j = randInt(0, i);
-    [times[i], times[j]] = [times[j], times[i]];
-  }
-
-  others.forEach((racer, index) => {
-    racer.targetFinishTime = times[index];
-  });
-
-  lastRacer.targetFinishTime = duration;
 }
 
 // =====================================================
@@ -84,7 +66,10 @@ function updateRace(dt){
   const limits=VKP_DATA.effects.balance.speedLimits;
   racer.speedMultiplier=clamp(racer.speedMultiplier||1,limits.min,limits.max);
   const baseSpeed=distance/Math.max(.001,racer.targetFinishTime);
-  racer.progress=Math.min(distance,racer.progress+baseSpeed*dt*racer.speedMultiplier);
+  // Nhịp phi hành dao động nhẹ theo từng cá thể, tạo cơ hội vượt lên và tụt lại
+  // thay vì giữ nguyên một tốc độ tuyến tính từ đầu đến cuối.
+  const paceWave=1+Math.sin(elapsed*1.65+(racer.pacePhase||0))*(racer.paceAmplitude||.025);
+  racer.progress=Math.min(distance,racer.progress+baseSpeed*paceWave*dt*racer.speedMultiplier);
  });
  const rankedNow=sortedRacers();
  for(let i=0;i<rankedNow.length;i++){
