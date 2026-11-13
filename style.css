@@ -7194,3 +7194,15 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
   .arena-frame>.game-setup{max-height:39%!important;padding:5px!important;}
   .arena-frame>.arena-controls{bottom:3px!important;}
 }
+
+
+/* REVISION 110 — keep outer-ring quantity labels above the inner dial and outside its edge. */
+.altar-dial .dial-quantity .dial-markers{
+  z-index:20!important;
+}
+.altar-dial .dial-quantity .dial-marker{
+  font-size:8px!important;
+  font-weight:800!important;
+  color:#fff4ce!important;
+  text-shadow:0 1px 2px #071b15,0 0 4px #071b15,0 0 7px #071b15!important;
+}
