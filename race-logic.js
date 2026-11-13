@@ -748,8 +748,11 @@ function updateRanking(){
    ?'<span class="rank-movement rank-up" aria-label="Tăng hạng" title="Tăng hạng">▲</span>'
    :raceActive&&!raceOver&&r.rankMovement==="down"
     ?'<span class="rank-movement rank-down" aria-label="Giảm hạng" title="Giảm hạng">▼</span>':"";
-  const actualTime=raceActive&&r.finished&&r.finishTime!==null?timeText(r.finishTime):"—";
-  row.innerHTML='<td><span class="rank-cell">'+arrow+'<span class="rank-position">'+medal+'</span></span></td><td title="'+escapeHTML(r.name)+'">'+escapeHTML(r.name)+'</td><td>'+actualTime+'</td>';
+  const actualTime=raceActive&&r.finished&&r.finishTime!==null
+   ?Math.round(Math.max(0,r.finishTime)*1000).toLocaleString("vi-VN")+" ms":"—";
+  const nameLength=Array.from(String(r.name||"")).length;
+  const nameScale=Math.max(.62,Math.min(1,18/Math.max(18,nameLength)));
+  row.innerHTML='<td><span class="rank-cell">'+arrow+'<span class="rank-position">'+medal+'</span></span></td><td class="rank-name-cell" title="'+escapeHTML(r.name)+'"><span class="rank-name" style="font-size:'+nameScale.toFixed(3)+'em">'+escapeHTML(r.name)+'</span></td><td class="rank-time">'+actualTime+'</td>';
   orderedRows.push({row,oldTop:previous?previous.top:null});
  });
  const fragment=document.createDocumentFragment();
