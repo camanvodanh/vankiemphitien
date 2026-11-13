@@ -5756,24 +5756,27 @@ function drawCrowd(time) {
   }
   drawRoleLabel(867,566,"TRƯỞNG LÃO","#d4b5fa",.82);
 
-  for(let i=0;i<28;i++){
+  // Giữ khán đài có chiều sâu nhưng giới hạn số sprite để tránh
+  // làm nghẽn thiết bị di động khi mở trang và khi cảnh đang chuyển động.
+  for(let i=0;i<14;i++){
     const col=i%7,row=Math.floor(i/7);
     const x=445+col*35+(row%2)*7,y=660+row*14+Math.sin(i*1.7)*2;
     drawVIPAura(x,y-8,12,"#b8e5d6",time,i*.61,.15);
     drawSpectator(x,y,.43,"core",time,i*.73);
   }
   // Nội môn vẫn đứng thành hai cánh riêng, không chen vào nòng cốt.
-  for(let i=0;i<64;i++){
-    const side=i<32?0:1,local=i%32,col=local%8,row=Math.floor(local/8);
+  for(let i=0;i<32;i++){
+    const side=i<16?0:1,local=i%16,col=local%8,row=Math.floor(local/8);
     const x=side===0?42+col*43+(row%2)*4:762+col*43+(row%2)*4;
     const y=656+row*16+Math.sin(i*1.73)*1.8;
     drawSpectator(x,y,.37,"inner",time,i*.59);
   }
 
-  // Ngoại môn ở dải giữa; tạp dịch được trải xuống gần mép dưới canvas.
+  // Ngoại môn và tạp dịch vẫn phủ kín hai dải khán đài,
+  // nhưng dùng mật độ vừa phải để giảm hàng trăm lượt vẽ lặp mỗi giây.
   const groups=[
-    {role:"outer",count:92,scale:.34,y0:705,y1:765},
-    {role:"servant",count:146,scale:.30,y0:785,y1:885}
+    {role:"outer",count:48,scale:.34,y0:705,y1:765},
+    {role:"servant",count:72,scale:.30,y0:785,y1:885}
   ];
   groups.forEach((g,gi)=>{
     const rowCount=Math.ceil(g.count/48);
