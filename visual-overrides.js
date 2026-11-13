@@ -6847,14 +6847,20 @@ function drawAwardMaster(target,x,y,scale,time){
 }
 
 ;
-// REVISION 112 — hoạt ảnh nghi lễ tại quảng trường, đứng dậy, truyền công và hồi tọa.
+// REVISION 114 — chuyển trực tiếp tư thế nhân vật tại chỗ, tránh vẽ chồng hình.
 (function installPlazaSummoningChoreography(){
-  const baseCrowd=drawCrowd;
   const baseMaster=drawSectMasterFigure;
+  const baseSpectator=drawSpectator;
+  function ritualPose(time){
+    if(typeof summonRitualStartedAt==="undefined"||!summonRitualStartedAt)return 0;
+    return typeof getSummonRitualPose==="function"?getSummonRitualPose(time):0;
+  }
   drawSectMasterFigure=function(target,x,y,scale,time,mode){
-    baseMaster(target,x,y,scale,time,mode==="ritualStanding"?"standing":mode);
-    if(mode!=="ritualStanding")return;
-    target.save();target.translate(x,y);target.scale(scale,scale);
+    const pose=mode==="seated"?ritualPose(time):0;
+    if(pose<=.015){baseMaster(target,x,y,scale,time,mode);return;}
+    const eased=pose*pose*(3-2*pose);
+    baseMaster(target,x,y-17*eased,scale,time,"standing");
+    target.save();target.translate(x,y-17*eased);target.scale(scale,scale);
     const pulse=.7+.3*Math.sin(time*.009);
     target.strokeStyle="#f8e5a6";target.lineWidth=6;target.lineCap="round";
     target.shadowColor="#ffe6a0";target.shadowBlur=8+8*pulse;
@@ -6862,35 +6868,22 @@ function drawAwardMaster(target,x,y,scale,time){
     target.fillStyle="#fff0bd";target.beginPath();target.arc(0,-42,5+2*pulse,0,Math.PI*2);target.fill();
     target.restore();
   };
-  function donor(x,y,scale,role,time,phase,center){
-    drawSpectator(x,y-23,scale,role,time,phase);
-    ctx.save();ctx.translate(x,y-23);ctx.scale(scale,scale);
+  drawSpectator=function(x,y,scale,role,time,phase=0){
+    const pose=(role==="disciple"||role==="elder")?ritualPose(time):0;
+    if(pose<=.015){baseSpectator(x,y,scale,role,time,phase);return;}
+    const eased=pose*pose*(3-2*pose),raisedY=y-17*eased;
+    baseSpectator(x,raisedY,scale,role,time,phase);
+    const roleInfo=ROLE[role]||ROLE.outer;
+    ctx.save();ctx.translate(x,raisedY);ctx.scale(scale*roleInfo.scale,scale);
     const pulse=.7+.3*Math.sin(time*.008+phase);
-    const handX=center>x?18:-18;
+    const inward=role==="elder"?-1:1;
     ctx.strokeStyle=role==="elder"?"#e0c5ff":"#bcefff";
     ctx.lineWidth=4.2;ctx.lineCap="round";ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=7;
-    ctx.beginPath();ctx.moveTo(handX*.48,-5);ctx.quadraticCurveTo(handX*.9,-20,handX,-30);ctx.stroke();
-    ctx.fillStyle="#fff0bd";ctx.beginPath();ctx.arc(handX,-30,3.3*pulse,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(inward*8,-5);
+    ctx.quadraticCurveTo(inward*18,-18,inward*23,-30);
+    ctx.stroke();
+    ctx.fillStyle="#fff0bd";ctx.beginPath();ctx.arc(inward*23,-30,3.3*pulse,0,Math.PI*2);ctx.fill();
     ctx.restore();
-  }
-  drawCrowd=function(time){
-    baseCrowd(time);
-    if(typeof summonRitualStartedAt==="undefined"||!summonRitualStartedAt)return;
-    const pose=getSummonRitualPose(time);
-    if(pose<=.015)return;
-    const smooth=pose*pose*(3-2*pose);
-    // Ngai vẫn ở nguyên vị trí; chưởng môn đứng lên phía trước ngai.
-    drawSectMasterThrone(ctx,550,612,.82);
-    drawSectMasterFigure(ctx,550,594+16*(1-smooth),.82,time,"ritualStanding");
-    for(let i=0;i<10;i++){
-      const x=78+i*41,y=612;
-      drawVIPChair(x,y,.58,"#405d82",time,i*.65);
-      donor(x,y-7+16*(1-smooth),.52,"disciple",time,i,550);
-    }
-    for(let i=0;i<10;i++){
-      const x=662+i*41,y=612;
-      drawVIPChair(x,y,.60,"#5b456b",time,i);
-      donor(x,y-7+16*(1-smooth),.54,"elder",time,i*.8,550);
-    }
   };
 })();
