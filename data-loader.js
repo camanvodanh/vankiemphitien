@@ -8,14 +8,14 @@
  }));
  window.VKP_DATA=Object.fromEntries(entries);
  const scripts=[
-  "core.js?v=duration-effects-v143",
-  "scenery.js?v=duration-effects-v143",
-  "audience.js?v=duration-effects-v143",
-  "race-render.js?v=duration-effects-v143",
-  "visual-overrides.js?v=duration-effects-v143",
-  "music.js?v=duration-effects-v143",
-  "race-logic.js?v=duration-effects-v143",
-  "i18n.js?v=duration-effects-v143"
+  "core.js?v=race-overtake-v144",
+  "scenery.js?v=race-overtake-v144",
+  "audience.js?v=race-overtake-v144",
+  "race-render.js?v=race-overtake-v144",
+  "visual-overrides.js?v=race-overtake-v144",
+  "music.js?v=race-overtake-v144",
+  "race-logic.js?v=race-overtake-v144",
+  "i18n.js?v=race-overtake-v144"
  ];
  for(const src of scripts){
   await new Promise((resolve,reject)=>{
