@@ -6927,45 +6927,7 @@ function __sectCrowdSaveCache(canvasElement){
 }
 
 function drawCrowd(time){
-  __sectCrowdLoadCache();
-
-  // Nghi thức và cảnh khán giả reo mừng cần chuyển động thật, không dùng ảnh tĩnh.
-  const ritualActive=typeof summonRitualStartedAt!=="undefined"&&summonRitualStartedAt>0;
-  const cheering=typeof finishQueue!=="undefined"&&finishQueue.length>0;
-  if(ritualActive||cheering||__sectCrowdCacheState==="failed"){
-    __sectCrowdDrawOriginal(time);
-    return;
-  }
-
-  if(__sectCrowdCacheState==="ready"&&__sectCrowdCacheImage){
-    ctx.drawImage(__sectCrowdCacheImage,0,0,W,H);
-    return;
-  }
-
-  // Đang đọc IndexedDB: để lớp nền hiện trước, không dựng lại hàng trăm nhân vật.
-  if(__sectCrowdCacheState==="loading"||__sectCrowdCacheState==="idle")return;
-
-  if(__sectCrowdCacheState==="empty"){
-    try{
-      if(!__sectCrowdCacheCanvas){
-        __sectCrowdCacheCanvas=document.createElement("canvas");
-        __sectCrowdCacheCanvas.width=W;
-        __sectCrowdCacheCanvas.height=H;
-      }
-      const cacheContext=__sectCrowdCacheCanvas.getContext("2d");
-      cacheContext.clearRect(0,0,W,H);
-      const mainContext=ctx;
-      ctx=cacheContext;
-      try{__sectCrowdDrawOriginal(time);}
-      finally{ctx=mainContext;}
-      __sectCrowdCacheImage=__sectCrowdCacheCanvas;
-      __sectCrowdCacheState="ready";
-      __sectCrowdSaveCache(__sectCrowdCacheCanvas);
-      ctx.drawImage(__sectCrowdCacheImage,0,0,W,H);
-    }catch(error){
-      console.error("Không thể tạo cache nhân vật khán đài:",error);
-      __sectCrowdCacheState="failed";
-      __sectCrowdDrawOriginal(time);
-    }
-  }
+  // Khẩn cấp vô hiệu hóa lớp chờ IndexedDB: luôn vẽ nhân vật trực tiếp
+  // để Safari/iPhone không thể làm mất khán đài khi thao tác cache bị treo.
+  __sectCrowdDrawOriginal(time);
 }
