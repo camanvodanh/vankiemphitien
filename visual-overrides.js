@@ -4373,9 +4373,15 @@ function drawSpectator(x,y,scale,roleName,time,phase=0){
    leftHand=[-8,-24+Math.sin(beat)*4];rightHand=[19,-18-Math.sin(beat)*5];
    leftElbow=[-15,-9];rightElbow=[15,-8];
  }else if(dignitary){
-   // Nòng cốt, chân truyền, trưởng lão và chưởng môn giữ tay áo ngay ngắn trước thân.
+   // Tôn vị giữ tay trước thân; khi khai trận chỉ nâng nhẹ tay áo bằng chính cánh tay đang vẽ.
    leftHand=[-5,5];rightHand=[5,5];
    leftElbow=[-14,-1];rightElbow=[14,-1];
+   const ritualPose=typeof getPlazaRitualPose==="function"?getPlazaRitualPose(time):0;
+   if(ritualPose>.01){
+     const lift=(roleName==="master"?15:roleName==="elder"?12:10)*ritualPose;
+     leftHand=[-8,5-lift];rightHand=[8,5-lift];
+     leftElbow=[-15,-1-lift*.52];rightElbow=[15,-1-lift*.52];
+   }
  }else{
    leftHand=[-18,-13+Math.sin(beat)*5];rightHand=[18,-13-Math.sin(beat)*5];
    leftElbow=[-15,-3];rightElbow=[15,-3];
@@ -4412,7 +4418,13 @@ function drawSpectator(x,y,scale,roleName,time,phase=0){
   ctx.beginPath();ctx.ellipse(0,-33,4.2,5.5,0,0,Math.PI*2);ctx.fill();
  }
  ctx.fillStyle="#392b27";ctx.beginPath();ctx.arc(-2.5,-19,1,0,Math.PI*2);ctx.arc(2.5,-19,1,0,Math.PI*2);ctx.fill();
- ctx.strokeStyle="#8b5144";ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(0,-17);ctx.lineTo(-.5,-15);ctx.moveTo(-2,-13);ctx.quadraticCurveTo(0,-12,2,-13);ctx.stroke();
+ ctx.strokeStyle="#8b5144";ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(0,-17);ctx.lineTo(-.5,-15);
+ const masterChant=roleName==="master"&&typeof getPlazaRitualPose==="function"?getPlazaRitualPose(time):0;
+ if(masterChant>.05){
+   const syllable=.8+.2*Math.sin(time*.018);
+   ctx.ellipse(0,-12,1.8,1.2+syllable*1.5,0,0,Math.PI*2);
+ }else{ctx.quadraticCurveTo(0,-12,2,-13);}
+ ctx.stroke();
  if(roleName==="elder"||roleName==="master"){if(!female){ctx.fillStyle="#ded8ca";ctx.beginPath();ctx.moveTo(-3,-10);ctx.lineTo(3,-10);ctx.lineTo(2,3);ctx.lineTo(0,6);ctx.lineTo(-2,3);ctx.closePath();ctx.fill();}}
  if(roleName==="master"){ctx.fillStyle="#e8c36e";ctx.beginPath();ctx.moveTo(-9,-26);ctx.lineTo(-6,-39);ctx.lineTo(0,-32);ctx.lineTo(6,-39);ctx.lineTo(9,-26);ctx.closePath();ctx.fill();}
  if(roleName==="elder"){ctx.strokeStyle="#dfc17e";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(20,-18);ctx.lineTo(20,23);ctx.stroke();}
