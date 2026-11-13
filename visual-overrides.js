@@ -6860,3 +6860,114 @@ function drawAwardMaster(target,x,y,scale,time){
   target.restore();
   drawSectMasterFigure(target,x,y,scale,time,"flying");
 }
+
+
+// REVISION 118 — lưu lớp nhân vật khán đài vào IndexedDB.
+// Chỉ dựng sprite khán đài một lần khi chưa có cache; các lần tải sau dùng ảnh đã lưu.
+const __sectCrowdDrawOriginal = drawCrowd;
+const __sectCrowdCacheVersion = "crowd-layer-v1";
+let __sectCrowdCacheState = "idle";
+let __sectCrowdCacheImage = null;
+let __sectCrowdCacheCanvas = null;
+
+function __sectCrowdOpenDB(){
+  return new Promise((resolve,reject)=>{
+    if(!("indexedDB" in window)){reject(new Error("IndexedDB unavailable"));return;}
+    const request=indexedDB.open("VanKiemPhiTienVisualCache",1);
+    request.onupgradeneeded=()=>{
+      const db=request.result;
+      if(!db.objectStoreNames.contains("images"))db.createObjectStore("images");
+    };
+    request.onsuccess=()=>resolve(request.result);
+    request.onerror=()=>reject(request.error||new Error("IndexedDB open failed"));
+  });
+}
+
+function __sectCrowdLoadCache(){
+  if(__sectCrowdCacheState!=="idle")return;
+  __sectCrowdCacheState="loading";
+  __sectCrowdOpenDB().then(db=>new Promise((resolve,reject)=>{
+    const request=db.transaction("images","readonly").objectStore("images").get(__sectCrowdCacheVersion);
+    request.onsuccess=()=>{db.close();resolve(request.result||null);};
+    request.onerror=()=>{db.close();reject(request.error);};
+  })).then(async blob=>{
+    if(!blob){__sectCrowdCacheState="empty";return;}
+    try{
+      if(typeof createImageBitmap==="function"){
+        __sectCrowdCacheImage=await createImageBitmap(blob);
+      }else{
+        __sectCrowdCacheImage=await new Promise((resolve,reject)=>{
+          const image=new Image(),url=URL.createObjectURL(blob);
+          image.onload=()=>{URL.revokeObjectURL(url);resolve(image);};
+          image.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("Cached crowd image decode failed"));};
+          image.src=url;
+        });
+      }
+      __sectCrowdCacheState="ready";
+    }catch(error){
+      console.warn("Không đọc được ảnh khán đài trong IndexedDB:",error);
+      __sectCrowdCacheState="empty";
+    }
+  }).catch(error=>{
+    console.warn("Không thể truy cập cache khán đài:",error);
+    __sectCrowdCacheState="failed";
+  });
+}
+
+function __sectCrowdSaveCache(canvasElement){
+  if(!canvasElement||typeof canvasElement.toBlob!=="function")return;
+  canvasElement.toBlob(blob=>{
+    if(!blob)return;
+    __sectCrowdOpenDB().then(db=>new Promise((resolve,reject)=>{
+      const tx=db.transaction("images","readwrite");
+      tx.objectStore("images").put(blob,__sectCrowdCacheVersion);
+      tx.oncomplete=()=>{db.close();resolve();};
+      tx.onerror=()=>{db.close();reject(tx.error);};
+      tx.onabort=()=>{db.close();reject(tx.error||new Error("IndexedDB write aborted"));};
+    })).catch(error=>console.warn("Không lưu được ảnh khán đài:",error));
+  },"image/png");
+}
+
+function drawCrowd(time){
+  __sectCrowdLoadCache();
+
+  // Nghi thức và cảnh khán giả reo mừng cần chuyển động thật, không dùng ảnh tĩnh.
+  const ritualActive=typeof summonRitualStartedAt!=="undefined"&&summonRitualStartedAt>0;
+  const cheering=typeof finishQueue!=="undefined"&&finishQueue.length>0;
+  if(ritualActive||cheering||__sectCrowdCacheState==="failed"){
+    __sectCrowdDrawOriginal(time);
+    return;
+  }
+
+  if(__sectCrowdCacheState==="ready"&&__sectCrowdCacheImage){
+    ctx.drawImage(__sectCrowdCacheImage,0,0,W,H);
+    return;
+  }
+
+  // Đang đọc IndexedDB: để lớp nền hiện trước, không dựng lại hàng trăm nhân vật.
+  if(__sectCrowdCacheState==="loading"||__sectCrowdCacheState==="idle")return;
+
+  if(__sectCrowdCacheState==="empty"){
+    try{
+      if(!__sectCrowdCacheCanvas){
+        __sectCrowdCacheCanvas=document.createElement("canvas");
+        __sectCrowdCacheCanvas.width=W;
+        __sectCrowdCacheCanvas.height=H;
+      }
+      const cacheContext=__sectCrowdCacheCanvas.getContext("2d");
+      cacheContext.clearRect(0,0,W,H);
+      const mainContext=ctx;
+      ctx=cacheContext;
+      try{__sectCrowdDrawOriginal(time);}
+      finally{ctx=mainContext;}
+      __sectCrowdCacheImage=__sectCrowdCacheCanvas;
+      __sectCrowdCacheState="ready";
+      __sectCrowdSaveCache(__sectCrowdCacheCanvas);
+      ctx.drawImage(__sectCrowdCacheImage,0,0,W,H);
+    }catch(error){
+      console.error("Không thể tạo cache nhân vật khán đài:",error);
+      __sectCrowdCacheState="failed";
+      __sectCrowdDrawOriginal(time);
+    }
+  }
+}
