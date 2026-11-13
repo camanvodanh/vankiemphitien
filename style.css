@@ -6671,3 +6671,17 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
 .game-zoom-controls{display:none!important;}
 #game{touch-action:none;cursor:grab;}
 #game:active{cursor:grabbing;}
+
+
+/* REVISION 104 — ngăn Safari iOS tự phóng to khi chạm nhập số hoặc danh sách. */
+@media (max-width: 919px){
+  .arena-frame>.game-setup input:focus,
+  .arena-frame>.game-setup textarea:focus,
+  .arena-frame>.game-setup select:focus,
+  .arena-frame>.game-setup .dial-editor input:focus,
+  .arena-frame>.game-setup .dial-editor select:focus{
+    font-size:16px!important;
+    -webkit-text-size-adjust:100%!important;
+    text-size-adjust:100%!important;
+  }
+}
