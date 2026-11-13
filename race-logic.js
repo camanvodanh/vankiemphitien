@@ -4,7 +4,7 @@
 // Khai báo trước lần updateRanking() khởi tạo ở cuối file.
 let rankingOrderSignature = "";
 let rankingPendingSignature = "";
-let rankingPendingSince = 0;
+let rankingLastCommitAt = 0;
 let raceStopped = false;
 
 // =====================================================
@@ -764,7 +764,6 @@ function updateRanking(){
   body.innerHTML=racers.length?"":'<tr><td colspan="3" class="empty">Chưa có tiên nhân</td></tr>';
   rankingOrderSignature=(raceActive?"race|":"idle|")+(racers.length?"waiting|":"empty|");
   rankingPendingSignature="";
-  rankingPendingSince=0;
   return;
  }
  // Đồng bộ thời gian và mũi tên mỗi lần render, độc lập với việc thứ tự hàng có đổi hay không.
@@ -799,19 +798,18 @@ function updateRanking(){
  });
  const mode=raceActive?"race":"idle";
  const signature=mode+"|"+sorted.map(r=>String(r.id)).join("|");
- // Giới hạn tần suất sắp xếp lại bảng, nhưng không debounce theo kiểu chờ thứ tự đứng yên.
- // Nếu thứ hạng đổi liên tục, chỉ giữ chữ ký mới nhất và vẫn cập nhật tối đa mỗi 150 ms.
- if(signature!==rankingOrderSignature&&raceActive){
-  if(!rankingPendingSignature)rankingPendingSince=now;
-  rankingPendingSignature=signature;
-  if(now-rankingPendingSince<150)return;
- }else{
+ // Throttle theo thời điểm cập nhật thành công, không chờ thứ tự ổn định.
+ // Mọi biến động trong khoảng giới hạn được gộp lại; đến nhịp kế tiếp luôn lấy thứ hạng mới nhất.
+ if(signature===rankingOrderSignature){
   rankingPendingSignature="";
-  rankingPendingSince=0;
+  return;
  }
- if(signature===rankingOrderSignature)return;
+ if(raceActive){
+  rankingPendingSignature=signature;
+  if(now-rankingLastCommitAt<150)return;
+ }
  rankingPendingSignature="";
- rankingPendingSince=0;
+ rankingLastCommitAt=now;
 
  const oldRows=new Map();
  body.querySelectorAll("tr[data-racer-id]").forEach(row=>{
