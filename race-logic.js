@@ -1397,10 +1397,10 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonArrival(time);};
        speed.dispatchEvent(new Event("change",{bubbles:true}));
      }
      drag.carry-=count*step;
-     ring.style.transform="translate(-50%,-50%) rotate("+rotation+"deg)";
-     syncMarkerOrientation(ring);
      const rotation=Number(ring.dataset.rotation||0)+count*step;
      ring.dataset.rotation=String(rotation);
+     ring.style.transform="translate(-50%,-50%) rotate("+rotation+"deg)";
+     syncMarkerOrientation(ring);
      update();
    }
  }
