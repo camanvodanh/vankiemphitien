@@ -3,170 +3,146 @@
     {
       "type": "poison",
       "name": "Trúng độc",
-      "multiplier": 0.56,
-      "duration": 3.4,
-      "color": "#8bd66f"
+      "color": "#8bd66f",
+      "polarity": "negative"
     },
     {
       "type": "weak",
       "name": "Suy lực",
-      "multiplier": 0.68,
-      "duration": 3,
-      "color": "#b7bdc5"
+      "color": "#b7bdc5",
+      "polarity": "negative"
     },
     {
       "type": "pill",
       "name": "Hồi Linh Đan",
-      "multiplier": 1.58,
-      "duration": 2.7,
-      "color": "#ffd978"
+      "color": "#ffd978",
+      "polarity": "positive"
     },
     {
       "type": "impact",
       "name": "Va chạm",
-      "multiplier": 0.48,
-      "duration": 1.8,
-      "color": "#ffab72"
+      "color": "#ffab72",
+      "polarity": "negative"
     },
     {
       "type": "lightning",
       "name": "Lôi kích",
-      "multiplier": 0.42,
-      "duration": 2.1,
-      "color": "#a9e9ff"
+      "color": "#a9e9ff",
+      "polarity": "negative"
     },
     {
       "type": "gale",
       "name": "Cuồng phong",
-      "multiplier": 0.62,
-      "duration": 2.8,
-      "color": "#a9e4ed"
+      "color": "#a9e4ed",
+      "polarity": "negative"
     },
     {
       "type": "dizzy",
       "name": "Choáng",
-      "multiplier": 0.5,
-      "duration": 2.3,
-      "color": "#c8b2ff"
+      "color": "#c8b2ff",
+      "polarity": "negative"
     },
     {
       "type": "faint",
       "name": "Ngất",
-      "multiplier": 0.32,
-      "duration": 1.65,
-      "color": "#c4c9d2"
+      "color": "#c4c9d2",
+      "polarity": "negative"
     },
     {
       "type": "boost",
       "name": "Du Long Bộ",
-      "multiplier": 1.44,
-      "duration": 2.75,
-      "color": "#a7e9ff"
+      "color": "#a7e9ff",
+      "polarity": "positive"
     },
     {
       "type": "qi_pill",
       "name": "Tụ Khí Đan",
-      "multiplier": 1.72,
-      "duration": 1.9,
-      "color": "#ffe0a0"
+      "color": "#ffe0a0",
+      "polarity": "positive"
     },
     {
       "type": "sword_intent",
       "name": "Kiếm ý",
-      "multiplier": 1.34,
-      "duration": 2.35,
-      "color": "#a9eaff"
+      "color": "#a9eaff",
+      "polarity": "positive"
     },
     {
       "type": "cloud_step",
       "name": "Đạp Vân",
-      "multiplier": 1.48,
-      "duration": 2.15,
-      "color": "#8fe5d4"
+      "color": "#8fe5d4",
+      "polarity": "positive"
     },
     {
       "type": "formation",
       "name": "Tụ Linh Trận",
-      "multiplier": 1.27,
-      "duration": 3.1,
-      "color": "#c9b0ff"
+      "color": "#c9b0ff",
+      "polarity": "positive"
     },
     {
       "type": "formation_sword",
       "name": "Vạn Kiếm Trận",
-      "multiplier": 1.46,
-      "duration": 2.25,
-      "color": "#b8d8ff"
+      "color": "#b8d8ff",
+      "polarity": "positive"
     },
     {
       "type": "formation_seal",
       "name": "Bát Quái Trận",
-      "multiplier": 1.22,
-      "duration": 3.8,
-      "color": "#c8a8ff"
+      "color": "#c8a8ff",
+      "polarity": "positive"
     },
     {
       "type": "sword_spin",
       "name": "Kiếm Vũ",
-      "multiplier": 1.18,
-      "duration": 2.2,
-      "color": "#b9f0ff"
+      "color": "#b9f0ff",
+      "polarity": "positive"
     },
     {
       "type": "talisman",
       "name": "Phù tốc",
-      "multiplier": 1.55,
-      "duration": 2.65,
-      "color": "#ffe18a"
+      "color": "#ffe18a",
+      "polarity": "positive"
     },
     {
       "type": "talisman_guard",
       "name": "Hộ Thân Phù",
-      "multiplier": 1.31,
-      "duration": 3,
-      "color": "#8be3df"
+      "color": "#8be3df",
+      "polarity": "positive"
     },
     {
       "type": "talisman_thunder",
       "name": "Lôi Phù",
-      "multiplier": 1.62,
-      "duration": 1.8,
-      "color": "#a9e8ff"
+      "color": "#a9e8ff",
+      "polarity": "positive"
     },
     {
       "type": "wind_step",
       "name": "Phong Hành",
-      "multiplier": 1.36,
-      "duration": 2.9,
-      "color": "#9debd7"
+      "color": "#9debd7",
+      "polarity": "positive"
     },
     {
       "type": "shadow_step",
       "name": "Ảnh Độn",
-      "multiplier": 1.82,
-      "duration": 1.35,
-      "color": "#b9b4ff"
+      "color": "#b9b4ff",
+      "polarity": "positive"
     },
     {
       "type": "sword_dash",
       "name": "Kiếm Độn",
-      "multiplier": 1.68,
-      "duration": 1.65,
-      "color": "#b8eaff"
+      "color": "#b8eaff",
+      "polarity": "positive"
     },
     {
       "type": "body_burst",
       "name": "Bạo Bộ",
-      "multiplier": 1.24,
-      "duration": 3.6,
-      "color": "#ffd08a"
+      "color": "#ffd08a",
+      "polarity": "positive"
     },
     {
       "type": "cloud_stride",
       "name": "Lưu Vân Bộ",
-      "multiplier": 1.32,
-      "duration": 3.25,
-      "color": "#d6f4ff"
+      "color": "#d6f4ff",
+      "polarity": "positive"
     }
   ],
   "particleBurst": {
@@ -178,5 +154,69 @@
     "lifeMax": 0.95,
     "sizeMin": 2,
     "sizeMax": 4
+  },
+  "balance": {
+    "positionGoodChance": {
+      "front": 0.42,
+      "middle": 0.5,
+      "back": 0.58
+    },
+    "noEffectChance": 0.05,
+    "tierWeights": {
+      "light": 0.35,
+      "medium": 0.4,
+      "strong": 0.25
+    },
+    "multipliers": {
+      "boost": {
+        "light": [
+          1.08,
+          1.12
+        ],
+        "medium": [
+          1.13,
+          1.18
+        ],
+        "strong": [
+          1.19,
+          1.25
+        ]
+      },
+      "slow": {
+        "light": [
+          0.9,
+          0.95
+        ],
+        "medium": [
+          0.82,
+          0.89
+        ],
+        "strong": [
+          0.75,
+          0.81
+        ]
+      }
+    },
+    "durationSeconds": [
+      2,
+      5
+    ],
+    "waitSeconds": [
+      1,
+      4
+    ],
+    "recoverySeconds": [
+      1,
+      3
+    ],
+    "multiplierVariation": 0.02,
+    "speedLimits": {
+      "min": 0.75,
+      "max": 1.25
+    },
+    "sameEffect": "extend",
+    "oppositeEffect": "replace",
+    "oppositePolarity": "clear-and-apply",
+    "antiBadLuck": "gentle-only"
   }
 }
