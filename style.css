@@ -7729,3 +7729,26 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
  .ranking tbody tr.rank-row-moving{will-change:auto!important}
  .ranking tbody tr.rank-row-moving td,.ranking tbody tr:not(.rank-row-moving) td{transition:none!important}
 }
+
+/* REVISION 119 — Tiên Bảng: thời gian mili giây rõ đơn vị, tên dài tự thu nhỏ và luôn một dòng. */
+.game-ranking table th:last-child,
+.game-ranking table td.rank-time{
+  white-space:nowrap!important;
+  font-variant-numeric:tabular-nums;
+  text-align:center!important;
+}
+.game-ranking table td.rank-name-cell{
+  min-width:0!important;
+  overflow:hidden!important;
+  white-space:nowrap!important;
+}
+.game-ranking table .rank-name{
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+  overflow:hidden!important;
+  white-space:nowrap!important;
+  text-overflow:ellipsis!important;
+  line-height:1.2!important;
+  transform-origin:left center;
+}
