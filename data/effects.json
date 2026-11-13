@@ -157,11 +157,9 @@
   },
   "balance": {
     "positionGoodChance": {
-      "front": 0.42,
-      "middle": 0.5,
-      "back": 0.58
+      "all": 0.5
     },
-    "noEffectChance": 0.05,
+    "noEffectChance": 0.01,
     "tierWeights": {
       "light": 0.35,
       "medium": 0.4,
@@ -222,90 +220,98 @@
       {
         "maxRaceSeconds": 5,
         "eventIntervalSeconds": [
-          0.35,
-          0.65
+          0.18,
+          0.28
         ],
         "activationDelaySeconds": [
-          0.15,
-          0.35
-        ]
+          0.08,
+          0.16
+        ],
+        "effectChance": 0.99
       },
       {
         "maxRaceSeconds": 10,
         "eventIntervalSeconds": [
-          0.45,
-          0.8
+          0.25,
+          0.38
         ],
         "activationDelaySeconds": [
-          0.2,
-          0.45
-        ]
+          0.1,
+          0.2
+        ],
+        "effectChance": 0.98
       },
       {
         "maxRaceSeconds": 15,
         "eventIntervalSeconds": [
-          0.6,
-          1
+          0.31,
+          0.48
         ],
         "activationDelaySeconds": [
-          0.25,
-          0.55
-        ]
+          0.12,
+          0.24
+        ],
+        "effectChance": 0.96
       },
       {
         "maxRaceSeconds": 30,
         "eventIntervalSeconds": [
-          0.8,
-          1.4
+          0.43,
+          0.66
         ],
         "activationDelaySeconds": [
-          0.4,
-          0.8
-        ]
+          0.16,
+          0.32
+        ],
+        "effectChance": 0.93
       },
       {
         "maxRaceSeconds": 60,
         "eventIntervalSeconds": [
-          1.2,
-          2
+          0.6,
+          0.92
         ],
         "activationDelaySeconds": [
-          0.6,
-          1.2
-        ]
+          0.22,
+          0.44
+        ],
+        "effectChance": 0.88
       },
       {
         "maxRaceSeconds": 120,
         "eventIntervalSeconds": [
-          1.5,
-          2.8
+          0.84,
+          1.3
         ],
         "activationDelaySeconds": [
-          0.8,
-          1.8
-        ]
+          0.3,
+          0.6
+        ],
+        "effectChance": 0.8
       },
       {
         "maxRaceSeconds": 300,
         "eventIntervalSeconds": [
-          2,
-          3.5
+          1.3,
+          1.95
         ],
         "activationDelaySeconds": [
-          1,
-          2.5
-        ]
+          0.45,
+          0.9
+        ],
+        "effectChance": 0.68
       },
       {
         "maxRaceSeconds": 600,
         "eventIntervalSeconds": [
-          2.5,
-          4
+          1.8,
+          2.7
         ],
         "activationDelaySeconds": [
-          1,
-          4
-        ]
+          0.6,
+          1.2
+        ],
+        "effectChance": 0.55
       }
     ]
   }
