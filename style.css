@@ -6505,3 +6505,39 @@ html,body.game-page{min-width:0!important;}
   .hero-actions #musicToggle{height:32px!important;min-height:32px!important;}
   .hero-actions #languageButton{height:32px!important;min-height:32px!important;}
 }
+
+
+/* REVISION 99 — Vietnamese diacritics and word spacing in the summoning name field. */
+html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#names,
+html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#names::placeholder{
+  font-family:Arial,"Noto Sans",sans-serif!important;
+  font-size:14px!important;
+  font-style:normal!important;
+  font-weight:400!important;
+  line-height:1.55!important;
+  letter-spacing:normal!important;
+  word-spacing:normal!important;
+  font-kerning:normal!important;
+  font-variant-ligatures:normal!important;
+  text-align:left!important;
+  text-indent:0!important;
+  text-transform:none!important;
+  word-break:normal!important;
+  overflow-wrap:normal!important;
+  white-space:pre-wrap!important;
+  text-align-last:left!important;
+}
+html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#names{
+  padding:9px 12px!important;
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+}
+html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#names::placeholder{
+  color:#887650!important;
+  opacity:1!important;
+}
+html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#names:focus{
+  letter-spacing:normal!important;
+  word-spacing:normal!important;
+  text-align:left!important;
+}
