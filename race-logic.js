@@ -1409,3 +1409,34 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonArrival(time);};
  setSettingsLocked=function(v){oldLock(v);update();};
  update();
 })();
+// REVISION 36 — hướng dẫn rõ nguyên nhân khi nút điều khiển đang bị khóa.
+(function explainDisabledActions(){
+  function refreshGuidance(){
+    const start=$("start"),stop=$("stop"),summon=$("summon"),pauseButton=$("pause"),notice=$("lockNotice");
+    if(!start||!stop||!summon)return;
+    const hasRacers=Array.isArray(racers)&&racers.length>0;
+    const reason=running
+      ?"Cuộc đua đang diễn ra. Hãy nhấn Tạm ngưng hoặc Dừng trước khi thay đổi thiết lập."
+      :paused
+        ?"Cuộc đua đang tạm ngưng. Hãy nhấn Tiếp tục hoặc Dừng để thực hiện thao tác khác."
+        :!hasRacers
+          ?"Chưa có tiên nhân nên nút Chạy và Dừng đang khóa. Hãy nhập danh sách tên hoặc chọn số lượng, rồi nhấn Triệu Hồi."
+          :"Đã có tiên nhân. Nhấn Chạy để bắt đầu; muốn đổi danh sách, hãy nhấn Dừng rồi Khởi tạo.";
+    start.title=start.disabled?(hasRacers?"Đang chạy hoặc tạm ngưng cuộc đua.":"Hãy nhấn Triệu Hồi trước khi Chạy."):"Bắt đầu hoặc chạy lại cuộc đua";
+    start.setAttribute("aria-description",start.disabled?start.title:"");
+    stop.title=stop.disabled?"Chưa có tiên nhân. Hãy nhấn Triệu Hồi trước.":((finished||raceStopped)?"Mở lại thiết lập để tạo cuộc đua mới":"Dừng cuộc đua");
+    stop.setAttribute("aria-description",stop.disabled?stop.title:"");
+    summon.title=summon.disabled?"Không thể triệu hồi khi cuộc đua đang chạy hoặc tạm ngưng. Hãy Dừng cuộc đua trước.":"Triệu hồi tiên nhân vào trường đua";
+    summon.setAttribute("aria-description",summon.disabled?summon.title:"");
+    if(pauseButton){
+      pauseButton.title=pauseButton.disabled?"Chỉ có thể tạm ngưng khi cuộc đua đang chạy.":(paused?"Tiếp tục cuộc đua":"Tạm ngưng cuộc đua");
+      pauseButton.setAttribute("aria-description",pauseButton.disabled?pauseButton.title:"");
+    }
+    if(notice&&!running&&!paused)notice.textContent=reason;
+  }
+  const previousSync=syncButtons;
+  syncButtons=function(){previousSync();refreshGuidance();};
+  const previousLock=setSettingsLocked;
+  setSettingsLocked=function(value){previousLock(value);refreshGuidance();};
+  refreshGuidance();
+})();
