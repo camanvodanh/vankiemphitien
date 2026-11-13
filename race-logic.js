@@ -585,13 +585,14 @@ function syncButtons(){
   $("summon").disabled=running||paused;
 }
 function toggleRaceControl(){
+  if(!summonVisualReady){$("lockNotice").textContent="Chưởng môn vẫn đang triệu hồi. Hãy chờ tất cả tiên nhân hiện thân rồi mới có thể Chạy.";return;}
   if(!racers.length)return;
   if(running){togglePause();return;}
   if(paused){resumeRace();return;}
   startRace();
 }
 function startRace(){
-  if(!racers.length||running||paused)return;
+  if(!summonVisualReady||!racers.length||running||paused)return;
   duration=Number($("speed").value);
   raceStopped=false;
   elapsed=0;countdown=3;countdownAccumulator=0;eventClock=0;nextEvent=rand(5,9);
@@ -850,7 +851,7 @@ function syncButtons(){
  const startButton=$("start"),pauseButton=$("pause"),stopButton=$("stop");
  const restart=finished||raceStopped;
  startButton.innerHTML='<span class="btn-icon" aria-hidden="true">'+(restart?'↻':'▶')+'</span><span class="btn-label">'+(restart?'Bắt đầu lại':'Chạy')+'</span>';
- startButton.disabled=!racers.length||running||paused;
+ startButton.disabled=!racers.length||!summonVisualReady||running||paused;
  pauseButton.hidden=!running&&!paused;
  pauseButton.disabled=!running&&!paused;
  pauseButton.textContent=paused?'▶ Tiếp tục':'Ⅱ Tạm ngưng';
@@ -1117,6 +1118,8 @@ const summonRitualDuration=6.2;
 let summonRitualReturnAt=0;
 let summonRacersBeforeClick=null;
 let summonBatchSize=1;
+let summonVisualReady=true;
+let summonUnlockTimer=0;
 const summonGroupStep=.30;
 const summonRevealDuration=.42;
 const summonBeamDuration=.78;
@@ -1136,6 +1139,17 @@ $("summon").addEventListener("click",()=>{
     const groupCount=Math.ceil(racers.length/summonBatchSize);
     const lastDelay=getSummonGroupDelay(Math.max(0,racers.length-1));
     summonRitualReturnAt=summonArrivalStartedAt+(lastDelay+1.05)*1000;
+    // Khóa nút Chạy cho đến khi nhóm cuối cùng đã hiện thân hoàn toàn.
+    summonVisualReady=false;
+    if(summonUnlockTimer)clearTimeout(summonUnlockTimer);
+    const revealCompleteAt=summonArrivalStartedAt+(lastDelay+summonRevealDuration)*1000;
+    summonUnlockTimer=setTimeout(()=>{
+      summonVisualReady=true;
+      summonUnlockTimer=0;
+      syncButtons();
+      $("lockNotice").textContent="Toàn bộ tiên nhân đã hiện thân. Có thể nhấn Chạy để bắt đầu đại hội.";
+    },Math.max(0,revealCompleteAt-performance.now()));
+    syncButtons();
     $("status").textContent=summonBatchSize===1
       ?"Chưởng môn khai trận · linh lực hội tụ · thiên quang giáng lâm"
       :`Chưởng môn khai trận · mỗi lượt ${summonBatchSize} tiên nhân · ${groupCount} lượt`;
