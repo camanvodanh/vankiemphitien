@@ -693,16 +693,24 @@ function drawCamera(time){
 
 function updateRanking(){
  const body=$("rankBody");
- const revealing=window.__vkSummonRevealActive===true;
+ let revealing=window.__vkSummonRevealActive===true;
  const now=performance.now();
  const raceActive=started===true||finished===true;
  const raceOver=finished===true&&racers.length>0&&racers.every(r=>r.finished===true);
+ // Chỉ giữ trạng thái triệu hồi khi vẫn còn ít nhất một tiên nhân chưa đến lượt hiện thân.
+ // Nếu bộ hẹn giờ bị trễ/hủy, bảng vẫn tự hoàn tất khi mốc hiện thân cuối cùng đã qua.
+ if(revealing&&racers.length&&racers.every(r=>!Number.isFinite(r.summonRevealAt)||now>=r.summonRevealAt)){
+  revealing=false;
+  window.__vkSummonRevealActive=false;
+  rankingOrderSignature="";
+ }
  // Trước cuộc đua giữ đúng thứ tự triệu hồi, chỉ thêm tên khi tiên nhân hiện thân.
  const source=raceActive?sortedRacers():racers;
- const sorted=source.filter(r=>!revealing||(Number.isFinite(r.summonRevealAt)&&now>=r.summonRevealAt));
+ const sorted=source.filter(r=>!revealing||!Number.isFinite(r.summonRevealAt)||now>=r.summonRevealAt);
  if(!sorted.length){
-  body.innerHTML='<tr><td colspan="3" class="empty">'+(revealing?"Đang triệu hồi tiên nhân…":"Chưa có tiên nhân")+'</td></tr>';
-  rankingOrderSignature=(raceActive?"race|":"idle|")+(revealing?"summoning|":"empty|");
+  // Chỉ hiện dòng chờ khi chưa có dữ liệu tiên nhân; không để placeholder che danh sách đã triệu hồi.
+  body.innerHTML='<tr><td colspan="3" class="empty">'+(racers.length?"Đang triệu hồi tiên nhân…":"Chưa có tiên nhân")+'</td></tr>';
+  rankingOrderSignature=(raceActive?"race|":"idle|")+(racers.length?"summoning|":"empty|");
   rankingPendingSignature="";
   rankingPendingSince=0;
   return;
