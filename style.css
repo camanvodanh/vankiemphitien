@@ -6559,3 +6559,6 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
   font-weight:700!important;
   letter-spacing:0!important;
 }
+
+/* REVISION 101 — bỏ dòng gợi ý chạm mở dưới tiêu đề Triệu Hồi. */
+.arena-frame>.game-setup.is-minimized .setup-title-wrap::after{content:none!important;display:none!important;}
