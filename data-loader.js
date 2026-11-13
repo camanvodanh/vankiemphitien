@@ -8,14 +8,14 @@
  }));
  window.VKP_DATA=Object.fromEntries(entries);
  const scripts=[
-  "core.js?v=effect-probability-v145",
-  "scenery.js?v=effect-probability-v145",
-  "audience.js?v=effect-probability-v145",
-  "race-render.js?v=effect-probability-v145",
-  "visual-overrides.js?v=effect-probability-v145",
-  "music.js?v=effect-probability-v145",
-  "race-logic.js?v=effect-probability-v145",
-  "i18n.js?v=effect-probability-v145"
+  "core.js?v=ranking-stability-v146",
+  "scenery.js?v=ranking-stability-v146",
+  "audience.js?v=ranking-stability-v146",
+  "race-render.js?v=ranking-stability-v146",
+  "visual-overrides.js?v=ranking-stability-v146",
+  "music.js?v=ranking-stability-v146",
+  "race-logic.js?v=ranking-stability-v146",
+  "i18n.js?v=ranking-stability-v146"
  ];
  for(const src of scripts){
   await new Promise((resolve,reject)=>{
