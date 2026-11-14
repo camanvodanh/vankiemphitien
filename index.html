@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#102b27">
   <title>Vạn Kiếm Phi Tiên</title>
-  <link rel="stylesheet" href="style.css?v=responsive-arena-v164">
+  <link rel="stylesheet" href="style.css?v=responsive-arena-v165">
 </head>
 <body class="game-page">
   <main class="page game-app">
@@ -76,12 +76,17 @@
             <button class="window-minimize" type="button" aria-label="Thu nhỏ Thiên Lý Kính" aria-expanded="true" title="Thu nhỏ">−</button>
           </div>
           <div class="camera-info" aria-live="polite">
-            <div class="camera-rank-slot"><strong id="leaderProgress">--</strong></div>
-            <strong id="leaderName">Đang chờ cuộc đua</strong>
+            <div class="camera-primary-info">
+              <div class="camera-rank-slot"><strong id="leaderProgress">--</strong></div>
+              <strong id="leaderName">Đang chờ cuộc đua</strong>
+            </div>
+            <div class="camera-secondary-info">
+              <span id="leaderSpeed"></span>
+              <div class="camera-effect-slot"><span id="leaderEffect"></span></div>
+            </div>
           </div>
           <div class="camera-screen">
             <canvas id="leaderCanvas" width="420" height="240"></canvas>
-            <div class="camera-effect-overlay"><span id="leaderEffect"></span></div>
           </div>
         </div>
 
