@@ -182,6 +182,14 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 7. Nếu thay đổi nguồn cấu hình, cập nhật tài liệu này trong cùng đợt sửa.
 8. Không ghi một giá trị là “đang được áp dụng” nếu chưa xác nhận code thực sự đọc và sử dụng nó.
 
+
+### 11A. Tiên Bảng, Thiên Lý Kính và thanh điều khiển
+
+- Tiên Bảng dùng ba cột cố định theo tỷ lệ linh hoạt Hạng/Tiên nhân/Thời gian; tên dài được rút gọn trong ô, thời gian `MM:SS:mmm` không tràn khỏi cột và không phát sinh cuộn ngang.
+- Thiên Lý Kính chia thông tin thành hai hàng: Hạng + tên; tốc độ + trạng thái hiệu ứng. Hai hàng nằm ngay trên khung hình camera để tận dụng khoảng trống và giữ thông tin dễ đọc.
+- Trên màn hình ngang từ 600px, thanh Chạy/Dừng nằm ở hàng riêng dưới Canvas, hai nút cân đối quanh tâm và không phủ lên cảnh trao thưởng. Dock điều khiển không có nền đặc che cảnh.
+- Khi bảng triệu hồi ở trạng thái thu nhỏ, chỉ hiển thị tiêu đề rút gọn và nút mở lại; pháp luân, ô nhập tên và thông báo phải được ẩn hoàn toàn.
+
 ## 12. Bố cục responsive và thông báo cuộc đua
 
 - Màn hình ngang từ 600px: bố cục ba cột cùng hàng gồm trường đua, Thiên Lý Kính, Tiên Bảng. Trên iPhone xoay ngang, ưu tiên Thiên Lý Kính đủ rộng để thấy rõ nhân vật; không để các quy tắc CSS cũ theo chiều cao viewport chuyển camera/bảng thành hàng dọc.
