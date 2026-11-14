@@ -94,7 +94,7 @@ Khi thay số lượng hình dáng/phong cách, phải kiểm tra chỉ số đ�
 ### Nhóm sự kiện hiện có
 Gồm các hiệu ứng bất lợi và có lợi như Trúng độc, Suy lực, Hồi Linh Đan, Va chạm, Lôi kích, Cuồng phong, Choáng, Ngất, Du Long Bộ, Tụ Khí Đan, Kiếm ý, Đạp Vân, Tụ Linh Trận, Vạn Kiếm Trận, Bát Quái Trận, Kiếm Vũ, Phù tốc, Hộ Thân Phù, Lôi Phù, Phong Hành, Ảnh Độn, Kiếm Độn, Bạo Bộ và Lưu Vân Bộ.
 
-Mỗi sự kiện có `type`, `name`, `color`, `polarity`. Không đổi `type` nếu chưa cập nhật toàn bộ code xử lý và code vẽ phụ thuộc vào type đó. Tên hiệu ứng chỉ dùng nội bộ để xử lý; thông báo trên sân đua và camera chỉ hiển thị thông tin tổng quát như tăng tốc/giảm tốc, không hiển thị tên hiệu ứng cụ thể.
+Mỗi sự kiện có `type`, `name`, `color`, `polarity`. Không đổi `type` nếu chưa cập nhật toàn bộ code xử lý và code vẽ phụ thuộc vào type đó. Tên hiệu ứng chỉ dùng nội bộ để xử lý; thông báo trên sân đua và camera chỉ hiển thị thông tin tổng quát như tăng tốc/giảm tốc, không hiển thị tên hiệu ứng cụ thể. Khi vẽ nhân vật trong Thiên Lý Kính, `drawCamera()` phải loại `effectName` khỏi bản dữ liệu truyền vào `drawRacer()`; không chỉ dựa vào điều kiện kiểm tra context bên trong hàm vẽ.
 
 ### Giá trị cân bằng hiện tại
 
