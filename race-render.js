@@ -407,11 +407,7 @@ function triggerEvent(){
  const config=VKP_DATA.effects.balance;
  const active=racers.filter(r=>!r.finished&&!(r.pendingEffectTimer>0)&&!(r.effectCooldown>0));
  if(!active.length)return;
- if(Math.random()<config.noEffectChance){
-  eventText="LINH LỰC DAO ĐỘNG · CHƯA PHÁT SINH BIẾN HÓA";
-  eventTextLife=1.1;
-  return;
- }
+ if(Math.random()<config.noEffectChance)return;
  const ranked=sortedRacers();
  // Giữ cơ chế cũ: ưu tiên chọn người trong top 10 với xác suất 65%,
  // nhưng vẫn dành 35% cơ hội cho nhóm phía sau vượt lên.
@@ -473,8 +469,7 @@ function activateRaceEffect(racer){
   const angle=i*burst.angleStep;
   particles.push({x:px+Math.cos(angle)*8,y:py+Math.sin(angle)*6,vx:Math.cos(angle)*rand(burst.speedMin,burst.speedMax),vy:Math.sin(angle)*rand(burst.speedMin,burst.speedMax),life:rand(burst.lifeMin,burst.lifeMax),maxLife:burst.lifeMax,size:rand(burst.sizeMin,burst.sizeMax),color:burstColor});
  }
- eventText=effect.polarity==="positive"?"DỊ TƯỢNG XUẤT HIỆN · TĂNG TỐC":"GẶP TRỞ NGẠI · GIẢM TỐC";
- eventTextLife=1.35;
+ // Hiệu ứng chỉ thay đổi gameplay và hình ảnh; không phát thông báo dị tượng/trở ngại.
 }function showFinishAnnouncement(racer, rank) {
   finishMessage = `HẠNG ${rank}: ${racer.name} ĐÃ VỀ ĐÍCH!`;
   finishMessageLife = 3.2;
