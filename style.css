@@ -8503,3 +8503,148 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
     min-width:clamp(74px,7vw,112px)!important;
   }
 }
+
+
+/* REVISION 123 — final responsive fit: reserved leaderboard columns, true centered controls, and a strict minimized altar. */
+
+/* Tiên Bảng: every value stays inside its own column, even on very narrow landscape panels. */
+.game-ranking,
+.game-ranking .ranking-heading,
+.game-ranking .table-wrap,
+.game-ranking table,
+.game-ranking table tr,
+.game-ranking table th,
+.game-ranking table td{min-width:0!important;max-width:100%!important;box-sizing:border-box!important;}
+.game-ranking .table-wrap{width:100%!important;overflow-x:hidden!important;overflow-y:auto!important;}
+.game-ranking table{width:100%!important;table-layout:fixed!important;border-collapse:collapse!important;}
+.game-ranking table th:first-child,
+.game-ranking table td:first-child{width:16%!important;text-align:center!important;padding-inline:1px!important;}
+.game-ranking table th:nth-child(2),
+.game-ranking table td.rank-name-cell{width:45%!important;padding-inline:3px!important;}
+.game-ranking table th:nth-child(3),
+.game-ranking table td.rank-time{width:39%!important;text-align:center!important;padding-inline:1px!important;}
+.game-ranking table td.rank-name-cell,
+.game-ranking table td.rank-time,
+.game-ranking table td:first-child{overflow:hidden!important;white-space:nowrap!important;text-overflow:ellipsis!important;}
+.game-ranking table .rank-cell{display:flex!important;width:100%!important;min-width:0!important;justify-content:center!important;gap:2px!important;overflow:hidden!important;}
+.game-ranking table .rank-position{display:block!important;min-width:0!important;overflow:hidden!important;text-overflow:clip!important;}
+.game-ranking table .rank-name{display:block!important;width:100%!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;}
+.game-ranking table td.rank-time,
+.game-ranking table th:nth-child(3){font-size:clamp(6px,.72vw,10px)!important;font-variant-numeric:tabular-nums!important;letter-spacing:0!important;}
+
+/* The minimized summon panel is exactly one compact heading row on every device. */
+.arena-frame>.game-setup.is-minimized{
+  display:block!important;width:max-content!important;height:auto!important;min-height:0!important;
+  max-height:none!important;overflow:hidden!important;box-sizing:border-box!important;
+}
+.arena-frame>.game-setup.is-minimized>.summon-artwork,
+.arena-frame>.game-setup.is-minimized>.summon-name-label,
+.arena-frame>.game-setup.is-minimized>textarea#names,
+.arena-frame>.game-setup.is-minimized>.lock-notice,
+.arena-frame>.game-setup.is-minimized>.altar-native-settings,
+.arena-frame>.game-setup.is-minimized>.setup-hint,
+.arena-frame>.game-setup.is-minimized>.setup-fields,
+.arena-frame>.game-setup.is-minimized>.setup-content{
+  display:none!important;visibility:hidden!important;max-height:0!important;min-height:0!important;
+  height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;
+}
+.arena-frame>.game-setup.is-minimized>.setup-heading{
+  display:flex!important;width:max-content!important;max-width:100%!important;
+  min-height:22px!important;margin:0!important;padding:0!important;border:0!important;
+  align-items:center!important;justify-content:flex-start!important;
+}
+.arena-frame>.game-setup.is-minimized .setup-title-full{display:none!important;}
+.arena-frame>.game-setup.is-minimized .setup-title-short{display:inline!important;white-space:nowrap!important;}
+
+/* Remove the green dock behind the controls. Buttons form a balanced, centered pair in their own grid row. */
+.arena-frame>.arena-controls{
+  background:transparent!important;background-image:none!important;
+  border:0!important;border-radius:0!important;box-shadow:none!important;
+  -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+  justify-content:center!important;align-items:center!important;
+  overflow:visible!important;isolation:isolate!important;
+}
+.arena-frame>.arena-controls::before,
+.arena-frame>.arena-controls::after{content:none!important;display:none!important;}
+.arena-frame>.arena-controls>#start[hidden],
+.arena-frame>.arena-controls>#stop[hidden],
+.arena-frame>.arena-controls>#pause[hidden],
+.arena-frame>.arena-controls>#setupToggle[hidden]{display:none!important;}
+.arena-frame>.arena-controls>#start,
+.arena-frame>.arena-controls>#stop{
+  position:relative!important;inset:auto!important;transform:none!important;
+  flex:0 0 clamp(34px,5.2dvh,46px)!important;
+  width:clamp(34px,5.2dvh,46px)!important;height:clamp(34px,5.2dvh,46px)!important;
+  min-width:clamp(34px,5.2dvh,46px)!important;min-height:clamp(34px,5.2dvh,46px)!important;
+  max-width:46px!important;max-height:46px!important;margin:0!important;
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  box-sizing:border-box!important;
+}
+.arena-frame>.arena-controls>#start:active,
+.arena-frame>.arena-controls>#stop:active{transform:scale(.94)!important;}
+
+/* Landscape: the race canvas owns row one; controls occupy a separate row and can never cover the award podium. */
+@media screen and (orientation:landscape) and (min-width:600px){
+  .arena-frame{
+    grid-template-columns:minmax(0,1.22fr) minmax(0,.96fr) minmax(0,.96fr)!important;
+    grid-template-rows:minmax(0,1fr) auto!important;
+    align-items:stretch!important;overflow:hidden!important;
+  }
+  .arena-frame>#game{
+    position:relative!important;grid-column:1!important;grid-row:1!important;
+    display:block!important;width:100%!important;height:100%!important;
+    min-width:0!important;min-height:0!important;max-width:100%!important;max-height:100%!important;
+    aspect-ratio:4 / 3!important;object-fit:contain!important;align-self:stretch!important;
+  }
+  .arena-frame>.game-camera{grid-column:2!important;grid-row:1!important;min-width:0!important;min-height:0!important;}
+  .arena-frame>.game-ranking{grid-column:3!important;grid-row:1!important;min-width:0!important;min-height:0!important;}
+  .arena-frame>.arena-controls{
+    position:relative!important;grid-column:1!important;grid-row:2!important;
+    inset:auto!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;
+    transform:none!important;justify-self:stretch!important;align-self:center!important;
+    display:flex!important;flex-flow:row nowrap!important;justify-content:center!important;align-items:center!important;
+    width:100%!important;max-width:100%!important;min-width:0!important;
+    height:auto!important;min-height:clamp(34px,7dvh,48px)!important;
+    margin:0!important;padding:2px 0!important;gap:clamp(12px,2vw,24px)!important;
+    pointer-events:none!important;
+  }
+  .arena-frame>.arena-controls>#start,
+  .arena-frame>.arena-controls>#stop{pointer-events:auto!important;}
+  .arena-frame>.game-camera>.camera-info{flex:0 0 auto!important;gap:2px!important;}
+  .arena-frame>.game-camera .camera-primary-info{grid-template-columns:minmax(0,max-content) minmax(0,1fr)!important;}
+  .arena-frame>.game-camera .camera-secondary-info{margin-top:1px!important;min-height:0!important;}
+  .arena-frame>.game-camera .camera-screen{flex:1 1 0!important;min-height:0!important;}
+}
+@media screen and (orientation:landscape) and (min-width:600px) and (max-width:999px){
+  .arena-frame{grid-template-columns:minmax(0,1.18fr) minmax(0,.96fr) minmax(0,.96fr)!important;gap:3px!important;}
+  .arena-frame>.arena-controls{min-height:clamp(28px,7dvh,38px)!important;gap:clamp(12px,3vw,22px)!important;}
+  .arena-frame>.arena-controls>#start,
+  .arena-frame>.arena-controls>#stop{
+    flex-basis:clamp(30px,7dvh,40px)!important;
+    width:clamp(30px,7dvh,40px)!important;height:clamp(30px,7dvh,40px)!important;
+    min-width:clamp(30px,7dvh,40px)!important;min-height:clamp(30px,7dvh,40px)!important;
+  }
+  .game-ranking table th:first-child,.game-ranking table td:first-child{width:17%!important;}
+  .game-ranking table th:nth-child(2),.game-ranking table td.rank-name-cell{width:44%!important;}
+  .game-ranking table th:nth-child(3),.game-ranking table td.rank-time{width:39%!important;}
+  .game-ranking table td.rank-time,.game-ranking table th:nth-child(3){font-size:clamp(6px,.75vw,8px)!important;}
+}
+@media screen and (orientation:landscape) and (min-width:600px) and (max-height:430px){
+  .arena-frame{grid-template-rows:minmax(0,1fr) 28px!important;}
+  .arena-frame>.arena-controls{min-height:28px!important;height:28px!important;gap:12px!important;padding:0!important;}
+  .arena-frame>.arena-controls>#start,.arena-frame>.arena-controls>#stop{
+    flex-basis:26px!important;width:26px!important;height:26px!important;
+    min-width:26px!important;min-height:26px!important;
+  }
+  .arena-frame>.game-camera .camera-info{padding:2px!important;}
+  .game-ranking table th,.game-ranking table td{padding:1px!important;line-height:1.08!important;}
+  .game-ranking table td.rank-time,.game-ranking table th:nth-child(3){font-size:6px!important;}
+}
+@media screen and (orientation:landscape) and (min-width:1000px){
+  .arena-frame>.arena-controls{min-height:clamp(36px,5dvh,50px)!important;gap:clamp(18px,2vw,32px)!important;}
+  .arena-frame>.arena-controls>#start,.arena-frame>.arena-controls>#stop{
+    flex-basis:clamp(40px,4.5dvh,48px)!important;width:clamp(40px,4.5dvh,48px)!important;
+    height:clamp(40px,4.5dvh,48px)!important;min-width:clamp(40px,4.5dvh,48px)!important;
+    min-height:clamp(40px,4.5dvh,48px)!important;
+  }
+}
