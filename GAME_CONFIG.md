@@ -18,6 +18,8 @@
 | Số tiên nhân tối thiểu | 2 | `index.html` input `#quantity` |
 | Số tiên nhân tối đa | 100 | `data/summoning.json` `maximumRacers`; logic triệu hồi cũng kiểm tra giới hạn |
 | Danh sách tên | Mỗi dòng một tên; để trống thì tạo tên Tiên nhân tự động | `index.html` `#names`, logic `summon()` |
+
+**Quy tắc tên tự sinh:** với tối đa 40 tiên nhân, không lặp tên riêng dù họ khác nhau. Trên 40 tiên nhân, tên riêng được tái sử dụng cân bằng; mỗi lần lặp phải đi cùng một họ khác, không trùng toàn bộ họ và tên.
 | Thời lượng đua | 30, 60, 120, 180, 300 giây ở native select hiện tại; vòng pháp luân có danh sách tùy chọn riêng | `index.html` `#speed`, `data/summoning.json` `durationOptions`, logic điều khiển pháp luân |
 | Ngôn ngữ | Bộ chọn ngôn ngữ trên thanh đầu trang | `index.html`, `i18n.js` |
 | Nhạc | Nút bật/tắt; trạng thái bật/tắt được lưu theo cơ chế của `music.js` | `index.html`, `music.js` |
@@ -92,7 +94,7 @@ Khi thay số lượng hình dáng/phong cách, phải kiểm tra chỉ số đ�
 ### Nhóm sự kiện hiện có
 Gồm các hiệu ứng bất lợi và có lợi như Trúng độc, Suy lực, Hồi Linh Đan, Va chạm, Lôi kích, Cuồng phong, Choáng, Ngất, Du Long Bộ, Tụ Khí Đan, Kiếm ý, Đạp Vân, Tụ Linh Trận, Vạn Kiếm Trận, Bát Quái Trận, Kiếm Vũ, Phù tốc, Hộ Thân Phù, Lôi Phù, Phong Hành, Ảnh Độn, Kiếm Độn, Bạo Bộ và Lưu Vân Bộ.
 
-Mỗi sự kiện có `type`, `name`, `color`, `polarity`. Không đổi `type` nếu chưa cập nhật toàn bộ code xử lý và code vẽ phụ thuộc vào type đó.
+Mỗi sự kiện có `type`, `name`, `color`, `polarity`. Không đổi `type` nếu chưa cập nhật toàn bộ code xử lý và code vẽ phụ thuộc vào type đó. Tên hiệu ứng chỉ dùng nội bộ để xử lý; thông báo trên sân đua và camera chỉ hiển thị thông tin tổng quát như tăng tốc/giảm tốc, không hiển thị tên hiệu ứng cụ thể.
 
 ### Giá trị cân bằng hiện tại
 
