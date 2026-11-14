@@ -1311,12 +1311,6 @@ $("summon").addEventListener("click",()=>{
     const cycleId=summonCycleId;
     summonUnlockTimer=setTimeout(()=>completeSummonReveal(cycleId),Math.max(0,summonRevealCompleteAt-performance.now()));
     syncButtons();
-      $("status").textContent="Toàn bộ tiên nhân đã hiện thân · Đại hội bắt đầu!";
-      $("lockNotice").textContent="Đã triệu hồi hoàn tất. Tự động bắt đầu sau 3 giây đếm ngược.";
-      // Tự động khai cuộc ngay khi nhân vật cuối cùng hiện thân hoàn toàn.
-      if(racers.length>=2&&!running&&!paused&&!finished)startRace();
-    },Math.max(0,revealCompleteAt-performance.now()));
-    syncButtons();
     $("status").textContent=summonBatchSize===1
       ?"Chưởng môn khai trận · linh lực hội tụ · thiên quang giáng lâm"
       :`Chưởng môn khai trận · mỗi lượt ${summonBatchSize} tiên nhân · ${groupCount} lượt`;
