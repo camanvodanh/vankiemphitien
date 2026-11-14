@@ -8,14 +8,14 @@
  }));
  window.VKP_DATA=Object.fromEntries(entries);
  const scripts=[
-  "core.js?v=leaderboard-one-second-v158",
-  "scenery.js?v=leaderboard-one-second-v158",
-  "audience.js?v=leaderboard-one-second-v158",
-  "race-render.js?v=leaderboard-one-second-v158",
-  "visual-overrides.js?v=leaderboard-one-second-v158",
-  "music.js?v=leaderboard-one-second-v158",
-  "race-logic.js?v=leaderboard-one-second-v158",
-  "i18n.js?v=leaderboard-one-second-v158"
+  "core.js?v=summon-recovery-fallback-v159",
+  "scenery.js?v=summon-recovery-fallback-v159",
+  "audience.js?v=summon-recovery-fallback-v159",
+  "race-render.js?v=summon-recovery-fallback-v159",
+  "visual-overrides.js?v=summon-recovery-fallback-v159",
+  "music.js?v=summon-recovery-fallback-v159",
+  "race-logic.js?v=summon-recovery-fallback-v159",
+  "i18n.js?v=summon-recovery-fallback-v159"
  ];
  for(const src of scripts){
   await new Promise((resolve,reject)=>{
