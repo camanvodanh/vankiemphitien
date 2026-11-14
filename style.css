@@ -7752,3 +7752,252 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
   line-height:1.2!important;
   transform-origin:left center;
 }
+
+
+/* REVISION 120 — responsive arena: scale the desktop stage and place all three panels in one landscape row. */
+
+/* Wide desktop / browser full-screen: use the available width instead of stopping at the old 1600px page cap. */
+@media screen and (orientation:landscape) and (min-width:1000px) and (min-height:700px){
+  .game-app,.page.game-app{
+    width:min(2200px,calc(100% - 24px))!important;
+    max-width:none!important;
+  }
+  .arena-frame{
+    grid-template-columns:minmax(0,1.48fr) minmax(0,.86fr) minmax(0,.86fr)!important;
+    grid-template-rows:minmax(0,1fr)!important;
+    min-height:clamp(560px,72dvh,1100px)!important;
+    height:clamp(560px,78dvh,1100px)!important;
+    align-items:stretch!important;
+  }
+  .arena-frame>#game{
+    grid-column:1!important;grid-row:1!important;
+    width:100%!important;height:auto!important;
+    max-width:100%!important;max-height:100%!important;
+    aspect-ratio:4 / 3!important;object-fit:contain!important;
+    align-self:center!important;justify-self:center!important;
+  }
+  .arena-frame>.game-camera{
+    grid-column:2!important;grid-row:1!important;
+    display:flex!important;flex-direction:column!important;
+    height:100%!important;min-height:0!important;
+  }
+  .arena-frame>.game-camera .camera-screen{
+    flex:1 1 auto!important;width:100%!important;min-height:0!important;
+    aspect-ratio:7 / 4!important;
+  }
+  .arena-frame>.game-camera .camera-screen canvas{
+    width:100%!important;height:100%!important;object-fit:contain!important;
+  }
+  .arena-frame>.game-ranking{
+    grid-column:3!important;grid-row:1!important;
+    display:flex!important;flex-direction:column!important;
+    height:100%!important;max-height:none!important;min-height:0!important;
+  }
+  .arena-frame>.game-ranking .table-wrap{
+    flex:1 1 0!important;min-height:0!important;max-height:none!important;
+  }
+  .arena-frame>.game-setup,
+  .arena-frame>.game-setup:not(.is-minimized){
+    width:clamp(230px,26%,440px)!important;
+    max-width:calc(46% - 20px)!important;
+    max-height:calc(100% - 70px)!important;
+    padding:clamp(9px,.8vw,16px)!important;
+    font-size:clamp(11px,.78vw,15px)!important;
+  }
+  .arena-frame>.game-setup .setup-heading h2{font-size:clamp(14px,1.05vw,20px)!important;}
+  .arena-frame>.game-setup .summon-artwork{height:clamp(170px,25dvh,270px)!important;}
+  .arena-frame>.game-setup:not(.is-minimized) .altar-dial{
+    width:clamp(150px,22dvh,220px)!important;
+    height:clamp(150px,22dvh,220px)!important;
+  }
+  .arena-frame>.game-setup .altar-dial .dial-readout{
+    width:clamp(48px,6dvh,66px)!important;font-size:clamp(9px,.7vw,13px)!important;
+  }
+  .arena-frame>.game-setup .dial-readout small{font-size:clamp(7px,.58vw,11px)!important;}
+  .arena-frame>.game-setup .dial-readout strong{font-size:clamp(13px,1vw,19px)!important;}
+  .arena-frame>.game-setup .dial-summon{width:clamp(40px,5dvh,58px)!important;height:clamp(40px,5dvh,58px)!important;}
+  .arena-frame>.game-setup textarea#names{
+    height:clamp(48px,7dvh,76px)!important;min-height:clamp(48px,7dvh,76px)!important;
+    font-size:clamp(11px,.78vw,14px)!important;padding:7px 9px!important;
+  }
+  .arena-frame>.game-setup .lock-notice{font-size:clamp(10px,.72vw,13px)!important;line-height:1.3!important;}
+  .arena-frame>.game-camera .camera-title,
+  .arena-frame>.game-ranking .ranking-heading h3{font-size:clamp(13px,1.05vw,19px)!important;}
+  .arena-frame>.game-camera .camera-info{font-size:clamp(11px,.8vw,15px)!important;}
+  .arena-frame>.game-ranking table{font-size:clamp(10px,.78vw,15px)!important;}
+  .arena-frame>.game-ranking th,.arena-frame>.game-ranking td{padding:clamp(5px,.6dvh,10px) 5px!important;}
+}
+
+/* Phone and tablet landscape: race, live camera and leaderboard are three parallel columns. */
+@media screen and (orientation:landscape) and (min-width:600px) and (max-width:999px){
+  .arena-frame{
+    display:grid!important;
+    grid-template-columns:minmax(0,1.25fr) minmax(0,.9fr) minmax(0,.95fr)!important;
+    grid-template-rows:minmax(0,1fr)!important;
+    grid-auto-flow:column!important;
+    gap:clamp(3px,.7vw,7px)!important;
+    align-items:stretch!important;
+  }
+  .arena-frame>#game{
+    grid-column:1!important;grid-row:1!important;
+    width:100%!important;height:auto!important;
+    min-width:0!important;min-height:0!important;
+    max-width:100%!important;max-height:100%!important;
+    aspect-ratio:4 / 3!important;object-fit:contain!important;
+    align-self:center!important;justify-self:center!important;
+  }
+  .arena-frame>.game-camera{
+    grid-column:2!important;grid-row:1!important;
+    display:flex!important;flex-direction:column!important;
+    width:100%!important;height:100%!important;
+    min-width:0!important;min-height:0!important;
+    max-width:none!important;max-height:none!important;
+    margin:0!important;padding:clamp(4px,1vw,8px)!important;
+    overflow:hidden!important;
+  }
+  .arena-frame>.game-camera .camera-heading,
+  .arena-frame>.game-ranking .ranking-heading{
+    flex:0 0 auto!important;min-width:0!important;
+    gap:3px!important;margin:0 0 4px!important;padding:0 0 3px!important;
+  }
+  .arena-frame>.game-camera .camera-title{font-size:clamp(10px,1.55vw,14px)!important;white-space:nowrap!important;}
+  .arena-frame>.game-camera .camera-live{font-size:clamp(6px,.8vw,9px)!important;}
+  .arena-frame>.game-camera .window-minimize,
+  .arena-frame>.game-ranking .window-minimize{
+    flex:0 0 19px!important;width:19px!important;min-width:19px!important;
+    height:19px!important;min-height:19px!important;
+  }
+  .arena-frame>.game-camera .camera-info{
+    display:flex!important;flex:0 0 auto!important;
+    min-width:0!important;gap:4px!important;padding:2px 0!important;
+    font-size:clamp(8px,1.2vw,11px)!important;
+  }
+  .arena-frame>.game-camera .camera-info strong{font-size:inherit!important;min-width:0!important;}
+  .arena-frame>.game-camera .camera-screen{
+    display:flex!important;flex:1 1 0!important;
+    width:100%!important;height:auto!important;min-width:0!important;min-height:0!important;
+    aspect-ratio:7 / 4!important;overflow:hidden!important;
+  }
+  .arena-frame>.game-camera .camera-screen canvas{
+    display:block!important;flex:1 1 auto!important;
+    width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;
+    max-width:100%!important;max-height:100%!important;object-fit:contain!important;
+  }
+  .arena-frame>.game-ranking{
+    grid-column:3!important;grid-row:1!important;
+    display:flex!important;flex-direction:column!important;
+    width:100%!important;height:100%!important;
+    min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;
+    margin:0!important;padding:clamp(4px,1vw,8px)!important;overflow:hidden!important;
+  }
+  .arena-frame>.game-ranking .ranking-heading h3{font-size:clamp(11px,1.7vw,15px)!important;}
+  .arena-frame>.game-ranking .table-wrap{
+    flex:1 1 0!important;width:100%!important;min-height:0!important;
+    max-height:none!important;overflow:auto!important;
+  }
+  .arena-frame>.game-ranking table{font-size:clamp(8px,1.15vw,11px)!important;}
+  .arena-frame>.game-ranking th,.arena-frame>.game-ranking td{
+    padding:clamp(2px,.65dvh,5px) 2px!important;line-height:1.15!important;
+  }
+  .arena-frame>.game-ranking th:first-child,.arena-frame>.game-ranking td:first-child{width:25px!important;}
+  .arena-frame>.game-ranking th:last-child,.arena-frame>.game-ranking td:last-child{width:43px!important;}
+  .arena-frame>.game-setup,
+  .arena-frame>.game-setup:not(.is-minimized){
+    position:absolute!important;z-index:100!important;
+    top:5px!important;left:5px!important;right:auto!important;bottom:auto!important;
+    width:calc(100% - 10px)!important;max-width:calc(100% - 10px)!important;
+    max-height:calc(100% - 48px)!important;height:auto!important;
+    margin:0!important;padding:clamp(5px,1vw,9px)!important;
+    overflow:auto!important;box-sizing:border-box!important;
+    font-size:clamp(9px,1.25vw,12px)!important;
+  }
+  .arena-frame>.game-setup .setup-heading{margin:0 0 3px!important;}
+  .arena-frame>.game-setup .setup-heading h2{font-size:clamp(11px,1.7vw,15px)!important;}
+  .arena-frame>.game-setup .window-minimize{
+    width:20px!important;height:20px!important;min-width:20px!important;min-height:20px!important;
+  }
+  .arena-frame>.game-setup .summon-artwork{
+    height:clamp(112px,31dvh,158px)!important;min-height:0!important;margin:0!important;
+  }
+  .arena-frame>.game-setup:not(.is-minimized) .altar-dial{
+    width:clamp(104px,28dvh,142px)!important;
+    height:clamp(104px,28dvh,142px)!important;max-width:100%!important;
+  }
+  .arena-frame>.game-setup .altar-dial .dial-readout{
+    width:clamp(36px,8dvh,47px)!important;font-size:clamp(7px,1vw,10px)!important;
+  }
+  .arena-frame>.game-setup .dial-readout small{font-size:clamp(6px,.8vw,8px)!important;}
+  .arena-frame>.game-setup .dial-readout strong{font-size:clamp(10px,1.4vw,14px)!important;}
+  .arena-frame>.game-setup .dial-summon{
+    width:clamp(30px,7dvh,40px)!important;height:clamp(30px,7dvh,40px)!important;
+  }
+  .arena-frame>.game-setup textarea#names{
+    display:block!important;width:100%!important;
+    height:clamp(32px,7dvh,44px)!important;min-height:clamp(32px,7dvh,44px)!important;
+    padding:4px 6px!important;font-size:clamp(9px,1.1vw,11px)!important;
+  }
+  .arena-frame>.game-setup .lock-notice{
+    margin:3px 0 0!important;font-size:clamp(8px,1vw,10px)!important;line-height:1.2!important;
+  }
+  .arena-frame>.game-setup.is-minimized{
+    width:max-content!important;max-width:calc(100% - 10px)!important;
+    max-height:none!important;padding:5px 7px!important;
+  }
+  .arena-frame>.arena-controls{
+    position:absolute!important;z-index:180!important;
+    left:18%!important;right:auto!important;top:auto!important;bottom:4px!important;
+    display:flex!important;flex-flow:row nowrap!important;
+    align-items:center!important;justify-content:center!important;
+    width:max-content!important;max-width:calc(38% - 8px)!important;
+    min-width:0!important;height:auto!important;min-height:0!important;
+    margin:0!important;padding:2px!important;gap:clamp(4px,1vw,8px)!important;
+    transform:translateX(-50%)!important;
+    background:#102b27b8!important;border:1px solid #c69b4c66!important;
+    border-radius:7px!important;backdrop-filter:blur(4px)!important;
+  }
+  .arena-frame>.arena-controls .btn{
+    min-width:0!important;width:auto!important;height:clamp(25px,6dvh,30px)!important;
+    min-height:clamp(25px,6dvh,30px)!important;padding:3px 5px!important;
+    font-size:clamp(8px,1.1vw,10px)!important;white-space:nowrap!important;
+  }
+  .arena-frame>.arena-controls .btn-icon{font-size:clamp(11px,1.5vw,16px)!important;margin-right:2px!important;}
+  .arena-frame>.arena-controls .btn-label{font-size:inherit!important;}
+  .arena-frame>.game-camera.is-minimized,
+  .arena-frame>.game-ranking.is-minimized{height:100%!important;min-height:0!important;}
+  .arena-frame>.game-camera.is-minimized .camera-info,
+  .arena-frame>.game-camera.is-minimized .camera-screen,
+  .arena-frame>.game-ranking.is-minimized .table-wrap{display:none!important;}
+}
+
+/* Short phone landscape: keep the three columns, but reduce only vertical ornament and padding. */
+@media screen and (orientation:landscape) and (min-width:600px) and (max-width:999px) and (max-height:430px){
+  .game-header{height:32px!important;max-height:32px!important;}
+  .game-header .eyebrow{display:none!important;}
+  .game-header h1{font-size:clamp(14px,3.4dvh,18px)!important;}
+  .game-stage{padding:2px!important;}
+  .arena-frame{gap:3px!important;padding:3px!important;}
+  .arena-frame>.game-camera,.arena-frame>.game-ranking{padding:3px!important;}
+  .arena-frame>.game-setup .summon-artwork{height:clamp(100px,28dvh,118px)!important;}
+  .arena-frame>.game-setup:not(.is-minimized) .altar-dial{
+    width:clamp(96px,25dvh,112px)!important;height:clamp(96px,25dvh,112px)!important;
+  }
+  .arena-frame>.game-setup textarea#names{
+    height:clamp(27px,7dvh,34px)!important;min-height:clamp(27px,7dvh,34px)!important;
+  }
+}
+
+/* Portrait phones/tablets keep the established stacked layout and full readable panel widths. */
+@media screen and (orientation:portrait) and (max-width:999px){
+  .arena-frame>.game-camera,.arena-frame>.game-ranking{width:100%!important;max-width:100%!important;}
+}
+
+/* Desktop ultra-wide: enlarge the setup controls proportionally instead of leaving a tiny altar. */
+@media screen and (orientation:landscape) and (min-width:1600px){
+  .arena-frame>.game-setup .setup-heading h2{font-size:clamp(16px,1.1vw,22px)!important;}
+  .arena-frame>.game-setup .summon-artwork{height:clamp(190px,27dvh,300px)!important;}
+  .arena-frame>.game-setup:not(.is-minimized) .altar-dial{
+    width:clamp(175px,23dvh,245px)!important;height:clamp(175px,23dvh,245px)!important;
+  }
+  .arena-frame>.game-setup textarea#names{font-size:clamp(12px,.8vw,16px)!important;}
+  .arena-frame>.game-setup .lock-notice{font-size:clamp(12px,.75vw,15px)!important;}
+}
