@@ -471,9 +471,13 @@ function activateRaceEffect(racer){
  }
  // Hiệu ứng chỉ thay đổi gameplay và hình ảnh; không phát thông báo dị tượng/trở ngại.
 }function showFinishAnnouncement(racer, rank) {
-  finishMessage = `HẠNG ${rank}: ${racer.name} ĐÃ VỀ ĐÍCH!`;
-  finishMessageLife = 3.2;
-  $("event").textContent = finishMessage;
+  const message = `HẠNG ${rank}: ${racer.name} ĐÃ VỀ ĐÍCH!`;
+  finishAnnouncementQueue.push(message);
+  if(finishMessageLife<=0){
+    finishMessage=finishAnnouncementQueue.shift();
+    finishMessageLife=3.2;
+  }
+  $("event").textContent=message;
 }
 
 function drawAnnouncement() {
