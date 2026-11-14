@@ -8649,3 +8649,38 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
     min-height:clamp(40px,4.5dvh,48px)!important;
   }
 }
+
+
+/* REVISION 124 — preserve the original compact Thiên Lý Kính layout; only constrain overflow. */
+.arena-frame>.game-camera>.camera-info{
+  display:flex!important;flex:0 0 auto!important;flex-flow:row wrap!important;
+  align-items:center!important;justify-content:flex-start!important;
+  gap:4px 7px!important;width:100%!important;min-width:0!important;
+  min-height:0!important;margin:0!important;padding:3px 0!important;
+  box-sizing:border-box!important;overflow:hidden!important;
+}
+.arena-frame>.game-camera .camera-primary-info,
+.arena-frame>.game-camera .camera-secondary-info,
+.arena-frame>.game-camera .camera-rank-slot,
+.arena-frame>.game-camera .camera-effect-slot{display:contents!important;}
+.arena-frame>.game-camera #leaderProgress{
+  display:inline-block!important;flex:0 0 auto!important;min-width:0!important;max-width:100%!important;
+  white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+  font-size:inherit!important;line-height:1.2!important;
+}
+.arena-frame>.game-camera #leaderName{
+  display:inline-block!important;flex:1 1 88px!important;width:auto!important;min-width:0!important;max-width:100%!important;
+  margin:0!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+  overflow-wrap:normal!important;word-break:normal!important;line-height:1.2!important;
+}
+.arena-frame>.game-camera #leaderSpeed,
+.arena-frame>.game-camera #leaderEffect{
+  display:inline-block!important;flex:0 1 auto!important;min-width:0!important;max-width:100%!important;
+  margin:0!important;padding:0!important;white-space:nowrap!important;
+  overflow:hidden!important;text-overflow:ellipsis!important;line-height:1.2!important;
+}
+.arena-frame>.game-camera #leaderSpeed:empty,
+.arena-frame>.game-camera #leaderEffect:empty{display:none!important;}
+.arena-frame>.game-camera #leaderEffect::before{content:none!important;display:none!important;}
+.arena-frame>.game-camera .camera-screen{min-width:0!important;max-width:100%!important;overflow:hidden!important;}
+.arena-frame>.game-camera #leaderCanvas{display:block!important;max-width:100%!important;}
