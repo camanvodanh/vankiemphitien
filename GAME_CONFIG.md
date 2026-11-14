@@ -189,3 +189,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Bảng triệu hồi tăng kích thước pháp luân, chữ, ô nhập và nút theo `vw`/`dvh`; màn hình ngắn tự giảm chi tiết phụ nhưng không làm camera thành thumbnail.
 - Màn hình dọc giữ bố cục xếp tầng; Tiên Bảng cuộn nội dung bên trong.
 - Banner trong cuộc đua chỉ thông báo người đang dẫn đầu khi người dẫn đầu thay đổi và thông báo thứ hạng/tên người về đích. Các thông báo về đích được xếp hàng theo thứ tự về đích và hiển thị trọn vẹn; sau khi hết hàng mới chuyển sang người dẫn đầu mới. Không phát banner cho dị tượng, trở ngại hoặc hiệu ứng tăng/giảm tốc. Hiệu ứng gameplay và hình ảnh vẫn hoạt động bình thường.
+
+## 13. Tinh chỉnh responsive Thiên Lý Kính, Tiên Bảng và nút điều khiển
+
+- Thông tin camera được chia thành hai hàng: Hạng + Tên; tốc độ/thời gian hiệu ứng + tên hiệu ứng. Tên hiệu ứng đặt ngay cạnh phần thông tin, không nằm ở đáy khung hình nhân vật.
+- Tiên Bảng giữ ba cột Hạng / Tiên nhân / Thời gian. Cột thời gian phải đủ rộng cho chuỗi `MM:SS:mmm`; tên dài tự ellipsis trong cột riêng, không làm tràn bảng.
+- Ở màn hình ngang, nút Chạy/Dừng có hàng riêng dưới Canvas trường đua, canh giữa theo cột game; nền container trong suốt. Hàng này bảo vệ vùng chữ TOP 1 trong hoạt cảnh trao thưởng.
+- Bảng triệu hồi khi thu nhỏ chỉ giữ thanh tiêu đề và nút mở rộng; không để textarea, pháp luân hoặc thông báo còn lộ ra ở bất kỳ breakpoint nào.
+- Các quy tắc trên áp dụng theo viewport ngang và dọc; không thay đổi gameplay, thời lượng đua, hiệu ứng hay thứ hạng.
