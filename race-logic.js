@@ -588,9 +588,38 @@ function uniqueNames(list) {
 function generateCultivationNames(amount) {
   const surnames=["Diệp","Tiêu","Lâm","Tô","Mộ Dung","Cố","Thẩm","Bạch","Vân","Tần","Lạc","Ninh","Hàn","Thượng Quan","Đoan Mộc","Phong","Dạ","Mặc","Sở","Giang","Âu Dương","Tư Đồ","Long","Trần","Hứa","Tạ","Lục","Đường","Yến","Kỷ"];
   const given=["Trường Phong","Vô Trần","Thanh Huyền","Tử Mặc","Nguyệt Dao","Thiên Vũ","Kiếm Tâm","Hạo Nhiên","Vân Khê","Minh Nguyệt","Bạch Y","Tử Yên","Cảnh Hành","Thanh Liên","Phi Vũ","Lăng Tiêu","Mộng Dao","Thiên Hà","Ngọc Khanh","Tĩnh Uyên","Huyền Dạ","Vân Sam","Sơ Ảnh","Dạ Bạch","Tuyết Nhi","Phong Nhiên","Thừa Phong","Tử Dương","Uyển Nhi","Vô Ưu","Kinh Hồng","Trường Ca","Tầm Chân","Linh Quân","Hành Chu","Vãn Tình","Tịch Nhan","Thiếu Khanh","Tuyết Kiến","Vân Trạch"];
-  const pool=[];for(const s of surnames)for(const g of given)pool.push(s+" "+g);
-  for(let i=pool.length-1;i>0;i--){const j=randInt(0,i);[pool[i],pool[j]]=[pool[j],pool[i]];}
-  return pool.slice(0,Math.min(amount,pool.length));
+  const shuffle=list=>{
+    const result=list.slice();
+    for(let i=result.length-1;i>0;i--){const j=randInt(0,i);[result[i],result[j]]=[result[j],result[i]];}
+    return result;
+  };
+  const count=Math.max(0,Math.min(Math.floor(Number(amount)||0),surnames.length*given.length));
+  const firstNames=shuffle(given);
+  const usedSurnames=new Map(given.map(name=>[name,new Set()]));
+  const nameUseCount=new Map(given.map(name=>[name,0]));
+  const result=[];
+  // Tối đa 40 người: mỗi tên riêng chỉ xuất hiện một lần, dù họ khác nhau.
+  // Trên 40 người: tái sử dụng tên riêng theo lượt cân bằng, nhưng mỗi lần
+  // lặp tên riêng bắt buộc ghép với một họ chưa từng đi cùng tên đó.
+  for(let i=0;i<count;i++){
+    let givenName;
+    if(i<firstNames.length){
+      givenName=firstNames[i];
+    }else{
+      const leastUsed=Math.min(...given.map(name=>nameUseCount.get(name)));
+      const candidates=shuffle(given.filter(name=>
+        nameUseCount.get(name)===leastUsed&&usedSurnames.get(name).size<surnames.length
+      ));
+      givenName=candidates[0];
+    }
+    const availableSurnames=shuffle(surnames.filter(name=>!usedSurnames.get(givenName).has(name)));
+    const surname=availableSurnames[0];
+    if(!surname)continue;
+    usedSurnames.get(givenName).add(surname);
+    nameUseCount.set(givenName,nameUseCount.get(givenName)+1);
+    result.push(surname+" "+givenName);
+  }
+  return shuffle(result);
 }
 function getInputNames(){return uniqueNames($("names").value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean));}
 function summon(){
@@ -730,7 +759,7 @@ function drawCamera(time){
  if(!racer)return;
  drawRacer(cameraCtx,racer,210,108,2.0,time);
  const rank=sortedRacers().findIndex(item=>item.id===racer.id)+1;
- $("leaderEffect").textContent=(racer.effectTimer>0&&racer.effectName)?racer.effectName:"";
+ $("leaderEffect").textContent=racer.effectTimer>0?(racer.effectPolarity==="positive"?"Tăng tốc":"Giảm tốc"):"";
  $("leaderName").textContent=racer.name;
  const rankArrow=racer.rankMovementTimer>0&&racer.rankMovement
   ? (racer.rankMovement==="up"?'<span class="camera-rank-up">↑</span>':'<span class="camera-rank-down">↓</span>')
