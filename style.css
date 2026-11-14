@@ -8322,3 +8322,7 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
   .game-app,.page.game-app{width:min(100%,1100px)!important;max-width:100%!important;margin-inline:auto!important;}
   .arena-frame{height:auto!important;min-height:0!important;}
 }
+
+/* Keep desktop camera dragging after moving it into the responsive grid. */
+.arena-frame>.game-camera.is-dragging{position:absolute!important;z-index:190!important;}
+@media screen and (orientation:landscape) and (min-width:600px) and (max-width:999px){.site-footer{display:none!important;}}
