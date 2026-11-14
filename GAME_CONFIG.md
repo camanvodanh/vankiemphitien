@@ -94,7 +94,7 @@ Khi thay số lượng hình dáng/phong cách, phải kiểm tra chỉ số đ�
 ### Nhóm sự kiện hiện có
 Gồm các hiệu ứng bất lợi và có lợi như Trúng độc, Suy lực, Hồi Linh Đan, Va chạm, Lôi kích, Cuồng phong, Choáng, Ngất, Du Long Bộ, Tụ Khí Đan, Kiếm ý, Đạp Vân, Tụ Linh Trận, Vạn Kiếm Trận, Bát Quái Trận, Kiếm Vũ, Phù tốc, Hộ Thân Phù, Lôi Phù, Phong Hành, Ảnh Độn, Kiếm Độn, Bạo Bộ và Lưu Vân Bộ.
 
-Mỗi sự kiện có `type`, `name`, `color`, `polarity`. Không đổi `type` nếu chưa cập nhật toàn bộ code xử lý và code vẽ phụ thuộc vào type đó. Tên hiệu ứng chỉ dùng nội bộ để xử lý; thông báo trên sân đua và camera chỉ hiển thị thông tin tổng quát như tăng tốc/giảm tốc, không hiển thị tên hiệu ứng cụ thể. Khi vẽ nhân vật trong Thiên Lý Kính, `drawCamera()` phải loại `effectName` khỏi bản dữ liệu truyền vào `drawRacer()`; không chỉ dựa vào điều kiện kiểm tra context bên trong hàm vẽ.
+Mỗi sự kiện có `type`, `name`, `color`, `polarity`. Không đổi `type` nếu chưa cập nhật toàn bộ code xử lý và code vẽ phụ thuộc vào type đó. Tên hiệu ứng không dùng trong banner sự kiện, nhưng Thiên Lý Kính phải hiển thị đúng tên hiệu ứng hiện tại trong vùng thông tin. Khi vẽ nhân vật trong Thiên Lý Kính, `drawCamera()` loại `effectName` khỏi bản sao truyền vào `drawRacer()` để tên không bị vẽ đè lên nhân vật; đồng thời hiển thị `effectName` trực tiếp ở phần thông tin, không thêm tiền tố “Hiệu Ứng:”. Giữ nguyên bố cục camera; chỉ co chữ/ellipsis/xuống dòng khi cần chống tràn.
 
 ### Giá trị cân bằng hiện tại
 
@@ -186,7 +186,7 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 ### 11A. Tiên Bảng, Thiên Lý Kính và thanh điều khiển
 
 - Tiên Bảng dùng ba cột cố định theo tỷ lệ linh hoạt Hạng/Tiên nhân/Thời gian; tên dài được rút gọn trong ô, thời gian `MM:SS:mmm` không tràn khỏi cột và không phát sinh cuộn ngang.
-- Thiên Lý Kính chia thông tin thành hai hàng: Hạng + tên; tốc độ + trạng thái hiệu ứng. Hai hàng nằm ngay trên khung hình camera để tận dụng khoảng trống và giữ thông tin dễ đọc.
+- Thiên Lý Kính giữ bố cục thông tin hiện hành, không ép chia hàng hoặc thêm nhãn mới. Hạng, tên nhân vật, tốc độ/thời gian và tên hiệu ứng chỉ co gọn hoặc tự xuống dòng khi cần chống tràn; tên hiệu ứng hiển thị trực tiếp.
 - Trên màn hình ngang từ 600px, thanh Chạy/Dừng nằm ở hàng riêng dưới Canvas, hai nút cân đối quanh tâm và không phủ lên cảnh trao thưởng. Dock điều khiển không có nền đặc che cảnh.
 - Khi bảng triệu hồi ở trạng thái thu nhỏ, chỉ hiển thị tiêu đề rút gọn và nút mở lại; pháp luân, ô nhập tên và thông báo phải được ẩn hoàn toàn.
 
@@ -200,7 +200,7 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 
 ## 13. Tinh chỉnh responsive Thiên Lý Kính, Tiên Bảng và nút điều khiển
 
-- Thông tin camera được chia thành hai hàng: Hạng + Tên; tốc độ/thời gian hiệu ứng + tên hiệu ứng. Tên hiệu ứng đặt ngay cạnh phần thông tin, không nằm ở đáy khung hình nhân vật.
+- Giữ nguyên bố cục Thiên Lý Kính như trước khi tinh chỉnh tràn viền. Không thêm nhãn “Hiệu Ứng:” và không tự ý đổi vị trí thành phần; tên hiệu ứng hiển thị trực tiếp. Chỉ co chữ, ellipsis hoặc xuống dòng khi cần để nội dung nằm gọn trong khung.
 - Tiên Bảng giữ ba cột Hạng / Tiên nhân / Thời gian. Cột thời gian phải đủ rộng cho chuỗi `MM:SS:mmm`; tên dài tự ellipsis trong cột riêng, không làm tràn bảng.
 - Ở màn hình ngang, nút Chạy/Dừng có hàng riêng dưới Canvas trường đua, canh giữa theo cột game; nền container trong suốt. Hàng này bảo vệ vùng chữ TOP 1 trong hoạt cảnh trao thưởng.
 - Bảng triệu hồi khi thu nhỏ chỉ giữ thanh tiêu đề và nút mở rộng; không để textarea, pháp luân hoặc thông báo còn lộ ra ở bất kỳ breakpoint nào.
