@@ -6,12 +6,16 @@ let rankingOrderSignature = "";
 let rankingPendingSignature = "";
 let rankingLastCommitAt = 0;
 let raceStopped = false;
+let lastLeaderAnnouncementId = null;
+let leaderAnnouncementQueued = false;
 
 // =====================================================
 // PHÂN BỔ THỜI ĐIỂM VỀ ĐÍCH
 // =====================================================
 
 function assignFinishTimes() {
+  lastLeaderAnnouncementId = null;
+  leaderAnnouncementQueued = false;
   if (!racers.length) return;
 
   // Mỗi tiên nhân nhận nhịp độ xuất phát ngẫu nhiên, không ấn định sẵn
@@ -50,6 +54,7 @@ function processFinish(racer,index){
  racer.effectPolarity="";
  if(cameraFocusId===racer.id)cameraFocusId=null;
  finishQueue.push(racer);
+ leaderAnnouncementQueued = true;
  showFinishAnnouncement(racer,finishQueue.length);
  addParticles(TRACK.right-35,laneY(index),28);
 }
@@ -182,6 +187,7 @@ function frame(time) {
   eventTextLife = Math.max(0, eventTextLife - dt);
   finishMessageLife = Math.max(0, finishMessageLife - dt);
   advanceFinishAnnouncements();
+  advanceLeaderAnnouncements();
 
   // Hạ tải dựng hình trên điện thoại; logic cuộc đua vẫn cập nhật mỗi RAF.
   const renderInterval = running && !paused ? 1000 / 18 : 1000 / 10;
@@ -934,6 +940,20 @@ function advanceFinishAnnouncements(){
     finishEndAnnouncementShown=true;
     $("event").textContent=finishMessage;
   }
+}
+
+function advanceLeaderAnnouncements(){
+  if(!started||finished||!racers.length)return;
+  const leader=leaderOf();
+  if(!leader||leader.finished)return;
+  if(leader.id!==lastLeaderAnnouncementId)leaderAnnouncementQueued=true;
+  // Ưu tiên giữ trọn thông báo về đích; chỉ chuyển sang người dẫn đầu sau khi thông báo đó kết thúc.
+  if(!leaderAnnouncementQueued||finishMessageLife>0||eventTextLife>0)return;
+  eventText="HẠNG 1 · ĐANG DẪN ĐẦU: "+leader.name;
+  eventTextLife=2.6;
+  $("event").textContent=eventText;
+  lastLeaderAnnouncementId=leader.id;
+  leaderAnnouncementQueued=false;
 }
 
 
