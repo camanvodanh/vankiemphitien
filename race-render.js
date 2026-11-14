@@ -408,7 +408,7 @@ function triggerEvent(){
  const active=racers.filter(r=>!r.finished&&!(r.pendingEffectTimer>0)&&!(r.effectCooldown>0));
  if(!active.length)return;
  if(Math.random()<config.noEffectChance){
-  eventText="LINH LỰC DAO ĐỘNG · KHÔNG CÓ HIỆU ỨNG";
+  eventText="LINH LỰC DAO ĐỘNG · CHƯA PHÁT SINH BIẾN HÓA";
   eventTextLife=1.1;
   return;
  }
@@ -473,7 +473,7 @@ function activateRaceEffect(racer){
   const angle=i*burst.angleStep;
   particles.push({x:px+Math.cos(angle)*8,y:py+Math.sin(angle)*6,vx:Math.cos(angle)*rand(burst.speedMin,burst.speedMax),vy:Math.sin(angle)*rand(burst.speedMin,burst.speedMax),life:rand(burst.lifeMin,burst.lifeMax),maxLife:burst.lifeMax,size:rand(burst.sizeMin,burst.sizeMax),color:burstColor});
  }
- eventText=effect.name+" · "+(effect.polarity==="positive"?"TĂNG TỐC":"GIẢM TỐC")+" "+effect.multiplier.toFixed(2)+"×";
+ eventText=effect.polarity==="positive"?"DỊ TƯỢNG XUẤT HIỆN · TĂNG TỐC":"GẶP TRỞ NGẠI · GIẢM TỐC";
  eventTextLife=1.35;
 }function showFinishAnnouncement(racer, rank) {
   finishMessage = `HẠNG ${rank}: ${racer.name} ĐÃ VỀ ĐÍCH!`;
