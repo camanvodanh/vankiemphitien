@@ -8326,3 +8326,180 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
 /* Keep desktop camera dragging after moving it into the responsive grid. */
 .arena-frame>.game-camera.is-dragging{position:absolute!important;z-index:190!important;}
 @media screen and (orientation:landscape) and (min-width:600px) and (max-width:999px){.site-footer{display:none!important;}}
+
+
+/* REVISION 122 — compact camera metadata, non-overlapping controls and overflow-safe leaderboard. */
+
+/* The camera's text information belongs above the preview, not at its distant bottom edge. */
+.arena-frame>.game-camera>.camera-info{
+  display:flex!important;flex:0 0 auto!important;flex-direction:column!important;
+  align-items:stretch!important;justify-content:flex-start!important;
+  min-width:0!important;width:100%!important;gap:clamp(2px,.35dvh,5px)!important;
+  margin:0!important;padding:clamp(4px,.5vw,8px)!important;box-sizing:border-box!important;
+}
+.arena-frame>.game-camera .camera-primary-info{
+  display:grid!important;grid-template-columns:minmax(52px,max-content) minmax(0,1fr)!important;
+  align-items:center!important;gap:clamp(4px,.5vw,8px)!important;
+  width:100%!important;min-width:0!important;white-space:normal!important;
+}
+.arena-frame>.game-camera .camera-rank-slot{display:block!important;min-width:0!important;max-width:100%!important;}
+.arena-frame>.game-camera #leaderProgress{
+  display:block!important;min-width:0!important;max-width:100%!important;
+  overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;
+  font-size:clamp(9px,.78vw,13px)!important;line-height:1.2!important;
+}
+.arena-frame>.game-camera #leaderName{
+  display:block!important;min-width:0!important;width:100%!important;max-width:100%!important;
+  overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;
+  overflow-wrap:normal!important;word-break:normal!important;
+  font-size:clamp(10px,.85vw,14px)!important;line-height:1.2!important;
+}
+.arena-frame>.game-camera .camera-secondary-info{
+  display:flex!important;flex:0 0 auto!important;flex-flow:row wrap!important;
+  align-items:center!important;justify-content:flex-start!important;
+  min-width:0!important;width:100%!important;gap:3px clamp(6px,.8vw,12px)!important;
+  margin:0!important;padding:0!important;line-height:1.15!important;
+}
+.arena-frame>.game-camera #leaderSpeed{
+  display:inline-flex!important;flex:0 1 auto!important;align-items:center!important;
+  min-width:0!important;max-width:100%!important;white-space:nowrap!important;
+  overflow:hidden!important;text-overflow:ellipsis!important;font-size:clamp(8px,.68vw,11px)!important;
+}
+.arena-frame>.game-camera #leaderSpeed:empty{display:none!important;}
+.arena-frame>.game-camera .camera-effect-slot{
+  display:inline-flex!important;flex:0 1 auto!important;align-items:center!important;
+  min-width:0!important;max-width:100%!important;margin:0!important;padding:0!important;
+  border:0!important;background:transparent!important;box-shadow:none!important;
+}
+.arena-frame>.game-camera .camera-effect-slot:has(#leaderEffect:empty){display:none!important;}
+.arena-frame>.game-camera #leaderEffect{
+  display:inline-block!important;min-width:0!important;max-width:100%!important;
+  margin:0!important;padding:0!important;text-align:left!important;
+  white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+  font-size:clamp(8px,.68vw,11px)!important;line-height:1.15!important;
+}
+.arena-frame>.game-camera #leaderEffect::before{content:"HIỆU ỨNG · "!important;display:inline!important;font-size:.82em!important;color:#c9ad72!important;}
+
+/* Stable three-column table: rank, name and full MM:SS:mmm time each get a reserved width. */
+.game-ranking .table-wrap{min-width:0!important;width:100%!important;max-width:100%!important;overflow-x:hidden!important;overflow-y:auto!important;}
+.game-ranking table{width:100%!important;min-width:0!important;max-width:100%!important;table-layout:fixed!important;}
+.game-ranking table th:first-child,.game-ranking table td:first-child{width:17%!important;min-width:0!important;}
+.game-ranking table th:nth-child(2),.game-ranking table td.rank-name-cell{width:43%!important;min-width:0!important;}
+.game-ranking table th:nth-child(3),.game-ranking table td.rank-time{width:40%!important;min-width:0!important;}
+.game-ranking table td.rank-time,.game-ranking table th:nth-child(3){
+  padding-left:1px!important;padding-right:1px!important;
+  white-space:nowrap!important;overflow:hidden!important;text-overflow:clip!important;
+  font-size:clamp(7px,.68vw,10px)!important;font-variant-numeric:tabular-nums!important;
+}
+.game-ranking table .rank-cell{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  width:100%!important;min-width:0!important;max-width:100%!important;gap:2px!important;
+  overflow:hidden!important;white-space:nowrap!important;
+}
+.game-ranking table .rank-position{min-width:0!important;}
+
+/* Minimized summoning panel is a title bar only. Never leave the textarea or ritual wheel exposed. */
+.arena-frame>.game-setup.is-minimized{
+  display:block!important;width:max-content!important;height:auto!important;min-height:0!important;
+  max-height:none!important;overflow:hidden!important;padding:4px 7px!important;
+}
+.arena-frame>.game-setup.is-minimized>.setup-heading~*{display:none!important;}
+.arena-frame>.game-setup.is-minimized .setup-title-full{display:none!important;}
+.arena-frame>.game-setup.is-minimized .setup-title-short{display:inline!important;}
+.arena-frame>.game-setup.is-minimized .setup-heading{
+  display:flex!important;align-items:center!important;gap:6px!important;
+  min-height:22px!important;margin:0!important;padding:0!important;border:0!important;
+}
+.arena-frame>.game-setup.is-minimized .setup-heading h2{
+  margin:0!important;font-size:clamp(10px,.8vw,13px)!important;line-height:1.1!important;
+}
+
+/* Landscape: controls get their own row beneath the race canvas, never over the Top 1 award scene. */
+@media screen and (orientation:landscape) and (min-width:600px){
+  .arena-frame{
+    grid-template-rows:minmax(0,1fr) auto!important;
+    align-items:stretch!important;
+  }
+  .arena-frame>#game{
+    grid-column:1!important;grid-row:1!important;
+    width:100%!important;height:auto!important;max-width:100%!important;max-height:100%!important;
+    aspect-ratio:4 / 3!important;object-fit:contain!important;align-self:center!important;
+  }
+  .arena-frame>.game-camera,.arena-frame>.game-ranking{
+    grid-row:1!important;height:100%!important;min-height:0!important;
+  }
+  .arena-frame>.arena-controls{
+    position:relative!important;inset:auto!important;left:auto!important;right:auto!important;
+    top:auto!important;bottom:auto!important;transform:none!important;
+    grid-column:1!important;grid-row:2!important;align-self:center!important;justify-self:stretch!important;
+    display:flex!important;flex-flow:row nowrap!important;align-items:center!important;justify-content:center!important;
+    width:100%!important;max-width:100%!important;min-width:0!important;
+    height:auto!important;min-height:clamp(30px,6dvh,44px)!important;
+    margin:0!important;padding:3px 0!important;gap:clamp(12px,2vw,26px)!important;
+    background:transparent!important;border:0!important;border-radius:0!important;
+    box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+    pointer-events:none!important;overflow:visible!important;box-sizing:border-box!important;
+  }
+  .arena-frame>.arena-controls>#start,.arena-frame>.arena-controls>#stop{
+    position:relative!important;flex:0 0 auto!important;pointer-events:auto!important;
+    margin:0!important;transform:none!important;
+  }
+  .arena-frame>.arena-controls>#start:active,.arena-frame>.arena-controls>#stop:active{transform:scale(.94)!important;}
+  .arena-frame>.game-camera .camera-screen{flex:1 1 0!important;min-height:0!important;}
+}
+
+/* Phone landscape: preserve all three columns while using a small, balanced control dock. */
+@media screen and (orientation:landscape) and (min-width:600px) and (max-width:999px){
+  .arena-frame{
+    grid-template-columns:minmax(0,1.22fr) minmax(0,.96fr) minmax(0,.96fr)!important;
+    grid-template-rows:minmax(0,1fr) auto!important;
+    gap:3px!important;
+  }
+  .arena-frame>.game-camera,.arena-frame>.game-ranking{grid-row:1!important;}
+  .arena-frame>.arena-controls{
+    grid-column:1!important;grid-row:2!important;
+    min-height:clamp(26px,7dvh,34px)!important;padding:2px 0!important;
+    gap:clamp(10px,2.5vw,20px)!important;
+  }
+  .arena-frame>.arena-controls>#start,.arena-frame>.arena-controls>#stop{
+    width:clamp(29px,7dvh,38px)!important;height:clamp(29px,7dvh,38px)!important;
+    min-width:clamp(29px,7dvh,38px)!important;min-height:clamp(29px,7dvh,38px)!important;
+    max-width:38px!important;max-height:38px!important;padding:0!important;
+  }
+  .arena-frame>.arena-controls>#start .btn-icon,.arena-frame>.arena-controls>#stop .btn-icon{
+    display:flex!important;align-items:center!important;justify-content:center!important;
+    width:100%!important;height:100%!important;margin:0!important;font-size:clamp(15px,4dvh,20px)!important;
+  }
+  .arena-frame>.game-camera .camera-primary-info{
+    grid-template-columns:minmax(48px,max-content) minmax(0,1fr)!important;gap:4px!important;
+  }
+  .arena-frame>.game-camera #leaderProgress{font-size:clamp(8px,1.05vw,10px)!important;}
+  .arena-frame>.game-camera #leaderName{font-size:clamp(9px,1.15vw,11px)!important;}
+  .arena-frame>.game-camera .camera-secondary-info{gap:2px 5px!important;}
+  .arena-frame>.game-camera #leaderSpeed,.arena-frame>.game-camera #leaderEffect{font-size:clamp(7px,.9vw,9px)!important;}
+  .game-ranking table th:first-child,.game-ranking table td:first-child{width:17%!important;}
+  .game-ranking table th:nth-child(2),.game-ranking table td.rank-name-cell{width:40%!important;}
+  .game-ranking table th:nth-child(3),.game-ranking table td.rank-time{width:43%!important;}
+  .game-ranking table td.rank-time,.game-ranking table th:nth-child(3){font-size:clamp(6px,.8vw,8px)!important;}
+  .arena-frame>.game-setup.is-minimized{max-width:calc(100% - 8px)!important;}
+}
+
+/* Short landscape viewports: avoid controls colliding with the scene or forcing table text outside. */
+@media screen and (orientation:landscape) and (min-width:600px) and (max-height:430px){
+  .arena-frame{grid-template-rows:minmax(0,1fr) auto!important;}
+  .arena-frame>.arena-controls{min-height:25px!important;gap:10px!important;}
+  .arena-frame>.arena-controls>#start,.arena-frame>.arena-controls>#stop{
+    width:27px!important;height:27px!important;min-width:27px!important;min-height:27px!important;
+  }
+  .game-ranking table th,.game-ranking table td{padding:2px 1px!important;line-height:1.08!important;}
+  .game-ranking table td.rank-time,.game-ranking table th:nth-child(3){font-size:6px!important;letter-spacing:-.2px!important;}
+  .arena-frame>.game-camera .camera-info{padding:3px!important;gap:2px!important;}
+}
+
+/* Narrow desktop windows use the same non-overlapping control row as wide desktops. */
+@media screen and (orientation:landscape) and (min-width:1000px){
+  .arena-frame>.arena-controls{min-height:clamp(32px,5dvh,46px)!important;}
+  .arena-frame>.arena-controls>#start,.arena-frame>.arena-controls>#stop{
+    min-width:clamp(74px,7vw,112px)!important;
+  }
+}
