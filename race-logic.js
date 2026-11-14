@@ -757,7 +757,9 @@ function drawCamera(time){
  let racer=cameraFocusId?racers.find(item=>item.id===cameraFocusId):null;
  if(!racer||racer.finished||racer.effectTimer<=0)racer=leaderOf();
  if(!racer)return;
- drawRacer(cameraCtx,racer,210,108,2.0,time);
+ // Thiên Lý Kính chỉ nhận trạng thái hiệu ứng, tuyệt đối không nhận tên hiệu ứng cụ thể.
+ const cameraRacer=racer.effectName?{...racer,effectName:""}:racer;
+ drawRacer(cameraCtx,cameraRacer,210,108,2.0,time);
  const rank=sortedRacers().findIndex(item=>item.id===racer.id)+1;
  $("leaderEffect").textContent=racer.effectTimer>0?(racer.effectPolarity==="positive"?"Tăng tốc":"Giảm tốc"):"";
  $("leaderName").textContent=racer.name;
