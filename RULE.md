@@ -40,6 +40,8 @@
 9. Không dùng biến trạng thái giao diện làm nguồn dữ liệu duy nhất nếu có thể suy ra trạng thái hoàn tất từ dữ liệu nhân vật và mốc thời gian.
 10. Các thao tác reset phải xóa dữ liệu/timer/trạng thái tạm của lượt trước.
 11. Luồng triệu hồi phải có cơ chế hoàn tất dự phòng theo vòng lặp animation; không phụ thuộc duy nhất vào `setTimeout` để mở khóa nút. Mỗi lượt triệu hồi có mã thế hệ riêng; timer cũ phải bị hủy/vô hiệu hóa khi triệu hồi mới hoặc reset.
+12. Tên tự sinh: số lượng không vượt quá số tên riêng trong kho thì không được lặp tên riêng, kể cả khác họ. Khi vượt ngưỡng, có thể lặp tên riêng nhưng phải ghép họ khác nhau cho mỗi lần dùng lại; không được trùng cả họ và tên.
+13. Tên hiệu ứng sự kiện là dữ liệu nội bộ; thông báo trong game và camera không hiển thị tên hiệu ứng cụ thể, chỉ hiển thị trạng thái tổng quát như tăng tốc/giảm tốc.
 
 ## 4. Quy tắc Tiên Bảng
 1. Trước khi bắt đầu đua: hiển thị danh sách theo thứ tự triệu hồi, không hiển thị số thứ hạng.
