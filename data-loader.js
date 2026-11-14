@@ -8,14 +8,14 @@
  }));
  window.VKP_DATA=Object.fromEntries(entries);
  const scripts=[
-  "core.js?v=responsive-layout-v165",
-  "scenery.js?v=responsive-layout-v165",
-  "audience.js?v=responsive-layout-v165",
-  "race-render.js?v=responsive-layout-v165",
-  "visual-overrides.js?v=responsive-layout-v165",
-  "music.js?v=responsive-layout-v165",
-  "race-logic.js?v=responsive-layout-v165",
-  "i18n.js?v=responsive-layout-v165"
+  "core.js?v=responsive-layout-v166",
+  "scenery.js?v=responsive-layout-v166",
+  "audience.js?v=responsive-layout-v166",
+  "race-render.js?v=responsive-layout-v166",
+  "visual-overrides.js?v=responsive-layout-v166",
+  "music.js?v=responsive-layout-v166",
+  "race-logic.js?v=responsive-layout-v166",
+  "i18n.js?v=responsive-layout-v166"
  ];
  for(const src of scripts){
   await new Promise((resolve,reject)=>{
