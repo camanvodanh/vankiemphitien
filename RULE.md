@@ -41,7 +41,7 @@
 10. Các thao tác reset phải xóa dữ liệu/timer/trạng thái tạm của lượt trước.
 11. Luồng triệu hồi phải có cơ chế hoàn tất dự phòng theo vòng lặp animation; không phụ thuộc duy nhất vào `setTimeout` để mở khóa nút. Mỗi lượt triệu hồi có mã thế hệ riêng; timer cũ phải bị hủy/vô hiệu hóa khi triệu hồi mới hoặc reset.
 12. Tên tự sinh: số lượng không vượt quá số tên riêng trong kho thì không được lặp tên riêng, kể cả khác họ. Khi vượt ngưỡng, có thể lặp tên riêng nhưng phải ghép họ khác nhau cho mỗi lần dùng lại; không được trùng cả họ và tên.
-13. Tên hiệu ứng sự kiện là dữ liệu nội bộ; thông báo trong game và camera không hiển thị tên hiệu ứng cụ thể, chỉ hiển thị trạng thái tổng quát như tăng tốc/giảm tốc. Khi vẽ nhân vật trong Thiên Lý Kính, phải truyền bản sao dữ liệu đã xóa `effectName` để mọi hàm ghi đè `drawRacer` không thể in tên hiệu ứng lên Canvas; vẫn giữ `effectType`, `effectTimer` và các trạng thái cần thiết để vẽ hiệu ứng hình ảnh.
+13. Tên hiệu ứng là dữ liệu nội bộ; không hiển thị thông báo dị tượng, trở ngại, tăng tốc/giảm tốc trong banner sự kiện. Banner chỉ thông báo người đang dẫn đầu (Hạng 1) và thứ hạng từng tiên nhân khi về đích; thông báo về đích phải được ưu tiên hiển thị trọn vẹn, sau đó mới tiếp tục thông báo người dẫn đầu hiện tại. Khi vẽ nhân vật trong Thiên Lý Kính, truyền bản sao dữ liệu đã xóa `effectName` nhưng giữ `effectType`, `effectTimer` và trạng thái cần thiết để vẽ hiệu ứng hình ảnh.
 14. Trong lúc triệu hồi/hiện thân, nút Dừng phải luôn khả dụng khi đã có danh sách tiên nhân; thao tác này hủy timer, vô hiệu hóa lượt triệu hồi hiện tại và dọn trạng thái hiệu ứng dở dang. Chỉ khóa nút Dừng khi chưa có tiên nhân.
 
 ## 4. Quy tắc Tiên Bảng
@@ -108,3 +108,6 @@
 - Không giả định thao tác người dùng đã thành công nếu chưa có xác nhận từ hệ thống.
 - Khi yêu cầu mới mâu thuẫn với quy chuẩn cũ, làm theo yêu cầu mới nhất của người dùng và cập nhật tài liệu này để các lần sau thống nhất.
 - Khi thay đổi thông số, giới hạn, lựa chọn hoặc cân bằng game, cập nhật `GAME_CONFIG.md` trong cùng đợt sửa.
+
+16. Bố cục ngang từ 600px trở lên phải có đúng ba cột: Canvas trường đua, Thiên Lý Kính, Tiên Bảng. Các quy tắc legacy theo `max-height` không được phép đưa camera/bảng trở lại hàng dọc; phải ghi đè ở cuối stylesheet. Trên điện thoại ngang, dành tối thiểu khoảng 30% chiều ngang cho Thiên Lý Kính để xem rõ; trên desktop, Canvas tăng theo chiều rộng và chiều cao viewport. Bảng triệu hồi tăng kích thước pháp luân, chữ, ô nhập và nút theo viewport. Bố cục dọc tiếp tục xếp tầng và cho phép cuộn trang.
+17. Thông báo sự kiện không hiển thị nội dung ngẫu nhiên về dị tượng/trở ngại hoặc hiệu ứng. Khi đang đua, chỉ thông báo người dẫn đầu khi người dẫn đầu thay đổi; khi có người về đích, hiển thị thứ hạng và tên người đó trước, sau đó tiếp tục thông báo người dẫn đầu mới.
