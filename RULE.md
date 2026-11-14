@@ -39,6 +39,7 @@
 8. Khi một sự kiện làm thay đổi nội dung ô nhưng không làm đổi thứ tự danh sách, vẫn phải cập nhật ô đó. Không đặt toàn bộ cập nhật DOM phía sau điều kiện chữ ký thứ tự không đổi.
 9. Không dùng biến trạng thái giao diện làm nguồn dữ liệu duy nhất nếu có thể suy ra trạng thái hoàn tất từ dữ liệu nhân vật và mốc thời gian.
 10. Các thao tác reset phải xóa dữ liệu/timer/trạng thái tạm của lượt trước.
+11. Luồng triệu hồi phải có cơ chế hoàn tất dự phòng theo vòng lặp animation; không phụ thuộc duy nhất vào `setTimeout` để mở khóa nút. Mỗi lượt triệu hồi có mã thế hệ riêng; timer cũ phải bị hủy/vô hiệu hóa khi triệu hồi mới hoặc reset.
 
 ## 4. Quy tắc Tiên Bảng
 1. Trước khi bắt đầu đua: hiển thị danh sách theo thứ tự triệu hồi, không hiển thị số thứ hạng.
