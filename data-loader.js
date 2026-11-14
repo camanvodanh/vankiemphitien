@@ -8,14 +8,14 @@
  }));
  window.VKP_DATA=Object.fromEntries(entries);
  const scripts=[
-  "core.js?v=camera-effect-name-hidden-v162",
-  "scenery.js?v=camera-effect-name-hidden-v162",
-  "audience.js?v=camera-effect-name-hidden-v162",
-  "race-render.js?v=camera-effect-name-hidden-v162",
-  "visual-overrides.js?v=camera-effect-name-hidden-v162",
-  "music.js?v=camera-effect-name-hidden-v162",
-  "race-logic.js?v=camera-effect-name-hidden-v162",
-  "i18n.js?v=camera-effect-name-hidden-v162"
+  "core.js?v=camera-info-layout-v163",
+  "scenery.js?v=camera-info-layout-v163",
+  "audience.js?v=camera-info-layout-v163",
+  "race-render.js?v=camera-info-layout-v163",
+  "visual-overrides.js?v=camera-info-layout-v163",
+  "music.js?v=camera-info-layout-v163",
+  "race-logic.js?v=camera-info-layout-v163",
+  "i18n.js?v=camera-info-layout-v163"
  ];
  for(const src of scripts){
   await new Promise((resolve,reject)=>{
