@@ -1249,7 +1249,8 @@ function syncButtons(){
 
   stopButton.hidden=false;
   const isSetup=finished||raceStopped;
-  stopButton.disabled=!racers.length||!summonVisualReady;
+  // Luôn cho phép hủy lượt triệu hồi; chỉ khóa khi chưa có tiên nhân nào.
+  stopButton.disabled=!racers.length;
   stopButton.innerHTML='<span class="btn-icon">'+artwork[isSetup?"setup":"stop"]+'</span><span class="btn-label">'+(isSetup?"Khởi tạo":"Dừng")+'</span>';
   stopButton.setAttribute("aria-label",isSetup?"Khởi tạo":"Dừng");
   stopButton.title=isSetup?"Khởi tạo":"Dừng";
@@ -1757,7 +1758,7 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonRitual(time);dra
           :"Đã có tiên nhân. Nhấn Chạy để bắt đầu; muốn đổi danh sách, hãy nhấn Dừng rồi Khởi tạo.";
     start.title=start.disabled?(hasRacers?"Đang chạy hoặc tạm ngưng cuộc đua.":"Hãy nhấn Triệu Hồi trước khi Chạy."):"Bắt đầu hoặc chạy lại cuộc đua";
     start.setAttribute("aria-description",start.disabled?start.title:"");
-    stop.title=stop.disabled?"Chưa có tiên nhân. Hãy nhấn Triệu Hồi trước.":((finished||raceStopped)?"Mở lại thiết lập để tạo cuộc đua mới":"Dừng cuộc đua");
+    stop.title=stop.disabled?"Chưa có tiên nhân. Hãy nhấn Triệu Hồi trước.":!summonVisualReady?"Hủy lượt triệu hồi đang diễn ra":((finished||raceStopped)?"Mở lại thiết lập để tạo cuộc đua mới":"Dừng cuộc đua");
     stop.setAttribute("aria-description",stop.disabled?stop.title:"");
     summon.title=summon.disabled?"Không thể triệu hồi khi cuộc đua đang chạy hoặc tạm ngưng. Hãy Dừng cuộc đua trước.":"Triệu hồi tiên nhân vào trường đua";
     summon.setAttribute("aria-description",summon.disabled?summon.title:"");
