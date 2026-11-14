@@ -8,6 +8,7 @@ let rankingLastCommitAt = 0;
 let raceStopped = false;
 let lastLeaderAnnouncementId = null;
 let leaderAnnouncementQueued = false;
+let finishAnnouncementQueue = [];
 
 // =====================================================
 // PHÂN BỔ THỜI ĐIỂM VỀ ĐÍCH
@@ -16,6 +17,7 @@ let leaderAnnouncementQueued = false;
 function assignFinishTimes() {
   lastLeaderAnnouncementId = null;
   leaderAnnouncementQueued = false;
+  finishAnnouncementQueue = [];
   if (!racers.length) return;
 
   // Mỗi tiên nhân nhận nhịp độ xuất phát ngẫu nhiên, không ấn định sẵn
@@ -476,8 +478,13 @@ function finishRace() {
 
   $("status").textContent = "Đại hội kết thúc";
 
-  finishMessage = "ĐẠI HỘI KẾT THÚC!";
-  finishMessageLife = 3;
+  finishEndAnnouncementPending = true;
+  finishEndAnnouncementShown = false;
+  if(finishMessageLife<=0&&finishAnnouncementQueue.length===0){
+    finishMessage="ĐẠI HỘI KẾT THÚC!";
+    finishMessageLife=3;
+    finishEndAnnouncementShown=true;
+  }
 
   $("pause").textContent = "Tạm dừng";
 
@@ -934,7 +941,13 @@ function updateRanking(){
 let finishEndAnnouncementPending=false;
 let finishEndAnnouncementShown=false;
 function advanceFinishAnnouncements(){
-  if(finished&&finishEndAnnouncementPending&&!finishEndAnnouncementShown&&finishMessageLife<=0){
+  if(finishMessageLife<=0&&finishAnnouncementQueue.length){
+    finishMessage=finishAnnouncementQueue.shift();
+    finishMessageLife=3.2;
+    $("event").textContent=finishMessage;
+    return;
+  }
+  if(finished&&finishEndAnnouncementPending&&!finishEndAnnouncementShown&&finishMessageLife<=0&&finishAnnouncementQueue.length===0){
     finishMessage="ĐẠI HỘI KẾT THÚC!";
     finishMessageLife=3;
     finishEndAnnouncementShown=true;
@@ -948,7 +961,7 @@ function advanceLeaderAnnouncements(){
   if(!leader||leader.finished)return;
   if(leader.id!==lastLeaderAnnouncementId)leaderAnnouncementQueued=true;
   // Ưu tiên giữ trọn thông báo về đích; chỉ chuyển sang người dẫn đầu sau khi thông báo đó kết thúc.
-  if(!leaderAnnouncementQueued||finishMessageLife>0||eventTextLife>0)return;
+  if(!leaderAnnouncementQueued||finishMessageLife>0||finishAnnouncementQueue.length>0||eventTextLife>0)return;
   eventText="HẠNG 1 · ĐANG DẪN ĐẦU: "+leader.name;
   eventTextLife=2.6;
   $("event").textContent=eventText;
