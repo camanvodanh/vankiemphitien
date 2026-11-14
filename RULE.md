@@ -42,6 +42,7 @@
 11. Luồng triệu hồi phải có cơ chế hoàn tất dự phòng theo vòng lặp animation; không phụ thuộc duy nhất vào `setTimeout` để mở khóa nút. Mỗi lượt triệu hồi có mã thế hệ riêng; timer cũ phải bị hủy/vô hiệu hóa khi triệu hồi mới hoặc reset.
 12. Tên tự sinh: số lượng không vượt quá số tên riêng trong kho thì không được lặp tên riêng, kể cả khác họ. Khi vượt ngưỡng, có thể lặp tên riêng nhưng phải ghép họ khác nhau cho mỗi lần dùng lại; không được trùng cả họ và tên.
 13. Tên hiệu ứng sự kiện là dữ liệu nội bộ; thông báo trong game và camera không hiển thị tên hiệu ứng cụ thể, chỉ hiển thị trạng thái tổng quát như tăng tốc/giảm tốc.
+14. Trong lúc triệu hồi/hiện thân, nút Dừng phải luôn khả dụng khi đã có danh sách tiên nhân; thao tác này hủy timer, vô hiệu hóa lượt triệu hồi hiện tại và dọn trạng thái hiệu ứng dở dang. Chỉ khóa nút Dừng khi chưa có tiên nhân.
 
 ## 4. Quy tắc Tiên Bảng
 1. Trước khi bắt đầu đua: hiển thị danh sách theo thứ tự triệu hồi, không hiển thị số thứ hạng.
