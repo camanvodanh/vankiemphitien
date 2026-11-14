@@ -8641,6 +8641,7 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
   .game-ranking table td.rank-time,.game-ranking table th:nth-child(3){font-size:6px!important;}
 }
 @media screen and (orientation:landscape) and (min-width:1000px){
+  .arena-frame{grid-template-columns:minmax(0,1.48fr) minmax(0,.86fr) minmax(0,.86fr)!important;}
   .arena-frame>.arena-controls{min-height:clamp(36px,5dvh,50px)!important;gap:clamp(18px,2vw,32px)!important;}
   .arena-frame>.arena-controls>#start,.arena-frame>.arena-controls>#stop{
     flex-basis:clamp(40px,4.5dvh,48px)!important;width:clamp(40px,4.5dvh,48px)!important;
