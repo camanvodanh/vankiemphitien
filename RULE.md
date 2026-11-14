@@ -75,6 +75,9 @@
 - Hạn chế filter, shadow blur và vòng lặp vẽ nặng trên điện thoại.
 - Không thêm listener/timer/RAF trùng lặp nếu không cần thiết.
 
+
+15. Responsive phải dựa trên cả chiều rộng và chiều cao viewport, không chỉ breakpoint chiều rộng. Trên màn hình ngang từ 600–999px, Canvas trường đua, Thiên Lý Kính và Tiên Bảng phải nằm cùng một hàng ba cột; Canvas giữ tỷ lệ 4:3, Thiên Lý Kính phải đủ lớn để xem rõ, các bảng được phép cuộn nội dung bên trong. Trên desktop rộng/full-screen, bố cục ba cột phải tận dụng chiều ngang khả dụng và bảng triệu hồi phải tăng kích thước chữ, pháp luân, ô nhập và nút theo viewport. Màn hình dọc giữ bố cục xếp tầng dễ đọc.
+
 ## 6. Quy tắc hình ảnh và hoạt ảnh
 - Cảnh quan, lầu các, suối, sông, khán giả và nhân vật được dựng bằng Canvas.
 - Khi sửa một hàm vẽ, phải xác định hàm đang hoạt động cuối cùng và các hàm gọi nó.
