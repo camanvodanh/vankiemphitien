@@ -162,6 +162,15 @@ Một số ví dụ đang được quyết định trong JavaScript hoặc HTML:
 
 Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉnh khi yêu cầu chỉ liên quan đến một nhóm thiết lập khác. Nếu người dùng muốn một bảng điều khiển cấu hình tập trung, phải lập kế hoạch chuyển từng nhóm sang JSON có kiểm soát, đảm bảo giá trị cũ và hành vi cũ được giữ nguyên.
 
+
+## 11. Responsive arena — giao diện theo viewport
+
+- Màn hình ngang 600–999px (điện thoại xoay ngang và tablet nhỏ): Canvas trường đua, Thiên Lý Kính và Tiên Bảng hiển thị cùng một hàng ba cột; Canvas giữ tỷ lệ 4:3, hai bảng chiếm toàn bộ chiều cao còn lại.
+- Thiên Lý Kính dùng phần diện tích riêng, khung hình nhân vật co giãn theo tỷ lệ 7:4 và không bị ép thành một dải quá nhỏ.
+- Màn hình ngang từ 1000px trở lên: giữ bố cục ba cột; khi viewport rộng hoặc full-screen, giới hạn chiều rộng trang được nới và các thành phần bảng triệu hồi (pháp luân, chữ, ô nhập, nút) tăng theo kích thước màn hình.
+- Màn hình dọc giữ cách xếp tầng hiện hành. Các bảng có danh sách dài cuộn bên trong thay vì làm tràn toàn bộ arena.
+- Các kích thước được điều chỉnh theo cả chiều rộng và chiều cao viewport; không thay đổi tỷ lệ nội tại Canvas trường đua 4:3 hoặc Canvas Thiên Lý Kính 7:4.
+
 ## 10. Quy tắc khi thêm hoặc sửa thiết lập
 
 1. Xác định thiết lập thuộc gameplay, triệu hồi, nhân vật, phi kiếm, hiệu ứng, nghi thức, cảnh quan hay giao diện.
