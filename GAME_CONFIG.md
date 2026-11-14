@@ -56,7 +56,7 @@ Giá trị hiện tại:
 | `formationCenter` | x=550, y=674 | Tâm đội hình trên Canvas 1100×825 |
 | `durationOptions` | 5–600 giây, 10 mức | Các mức thời lượng |
 
-Khi chỉnh hiệu ứng triệu hồi, phải giữ quan hệ hợp lý giữa số đợt, kích thước nhóm, thời gian hiện thân, cột sáng và thời điểm cho phép bắt đầu đua. Reset/triệu hồi lại phải dọn timer và trạng thái của lượt trước.
+Khi chỉnh hiệu ứng triệu hồi, phải giữ quan hệ hợp lý giữa số đợt, kích thước nhóm, thời gian hiện thân, cột sáng và thời điểm cho phép bắt đầu đua. Reset/triệu hồi lại phải dọn timer và trạng thái của lượt trước. Việc mở khóa sau khi hiện thân phải được kiểm tra cả bằng timer lẫn mốc thời gian trong vòng lặp animation; timer của lượt cũ không được phép tác động lên lượt mới.
 
 ## 4. Nhân vật — `data/characters.json`
 
