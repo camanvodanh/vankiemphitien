@@ -146,6 +146,10 @@ function frame(time) {
 
   lastTime = time;
   sceneTime = time;
+  // Fallback theo RAF khi Safari trì hoãn setTimeout ở tab nền.
+  if(!summonVisualReady&&summonRevealCompleteAt&&time>=summonRevealCompleteAt){
+    completeSummonReveal(summonCycleId);
+  }
 
   if (running && !paused && !finished) {
     if (countdown > 0) {
@@ -591,6 +595,15 @@ function generateCultivationNames(amount) {
 function getInputNames(){return uniqueNames($("names").value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean));}
 function summon(){
   if(running||paused)return;
+  // Vô hiệu hóa timer và trạng thái nghi thức của lượt triệu hồi trước.
+  summonCycleId++;
+  if(summonUnlockTimer){clearTimeout(summonUnlockTimer);summonUnlockTimer=0;}
+  summonVisualReady=true;
+  summonRevealCompleteAt=0;
+  summonArrivalStartedAt=0;
+  summonRitualStartedAt=0;
+  summonRitualReturnAt=0;
+  window.__vkSummonRevealActive=false;
   const typed=getInputNames();
   if(typed.length===1){$("lockNotice").textContent="Cần ít nhất 2 tiên nhân. Hãy nhập thêm một tên hoặc xóa danh sách để tạo theo số lượng."; $("names").focus();return;}
   const amount=getRandomQuantity();const finalNames=typed.length?typed:generateCultivationNames(amount);
@@ -661,8 +674,10 @@ function finishRace(){
  syncButtons();updateRanking();
 }
 function resetGame(){
+  summonCycleId++;
   if(typeof summonUnlockTimer!=="undefined"&&summonUnlockTimer){clearTimeout(summonUnlockTimer);summonUnlockTimer=0;}
   if(typeof summonVisualReady!=="undefined")summonVisualReady=true;
+  if(typeof summonRevealCompleteAt!=="undefined")summonRevealCompleteAt=0;
   // Hủy mọi hiệu ứng triệu hồi còn treo khi dừng giữa chừng.
   if(typeof summonArrivalStartedAt!=="undefined")summonArrivalStartedAt=0;
   if(typeof summonRitualStartedAt!=="undefined")summonRitualStartedAt=0;
@@ -1248,6 +1263,22 @@ let summonRacersBeforeClick=null;
 let summonBatchSize=1;
 let summonVisualReady=true;
 let summonUnlockTimer=0;
+let summonRevealCompleteAt=0;
+let summonCycleId=0;
+function completeSummonReveal(cycleId){
+  if(cycleId!==summonCycleId||summonVisualReady||!summonRevealCompleteAt)return;
+  if(performance.now()<summonRevealCompleteAt)return;
+  summonVisualReady=true;
+  summonRevealCompleteAt=0;
+  if(summonUnlockTimer){clearTimeout(summonUnlockTimer);summonUnlockTimer=0;}
+  window.__vkSummonRevealActive=false;
+  rankingOrderSignature="";
+  updateRanking();
+  syncButtons();
+  $("status").textContent="Toàn bộ tiên nhân đã hiện thân · Đại hội bắt đầu!";
+  $("lockNotice").textContent="Đã triệu hồi hoàn tất. Tự động bắt đầu sau 3 giây đếm ngược.";
+  if(racers.length>=2&&!running&&!paused&&!finished)startRace();
+}
 const summonGroupStep=VKP_DATA.summoning.groupStep;
 const summonRevealDuration=VKP_DATA.summoning.revealDuration;
 const summonBeamDuration=VKP_DATA.summoning.beamDuration;
@@ -1276,14 +1307,10 @@ $("summon").addEventListener("click",()=>{
     // Khóa nút Chạy cho đến khi nhóm cuối cùng đã hiện thân hoàn toàn.
     summonVisualReady=false;
     if(summonUnlockTimer)clearTimeout(summonUnlockTimer);
-    const revealCompleteAt=summonArrivalStartedAt+(lastDelay+summonRevealDuration)*1000;
-    summonUnlockTimer=setTimeout(()=>{
-      summonVisualReady=true;
-      summonUnlockTimer=0;
-      window.__vkSummonRevealActive=false;
-      rankingOrderSignature="";
-      updateRanking();
-      syncButtons();
+    summonRevealCompleteAt=summonArrivalStartedAt+(lastDelay+summonRevealDuration)*1000;
+    const cycleId=summonCycleId;
+    summonUnlockTimer=setTimeout(()=>completeSummonReveal(cycleId),Math.max(0,summonRevealCompleteAt-performance.now()));
+    syncButtons();
       $("status").textContent="Toàn bộ tiên nhân đã hiện thân · Đại hội bắt đầu!";
       $("lockNotice").textContent="Đã triệu hồi hoàn tất. Tự động bắt đầu sau 3 giây đếm ngược.";
       // Tự động khai cuộc ngay khi nhân vật cuối cùng hiện thân hoàn toàn.
