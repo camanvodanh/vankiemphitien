@@ -181,3 +181,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 6. Không đổi xác suất, tốc độ, giới hạn hoặc cân bằng gameplay ngoài yêu cầu được nêu.
 7. Nếu thay đổi nguồn cấu hình, cập nhật tài liệu này trong cùng đợt sửa.
 8. Không ghi một giá trị là “đang được áp dụng” nếu chưa xác nhận code thực sự đọc và sử dụng nó.
+
+## 12. Bố cục responsive và thông báo cuộc đua
+
+- Màn hình ngang từ 600px: bố cục ba cột cùng hàng gồm trường đua, Thiên Lý Kính, Tiên Bảng. Trên iPhone xoay ngang, ưu tiên Thiên Lý Kính đủ rộng để thấy rõ nhân vật; không để các quy tắc CSS cũ theo chiều cao viewport chuyển camera/bảng thành hàng dọc.
+- Desktop sử dụng chiều rộng khả dụng đến giới hạn 2400px; chiều cao khung đua co giãn theo `100dvh`. Canvas chính giữ tỷ lệ 4:3; Thiên Lý Kính giữ tỷ lệ khung 7:4.
+- Bảng triệu hồi tăng kích thước pháp luân, chữ, ô nhập và nút theo `vw`/`dvh`; màn hình ngắn tự giảm chi tiết phụ nhưng không làm camera thành thumbnail.
+- Màn hình dọc giữ bố cục xếp tầng; Tiên Bảng cuộn nội dung bên trong.
+- Banner trong cuộc đua chỉ thông báo người đang dẫn đầu khi người dẫn đầu thay đổi và thông báo thứ hạng/tên người về đích. Thông báo về đích được ưu tiên; sau khi hiển thị xong mới chuyển sang người dẫn đầu mới. Không phát banner cho dị tượng, trở ngại hoặc hiệu ứng tăng/giảm tốc. Hiệu ứng gameplay và hình ảnh vẫn hoạt động bình thường.
