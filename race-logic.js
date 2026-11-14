@@ -975,6 +975,7 @@ function advanceLeaderAnnouncements(){
       const box=camera.getBoundingClientRect();
       const area=frame.getBoundingClientRect();
       drag={id:event.pointerId,dx:event.clientX-box.left,dy:event.clientY-box.top};
+      camera.classList.add("is-dragging");
       camera.style.position="absolute";
       camera.style.left=(box.left-area.left)+"px";
       camera.style.top=(box.top-area.top)+"px";
