@@ -8,14 +8,14 @@
  }));
  window.VKP_DATA=Object.fromEntries(entries);
  const scripts=[
-  "core.js?v=summon-stop-enabled-v161",
-  "scenery.js?v=summon-stop-enabled-v161",
-  "audience.js?v=summon-stop-enabled-v161",
-  "race-render.js?v=summon-stop-enabled-v161",
-  "visual-overrides.js?v=summon-stop-enabled-v161",
-  "music.js?v=summon-stop-enabled-v161",
-  "race-logic.js?v=summon-stop-enabled-v161",
-  "i18n.js?v=summon-stop-enabled-v161"
+  "core.js?v=camera-effect-name-hidden-v162",
+  "scenery.js?v=camera-effect-name-hidden-v162",
+  "audience.js?v=camera-effect-name-hidden-v162",
+  "race-render.js?v=camera-effect-name-hidden-v162",
+  "visual-overrides.js?v=camera-effect-name-hidden-v162",
+  "music.js?v=camera-effect-name-hidden-v162",
+  "race-logic.js?v=camera-effect-name-hidden-v162",
+  "i18n.js?v=camera-effect-name-hidden-v162"
  ];
  for(const src of scripts){
   await new Promise((resolve,reject)=>{
