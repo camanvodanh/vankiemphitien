@@ -245,3 +245,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Thiên Lý Kính hiển thị đầy đủ tên thể chất của nhân vật đang được chiếu trong dòng thông tin; nếu có hiệu ứng thì tiếp tục hiển thị tên hiệu ứng cùng dòng.
 - Tiêu đề cảnh giới mới chuyển xuống vùng y=160 của Canvas; banner thông báo cuộc đua giữ vùng y=96. Hai vùng không được chồng lấn để tên cảnh giới luôn hiện đủ.
 - Không thay đổi thiên phú, hệ số boost, xác suất hiệu ứng, thứ hạng hoặc thời lượng đua.
+
+
+## 17. Bố cục thông tin Thiên Lý Kính
+
+- Phần thông tin được chia thành các hàng: hạng và tên nhân vật ở hàng đầu; hệ số tốc độ cùng thời gian hiệu ứng ở hàng riêng; thể chất (chỉ tên, bỏ tiền tố “Thể chất:”) và tên hiệu ứng ở hàng phụ.
+- Hạng ưu tiên canh trái, tên nhân vật canh giữa và tự ellipsis, tốc độ canh giữa; thông tin thể chất/hiệu ứng canh giữa và tự ellipsis khi quá dài.
+- Canvas Thiên Lý Kính nằm ở đáy panel, chiếm phần không gian còn lại và giữ tỷ lệ khung 7:4.
+- Hệ số tốc độ và số giây còn lại dùng cùng màu: xanh lá khi hệ số từ 1 trở lên, đỏ khi hệ số dưới 1. Đây chỉ là quy tắc màu hiển thị, không thay đổi hệ số gameplay.
