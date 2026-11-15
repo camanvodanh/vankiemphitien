@@ -274,3 +274,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 
 - Tên hiệu ứng nằm ở hàng riêng và được căn giữa độc lập trên toàn bộ chiều rộng vùng thông tin; không phụ thuộc vị trí/độ rộng tên thể chất. Khi thể chất trống, tên hiệu ứng vẫn chính giữa.
 - Chỉ thay đổi căn chỉnh hiển thị; không thay đổi tên, trạng thái, xác suất, thời lượng hoặc hệ số hiệu ứng.
+
+
+## 21. Quy ước thư mục sprite nhân vật
+
+- Tài nguyên nhân vật đặt tại `assets/characters/<character-id>/`; ID dùng ASCII chữ thường và dấu gạch ngang, ví dụ `than-sau`.
+- Mỗi nhân vật lưu sprite sheet `<character-id>-spritesheet.png`, frame PNG riêng tại `frames/<character-id>-00.png`, `-01.png`, ... và `README.md` ghi metadata.
+- Bộ frame giữ cùng kích thước canvas và nền trong suốt; thứ tự mặc định trái sang phải, trên xuống dưới.
+- Thư mục `assets/characters/than-sau/` dành cho Thần Sầu. Nhân vật chưa được bật trong gameplay cho đến khi các ảnh PNG thực tế được thêm vào repository và bộ nạp/render được tích hợp.
