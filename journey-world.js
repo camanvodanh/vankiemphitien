@@ -36,7 +36,7 @@
       if(value>furthest)furthest=value;
     }
     const progress=Math.max(0,Math.min(1,furthest/distance));
-    // Dùng chung tiến độ đã quét một lần cho cả cổng cảnh giới và cổng gameplay.
+    // Dùng chung tiến độ đã quét một lần cho chuyển cảnh và cổng cảnh giới.
     window.__vkJourneyProgress=progress;
     return progress;
   }
