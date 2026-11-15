@@ -290,27 +290,40 @@
     if(!blend.length)return;
     // Xóa hẳn lớp trời/núi cũ rồi hòa trộn hai nguồn hình có alpha tổng bằng 1.
     // Ở cổng đầu tiên, nguồn cũ là ảnh chụp cảnh gốc chưa chỉnh sửa.
-    ctx.save();ctx.beginPath();ctx.rect(0,0,1100,478);ctx.clip();
-    ctx.clearRect(0,0,1100,478);
+    ctx.save();ctx.beginPath();ctx.rect(0,0,1100,535);ctx.clip();
+    ctx.clearRect(0,0,1100,535);
     for(let i=0;i<blend.length;i++){
       const layer=blend[i];
       if(layer.region){
         drawRegionScene(ctx,layer.region,time,layer.alpha);
       }else if(baseSceneCanvas){
         ctx.save();ctx.globalAlpha=layer.alpha;
-        ctx.drawImage(baseSceneCanvas,0,0,baseSceneCanvas.width,478,0,0,1100,478);
+        ctx.drawImage(baseSceneCanvas,0,0,baseSceneCanvas.width,535,0,0,1100,535);
         ctx.restore();
       }
     }
     ctx.restore();
   }
-  function drawMiniRealm(){
+  function drawMiniRealm(time=0){
     if(!regions.length||typeof cameraCtx==="undefined"||frameProgress<Number(regions[1]&&regions[1].start||.2))return;
     const blend=activeBlend(frameProgress),width=cameraCanvas.width,height=cameraCanvas.height;
-    const active=blend.length===1?blend[0].region:blend[1].region;
-    if(!active)return;
-    cameraCtx.save();cameraCtx.globalAlpha=.18;cameraCtx.fillStyle=active.tint||"#8ac8bd";cameraCtx.fillRect(0,0,width,height);
-    cameraCtx.globalAlpha=.85;cameraCtx.fillStyle=active.accent||"#d7e9d0";cameraCtx.fillRect(0,0,width,3);cameraCtx.fillRect(0,height-4,width,4);cameraCtx.restore();
+    if(!blend.length)return;
+    const hasBase=blend.some(layer=>!layer.region);
+    if(!hasBase)cameraCtx.clearRect(0,0,width,height);
+    const scale=width/1100;
+    for(const layer of blend){
+      if(!layer.region)continue;
+      cameraCtx.save();
+      cameraCtx.translate(0,-37.5);
+      cameraCtx.scale(scale,scale);
+      drawRegionScene(cameraCtx,layer.region,time,layer.alpha);
+      cameraCtx.restore();
+    }
+    const active=blend[blend.length-1].region;
+    if(active){
+      cameraCtx.save();cameraCtx.globalAlpha=.9;cameraCtx.strokeStyle=active.accent||"#d7e9d0";cameraCtx.lineWidth=3;
+      cameraCtx.strokeRect(1.5,1.5,width-3,height-3);cameraCtx.restore();
+    }
   }
   function drawJourneyPortals(){
     if(!racers.length||finished||!portals.length)return;
@@ -368,7 +381,7 @@
   }
   if(typeof drawCameraBackground==="function"){
     const baseCameraBackground=drawCameraBackground;
-    drawCameraBackground=function(time){baseCameraBackground(time);drawMiniRealm();};
+    drawCameraBackground=function(time){baseCameraBackground(time);drawMiniRealm(time||0);};
   }
   if(typeof drawTrackLines==="function"){
     const baseDrawTrackLines=drawTrackLines;
