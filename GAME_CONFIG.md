@@ -315,3 +315,12 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Dòng tên thể chất và dòng tên hiệu ứng đều căn giữa độc lập theo toàn bộ chiều rộng vùng thông tin.
 - Khi chuỗi dài, renderer giao diện tự giảm cỡ chữ dựa trên độ rộng thực tế của dòng. Chỉ hiển thị ellipsis nếu chuỗi vẫn vượt quá chiều rộng sau khi đạt cỡ chữ tối thiểu.
 - Không thay đổi tên nhân vật, gameplay, hệ số, thời lượng hoặc thứ tự hiển thị các hàng.
+
+
+## 26. Hiệu ứng và bí danh tên Thần Sầu
+
+- Sprite Thần Sầu phải có hoạt ảnh hành động theo effectType thay vì chỉ vẽ một vòng sáng mờ. Các nhóm hiệu ứng như tăng tốc/thân pháp, suy yếu/ngất, độc, va chạm, lôi kích, cuồng phong, choáng, linh đan, kiếm ý/kiếm trận, phù chú và tụ linh đều có dấu hiệu Canvas riêng dễ nhận biết.
+- Khi có hiệu ứng, dáng bay của Thần Sầu thay đổi theo loại hiệu ứng; hiệu ứng hình ảnh được vẽ cả ở Canvas đường đua và Thiên Lý Kính. Thiên Lý Kính ưu tiên theo dõi Thần Sầu khi nhân vật này kích hoạt hiệu ứng.
+- Tuyệt chiêu Bún Chua Cay tiếp tục giữ hệ số ×1.20, thời lượng 3.5 giây và cooldown 11.5 giây; khi kích hoạt, tô bún được nâng lên, khói cay và hạt ớt xuất hiện.
+- Khi nhập tên thủ công, chỉ cần chuỗi sau chuẩn hóa có chứa sau (từ “Sầu”) hoặc shen là tên được quy về “Thần Sầu”, không phân biệt hoa thường và dấu. Các bí danh đầy đủ “Trần Đạt Thọ” và “神愁” vẫn được hỗ trợ.
+- Không thay đổi xác suất hiệu ứng chung, hệ số tốc độ, thời lượng đua hoặc chỉ số các nhân vật khác.
