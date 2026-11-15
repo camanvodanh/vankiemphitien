@@ -175,3 +175,6 @@
 
 41. Nhân vật huyền thoại dùng sprite riêng nhưng toàn bộ hiệu ứng phải tái sử dụng cùng logic tạo tư thế và cùng lớp hiệu ứng Canvas của tiên nhân thường. Không tạo bản vẽ rút gọn riêng cho từng effectType; phải rà soát đủ các nhóm, đặc biệt formation/Tụ Linh Trận, shadow_step/Ảnh Độn, kiếm trận, phù chú, lôi, thân pháp, suy yếu và va chạm. Áp dụng nhất quán trên Canvas chính và Thiên Lý Kính; chỉ lớp sprite/đạo cụ đặc trưng được phép khác.
 42. Lớp cảnh giới trong journey-world.js chỉ được phủ vùng trời/núi phía trên đến y=480; không xóa hoặc vẽ đè vùng linh quang/bảo vật Chưởng Môn và dòng sông phía dưới. Mọi cảnh Vân Hải, Kiếm Vực, Lôi Vực và Thiên Không phải giữ nguyên vùng bảo vệ này.
+
+
+43. Thần Sầu tuyệt đối không được vẽ đè cánh tay, ống tay áo hoặc bàn tay giả bằng Canvas, kể cả trong cảnh nhận thưởng. Tay phải lấy nguyên từ các frame pixel gốc của sprite sheet; chỉ được vẽ đạo cụ/hộp quà và hiệu ứng xung quanh, không vẽ bộ phận cơ thể giả.
