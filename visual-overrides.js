@@ -4537,6 +4537,13 @@ function drawRacer(target,racer,x,y,scale,time){
   const glow=target.createRadialGradient(0,0,3,0,0,48);glow.addColorStop(0,"rgba(255,225,139,.38)");glow.addColorStop(1,"rgba(255,225,139,0)");target.fillStyle=glow;target.fillRect(-51,-48,102,96);
   // Không vẽ vòng tròn bao quanh thân; giữ lại hiệu ứng đặc trưng của từng loại ở phía dưới.
   drawRacingArtifact(target,artifactKind(racer),time*.004+racer.phase,female?"female":"male");
+   // Vòng linh quang thứ hai biểu thị vận khí cá nhân phát sinh cùng hiệu ứng cổng.
+   if(racer.effectTimer>0&&racer.personalEffectPolarity){
+     target.save();target.globalAlpha=.62;target.strokeStyle=racer.personalEffectPolarity==="positive"?"#9ff4cf":"#ff9c83";
+     target.lineWidth=1.7;target.setLineDash([3,3]);target.beginPath();
+     target.ellipse(0,5,56+Math.sin(time*.018)*2,25+Math.sin(time*.018)*1.2,0,0,Math.PI*2);
+     target.stroke();target.setLineDash([]);target.restore();
+   }
   // Phom y phục khác nhau, màu áo vẫn lấy từ bảng màu riêng của từng tiên nhân.
   target.fillStyle=racer.dark;target.beginPath();
   if(female){target.moveTo(-7,-8);target.lineTo(7,-8);target.lineTo(12,1);target.lineTo(19,20);target.quadraticCurveTo(0,25,-19,20);target.lineTo(-12,1);}
