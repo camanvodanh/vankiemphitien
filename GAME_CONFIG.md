@@ -299,3 +299,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Tạo hình: sprite pixel Thần Sầu cầm tô bún chua cay trên tay; khi ăn, tô bún có hơi nóng/khói cay và điểm nhấn ớt.
 - Tuyệt chiêu tự kích hoạt trong cuộc đua khi cooldown về 0 và Thần Sầu không đang chịu hiệu ứng khác: ăn bún, nhận tăng tốc ×1.20 trong 3.5 giây; cooldown 11.5 giây. Hệ số vẫn bị giới hạn bởi `effects.balance.speedLimits` hiện hành.
 - Hiệu ứng hiển thị: `Bún Chua Cay`; hiệu ứng gameplay dùng loại boost tích cực, không sửa xác suất hay thông số hiệu ứng của các tiên nhân khác.
+
+
+## 24. Kích thước panel phụ và tư thế Thần Sầu nhận thưởng
+
+- Thiên Lý Kính và Tiên Bảng dùng chiều cao panel đồng bộ theo bố cục viewport, không phụ thuộc số lượng hàng trong bảng.
+- Danh sách Tiên Bảng cuộn dọc bên trong vùng nội dung có chiều cao cố định; phần tiêu đề không cuộn. Thiên Lý Kính giữ khung camera riêng, không bị kéo nhỏ theo chiều dài danh sách.
+- Trên landscape từ 600px, hai panel lấp đầy cùng hàng; trên portrait, hai panel dùng cùng chiều cao responsive. Không thay đổi số hàng, thứ tự hoặc dữ liệu xếp hạng.
+- Trong cảnh trao thưởng, Thần Sầu dùng hoạt ảnh tay áo, cẳng tay và bàn tay ôm hộp thưởng trước ngực; lúc quà đang hạ xuống, hai tay chuyển động đón quà. Các nhân vật khác giữ nguyên hoạt ảnh nhận thưởng hiện tại.
