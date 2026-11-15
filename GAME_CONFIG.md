@@ -216,7 +216,7 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 ## 15. Hành trình bản đồ xuyên ngũ cảnh giới — `data/scenery.json`
 
 - Cuộc đua vẫn là một đường liên tục; không chia lại lượt, không tăng `distance`, không thay đổi thời lượng hoặc công thức vận tốc.
-- Tiến độ cảnh quan lấy theo nhân vật đang đi xa nhất, chuẩn hóa từ 0 đến 1. Cảnh gốc hiện tại được giữ nguyên từ lúc bắt đầu đến khi đoàn đua vượt cổng đầu tiên ở 20%. Sau đó, các vùng tiếp theo lần lượt bắt đầu tại 20%, 40%, 60% và 80%; chỉ sau khi vượt qua cổng tương ứng mới bắt đầu crossfade sang cảnh mới. Vùng clip dừng ở y=478 để không che quảng trường tiền cảnh, Chưởng Môn và nghi thức.
+- Tiến độ cảnh quan lấy theo nhân vật đang đi xa nhất, chuẩn hóa từ 0 đến 1. Cảnh gốc hiện tại được giữ nguyên từ lúc bắt đầu đến khi đoàn đua vượt cổng đầu tiên ở 20%. Sau đó, các vùng tiếp theo lần lượt bắt đầu tại 20%, 40%, 60% và 80%; chỉ sau khi vượt qua cổng tương ứng mới bắt đầu crossfade sang cảnh mới. Vùng clip đến y=535 để xóa cả dòng linh thủy từ pháp bảo, nhưng giữ phần quảng trường/Chưởng Môn phía dưới.
   1. Tiên Môn Sơn Đạo — sơn cốc, vách núi ngọc và thác xa.
   2. Vân Hải Thiên Không — biển mây nhiều tầng chuyển động, mây cuộn tiền/trung/hậu cảnh, nhiều đảo tiên, thác mây và tiên các.
   3. Vạn Kiếm Kiếm Vực — dãy kiếm sơn nhiều đỉnh, rừng kiếm đa chủng loại, kiếm khí và kiếm trận xoay chậm.
@@ -224,5 +224,7 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
   5. Thiên Cung Tiên Đài — quần thể nhiều điện/phụ điện, đại điện trung tâm nhiều tầng mái, cột son, cửa ngọc, bậc thềm, cầu mây và họa tiết vàng ngọc.
 - Chỉ giữ bốn cổng chuyển cảnh ở 20%, 40%, 60% và 80%, tạo hình vết nứt không gian. Mỗi lúc chỉ hiện cổng kế tiếp trong 4% tiến độ trước mốc; vừa qua mốc thì ẩn ngay. Xóa hoàn toàn ba mốc sự kiện 24% / 53% / 78%, bao gồm hình ảnh, cấu hình và hiệu ứng tăng/giảm tốc của chúng.
 - Chuyển cảnh chỉ bắt đầu sau khi vượt cổng; quá trình hòa trộn kéo dài 6% tiến độ tiếp theo. Cảnh cũ được chụp lại trước khi phủ lớp cảnh giới; lớp trời/sơn mạch được xóa rồi hòa trộn trực tiếp giữa cảnh cũ và cảnh mới, không để nền ban đầu hiện xuyên qua các cảnh sau. Không hé lộ cảnh giới kế tiếp trước cổng.
-- `journey-world.js` chỉ bổ sung lớp Canvas phía sau nhân vật; không tạo DOM, không thêm timer, listener hoặc vòng lặp animation riêng. Mỗi frame chỉ duyệt tối đa 100 tiên nhân để xác định tiến độ xa nhất và vẽ tối đa hai lớp vùng trong thời gian giao thoa.
+- Thiên Lý Kính phải thay nền bằng đúng cảnh giới hiện tại, hòa trộn cùng mốc và alpha với Canvas chính; không chỉ phủ tint lên nền cũ.
+- Khi từng tiên nhân vượt cổng, xóa hiệu ứng đang có và hiệu ứng đang chờ; áp dụng hiệu ứng riêng của cổng, sau đó có 95% cơ hội nhận thêm một hiệu ứng cá nhân tốt/xấu theo `positionGoodChance` (top 42%, giữa 50%, cuối 58%) và 5% không nhận hiệu ứng cá nhân. Hiệu ứng cá nhân dùng `tierWeights`, `multipliers`, giới hạn tốc độ và thời lượng chung trong `effects.json`; hệ số cổng và cá nhân được nhân với nhau rồi clamp theo giới hạn tốc độ.
+- `journey-world.js` chỉ bổ sung lớp Canvas phía sau nhân vật; không tạo DOM, không thêm timer, listener hoặc vòng lặp animation riêng. Mỗi frame chỉ duyệt tối đa 100 tiên nhân để xác định tiến độ xa nhất và phát hiện cổng đã vượt.
 - Không thêm hạt hiệu ứng theo từng tiên nhân; ngân sách hạt hiện tại được giữ nguyên. Cảnh quan dùng Canvas, chuyển động xác định theo thời gian render, không tạo timer/RAF/listener riêng; giới hạn số lớp mây, kiếm và tia sét để phù hợp tối đa 100 nhân vật.
