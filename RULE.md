@@ -125,7 +125,7 @@
 22. Không còn các mốc sự kiện đường đua 24% / 53% / 78%; không được khôi phục cấu hình, cổng hình ảnh, hiệu ứng tăng/giảm tốc hoặc logic kích hoạt riêng cho ba mốc này. Các hiệu ứng ngẫu nhiên thông thường, thiên phú và Photo Finish vẫn hoạt động độc lập. Thiên phú chỉ tạo chênh lệch nhỏ, không phá cân bằng; Photo Finish chỉ nhận diện thời điểm về đích đã chốt, không sửa thứ hạng hoặc thời gian kết quả.
 
 
-23. Danh sách thiên phú được khai báo trong logic tạo tiên nhân phải giữ ID duy nhất, tên hiển thị không trùng và hệ số cộng thêm nhỏ trong giới hạn cân bằng đã ghi ở `GAME_CONFIG.md`. Khi mở rộng thiên phú, phải cập nhật tài liệu cấu hình và cache script tương ứng; không tự ý đổi bố cục giao diện nếu người dùng chỉ yêu cầu thêm nội dung gameplay.
+23. Danh sách thiên phú được khai báo trong logic tạo tiên nhân phải giữ ID duy nhất, tên hiển thị không trùng và hệ số cộng thêm nhỏ trong giới hạn cân bằng đã ghi ở `GAME_CONFIG.md`. Ngoại lệ: Thần Sầu chỉ có thể chất `Bún Chua Cay Thánh Thể`, không được gán hoặc hiển thị bất kỳ thiên phú/thể chất nào trong danh sách luân phiên. Khi mở rộng thiên phú, phải cập nhật tài liệu cấu hình và cache script tương ứng; không tự ý đổi bố cục giao diện nếu người dùng chỉ yêu cầu thêm nội dung gameplay.
 
 24. Không tạo cổng hoặc mốc sự kiện trang trí trên đường đua tại 24% / 53% / 78%. Chỉ bốn vết nứt không gian chuyển cảnh giới ở 20% / 40% / 60% / 80% được phép hiển thị; chỉ vẽ khi `started=true` sau countdown, không hiện trong trạng thái setup/triệu hồi/countdown. Cổng kế tiếp phải xuất hiện ngay sau khi cổng trước biến mất, không giới hạn chỉ trong vùng 4% trước mốc; khi tiên nhân chạm/vượt mốc, cổng đó biến mất và cổng tiếp theo xuất hiện. Khi qua cổng phải hiện rõ tên đầy đủ cảnh giới mới.
 
@@ -168,3 +168,6 @@
 
 
 39. Thần Sầu dùng sprite riêng nhưng không được làm mất hệ thống hoạt ảnh hiệu ứng chung. Khi có bất kỳ effectType hợp lệ nào, sprite phải thể hiện đồng thời động tác cơ thể phù hợp và dấu hiệu hiệu ứng nhìn thấy rõ trên Canvas chính lẫn Thiên Lý Kính; khi camera focus nhân vật đang có hiệu ứng phải ưu tiên chiếu nhân vật đó. Nếu sprite không tải được, tiếp tục fallback renderer chung. Nhập thủ công tên có chứa chuỗi “Sầu” hoặc “Shen” (không phân biệt hoa thường/dấu tiếng Việt) đều quy về đúng một nhân vật “Thần Sầu”; vẫn giữ bí danh Trần Đạt Thọ và 神愁.
+
+
+40. Thần Sầu chỉ sở hữu duy nhất thể chất “Bún Chua Cay Thánh Thể”. Trong mọi đường tạo tiên nhân/triệu hồi, kể cả wrapper gán thiên phú chạy sau createRacer, phải giữ nguyên thể chất này; không được ghi đè bằng bất kỳ thiên phú luân phiên nào. Các tiên nhân khác tiếp tục nhận thiên phú như hiện tại.
