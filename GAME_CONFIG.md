@@ -219,7 +219,7 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Tiến độ cảnh quan lấy theo nhân vật đang đi xa nhất, chuẩn hóa từ 0 đến 1. Cảnh gốc hiện tại được giữ nguyên từ lúc bắt đầu đến khi đoàn đua vượt cổng đầu tiên ở 20%. Sau đó, các vùng tiếp theo lần lượt bắt đầu tại 20%, 40%, 60% và 80%; chỉ sau khi vượt qua cổng tương ứng mới bắt đầu crossfade sang cảnh mới. Vùng clip đến y=535 để xóa cả dòng linh thủy từ pháp bảo, nhưng giữ phần quảng trường/Chưởng Môn phía dưới.
   1. Tiên Môn Sơn Đạo — sơn cốc, vách núi ngọc và thác xa.
   2. Vân Hải Thiên Không — biển mây nhiều tầng chuyển động, mây cuộn tiền/trung/hậu cảnh, nhiều đảo tiên, thác mây và tiên các.
-  3. Vạn Kiếm Kiếm Vực — dãy kiếm sơn nhiều đỉnh, rừng kiếm đa chủng loại, kiếm khí và kiếm trận xoay chậm.
+  3. Vạn Kiếm Kiếm Vực — dãy kiếm sơn nhiều đỉnh, rừng cổ kiếm dày đặc với nhiều dáng kiếm, kiếm cắm trên sống núi, kiếm bay theo quỹ đạo, ba tầng kiếm trận phù văn, tia nối kiếm, tám trụ kiếm trấn trận và kiếm chủ ở tâm trận.
   4. Cửu Thiên Lôi Vực — nhiều tầng mây giông cuộn chuyển động, mưa xa, sét phân nhánh chớp theo nhịp và ánh chớp phản sáng.
   5. Thiên Cung Tiên Đài — quần thể nhiều điện/phụ điện, đại điện trung tâm nhiều tầng mái, cột son, cửa ngọc, bậc thềm, cầu mây và họa tiết vàng ngọc.
 - Hiệu ứng cố định theo cổng: 20% Vân Hải Gia Trì (×1.035, 4s); 40% Kiếm Vực Khai Phong (×1.045, 4s); 60% Lôi Vực Thiên Phạt (×0.97, 4s); 80% Thiên Cung Tiên Quang (×1.05, 4.5s). Sau khi xóa hiệu ứng cũ, mỗi tiên nhân nhận hiệu ứng cổng và có 95% cơ hội nhận thêm hiệu ứng cá nhân tốt/xấu theo tỷ lệ vị trí trong `effects.json`; 5% không nhận hiệu ứng cá nhân. Hai hệ số được nhân rồi giới hạn trong `speedLimits`.
