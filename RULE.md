@@ -159,3 +159,6 @@
 
 
 36. Thần Sầu sở hữu Bún Chua Cay Thể. Tạo hình sprite luôn có tô bún cầm tay; khi kích hoạt tuyệt chiêu phải có trạng thái ăn bún/khói cay nhìn thấy được. Tuyệt chiêu tự kích hoạt theo cooldown trong cuộc đua, tăng tốc ×1.20 trong 3.5 giây, cooldown 11.5 giây; chỉ áp dụng cho Thần Sầu, không làm thay đổi bộ hiệu ứng chung của các tiên nhân khác. Tên thể chất hiển thị là “Bún Chua Cay Thể”, tên hiệu ứng khi buff là “Bún Chua Cay”.
+
+
+37. Thiên Lý Kính và Tiên Bảng phải có kích thước panel đồng bộ, độc lập với số lượng hàng Tiên Bảng. Danh sách Tiên Bảng cuộn bên trong vùng có chiều cao cố định; không được để số tiên nhân làm tăng chiều cao grid hoặc ép Thiên Lý Kính co nhỏ. Trên landscape hai panel lấp đầy cùng một hàng; trên portrait dùng cùng một chiều cao panel phù hợp viewport. Khi trao thưởng, Thần Sầu phải có tay áo/cánh tay/bàn tay nối liền thân và tư thế thực sự ôm hộp quà; không dùng hai cánh tay giả dạng nét thẳng hoặc bàn tay rời.
