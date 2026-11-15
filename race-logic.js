@@ -854,7 +854,17 @@ function drawCamera(time){
  if(!racer)return;
  // Không vẽ tên hiệu ứng đè lên nhân vật trong khung camera; hiển thị tên thật ở dòng thông tin.
  const cameraRacer=racer.effectName?{...racer,effectName:""}:racer;
- drawRacer(cameraCtx,cameraRacer,210,108,2.0,time);
+ cameraCtx.save();
+  try {
+    drawRacer(cameraCtx,cameraRacer,210,108,2.0,time);
+  } catch (error) {
+    if (!window.__vkCameraRacerRenderError) {
+      window.__vkCameraRacerRenderError = true;
+      console.error("Lỗi vẽ nhân vật trong Thiên Lý Kính:", error);
+    }
+  } finally {
+    cameraCtx.restore();
+  }
  const rank=sortedRacers().findIndex(item=>item.id===racer.id)+1;
   fitCameraInfoText("leaderTalent",racer.talent&&racer.talent.name?racer.talent.name:"");
   fitCameraInfoText("leaderEffect",racer.effectTimer>0?(racer.effectName||""):"");
