@@ -130,3 +130,6 @@
 24. Ba cổng sự kiện đường đua phải được vẽ bằng Canvas pixel-art theo dữ liệu `data/effects.json`, đặt phía sau nhân vật (trước lớp vẽ tiên nhân), có kiến trúc/màu/biểu tượng phân biệt và biển tên kèm mốc tiến độ. Giữ nguyên vị trí kích hoạt, cơ chế gameplay, hiệu năng mobile; không dùng blur/filter hoặc DOM panel cho cổng.
 
 25. Khi tối ưu hiệu năng cuộc đua đông nhân vật (tối đa 100), phải giới hạn ngân sách hạt toàn cục và giảm số hạt mỗi lần kích hoạt theo quy mô; không tạo burst riêng lớn cho từng nhân vật. Ưu tiên cập nhật/lọc hạt tại chỗ, tránh cấp phát mảng mỗi frame. Từ ngưỡng đông người, chuyển hiệu ứng trang trí quanh nhân vật sang chế độ nhẹ nhưng giữ nguyên logic gameplay, tốc độ, thời lượng và trạng thái hiệu ứng. Phải kiểm tra cú pháp, cache và trường hợp 100 nhân vật.
+
+
+26. Bản đồ hành trình có thể gồm nhiều vùng cảnh quan nhưng cuộc đua vẫn liên tục: không reset tiến độ, không đổi quãng đường, thời lượng, vận tốc hoặc thứ hạng khi qua cổng chuyển cảnh. Cấu hình năm vùng và bốn cổng hình ảnh lấy từ `data/scenery.json`; chuyển cảnh phải hòa trộn mượt, vẽ bằng Canvas ở lớp sau nhân vật, không thêm timer/listener/particle riêng. Ba cổng gameplay 24% / 53% / 78% giữ nguyên độc lập với cổng chuyển cảnh. Khi tối ưu cho tối đa 100 nhân vật, chỉ lấy tiến độ xa nhất bằng một vòng lặp tuyến tính và chỉ vẽ tối đa hai vùng trong lúc giao thoa.
