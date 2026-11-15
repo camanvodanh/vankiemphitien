@@ -444,7 +444,7 @@
     const region=regions[index],phase=(frameProgress-Number(region.start))/.035;
     const fade=Math.min(1,phase*7,(1-phase)*5);
     const title=String(region.name||region.shortName||"CẢNH GIỚI MỚI").toLocaleUpperCase("vi");
-    const width=Math.min(560,Math.max(330,title.length*15+76)),x=550,y=91;
+    const width=Math.min(560,Math.max(330,title.length*15+76)),x=550,y=160;
     ctx.save();ctx.globalAlpha=Math.max(0,fade);
     const glow=ctx.createRadialGradient(x,y,12,x,y,250);glow.addColorStop(0,region.accent||"#e7f2ff");glow.addColorStop(1,"rgba(0,0,0,0)");
     ctx.fillStyle=glow;ctx.fillRect(x-260,y-54,520,108);
