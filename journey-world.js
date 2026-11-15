@@ -134,6 +134,8 @@
     if(blend.length===1){drawRegionScene(ctx,blend[0].region,time,1);ctx.restore();return;}
     if(blend[0].region)drawRegionScene(ctx,blend[0].region,time,blend[0].alpha);
     drawRegionScene(ctx,blend[1].region,time,blend[1].alpha);
+    ctx.restore();
+  }
   function drawMiniRealm(){
     if(!regions.length||typeof cameraCtx==="undefined"||frameProgress<Number(regions[1]&&regions[1].start||.2))return;
     const blend=activeBlend(frameProgress),width=cameraCanvas.width,height=cameraCanvas.height;
