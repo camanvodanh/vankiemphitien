@@ -4539,7 +4539,7 @@ function __drawRacerBaseThanSau(target,racer,x,y,scale,time){
    case "pill":actionY=-3-Math.abs(wave)*3;actionAngle=-.045;break;case "qi_pill":actionY=-2-Math.abs(Math.sin(phase*12))*4;actionX=2+Math.sin(phase*5)*2;actionAngle=-.08;break;case "impact":actionY=Math.abs(pulse)*9;actionX=Math.sin(phase*18)*2;actionAngle=wave*.14;break;
    case "lightning":actionX=Math.sin(phase*38)*3.5;actionY=Math.cos(phase*31)*2;actionAngle=Math.sin(phase*34)*.09;break;
    case "gale":actionX=wave*3;actionY=Math.sin(phase*5)*2;actionAngle=wave*.27;break;case "dizzy":actionAngle=Math.sin(phase*8+racer.phase)*.72;break;
-   case "faint":actionY=4+Math.abs(wave)*2;actionAngle=.34+Math.sin(phase*5)*.07;break;case "boost":actionX=3+Math.sin(phase*7)*3;actionY=-3-Math.sin(phase*6)*3;actionAngle=.08+Math.sin(phase*7)*.12;break;
+   case "faint":actionY=4+Math.abs(wave)*2;actionAngle=.34+Math.sin(phase*5)*.07;break;case "boost":if(racer.effectName==="Ăn Bún Chua Cay"&&racer.thanSauEatingTimer>0){const eat=clamp(1-racer.thanSauEatingTimer/.9,0,1);actionX=-1+Math.sin(eat*Math.PI)*2;actionY=-Math.sin(eat*Math.PI)*5;actionAngle=-.025+Math.sin(eat*Math.PI)*.035;}else{actionX=3+Math.sin(phase*7)*3;actionY=-3-Math.sin(phase*6)*3;actionAngle=.08+Math.sin(phase*7)*.12;}break;
    case "sword_intent":actionX=1+Math.sin(phase*5)*.8;actionY=-1;actionAngle=-.035+Math.sin(phase*4)*.018;break;case "cloud_step":actionY=-Math.abs(Math.sin(phase*8))*10;actionAngle=.11;break;
    case "formation":actionX=Math.sin(phase*4)*3;actionY=Math.cos(phase*4)*3;actionAngle=Math.sin(phase*4)*.08;break;
    case "formation_sword":actionX=3+Math.sin(phase*8)*2;actionAngle=-.18;break;
@@ -7439,16 +7439,38 @@ function drawRacer(target, racer, x, y, scale, time) {
   glow.addColorStop(0,active?"rgba(255,224,145,.38)":"rgba(255,220,145,.28)");glow.addColorStop(1,"rgba(255,220,145,0)");
   target.fillStyle=glow;target.fillRect(-60,-58,120,116);
   target.drawImage(__thanSauSpriteSheet,sx,sy,frameWidth,frameHeight,-54,-54,108,108);
-  target.save();target.translate(29,active&&racer.effectName==="Ăn Bún Chua Cay"?-5:-1);target.rotate(-.12);
-  target.fillStyle="#f0d8a0";target.beginPath();target.ellipse(0,8,13,5,0,0,Math.PI*2);target.fill();
-  target.fillStyle="#b84e38";target.beginPath();target.moveTo(-12,3);target.quadraticCurveTo(-10,18,0,18);target.quadraticCurveTo(10,18,12,3);target.closePath();target.fill();
-  target.strokeStyle="#f7e7c4";target.lineWidth=2;target.beginPath();target.ellipse(0,3,12,4.5,0,0,Math.PI*2);target.stroke();
-  target.fillStyle="#f5d98e";target.beginPath();target.ellipse(-3,2,5,2.2,-.2,0,Math.PI*2);target.ellipse(4,3,4,2,0,0,Math.PI*2);target.fill();
-  target.strokeStyle="#f7edce";target.lineWidth=1.2;target.beginPath();target.moveTo(-5,1);target.quadraticCurveTo(-9,-5,-4,-8);target.moveTo(2,0);target.quadraticCurveTo(7,-6,3,-10);target.stroke();
-  if(racer.thanSauEatingTimer>0||active&&racer.effectName==="Ăn Bún Chua Cay"){
-    const steam=time*.008;target.globalAlpha=.95;target.strokeStyle="#fff2c7";target.lineWidth=1.8;
-    for(let i=0;i<4;i++){const steamX=-7+i*5,steamY=-10-Math.sin(steam+i)*3;target.beginPath();target.moveTo(steamX,steamY);target.quadraticCurveTo(steamX-3,steamY-6,steamX+1,steamY-12);target.stroke();}
-    target.fillStyle="#ff704d";target.beginPath();target.arc(-14,-5,2.2,0,Math.PI*2);target.arc(14,-8,2,0,Math.PI*2);target.fill();
+  const eatingBun=!!(racer.thanSauEatingTimer>0&&active&&racer.effectName==="Ăn Bún Chua Cay");
+  const eatProgress=eatingBun?clamp(1-racer.thanSauEatingTimer/.9,0,1):0;
+  const bowlX=eatingBun?29-17*Math.sin(eatProgress*Math.PI/2):29;
+  const bowlY=eatingBun?-1-24*Math.sin(eatProgress*Math.PI/2):-1;
+  const bowlTilt=eatingBun?-.12-.72*Math.sin(eatProgress*Math.PI/2):-.12;
+  target.save();target.translate(bowlX,bowlY);target.rotate(bowlTilt);
+  target.fillStyle="#8d342b";target.beginPath();target.ellipse(0,11,16,5.8,0,0,Math.PI*2);target.fill();
+  const bowlGrad=target.createLinearGradient(0,1,0,19);bowlGrad.addColorStop(0,"#f4e2bb");bowlGrad.addColorStop(.45,"#d65c43");bowlGrad.addColorStop(1,"#7e2926");
+  target.fillStyle=bowlGrad;target.beginPath();target.moveTo(-15,2);target.quadraticCurveTo(-13,18,0,19);target.quadraticCurveTo(13,18,15,2);target.quadraticCurveTo(0,7,-15,2);target.closePath();target.fill();
+  target.fillStyle="#f7e8c8";target.beginPath();target.ellipse(0,2,15.5,5.5,0,0,Math.PI*2);target.fill();
+  const soupGrad=target.createRadialGradient(-3,0,1,0,2,14);soupGrad.addColorStop(0,"#f5a04c");soupGrad.addColorStop(.58,"#d84a2f");soupGrad.addColorStop(1,"#8f2928");
+  target.fillStyle=soupGrad;target.beginPath();target.ellipse(0,2,13.3,4.1,0,0,Math.PI*2);target.fill();
+  target.strokeStyle="#fff0cf";target.lineWidth=1.7;target.lineCap="round";
+  for(let n=0;n<4;n++){const nx=-8+n*5;target.beginPath();target.moveTo(nx-2,1);target.bezierCurveTo(nx-5,-4,nx+4,-4,nx+1,1);target.bezierCurveTo(nx-2,5,nx+5,5,nx+3,1);target.stroke();}
+  target.fillStyle="#f36b4b";target.beginPath();target.moveTo(-11,1);target.lineTo(-6,-2);target.lineTo(-5,2);target.closePath();target.fill();
+  target.beginPath();target.moveTo(5,1);target.lineTo(10,-2);target.lineTo(11,2);target.closePath();target.fill();
+  target.fillStyle="#f2d7a0";target.beginPath();target.ellipse(-1,-.4,3.4,1.8,-.3,0,Math.PI*2);target.ellipse(7,2,2.7,1.4,.2,0,Math.PI*2);target.fill();
+  target.fillStyle="#74a85c";target.beginPath();target.ellipse(-3,-1.6,2.3,1,-.5,0,Math.PI*2);target.ellipse(3,3,2,1,.4,0,Math.PI*2);target.fill();
+  target.fillStyle="#c72e24";target.beginPath();target.ellipse(-8,3,2.3,1.1,-.3,0,Math.PI*2);target.ellipse(9,-.5,1.8,.9,.2,0,Math.PI*2);target.fill();
+  target.strokeStyle="#ffe7b3";target.lineWidth=1;target.beginPath();target.ellipse(0,2,15.5,5.5,0,0,Math.PI*2);target.stroke();
+  if(eatingBun&&eatProgress>.18){
+    const pour=clamp((eatProgress-.18)/.72,0,1),mouthX=1,mouthY=-39;
+    target.save();target.globalAlpha=.95*(1-pour*.18);target.strokeStyle="#fff0d2";target.lineWidth=2.1;target.lineCap="round";
+    target.beginPath();target.moveTo(-1,1);target.bezierCurveTo(-7,-8,-2,-18,mouthX,mouthY+5);target.stroke();
+    target.strokeStyle="#e85a35";target.lineWidth=1.4;target.beginPath();target.moveTo(2,0);target.quadraticCurveTo(8,-14,mouthX+2,mouthY+7);target.stroke();
+    target.fillStyle="#f8e9c7";target.beginPath();target.arc(mouthX,mouthY+5,2.1,0,Math.PI*2);target.fill();target.restore();
+  }
+  if(eatingBun||racer.thanSauEatingTimer>0||active&&racer.effectName==="Ăn Bún Chua Cay"){
+    const steam=time*.008;target.globalAlpha=.88;target.strokeStyle="#fff2cf";target.lineWidth=1.6;
+    for(let i=0;i<5;i++){const steamX=-9+i*4.5,steamY=-7-Math.sin(steam+i)*3;target.beginPath();target.moveTo(steamX,steamY);target.quadraticCurveTo(steamX-3,-14-Math.sin(steam+i)*2,steamX+1,-21-Math.sin(steam+i)*3);target.stroke();}
+    target.fillStyle="#ff704d";target.beginPath();target.arc(-14,-4,2.2,0,Math.PI*2);target.arc(14,-7,1.8,0,Math.PI*2);target.fill();
+    target.fillStyle="#ffd46d";target.beginPath();target.arc(-11,-10,1.3,0,Math.PI*2);target.arc(12,-14,1.1,0,Math.PI*2);target.fill();
   }
   target.restore();
   if(active)drawThanSauEffect(target,racer,time);
