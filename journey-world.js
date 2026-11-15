@@ -314,9 +314,14 @@
     for(const layer of blend){
       if(!layer.region)continue;
       cameraCtx.save();
+      cameraCtx.globalAlpha=layer.alpha;
+      const wash=cameraCtx.createLinearGradient(0,0,0,height);
+      wash.addColorStop(0,layer.region.tint||"#6b91a2");
+      wash.addColorStop(1,"#263d48");
+      cameraCtx.fillStyle=wash;cameraCtx.fillRect(0,0,width,height);
       cameraCtx.translate(0,-37.5);
       cameraCtx.scale(scale,scale);
-      drawRegionScene(cameraCtx,layer.region,time,layer.alpha);
+      drawRegionScene(cameraCtx,layer.region,time,1);
       cameraCtx.restore();
     }
     const active=blend[blend.length-1].region;
