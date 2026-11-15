@@ -4603,6 +4603,13 @@ function drawRacer(target,racer,x,y,scale,time){
   }
   target.restore();
   if(racer.effectTimer>0){
+    if(racers.length>35){
+      // Chế độ đông người: giữ dấu hiệu hiệu ứng rất nhẹ, bỏ các vòng vẽ/shadow riêng.
+      target.save();target.globalAlpha=.48;
+      target.fillStyle=racer.effectPolarity==="negative"?"#b7baff":"#b8eaff";
+      target.fillRect(-22,-40,44,2);target.fillRect(-22,26,44,2);
+      target.restore();
+    }else{
     const t=time*.001,fade=Math.min(1,racer.effectTimer/.35);
     target.save();target.lineCap="round";target.lineJoin="round";
     if(activeEffect==="poison"){
@@ -4930,6 +4937,7 @@ if(activeEffect==="talisman"||activeEffect==="talisman_guard"||activeEffect==="t
       target.globalAlpha=.78*fade;target.strokeStyle="#e0c5ff";target.lineWidth=1.3;target.beginPath();target.ellipse(0,7,34,12,t*.25,0,Math.PI*2);target.stroke();for(let i=0;i<6;i++){const a=i*Math.PI/3+t*.25;target.beginPath();target.arc(Math.cos(a)*29,7+Math.sin(a)*9,2,0,Math.PI*2);target.stroke();}
     }
     target.restore();
+    }
   }
   target.restore();
 }
