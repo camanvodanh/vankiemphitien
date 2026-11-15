@@ -8766,3 +8766,95 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
   .arena-frame>.game-camera #leaderSpeed .camera-speed-down{font-size:10px!important;}
   .arena-frame>.game-camera #leaderEffect{font-size:9px!important;}
 }
+
+
+/* REVISION 126 — Thiên Lý Kính: ba hàng thông tin gọn, camera neo đáy. */
+.arena-frame>.game-camera>.camera-info{
+  order:1!important;flex:0 0 auto!important;display:flex!important;
+  flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;
+  gap:3px!important;width:100%!important;min-width:0!important;min-height:0!important;
+  margin:0!important;padding:5px 8px 6px!important;box-sizing:border-box!important;
+  overflow:hidden!important;text-align:initial!important;
+  background:linear-gradient(180deg,rgba(14,39,32,.97),rgba(20,49,40,.97))!important;
+  border-top:1px solid rgba(220,188,119,.2)!important;
+}
+.arena-frame>.game-camera .camera-top-info{
+  order:0!important;display:flex!important;flex-flow:row nowrap!important;
+  align-items:center!important;justify-content:space-between!important;
+  gap:8px!important;width:100%!important;min-width:0!important;
+}
+.arena-frame>.game-camera .camera-rank-slot{display:block!important;flex:0 0 auto!important;min-width:0!important;}
+.arena-frame>.game-camera #leaderProgress{
+  display:inline-flex!important;align-items:center!important;justify-content:flex-start!important;
+  min-width:0!important;max-width:100%!important;padding:1px 5px!important;
+  border:1px solid rgba(229,194,120,.38)!important;border-radius:4px!important;
+  background:rgba(196,153,74,.10)!important;color:#f4d99e!important;
+  font-size:clamp(9px,.76vw,12px)!important;font-weight:900!important;
+  line-height:1.2!important;white-space:nowrap!important;
+}
+.arena-frame>.game-camera #leaderProgress::before{content:none!important;display:none!important;}
+.arena-frame>.game-camera #leaderSpeed{
+  display:block!important;flex:0 1 auto!important;width:auto!important;min-width:0!important;
+  max-width:100%!important;margin:0!important;padding:0!important;text-align:right!important;
+  line-height:1.15!important;white-space:nowrap!important;
+}
+.arena-frame>.game-camera #leaderSpeed:empty{display:none!important;}
+.arena-frame>.game-camera #leaderSpeed .camera-speed-up,
+.arena-frame>.game-camera #leaderSpeed .camera-speed-down{
+  display:inline-block!important;font-size:clamp(10px,.82vw,13px)!important;
+  font-weight:900!important;white-space:nowrap!important;font-variant-numeric:tabular-nums!important;
+}
+.arena-frame>.game-camera #leaderSpeed .camera-speed-up,
+.arena-frame>.game-camera #leaderSpeed .camera-speed-up .camera-speed-time{
+  color:#45e58b!important;text-shadow:0 0 5px rgba(69,229,139,.25)!important;
+}
+.arena-frame>.game-camera #leaderSpeed .camera-speed-down,
+.arena-frame>.game-camera #leaderSpeed .camera-speed-down .camera-speed-time{
+  color:#ff626b!important;text-shadow:0 0 5px rgba(255,98,107,.22)!important;
+}
+.arena-frame>.game-camera #leaderName{
+  order:1!important;display:block!important;align-self:stretch!important;
+  width:100%!important;min-width:0!important;max-width:100%!important;
+  margin:0!important;padding:0!important;color:#fff4d9!important;
+  font-size:clamp(11px,.94vw,15px)!important;font-weight:900!important;line-height:1.2!important;
+  text-align:center!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+}
+.arena-frame>.game-camera .camera-secondary-info{
+  order:2!important;display:flex!important;flex-flow:row nowrap!important;
+  align-items:center!important;justify-content:center!important;gap:12px!important;
+  width:100%!important;min-width:0!important;margin:0!important;padding:0!important;
+}
+.arena-frame>.game-camera #leaderTalent,
+.arena-frame>.game-camera #leaderEffect{
+  display:block!important;flex:0 1 auto!important;min-width:0!important;max-width:50%!important;
+  margin:0!important;padding:0!important;font-size:clamp(8px,.7vw,11px)!important;
+  font-weight:700!important;line-height:1.2!important;text-align:center!important;
+  white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+}
+.arena-frame>.game-camera #leaderTalent{color:#c9d8c7!important;}
+.arena-frame>.game-camera #leaderEffect{color:#e5c98e!important;}
+.arena-frame>.game-camera #leaderTalent:empty,
+.arena-frame>.game-camera #leaderEffect:empty{display:none!important;}
+.arena-frame>.game-camera>.camera-screen{
+  order:2!important;flex:1 1 0!important;align-self:stretch!important;
+  width:100%!important;min-width:0!important;min-height:0!important;
+  aspect-ratio:7 / 4!important;margin:auto 0 0!important;padding:0!important;
+  overflow:hidden!important;line-height:0!important;
+}
+.arena-frame>.game-camera>.camera-screen>canvas,
+.arena-frame>.game-camera>#leaderCanvas{
+  display:block!important;width:100%!important;height:100%!important;
+  min-width:0!important;max-width:100%!important;max-height:100%!important;
+  object-fit:contain!important;margin:0!important;
+}
+@media(max-width:420px){
+  .arena-frame>.game-camera>.camera-info{gap:2px!important;padding:4px 5px!important;}
+  .arena-frame>.game-camera .camera-top-info{gap:4px!important;}
+  .arena-frame>.game-camera #leaderProgress{font-size:9px!important;padding:1px 4px!important;}
+  .arena-frame>.game-camera #leaderName{font-size:10px!important;}
+  .arena-frame>.game-camera #leaderSpeed .camera-speed-up,
+  .arena-frame>.game-camera #leaderSpeed .camera-speed-down{font-size:9px!important;}
+  .arena-frame>.game-camera .camera-secondary-info{gap:8px!important;}
+  .arena-frame>.game-camera #leaderTalent,
+  .arena-frame>.game-camera #leaderEffect{font-size:8px!important;}
+}
