@@ -463,10 +463,10 @@
     if(!regions.length||typeof ctx==="undefined"||frameProgress<Number(regions[1]&&regions[1].start||.2))return;
     const blend=activeBlend(frameProgress);
     if(!blend.length)return;
-    // Xóa hẳn lớp trời/núi cũ rồi hòa trộn hai nguồn hình có alpha tổng bằng 1.
-    // Ở cổng đầu tiên, nguồn cũ là ảnh chụp cảnh gốc chưa chỉnh sửa.
-    ctx.save();ctx.beginPath();ctx.rect(0,0,1100,535);ctx.clip();
-    ctx.clearRect(0,0,1100,535);
+    // Chỉ hòa trộn lớp trời/núi phía trên; chừa nguyên vùng linh quang Chưởng Môn và sông ở bên dưới.
+    // Ở cổng đầu tiên, nguồn cũ là ảnh chụp cảnh gốc chưa chỉnh sửa; vùng bảo vệ phía dưới không bị xóa.
+    ctx.save();ctx.beginPath();ctx.rect(0,0,1100,480);ctx.clip();
+    ctx.clearRect(0,0,1100,480);
     ctx.globalCompositeOperation="source-over";
     for(let i=0;i<blend.length;i++){
       const layer=blend[i];
@@ -474,7 +474,7 @@
         drawRegionScene(ctx,layer.region,time,layer.alpha);
       }else if(baseSceneCanvas){
         ctx.save();ctx.globalAlpha=layer.alpha;
-        ctx.drawImage(baseSceneCanvas,0,0,baseSceneCanvas.width,535,0,0,1100,535);
+        ctx.drawImage(baseSceneCanvas,0,0,baseSceneCanvas.width,480,0,0,1100,480);
         ctx.restore();
       }
     }
