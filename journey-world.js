@@ -25,17 +25,21 @@
   }
   function smooth(value){const t=Math.max(0,Math.min(1,value));return t*t*(3-2*t);}
   function activeBlend(progress){
-    if(!regions.length)return [];
+    if(!regions.length||progress<Number(regions[1]&&regions[1].start||.2))return [];
+    // Chỉ bắt đầu đổi cảnh sau khi đã vượt qua cổng. Cảnh đầu tiên vẫn là
+    // phong cảnh gốc của sơn môn, không bị lớp landmark mới phủ lên.
     for(let i=1;i<regions.length;i++){
       const boundary=Number(regions[i].start)||0;
-      if(progress>=boundary-transitionWidth&&progress<=boundary+transitionWidth){
-        const mix=smooth((progress-(boundary-transitionWidth))/(transitionWidth*2));
+      const width=transitionWidth*2;
+      if(progress>=boundary&&progress<boundary+width){
+        const mix=smooth((progress-boundary)/width);
+        if(i===1)return [{region:null,alpha:1-mix},{region:regions[i],alpha:mix}];
         return [{region:regions[i-1],alpha:1-mix},{region:regions[i],alpha:mix}];
       }
     }
     let active=regions[0];
     for(let i=1;i<regions.length;i++)if(progress>=Number(regions[i].start||0))active=regions[i];
-    return [{region:active,alpha:1}];
+    return progress<Number(regions[1]&&regions[1].start||.2)?[]:[{region:active,alpha:1}];
   }
   function drawSwordLandmark(target,x,y,scale,angle,color){
     target.save();target.translate(x,y);target.rotate(angle||0);target.scale(scale,scale);
@@ -121,49 +125,67 @@
     target.restore();
   }
   function drawMainRealm(time){
-    if(!regions.length||typeof ctx==="undefined")return;
+    if(!regions.length||typeof ctx==="undefined"||frameProgress<Number(regions[1]&&regions[1].start||.2))return;
     const blend=activeBlend(frameProgress);
-    // Giới hạn lớp cảnh giới ở tầng trời/sơn mạch phía sau.
-    // Không phủ lên quảng trường tiền cảnh, đặc biệt là chưởng môn và nghi thức.
+    if(!blend.length)return;
+    // Chỉ thay tầng trời/sơn mạch sau khi đã đi qua cổng đầu tiên.
+    // Nguồn cảnh gốc và quảng trường tiền cảnh vẫn nguyên vẹn.
     ctx.save();ctx.beginPath();ctx.rect(0,0,1100,478);ctx.clip();
     if(blend.length===1){drawRegionScene(ctx,blend[0].region,time,1);ctx.restore();return;}
-    // Vẽ cảnh mới kín vùng nền trước, rồi crossfade cảnh cũ trong đúng vùng clip.
-    drawRegionScene(ctx,blend[1].region,time,1);
-    drawRegionScene(ctx,blend[0].region,time,blend[0].alpha);
-    ctx.restore();
-  }
+    if(blend[0].region)drawRegionScene(ctx,blend[0].region,time,blend[0].alpha);
+    drawRegionScene(ctx,blend[1].region,time,blend[1].alpha);
   function drawMiniRealm(){
-    if(!regions.length||typeof cameraCtx==="undefined")return;
+    if(!regions.length||typeof cameraCtx==="undefined"||frameProgress<Number(regions[1]&&regions[1].start||.2))return;
     const blend=activeBlend(frameProgress),width=cameraCanvas.width,height=cameraCanvas.height;
     const active=blend.length===1?blend[0].region:blend[1].region;
+    if(!active)return;
     cameraCtx.save();cameraCtx.globalAlpha=.18;cameraCtx.fillStyle=active.tint||"#8ac8bd";cameraCtx.fillRect(0,0,width,height);
     cameraCtx.globalAlpha=.85;cameraCtx.fillStyle=active.accent||"#d7e9d0";cameraCtx.fillRect(0,0,width,3);cameraCtx.fillRect(0,height-4,width,4);cameraCtx.restore();
   }
   function drawJourneyPortals(){
     if(!racers.length||finished||!portals.length)return;
     const progress=frameProgress;
-    // Chỉ hiện cổng kế tiếp trong 8% cuối trước ranh giới; vừa qua là ẩn ngay.
     let portal=null,index=-1;
     for(let i=0;i<portals.length;i++){
       const gap=Number(portals[i].progress||0)-progress;
       if(gap>=0&&gap<=.04){portal=portals[i];index=i;break;}
     }
     if(!portal)return;
-    const distanceToPortal=Number(portal.progress||0)-progress;
+    const gap=Number(portal.progress||0)-progress;
     const x=TRACK.left+35+(TRACK.right-TRACK.left-45)*Number(portal.progress||0);
-    const top=TRACK.top+8,bottom=TRACK.bottom-142,color=portal.color||"#a9d9d5";
-    const alpha=Math.max(.25,Math.min(.96,1-distanceToPortal*2.7));
-    ctx.save();ctx.globalAlpha=alpha;
-    // Một cổng duy nhất phía trước đoàn đua, tạo cảm giác đang tiến đến ranh giới cảnh giới.
-    ctx.fillStyle="#273b43";ctx.fillRect(x-20,top+34,5,bottom-top-68);ctx.fillRect(x+15,top+34,5,bottom-top-68);
-    ctx.fillStyle=color;ctx.fillRect(x-19,top+37,2,bottom-top-74);ctx.fillRect(x+17,top+37,2,bottom-top-74);
-    ctx.fillStyle="#d8c38b";ctx.fillRect(x-24,top+29,13,5);ctx.fillRect(x+11,top+29,13,5);ctx.fillRect(x-24,bottom-37,13,5);ctx.fillRect(x+11,bottom-37,13,5);
-    ctx.strokeStyle="#273b43";ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(x-23,top+36);ctx.quadraticCurveTo(x,top-2,x+23,top+36);ctx.stroke();
-    ctx.strokeStyle=color;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(x-23,top+36);ctx.quadraticCurveTo(x,top-2,x+23,top+36);ctx.stroke();
-    ctx.fillStyle=color;ctx.beginPath();ctx.moveTo(x,top+10);ctx.lineTo(x+5,top+17);ctx.lineTo(x,top+24);ctx.lineTo(x-5,top+17);ctx.closePath();ctx.fill();
-    ctx.fillStyle="#1c303b";ctx.fillRect(x-34,top+4,68,12);ctx.strokeStyle=color;ctx.lineWidth=1;ctx.strokeRect(x-34.5,top+3.5,69,13);
-    ctx.fillStyle="#fff4d5";ctx.font="bold 7px Arial";ctx.textAlign="center";ctx.textBaseline="middle";
-    ctx.fillText(String(portal.shortName||("CẢNH GIỚI "+(index+2))),x,top+10,64);
+    const top=TRACK.top+30,bottom=TRACK.bottom-150,color=portal.color||"#a9d9d5";
+    const pulse=.5+.5*Math.sin((typeof performance!=="undefined"?performance.now():0)*.002+index);
+    const half=19+3*pulse;
+    const points=[
+      [x-2,top],[x+half*.55,top+34],[x+half,top+78],[x+half*.55,top+125],
+      [x+half*.82,bottom-70],[x+4,bottom],[x-half*.55,bottom-42],
+      [x-half,bottom-105],[x-half*.62,top+100],[x-2,top]
+    ];
+    ctx.save();
+    ctx.globalAlpha=Math.max(.28,Math.min(.95,1-gap*15));
+    // Khe nứt xé dọc không gian: viền đá tối, lõi sáng và đường rạn ngoằn ngoèo.
+    const crack=()=>{
+      ctx.beginPath();ctx.moveTo(points[0][0],points[0][1]);
+      for(let i=1;i<points.length;i++)ctx.lineTo(points[i][0],points[i][1]);
+      ctx.closePath();
+    };
+    crack();ctx.fillStyle="#101b35";ctx.fill();
+    crack();ctx.strokeStyle="#27364d";ctx.lineWidth=11;ctx.stroke();
+    crack();ctx.strokeStyle=color;ctx.lineWidth=4;ctx.stroke();
+    ctx.save();ctx.beginPath();ctx.moveTo(x,top+8);ctx.lineTo(x+5,top+52);ctx.lineTo(x-5,top+93);ctx.lineTo(x+4,bottom-55);ctx.lineTo(x,bottom-8);ctx.strokeStyle="#f4fbff";ctx.lineWidth=1.8;ctx.stroke();ctx.restore();
+    // Các nhánh rạn ngắn tỏa ra từ khe chính.
+    ctx.strokeStyle=color;ctx.lineWidth=1.6;
+    [[-1,top+58,-25,top+42],[2,top+112,25,top+92],[-2,bottom-105,-25,bottom-128],[1,bottom-62,24,bottom-43]].forEach(([sx,sy,ex,ey])=>{
+      ctx.beginPath();ctx.moveTo(x+sx,sy);ctx.lineTo(x+(sx+ex)*.45,sy+(ey-sy)*.42);ctx.lineTo(x+ex,ey);ctx.stroke();
+    });
+    // Vệt tinh tú nhỏ nằm trong lòng khe, không tạo particle động.
+    ctx.fillStyle="#fff6d5";
+    for(let i=0;i<4;i++){const yy=top+28+i*(bottom-top-56)/3;ctx.fillRect(x+(i%2?5:-4),yy,2,2);}
+    const label=String(portal.shortName||("CẢNH GIỚI "+(index+2)));
+    ctx.font="bold 8px Arial";ctx.textAlign="center";ctx.textBaseline="middle";
+    const labelY=top-13;ctx.fillStyle="#172337";ctx.fillRect(x-38,labelY-7,76,14);
+    ctx.strokeStyle=color;ctx.lineWidth=1;ctx.strokeRect(x-38.5,labelY-7.5,77,15);
+    ctx.fillStyle="#fff4d5";ctx.fillText(label,x,labelY,72);
     ctx.restore();
   }
   if(typeof render==="function"){
@@ -172,7 +194,7 @@
   }
   if(typeof drawScenery==="function"){
     const baseDrawScenery=drawScenery;
-    drawScenery=function(time){baseDrawScenery(time);drawMainRealm(time||0);};
+    drawScenery=function(time){baseDrawScenery(time);if(frameProgress>=Number(regions[1]&&regions[1].start||.2))drawMainRealm(time||0);};
   }
   if(typeof drawCameraBackground==="function"){
     const baseCameraBackground=drawCameraBackground;
