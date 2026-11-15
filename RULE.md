@@ -156,3 +156,6 @@
 
 
 35. Thần Sầu là nhân vật huyền thoại dùng sprite sheet tại `assets/characters/than-sau/than-sau-spritesheet.png`, bố cục 5 cột × 2 hàng (10 frame), dùng chung hàm `drawRacer` cho Canvas chính và Thiên Lý Kính. Nhập thủ công một trong các bí danh Shen, Sầu, Trần Đạt Thọ, Thần Sầu, 神愁 phải tạo đúng nhân vật Thần Sầu. Khi triệu hồi ngẫu nhiên, xác suất xuất hiện tăng theo số lượng trong lượt, tối đa một Thần Sầu mỗi lượt; không ảnh hưởng số lượng nhân vật, tốc độ hoặc cân bằng các nhân vật khác. Nếu sprite chưa tải được, phải fallback về renderer hiện tại.
+
+
+36. Thần Sầu sở hữu Bún Chua Cay Thể. Tạo hình sprite luôn có tô bún cầm tay; khi kích hoạt tuyệt chiêu phải có trạng thái ăn bún/khói cay nhìn thấy được. Tuyệt chiêu tự kích hoạt theo cooldown trong cuộc đua, tăng tốc ×1.20 trong 3.5 giây, cooldown 11.5 giây; chỉ áp dụng cho Thần Sầu, không làm thay đổi bộ hiệu ứng chung của các tiên nhân khác. Tên thể chất hiển thị là “Bún Chua Cay Thể”, tên hiệu ứng khi buff là “Bún Chua Cay”.
