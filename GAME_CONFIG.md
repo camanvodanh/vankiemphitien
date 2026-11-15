@@ -215,6 +215,6 @@ Nguồn thực thi: `data/effects.json` khóa `trackZones`, kết hợp logic tr
 - **Kiếm Trận** ở 53%: tăng tốc hệ số 1.13 trong 2.2 giây.
 - **Lôi Vực** ở 78%: giảm tốc hệ số 0.91 trong 1.8 giây.
 - Mỗi tiên nhân kích hoạt mỗi vùng tối đa một lần trong một lượt; chỉ kích hoạt khi tiến độ thực sự đi qua mốc. Các hiệu ứng dùng giới hạn tốc độ chung và không tạo banner.
-- Mỗi tiên nhân nhận một thiên phú luân phiên: Phong Linh Thể, Lôi Linh Thể, Kiếm Tâm, Ảnh Độn Thể hoặc Huyền Quy Thể. Thiên phú tăng nhẹ hiệu quả khi đi qua vùng có lợi; không tạo lợi thế lớn ngay từ đầu.
+- Mỗi tiên nhân nhận một trong 20 thiên phú luân phiên: Phong Linh Thể, Lôi Linh Thể, Kiếm Tâm, Ảnh Độn Thể, Huyền Quy Thể, Hỏa Linh Căn, Băng Tâm, Thanh Loan Huyết Mạch, Côn Bằng Chi Thể, Thiên Cơ Đạo Thể, Vô Ảnh Kiếm Cốt, Tử Điện Linh Thể, Nguyệt Ảnh Thể, Kim Cang Thể, Cửu Dương Thể, Hư Không Đạo Thể, Tinh Thần Linh Thể, Long Tượng Bá Thể, Thanh Mộc Linh Thể và Hàn Nguyệt Kiếm Thể. Thiên phú tăng nhẹ hiệu quả khi đi qua vùng có lợi; hệ số cộng thêm nằm trong khoảng 1.015–1.045, không tạo lợi thế lớn ngay từ đầu.
 - **Photo Finish** được nhận diện khi hai lần về đích liên tiếp cách nhau không quá 120 ms; thông báo kết quả được xếp sau thông báo về đích, không thay đổi thời gian hoặc thứ hạng đã chốt.
 - Cổng sự kiện được vẽ bằng nét pixel đơn giản trên Canvas, không dùng blur/filter và không thêm DOM panel.
