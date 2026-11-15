@@ -284,7 +284,7 @@ function createRacer(name, index) {
     id: Math.random().toString(36).slice(2),
     name,
     isLegendaryThanSau: isThanSauAlias(name),
-    talent: isThanSauAlias(name) ? { id: "bun-chua-cay", name: "Bún Chua Cay Thể" } : null,
+    talent: isThanSauAlias(name) ? { id: "bun-chua-cay", name: "Bún Chua Cay Thánh Thể" } : null,
     thanSauBunCooldown: 4,
     thanSauEatingTimer: 0,
     gender: /nữ|tiên tử|thánh nữ|tiểu thư|cô nương|nguyệt|thanh huyền|linh nhi|nhược|tử yên|băng tâm/i.test(name) ? "female" : (randInt(0,1) === 0 ? "male" : "female"),
@@ -794,6 +794,33 @@ function leaderOf(){
 }
 
 
+// Co chữ thể chất/hiệu ứng theo chiều rộng thực tế; chỉ đo lại khi nội dung hoặc kích thước đổi.
+function fitCameraInfoText(id,value){
+ const element=$(id);if(!element)return;
+ const text=String(value||"");
+ if(element.textContent!==text)element.textContent=text;
+ const width=element.clientWidth;
+ if(!width)return;
+ if(element.dataset.fitText===text&&Number(element.dataset.fitWidth)===width)return;
+ element.dataset.fitText=text;element.dataset.fitWidth=String(width);
+ element.style.fontSize="";
+ if(!text)return;
+ const style=getComputedStyle(element);
+ const baseSize=parseFloat(style.fontSize)||12;
+ const minSize=Math.min(6,baseSize);
+ cameraCtx.save();
+ let low=minSize,high=baseSize;
+ cameraCtx.font=style.fontWeight+" "+baseSize+"px "+style.fontFamily;
+ if(cameraCtx.measureText(text).width<=width){cameraCtx.restore();return;}
+ for(let i=0;i<10;i++){
+  const mid=(low+high)/2;
+  cameraCtx.font=style.fontWeight+" "+mid+"px "+style.fontFamily;
+  if(cameraCtx.measureText(text).width<=width)low=mid;else high=mid;
+ }
+ cameraCtx.restore();
+ element.style.fontSize=low.toFixed(2)+"px";
+}
+
 // REVISION 10 — lần lượt chiếu người đang dẫn đầu còn lại và thời gian về đích.
 function leaderOf(){
   const active=racers.filter(r=>!r.finished).sort((a,b)=>b.progress-a.progress||a.targetFinishTime-b.targetFinishTime);
@@ -828,8 +855,8 @@ function drawCamera(time){
  const cameraRacer=racer.effectName?{...racer,effectName:""}:racer;
  drawRacer(cameraCtx,cameraRacer,210,108,2.0,time);
  const rank=sortedRacers().findIndex(item=>item.id===racer.id)+1;
-  $("leaderTalent").textContent=racer.talent&&racer.talent.name?racer.talent.name:"";
-  $("leaderEffect").textContent=racer.effectTimer>0?(racer.effectName||""):"";
+  fitCameraInfoText("leaderTalent",racer.talent&&racer.talent.name?racer.talent.name:"");
+  fitCameraInfoText("leaderEffect",racer.effectTimer>0?(racer.effectName||""):"");
   $("leaderName").textContent=racer.name;
   const rankArrow=racer.rankMovementTimer>0&&racer.rankMovement
    ? (racer.rankMovement==="up"?'<span class="camera-rank-up">↑</span>':'<span class="camera-rank-down">↓</span>')
