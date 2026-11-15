@@ -120,3 +120,6 @@
 18. Khi chỉnh giao diện ngang, phải giữ Canvas, Thiên Lý Kính và Tiên Bảng trên cùng một hàng; thanh điều khiển nằm ở hàng riêng bên dưới Canvas, không được phủ lên nội dung Canvas hoặc cảnh trao thưởng. Hai nút Chạy/Dừng phải cân đối quanh tâm, không có dock nền che cảnh và phải tôn trọng thuộc tính `hidden`.
 19. Giữ nguyên bố cục Thiên Lý Kính; chỉ xử lý co chữ, ellipsis hoặc xuống dòng khi nội dung có nguy cơ tràn viền. Không tự ý thêm nhãn “Hiệu Ứng:” hay đổi vị trí các thành phần. Khi có hiệu ứng, hiển thị đúng tên lấy từ `effectName`.
 20. Tiên Bảng phải cố định bề rộng từng cột Hạng/Tiên nhân/Thời gian, cho phép tên dài rút gọn, thời gian `MM:SS:mmm` luôn nằm gọn trong cột; không tạo cuộn ngang hoặc tràn panel. Khi thu nhỏ bảng triệu hồi, chỉ giữ thanh tiêu đề và nút mở lại; ẩn toàn bộ pháp luân, vùng nhập tên, thông báo và nội dung phụ trên mọi kích thước màn hình.
+
+
+22. Giai đoạn 1: vùng sự kiện đường đua phải dùng cấu hình `data/effects.json`, chỉ kích hoạt một lần/nhân vật/vùng/lượt, tác động qua hệ số tốc độ có giới hạn chung và phải được reset khi tạo nhân vật/lượt mới. Không dùng banner cho sự kiện địa hình. Thiên phú chỉ tạo chênh lệch nhỏ, không phá cân bằng. Photo Finish chỉ nhận diện các thời điểm về đích đã chốt; không được sửa thứ hạng hoặc thời gian kết quả.
