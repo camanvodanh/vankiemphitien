@@ -263,3 +263,9 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Khung Canvas nhân vật nằm dưới toàn bộ phần thông tin, neo sát đáy panel và chiếm phần diện tích còn lại theo tỷ lệ 7:4.
 - Dấu hiệu thể chất trên nhân vật chính đổi từ huy hiệu lớn sang chấm ngọc nhỏ cạnh pháp bảo; màu chấm vẫn phân biệt theo ID, không che mặt hoặc tên.
 - Hệ số tốc độ và thời gian còn lại dùng cùng màu xanh lá khi tăng tốc, đỏ khi giảm tốc. Đây chỉ là quy tắc hiển thị, không thay đổi logic hiệu ứng hoặc gameplay.
+
+## 19. Khung Thiên Lý Kính và vùng nhìn Tiên Bảng
+
+- Vòng nét đứt quanh thân do lớp vẽ hiệu ứng cá nhân trong visual-overrides.js đã được loại bỏ; trạng thái hiệu ứng cá nhân, xác suất 95%/5%, hệ số và thời lượng vẫn giữ nguyên.
+- Thiên Lý Kính giữ khung panel cố định, không cho phần chữ làm tăng tràn chiều cao hoặc chiều rộng. Thông tin hiển thị thành bốn dòng gọn: hạng/tốc độ; tên nhân vật; tên thể chất; tên hiệu ứng. Mỗi dòng tự ellipsis nếu quá dài; Canvas chiếm phần còn lại, giữ tỷ lệ 7:4.
+- Tiên Bảng vẫn render đầy đủ danh sách; vùng cuộn dọc được tăng chiều cao để nhìn thấy khoảng 10 hạng trước khi cần kéo. Không thay đổi thứ tự, dữ liệu, nhịp cập nhật hoặc kết quả xếp hạng.
