@@ -359,40 +359,47 @@ const eventMessages = [
   "Kiếm Ý Tăng Vọt"
 ];
 
-function addParticles(x, y, amount = 12) {
-  for (let i = 0; i < amount; i++) {
+// Ngân sách hạt thích ứng theo số tiên nhân để tránh bùng nổ draw calls.
+function getParticleBudget(){
+  return racers.length>=70?180:racers.length>=40?280:480;
+}
+function addParticles(x,y,amount=12,color){
+  const remaining=Math.max(0,getParticleBudget()-particles.length);
+  const count=Math.min(remaining,Math.max(0,Math.floor(amount)));
+  for(let i=0;i<count;i++){
     particles.push({
-      x,
-      y,
-      vx: rand(-1.8, 1.8),
-      vy: rand(-1.6, 1.6),
-      life: rand(.3, .9),
-      maxLife: .9,
-      size: rand(1, 3)
+      x,y,
+      vx:rand(-1.8,1.8),
+      vy:rand(-1.6,1.6),
+      life:rand(.3,.9),
+      maxLife:.9,
+      size:rand(1,3),
+      color
     });
   }
 }
-
-function updateParticles(dt) {
-  particles.forEach(p => {
-    p.x += p.vx * dt * 60;
-    p.y += p.vy * dt * 60;
-    p.life -= dt;
-  });
-
-  particles = particles.filter(p => p.life > 0);
+function updateParticles(dt){
+  // Lọc tại chỗ, tránh cấp phát mảng mới mỗi khung hình.
+  let write=0;
+  for(let i=0;i<particles.length;i++){
+    const p=particles[i];
+    p.x+=p.vx*dt*60;
+    p.y+=p.vy*dt*60;
+    p.life-=dt;
+    if(p.life>0)particles[write++]=p;
+  }
+  particles.length=write;
 }
-
-function drawParticles() {
+function drawParticles(){
+  if(!particles.length)return;
   ctx.save();
-
-  particles.forEach(p => {
-    ctx.globalAlpha = clamp(p.life / p.maxLife, 0, 1);
-    ctx.fillStyle = p.color || "#ffe5a0";
-    ctx.fillRect(p.x, p.y, p.size, p.size);
-  });
-
-  ctx.globalAlpha = 1;
+  for(let i=0;i<particles.length;i++){
+    const p=particles[i];
+    ctx.globalAlpha=clamp(p.life/p.maxLife,0,1);
+    ctx.fillStyle=p.color||"#ffe5a0";
+    ctx.fillRect(p.x,p.y,p.size,p.size);
+  }
+  ctx.globalAlpha=1;
   ctx.restore();
 }
 
