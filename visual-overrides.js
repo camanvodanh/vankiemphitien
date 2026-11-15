@@ -7127,7 +7127,7 @@ if(activeEffect==="cloud_step"){
       for(let n=0;n<3;n++){const xx=-12+n*12,yy=25+bounce*5+(n%2)*3;target.beginPath();target.ellipse(xx,yy,10,4,0,0,Math.PI*2);target.fill();target.stroke();}
       target.strokeStyle="rgba(204,249,255,.8)";target.beginPath();target.moveTo(-18,31);target.quadraticCurveTo(0,39,20,30);target.stroke();
     }
-    if(activeEffect==="boost"){
+    if(activeEffect==="boost"&&racer.effectName!=="Ăn Bún Chua Cay"){
        // Du Long Bộ: thanh long hiện rõ đầu, hàm, bờm, sừng, vảy, bụng giáp, bốn chân và đuôi.
        const phase=t*2.5,sway=Math.sin(phase),dragonY=-18+sway*3;
        target.save();target.globalAlpha=.94*fade;target.lineJoin="round";target.lineCap="round";
@@ -7463,8 +7463,8 @@ function drawRacer(target, racer, x, y, scale, time) {
   if(eatingBun&&eatProgress>.18){
     const pour=clamp((eatProgress-.18)/.72,0,1),mouthX=1,mouthY=-39;
     target.save();target.globalAlpha=.95*(1-pour*.18);target.strokeStyle="#fff0d2";target.lineWidth=2.1;target.lineCap="round";
-    target.beginPath();target.moveTo(-1,1);target.bezierCurveTo(-7,-8,-2,-18,mouthX,mouthY+5);target.stroke();
-    target.strokeStyle="#e85a35";target.lineWidth=1.4;target.beginPath();target.moveTo(2,0);target.quadraticCurveTo(8,-14,mouthX+2,mouthY+7);target.stroke();
+    target.beginPath();target.moveTo(bowlX-5,bowlY-2);target.bezierCurveTo(bowlX-13,bowlY-15,-5,-23,mouthX,mouthY+5);target.stroke();
+    target.strokeStyle="#e85a35";target.lineWidth=1.6;target.beginPath();target.moveTo(bowlX-1,bowlY+1);target.quadraticCurveTo(bowlX-7,bowlY-17,mouthX+2,mouthY+7);target.stroke();
     target.fillStyle="#f8e9c7";target.beginPath();target.arc(mouthX,mouthY+5,2.1,0,Math.PI*2);target.fill();target.restore();
   }
   if(eatingBun||racer.thanSauEatingTimer>0||active&&racer.effectName==="Ăn Bún Chua Cay"){
@@ -7475,6 +7475,28 @@ function drawRacer(target, racer, x, y, scale, time) {
   }
   target.restore();
   if(active)drawThanSauEffect(target,racer,time);
+  // Lớp đặc trưng Ăn Bún Chua Cay luôn vẽ sau hiệu ứng chung để không bị Du Long Bộ che.
+  if(eatingBun){
+    target.save();
+    const foodPulse=.75+.25*Math.sin(time*.018);
+    target.globalAlpha=.9;
+    target.shadowColor="#ff7448";target.shadowBlur=9;
+    target.strokeStyle="#ff9b58";target.lineWidth=1.8;
+    target.beginPath();target.ellipse(bowlX-3,bowlY-1,20*foodPulse,8*foodPulse,-.35,Math.PI*1.05,Math.PI*1.92);target.stroke();
+    target.shadowBlur=0;
+    for(let n=0;n<5;n++){
+      const a=time*.006+n*Math.PI*2/5,px=bowlX+Math.cos(a)*(19+n%2*4),py=bowlY-8+Math.sin(a)*10;
+      target.globalAlpha=.65+.3*Math.sin(time*.02+n);
+      target.fillStyle=n%2?"#ff6745":"#ffd46d";
+      target.beginPath();target.arc(px,py,1.5+(n%2)*.6,0,Math.PI*2);target.fill();
+    }
+    target.globalAlpha=.88;target.strokeStyle="#fff0cf";target.lineWidth=1.4;
+    for(let n=0;n<3;n++){
+      const sx=bowlX-5+n*5,sy=bowlY-8;
+      target.beginPath();target.moveTo(sx,sy);target.quadraticCurveTo(sx-5,-24-n*2,sx+1,-34-n*2);target.stroke();
+    }
+    target.restore();
+  }
   if(active&&racer.effectName&&target!==cameraCtx){
     target.save();target.font="bold 7px Arial,sans-serif";target.textAlign="center";target.textBaseline="middle";
     target.lineJoin="round";target.lineWidth=2.2;target.strokeStyle="rgba(14,25,24,.98)";
