@@ -102,7 +102,7 @@ function updateRace(dt){
     const limits=VKP_DATA.effects.balance.speedLimits;
     racer.speedMultiplier=clamp(1.2,limits.min,limits.max);
     racer.effectType="boost";
-    racer.effectName="Bún Chua Cay";
+    racer.effectName="Ăn Bún Chua Cay";
     racer.effectPolarity="positive";
     racer.effectDuration=3.5;
     racer.effectTimer=3.5;
