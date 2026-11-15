@@ -370,3 +370,9 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Nhánh boost của Thần Sầu chỉ vẽ Du Long Bộ khi hiệu ứng không mang tên “Ăn Bún Chua Cay”; tuyệt chiêu ăn bún không còn bị rồng phủ lên.
 - Tô bún và dòng bún/nước dùng được đặt đúng điểm bắt đầu tại tô và hướng lên miệng; hơi nóng, viền linh khí đỏ cam và hạt ớt được vẽ sau lớp hiệu ứng chung để luôn nhìn rõ.
 - Các lượt boost khác tiếp tục hiển thị Du Long Bộ như cũ. Không thay đổi tốc độ ×1.20, thời lượng 3.5 giây hoặc cooldown 11.5 giây.
+
+
+## 33. Không để dòng linh thủy pháp bảo xuất hiện sai cảnh
+
+- Đã bỏ lời gọi vẽ Long Tuyền Ngọc Hồ và dòng linh thủy của nó khỏi phong cảnh nền dùng chung, vì nền này được giữ bên dưới mọi cảnh giới khi chuyển cảnh.
+- Sông, thác tự nhiên và chuyển động mặt nước vẫn được giữ nguyên. Không ảnh hưởng tiến độ, hiệu ứng hay tốc độ đua.
