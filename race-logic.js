@@ -1913,6 +1913,15 @@ processFinish=function(racer,index){
 function drawPhase1TrackZones(time){
  if(finished||!racers.length)return;
  const zones=VKP_DATA.effects.trackZones||[];
+ const progress=Number(window.__vkJourneyProgress)||0;
+ // Chỉ dựng cổng kế tiếp trong 8% cuối trước mốc; qua mốc là cổng biến mất.
+ let activeIndex=-1;
+ for(let i=0;i<zones.length;i++){
+  const gap=Number(zones[i].progress)-progress;
+  if(gap>=0&&gap<=.08){activeIndex=i;break;}
+ }
+ if(activeIndex<0)return;
+ const zone=zones[activeIndex],index=activeIndex;
  const top=TRACK.top+8,bottom=TRACK.bottom-142,height=bottom-top;
  const drawSword=(sx,sy,angle,color)=>{
   ctx.save();ctx.translate(sx,sy);ctx.rotate(angle);
@@ -1923,7 +1932,7 @@ function drawPhase1TrackZones(time){
   ctx.fillStyle="#fff0b7";ctx.fillRect(-1,-12,2,7);
   ctx.restore();
  };
- zones.forEach((zone,index)=>{
+ {
   const x=TRACK.left+35+(TRACK.right-TRACK.left-45)*zone.progress;
   const pulse=.5+.5*Math.sin(time*.0024+index*1.8);
   const jade=index===0,sword=index===1,accent=zone.color||"#b8d8ff";
@@ -1993,7 +2002,7 @@ function drawPhase1TrackZones(time){
   ctx.fillStyle="#fff3d0";ctx.font="bold 8px Arial";ctx.textAlign="center";ctx.textBaseline="middle";
   ctx.fillText(label,x,top-11,82);
   ctx.restore();
- });
+ };
 }
 let phase1TrackRenderTime=0;
 const phase1BaseDrawTrackLines=drawTrackLines;
