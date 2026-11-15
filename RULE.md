@@ -126,3 +126,5 @@
 
 
 23. Danh sách thiên phú được khai báo trong logic tạo tiên nhân phải giữ ID duy nhất, tên hiển thị không trùng và hệ số cộng thêm nhỏ trong giới hạn cân bằng đã ghi ở `GAME_CONFIG.md`. Khi mở rộng thiên phú, phải cập nhật tài liệu cấu hình và cache script tương ứng; không tự ý đổi bố cục giao diện nếu người dùng chỉ yêu cầu thêm nội dung gameplay.
+
+24. Ba cổng sự kiện đường đua phải được vẽ bằng Canvas pixel-art theo dữ liệu `data/effects.json`, đặt phía sau nhân vật (trước lớp vẽ tiên nhân), có kiến trúc/màu/biểu tượng phân biệt và biển tên kèm mốc tiến độ. Giữ nguyên vị trí kích hoạt, cơ chế gameplay, hiệu năng mobile; không dùng blur/filter hoặc DOM panel cho cổng.
