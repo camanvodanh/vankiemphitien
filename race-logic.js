@@ -94,7 +94,7 @@ function updateRace(dt){
     if(cameraFocusId===racer.id)cameraFocusId=null;
    }
   }
-  // Bún Chua Cay Thể: Thần Sầu ăn một tô bún để kích hoạt thân pháp tăng tốc.
+  // Bún Chua Cay Thánh Thể: Thần Sầu ăn một tô bún để kích hoạt thân pháp tăng tốc.
   if(racer.isLegendaryThanSau){
    racer.thanSauBunCooldown=Math.max(0,(racer.thanSauBunCooldown||0)-dt);
    racer.thanSauEatingTimer=Math.max(0,(racer.thanSauEatingTimer||0)-dt);
@@ -114,7 +114,7 @@ function updateRace(dt){
     racer.personalEffectName="Bún Chua Cay";
     racer.personalEffectPolarity="positive";
     racer.personalEffectMultiplier=1.2;
-    if(cameraFocusId===racer.id)cameraFocusId=racer.id;
+    cameraFocusId=racer.id;
    }
   }
   const limits=VKP_DATA.effects.balance.speedLimits;
@@ -273,8 +273,9 @@ function normalizeThanSauName(value) {
     .replace(/[^a-z0-9\u4e00-\u9fff]/g, "");
 }
 function isThanSauAlias(value) {
-  return ["shen", "sau", "trandattho", "thansau", "神愁"]
-    .includes(normalizeThanSauName(value));
+  const normalized=normalizeThanSauName(value);
+  return normalized.includes("sau") || normalized.includes("shen") ||
+    ["trandattho","神愁"].includes(normalized);
 }
 
 function createRacer(name, index) {
