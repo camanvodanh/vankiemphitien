@@ -102,22 +102,54 @@
       {
         "progress": 0.2,
         "shortName": "VÂN HẢI",
-        "color": "#a8e7e9"
+        "color": "#a8e7e9",
+        "effect": {
+          "type": "cloud_step",
+          "name": "Vân Hải Gia Trì",
+          "polarity": "positive",
+          "multiplier": 1.035,
+          "duration": 4,
+          "color": "#9be9ef"
+        }
       },
       {
         "progress": 0.4,
         "shortName": "KIẾM VỰC",
-        "color": "#b9d9ff"
+        "color": "#b9d9ff",
+        "effect": {
+          "type": "sword_intent",
+          "name": "Kiếm Vực Khai Phong",
+          "polarity": "positive",
+          "multiplier": 1.045,
+          "duration": 4,
+          "color": "#b8d9ff"
+        }
       },
       {
         "progress": 0.6,
         "shortName": "LÔI VỰC",
-        "color": "#c7b9ff"
+        "color": "#c7b9ff",
+        "effect": {
+          "type": "lightning",
+          "name": "Lôi Vực Thiên Phạt",
+          "polarity": "negative",
+          "multiplier": 0.97,
+          "duration": 4,
+          "color": "#c6bdff"
+        }
       },
       {
         "progress": 0.8,
         "shortName": "THIÊN CUNG",
-        "color": "#f5d58f"
+        "color": "#f5d58f",
+        "effect": {
+          "type": "formation",
+          "name": "Thiên Cung Tiên Quang",
+          "polarity": "positive",
+          "multiplier": 1.05,
+          "duration": 4.5,
+          "color": "#ffe5a2"
+        }
       }
     ]
   }
