@@ -326,3 +326,8 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Tuyệt chiêu Ăn Bún Chua Cay tiếp tục giữ hệ số ×1.20, thời lượng 3.5 giây và cooldown 11.5 giây; khi kích hoạt, tô bún được nâng lên, khói cay và hạt ớt xuất hiện.
 - Khi nhập tên thủ công, chỉ cần chuỗi sau chuẩn hóa có chứa sau (từ “Sầu”) hoặc shen là tên được quy về “Thần Sầu”, không phân biệt hoa thường và dấu. Các bí danh đầy đủ “Trần Đạt Thọ” và “神愁” vẫn được hỗ trợ.
 - Không thay đổi xác suất hiệu ứng chung, hệ số tốc độ, thời lượng đua hoặc chỉ số các nhân vật khác.
+
+
+## 27. Tay pixel gốc của Thần Sầu trong cảnh nhận thưởng
+- Không dùng Canvas path/stroke/ellipse để dựng cánh tay, tay áo hoặc bàn tay của Thần Sầu trong animation nhận quà.
+- Giữ nguyên tay theo frame pixel gốc từ sprite sheet 5×2; lớp thưởng chỉ vẽ hộp quà và ánh sao, không phủ tay giả lên nhân vật.
