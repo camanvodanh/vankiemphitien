@@ -127,7 +127,7 @@
 
 23. Danh sách thiên phú được khai báo trong logic tạo tiên nhân phải giữ ID duy nhất, tên hiển thị không trùng và hệ số cộng thêm nhỏ trong giới hạn cân bằng đã ghi ở `GAME_CONFIG.md`. Khi mở rộng thiên phú, phải cập nhật tài liệu cấu hình và cache script tương ứng; không tự ý đổi bố cục giao diện nếu người dùng chỉ yêu cầu thêm nội dung gameplay.
 
-24. Không tạo cổng hoặc mốc sự kiện trang trí trên đường đua tại 24% / 53% / 78%. Chỉ bốn vết nứt không gian chuyển cảnh giới ở 20% / 40% / 60% / 80% được phép hiển thị.
+24. Không tạo cổng hoặc mốc sự kiện trang trí trên đường đua tại 24% / 53% / 78%. Chỉ bốn vết nứt không gian chuyển cảnh giới ở 20% / 40% / 60% / 80% được phép hiển thị. Cổng kế tiếp phải xuất hiện ngay sau khi cổng trước biến mất, không giới hạn chỉ trong vùng 4% trước mốc; khi tiên nhân chạm/vượt mốc, cổng đó biến mất và cổng tiếp theo xuất hiện. Khi qua cổng phải hiện rõ tên đầy đủ cảnh giới mới.
 
 25. Khi tối ưu hiệu năng cuộc đua đông nhân vật (tối đa 100), phải giới hạn ngân sách hạt toàn cục và giảm số hạt mỗi lần kích hoạt theo quy mô; không tạo burst riêng lớn cho từng nhân vật. Ưu tiên cập nhật/lọc hạt tại chỗ, tránh cấp phát mảng mỗi frame. Từ ngưỡng đông người, chuyển hiệu ứng trang trí quanh nhân vật sang chế độ nhẹ nhưng giữ nguyên logic gameplay, tốc độ, thời lượng và trạng thái hiệu ứng. Phải kiểm tra cú pháp, cache và trường hợp 100 nhân vật.
 
