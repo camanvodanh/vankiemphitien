@@ -778,7 +778,7 @@ function drawCamera(time){
  const cameraRacer=racer.effectName?{...racer,effectName:""}:racer;
  drawRacer(cameraCtx,cameraRacer,210,108,2.0,time);
  const rank=sortedRacers().findIndex(item=>item.id===racer.id)+1;
- $("leaderEffect").textContent=[racer.talent&&racer.talent.name?"Thể chất: "+racer.talent.name:"",racer.effectTimer>0?(racer.effectName||""):""].filter(Boolean).join(" · ");
+ $("leaderEffect").textContent=[racer.talent&&racer.talent.name?racer.talent.name:"",racer.effectTimer>0?(racer.effectName||""):""].filter(Boolean).join(" · ");
  $("leaderName").textContent=racer.name;
  const rankArrow=racer.rankMovementTimer>0&&racer.rankMovement
   ? (racer.rankMovement==="up"?'<span class="camera-rank-up">↑</span>':'<span class="camera-rank-down">↓</span>')
