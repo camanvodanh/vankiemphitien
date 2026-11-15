@@ -189,3 +189,6 @@
 
 
 47. Sprite sheet Thần Sầu phải luôn giữ trục thẳng đứng; hiệu ứng chỉ được dịch chuyển/tạo tư thế, không xoay toàn bộ khung pixel gây cảm giác ảnh bị nghiêng và lấn đường đua. Mỗi nhân vật khi vẽ trên Canvas chính phải được cô lập trạng thái save/restore; lỗi của một nhân vật không được làm hỏng transform của đường đua hoặc các nhân vật khác. Toàn bộ render phải khôi phục Canvas bằng finally kể cả khi scenery, nhân vật, camera hoặc cảnh kết thúc phát sinh lỗi. Thiên Lý Kính cũng phải cô lập lỗi vẽ nhân vật. Không thay đổi gameplay, thứ hạng, tốc độ hoặc thời lượng hiệu ứng.
+
+
+48. Khi Thần Sầu kích hoạt “Ăn Bún Chua Cay”, renderer không được dùng nhánh hiệu ứng boost để vẽ Du Long Bộ. Tô bún, dòng bún/nước dùng nối từ tô lên miệng, hơi nóng và điểm sáng ớt phải được vẽ ở lớp trên cùng để không bị hiệu ứng khác che khuất. Hiệu ứng Du Long Bộ vẫn giữ nguyên cho các lượt boost không phải Ăn Bún Chua Cay. Không thay đổi hệ số, thời lượng hoặc cooldown gameplay.
