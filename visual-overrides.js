@@ -7482,3 +7482,49 @@ function drawRacer(target, racer, x, y, scale, time) {
   target.restore();
 }
 
+
+
+// REVISION 132 — HUD thời gian dùng vùng riêng, co giãn theo chiều rộng hiển thị.
+function drawRaceHud() {
+  const remaining=Math.max(0,duration-elapsed);
+  const viewWidth=(typeof canvas!=="undefined"&&canvas.clientWidth)||W;
+  const uiScale=clamp(1100/viewWidth,1,1.42);
+  const boxW=176,boxH=46,x=(W-boxW)/2,y=7;
+  ctx.save();
+  ctx.fillStyle="rgba(17,43,36,.94)";
+  ctx.fillRect(x,y,boxW,boxH);
+  ctx.strokeStyle="rgba(232,199,126,.95)";ctx.lineWidth=1.5;
+  ctx.strokeRect(x+.75,y+.75,boxW-1.5,boxH-1.5);
+  ctx.textAlign="center";ctx.textBaseline="middle";
+  ctx.fillStyle="#f0d79c";
+  ctx.font="700 "+(10.5*uiScale)+"px Arial, \"Noto Sans\", \"PingFang SC\", sans-serif";
+  ctx.fillText("THỜI GIAN",W/2,y+12,boxW-12);
+  ctx.fillStyle="#fff4d1";ctx.shadowColor="rgba(255,224,153,.42)";ctx.shadowBlur=5;
+  ctx.font="700 "+(25*uiScale)+"px Arial, \"Noto Sans\", \"PingFang SC\", sans-serif";
+  ctx.fillText(timeText(remaining),W/2,y+33,boxW-12);
+  ctx.restore();
+}
+
+// REVISION 132 — thông báo nằm ở hàng thứ hai, tách biệt HUD và tên cảnh giới.
+function drawAnnouncement(){
+  const message=finishMessageLife>0?finishMessage:eventTextLife>0?eventText:"";
+  if(!message)return;
+  const isFinish=finishMessageLife>0;
+  const life=isFinish?finishMessageLife:eventTextLife;
+  const viewWidth=(typeof canvas!=="undefined"&&canvas.clientWidth)||W;
+  const uiScale=clamp(1100/viewWidth,1,1.42);
+  ctx.save();
+  ctx.globalAlpha=clamp(life/.55,0,1);
+  ctx.font="700 "+(18*uiScale)+"px Arial, \"Noto Sans\", \"PingFang SC\", sans-serif";
+  const boxW=Math.min(W-40,Math.max(310,ctx.measureText(message).width+42));
+  const boxH=38,x=(W-boxW)/2,y=59;
+  ctx.fillStyle=isFinish?"rgba(99,59,26,.96)":"rgba(18,48,40,.95)";
+  ctx.fillRect(x,y,boxW,boxH);
+  ctx.strokeStyle="#f0d08a";ctx.lineWidth=1.6;
+  ctx.strokeRect(x+.8,y+.8,boxW-1.6,boxH-1.6);
+  ctx.fillStyle=isFinish?"#ffe9ad":"#fff0c5";
+  ctx.textAlign="center";ctx.textBaseline="middle";
+  ctx.shadowColor="rgba(255,226,166,.3)";ctx.shadowBlur=4;
+  ctx.fillText(message,W/2,y+boxH/2,boxW-22);
+  ctx.restore();
+}
