@@ -4539,7 +4539,7 @@ function __drawRacerBaseThanSau(target,racer,x,y,scale,time){
    case "pill":actionY=-3-Math.abs(wave)*3;actionAngle=-.045;break;case "qi_pill":actionY=-2-Math.abs(Math.sin(phase*12))*4;actionX=2+Math.sin(phase*5)*2;actionAngle=-.08;break;case "impact":actionY=Math.abs(pulse)*9;actionX=Math.sin(phase*18)*2;actionAngle=wave*.14;break;
    case "lightning":actionX=Math.sin(phase*38)*3.5;actionY=Math.cos(phase*31)*2;actionAngle=Math.sin(phase*34)*.09;break;
    case "gale":actionX=wave*3;actionY=Math.sin(phase*5)*2;actionAngle=wave*.27;break;case "dizzy":actionAngle=Math.sin(phase*8+racer.phase)*.72;break;
-   case "faint":actionY=4+Math.abs(wave)*2;actionAngle=.34+Math.sin(phase*5)*.07;break;case "boost":if(racer.effectName==="Ăn Bún Chua Cay"&&racer.thanSauEatingTimer>0){const eat=clamp(1-racer.thanSauEatingTimer/.9,0,1);actionX=-1+Math.sin(eat*Math.PI)*2;actionY=-Math.sin(eat*Math.PI)*5;actionAngle=-.025+Math.sin(eat*Math.PI)*.035;}else{actionX=3+Math.sin(phase*7)*3;actionY=-3-Math.sin(phase*6)*3;actionAngle=.08+Math.sin(phase*7)*.12;}break;
+   case "faint":actionY=4+Math.abs(wave)*2;actionAngle=.34+Math.sin(phase*5)*.07;break;case "boost":if(racer.isLegendaryThanSau&&racer.thanSauEatingTimer>0){const eat=clamp(1-racer.thanSauEatingTimer/.9,0,1);actionX=-1+Math.sin(eat*Math.PI)*2;actionY=-Math.sin(eat*Math.PI)*5;actionAngle=-.025+Math.sin(eat*Math.PI)*.035;}else{actionX=3+Math.sin(phase*7)*3;actionY=-3-Math.sin(phase*6)*3;actionAngle=.08+Math.sin(phase*7)*.12;}break;
    case "sword_intent":actionX=1+Math.sin(phase*5)*.8;actionY=-1;actionAngle=-.035+Math.sin(phase*4)*.018;break;case "cloud_step":actionY=-Math.abs(Math.sin(phase*8))*10;actionAngle=.11;break;
    case "formation":actionX=Math.sin(phase*4)*3;actionY=Math.cos(phase*4)*3;actionAngle=Math.sin(phase*4)*.08;break;
    case "formation_sword":actionX=3+Math.sin(phase*8)*2;actionAngle=-.18;break;
@@ -7127,7 +7127,7 @@ if(activeEffect==="cloud_step"){
       for(let n=0;n<3;n++){const xx=-12+n*12,yy=25+bounce*5+(n%2)*3;target.beginPath();target.ellipse(xx,yy,10,4,0,0,Math.PI*2);target.fill();target.stroke();}
       target.strokeStyle="rgba(204,249,255,.8)";target.beginPath();target.moveTo(-18,31);target.quadraticCurveTo(0,39,20,30);target.stroke();
     }
-    if(activeEffect==="boost"&&racer.effectName!=="Ăn Bún Chua Cay"){
+    if(activeEffect==="boost"&&!racer.isLegendaryThanSau&&!(racer.thanSauEatingTimer>0)){
        // Du Long Bộ: thanh long hiện rõ đầu, hàm, bờm, sừng, vảy, bụng giáp, bốn chân và đuôi.
        const phase=t*2.5,sway=Math.sin(phase),dragonY=-18+sway*3;
        target.save();target.globalAlpha=.94*fade;target.lineJoin="round";target.lineCap="round";
@@ -7440,7 +7440,7 @@ function drawRacer(target, racer, x, y, scale, time) {
   glow.addColorStop(0,active?"rgba(255,224,145,.38)":"rgba(255,220,145,.28)");glow.addColorStop(1,"rgba(255,220,145,0)");
   target.fillStyle=glow;target.fillRect(-60,-58,120,116);
   target.drawImage(__thanSauSpriteSheet,sx,sy,frameWidth,frameHeight,-54,-54,108,108);
-  const eatingBun=!!(racer.thanSauEatingTimer>0&&active&&racer.effectName==="Ăn Bún Chua Cay");
+  const eatingBun=!!(racer.isLegendaryThanSau&&racer.thanSauEatingTimer>0&&active&&activeEffect==="boost");
   const eatProgress=eatingBun?clamp(1-racer.thanSauEatingTimer/.9,0,1):0;
   const bowlX=eatingBun?29-17*Math.sin(eatProgress*Math.PI/2):29;
   const bowlY=eatingBun?-1-24*Math.sin(eatProgress*Math.PI/2):-1;
@@ -7467,7 +7467,7 @@ function drawRacer(target, racer, x, y, scale, time) {
     target.strokeStyle="#e85a35";target.lineWidth=1.6;target.beginPath();target.moveTo(bowlX-1,bowlY+1);target.quadraticCurveTo(bowlX-7,bowlY-17,mouthX+2,mouthY+7);target.stroke();
     target.fillStyle="#f8e9c7";target.beginPath();target.arc(mouthX,mouthY+5,2.1,0,Math.PI*2);target.fill();target.restore();
   }
-  if(eatingBun||racer.thanSauEatingTimer>0||active&&racer.effectName==="Ăn Bún Chua Cay"){
+  if(eatingBun||(racer.isLegendaryThanSau&&racer.thanSauEatingTimer>0)){
     const steam=time*.008;target.globalAlpha=.88;target.strokeStyle="#fff2cf";target.lineWidth=1.6;
     for(let i=0;i<5;i++){const steamX=-9+i*4.5,steamY=-7-Math.sin(steam+i)*3;target.beginPath();target.moveTo(steamX,steamY);target.quadraticCurveTo(steamX-3,-14-Math.sin(steam+i)*2,steamX+1,-21-Math.sin(steam+i)*3);target.stroke();}
     target.fillStyle="#ff704d";target.beginPath();target.arc(-14,-4,2.2,0,Math.PI*2);target.arc(14,-7,1.8,0,Math.PI*2);target.fill();
