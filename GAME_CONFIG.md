@@ -253,3 +253,13 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Hạng ưu tiên canh trái, tên nhân vật canh giữa và tự ellipsis, tốc độ canh giữa; thông tin thể chất/hiệu ứng canh giữa và tự ellipsis khi quá dài.
 - Canvas Thiên Lý Kính nằm ở đáy panel, chiếm phần không gian còn lại và giữ tỷ lệ khung 7:4.
 - Hệ số tốc độ và số giây còn lại dùng cùng màu: xanh lá khi hệ số từ 1 trở lên, đỏ khi hệ số dưới 1. Đây chỉ là quy tắc màu hiển thị, không thay đổi hệ số gameplay.
+
+
+## 18. Thiên Lý Kính — bố cục thông tin tinh gọn
+
+- Hàng 1: Hạng canh trái, tốc độ và thời gian hiệu ứng canh phải trên cùng một hàng.
+- Hàng 2: Tên nhân vật canh giữa, một dòng và tự ellipsis nếu dài.
+- Hàng 3: Tên thể chất và tên hiệu ứng đặt cùng hàng, canh giữa, giữ khoảng cách tự nhiên; không dùng dấu chấm hoặc ký tự phân cách.
+- Khung Canvas nhân vật nằm dưới toàn bộ phần thông tin, neo sát đáy panel và chiếm phần diện tích còn lại theo tỷ lệ 7:4.
+- Dấu hiệu thể chất trên nhân vật chính đổi từ huy hiệu lớn sang chấm ngọc nhỏ cạnh pháp bảo; màu chấm vẫn phân biệt theo ID, không che mặt hoặc tên.
+- Hệ số tốc độ và thời gian còn lại dùng cùng màu xanh lá khi tăng tốc, đỏ khi giảm tốc. Đây chỉ là quy tắc hiển thị, không thay đổi logic hiệu ứng hoặc gameplay.
