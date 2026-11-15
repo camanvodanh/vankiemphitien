@@ -1861,12 +1861,9 @@ function activateTrackZone(racer,zone,index){
  racer.effectPolarity=zone.polarity;
  const x=racerX(racer),y=laneY(index);
  cameraFocusId=racer.id;
- addParticles(x,y,22);
- const burst=VKP_DATA.effects.particleBurst;
- for(let i=0;i<Math.min(12,burst.count);i++){
-  const angle=i*burst.angleStep;
-  particles.push({x,y,vx:Math.cos(angle)*rand(1.4,2.8),vy:Math.sin(angle)*rand(1.1,2.2),life:rand(.35,.7),maxLife:.7,size:rand(2,3.5),color:zone.color});
- }
+ // Mỗi lần qua cổng chỉ tạo một cụm hạt nhỏ; giới hạn theo quy mô cuộc đua.
+ const particleCount=racers.length>=70?2:racers.length>=40?4:8;
+ addParticles(x,y,particleCount,zone.color);
 }
 
 const phase1BaseUpdateRace=updateRace;
