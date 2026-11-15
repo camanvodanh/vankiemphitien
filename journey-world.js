@@ -292,6 +292,7 @@
     // Ở cổng đầu tiên, nguồn cũ là ảnh chụp cảnh gốc chưa chỉnh sửa.
     ctx.save();ctx.beginPath();ctx.rect(0,0,1100,535);ctx.clip();
     ctx.clearRect(0,0,1100,535);
+    ctx.globalCompositeOperation="lighter";
     for(let i=0;i<blend.length;i++){
       const layer=blend[i];
       if(layer.region){
@@ -311,19 +312,17 @@
     const hasBase=blend.some(layer=>!layer.region);
     if(!hasBase)cameraCtx.clearRect(0,0,width,height);
     const scale=width/1100;
+    cameraCtx.save();
+    cameraCtx.globalCompositeOperation=hasBase?"source-over":"lighter";
     for(const layer of blend){
       if(!layer.region)continue;
       cameraCtx.save();
-      cameraCtx.globalAlpha=layer.alpha;
-      const wash=cameraCtx.createLinearGradient(0,0,0,height);
-      wash.addColorStop(0,layer.region.tint||"#6b91a2");
-      wash.addColorStop(1,"#263d48");
-      cameraCtx.fillStyle=wash;cameraCtx.fillRect(0,0,width,height);
       cameraCtx.translate(0,-37.5);
       cameraCtx.scale(scale,scale);
       drawRegionScene(cameraCtx,layer.region,time,layer.alpha);
       cameraCtx.restore();
     }
+    cameraCtx.restore();
     const active=blend[blend.length-1].region;
     if(active){
       cameraCtx.save();cameraCtx.globalAlpha=.9;cameraCtx.strokeStyle=active.accent||"#d7e9d0";cameraCtx.lineWidth=3;
@@ -337,7 +336,6 @@
     // Cổng mới thanh tẩy cả hiệu ứng đang chạy lẫn hiệu ứng đang chờ kích hoạt.
     racer.speedMultiplier=1;racer.effectTimer=0;racer.effectDuration=0;
     racer.effectType="";racer.effectName="";racer.effectPolarity="";
-    racer.rankChangeText="";racer.rankChangeTimer=0;
     racer.pendingEffect=null;racer.pendingEffectTimer=0;racer.effectCooldown=0;
     racer.personalEffectType="";racer.personalEffectName="";
     racer.personalEffectPolarity="";racer.personalEffectMultiplier=1;
@@ -376,7 +374,6 @@
     racer.personalEffectMultiplier=personalMultiplier;
     racer.portalEffectIndex=index;
     racer.pendingEffect=null;racer.pendingEffectTimer=0;
-    cameraFocusId=racer.id;
     const count=racers.length>=70?2:racers.length>=40?4:8;
     if(typeof addParticles==="function")addParticles(racerX(racer),laneY(racers.indexOf(racer)),count,gate.color||"#d9f2ff");
   }
