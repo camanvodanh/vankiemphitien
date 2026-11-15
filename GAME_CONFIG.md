@@ -218,3 +218,18 @@ Nguồn thực thi: `data/effects.json` khóa `trackZones`, kết hợp logic tr
 - Mỗi tiên nhân nhận một trong 20 thiên phú luân phiên: Phong Linh Thể, Lôi Linh Thể, Kiếm Tâm, Ảnh Độn Thể, Huyền Quy Thể, Hỏa Linh Căn, Băng Tâm, Thanh Loan Huyết Mạch, Côn Bằng Chi Thể, Thiên Cơ Đạo Thể, Vô Ảnh Kiếm Cốt, Tử Điện Linh Thể, Nguyệt Ảnh Thể, Kim Cang Thể, Cửu Dương Thể, Hư Không Đạo Thể, Tinh Thần Linh Thể, Long Tượng Bá Thể, Thanh Mộc Linh Thể và Hàn Nguyệt Kiếm Thể. Thiên phú tăng nhẹ hiệu quả khi đi qua vùng có lợi; hệ số cộng thêm nằm trong khoảng 1.015–1.045, không tạo lợi thế lớn ngay từ đầu.
 - **Photo Finish** được nhận diện khi hai lần về đích liên tiếp cách nhau không quá 120 ms; thông báo kết quả được xếp sau thông báo về đích, không thay đổi thời gian hoặc thứ hạng đã chốt.
 - Ba cổng sự kiện được dựng trực tiếp bằng Canvas pixel-art và đặt ở lớp phía sau tiên nhân: Cổng Tụ Linh (ngọc xanh, phù văn), Kiếm Trận (phi kiếm xanh lam, trận ấn) và Lôi Vực (huyền thạch tím, lôi văn). Cổng lấy tên, màu và tiến độ từ `data/effects.json`; biển hiệu hiển thị mốc phần trăm. Hoạt ảnh nhẹ, không dùng blur/filter, không thêm DOM panel và vẫn giữ nguyên tọa độ kích hoạt 24% / 53% / 78%.
+
+
+## 15. Hành trình bản đồ xuyên ngũ cảnh giới — `data/scenery.json`
+
+- Cuộc đua vẫn là một đường liên tục; không chia lại lượt, không tăng `distance`, không thay đổi thời lượng hoặc công thức vận tốc.
+- Tiến độ cảnh quan lấy theo nhân vật đang đi xa nhất, chuẩn hóa từ 0 đến 1. Năm vùng lần lượt bắt đầu tại 0%, 20%, 40%, 60% và 80%:
+  1. Tiên Môn Sơn Đạo — sơn cốc, vách núi ngọc và thác xa.
+  2. Vân Hải Thiên Không — đảo tiên lơ lửng và biển mây.
+  3. Vạn Kiếm Kiếm Vực — kiếm sơn và phi kiếm trấn vực.
+  4. Cửu Thiên Lôi Vực — tầng mây tím và lôi điện.
+  5. Thiên Cung Tiên Đài — cung điện vàng giữa tầng mây.
+- Bốn cổng chuyển cảnh được đặt ở 20%, 40%, 60% và 80%. Ba cổng sự kiện gameplay vẫn giữ nguyên 24%, 53% và 78%; cổng chuyển cảnh chỉ có tác dụng hình ảnh, không tác động tốc độ hay thứ hạng.
+- Chuyển cảnh hòa trộn trong phạm vi 1.8% tiến độ mỗi bên của ranh giới, tránh thay đổi nền đột ngột. Thiên Lý Kính nhận tông màu tương ứng với khu vực hiện tại.
+- `journey-world.js` chỉ bổ sung lớp Canvas phía sau nhân vật; không tạo DOM, không thêm timer, listener hoặc vòng lặp animation riêng. Mỗi frame chỉ duyệt tối đa 100 tiên nhân để xác định tiến độ xa nhất và vẽ tối đa hai lớp vùng trong thời gian giao thoa.
+- Không thêm hạt hiệu ứng theo từng tiên nhân; ngân sách hạt hiện tại và ba vùng kích hoạt gameplay được giữ nguyên.
