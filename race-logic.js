@@ -1909,59 +1909,6 @@ processFinish=function(racer,index){
  }
 };
 
-// Ba cổng bí cảnh pixel-art: vẽ trong lớp đường đua, phía sau tiên nhân.
-function drawPhase1TrackZones(time){
- if(finished||!racers.length)return;
- const zones=VKP_DATA.effects.trackZones||[];
- const progress=Number(window.__vkJourneyProgress)||0;
- let activeIndex=-1;
- for(let i=0;i<zones.length;i++){
-  const gap=Number(zones[i].progress)-progress;
-  if(gap>=0&&gap<=.04){activeIndex=i;break;}
- }
- if(activeIndex<0)return;
- const zone=zones[activeIndex],x=TRACK.left+35+(TRACK.right-TRACK.left-45)*zone.progress;
- const top=TRACK.top+30,bottom=TRACK.bottom-150,color=zone.color||"#b8d8ff";
- const gap=Number(zone.progress)-progress,pulse=.5+.5*Math.sin(time*.0025+activeIndex);
- const half=17+3*pulse;
- const path=()=>{
-  ctx.beginPath();ctx.moveTo(x-2,top);
-  ctx.lineTo(x+half*.6,top+38);ctx.lineTo(x+half,top+82);
-  ctx.lineTo(x+half*.55,top+132);ctx.lineTo(x+half*.8,bottom-62);
-  ctx.lineTo(x+3,bottom);ctx.lineTo(x-half*.65,bottom-48);
-  ctx.lineTo(x-half,bottom-112);ctx.lineTo(x-half*.6,top+92);ctx.closePath();
- };
- ctx.save();ctx.globalAlpha=Math.max(.28,Math.min(.95,1-gap*15));
- // Vết nứt không gian thay cho khung cổng/trụ cổ điển.
- path();ctx.fillStyle="#101a31";ctx.fill();
- path();ctx.strokeStyle="#28364d";ctx.lineWidth=10;ctx.stroke();
- path();ctx.strokeStyle=color;ctx.lineWidth=3;ctx.stroke();
- ctx.beginPath();ctx.moveTo(x,top+8);ctx.lineTo(x+4,top+49);ctx.lineTo(x-5,top+91);ctx.lineTo(x+4,bottom-45);ctx.lineTo(x,bottom-7);
- ctx.strokeStyle="#f5fbff";ctx.lineWidth=1.5;ctx.stroke();
- ctx.strokeStyle=color;ctx.lineWidth=1.5;
- [[-2,top+57,-23,top+39],[2,top+116,23,top+96],[-1,bottom-100,-22,bottom-121],[2,bottom-57,22,bottom-38]].forEach(([sx,sy,ex,ey])=>{
-  ctx.beginPath();ctx.moveTo(x+sx,sy);ctx.lineTo(x+(sx+ex)*.5,sy+(ey-sy)*.5);ctx.lineTo(x+ex,ey);ctx.stroke();
- });
- ctx.fillStyle="#fff4d4";for(let i=0;i<3;i++)ctx.fillRect(x+(i%2?4:-3),top+35+i*57,2,2);
- const label=zone.shortName+" · "+Math.round(zone.progress*100)+"%";
- ctx.font="bold 8px Arial";ctx.textAlign="center";ctx.textBaseline="middle";
- ctx.fillStyle="#172337";ctx.fillRect(x-42,top-16,84,14);
- ctx.strokeStyle=color;ctx.lineWidth=1;ctx.strokeRect(x-42.5,top-16.5,85,15);
- ctx.fillStyle="#fff4d5";ctx.fillText(label,x,top-9,80);
- ctx.restore();
-}
-let phase1TrackRenderTime=0;
-const phase1BaseDrawTrackLines=drawTrackLines;
-drawTrackLines=function(){
- phase1BaseDrawTrackLines();
- drawPhase1TrackZones(phase1TrackRenderTime);
-};
-const phase1BaseRender=render;
-render=function(time){
- phase1TrackRenderTime=time;
- phase1BaseRender(time);
-};
-
 const phase1BaseStartRace=startRace;
 startRace=function(){
  phase1BaseStartRace();
