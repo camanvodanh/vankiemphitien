@@ -135,7 +135,7 @@ Hệ số tốc độ:
 Các khoảng trên là khoảng ngẫu nhiên, không phải giá trị cố định. Khi cân bằng hiệu ứng phải thử các thời lượng ngắn và dài, số lượng ít và nhiều; không làm một hiệu ứng khiến cuộc đua mất khả năng phân hạng.
 
 ### Hạt hiệu ứng
-`particleBurst`: count 18; angleStep 0.3490658504 rad; speed 1.2–3.1; life 0.45–0.95 giây; size 2–4.
+Cấu hình `particleBurst` gốc: count 18; angleStep 0.3490658504 rad; speed 1.2–3.1; life 0.45–0.95 giây; size 2–4. Khi kích hoạt cổng địa hình, hiệu ứng hình ảnh dùng cụm hạt thích ứng theo số tiên nhân (8 hạt dưới 40, 4 hạt từ 40–69, 2 hạt từ 70 trở lên) và ngân sách hạt toàn cục tối đa lần lượt 480 / 280 / 180. Hạt được cập nhật/lọc tại chỗ để tránh cấp phát mảng mỗi frame. Từ 36 tiên nhân, hoạt ảnh phụ quanh từng nhân vật chuyển sang dấu hiệu tối giản; chuyển động, thời gian hiệu ứng, hệ số tốc độ và tên hiệu ứng vẫn giữ nguyên.
 
 ## 7. Nghi thức trao thưởng — `data/ceremony.json`
 
