@@ -115,6 +115,34 @@ Object.assign(DICT.cn,{
 "LÔI VỰC THIÊN PHẠT":"雷域天罚","THIÊN CUNG TIÊN QUANG":"天宫仙光"
 });
 
+// REVISION 132b — ánh xạ cả chuỗi gốc Title Case từ JSON, không chỉ nhãn Canvas viết HOA.
+Object.assign(DICT.en,{
+"Tiên Môn Sơn Đạo":"Immortal Sect Mountain Path","Vân Hải Thiên Không":"Sea of Clouds","Vạn Kiếm Kiếm Vực":"Myriad Sword Domain",
+"Cửu Thiên Lôi Vực":"Nine-Heaven Thunder Realm","Thiên Cung Tiên Đài":"Celestial Palace",
+"TIÊN MÔN":"IMMORTAL SECT","VÂN HẢI":"SEA OF CLOUDS","KIẾM VỰC":"SWORD DOMAIN","LÔI VỰC":"THUNDER REALM","THIÊN CUNG":"CELESTIAL PALACE",
+"Trúng độc":"Poisoned","Suy lực":"Weakened","Hồi Linh Đan":"Spirit Recovery Pill","Va chạm":"Collision",
+"Lôi kích":"Lightning Strike","Cuồng phong":"Gale","Choáng":"Dizzy","Ngất":"Faint","Du Long Bộ":"Dragon Wander Step",
+"Tụ Khí Đan":"Qi-Gathering Pill","Kiếm ý":"Sword Intent","Đạp Vân":"Cloud Step","Tụ Linh Trận":"Spirit Gathering Formation",
+"Vạn Kiếm Trận":"Myriad Sword Formation","Bát Quái Trận":"Eight Trigram Formation","Kiếm Vũ":"Sword Dance",
+"Phù tốc":"Speed Talisman","Hộ Thân Phù":"Protective Talisman","Lôi Phù":"Thunder Talisman","Phong Hành":"Wind Walk",
+"Ảnh Độn":"Shadow Step","Kiếm Độn":"Sword Dash","Bạo Bộ":"Burst Step","Lưu Vân Bộ":"Flowing Cloud Step",
+"Vân Hải Gia Trì":"Sea of Clouds Blessing","Kiếm Vực Khai Phong":"Sword Domain Unsealed",
+"Lôi Vực Thiên Phạt":"Thunder Realm Judgment","Thiên Cung Tiên Quang":"Celestial Palace Radiance"
+});
+Object.assign(DICT.cn,{
+"Tiên Môn Sơn Đạo":"仙门山道","Vân Hải Thiên Không":"云海天穹","Vạn Kiếm Kiếm Vực":"万剑剑域",
+"Cửu Thiên Lôi Vực":"九天雷域","Thiên Cung Tiên Đài":"天宫仙台",
+"TIÊN MÔN":"仙门","VÂN HẢI":"云海","KIẾM VỰC":"剑域","LÔI VỰC":"雷域","THIÊN CUNG":"天宫",
+"Trúng độc":"中毒","Suy lực":"虚弱","Hồi Linh Đan":"回灵丹","Va chạm":"碰撞",
+"Lôi kích":"雷击","Cuồng phong":"狂风","Choáng":"眩晕","Ngất":"昏厥","Du Long Bộ":"游龙步",
+"Tụ Khí Đan":"聚气丹","Kiếm ý":"剑意","Đạp Vân":"踏云","Tụ Linh Trận":"聚灵阵",
+"Vạn Kiếm Trận":"万剑阵","Bát Quái Trận":"八卦阵","Kiếm Vũ":"剑舞",
+"Phù tốc":"疾速符","Hộ Thân Phù":"护身符","Lôi Phù":"雷符","Phong Hành":"风行",
+"Ảnh Độn":"影遁","Kiếm Độn":"剑遁","Bạo Bộ":"爆步","Lưu Vân Bộ":"流云步",
+"Vân Hải Gia Trì":"云海加持","Kiếm Vực Khai Phong":"剑域开锋",
+"Lôi Vực Thiên Phạt":"雷域天罚","Thiên Cung Tiên Quang":"天宫仙光"
+});
+
 const LANGS={vi:"VN",en:"EN",cn:"CN"};
 const STORAGE_KEY="vankiemphitien-language";
 let language="vi";
