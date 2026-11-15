@@ -9014,3 +9014,47 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
   white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
   line-height:1.12!important;
 }
+
+
+/* REVISION 131 — ghim thanh Triệu Hồi thu nhỏ bên trong cột trường đua ở mọi hướng màn hình. */
+.arena-frame>.game-setup.is-minimized{
+  position:absolute!important;
+  inset:auto 6px 6px auto!important;
+  z-index:120!important;
+  display:block!important;
+  width:max-content!important;
+  max-width:calc(100% - 12px)!important;
+  height:auto!important;min-height:0!important;max-height:none!important;
+  margin:0!important;padding:4px 7px!important;
+  box-sizing:border-box!important;
+  overflow:hidden!important;
+  transform:none!important;
+}
+@media screen and (orientation:landscape) and (min-width:600px) and (max-width:999px){
+  /* Cột game chiếm xấp xỉ 39.3% arena; cạnh phải panel dừng đúng tại ranh cột game. */
+  .arena-frame>.game-setup.is-minimized{
+    right:calc(100% - 39.3% + 5px)!important;
+    bottom:clamp(30px,7dvh,40px)!important;
+    left:auto!important;top:auto!important;
+    max-width:calc(39.3% - 12px)!important;
+  }
+}
+@media screen and (orientation:landscape) and (min-width:1000px){
+  /* Desktop: giữ thanh thu nhỏ trong cột Canvas, phía trên hàng nút Chạy/Dừng. */
+  .arena-frame>.game-setup.is-minimized{
+    right:calc(100% - 46% + 6px)!important;
+    bottom:clamp(36px,5dvh,50px)!important;
+    left:auto!important;top:auto!important;
+    max-width:calc(46% - 14px)!important;
+  }
+}
+@media screen and (orientation:landscape) and (min-width:600px) and (max-height:430px){
+  .arena-frame>.game-setup.is-minimized{bottom:31px!important;}
+}
+@media screen and (orientation:portrait){
+  /* Portrait: ghim ở góc phải phía trên của vùng game, không trôi sang panel bên dưới. */
+  .arena-frame>.game-setup.is-minimized{
+    inset:6px 6px auto auto!important;
+    max-width:calc(100% - 12px)!important;
+  }
+}
