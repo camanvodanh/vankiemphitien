@@ -150,3 +150,6 @@
 32. Vòng nét đứt quanh nhân vật biểu thị hiệu ứng cá nhân phải được bỏ khỏi phần vẽ; không xóa trạng thái, xác suất, thời lượng, hệ số hoặc hiệu ứng gameplay liên quan. Thiên Lý Kính phải có khung hiển thị cố định trong panel: thông tin không được đẩy Canvas tràn hoặc làm panel vượt kích thước; hạng/tốc độ cùng hàng, tên nhân vật một hàng, tên thể chất và tên hiệu ứng ở hai hàng riêng. Mỗi hàng chữ phải co/ellipsis trong chiều rộng khả dụng. Tiên Bảng tiếp tục chứa toàn bộ danh sách và cuộn dọc; vùng nhìn nên hiển thị xấp xỉ 10 hạng cùng lúc trên thiết bị thông thường.
 
 33. Trong Thiên Lý Kính, tên hiệu ứng phải được căn giữa độc lập theo toàn bộ chiều rộng khả dụng của panel; không bị lệch theo vị trí hoặc độ rộng của tên thể chất ở hàng bên cạnh. Nếu tên thể chất trống, tên hiệu ứng vẫn phải nằm chính giữa. Không thêm nhãn hoặc ký tự trang trí.
+
+
+34. Tài nguyên nhân vật đặc biệt phải đặt trong `assets/characters/<character-id>/`, dùng ID ASCII chữ thường nối bằng dấu gạch ngang. Mỗi nhân vật có `README.md`, sprite sheet `<character-id>-spritesheet.png` và frame riêng trong `frames/<character-id>-00.png`, `-01.png`, ...; giữ kích thước canvas frame đồng nhất và nền trong suốt. Không kích hoạt nhân vật trong gameplay khi ảnh chưa được đưa vào repository và bộ nạp/render sprite chưa được tích hợp, kiểm tra.
