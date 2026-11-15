@@ -1,6 +1,6 @@
 /* Vạn Kiếm Phi Tiên — chuyển cảnh xuyên ngũ cảnh giới
  * Mỗi cảnh giới là một lớp phong cảnh hoàn chỉnh; giao thoa bằng crossfade.
- * Không can thiệp tiến độ, thời lượng, vận tốc hoặc gameplay.
+ * Không đổi tiến độ/quãng đường/thời lượng; hiệu ứng gameplay chỉ được áp dụng khi qua bốn cổng.
  */
 (function installJourneyWorld(){
   "use strict";
