@@ -205,3 +205,16 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Ở màn hình ngang, nút Chạy/Dừng có hàng riêng dưới Canvas trường đua, canh giữa theo cột game; nền container trong suốt. Hàng này bảo vệ vùng chữ TOP 1 trong hoạt cảnh trao thưởng.
 - Bảng triệu hồi khi thu nhỏ chỉ giữ thanh tiêu đề và nút mở rộng; không để textarea, pháp luân hoặc thông báo còn lộ ra ở bất kỳ breakpoint nào.
 - Các quy tắc trên áp dụng theo viewport ngang và dọc; không thay đổi gameplay, thời lượng đua, hiệu ứng hay thứ hạng.
+
+
+## 14. Giai đoạn 1 — địa hình sự kiện, thiên phú và Photo Finish
+
+Nguồn thực thi: `data/effects.json` khóa `trackZones`, kết hợp logic trong `race-logic.js`.
+
+- **Cổng Tụ Linh** ở 24% đường đua: tăng tốc hệ số 1.11 trong 2.4 giây.
+- **Kiếm Trận** ở 53%: tăng tốc hệ số 1.13 trong 2.2 giây.
+- **Lôi Vực** ở 78%: giảm tốc hệ số 0.91 trong 1.8 giây.
+- Mỗi tiên nhân kích hoạt mỗi vùng tối đa một lần trong một lượt; chỉ kích hoạt khi tiến độ thực sự đi qua mốc. Các hiệu ứng dùng giới hạn tốc độ chung và không tạo banner.
+- Mỗi tiên nhân nhận một thiên phú luân phiên: Phong Linh Thể, Lôi Linh Thể, Kiếm Tâm, Ảnh Độn Thể hoặc Huyền Quy Thể. Thiên phú tăng nhẹ hiệu quả khi đi qua vùng có lợi; không tạo lợi thế lớn ngay từ đầu.
+- **Photo Finish** được nhận diện khi hai lần về đích liên tiếp cách nhau không quá 120 ms; thông báo kết quả được xếp sau thông báo về đích, không thay đổi thời gian hoặc thứ hạng đã chốt.
+- Cổng sự kiện được vẽ bằng nét pixel đơn giản trên Canvas, không dùng blur/filter và không thêm DOM panel.
