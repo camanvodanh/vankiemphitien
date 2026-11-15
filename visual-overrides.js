@@ -7433,7 +7433,8 @@ function drawRacer(target, racer, x, y, scale, time) {
    case "body_burst":actionY=progress<.22?4: -Math.abs(Math.sin(phase*9))*11;actionX=progress<.22?-3:5+Math.sin(phase*7)*2;actionAngle=progress<.22?.18:-.08;break;case "cloud_stride":actionX=2+Math.sin(phase*4)*4;actionY=-4-Math.sin(phase*3)*3;actionAngle=-.04+Math.sin(phase*3)*.06;break;
   }
   const bob=Math.sin(time*.009+(racer.phase||0))*1.2;
-  target.save();target.translate(x+actionX,y+bob+actionY);target.rotate(actionAngle);
+  target.save();// Sprite pixel luôn thẳng đứng; hiệu ứng chỉ dịch chuyển thân, không xoay cả khung ảnh.
+  target.translate(x+actionX,y+bob+actionY);
   target.scale(scale*1.08,scale*1.08);target.imageSmoothingEnabled=false;
   const glow=target.createRadialGradient(0,0,5,0,0,58);
   glow.addColorStop(0,active?"rgba(255,224,145,.38)":"rgba(255,220,145,.28)");glow.addColorStop(1,"rgba(255,220,145,0)");
