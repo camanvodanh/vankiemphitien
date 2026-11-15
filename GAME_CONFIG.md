@@ -223,7 +223,7 @@ Nguồn thực thi: `data/effects.json` khóa `trackZones`, kết hợp logic tr
 ## 15. Hành trình bản đồ xuyên ngũ cảnh giới — `data/scenery.json`
 
 - Cuộc đua vẫn là một đường liên tục; không chia lại lượt, không tăng `distance`, không thay đổi thời lượng hoặc công thức vận tốc.
-- Tiến độ cảnh quan lấy theo nhân vật đang đi xa nhất, chuẩn hóa từ 0 đến 1. Năm vùng lần lượt bắt đầu tại 0%, 20%, 40%, 60% và 80%:
+- Tiến độ cảnh quan lấy theo nhân vật đang đi xa nhất, chuẩn hóa từ 0 đến 1. Năm vùng lần lượt bắt đầu tại 0%, 20%, 40%, 60% và 80%. Mỗi vùng thay thế lớp trời/núi/địa danh của vùng trước bằng một cảnh Canvas hoàn chỉnh; tại ranh giới, cảnh mới được dựng kín khung rồi cảnh cũ mờ dần phủ lên để crossfade thực sự, không còn các landmark trong suốt chồng lên cảnh nền gốc. Chỉ hiển thị một cổng chuyển cảnh kế tiếp trên đường đua, không vẽ đồng thời cả bốn cổng.
   1. Tiên Môn Sơn Đạo — sơn cốc, vách núi ngọc và thác xa.
   2. Vân Hải Thiên Không — đảo tiên lơ lửng và biển mây.
   3. Vạn Kiếm Kiếm Vực — kiếm sơn và phi kiếm trấn vực.
