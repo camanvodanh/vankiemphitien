@@ -376,3 +376,9 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 
 - Đã bỏ lời gọi vẽ Long Tuyền Ngọc Hồ và dòng linh thủy của nó khỏi phong cảnh nền dùng chung, vì nền này được giữ bên dưới mọi cảnh giới khi chuyển cảnh.
 - Sông, thác tự nhiên và chuyển động mặt nước vẫn được giữ nguyên. Không ảnh hưởng tiến độ, hiệu ứng hay tốc độ đua.
+
+
+## 34. Nhận diện tuyệt chiêu Bún Chua Cay độc lập với tên hiệu ứng
+- Renderer nhận diện hành động ăn bún bằng cờ nhân vật Thần Sầu và thanSauEatingTimer, không phụ thuộc so sánh chuỗi effectName.
+- Mọi nhánh Du Long Bộ loại trừ nhân vật Thần Sầu để không thể biến tuyệt chiêu riêng thành hiệu ứng rồng khi tên hiệu ứng bị thay đổi/dịch.
+- Tô bún, động tác đưa tô lên miệng, dòng bún/nước dùng và hơi nóng vẫn hiển thị trong thời gian ăn; hiệu ứng boost gameplay giữ nguyên ×1.20 trong 3.5 giây, cooldown 11.5 giây.
