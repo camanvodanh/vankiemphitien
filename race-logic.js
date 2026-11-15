@@ -1914,3 +1914,9 @@ render=function(time){
  phase1BaseRender(time);
  drawPhase1TrackZones(time);
 };
+
+const phase1BaseStartRace=startRace;
+startRace=function(){
+ phase1BaseStartRace();
+ racers.forEach(r=>{r.trackZoneMask=0;});
+};
