@@ -229,7 +229,7 @@ Nguồn thực thi: `data/effects.json` khóa `trackZones`, kết hợp logic tr
   3. Vạn Kiếm Kiếm Vực — kiếm sơn và phi kiếm trấn vực.
   4. Cửu Thiên Lôi Vực — tầng mây tím và lôi điện.
   5. Thiên Cung Tiên Đài — cung điện vàng giữa tầng mây.
-- Bốn cổng chuyển cảnh được đặt ở 20%, 40%, 60% và 80%; ba cổng sự kiện gameplay vẫn giữ nguyên 24%, 53% và 78%. Mỗi loại chỉ hiển thị cổng kế tiếp trong 8% tiến độ trước mốc, vừa qua mốc thì ẩn ngay và chờ cổng kế tiếp đi vào vùng hiển thị. Không vẽ đồng thời toàn bộ cổng; cổng chuyển cảnh không tác động tốc độ hay thứ hạng.
+- Bốn cổng chuyển cảnh được đặt ở 20%, 40%, 60% và 80%; ba cổng sự kiện gameplay vẫn giữ nguyên 24%, 53% và 78%. Mỗi loại chỉ hiển thị cổng kế tiếp trong 4% tiến độ trước mốc, vừa qua mốc thì ẩn ngay và chờ cổng kế tiếp đi vào vùng hiển thị. Không vẽ đồng thời toàn bộ cổng; cổng chuyển cảnh không tác động tốc độ hay thứ hạng.
 - Chuyển cảnh hòa trộn trong phạm vi 1.8% tiến độ mỗi bên của ranh giới, tránh thay đổi nền đột ngột. Thiên Lý Kính nhận tông màu tương ứng với khu vực hiện tại.
 - `journey-world.js` chỉ bổ sung lớp Canvas phía sau nhân vật; không tạo DOM, không thêm timer, listener hoặc vòng lặp animation riêng. Mỗi frame chỉ duyệt tối đa 100 tiên nhân để xác định tiến độ xa nhất và vẽ tối đa hai lớp vùng trong thời gian giao thoa.
 - Không thêm hạt hiệu ứng theo từng tiên nhân; ngân sách hạt hiện tại và ba vùng kích hoạt gameplay được giữ nguyên.
