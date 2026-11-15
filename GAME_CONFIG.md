@@ -223,13 +223,13 @@ Nguồn thực thi: `data/effects.json` khóa `trackZones`, kết hợp logic tr
 ## 15. Hành trình bản đồ xuyên ngũ cảnh giới — `data/scenery.json`
 
 - Cuộc đua vẫn là một đường liên tục; không chia lại lượt, không tăng `distance`, không thay đổi thời lượng hoặc công thức vận tốc.
-- Tiến độ cảnh quan lấy theo nhân vật đang đi xa nhất, chuẩn hóa từ 0 đến 1. Năm vùng lần lượt bắt đầu tại 0%, 20%, 40%, 60% và 80%. Mỗi vùng chỉ được vẽ khi đoàn đua đang ở trong vùng đó; tại ranh giới, cảnh mới và cảnh trước crossfade trong lớp trời/sơn mạch phía sau. Vùng clip dừng ở y=478 để không che quảng trường tiền cảnh, chưởng môn và nghi thức.
+- Tiến độ cảnh quan lấy theo nhân vật đang đi xa nhất, chuẩn hóa từ 0 đến 1. Cảnh gốc hiện tại được giữ nguyên từ lúc bắt đầu đến khi đoàn đua vượt cổng đầu tiên ở 20%. Sau đó, các vùng tiếp theo lần lượt bắt đầu tại 20%, 40%, 60% và 80%; chỉ sau khi vượt qua cổng tương ứng mới bắt đầu crossfade sang cảnh mới. Vùng clip dừng ở y=478 để không che quảng trường tiền cảnh, chưởng môn và nghi thức.
   1. Tiên Môn Sơn Đạo — sơn cốc, vách núi ngọc và thác xa.
   2. Vân Hải Thiên Không — đảo tiên lơ lửng và biển mây.
   3. Vạn Kiếm Kiếm Vực — kiếm sơn và phi kiếm trấn vực.
   4. Cửu Thiên Lôi Vực — tầng mây tím và lôi điện.
   5. Thiên Cung Tiên Đài — cung điện vàng giữa tầng mây.
-- Bốn cổng chuyển cảnh được đặt ở 20%, 40%, 60% và 80%; ba cổng sự kiện gameplay vẫn giữ nguyên 24%, 53% và 78%. Mỗi loại chỉ hiển thị cổng kế tiếp trong 4% tiến độ trước mốc, vừa qua mốc thì ẩn ngay và chờ cổng kế tiếp đi vào vùng hiển thị. Không vẽ đồng thời toàn bộ cổng; cổng chuyển cảnh không tác động tốc độ hay thứ hạng.
-- Chuyển cảnh hòa trộn trong phạm vi 1.8% tiến độ mỗi bên của ranh giới, tránh thay đổi nền đột ngột. Thiên Lý Kính nhận tông màu tương ứng với khu vực hiện tại.
+- Bốn cổng chuyển cảnh ở 20%, 40%, 60% và 80% và ba cổng sự kiện gameplay ở 24%, 53% và 78% đều dùng tạo hình vết nứt không gian. Mỗi nhóm chỉ hiện cổng kế tiếp trong 4% tiến độ trước mốc; vừa qua mốc thì ẩn ngay. Cổng chuyển cảnh không tác động tốc độ hay thứ hạng.
+- Chuyển cảnh chỉ bắt đầu sau khi vượt cổng; quá trình hòa trộn kéo dài 3.6% tiến độ tiếp theo (tương đương 1.8% độ rộng cấu hình), không hé lộ cảnh giới kế tiếp trước cổng. Thiên Lý Kính chỉ nhận tông màu cảnh giới sau khi đã qua cổng.
 - `journey-world.js` chỉ bổ sung lớp Canvas phía sau nhân vật; không tạo DOM, không thêm timer, listener hoặc vòng lặp animation riêng. Mỗi frame chỉ duyệt tối đa 100 tiên nhân để xác định tiến độ xa nhất và vẽ tối đa hai lớp vùng trong thời gian giao thoa.
 - Không thêm hạt hiệu ứng theo từng tiên nhân; ngân sách hạt hiện tại và ba vùng kích hoạt gameplay được giữ nguyên.
