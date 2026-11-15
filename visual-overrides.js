@@ -3162,55 +3162,14 @@ function drawAwardMaster(target,x,y,scale,time){
 
 /* Thần Sầu nhận thưởng: tay áo nối liền cánh tay, bàn tay ôm hộp quà trước ngực. */
 function drawThanSauGiftReach(target,x,riderY,scale,raise,mini){
-  target.save();target.translate(x,riderY);target.scale(scale,scale);
-  const lift=17*raise;
-  target.lineCap="round";target.lineJoin="round";
-  // Tay áo xanh ngọc nối trực tiếp từ vai xuống cẳng tay đang đón quà.
-  target.strokeStyle="#274f45";target.lineWidth=mini?8:11;
-  target.beginPath();
-  target.moveTo(-22,-17);target.bezierCurveTo(-31,-12,-29,-2,-17,1-lift);
-  target.moveTo(22,-17);target.bezierCurveTo(31,-12,29,-2,17,1-lift);
-  target.stroke();
-  target.strokeStyle="#d8bd80";target.lineWidth=mini?1.1:1.7;
-  target.beginPath();
-  target.moveTo(-25,-11);target.quadraticCurveTo(-29,-4,-20,1-lift);
-  target.moveTo(25,-11);target.quadraticCurveTo(29,-4,20,1-lift);
-  target.stroke();
-  target.fillStyle="#efc39b";
-  target.beginPath();target.ellipse(-17,1-lift,mini?2.5:3.7,mini?3:4.2,-.25,0,Math.PI*2);
-  target.ellipse(17,1-lift,mini?2.5:3.7,mini?3:4.2,.25,0,Math.PI*2);target.fill();
-  target.restore();
+  // Thần Sầu dùng nguyên hai tay pixel có sẵn trong frame gốc.
+  // Không vẽ tay áo, cánh tay hoặc bàn tay Canvas giả lên sprite.
 }
 
 function drawThanSauGiftReception(target,x,riderY,rank,scale,bounce,mini){
-  target.save();target.translate(x,riderY-bounce);target.scale(scale,scale);
-  target.lineCap="round";target.lineJoin="round";
-  // Hai ống tay áo vòng từ vai ra ngoài rồi khép vào hộp quà.
-  target.strokeStyle="#274f45";target.lineWidth=mini?8:11;
-  target.beginPath();
-  target.moveTo(-22,-18);target.bezierCurveTo(-34,-8,-29,5,-15,8);
-  target.moveTo(22,-18);target.bezierCurveTo(34,-8,29,5,15,8);
-  target.stroke();
-  target.strokeStyle="#d8bd80";target.lineWidth=mini?1.2:1.8;
-  target.beginPath();
-  target.moveTo(-27,-10);target.quadraticCurveTo(-31,1,-19,6);
-  target.moveTo(27,-10);target.quadraticCurveTo(31,1,19,6);
-  target.stroke();
-  // Hộp thưởng nằm sát thân, đúng giữa hai cánh tay.
-  drawCeremonyRankGift(target,0,2,rank,mini?.58:.72);
-  // Bàn tay vẽ đè mép hộp để tạo cảm giác đang nắm và ôm vật thể.
-  target.fillStyle="#efc39b";target.strokeStyle="#9d6c55";target.lineWidth=mini?.65:1;
-  target.beginPath();
-  target.ellipse(-12,5,mini?3:4.2,mini?2.4:3.2,-.28,0,Math.PI*2);
-  target.ellipse(12,5,mini?3:4.2,mini?2.4:3.2,.28,0,Math.PI*2);
-  target.fill();target.stroke();
-  target.strokeStyle="#f5d4b4";target.lineWidth=mini?1:1.5;
-  target.beginPath();
-  target.moveTo(-14,4);target.quadraticCurveTo(-12,8,-9,7);
-  target.moveTo(14,4);target.quadraticCurveTo(12,8,9,7);
-  target.stroke();
-  target.restore();
-  // Ánh sao vui mừng vẫn giữ như hoạt ảnh nhận thưởng chung.
+  // Giữ hộp thưởng; cánh tay/bàn tay phải lấy trực tiếp từ frame pixel gốc.
+  drawCeremonyRankGift(target,x,riderY-bounce+2,rank,mini?.58:.72);
+  // Hiệu ứng sao vui mừng, không can thiệp vào hình dáng nhân vật.
   target.save();target.globalAlpha=.72+.28*Math.sin(performance.now()*.012+rank);
   target.strokeStyle=rank===1?"#fff0a2":"#dffaff";target.lineWidth=mini?1:2;
   const sy=riderY-bounce-48*scale;
