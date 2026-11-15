@@ -7094,80 +7094,352 @@ __thanSauSpriteSheet.onerror = () => {
 };
 __thanSauSpriteSheet.src = "assets/characters/than-sau/than-sau-spritesheet.png?v=1";
 
-function drawThanSauEffect(target,racer,time){
-  if(!(racer.effectTimer>0))return;
-  const type=racer.effectType||"",t=time*.001;
-  const fade=Math.min(1,Math.max(.3,racer.effectTimer/.45));
-  const pulse=.78+.22*Math.sin(t*7);
-  const color=type==="poison"?"#a9e66d":
-   type==="weak"||type==="faint"?"#c5d1d7":
-   type==="impact"?"#ffc08a":
-   type==="lightning"||type==="talisman_thunder"?"#a9edff":
-   type==="gale"||type==="wind_step"||type==="cloud_stride"?"#b9f4ef":
-   type==="dizzy"||type==="shadow_step"||type==="formation_seal"?"#d1baff":
-   type==="pill"||type==="qi_pill"||type==="boost"||type==="talisman"||type==="body_burst"?"#ffd783":"#b8eaff";
-  target.save();target.lineCap="round";target.lineJoin="round";target.globalAlpha=fade;
-  target.save();target.globalAlpha=fade*(.55+.25*pulse);target.strokeStyle=color;target.lineWidth=2.2;
-  target.beginPath();target.ellipse(0,30,37+Math.sin(t*5)*3,7+Math.sin(t*5)*1.5,0,0,Math.PI*2);target.stroke();target.restore();
-  if(type==="poison"){
-   target.fillStyle="#a7e86c";target.strokeStyle="#e0ffad";target.lineWidth=1;
-   for(let i=0;i<5;i++){const x=-25+i*12,y=-39-Math.abs(Math.sin(t*2.8+i))*11;target.beginPath();target.arc(x,y,2.4+(i%2),0,Math.PI*2);target.fill();target.beginPath();target.moveTo(x,y+4);target.quadraticCurveTo(x-4,y-2,x+1,y-8);target.stroke();}
-  }else if(type==="weak"){
-   target.strokeStyle="#c8d2d7";target.lineWidth=2;
-   for(let i=0;i<5;i++){const x=-26+i*13,fall=(t*24+i*9)%32;target.beginPath();target.moveTo(x,-33+fall);target.lineTo(x+2,-23+fall);target.stroke();}
-   target.fillStyle="#dbe4e8";for(let i=0;i<5;i++)target.fillRect(-25+i*12,18+(t*15+i*6)%15,2,3);
-  }else if(type==="impact"){
-   const hit=.5+.5*Math.sin(t*15);target.strokeStyle="#ffd09a";target.lineWidth=2.4;
-   for(let i=0;i<8;i++){const a=i*Math.PI/4+t*.2;target.beginPath();target.moveTo(Math.cos(a)*(13+hit*3),Math.sin(a)*(13+hit*3)-8);target.lineTo(Math.cos(a)*(27+hit*5),Math.sin(a)*(27+hit*5)-8);target.stroke();}
-   target.fillStyle="#fff2cf";target.beginPath();target.arc(0,-8,3+hit*2,0,Math.PI*2);target.fill();
-  }else if(type==="lightning"||type==="talisman_thunder"){
-   target.shadowColor="#79dfff";target.shadowBlur=12;target.strokeStyle="#e0faff";target.lineWidth=3;
-   target.beginPath();target.moveTo(18,-48);target.lineTo(7,-29);target.lineTo(15,-26);target.lineTo(-1,-5);target.stroke();target.shadowBlur=0;
-   target.strokeStyle="#9beaff";target.lineWidth=1.4;
-   for(let i=0;i<3;i++){const x=-24+i*23,y=-3+Math.sin(t*12+i)*14;target.beginPath();target.moveTo(x,y-5);target.lineTo(x+4,y);target.lineTo(x-2,y+5);target.stroke();}
-  }else if(type==="gale"){
-   target.strokeStyle="#c4f5f5";target.lineWidth=2;
-   for(let i=0;i<5;i++){const y=-28+i*12,offset=(t*42+i*17)%75;target.beginPath();target.moveTo(-48+offset,y);target.bezierCurveTo(-28+offset,y-8,-10+offset,y+8,12+offset,y-2);target.stroke();}
-  }else if(type==="dizzy"){
-   target.strokeStyle="#e0d1ff";target.lineWidth=2;target.beginPath();target.ellipse(0,-46,23,7,Math.sin(t*4)*.22,t,t+Math.PI*1.6);target.stroke();
-   for(let i=0;i<3;i++){const a=t*2+i*Math.PI*2/3,x=Math.cos(a)*23,y=-46+Math.sin(a)*7;target.fillStyle="#fff0a8";target.fillRect(x-2,y-2,4,4);}
-  }else if(type==="faint"){
-   target.fillStyle="#e3edf0";target.font="bold 10px Arial";target.textAlign="center";target.fillText("Z",14,-38+Math.sin(t*3)*3);target.fillText("Z",24,-48+Math.sin(t*3+1)*3);
-   target.strokeStyle="#cbd9de";target.lineWidth=1.3;for(let i=0;i<3;i++){const a=t+i*2.1,x=Math.cos(a)*19,y=-42+Math.sin(a)*5;target.beginPath();target.moveTo(x-3,y);target.lineTo(x+3,y);target.moveTo(x,y-3);target.lineTo(x,y+3);target.stroke();}
-  }else if(["boost","wind_step","sword_dash","body_burst","cloud_stride","shadow_step"].includes(type)){
-   target.strokeStyle=type==="boost"?"#ffe6a0":"#c4f6ff";target.lineWidth=2.2;
-   for(let i=0;i<5;i++){const y=-27+i*12,shift=(t*55+i*19)%62;target.globalAlpha=fade*(.5+i*.08);target.beginPath();target.moveTo(-58+shift,y);target.quadraticCurveTo(-37+shift,y-5,-18+shift,y);target.stroke();}
-   target.globalAlpha=fade;target.shadowColor=color;target.shadowBlur=9;target.fillStyle=color;
-   for(let i=0;i<6;i++){const x=-30+((i*17+t*35)%60),y=-8+Math.sin(t*7+i)*25;target.beginPath();target.arc(x,y,1.5+(i%2),0,Math.PI*2);target.fill();}
-   target.shadowBlur=0;
-   if(racer.effectName==="Bún Chua Cay"){
-    target.strokeStyle="#ff8b4f";target.lineWidth=2.2;
-    for(let i=0;i<3;i++){const x=-10+i*10,y=-42-Math.sin(t*8+i)*4;target.beginPath();target.moveTo(x,y+8);target.quadraticCurveTo(x-5,y,x+1,y-7);target.stroke();}
-    target.fillStyle="#ff6849";for(let i=0;i<4;i++){const a=t*4+i*Math.PI/2;target.beginPath();target.arc(Math.cos(a)*34,-5+Math.sin(a)*22,2,0,Math.PI*2);target.fill();}
-   }
-  }else if(type==="pill"||type==="qi_pill"){
-   const lift=.5+.5*Math.sin(t*5),hx=12-5*lift,hy=-5-12*lift;
-   target.strokeStyle="#efc69a";target.lineWidth=4;target.beginPath();target.moveTo(13,1);target.quadraticCurveTo(19,-9,hx,hy+4);target.stroke();
-   target.fillStyle="#ffe5a2";target.shadowColor="#ffd66d";target.shadowBlur=8;target.beginPath();target.arc(hx,hy,3.2,0,Math.PI*2);target.fill();target.shadowBlur=0;
-  }else if(type==="cloud_step"){
-   target.fillStyle="rgba(226,250,255,.88)";target.strokeStyle="#a8e8f1";target.lineWidth=1.5;
-   for(let i=0;i<3;i++){const x=-15+i*14,y=28+Math.sin(t*7+i)*3;target.beginPath();target.ellipse(x,y,10,4,0,0,Math.PI*2);target.fill();target.stroke();}
-  }else if(type==="sword_intent"||type==="sword_spin"||type==="formation_sword"){
-   for(let i=0;i<(type==="sword_intent"?1:3);i++){const a=t*3+i*Math.PI*2/3,x=Math.cos(a)*31,y=-25+Math.sin(a)*15;
-    target.save();target.translate(x,y);target.rotate(-.55+Math.sin(a)*.3);target.fillStyle="#e8fbff";target.strokeStyle="#79dfff";target.lineWidth=1.2;
-    target.beginPath();target.moveTo(0,-18);target.lineTo(3,-5);target.lineTo(2,10);target.lineTo(0,14);target.lineTo(-2,10);target.lineTo(-3,-5);target.closePath();target.fill();target.stroke();
-    target.strokeStyle="#e8c77e";target.lineWidth=2;target.beginPath();target.moveTo(-5,9);target.lineTo(5,9);target.moveTo(0,10);target.lineTo(0,17);target.stroke();target.restore();}
-  }else if(type==="formation"||type==="formation_seal"||type==="talisman"||type==="talisman_guard"){
-   target.strokeStyle=color;target.lineWidth=1.8;target.beginPath();target.ellipse(0,-8,35,43,t*.25,0,Math.PI*2);target.stroke();
-   for(let i=0;i<4;i++){const a=t*1.3+i*Math.PI/2,x=Math.cos(a)*34,y=-8+Math.sin(a)*37;target.save();target.translate(x,y);target.rotate(a);
-    target.fillStyle="#fff0bd";target.strokeStyle=color;target.beginPath();target.moveTo(0,-8);target.lineTo(5,0);target.lineTo(0,8);target.lineTo(-5,0);target.closePath();target.fill();target.stroke();target.restore();}
-  }else{
-   target.strokeStyle=color;target.lineWidth=2;target.beginPath();target.arc(0,-5,35*pulse,t*.7,t*.7+Math.PI*1.55);target.stroke();
-   for(let i=0;i<6;i++){const a=t*1.8+i*Math.PI/3,x=Math.cos(a)*36,y=-5+Math.sin(a)*36;target.fillStyle=color;target.fillRect(x-1.5,y-1.5,3,3);}
-  }
-  target.restore();
-}
+function drawThanSauEffect(target,racer,time,scale=1){
+  if(!(racer&&racer.effectTimer>0))return;
+  const activeEffect=racer.effectType||"";
+  const phase=time*.001;
+  const duration=Math.max(.001,racer.effectDuration||racer.effectTimer||1);
+  const progress=clamp(1-racer.effectTimer/duration,0,1);
+  const wave=Math.sin(phase*7+(racer.phase||0));
+  const pulse=Math.sin(phase*10+(racer.phase||0));
+  if(racer.effectTimer>0){
+    if(racers.length>35&&target!==cameraCtx){
+      // Trường đua giảm tải hiệu ứng trang trí; Thiên Lý Kính vẫn vẽ đầy đủ hiệu ứng của nhân vật đang chiếu.
+      target.save();target.globalAlpha=.48;
+      target.fillStyle=racer.effectPolarity==="negative"?"#b7baff":"#b8eaff";
+      target.fillRect(-22,-40,44,2);target.fillRect(-22,26,44,2);
+      target.restore();
+    }else{
+    const t=time*.001,fade=Math.min(1,racer.effectTimer/.35);
+    target.save();target.lineCap="round";target.lineJoin="round";
+    if(activeEffect==="poison"){
+      target.globalAlpha=.72*fade;target.strokeStyle="#a2e66d";target.fillStyle="#8acb62";target.lineWidth=1.7;
+      for(let i=0;i<4;i++){const px=-18+i*12,py=-37-Math.abs(Math.sin(t*2+i))*7;target.beginPath();target.arc(px,py,2.2+(i%2),0,Math.PI*2);target.fill();target.beginPath();target.moveTo(px,py+5);target.quadraticCurveTo(px-5,py-2,px+1,py-9);target.stroke();}
+      target.globalAlpha=.34;target.fillStyle="#77b85c";target.beginPath();target.ellipse(0,-19,10,12,0,0,Math.PI*2);target.fill();
+    }else if(activeEffect==="weak"){
+      // Suy lực: linh khí rò rỉ thành dải bụi xám rơi xuống.
+      target.globalAlpha=.82*fade;target.strokeStyle="#b9c5c9";target.lineWidth=2;
+      for(let n=0;n<4;n++){const px=-20+n*13,fall=(t*22+n*11)%35;target.beginPath();target.moveTo(px,-31+fall);target.quadraticCurveTo(px+5,-23+fall,px+1,-17+fall);target.stroke();}
+      target.fillStyle="#d6e0e2";for(let n=0;n<5;n++){const px=-24+n*12,py=8+(t*13+n*7)%22;target.fillRect(px,py,2,4);}
+    }else if(activeEffect==="faint"){
+      // Ngất: dấu sao tắt dần và chữ Z lơ lửng trên đầu.
+      target.globalAlpha=.72*fade;target.strokeStyle="#cbd7df";target.lineWidth=1.5;
+      for(let n=0;n<3;n++){const aa=t*1.4+n*Math.PI*2/3,px=Math.cos(aa)*18,py=-43+Math.sin(aa)*7;target.beginPath();target.moveTo(px-3,py);target.lineTo(px+3,py);target.moveTo(px,py-3);target.lineTo(px,py+3);target.stroke();}
+      target.fillStyle="#e2e8ed";target.font="bold 8px Arial";target.textAlign="center";target.fillText("Z",14,-39+Math.sin(t*3)*2);target.fillText("Z",21,-47+Math.sin(t*3+1)*2);
+    }else if(activeEffect==="impact"){
+      // Va chạm: giật lùi ngắn, tia va đập và vệt bụi; tuyệt đối không có chữ Z hay tư thế ngủ.
+      const hit=Math.abs(Math.sin(t*10));
+      target.globalAlpha=.95*fade;target.strokeStyle="#ffbd83";target.lineWidth=2.4;target.lineCap="round";
+      for(let i=0;i<7;i++){const aa=i*Math.PI*2/7+t*.35,inner=10+hit*3,outer=25+hit*5;
+        target.beginPath();target.moveTo(Math.cos(aa)*inner,Math.sin(aa)*inner-7);target.lineTo(Math.cos(aa)*outer,Math.sin(aa)*outer-7);target.stroke();}
+      target.fillStyle="#fff2c9";target.beginPath();target.arc(0,-7,4+hit*2,0,Math.PI*2);target.fill();
+      target.globalAlpha=.65*fade;target.strokeStyle="#dcecf0";target.lineWidth=1.5;
+      for(let i=0;i<3;i++){const yy=19+i*5,dx=Math.sin(t*8+i)*4;target.beginPath();target.moveTo(-26+dx,yy);target.quadraticCurveTo(-12,yy+3,0,yy);target.stroke();}
+    }else if(activeEffect==="lightning"){
+      target.globalAlpha=.95*fade;target.strokeStyle="#c8f3ff";target.lineWidth=2.8;target.shadowColor="#75dfff";target.shadowBlur=12;
+      target.beginPath();target.moveTo(12,-48);target.lineTo(3,-30);target.lineTo(10,-28);target.lineTo(-3,-7);target.stroke();
+      target.shadowBlur=0;target.fillStyle="#e9fbff";for(let i=0;i<6;i++){const xx=Math.sin(t*13+i*3)*28,yy=-4+Math.cos(t*9+i)*20;target.beginPath();target.arc(xx,yy,1.5,0,Math.PI*2);target.fill();}
+    }else if(activeEffect==="gale"){
+      target.globalAlpha=.8*fade;target.strokeStyle="#b8edf2";target.lineWidth=1.8;
+      for(let i=0;i<4;i++){const yy=-24+i*13,offset=(t*38+i*21)%58;target.beginPath();target.moveTo(-42+offset,yy);target.bezierCurveTo(-24+offset,yy-8,-8+offset,yy+8,12+offset,yy-2);target.stroke();}
+    }else if(activeEffect==="dizzy"){
+      target.globalAlpha=.9*fade;target.strokeStyle="#d8c6ff";target.lineWidth=1.8;
+      target.beginPath();target.ellipse(0,-43,17,5,Math.sin(t*5)*.18,t*.012,t*.012+Math.PI*1.7);target.stroke();
+      target.fillStyle="#d8c6ff";target.beginPath();target.arc(Math.sin(t*5)*17,-43+Math.cos(t*5)*4,2,0,Math.PI*2);target.fill();
+    }
+    if(activeEffect==="sword_intent"){
+       // Kiếm Ý: ngưng thần kết kiếm quyết, kiếm khí lơ lửng trước ấn quyết, không lao đi.
+       const pulse=.72+.28*Math.sin(t*3.8),orbit=t*1.35;
+       target.globalAlpha=.95*fade;target.shadowColor="#55dfff";target.shadowBlur=15;
+       target.strokeStyle="#b9f5ff";target.lineWidth=2.3;target.lineCap="round";
+       target.beginPath();target.moveTo(12,-5);target.quadraticCurveTo(22,-17,30,-27);target.moveTo(13,-1);target.quadraticCurveTo(24,-8,34,-18);target.stroke();
+       target.save();target.translate(39,-31+Math.sin(t*3)*3);target.rotate(-.62);
+       target.globalAlpha=pulse*fade;target.fillStyle="#efffff";target.strokeStyle="#70dcff";target.lineWidth=1.5;
+       target.beginPath();target.moveTo(0,-27);target.lineTo(4,-8);target.lineTo(3,13);target.lineTo(-3,13);target.lineTo(-4,-8);target.closePath();target.fill();target.stroke();
+       target.strokeStyle="#d7c18b";target.lineWidth=3;target.beginPath();target.moveTo(-8,11);target.lineTo(8,11);target.moveTo(0,13);target.lineTo(0,23);target.stroke();target.restore();
+       target.globalAlpha=.7*fade;target.strokeStyle="#8ceaff";target.lineWidth=1.4;target.shadowBlur=8;
+       for(let n=0;n<3;n++){const a=orbit+n*Math.PI*2/3;target.save();target.translate(35,-28);target.rotate(a*.18);target.beginPath();target.arc(0,0,17+n*5,-1.05,.72);target.stroke();target.restore();}
+       target.shadowBlur=0;
+     }
+if(activeEffect==="cloud_step"){
+      // Đạp Vân Bộ: mây tụ dưới chân kiếm, nhân vật bật lên theo từng nhịp.
+      target.globalAlpha=.8*fade;target.fillStyle="#e8fbff";target.strokeStyle="#a5e8f0";target.lineWidth=1.5;
+      const bounce=Math.abs(Math.sin(t*8));
+      for(let n=0;n<3;n++){const xx=-12+n*12,yy=25+bounce*5+(n%2)*3;target.beginPath();target.ellipse(xx,yy,10,4,0,0,Math.PI*2);target.fill();target.stroke();}
+      target.strokeStyle="rgba(204,249,255,.8)";target.beginPath();target.moveTo(-18,31);target.quadraticCurveTo(0,39,20,30);target.stroke();
+    }
+    if(activeEffect==="boost"){
+       // Du Long Bộ: thanh long hiện rõ đầu, hàm, bờm, sừng, vảy, bụng giáp, bốn chân và đuôi.
+       const phase=t*2.5,sway=Math.sin(phase),dragonY=-18+sway*3;
+       target.save();target.globalAlpha=.94*fade;target.lineJoin="round";target.lineCap="round";
+       const scaleDragon=1;
+       // Thân uốn lượn dài, có sống lưng và bụng sáng phân đốt.
+       const body=target.createLinearGradient(-72,dragonY-14,48,dragonY+16);
+       body.addColorStop(0,"#155b78");body.addColorStop(.3,"#168f9c");body.addColorStop(.7,"#54d9c5");body.addColorStop(1,"#c4fff0");
+       target.shadowColor="#39d9e8";target.shadowBlur=14;target.fillStyle=body;target.strokeStyle="#b8fff1";target.lineWidth=1.6;
+       target.beginPath();target.moveTo(-77,dragonY+12);
+       target.bezierCurveTo(-60,dragonY-2,-55,dragonY-24,-37,dragonY-15);
+       target.bezierCurveTo(-20,dragonY-6,-20,dragonY+17,-2,dragonY+9);
+       target.bezierCurveTo(16,dragonY+1,12,dragonY-22,31,dragonY-17);
+       target.bezierCurveTo(43,dragonY-14,48,dragonY-7,53,dragonY-5);
+       target.lineTo(47,dragonY+10);
+       target.bezierCurveTo(25,dragonY+17,18,dragonY+30,0,dragonY+23);
+       target.bezierCurveTo(-21,dragonY+18,-23,dragonY-1,-39,dragonY-3);
+       target.bezierCurveTo(-55,dragonY-5,-59,dragonY+16,-77,dragonY+12);target.closePath();target.fill();target.stroke();
+       target.shadowBlur=0;
+       // Bụng rồng màu ngà chia thành từng phiến giáp cong.
+       target.strokeStyle="#d9fff0";target.lineWidth=2.4;
+       for(let i=0;i<8;i++){const x=-61+i*14,y=dragonY+7+Math.sin(i*.95+phase)*9;
+         target.beginPath();target.moveTo(x-3,y-1);target.quadraticCurveTo(x,y+5,x+5,y+7);target.stroke();}
+       // Vảy lưng hình giọt ngọc, chạy dọc theo đường cong thân.
+       target.fillStyle="#a8fff0";target.strokeStyle="#e2fff6";target.lineWidth=.8;
+       for(let i=0;i<13;i++){const x=-67+i*9.2,y=dragonY-7+Math.sin(i*.72+phase)*9;
+         target.beginPath();target.moveTo(x-3,y);target.quadraticCurveTo(x,y-5,x+3,y);target.lineTo(x,y+3);target.closePath();target.fill();target.stroke();}
+       // Bờm gáy thành từng tua cong sau đầu.
+       target.strokeStyle="#9bfff0";target.lineWidth=2.2;
+       for(let i=0;i<5;i++){const x=24-i*4,y=dragonY-13+i*4;
+         target.beginPath();target.moveTo(x,y);target.quadraticCurveTo(x-11,y-7,x-15,y-15);target.stroke();}
+       // Bốn chân có khớp và móng vuốt.
+       target.strokeStyle="#bafff0";target.lineWidth=3;
+       for(const lx of [-43,-8,24]){
+         const ly=dragonY+8+Math.sin(phase+lx*.08)*3;
+         target.beginPath();target.moveTo(lx,ly);target.lineTo(lx-3,ly+9);target.lineTo(lx+2,ly+13);
+         target.moveTo(lx+2,ly+13);target.lineTo(lx+6,ly+10);target.moveTo(lx+2,ly+13);target.lineTo(lx+3,ly+17);target.stroke();
+       }
+       // Đầu rồng lớn, dáng đầu thú phương Đông nhìn nghiêng sang phải.
+       const hx=52,hy=dragonY-13+Math.sin(phase+1)*2;
+       const head=target.createLinearGradient(hx-13,hy-15,hx+17,hy+12);
+       head.addColorStop(0,"#16778a");head.addColorStop(.55,"#63e2cd");head.addColorStop(1,"#d8fff0");
+       target.fillStyle=head;target.strokeStyle="#e0fff5";target.lineWidth=1.7;
+       target.beginPath();target.moveTo(hx-15,hy-7);target.quadraticCurveTo(hx-10,hy-20,hx+2,hy-17);
+       target.quadraticCurveTo(hx+14,hy-17,hx+17,hy-7);target.quadraticCurveTo(hx+27,hy-3,hx+22,hy+4);
+       target.quadraticCurveTo(hx+15,hy+11,hx+1,hy+8);target.lineTo(hx-10,hy+5);
+       target.quadraticCurveTo(hx-20,hy+2,hx-15,hy-7);target.closePath();target.fill();target.stroke();
+       // Mõm vuông, hàm dưới và miệng tách rõ.
+       target.fillStyle="#aaffed";target.beginPath();target.moveTo(hx+5,hy-5);target.lineTo(hx+25,hy-2);
+       target.quadraticCurveTo(hx+31,hy+2,hx+22,hy+7);target.lineTo(hx+5,hy+5);target.closePath();target.fill();target.stroke();
+       target.fillStyle="#15576a";target.beginPath();target.moveTo(hx+4,hy+5);target.quadraticCurveTo(hx+17,hy+13,hx+25,hy+6);target.lineTo(hx+17,hy+12);target.closePath();target.fill();
+       // Mũi, lỗ mũi, răng nanh và ria rồng.
+       target.fillStyle="#164f5e";target.beginPath();target.arc(hx+23,hy+1,1.5,0,Math.PI*2);target.arc(hx+17,hy+1,1.2,0,Math.PI*2);target.fill();
+       target.fillStyle="#fff8d4";target.beginPath();target.moveTo(hx+12,hy+5);target.lineTo(hx+15,hy+10);target.lineTo(hx+17,hy+5);target.closePath();target.fill();
+       target.strokeStyle="#d7fff2";target.lineWidth=1.5;target.beginPath();
+       target.moveTo(hx+19,hy+5);target.quadraticCurveTo(hx+29,hy+14,hx+39,hy+10);
+       target.moveTo(hx+17,hy+7);target.quadraticCurveTo(hx+25,hy+20,hx+35,hy+20);target.stroke();
+       // Sừng phân nhánh, tai và cặp râu hướng ngược gió.
+       target.strokeStyle="#f4d68e";target.lineWidth=3;target.beginPath();
+       target.moveTo(hx-8,hy-12);target.quadraticCurveTo(hx-17,hy-26,hx-12,hy-32);
+       target.moveTo(hx+1,hy-15);target.quadraticCurveTo(hx+7,hy-29,hx+17,hy-28);
+       target.moveTo(hx-10,hy-6);target.quadraticCurveTo(hx-23,hy-13,hx-27,hy-5);target.stroke();
+       target.strokeStyle="#baffef";target.lineWidth=2;target.beginPath();
+       target.moveTo(hx-12,hy+1);target.quadraticCurveTo(hx-28,hy+5,hx-35,hy+1);
+       target.moveTo(hx-9,hy+5);target.quadraticCurveTo(hx-24,hy+15,hx-34,hy+12);target.stroke();
+       // Mắt hổ phách có đồng tử dọc và lông mày nổi.
+       target.fillStyle="#fff0a8";target.beginPath();target.ellipse(hx+7,hy-8,3.2,2.4,-.2,0,Math.PI*2);target.fill();
+       target.fillStyle="#173e45";target.fillRect(hx+6,hy-10,1.5,4);
+       target.strokeStyle="#155d69";target.lineWidth=2.4;target.beginPath();target.moveTo(hx+1,hy-12);target.lineTo(hx+12,hy-14);target.stroke();
+       // Đuôi dài chẻ đôi như đuôi cá rồng.
+       target.fillStyle="#37bcae";target.strokeStyle="#c4fff0";target.lineWidth=1.3;
+       target.beginPath();target.moveTo(-72,dragonY+10);target.quadraticCurveTo(-91,dragonY+12,-98,dragonY+2);
+       target.quadraticCurveTo(-84,dragonY+4,-81,dragonY-7);target.quadraticCurveTo(-74,dragonY+1,-72,dragonY+10);target.closePath();target.fill();target.stroke();
+       target.globalAlpha=.58*fade;target.strokeStyle="#b6fff2";target.lineWidth=2;
+       for(let i=0;i<3;i++){const yy=dragonY+22+i*6;target.beginPath();target.moveTo(-66-i*3,yy);target.quadraticCurveTo(-87-i*3,yy-6,-104-i*3,yy-1);target.stroke();}
+       target.restore();
+     }
+if(activeEffect==="sword_spin"){
+      // Kiếm Vũ: nhiều phi kiếm hiện hình rõ, lần lượt lướt chém chéo qua trước và sau nhân vật; không tạo vòng tròn.
+      target.save();target.lineJoin="round";target.lineCap="round";
+      for(let i=0;i<3;i++){
+        const phaseSword=t*4.2+i*Math.PI*2/3;
+        const sweep=Math.sin(phaseSword)*.34;
+        const sx=-24+i*24+Math.cos(phaseSword)*5,sy=-25+Math.sin(phaseSword*1.2)*9;
+        target.save();target.translate(sx,sy);target.rotate(-.62+sweep);
+        target.globalAlpha=(.62+i*.1)*fade;target.shadowColor="#78dcff";target.shadowBlur=11;
+        const blade=target.createLinearGradient(-4,-25,4,20);
+        blade.addColorStop(0,"#ffffff");blade.addColorStop(.48,"#b9f2ff");blade.addColorStop(1,"#4c9fc9");
+        target.fillStyle=blade;target.strokeStyle="#eaffff";target.lineWidth=1.2;
+        target.beginPath();target.moveTo(0,-31);target.lineTo(4,-19);target.lineTo(3,14);target.lineTo(0,20);target.lineTo(-3,14);target.lineTo(-4,-19);target.closePath();target.fill();target.stroke();
+        target.shadowBlur=0;target.strokeStyle="#f1d28a";target.lineWidth=2.8;
+        target.beginPath();target.moveTo(-8,13);target.quadraticCurveTo(0,17,8,13);target.stroke();
+        target.strokeStyle="#b88a50";target.lineWidth=3.2;target.beginPath();target.moveTo(0,17);target.lineTo(0,27);target.stroke();
+        target.fillStyle="#fff0bd";target.beginPath();target.arc(0,29,2,0,Math.PI*2);target.fill();
+        target.globalAlpha=.5*fade;target.strokeStyle="#a8edff";target.lineWidth=2;
+        target.beginPath();target.moveTo(0,-26);target.lineTo(0,-43);target.stroke();
+        target.restore();
+      }
+      // Một nhát kiếm quang chéo ngắn nhấn nhịp múa kiếm.
+      target.globalAlpha=.55*fade;target.strokeStyle="#e7fbff";target.lineWidth=2.2;target.shadowColor="#7ddfff";target.shadowBlur=9;
+      const slash=Math.sin(t*5)*5;target.beginPath();target.moveTo(-39,18+slash);target.quadraticCurveTo(-5,-3-slash,32,-34+slash);target.stroke();
+      target.shadowBlur=0;target.restore();
+    }
+    if(activeEffect==="pill"){
+      // Tay lấy linh đan, đưa lên miệng rồi nuốt; viên đan biến mất.
+      const reach=Math.min(1,progress/.28),drink=Math.max(0,Math.min(1,(progress-.28)/.34));
+      const smooth=n=>n*n*(3-2*n),lift=smooth(reach),toMouth=smooth(drink);
+      const handX=12-7*toMouth,handY=-5-20*lift+10*toMouth;
+      target.globalAlpha=.98*fade;target.strokeStyle=skin;target.lineWidth=4.2;target.lineCap="round";
+      target.beginPath();target.moveTo(9,-3);target.quadraticCurveTo(15,-13,handX,handY+3);target.stroke();
+      target.fillStyle=skin;target.beginPath();target.arc(handX,handY,3.2,0,Math.PI*2);target.fill();
+      if(progress<.64){target.fillStyle="#e8a9f2";target.strokeStyle="#fff0c7";target.lineWidth=1.2;target.shadowColor="#ffb7ff";target.shadowBlur=8;target.beginPath();target.ellipse(handX-1,handY-5,3.2,4.2,.3,0,Math.PI*2);target.fill();target.stroke();target.shadowBlur=0;}
+      if(progress>.48){target.globalAlpha=.35*fade;target.fillStyle="#ffe9a8";target.beginPath();target.ellipse(0,-20,10,12,0,0,Math.PI*2);target.fill();}
+    }
+    if(activeEffect==="qi_pill"){
+      // Tụ Khí Đan: giơ viên đan xanh ngọc lên cao, nuốt rồi hấp thu linh khí.
+      const lift=Math.min(1,progress/.24),drink=Math.max(0,Math.min(1,(progress-.24)/.30));
+      const smooth=n=>n*n*(3-2*n),p=smooth(lift),q=smooth(drink),hx=13-10*q,hy=-8-18*p+8*q;
+      target.globalAlpha=.98*fade;target.strokeStyle=skin;target.lineWidth=4.4;target.lineCap="round";
+      target.beginPath();target.moveTo(9,-2);target.quadraticCurveTo(19,-17,hx,hy+3);target.stroke();
+      target.fillStyle=skin;target.beginPath();target.arc(hx,hy,3.1,0,Math.PI*2);target.fill();
+      if(progress<.54){target.shadowColor="#65f2d1";target.shadowBlur=12;target.fillStyle="#67d8b5";target.strokeStyle="#e1fff2";target.lineWidth=1.4;target.beginPath();target.moveTo(hx,hy-11);target.quadraticCurveTo(hx+7,hy-3,hx,hy+1);target.quadraticCurveTo(hx-7,hy-3,hx,hy-11);target.closePath();target.fill();target.stroke();target.shadowBlur=0;}
+      target.globalAlpha=.7*fade;target.strokeStyle="#8fffe0";target.lineWidth=1.4;
+      for(let n=0;n<3;n++){const aa=t*3+n*Math.PI*2/3;target.beginPath();target.arc(0,-20,13+n*4,aa,aa+1.2);target.stroke();}
+      if(progress>.54){target.globalAlpha=.42*fade;target.fillStyle="#a5ffe5";target.beginPath();target.arc(0,-20,11+Math.sin(t*8)*2,0,Math.PI*2);target.fill();}
+    }
 
+    if(activeEffect==="formation"){
+      // Tụ Linh Trận: trận đồ ba tầng, bát quái, linh tuyến nối các trận nhãn và phù văn cổ.
+      const rot=-t*.58,pulse=.88+.12*Math.sin(t*5);
+      target.globalAlpha=.96*fade;target.save();target.translate(0,27);target.rotate(rot);
+      target.shadowColor="#b98cff";target.shadowBlur=13;target.strokeStyle="#d9c0ff";target.lineWidth=1.8;
+      for(const radius of [39,31,19]){target.beginPath();target.arc(0,0,radius*pulse,0,Math.PI*2);target.stroke();}
+      for(let n=0;n<8;n++){const a=n*Math.PI/4,px=Math.cos(a)*36,py=Math.sin(a)*36;
+        target.beginPath();target.moveTo(Math.cos(a)*19,Math.sin(a)*19);target.lineTo(px,py);target.stroke();
+        target.beginPath();target.moveTo(Math.cos(a)*31,Math.sin(a)*31);target.lineTo(Math.cos(a+.18)*39,Math.sin(a+.18)*39);target.stroke();
+        target.fillStyle="#f4e9ff";target.beginPath();target.arc(px,py,3,0,Math.PI*2);target.fill();
+      }
+      target.strokeStyle="#f3dcff";target.lineWidth=1.5;target.beginPath();
+      for(let n=0;n<8;n++){const a=n*Math.PI/4-Math.PI/2,px=Math.cos(a)*31,py=Math.sin(a)*31;n?target.lineTo(px,py):target.moveTo(px,py);}target.closePath();target.stroke();
+      target.shadowBlur=0;target.fillStyle="#fff0ff";target.font="bold 9px serif";target.textAlign="center";target.textBaseline="middle";
+      for(let n=0;n<8;n++){const a=n*Math.PI/4;target.fillText(["乾","坎","艮","震","巽","離","坤","兌"][n],Math.cos(a)*25,Math.sin(a)*25);}
+      target.restore();
+    }
+    if(activeEffect==="formation_sword"||activeEffect==="formation_seal"){
+      const rot=t*(activeEffect==="formation_sword"?1.15:.42);
+      target.save();target.globalAlpha=.96*fade;
+      if(activeEffect==="formation_sword"){
+        // Vạn Kiếm Trận: tám phi kiếm dài, thấy rõ lưỡi kiếm, chắn tay, chuôi và kiếm quang.
+        target.translate(5,-12);target.shadowColor="#75dfff";target.shadowBlur=16;
+        for(let n=0;n<8;n++){
+          const a=rot+n*Math.PI/4,px=Math.cos(a)*43,py=Math.sin(a)*32;
+          target.save();target.translate(px,py);target.rotate(a+Math.PI/2);
+          const blade=target.createLinearGradient(-4,0,4,0);
+          blade.addColorStop(0,"#5bb8df");blade.addColorStop(.48,"#f4ffff");blade.addColorStop(1,"#78d9ff");
+          target.fillStyle=blade;target.strokeStyle="#e5fbff";target.lineWidth=1.2;
+          target.beginPath();target.moveTo(0,-23);target.lineTo(4,-9);target.lineTo(3,10);target.lineTo(0,15);target.lineTo(-3,10);target.lineTo(-4,-9);target.closePath();target.fill();target.stroke();
+          target.strokeStyle="#f3d48b";target.lineWidth=2.5;target.beginPath();target.moveTo(-7,10);target.lineTo(7,10);target.stroke();
+          target.strokeStyle="#c99b58";target.lineWidth=2;target.beginPath();target.moveTo(0,12);target.lineTo(0,23);target.stroke();
+          target.fillStyle="#fff0bd";target.beginPath();target.arc(0,24,1.8,0,Math.PI*2);target.fill();
+          target.globalAlpha=.7;target.strokeStyle="#b8f4ff";target.lineWidth=1.5;target.beginPath();target.moveTo(0,-17);target.lineTo(0,7);target.stroke();
+          target.restore();
+        }
+        target.shadowBlur=0;
+      }else{
+        // Bát Quái Trận: tám phù trận nhỏ mở ra theo vòng bát quái, nối bằng linh tuyến.
+        target.translate(0,5);target.rotate(rot*.35);target.strokeStyle="#d8b7ff";target.shadowColor="#b78aff";target.shadowBlur=10;target.lineWidth=1.6;
+        target.beginPath();target.arc(0,0,34,0,Math.PI*2);target.stroke();
+        for(let n=0;n<8;n++){const a=n*Math.PI/4,px=Math.cos(a)*34,py=Math.sin(a)*34;target.beginPath();target.moveTo(0,0);target.lineTo(px,py);target.stroke();target.fillStyle="#f5eaff";target.fillRect(px-3,py-5,6,10);}
+        target.shadowBlur=0;
+      }
+      target.restore();
+    }
+    if(activeEffect==="wind_step"){
+       // Phong Hành: ba dải phong lụa song song, thuôn nhọn về sau như luồng khí lướt tốc độ cao.
+       const flow=t*2.8,drift=Math.sin(flow)*3;
+       target.save();target.globalAlpha=.88*fade;target.lineCap="round";target.lineJoin="round";
+       const bands=[{y:-25,w:5,a:.42},{y:-7,w:7,a:.72},{y:12,w:5,a:.48}];
+       for(let i=0;i<bands.length;i++){
+         const b=bands[i],s=Math.sin(flow+i*.7)*2;
+         target.globalAlpha=b.a*fade;
+         const ribbon=target.createLinearGradient(-68,b.y,42,b.y);
+         ribbon.addColorStop(0,"rgba(110,220,207,0)");ribbon.addColorStop(.38,"#65cfc2");ribbon.addColorStop(.78,"#c9fff0");ribbon.addColorStop(1,"rgba(240,255,247,0)");
+         target.fillStyle=ribbon;target.beginPath();
+         target.moveTo(-68,b.y+drift+s);target.bezierCurveTo(-38,b.y-7+s,-4,b.y-5-s,25,b.y-1);
+         target.lineTo(43,b.y-5);target.bezierCurveTo(19,b.y+7+s,-15,b.y+8+s,-68,b.y+4+s);target.closePath();target.fill();
+       }
+       // Những vệt khí mảnh chạy cùng một hướng, không giao cắt nguệch ngoạc.
+       target.globalAlpha=.72*fade;target.strokeStyle="#edfff8";target.lineWidth=1.35;target.shadowColor="#8cebd9";target.shadowBlur=7;
+       for(let i=0;i<4;i++){
+         const yy=-31+i*18,offset=((flow*19+i*23)%24);
+         target.beginPath();target.moveTo(-61+offset,yy);target.bezierCurveTo(-36+offset,yy-2,-14+offset,yy-1,12+offset,yy-4);target.stroke();
+       }
+       target.shadowBlur=0;
+       // Làn gió cuộn dưới phi kiếm thành hai cung mềm, cùng chiều chuyển động.
+       target.globalAlpha=.58*fade;target.strokeStyle="#a8f4e6";target.lineWidth=2;
+       for(let i=0;i<2;i++){target.beginPath();target.moveTo(-39,24+i*5);target.bezierCurveTo(-17,15+i*5,9,31+i*4,34,20+i*4);target.stroke();}
+       target.restore();
+     }
+if(activeEffect==="shadow_step"){
+       // Ảnh Độn: người chợt tan thành ba bóng lệch nhịp rồi hiện hình ở điểm kế tiếp; không dùng vòng tròn.
+       const blink=.18+.82*Math.abs(Math.sin(progress*Math.PI*2.2));
+       for(let n=3;n>=1;n--){target.globalAlpha=(.10+n*.075)*fade;target.fillStyle=n%2?"#b8b0ff":"#7d72c9";target.save();target.translate(-n*15,Math.sin(t*8+n)*4);target.scale(.88,1);target.beginPath();target.ellipse(0,0,11,20,-.12,0,Math.PI*2);target.fill();target.restore();}
+       target.globalAlpha=blink*fade;target.strokeStyle="#e5ddff";target.lineWidth=2.1;target.shadowColor="#a89aff";target.shadowBlur=13;
+       for(let n=0;n<4;n++){const yy=-26+n*15;target.beginPath();target.moveTo(-39,yy);target.lineTo(-22,yy-5);target.lineTo(-10,yy+1);target.stroke();}
+       target.shadowBlur=0;target.fillStyle="#eeeaff";target.globalAlpha=.75*blink*fade;
+       for(let n=0;n<4;n++){const px=-23+n*13,py=22+Math.sin(t*9+n)*3;target.fillRect(px,py,3,2);}
+     }
+if(activeEffect==="sword_dash"){
+       // Kiếm Độn: một thanh phi kiếm lam bạc hoàn chỉnh lao ngang, mũi nhọn hướng về trước.
+       const surge=.9+.1*Math.sin(t*15),bladeGlow=target.createLinearGradient(-42,0,66,0);
+       bladeGlow.addColorStop(0,"#4c9fc4");bladeGlow.addColorStop(.22,"#b9f3ff");bladeGlow.addColorStop(.72,"#f4ffff");bladeGlow.addColorStop(1,"#65cfff");
+       target.save();target.globalAlpha=.98*fade;target.shadowColor="#4bd5ff";target.shadowBlur=17;
+       // Lưỡi kiếm dài, sống kiếm nổi và hai cạnh rõ nét.
+       target.fillStyle=bladeGlow;target.strokeStyle="#eaffff";target.lineWidth=1.5;
+       target.beginPath();target.moveTo(-28,-5);target.lineTo(43,-6*surge);target.lineTo(68,0);target.lineTo(43,6*surge);target.lineTo(-28,5);target.closePath();target.fill();target.stroke();
+       target.strokeStyle="#ffffff";target.lineWidth=1.2;target.beginPath();target.moveTo(-20,-1);target.lineTo(59,0);target.stroke();
+       // Chắn tay kiếm có cánh cong, chuôi quấn dây và chụp chuôi.
+       target.shadowBlur=0;target.strokeStyle="#f4d28c";target.lineWidth=3.5;target.lineCap="round";
+       target.beginPath();target.moveTo(-28,-12);target.quadraticCurveTo(-17,0,-28,12);target.stroke();
+       target.strokeStyle="#9b6b38";target.lineWidth=5;target.beginPath();target.moveTo(-33,0);target.lineTo(-53,0);target.stroke();
+       target.strokeStyle="#f5dca4";target.lineWidth=1.4;
+       for(let n=0;n<4;n++){const xx=-50+n*4.5;target.beginPath();target.moveTo(xx,-3);target.lineTo(xx+5,3);target.stroke();}
+       target.fillStyle="#e9c47e";target.beginPath();target.arc(-56,0,3.4,0,Math.PI*2);target.fill();
+       // Kiếm quang kéo dài phía sau nhưng không che hình dáng thanh kiếm.
+       target.globalAlpha=.38*fade;target.strokeStyle="#78e7ff";target.lineWidth=3;
+       for(let n=0;n<3;n++){const yy=-13+n*13,off=(t*38+n*17)%22;target.beginPath();target.moveTo(-77+off,yy);target.bezierCurveTo(-56+off,yy-3,-44+off,yy+3,-31+off,yy);target.stroke();}
+       target.restore();
+     }
+if(activeEffect==="cloud_stride"){
+       // Lưu Vân Bộ: bước nhẹ liên hoàn, mây dài tách thành từng dải lụa trắng xanh trôi về sau.
+       const drift=t*1.7;target.globalAlpha=.82*fade;target.strokeStyle="#e4fbff";target.lineWidth=2;target.shadowColor="#a8e8ff";target.shadowBlur=8;
+       for(let n=0;n<3;n++){const yy=17+n*6,offset=Math.sin(drift+n*1.1)*5;target.beginPath();target.moveTo(-48,yy+offset);target.bezierCurveTo(-27,yy-11-offset,-5,yy+10+offset,18,yy-2);target.bezierCurveTo(30,yy-8,39,yy-3,48,yy-7);target.stroke();}
+       target.shadowBlur=0;target.fillStyle="#f4ffff";
+       for(let n=0;n<4;n++){const px=-27+n*17+Math.sin(drift+n)*4;target.beginPath();target.ellipse(px,27+Math.cos(drift+n)*2,7,2.4,0,0,Math.PI*2);target.fill();}
+     }
+     if(activeEffect==="body_burst"){
+       // Bạo Bộ: dồn lực ở chân, bật vọt lên; chỉ để lại luồng khí trắng xanh, không có hạt vàng.
+       const leap=Math.abs(Math.sin(progress*Math.PI*2.2));
+       target.globalAlpha=.9*fade;target.strokeStyle="#c8f4ef";target.lineWidth=2;target.shadowColor="#83dfd3";target.shadowBlur=7;
+       for(let n=0;n<3;n++){const spread=12+leap*12+n*5;target.beginPath();target.moveTo(-spread,27+n*3);target.quadraticCurveTo(0,34+leap*9+n*3,spread,27+n*3);target.stroke();}
+       target.shadowBlur=0;
+     }
+if(activeEffect==="talisman"||activeEffect==="talisman_guard"||activeEffect==="talisman_thunder"){
+      // Phù chú có hành động riêng: phù tốc xoay vòng, hộ thân kết thành khiên, lôi phù phóng sét.
+      const count=activeEffect==="talisman"?4:activeEffect==="talisman_guard"?5:3;
+      target.globalAlpha=.98*fade;target.shadowColor=activeEffect==="talisman_thunder"?"#7feaff":"#ffd86e";target.shadowBlur=10;
+      for(let n=0;n<count;n++){
+        const a=t*(activeEffect==="talisman_thunder"?-1.8:2.6)+n*Math.PI*2/count;
+        const px=activeEffect==="talisman_guard"?17+Math.cos(a)*24:Math.cos(a)*31;
+        const py=activeEffect==="talisman_guard"?-5+Math.sin(a)*24:-17+Math.sin(a)*25;
+        target.save();target.translate(px,py);target.rotate(activeEffect==="talisman_thunder"?-.3+Math.sin(a)*.18:Math.sin(a)*.35);
+        target.fillStyle=activeEffect==="talisman_thunder"?"#d9f7ff":"#f5d77e";target.strokeStyle=activeEffect==="talisman_thunder"?"#4b9fce":"#a94b32";target.lineWidth=1;
+        target.fillRect(-4,-10,8,19);target.strokeRect(-4,-10,8,19);
+        target.strokeStyle="#a94336";target.lineWidth=1.1;target.beginPath();target.moveTo(0,-7);target.lineTo(-2,-3);target.lineTo(2,0);target.lineTo(-1,4);target.lineTo(1,7);target.stroke();
+        target.restore();
+        if(activeEffect==="talisman_thunder"){target.strokeStyle="#b7f5ff";target.lineWidth=2;target.beginPath();target.moveTo(px,py+9);target.lineTo(px-5,py+17);target.lineTo(px+1,py+22);target.lineTo(px-4,py+30);target.stroke();}
+      }
+      // Hộ Thân Phù chỉ giữ các lá phù bay độc lập quanh người, không có dây nối màu xanh.
+      target.shadowBlur=0;
+    }
+    if(activeEffect==="sword_intent"){
+      target.globalAlpha=.9*fade;target.strokeStyle="#c9f4ff";target.lineWidth=2.2;target.shadowColor="#78dfff";target.shadowBlur=9;target.beginPath();target.moveTo(-30,9);target.quadraticCurveTo(-2,-8,31,-37);target.stroke();target.shadowBlur=0;target.fillStyle="#fff2bd";target.beginPath();target.arc(30,-37,2.4,0,Math.PI*2);target.fill();
+    }else if(activeEffect==="cloud_step"){
+      target.globalAlpha=.72*fade;target.strokeStyle="#a9f4ed";target.lineWidth=2;for(let i=0;i<3;i++){const yy=15+i*5,shift=Math.sin(t*4+i)*5;target.beginPath();target.ellipse(-19+shift,yy,13+i*3,4,0,Math.PI,Math.PI*2);target.stroke();}target.fillStyle="#e6fff5";for(let i=0;i<5;i++){const xx=-28+i*13+Math.sin(t*5+i)*3;target.beginPath();target.arc(xx,17+Math.cos(t*4+i)*3,1.5,0,Math.PI*2);target.fill();}
+    }else if(activeEffect==="formation"){
+      target.globalAlpha=.78*fade;target.strokeStyle="#e0c5ff";target.lineWidth=1.3;target.beginPath();target.ellipse(0,7,34,12,t*.25,0,Math.PI*2);target.stroke();for(let i=0;i<6;i++){const a=i*Math.PI/3+t*.25;target.beginPath();target.arc(Math.cos(a)*29,7+Math.sin(a)*9,2,0,Math.PI*2);target.stroke();}
+    }
+    target.restore();
+    }
+  }
+}
 function drawRacer(target, racer, x, y, scale, time) {
   if (!racer || !racer.isLegendaryThanSau || !__thanSauSpriteReady ||
       !__thanSauSpriteSheet.naturalWidth || !__thanSauSpriteSheet.naturalHeight) {
@@ -7177,19 +7449,29 @@ function drawRacer(target, racer, x, y, scale, time) {
   const frameWidth=__thanSauSpriteSheet.naturalWidth/columns,frameHeight=__thanSauSpriteSheet.naturalHeight/rows;
   const frameIndex=((Math.floor(time/105+(racer.phase||0)*2)%frameCount)+frameCount)%frameCount;
   const sx=(frameIndex%columns)*frameWidth,sy=Math.floor(frameIndex/columns)*frameHeight;
-  const phase=time*.001,active=racer.effectTimer>0,type=racer.effectType||"";
+  const phase=time*.001,active=racer.effectTimer>0,activeEffect=active?(racer.effectType||""):"";
+  const duration=Math.max(.001,racer.effectDuration||racer.effectTimer||1);
+  const progress=clamp(1-racer.effectTimer/duration,0,1);
+  const wave=Math.sin(phase*7+(racer.phase||0)),pulse=Math.sin(phase*10+(racer.phase||0));
   let actionX=0,actionY=0,actionAngle=0;
-  if(active){
-    const wave=Math.sin(phase*7+(racer.phase||0)),pulse=Math.sin(phase*12+(racer.phase||0));
-    if(["boost","wind_step","sword_dash","body_burst","cloud_stride","shadow_step"].includes(type)){
-      actionX=3+Math.sin(phase*9)*2.5;actionY=-3-Math.abs(Math.sin(phase*8))*3;actionAngle=-.13+Math.sin(phase*7)*.045;
-    }else if(type==="weak"||type==="faint"){actionY=3+Math.abs(wave)*2;actionAngle=.13+wave*.025;}
-    else if(type==="dizzy"){actionAngle=Math.sin(phase*8+(racer.phase||0))*.24;}
-    else if(type==="impact"||type==="lightning"||type==="talisman_thunder"){actionX=Math.sin(phase*38)*2.8;actionY=Math.cos(phase*31)*1.8;actionAngle=Math.sin(phase*34)*.07;}
-    else if(type==="gale"||type==="poison"){actionX=wave*2.4;actionAngle=wave*.07;}
-    else if(type==="pill"||type==="qi_pill"){actionY=-2-Math.abs(pulse)*2;actionAngle=-.045;}
-    else if(type==="cloud_step"){actionY=-Math.abs(Math.sin(phase*8))*6;actionAngle=-.09;}
-    else{actionX=Math.sin(phase*5)*1.8;actionY=-1-Math.abs(Math.sin(phase*6))*1.5;actionAngle=Math.sin(phase*4)*.045;}
+  switch(activeEffect){
+   case "poison":actionX=wave*1.8;actionAngle=wave*.075;break;case "weak":actionY=2+Math.abs(wave)*1.8;actionAngle=.12+wave*.025;break;
+   case "pill":actionY=-3-Math.abs(wave)*3;actionAngle=-.045;break;case "qi_pill":actionY=-2-Math.abs(Math.sin(phase*12))*4;actionX=2+Math.sin(phase*5)*2;actionAngle=-.08;break;case "impact":actionY=Math.abs(pulse)*9;actionX=Math.sin(phase*18)*2;actionAngle=wave*.14;break;
+   case "lightning":actionX=Math.sin(phase*38)*3.5;actionY=Math.cos(phase*31)*2;actionAngle=Math.sin(phase*34)*.09;break;
+   case "gale":actionX=wave*3;actionY=Math.sin(phase*5)*2;actionAngle=wave*.27;break;case "dizzy":actionAngle=Math.sin(phase*8+racer.phase)*.72;break;
+   case "faint":actionY=4+Math.abs(wave)*2;actionAngle=.34+Math.sin(phase*5)*.07;break;case "boost":actionX=3+Math.sin(phase*7)*3;actionY=-3-Math.sin(phase*6)*3;actionAngle=.08+Math.sin(phase*7)*.12;break;
+   case "sword_intent":actionX=1+Math.sin(phase*5)*.8;actionY=-1;actionAngle=-.035+Math.sin(phase*4)*.018;break;case "cloud_step":actionY=-Math.abs(Math.sin(phase*8))*10;actionAngle=.11;break;
+   case "formation":actionX=Math.sin(phase*4)*3;actionY=Math.cos(phase*4)*3;actionAngle=Math.sin(phase*4)*.08;break;
+   case "formation_sword":actionX=3+Math.sin(phase*8)*2;actionAngle=-.18;break;
+   case "formation_seal":actionX=Math.sin(phase*5)*2;actionY=-2-Math.abs(Math.sin(phase*6))*2;actionAngle=.06*Math.sin(phase*4);break;
+   case "talisman":actionX=5+Math.sin(phase*9)*2;actionY=-2-Math.abs(Math.sin(phase*7))*3;actionAngle=-.12;break;
+   case "talisman_guard":actionX=Math.sin(phase*4)*1.5;actionAngle=-.08;break;
+   case "talisman_thunder":actionX=5+Math.sin(phase*14)*2;actionY=-3;actionAngle=-.22;break;
+   case "sword_spin":actionAngle=-.06+Math.sin(phase*5)*.045;actionX=2+Math.sin(phase*7)*2;actionY=-3-Math.abs(Math.sin(phase*6))*3;break;
+   case "wind_step":actionX=Math.sin(phase*11+racer.phase)*7;actionY=-3-Math.abs(Math.sin(phase*8))*4;actionAngle=Math.sin(phase*11+racer.phase)*.22;break;
+   case "shadow_step":actionX=progress<.22?-9:progress<.48?17:Math.sin(phase*18)*2;actionY=-Math.sin(progress*Math.PI)*7;actionAngle=progress<.48?-.24:.08;break;
+   case "sword_dash":actionX=13+Math.sin(phase*16)*2;actionY=-4-Math.abs(Math.sin(phase*12))*2;actionAngle=-.48;break;
+   case "body_burst":actionY=progress<.22?4: -Math.abs(Math.sin(phase*9))*11;actionX=progress<.22?-3:5+Math.sin(phase*7)*2;actionAngle=progress<.22?.18:-.08;break;case "cloud_stride":actionX=2+Math.sin(phase*4)*4;actionY=-4-Math.sin(phase*3)*3;actionAngle=-.04+Math.sin(phase*3)*.06;break;
   }
   const bob=Math.sin(time*.009+(racer.phase||0))*1.2;
   target.save();target.translate(x+actionX,y+bob+actionY);target.rotate(actionAngle);
@@ -7198,13 +7480,13 @@ function drawRacer(target, racer, x, y, scale, time) {
   glow.addColorStop(0,active?"rgba(255,224,145,.38)":"rgba(255,220,145,.28)");glow.addColorStop(1,"rgba(255,220,145,0)");
   target.fillStyle=glow;target.fillRect(-60,-58,120,116);
   target.drawImage(__thanSauSpriteSheet,sx,sy,frameWidth,frameHeight,-54,-54,108,108);
-  target.save();target.translate(29,active&&racer.effectName==="Bún Chua Cay"?-5:-1);target.rotate(-.12);
+  target.save();target.translate(29,active&&racer.effectName==="Ăn Bún Chua Cay"?-5:-1);target.rotate(-.12);
   target.fillStyle="#f0d8a0";target.beginPath();target.ellipse(0,8,13,5,0,0,Math.PI*2);target.fill();
   target.fillStyle="#b84e38";target.beginPath();target.moveTo(-12,3);target.quadraticCurveTo(-10,18,0,18);target.quadraticCurveTo(10,18,12,3);target.closePath();target.fill();
   target.strokeStyle="#f7e7c4";target.lineWidth=2;target.beginPath();target.ellipse(0,3,12,4.5,0,0,Math.PI*2);target.stroke();
   target.fillStyle="#f5d98e";target.beginPath();target.ellipse(-3,2,5,2.2,-.2,0,Math.PI*2);target.ellipse(4,3,4,2,0,0,Math.PI*2);target.fill();
   target.strokeStyle="#f7edce";target.lineWidth=1.2;target.beginPath();target.moveTo(-5,1);target.quadraticCurveTo(-9,-5,-4,-8);target.moveTo(2,0);target.quadraticCurveTo(7,-6,3,-10);target.stroke();
-  if(racer.thanSauEatingTimer>0||active&&racer.effectName==="Bún Chua Cay"){
+  if(racer.thanSauEatingTimer>0||active&&racer.effectName==="Ăn Bún Chua Cay"){
     const steam=time*.008;target.globalAlpha=.95;target.strokeStyle="#fff2c7";target.lineWidth=1.8;
     for(let i=0;i<4;i++){const steamX=-7+i*5,steamY=-10-Math.sin(steam+i)*3;target.beginPath();target.moveTo(steamX,steamY);target.quadraticCurveTo(steamX-3,steamY-6,steamX+1,steamY-12);target.stroke();}
     target.fillStyle="#ff704d";target.beginPath();target.arc(-14,-5,2.2,0,Math.PI*2);target.arc(14,-8,2,0,Math.PI*2);target.fill();
