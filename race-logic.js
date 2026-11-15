@@ -87,7 +87,7 @@ function updateRace(dt){
   if(racer.effectTimer>0){
    racer.effectTimer=Math.max(0,racer.effectTimer-dt);
    if(racer.effectTimer===0){
-    racer.speedMultiplier=1;racer.effectType="";racer.effectName="";racer.effectPolarity="";
+    racer.speedMultiplier=1;racer.effectType="";racer.effectName="";racer.effectPolarity="";racer.personalEffectType="";racer.personalEffectName="";racer.personalEffectPolarity="";racer.personalEffectMultiplier=1;
     racer.effectCooldown=rand(VKP_DATA.effects.balance.recoverySeconds[0],VKP_DATA.effects.balance.recoverySeconds[1]);
     if(cameraFocusId===racer.id)cameraFocusId=null;
    }
@@ -686,7 +686,7 @@ function startRace(){
   elapsed=0;countdown=3;countdownAccumulator=0;eventClock=0;nextEvent=rand(getRaceEffectTimingProfile(duration).eventIntervalSeconds[0],getRaceEffectTimingProfile(duration).eventIntervalSeconds[1]);
   finishQueue=[];cameraFocusId=null;finishMessage="";finishMessageLife=0;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;
   eventText="BẮT ĐẦU SAU 3";eventTextLife=1;
-  racers.forEach(r=>{r.progress=0;r.finished=false;r.finishTime=null;r.speedMultiplier=1;r.effectTimer=0;r.effectType="";r.effectName="";});
+  racers.forEach(r=>{r.progress=0;r.finished=false;r.finishTime=null;r.speedMultiplier=1;r.effectTimer=0;r.effectType="";r.effectName="";r.effectPolarity="";r.effectDuration=0;r.pendingEffect=null;r.pendingEffectTimer=0;r.effectCooldown=0;r.personalEffectType="";r.personalEffectName="";r.personalEffectPolarity="";r.personalEffectMultiplier=1;});
   assignFinishTimes();started=false;finished=false;paused=false;running=true;if(window.CultivationMusic)window.CultivationMusic.setPhase("race");
   $("status").textContent="Bắt đầu sau 3...";
   $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa có thứ hạng";
@@ -703,7 +703,7 @@ function finishRace(){
   racer.progress=distance;
   racer.finished=true;
   if(racer.finishTime===null)racer.finishTime=duration;
-  racer.speedMultiplier=1;racer.effectTimer=0;racer.effectType="";racer.effectName="";
+  racer.speedMultiplier=1;racer.effectTimer=0;racer.effectType="";racer.effectName="";racer.effectPolarity="";racer.effectDuration=0;racer.pendingEffect=null;racer.pendingEffectTimer=0;racer.personalEffectType="";racer.personalEffectName="";racer.personalEffectPolarity="";racer.personalEffectMultiplier=1;
  });
  cameraFocusId=null;
  finished=true;running=false;paused=false;started=true;
