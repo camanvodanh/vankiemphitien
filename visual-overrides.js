@@ -6734,7 +6734,7 @@ function drawScenery(time){
   drawAmbientEnergy(time);
   drawSpiritBirds(time);
   drawRiverCurrent(time);
-  drawMountainSpringArtifact(time);
+  // Pháp bảo Long Tuyền và dòng linh thủy không thuộc nền chung; tránh xuất hiện sai cảnh giới.
   drawCrowd(time);
   ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.restore();
 }
