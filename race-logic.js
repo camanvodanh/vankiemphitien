@@ -87,7 +87,7 @@ function updateRace(dt){
   if(racer.effectTimer>0){
    racer.effectTimer=Math.max(0,racer.effectTimer-dt);
    if(racer.effectTimer===0){
-    racer.speedMultiplier=1;racer.effectType="";racer.effectName="";racer.effectPolarity="";racer.personalEffectType="";racer.personalEffectName="";racer.personalEffectPolarity="";racer.personalEffectMultiplier=1;
+    racer.speedMultiplier=1;racer.effectType="";racer.effectName="";racer.effectPolarity="";racer.effectDuration=0;racer.personalEffectType="";racer.personalEffectName="";racer.personalEffectPolarity="";racer.personalEffectMultiplier=1;
     racer.effectCooldown=rand(VKP_DATA.effects.balance.recoverySeconds[0],VKP_DATA.effects.balance.recoverySeconds[1]);
     if(cameraFocusId===racer.id)cameraFocusId=null;
    }
