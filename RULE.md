@@ -165,3 +165,6 @@
 
 
 38. Trong Thiên Lý Kính, tên thể chất và tên hiệu ứng phải được căn giữa độc lập trên toàn bộ chiều rộng hàng của từng dòng. Khi nội dung dài, tự động giảm cỡ chữ theo chiều rộng thực tế; chỉ dùng ellipsis khi đã chạm cỡ chữ tối thiểu mà vẫn không thể hiển thị hết. Không để hai dòng lệch tâm hoặc đẩy tràn panel.
+
+
+39. Thần Sầu dùng sprite riêng nhưng không được làm mất hệ thống hoạt ảnh hiệu ứng chung. Khi có bất kỳ effectType hợp lệ nào, sprite phải thể hiện đồng thời động tác cơ thể phù hợp và dấu hiệu hiệu ứng nhìn thấy rõ trên Canvas chính lẫn Thiên Lý Kính; khi camera focus nhân vật đang có hiệu ứng phải ưu tiên chiếu nhân vật đó. Nếu sprite không tải được, tiếp tục fallback renderer chung. Nhập thủ công tên có chứa chuỗi “Sầu” hoặc “Shen” (không phân biệt hoa thường/dấu tiếng Việt) đều quy về đúng một nhân vật “Thần Sầu”; vẫn giữ bí danh Trần Đạt Thọ và 神愁.
