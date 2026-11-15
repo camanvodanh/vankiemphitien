@@ -4603,8 +4603,8 @@ function drawRacer(target,racer,x,y,scale,time){
   }
   target.restore();
   if(racer.effectTimer>0){
-    if(racers.length>35){
-      // Chế độ đông người: giữ dấu hiệu hiệu ứng rất nhẹ, bỏ các vòng vẽ/shadow riêng.
+    if(racers.length>35&&target!==cameraCtx){
+      // Trường đua giảm tải hiệu ứng trang trí; Thiên Lý Kính vẫn vẽ đầy đủ hiệu ứng của nhân vật đang chiếu.
       target.save();target.globalAlpha=.48;
       target.fillStyle=racer.effectPolarity==="negative"?"#b7baff":"#b8eaff";
       target.fillRect(-22,-40,44,2);target.fillRect(-22,26,44,2);
