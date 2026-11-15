@@ -15,7 +15,7 @@
   "visual-overrides.js?v=race-phase1-v176",
   "music.js?v=race-phase1-v176",
   "race-logic.js?v=race-phase1-v176",
-  "journey-world.js?v=journey-world-v7",
+  "journey-world.js?v=journey-world-v8",
   "i18n.js?v=race-phase1-v176"
  ];
  for(const src of scripts){
