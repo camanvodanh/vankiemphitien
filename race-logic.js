@@ -1918,7 +1918,7 @@ function drawPhase1TrackZones(time){
  let activeIndex=-1;
  for(let i=0;i<zones.length;i++){
   const gap=Number(zones[i].progress)-progress;
-  if(gap>=0&&gap<=.08){activeIndex=i;break;}
+  if(gap>=0&&gap<=.04){activeIndex=i;break;}
  }
  if(activeIndex<0)return;
  const zone=zones[activeIndex],index=activeIndex;
