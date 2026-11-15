@@ -236,3 +236,12 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Vân Hải bỏ các vòng xoắn/vòng elip đồng tâm. Thay bằng tầng mây ngang nhiều độ sâu, vân đài, cầu mây nối đảo, đảo tiên, lầu các và thác mây; chuyển động chậm, phân lớp rõ, không tạo họa tiết xoáy gây rối mắt.
 - Kiếm Vực giữ sáu chủng kiếm nhưng phân bổ theo các cụm nhỏ và nhiều cao độ: khoảng 28 kiếm cổ ở tầng xa, 12 linh kiếm bay, 22 kiếm cắm theo sườn núi và 8 kiếm hộ vệ quanh kiếm chủ. Tỷ lệ vẽ từng lớp giảm để kiếm không quá lớn; kiếm chủ trung tâm cũng thu nhỏ để không lấn át toàn cảnh.
 - Đây là mật độ và bố cục hình ảnh, không thay đổi gameplay, số tiên nhân, tốc độ, hiệu ứng hay thời lượng cuộc đua.
+
+
+## 16. Hiển thị thể chất và tiêu đề cảnh giới
+
+- Mỗi tiên nhân có một dấu ấn thể chất nhỏ trên Canvas chính, dùng mã hai ký tự và màu riêng theo ID để dễ nhận ra khi đang đua; dấu ấn chỉ là lớp hiển thị, không tác động chỉ số.
+- Hai mươi mã dấu ấn theo thứ tự ID: PH (Phong Linh Thể), LD (Lôi Linh Thể), KT (Kiếm Tâm), AD (Ảnh Độn Thể), HQ (Huyền Quy Thể), HL (Hỏa Linh Căn), BT (Băng Tâm), TL (Thanh Loan Huyết Mạch), CB (Côn Bằng Chi Thể), TC (Thiên Cơ Đạo Thể), VA (Vô Ảnh Kiếm Cốt), TD (Tử Điện Linh Thể), NA (Nguyệt Ảnh Thể), KC (Kim Cang Thể), CD (Cửu Dương Thể), HK (Hư Không Đạo Thể), TT (Tinh Thần Linh Thể), LT (Long Tượng Bá Thể), TM (Thanh Mộc Linh Thể), HN (Hàn Nguyệt Kiếm Thể).
+- Thiên Lý Kính hiển thị đầy đủ tên thể chất của nhân vật đang được chiếu trong dòng thông tin; nếu có hiệu ứng thì tiếp tục hiển thị tên hiệu ứng cùng dòng.
+- Tiêu đề cảnh giới mới chuyển xuống vùng y=160 của Canvas; banner thông báo cuộc đua giữ vùng y=96. Hai vùng không được chồng lấn để tên cảnh giới luôn hiện đủ.
+- Không thay đổi thiên phú, hệ số boost, xác suất hiệu ứng, thứ hạng hoặc thời lượng đua.
