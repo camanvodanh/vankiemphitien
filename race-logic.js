@@ -1914,95 +1914,41 @@ function drawPhase1TrackZones(time){
  if(finished||!racers.length)return;
  const zones=VKP_DATA.effects.trackZones||[];
  const progress=Number(window.__vkJourneyProgress)||0;
- // Chỉ dựng cổng kế tiếp trong 8% cuối trước mốc; qua mốc là cổng biến mất.
  let activeIndex=-1;
  for(let i=0;i<zones.length;i++){
   const gap=Number(zones[i].progress)-progress;
   if(gap>=0&&gap<=.04){activeIndex=i;break;}
  }
  if(activeIndex<0)return;
- const zone=zones[activeIndex],index=activeIndex;
- const top=TRACK.top+8,bottom=TRACK.bottom-142,height=bottom-top;
- const drawSword=(sx,sy,angle,color)=>{
-  ctx.save();ctx.translate(sx,sy);ctx.rotate(angle);
-  ctx.fillStyle="#243d49";ctx.fillRect(-2,3,4,11);
-  ctx.fillStyle="#d9c58a";ctx.fillRect(-5,1,10,3);
-  ctx.fillStyle=color;ctx.beginPath();ctx.moveTo(0,-15);ctx.lineTo(4,-3);ctx.lineTo(2,2);ctx.lineTo(-2,2);ctx.lineTo(-4,-3);ctx.closePath();ctx.fill();
-  ctx.strokeStyle="#f1fbff";ctx.lineWidth=1;ctx.stroke();
-  ctx.fillStyle="#fff0b7";ctx.fillRect(-1,-12,2,7);
-  ctx.restore();
+ const zone=zones[activeIndex],x=TRACK.left+35+(TRACK.right-TRACK.left-45)*zone.progress;
+ const top=TRACK.top+30,bottom=TRACK.bottom-150,color=zone.color||"#b8d8ff";
+ const gap=Number(zone.progress)-progress,pulse=.5+.5*Math.sin(time*.0025+activeIndex);
+ const half=17+3*pulse;
+ const path=()=>{
+  ctx.beginPath();ctx.moveTo(x-2,top);
+  ctx.lineTo(x+half*.6,top+38);ctx.lineTo(x+half,top+82);
+  ctx.lineTo(x+half*.55,top+132);ctx.lineTo(x+half*.8,bottom-62);
+  ctx.lineTo(x+3,bottom);ctx.lineTo(x-half*.65,bottom-48);
+  ctx.lineTo(x-half,bottom-112);ctx.lineTo(x-half*.6,top+92);ctx.closePath();
  };
- {
-  const x=TRACK.left+35+(TRACK.right-TRACK.left-45)*zone.progress;
-  const pulse=.5+.5*Math.sin(time*.0024+index*1.8);
-  const jade=index===0,sword=index===1,accent=zone.color||"#b8d8ff";
-  ctx.save();
-  // Lớp nền cổng mờ để nhân vật vẫn nổi bật khi bay xuyên qua.
-  ctx.globalAlpha=.10+.035*pulse;ctx.fillStyle=accent;
-  ctx.fillRect(x-13,top+24,26,height-48);
-  ctx.globalAlpha=.92;
-  // Hai trụ đá/ngọc dọc theo toàn bộ khu vực các làn bay.
-  [-1,1].forEach(side=>{
-   const px=x+side*21;
-   ctx.fillStyle=jade?"#285b50":sword?"#29485f":"#382d55";
-   ctx.fillRect(px-5,top+24,10,height-48);
-   ctx.fillStyle=jade?"#9ce9c5":sword?"#b8d8ff":"#b7baff";
-   ctx.fillRect(px-2,top+29,2,height-58);
-   ctx.strokeStyle=jade?"#d8f5d9":sword?"#d9efff":"#e0caff";
-   ctx.lineWidth=1;ctx.strokeRect(px-5.5,top+24.5,11,height-49);
-   // Đầu trụ và chân đế kiểu kiến trúc tiên môn.
-   ctx.fillStyle=jade?"#8acdb0":sword?"#8db9dc":"#8b78b6";
-   ctx.fillRect(px-9,top+18,18,7);ctx.fillRect(px-9,bottom-25,18,7);
-   ctx.fillStyle="#f0d69a";ctx.fillRect(px-11,top+16,22,2);ctx.fillRect(px-11,bottom-18,22,2);
-   ctx.fillStyle=accent;ctx.fillRect(px-2,top+10,4,5);
-   ctx.fillRect(px-2,bottom-12,4,5);
-  });
-  // Vòm trên và bệ dưới tạo silhouette cổng rõ ràng.
-  ctx.strokeStyle="#263b36";ctx.lineWidth=10;ctx.beginPath();
-  ctx.moveTo(x-25,top+27);ctx.quadraticCurveTo(x,top-9,x+25,top+27);ctx.stroke();
-  ctx.strokeStyle=accent;ctx.lineWidth=3;ctx.beginPath();
-  ctx.moveTo(x-25,top+27);ctx.quadraticCurveTo(x,top-9,x+25,top+27);ctx.stroke();
-  ctx.strokeStyle="#263b36";ctx.lineWidth=8;ctx.beginPath();
-  ctx.moveTo(x-24,bottom-24);ctx.lineTo(x+24,bottom-24);ctx.stroke();
-  ctx.strokeStyle=accent;ctx.lineWidth=2;ctx.beginPath();
-  ctx.moveTo(x-24,bottom-24);ctx.lineTo(x+24,bottom-24);ctx.stroke();
-  // Mặt trận ở chính giữa cổng, nét đứt chuyển động chậm.
-  ctx.globalAlpha=.34+.16*pulse;ctx.strokeStyle=accent;ctx.lineWidth=2;
-  ctx.setLineDash([4,7]);ctx.lineDashOffset=-(time*.018)%11;
-  ctx.beginPath();ctx.moveTo(x,top+32);ctx.lineTo(x,bottom-31);ctx.stroke();
-  ctx.setLineDash([]);ctx.globalAlpha=.95;
-  if(jade){
-   // Cổng Tụ Linh: ngọc tâm, phù văn và các hạt linh khí.
-   ctx.fillStyle="#d8fff0";ctx.beginPath();ctx.moveTo(x,top+2);ctx.lineTo(x+6,top+9);ctx.lineTo(x,top+16);ctx.lineTo(x-6,top+9);ctx.closePath();ctx.fill();
-   ctx.strokeStyle="#b8f2d7";ctx.lineWidth=1.5;
-   for(let i=0;i<5;i++){const yy=top+48+i*45;ctx.strokeRect(x-29,yy,5,8);ctx.strokeRect(x+24,yy+17,5,8);}
-   for(let i=0;i<4;i++){const yy=top+42+i*58+Math.sin(time*.003+i)*3;ctx.fillStyle="#caffdf";ctx.fillRect(x-4+(i%2)*5,yy,3,3);}
-  }else if(sword){
-   // Kiếm Trận: phi kiếm trấn ở hai bên và trận ấn bát giác.
-   for(let i=0;i<4;i++){
-    const yy=top+45+i*(height-90)/3;
-    drawSword(x-30,yy,-.12,accent);drawSword(x+30,yy,.12,accent);
-   }
-   ctx.strokeStyle="#d8efff";ctx.lineWidth=1.5;ctx.beginPath();
-   ctx.moveTo(x,top+35);ctx.lineTo(x+8,top+43);ctx.lineTo(x,top+51);ctx.lineTo(x-8,top+43);ctx.closePath();ctx.stroke();
-   ctx.beginPath();ctx.arc(x,bottom-43,9,0,Math.PI*2);ctx.stroke();
-  }else{
-   // Lôi Vực: trụ huyền thạch, lôi văn giật sáng theo nhịp.
-   ctx.strokeStyle="#e0caff";ctx.lineWidth=2;
-   for(let i=0;i<5;i++){
-    const yy=top+43+i*(height-86)/4,shift=Math.sin(time*.018+i*2.4)*5;
-    ctx.beginPath();ctx.moveTo(x-20,yy-9);ctx.lineTo(x-7+shift,yy-3);ctx.lineTo(x+3-shift,yy+3);ctx.lineTo(x+20,yy+10);ctx.stroke();
-   }
-   ctx.fillStyle="#e9dcff";ctx.fillRect(x-3,top+5,6,3);ctx.fillRect(x-3,bottom-8,6,3);
-  }
-  // Biển hiệu ngọc nổi phía trên cổng, đồng bộ tên và mốc từ effects.json.
-  const label=zone.shortName+" · "+Math.round(zone.progress*100)+"%";
-  ctx.globalAlpha=.96;ctx.fillStyle="#172e2b";ctx.fillRect(x-43,top-18,86,14);
-  ctx.strokeStyle=accent;ctx.lineWidth=1.5;ctx.strokeRect(x-43.5,top-18.5,87,15);
-  ctx.fillStyle="#fff3d0";ctx.font="bold 8px Arial";ctx.textAlign="center";ctx.textBaseline="middle";
-  ctx.fillText(label,x,top-11,82);
-  ctx.restore();
- };
+ ctx.save();ctx.globalAlpha=Math.max(.28,Math.min(.95,1-gap*15));
+ // Vết nứt không gian thay cho khung cổng/trụ cổ điển.
+ path();ctx.fillStyle="#101a31";ctx.fill();
+ path();ctx.strokeStyle="#28364d";ctx.lineWidth=10;ctx.stroke();
+ path();ctx.strokeStyle=color;ctx.lineWidth=3;ctx.stroke();
+ ctx.beginPath();ctx.moveTo(x,top+8);ctx.lineTo(x+4,top+49);ctx.lineTo(x-5,top+91);ctx.lineTo(x+4,bottom-45);ctx.lineTo(x,bottom-7);
+ ctx.strokeStyle="#f5fbff";ctx.lineWidth=1.5;ctx.stroke();
+ ctx.strokeStyle=color;ctx.lineWidth=1.5;
+ [[-2,top+57,-23,top+39],[2,top+116,23,top+96],[-1,bottom-100,-22,bottom-121],[2,bottom-57,22,bottom-38]].forEach(([sx,sy,ex,ey])=>{
+  ctx.beginPath();ctx.moveTo(x+sx,sy);ctx.lineTo(x+(sx+ex)*.5,sy+(ey-sy)*.5);ctx.lineTo(x+ex,ey);ctx.stroke();
+ });
+ ctx.fillStyle="#fff4d4";for(let i=0;i<3;i++)ctx.fillRect(x+(i%2?4:-3),top+35+i*57,2,2);
+ const label=zone.shortName+" · "+Math.round(zone.progress*100)+"%";
+ ctx.font="bold 8px Arial";ctx.textAlign="center";ctx.textBaseline="middle";
+ ctx.fillStyle="#172337";ctx.fillRect(x-42,top-16,84,14);
+ ctx.strokeStyle=color;ctx.lineWidth=1;ctx.strokeRect(x-42.5,top-16.5,85,15);
+ ctx.fillStyle="#fff4d5";ctx.fillText(label,x,top-9,80);
+ ctx.restore();
 }
 let phase1TrackRenderTime=0;
 const phase1BaseDrawTrackLines=drawTrackLines;
