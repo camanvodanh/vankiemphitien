@@ -209,7 +209,7 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 
 ## 14. Thiên phú và Photo Finish
 
-- Mỗi tiên nhân nhận một trong 20 thiên phú luân phiên: Phong Linh Thể, Lôi Linh Thể, Kiếm Tâm, Ảnh Độn Thể, Huyền Quy Thể, Hỏa Linh Căn, Băng Tâm, Thanh Loan Huyết Mạch, Côn Bằng Chi Thể, Thiên Cơ Đạo Thể, Vô Ảnh Kiếm Cốt, Tử Điện Linh Thể, Nguyệt Ảnh Thể, Kim Cang Thể, Cửu Dương Thể, Hư Không Đạo Thể, Tinh Thần Linh Thể, Long Tượng Bá Thể, Thanh Mộc Linh Thể và Hàn Nguyệt Kiếm Thể. Thiên phú tạo chênh lệch nhỏ theo cấu hình hiện hành.
+- Mỗi tiên nhân thông thường nhận một trong 20 thiên phú luân phiên: Phong Linh Thể, Lôi Linh Thể, Kiếm Tâm, Ảnh Độn Thể, Huyền Quy Thể, Hỏa Linh Căn, Băng Tâm, Thanh Loan Huyết Mạch, Côn Bằng Chi Thể, Thiên Cơ Đạo Thể, Vô Ảnh Kiếm Cốt, Tử Điện Linh Thể, Nguyệt Ảnh Thể, Kim Cang Thể, Cửu Dương Thể, Hư Không Đạo Thể, Tinh Thần Linh Thể, Long Tượng Bá Thể, Thanh Mộc Linh Thể và Hàn Nguyệt Kiếm Thể. Thiên phú tạo chênh lệch nhỏ theo cấu hình hiện hành. **Thần Sầu là ngoại lệ:** không tham gia vòng thiên phú này và chỉ có thể chất duy nhất `Bún Chua Cay Thánh Thể`.
 - Photo Finish được nhận diện khi hai lần về đích liên tiếp cách nhau không quá 120 ms; thông báo kết quả được xếp sau thông báo về đích, không thay đổi thời gian hoặc thứ hạng đã chốt.
 - Không còn ba mốc sự kiện đường đua 24% / 53% / 78%; không kích hoạt tăng tốc, giảm tốc, hiệu ứng riêng hoặc cổng trang trí tại các mốc này. Các hiệu ứng ngẫu nhiên thông thường của từng tiên nhân vẫn giữ nguyên.
 
@@ -294,6 +294,8 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 
 
 ## 23. Thần Sầu — Bún Chua Cay Thánh Thể và tuyệt chiêu
+
+- Thần Sầu không nhận bất kỳ thiên phú luân phiên nào khác. Giá trị `talent` của nhân vật luôn cố định `{ id: "bun-chua-cay", name: "Bún Chua Cay Thánh Thể" }`, kể cả sau các lớp wrapper tạo tiên nhân.
 
 - Thể chất riêng: `Bún Chua Cay Thánh Thể`, hiển thị trong Thiên Lý Kính như thể chất của Thần Sầu.
 - Tạo hình: sprite pixel Thần Sầu cầm tô bún chua cay trên tay; khi ăn, tô bún có hơi nóng/khói cay và điểm nhấn ớt.
