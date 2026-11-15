@@ -54,6 +54,8 @@ function processFinish(racer,index){
  racer.effectType="";
  racer.effectName="";
  racer.effectPolarity="";
+ racer.effectDuration=0;
+ racer.personalEffectType="";racer.personalEffectName="";racer.personalEffectPolarity="";racer.personalEffectMultiplier=1;
  if(cameraFocusId===racer.id)cameraFocusId=null;
  finishQueue.push(racer);
  leaderAnnouncementQueued = true;
