@@ -229,3 +229,10 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Khi từng tiên nhân vượt cổng, xóa hiệu ứng đang có và hiệu ứng đang chờ; áp dụng hiệu ứng riêng của cổng, sau đó có 95% cơ hội nhận thêm một hiệu ứng cá nhân tốt/xấu theo `positionGoodChance` (top 42%, giữa 50%, cuối 58%) và 5% không nhận hiệu ứng cá nhân. Hiệu ứng cá nhân dùng `tierWeights`, `multipliers`, giới hạn tốc độ và thời lượng chung trong `effects.json`; hệ số cổng và cá nhân được nhân với nhau rồi clamp theo giới hạn tốc độ.
 - `journey-world.js` chỉ bổ sung lớp Canvas phía sau nhân vật; không tạo DOM, không thêm timer, listener hoặc vòng lặp animation riêng. Mỗi frame chỉ duyệt tối đa 100 tiên nhân để xác định tiến độ xa nhất và phát hiện cổng đã vượt.
 - Không thêm hạt hiệu ứng theo từng tiên nhân; ngân sách hạt hiện tại được giữ nguyên. Cảnh quan dùng Canvas, chuyển động xác định theo thời gian render, không tạo timer/RAF/listener riêng; giới hạn số lớp mây, kiếm và tia sét để phù hợp tối đa 100 nhân vật.
+
+
+## 15. Tinh chỉnh bố cục Vân Hải và Kiếm Vực
+
+- Vân Hải bỏ các vòng xoắn/vòng elip đồng tâm. Thay bằng tầng mây ngang nhiều độ sâu, vân đài, cầu mây nối đảo, đảo tiên, lầu các và thác mây; chuyển động chậm, phân lớp rõ, không tạo họa tiết xoáy gây rối mắt.
+- Kiếm Vực giữ sáu chủng kiếm nhưng phân bổ theo các cụm nhỏ và nhiều cao độ: khoảng 28 kiếm cổ ở tầng xa, 12 linh kiếm bay, 22 kiếm cắm theo sườn núi và 8 kiếm hộ vệ quanh kiếm chủ. Tỷ lệ vẽ từng lớp giảm để kiếm không quá lớn; kiếm chủ trung tâm cũng thu nhỏ để không lấn át toàn cảnh.
+- Đây là mật độ và bố cục hình ảnh, không thay đổi gameplay, số tiên nhân, tốc độ, hiệu ứng hay thời lượng cuộc đua.
