@@ -207,29 +207,22 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Các quy tắc trên áp dụng theo viewport ngang và dọc; không thay đổi gameplay, thời lượng đua, hiệu ứng hay thứ hạng.
 
 
-## 14. Giai đoạn 1 — địa hình sự kiện, thiên phú và Photo Finish
+## 14. Thiên phú và Photo Finish
 
-Nguồn thực thi: `data/effects.json` khóa `trackZones`, kết hợp logic trong `race-logic.js`.
-
-- **Cổng Tụ Linh** ở 24% đường đua: tăng tốc hệ số 1.11 trong 2.4 giây.
-- **Kiếm Trận** ở 53%: tăng tốc hệ số 1.13 trong 2.2 giây.
-- **Lôi Vực** ở 78%: giảm tốc hệ số 0.91 trong 1.8 giây.
-- Mỗi tiên nhân kích hoạt mỗi vùng tối đa một lần trong một lượt; chỉ kích hoạt khi tiến độ thực sự đi qua mốc. Các hiệu ứng dùng giới hạn tốc độ chung và không tạo banner.
-- Mỗi tiên nhân nhận một trong 20 thiên phú luân phiên: Phong Linh Thể, Lôi Linh Thể, Kiếm Tâm, Ảnh Độn Thể, Huyền Quy Thể, Hỏa Linh Căn, Băng Tâm, Thanh Loan Huyết Mạch, Côn Bằng Chi Thể, Thiên Cơ Đạo Thể, Vô Ảnh Kiếm Cốt, Tử Điện Linh Thể, Nguyệt Ảnh Thể, Kim Cang Thể, Cửu Dương Thể, Hư Không Đạo Thể, Tinh Thần Linh Thể, Long Tượng Bá Thể, Thanh Mộc Linh Thể và Hàn Nguyệt Kiếm Thể. Thiên phú tăng nhẹ hiệu quả khi đi qua vùng có lợi; hệ số cộng thêm nằm trong khoảng 1.015–1.045, không tạo lợi thế lớn ngay từ đầu.
-- **Photo Finish** được nhận diện khi hai lần về đích liên tiếp cách nhau không quá 120 ms; thông báo kết quả được xếp sau thông báo về đích, không thay đổi thời gian hoặc thứ hạng đã chốt.
-- Không vẽ ba cổng sự kiện địa hình 24% / 53% / 78% trên đường đua để tránh thừa chi tiết. Các vùng này vẫn giữ nguyên cơ chế gameplay tăng/giảm tốc theo `data/effects.json`; chỉ bỏ phần cổng trang trí.
-
+- Mỗi tiên nhân nhận một trong 20 thiên phú luân phiên: Phong Linh Thể, Lôi Linh Thể, Kiếm Tâm, Ảnh Độn Thể, Huyền Quy Thể, Hỏa Linh Căn, Băng Tâm, Thanh Loan Huyết Mạch, Côn Bằng Chi Thể, Thiên Cơ Đạo Thể, Vô Ảnh Kiếm Cốt, Tử Điện Linh Thể, Nguyệt Ảnh Thể, Kim Cang Thể, Cửu Dương Thể, Hư Không Đạo Thể, Tinh Thần Linh Thể, Long Tượng Bá Thể, Thanh Mộc Linh Thể và Hàn Nguyệt Kiếm Thể. Thiên phú tạo chênh lệch nhỏ theo cấu hình hiện hành.
+- Photo Finish được nhận diện khi hai lần về đích liên tiếp cách nhau không quá 120 ms; thông báo kết quả được xếp sau thông báo về đích, không thay đổi thời gian hoặc thứ hạng đã chốt.
+- Không còn ba mốc sự kiện đường đua 24% / 53% / 78%; không kích hoạt tăng tốc, giảm tốc, hiệu ứng riêng hoặc cổng trang trí tại các mốc này. Các hiệu ứng ngẫu nhiên thông thường của từng tiên nhân vẫn giữ nguyên.
 
 ## 15. Hành trình bản đồ xuyên ngũ cảnh giới — `data/scenery.json`
 
 - Cuộc đua vẫn là một đường liên tục; không chia lại lượt, không tăng `distance`, không thay đổi thời lượng hoặc công thức vận tốc.
-- Tiến độ cảnh quan lấy theo nhân vật đang đi xa nhất, chuẩn hóa từ 0 đến 1. Cảnh gốc hiện tại được giữ nguyên từ lúc bắt đầu đến khi đoàn đua vượt cổng đầu tiên ở 20%. Sau đó, các vùng tiếp theo lần lượt bắt đầu tại 20%, 40%, 60% và 80%; chỉ sau khi vượt qua cổng tương ứng mới bắt đầu crossfade sang cảnh mới. Vùng clip dừng ở y=478 để không che quảng trường tiền cảnh, chưởng môn và nghi thức.
+- Tiến độ cảnh quan lấy theo nhân vật đang đi xa nhất, chuẩn hóa từ 0 đến 1. Cảnh gốc hiện tại được giữ nguyên từ lúc bắt đầu đến khi đoàn đua vượt cổng đầu tiên ở 20%. Sau đó, các vùng tiếp theo lần lượt bắt đầu tại 20%, 40%, 60% và 80%; chỉ sau khi vượt qua cổng tương ứng mới bắt đầu crossfade sang cảnh mới. Vùng clip dừng ở y=478 để không che quảng trường tiền cảnh, Chưởng Môn và nghi thức.
   1. Tiên Môn Sơn Đạo — sơn cốc, vách núi ngọc và thác xa.
-  2. Vân Hải Thiên Không — đảo tiên lơ lửng và biển mây.
-  3. Vạn Kiếm Kiếm Vực — kiếm sơn và phi kiếm trấn vực.
-  4. Cửu Thiên Lôi Vực — tầng mây tím và lôi điện.
-  5. Thiên Cung Tiên Đài — cung điện vàng giữa tầng mây.
-- Chỉ giữ bốn cổng chuyển cảnh ở 20%, 40%, 60% và 80%, tạo hình vết nứt không gian. Mỗi lúc chỉ hiện cổng kế tiếp trong 4% tiến độ trước mốc; vừa qua mốc thì ẩn ngay. Không vẽ ba cổng sự kiện gameplay 24% / 53% / 78%; hiệu ứng tốc độ tại các mốc này vẫn hoạt động.
+  2. Vân Hải Thiên Không — biển mây nhiều tầng chuyển động, mây cuộn tiền/trung/hậu cảnh, nhiều đảo tiên, thác mây và tiên các.
+  3. Vạn Kiếm Kiếm Vực — dãy kiếm sơn nhiều đỉnh, rừng kiếm đa chủng loại, kiếm khí và kiếm trận xoay chậm.
+  4. Cửu Thiên Lôi Vực — nhiều tầng mây giông cuộn chuyển động, mưa xa, sét phân nhánh chớp theo nhịp và ánh chớp phản sáng.
+  5. Thiên Cung Tiên Đài — quần thể nhiều điện/phụ điện, đại điện trung tâm nhiều tầng mái, cột son, cửa ngọc, bậc thềm, cầu mây và họa tiết vàng ngọc.
+- Chỉ giữ bốn cổng chuyển cảnh ở 20%, 40%, 60% và 80%, tạo hình vết nứt không gian. Mỗi lúc chỉ hiện cổng kế tiếp trong 4% tiến độ trước mốc; vừa qua mốc thì ẩn ngay. Xóa hoàn toàn ba mốc sự kiện 24% / 53% / 78%, bao gồm hình ảnh, cấu hình và hiệu ứng tăng/giảm tốc của chúng.
 - Chuyển cảnh chỉ bắt đầu sau khi vượt cổng; quá trình hòa trộn kéo dài 6% tiến độ tiếp theo. Cảnh cũ được chụp lại trước khi phủ lớp cảnh giới; lớp trời/sơn mạch được xóa rồi hòa trộn trực tiếp giữa cảnh cũ và cảnh mới, không để nền ban đầu hiện xuyên qua các cảnh sau. Không hé lộ cảnh giới kế tiếp trước cổng.
 - `journey-world.js` chỉ bổ sung lớp Canvas phía sau nhân vật; không tạo DOM, không thêm timer, listener hoặc vòng lặp animation riêng. Mỗi frame chỉ duyệt tối đa 100 tiên nhân để xác định tiến độ xa nhất và vẽ tối đa hai lớp vùng trong thời gian giao thoa.
-- Không thêm hạt hiệu ứng theo từng tiên nhân; ngân sách hạt hiện tại và ba vùng kích hoạt gameplay được giữ nguyên. Ba vùng gameplay không còn cổng trang trí.
+- Không thêm hạt hiệu ứng theo từng tiên nhân; ngân sách hạt hiện tại được giữ nguyên. Cảnh quan dùng Canvas, chuyển động xác định theo thời gian render, không tạo timer/RAF/listener riêng; giới hạn số lớp mây, kiếm và tia sét để phù hợp tối đa 100 nhân vật.
