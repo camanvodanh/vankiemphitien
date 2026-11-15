@@ -1813,3 +1813,104 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonRitual(time);dra
   setSettingsLocked=function(value){previousLock(value);refreshGuidance();};
   refreshGuidance();
 })();
+
+
+// =====================================================
+// PHASE 1 — ĐỊA HÌNH SỰ KIỆN, THIÊN PHÚ VÀ PHOTO FINISH
+// Các vùng đường đua tác động trực tiếp đến tốc độ; không dùng banner.
+// =====================================================
+const phase1BaseCreateRacer = createRacer;
+createRacer = function(name,index){
+ const racer=phase1BaseCreateRacer(name,index);
+ const talents=[
+  {id:"wind",name:"Phong Linh Thể",boost:1.025},
+  {id:"thunder",name:"Lôi Linh Thể",boost:1.035},
+  {id:"sword",name:"Kiếm Tâm",boost:1.02},
+  {id:"shadow",name:"Ảnh Độn Thể",boost:1.03},
+  {id:"steady",name:"Huyền Quy Thể",boost:1.015}
+ ];
+ racer.talent={...talents[index%talents.length]};
+ racer.trackZoneMask=0;
+ return racer;
+};
+
+function activateTrackZone(racer,zone,index){
+ if(racer.finished)return;
+ const talentBonus=racer.talent&&zone.polarity==="positive"?racer.talent.boost:1;
+ const multiplier=clamp(zone.multiplier*talentBonus,VKP_DATA.effects.balance.speedLimits.min,VKP_DATA.effects.balance.speedLimits.max);
+ racer.speedMultiplier=multiplier;
+ racer.effectTimer=zone.duration;
+ racer.effectDuration=zone.duration;
+ racer.effectType=zone.effectType;
+ racer.effectName=zone.name;
+ racer.effectPolarity=zone.polarity;
+ const x=racerX(racer),y=laneY(index);
+ cameraFocusId=racer.id;
+ addParticles(x,y,22);
+ const burst=VKP_DATA.effects.particleBurst;
+ for(let i=0;i<Math.min(12,burst.count);i++){
+  const angle=i*burst.angleStep;
+  particles.push({x,y,vx:Math.cos(angle)*rand(1.4,2.8),vy:Math.sin(angle)*rand(1.1,2.2),life:rand(.35,.7),maxLife:.7,size:rand(2,3.5),color:zone.color});
+ }
+}
+
+const phase1BaseUpdateRace=updateRace;
+updateRace=function(dt){
+ const before=new Map(racers.map(r=>[r.id,r.progress]));
+ phase1BaseUpdateRace(dt);
+ if(!started||finished)return;
+ const zones=VKP_DATA.effects.trackZones||[];
+ racers.forEach((racer,index)=>{
+  if(racer.finished)return;
+  const previous=before.get(racer.id)||0;
+  const current=racer.progress;
+  zones.forEach((zone,zoneIndex)=>{
+   const bit=1<<zoneIndex;
+   const threshold=distance*zone.progress;
+   if(!(racer.trackZoneMask&bit)&&previous<threshold&&current>=threshold){
+    racer.trackZoneMask|=bit;
+    activateTrackZone(racer,zone,index);
+   }
+  });
+ });
+};
+
+const phase1BaseProcessFinish=processFinish;
+processFinish=function(racer,index){
+ const previousFinishers=racers.filter(r=>r!==racer&&r.finished&&Number.isFinite(r.finishTime));
+ const previous=previousFinishers.length?previousFinishers.reduce((best,r)=>r.finishTime>best.finishTime?r:best):null;
+ phase1BaseProcessFinish(racer,index);
+ if(previous&&racer.finished&&Number.isFinite(racer.finishTime)){
+  const gap=Math.abs(racer.finishTime-previous.finishTime);
+  if(gap<=.12){
+   const label="PHOTO FINISH · "+previous.name+" / "+racer.name+" · cách nhau "+Math.max(1,Math.round(gap*1000))+" ms";
+   finishAnnouncementQueue.push(label);
+  }
+ }
+};
+
+// Cổng sự kiện pixel-art cố định theo tiến độ; vẽ nhẹ, không dùng blur/filter.
+function drawPhase1TrackZones(time){
+ if(!started||finished||!racers.length)return;
+ const zones=VKP_DATA.effects.trackZones||[];
+ const top=TRACK.top-23,bottom=TRACK.bottom-112;
+ zones.forEach((zone,index)=>{
+  const x=TRACK.left+35+(TRACK.right-TRACK.left-45)*zone.progress;
+  ctx.save();
+  ctx.globalAlpha=.48+.16*Math.sin(time*.004+index);
+  ctx.strokeStyle=zone.color;ctx.lineWidth=3;
+  ctx.setLineDash([7,5]);
+  ctx.beginPath();ctx.moveTo(x,top);ctx.lineTo(x,bottom);ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle="rgba(18,39,38,.82)";ctx.fillRect(x-34,top-17,68,14);
+  ctx.strokeStyle=zone.color;ctx.lineWidth=1;ctx.strokeRect(x-34,top-17,68,14);
+  ctx.fillStyle="#fff1c6";ctx.font="bold 8px Arial";ctx.textAlign="center";ctx.textBaseline="middle";
+  ctx.fillText(zone.shortName,x,top-10,64);
+  ctx.restore();
+ });
+}
+const phase1BaseRender=render;
+render=function(time){
+ phase1BaseRender(time);
+ drawPhase1TrackZones(time);
+};
