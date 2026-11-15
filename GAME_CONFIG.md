@@ -216,7 +216,7 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 ## 15. Hành trình bản đồ xuyên ngũ cảnh giới — `data/scenery.json`
 
 - Cuộc đua vẫn là một đường liên tục; không chia lại lượt, không tăng `distance`, không thay đổi thời lượng hoặc công thức vận tốc nền. Bốn cổng có hiệu ứng riêng, có thể điều chỉnh hệ số vận tốc trong giới hạn cân bằng.
-- Tiến độ cảnh quan lấy theo nhân vật đang đi xa nhất, chuẩn hóa từ 0 đến 1. Cảnh gốc hiện tại được giữ nguyên từ lúc bắt đầu đến khi đoàn đua vượt cổng đầu tiên ở 20%. Sau đó, các vùng tiếp theo lần lượt bắt đầu tại 20%, 40%, 60% và 80%; chỉ sau khi vượt qua cổng tương ứng mới bắt đầu crossfade sang cảnh mới. Vùng clip đến y=535 để xóa cả dòng linh thủy từ pháp bảo, nhưng giữ phần quảng trường/Chưởng Môn phía dưới.
+- Tiến độ cảnh quan lấy theo nhân vật đang đi xa nhất, chuẩn hóa từ 0 đến 1. Cảnh gốc hiện tại được giữ nguyên từ lúc bắt đầu đến khi đoàn đua vượt cổng đầu tiên ở 20%. Sau đó, các vùng tiếp theo lần lượt bắt đầu tại 20%, 40%, 60% và 80%; chỉ sau khi vượt qua cổng tương ứng mới bắt đầu crossfade sang cảnh mới. Vùng clip đến y=480 chỉ thay lớp trời/núi, bảo vệ toàn bộ linh quang/bảo vật Chưởng Môn và dòng sông phía dưới.
   1. Tiên Môn Sơn Đạo — sơn cốc, vách núi ngọc và thác xa.
   2. Vân Hải Thiên Không — biển mây bốn tầng cuộn ngược chiều, thiên nhãn mây xoắn, tám đảo tiên nhiều cao độ, tiên các rải trên đảo, nhiều dải mây uốn lượn, bảy dòng thác mây và sương tiền cảnh.
   3. Vạn Kiếm Kiếm Vực — kiếm sơn dựng đứng, tối nền để làm nổi bật lưỡi kiếm dài; sáu chủng kiếm có dáng lưỡi/kiếm cách/chuôi riêng, cổ kiếm dài cắm dày trên sườn núi, linh kiếm bay ở nhiều cao độ, ba tầng kiếm trận phù văn, tia nối kiếm, tám trụ kiếm trấn trận và kiếm chủ ở tâm trận.
