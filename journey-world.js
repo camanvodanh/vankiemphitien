@@ -146,7 +146,7 @@
     let portal=null,index=-1;
     for(let i=0;i<portals.length;i++){
       const gap=Number(portals[i].progress||0)-progress;
-      if(gap>=0&&gap<=.08){portal=portals[i];index=i;break;}
+      if(gap>=0&&gap<=.04){portal=portals[i];index=i;break;}
     }
     if(!portal)return;
     const distanceToPortal=Number(portal.progress||0)-progress;
