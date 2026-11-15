@@ -657,7 +657,7 @@ function summon(){
   racers.forEach(r=>{r.swordStyle=randInt(0,11);r.swordColor=randInt(0,9);if(r.gender==="female")r.swordColor=randInt(0,3);else r.swordColor=randInt(4,7);});
   duration=Number($("speed").value);elapsed=0;running=false;paused=false;started=false;finished=false;countdown=0;countdownAccumulator=0;eventClock=0;nextEvent=rand(getRaceEffectTimingProfile(duration).eventIntervalSeconds[0],getRaceEffectTimingProfile(duration).eventIntervalSeconds[1]);
   eventText="";eventTextLife=0;finishQueue=[];cameraFocusId=null;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;finishMessage="";finishMessageLife=0;particles=[];assignFinishTimes();
-  $("status").textContent="Đã triệu hồi";$("lockNotice").textContent="Tiếp theo: Nhấn Chạy để khai mở cuộc đua.";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="--";setSettingsLocked(false);$("leaderSpeed").innerHTML="";$("leaderEffect").textContent="";collapseSetupPanel();syncButtons();
+  $("status").textContent="Đã triệu hồi";$("lockNotice").textContent="Tiếp theo: Nhấn Chạy để khai mở cuộc đua.";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="--";setSettingsLocked(false);$("leaderSpeed").innerHTML="";$("leaderTalent").textContent="";$("leaderEffect").textContent="";collapseSetupPanel();syncButtons();
   // Không dựng Canvas đồng bộ trong sự kiện chạm; ưu tiên phản hồi nút trên iPhone.
   lastCanvasRenderAt=0;
 }
@@ -732,7 +732,7 @@ function resetGame(){
   racers=[];raceStopped=false;particles=[];running=false;paused=false;started=false;finished=false;
   countdown=0;countdownAccumulator=0;elapsed=0;eventClock=0;eventText="";eventTextLife=0;
   finishQueue=[];cameraFocusId=null;finishMessage="";finishMessageLife=0;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;
-  $("status").textContent="Chờ triệu hồi";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa khai mở";$("leaderSpeed").innerHTML="";$("leaderEffect").textContent="";$("lockNotice").textContent="Bước 1: Nhập danh sách hoặc chọn số lượng, sau đó nhấn Tạo.";
+  $("status").textContent="Chờ triệu hồi";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa khai mở";$("leaderSpeed").innerHTML="";$("leaderTalent").textContent="";$("leaderEffect").textContent="";$("lockNotice").textContent="Bước 1: Nhập danh sách hoặc chọn số lượng, sau đó nhấn Tạo.";
   setSettingsLocked(false);setSetupPanel(true);syncButtons();updateRanking();
   // Để RAF vẽ khung hình kế tiếp thay vì khóa luồng thao tác Dừng/Triệu hồi.
   lastCanvasRenderAt=0;
@@ -757,7 +757,7 @@ function drawCamera(time){
   const total=Math.min(3,racers.length);
   $("leaderName").textContent="Ban thưởng Top "+total+" Tiên Hội";
   $("leaderProgress").textContent="TOP "+total+" TIÊN HỘI";
-  $("leaderEffect").textContent="";
+  $("leaderTalent").textContent="";$("leaderEffect").textContent="";
   $("leaderSpeed").innerHTML="";
   return;
  }
@@ -765,7 +765,7 @@ function drawCamera(time){
   $("leaderName").textContent="Đang chờ cuộc đua";
   $("leaderProgress").textContent="--";
   $("leaderSpeed").innerHTML="";
-  $("leaderEffect").textContent="";
+  $("leaderTalent").textContent="";$("leaderEffect").textContent="";
   cameraCtx.fillStyle="#fff2c9";cameraCtx.font="bold 14px Arial, sans-serif";
   cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";
   cameraCtx.fillText("Chờ khai mở tiên hội",210,96);
@@ -778,17 +778,20 @@ function drawCamera(time){
  const cameraRacer=racer.effectName?{...racer,effectName:""}:racer;
  drawRacer(cameraCtx,cameraRacer,210,108,2.0,time);
  const rank=sortedRacers().findIndex(item=>item.id===racer.id)+1;
- $("leaderEffect").textContent=[racer.talent&&racer.talent.name?racer.talent.name:"",racer.effectTimer>0?(racer.effectName||""):""].filter(Boolean).join(" · ");
- $("leaderName").textContent=racer.name;
- const rankArrow=racer.rankMovementTimer>0&&racer.rankMovement
-  ? (racer.rankMovement==="up"?'<span class="camera-rank-up">↑</span>':'<span class="camera-rank-down">↓</span>')
-  : "";
- const hasSpeedEffect=racer.effectTimer>0&&Math.abs((racer.speedMultiplier||1)-1)>.001;
- const speedText=hasSpeedEffect
-  ? '<small class="'+((racer.speedMultiplier||1)>=1?'camera-speed-up':'camera-speed-down')+'">× '+(racer.speedMultiplier||1).toFixed(1)+' · '+Math.max(0,racer.effectTimer).toFixed(1)+'s</small>'
-  : "";
- $("leaderProgress").innerHTML='Hạng '+rank+' '+rankArrow;
- $("leaderSpeed").innerHTML=speedText;
+  $("leaderTalent").textContent=racer.talent&&racer.talent.name?racer.talent.name:"";
+  $("leaderEffect").textContent=racer.effectTimer>0?(racer.effectName||""):"";
+  $("leaderName").textContent=racer.name;
+  const rankArrow=racer.rankMovementTimer>0&&racer.rankMovement
+   ? (racer.rankMovement==="up"?'<span class="camera-rank-up">↑</span>':'<span class="camera-rank-down">↓</span>')
+   : "";
+  const multiplier=Number(racer.speedMultiplier||1);
+  const hasSpeedEffect=racer.effectTimer>0&&Math.abs(multiplier-1)>.001;
+  const speedClass=multiplier>=1?"camera-speed-up":"camera-speed-down";
+  const speedText=hasSpeedEffect
+   ? '<small class="'+speedClass+'">× '+multiplier.toFixed(1)+' <span class="camera-speed-time">'+Math.max(0,racer.effectTimer).toFixed(1)+'s</span></small>'
+   : "";
+  $("leaderProgress").innerHTML='Hạng '+rank+' '+rankArrow;
+  $("leaderSpeed").innerHTML=speedText;
 }
 
 
