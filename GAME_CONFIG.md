@@ -291,3 +291,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Nhập thủ công các tên `Shen`, `Sầu`, `Trần Đạt Thọ`, `Thần Sầu`, `神愁` đều quy về nhân vật `Thần Sầu`.
 - Chỉ ở chế độ triệu hồi ngẫu nhiên: xác suất có một Thần Sầu trong lượt là `min(40%, 1.2% + 0.38% × số lượng triệu hồi)`. Ví dụ 10 nhân vật ≈ 5%, 50 ≈ 20.2%, 100 ≈ 39.2%. Tối đa một bản thể mỗi lượt; không cộng thêm nhân vật ngoài số lượng đã chọn.
 - Thần Sầu giữ nguyên hệ thống tiến độ, tốc độ, hiệu ứng, thứ hạng và về đích của tiên nhân thường; chỉ thay hình ảnh bằng sprite animation. Nếu ảnh không tải được, renderer cũ được dùng làm dự phòng.
+
+
+## 23. Thần Sầu — Bún Chua Cay Thể và tuyệt chiêu
+
+- Thể chất riêng: `Bún Chua Cay Thể`, hiển thị trong Thiên Lý Kính như thể chất của Thần Sầu.
+- Tạo hình: sprite pixel Thần Sầu cầm tô bún chua cay trên tay; khi ăn, tô bún có hơi nóng/khói cay và điểm nhấn ớt.
+- Tuyệt chiêu tự kích hoạt trong cuộc đua khi cooldown về 0 và Thần Sầu không đang chịu hiệu ứng khác: ăn bún, nhận tăng tốc ×1.20 trong 3.5 giây; cooldown 11.5 giây. Hệ số vẫn bị giới hạn bởi `effects.balance.speedLimits` hiện hành.
+- Hiệu ứng hiển thị: `Bún Chua Cay`; hiệu ứng gameplay dùng loại boost tích cực, không sửa xác suất hay thông số hiệu ứng của các tiên nhân khác.
