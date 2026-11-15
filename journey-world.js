@@ -9,6 +9,23 @@
   const portals=Array.isArray(config.portals)?config.portals:[];
   const transitionWidth=Math.max(.005,Math.min(.04,Number(config.transitionWidth)||.018));
   let frameProgress=0;
+  let baseSceneCanvas=null;
+  let baseSceneCtx=null;
+
+  function captureBaseScene(){
+    if(typeof ctx==="undefined"||!ctx.canvas)return;
+    const source=ctx.canvas;
+    if(!baseSceneCanvas){
+      baseSceneCanvas=document.createElement("canvas");
+      baseSceneCtx=baseSceneCanvas.getContext("2d");
+    }
+    if(baseSceneCanvas.width!==source.width||baseSceneCanvas.height!==source.height){
+      baseSceneCanvas.width=source.width;
+      baseSceneCanvas.height=source.height;
+    }
+    baseSceneCtx.clearRect(0,0,source.width,source.height);
+    baseSceneCtx.drawImage(source,0,0);
+  }
 
   function currentProgress(){
     if(typeof finished!=="undefined"&&finished)return 1;
@@ -128,12 +145,20 @@
     if(!regions.length||typeof ctx==="undefined"||frameProgress<Number(regions[1]&&regions[1].start||.2))return;
     const blend=activeBlend(frameProgress);
     if(!blend.length)return;
-    // Chỉ thay tầng trời/sơn mạch sau khi đã đi qua cổng đầu tiên.
-    // Nguồn cảnh gốc và quảng trường tiền cảnh vẫn nguyên vẹn.
+    // Xóa hẳn lớp trời/núi cũ rồi hòa trộn hai nguồn hình có alpha tổng bằng 1.
+    // Ở cổng đầu tiên, nguồn cũ là ảnh chụp cảnh gốc chưa chỉnh sửa.
     ctx.save();ctx.beginPath();ctx.rect(0,0,1100,478);ctx.clip();
-    if(blend.length===1){drawRegionScene(ctx,blend[0].region,time,1);ctx.restore();return;}
-    if(blend[0].region)drawRegionScene(ctx,blend[0].region,time,blend[0].alpha);
-    drawRegionScene(ctx,blend[1].region,time,blend[1].alpha);
+    ctx.clearRect(0,0,1100,478);
+    for(let i=0;i<blend.length;i++){
+      const layer=blend[i];
+      if(layer.region){
+        drawRegionScene(ctx,layer.region,time,layer.alpha);
+      }else if(baseSceneCanvas){
+        ctx.save();ctx.globalAlpha=layer.alpha;
+        ctx.drawImage(baseSceneCanvas,0,0,baseSceneCanvas.width,478,0,0,1100,478);
+        ctx.restore();
+      }
+    }
     ctx.restore();
   }
   function drawMiniRealm(){
@@ -196,7 +221,7 @@
   }
   if(typeof drawScenery==="function"){
     const baseDrawScenery=drawScenery;
-    drawScenery=function(time){baseDrawScenery(time);if(frameProgress>=Number(regions[1]&&regions[1].start||.2))drawMainRealm(time||0);};
+    drawScenery=function(time){baseDrawScenery(time);captureBaseScene();if(frameProgress>=Number(regions[1]&&regions[1].start||.2))drawMainRealm(time||0);};
   }
   if(typeof drawCameraBackground==="function"){
     const baseCameraBackground=drawCameraBackground;
