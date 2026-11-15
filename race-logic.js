@@ -94,6 +94,29 @@ function updateRace(dt){
     if(cameraFocusId===racer.id)cameraFocusId=null;
    }
   }
+  // Bún Chua Cay Thể: Thần Sầu ăn một tô bún để kích hoạt thân pháp tăng tốc.
+  if(racer.isLegendaryThanSau){
+   racer.thanSauBunCooldown=Math.max(0,(racer.thanSauBunCooldown||0)-dt);
+   racer.thanSauEatingTimer=Math.max(0,(racer.thanSauEatingTimer||0)-dt);
+   if(racer.thanSauBunCooldown<=0&&racer.effectTimer<=0){
+    const limits=VKP_DATA.effects.balance.speedLimits;
+    racer.speedMultiplier=clamp(1.2,limits.min,limits.max);
+    racer.effectType="boost";
+    racer.effectName="Bún Chua Cay";
+    racer.effectPolarity="positive";
+    racer.effectDuration=3.5;
+    racer.effectTimer=3.5;
+    racer.thanSauEatingTimer=.9;
+    racer.thanSauBunCooldown=11.5;
+    racer.pendingEffect=null;
+    racer.pendingEffectTimer=0;
+    racer.personalEffectType="boost";
+    racer.personalEffectName="Bún Chua Cay";
+    racer.personalEffectPolarity="positive";
+    racer.personalEffectMultiplier=1.2;
+    if(cameraFocusId===racer.id)cameraFocusId=racer.id;
+   }
+  }
   const limits=VKP_DATA.effects.balance.speedLimits;
   racer.speedMultiplier=clamp(racer.speedMultiplier||1,limits.min,limits.max);
   const baseSpeed=distance/Math.max(.001,racer.targetFinishTime);
@@ -261,6 +284,9 @@ function createRacer(name, index) {
     id: Math.random().toString(36).slice(2),
     name,
     isLegendaryThanSau: isThanSauAlias(name),
+    talent: isThanSauAlias(name) ? { id: "bun-chua-cay", name: "Bún Chua Cay Thể" } : null,
+    thanSauBunCooldown: 4,
+    thanSauEatingTimer: 0,
     gender: /nữ|tiên tử|thánh nữ|tiểu thư|cô nương|nguyệt|thanh huyền|linh nhi|nhược|tử yên|băng tâm/i.test(name) ? "female" : (randInt(0,1) === 0 ? "male" : "female"),
     appearanceSeed: randInt(0,4),
     progress: 0,
