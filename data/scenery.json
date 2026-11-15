@@ -48,5 +48,77 @@
         ]
       ]
     }
+  },
+  "journey": {
+    "transitionWidth": 0.018,
+    "regions": [
+      {
+        "id": "sect-valley",
+        "name": "Tiên Môn Sơn Đạo",
+        "shortName": "TIÊN MÔN",
+        "start": 0,
+        "landmark": "valley",
+        "tint": "#86b99a",
+        "accent": "#b8e5c6"
+      },
+      {
+        "id": "cloud-sea",
+        "name": "Vân Hải Thiên Không",
+        "shortName": "VÂN HẢI",
+        "start": 0.2,
+        "landmark": "floating",
+        "tint": "#7fc8dc",
+        "accent": "#bcefff"
+      },
+      {
+        "id": "sword-domain",
+        "name": "Vạn Kiếm Kiếm Vực",
+        "shortName": "KIẾM VỰC",
+        "start": 0.4,
+        "landmark": "sword",
+        "tint": "#789bd1",
+        "accent": "#c9e4ff"
+      },
+      {
+        "id": "thunder-realm",
+        "name": "Cửu Thiên Lôi Vực",
+        "shortName": "LÔI VỰC",
+        "start": 0.6,
+        "landmark": "thunder",
+        "tint": "#71659d",
+        "accent": "#d1c5ff"
+      },
+      {
+        "id": "celestial-palace",
+        "name": "Thiên Cung Tiên Đài",
+        "shortName": "THIÊN CUNG",
+        "start": 0.8,
+        "landmark": "celestial",
+        "tint": "#e2b86d",
+        "accent": "#fff0bd"
+      }
+    ],
+    "portals": [
+      {
+        "progress": 0.2,
+        "shortName": "VÂN HẢI",
+        "color": "#a8e7e9"
+      },
+      {
+        "progress": 0.4,
+        "shortName": "KIẾM VỰC",
+        "color": "#b9d9ff"
+      },
+      {
+        "progress": 0.6,
+        "shortName": "LÔI VỰC",
+        "color": "#c7b9ff"
+      },
+      {
+        "progress": 0.8,
+        "shortName": "THIÊN CUNG",
+        "color": "#f5d58f"
+      }
+    ]
   }
 }
