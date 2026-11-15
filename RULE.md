@@ -123,3 +123,6 @@
 
 
 22. Giai đoạn 1: vùng sự kiện đường đua phải dùng cấu hình `data/effects.json`, chỉ kích hoạt một lần/nhân vật/vùng/lượt, tác động qua hệ số tốc độ có giới hạn chung và phải được reset khi tạo nhân vật/lượt mới. Không dùng banner cho sự kiện địa hình. Thiên phú chỉ tạo chênh lệch nhỏ, không phá cân bằng. Photo Finish chỉ nhận diện các thời điểm về đích đã chốt; không được sửa thứ hạng hoặc thời gian kết quả.
+
+
+23. Danh sách thiên phú được khai báo trong logic tạo tiên nhân phải giữ ID duy nhất, tên hiển thị không trùng và hệ số cộng thêm nhỏ trong giới hạn cân bằng đã ghi ở `GAME_CONFIG.md`. Khi mở rộng thiên phú, phải cập nhật tài liệu cấu hình và cache script tương ứng; không tự ý đổi bố cục giao diện nếu người dùng chỉ yêu cầu thêm nội dung gameplay.
