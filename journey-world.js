@@ -7,6 +7,7 @@
   const regions = Array.isArray(config.regions) ? config.regions : [];
   const portals = Array.isArray(config.portals) ? config.portals : [];
   const transitionWidth = Math.max(.005, Math.min(.04, Number(config.transitionWidth) || .018));
+  let frameProgress=0;
 
   function currentProgress(){
     if(typeof finished !== "undefined" && finished) return 1;
@@ -154,7 +155,7 @@
 
   function drawMainRealm(time){
     if(!regions.length || typeof ctx==="undefined")return;
-    const blend=activeBlend(currentProgress());
+    const blend=activeBlend(frameProgress);
     for(let i=0;i<blend.length;i++){
       const item=blend[i],region=item.region,alpha=item.alpha;
       if(alpha<=.015)continue;
@@ -170,7 +171,7 @@
 
   function drawMiniRealm(){
     if(!regions.length || typeof cameraCtx==="undefined")return;
-    const blend=activeBlend(currentProgress());
+    const blend=activeBlend(frameProgress);
     const width=cameraCanvas.width,height=cameraCanvas.height;
     for(let i=0;i<blend.length;i++){
       const item=blend[i];
@@ -189,7 +190,7 @@
 
   function drawJourneyPortals(time){
     if(!racers.length || finished || !portals.length)return;
-    const progress=currentProgress();
+    const progress=frameProgress;
     const top=TRACK.top+8;
     const bottom=TRACK.bottom-142;
     portals.forEach((portal,index)=>{
@@ -224,6 +225,14 @@
       ctx.fillText(String(portal.shortName||("CẢNH GIỚI "+(index+2))),x,top+10,64);
       ctx.restore();
     });
+  }
+
+  if(typeof render==="function"){
+    const baseRender=render;
+    render=function(time){
+      frameProgress=currentProgress();
+      baseRender(time);
+    };
   }
 
   if(typeof drawScenery==="function"){
