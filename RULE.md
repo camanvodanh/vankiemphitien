@@ -183,3 +183,6 @@
 
 
 45. Tuyệt chiêu “Ăn Bún Chua Cay” phải có hoạt ảnh hành động rõ ràng: Thần Sầu đưa tô lên sát miệng, nghiêng tô và thể hiện sợi bún/nước dùng chảy vào miệng trong nhịp ăn; không chỉ nâng tô hoặc tạo khói. Tô bún phải được vẽ chi tiết, có tô sứ/viền men, nước dùng đỏ cam, sợi bún, cà chua, thịt, rau thơm, ớt và hơi nóng; giữ phong cách pixel-art, kích thước dễ đọc trên Canvas chính và Thiên Lý Kính. Không thay đổi hệ số ×1.20, thời lượng 3.5 giây hoặc cooldown 11.5 giây.
+
+
+46. HUD thời gian, thông báo sự kiện/kết thúc và tên cảnh giới phải nằm trên ba hàng riêng trong vùng trời phía trên đường đua: thời gian ở hàng đầu, thông báo ở hàng thứ hai, tên cảnh giới ở hàng thứ ba; đáy tên cảnh giới phải nằm trên TRACK.top, không được đè lên làn đua. Kích thước chữ tự tăng vừa phải trên viewport hẹp dựa theo chiều rộng Canvas hiển thị; hộp nền phải co theo nội dung và không tràn mép. Font Canvas và giao diện phải dùng fallback Unicode hỗ trợ tiếng Việt có dấu và chữ Trung trên iOS/Safari; mọi chuỗi HUD, thông báo, tên cảnh giới và tên hiệu ứng phải đi qua hệ thống dịch khi đổi ngôn ngữ.
