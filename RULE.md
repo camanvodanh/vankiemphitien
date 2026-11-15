@@ -143,3 +143,6 @@
 
 
 30. Thiên Lý Kính phải sắp xếp thông tin thành các hàng rõ ràng, không chồng chéo: hạng và tên ở hàng đầu; tốc độ/thời gian hiệu ứng ở hàng riêng; tên thể chất (không có tiền tố “Thể chất:”) và tên hiệu ứng ở hàng thông tin phụ. Màn hình camera nằm dưới cùng của khung, chiếm phần diện tích còn lại. Hệ số tốc độ và thời gian hiệu ứng cùng màu: xanh lá khi tăng tốc, đỏ khi giảm tốc. Chỉ thay đổi cách trình bày, không thay đổi cách chọn nhân vật được chiếu hay gameplay.
+
+
+31. Thiên Lý Kính dùng đúng ba hàng thông tin: (1) hạng canh trái và tốc độ/thời gian canh phải trên cùng hàng; (2) tên nhân vật canh giữa; (3) tên thể chất và tên hiệu ứng cùng hàng, canh giữa và chỉ phân cách bằng khoảng trống, không chèn dấu. Canvas nằm dưới phần thông tin, neo đáy panel và chiếm phần còn lại. Dấu hiệu thể chất trên nhân vật không dùng huy hiệu lớn; chỉ dùng dấu màu nhỏ cạnh pháp bảo để không che mặt/tên. Số tốc độ và giây còn lại phải cùng màu xanh lá khi tăng, đỏ khi giảm. Không thay đổi lựa chọn camera hoặc gameplay.
