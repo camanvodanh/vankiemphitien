@@ -158,7 +158,10 @@
 35. Thần Sầu là nhân vật huyền thoại dùng sprite sheet tại `assets/characters/than-sau/than-sau-spritesheet.png`, bố cục 5 cột × 2 hàng (10 frame), dùng chung hàm `drawRacer` cho Canvas chính và Thiên Lý Kính. Nhập thủ công một trong các bí danh Shen, Sầu, Trần Đạt Thọ, Thần Sầu, 神愁 phải tạo đúng nhân vật Thần Sầu. Khi triệu hồi ngẫu nhiên, xác suất xuất hiện tăng theo số lượng trong lượt, tối đa một Thần Sầu mỗi lượt; không ảnh hưởng số lượng nhân vật, tốc độ hoặc cân bằng các nhân vật khác. Nếu sprite chưa tải được, phải fallback về renderer hiện tại.
 
 
-36. Thần Sầu sở hữu Bún Chua Cay Thể. Tạo hình sprite luôn có tô bún cầm tay; khi kích hoạt tuyệt chiêu phải có trạng thái ăn bún/khói cay nhìn thấy được. Tuyệt chiêu tự kích hoạt theo cooldown trong cuộc đua, tăng tốc ×1.20 trong 3.5 giây, cooldown 11.5 giây; chỉ áp dụng cho Thần Sầu, không làm thay đổi bộ hiệu ứng chung của các tiên nhân khác. Tên thể chất hiển thị là “Bún Chua Cay Thể”, tên hiệu ứng khi buff là “Bún Chua Cay”.
+36. Thần Sầu sở hữu Bún Chua Cay Thánh Thể. Tạo hình sprite luôn có tô bún cầm tay; khi kích hoạt tuyệt chiêu phải có trạng thái ăn bún/khói cay nhìn thấy được. Tuyệt chiêu tự kích hoạt theo cooldown trong cuộc đua, tăng tốc ×1.20 trong 3.5 giây, cooldown 11.5 giây; chỉ áp dụng cho Thần Sầu, không làm thay đổi bộ hiệu ứng chung của các tiên nhân khác. Tên thể chất hiển thị là “Bún Chua Cay Thánh Thể”, tên hiệu ứng khi buff là “Bún Chua Cay”.
 
 
 37. Thiên Lý Kính và Tiên Bảng phải có kích thước panel đồng bộ, độc lập với số lượng hàng Tiên Bảng. Danh sách Tiên Bảng cuộn bên trong vùng có chiều cao cố định; không được để số tiên nhân làm tăng chiều cao grid hoặc ép Thiên Lý Kính co nhỏ. Trên landscape hai panel lấp đầy cùng một hàng; trên portrait dùng cùng một chiều cao panel phù hợp viewport. Khi trao thưởng, Thần Sầu phải có tay áo/cánh tay/bàn tay nối liền thân và tư thế thực sự ôm hộp quà; không dùng hai cánh tay giả dạng nét thẳng hoặc bàn tay rời.
+
+
+38. Trong Thiên Lý Kính, tên thể chất và tên hiệu ứng phải được căn giữa độc lập trên toàn bộ chiều rộng hàng của từng dòng. Khi nội dung dài, tự động giảm cỡ chữ theo chiều rộng thực tế; chỉ dùng ellipsis khi đã chạm cỡ chữ tối thiểu mà vẫn không thể hiển thị hết. Không để hai dòng lệch tâm hoặc đẩy tràn panel.
