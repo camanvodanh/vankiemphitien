@@ -1857,8 +1857,16 @@ function activateTrackZone(racer,zone,index){
 const phase1BaseUpdateRace=updateRace;
 updateRace=function(dt){
  const before=new Map(racers.map(r=>[r.id,r.progress]));
+ const rankBefore=new Map(sortedRacers().map((r,i)=>[r.id,i+1]));
  phase1BaseUpdateRace(dt);
  if(!started||finished)return;
+ sortedRacers().forEach((racer,i)=>{
+  const oldRank=rankBefore.get(racer.id),newRank=i+1;
+  if(oldRank&&newRank<oldRank&&!racer.finished){
+   addParticles(racerX(racer),laneY(racers.indexOf(racer)),10);
+   racer.overtakeFlashTimer=.28;
+  }
+ });
  const zones=VKP_DATA.effects.trackZones||[];
  racers.forEach((racer,index)=>{
   if(racer.finished)return;
