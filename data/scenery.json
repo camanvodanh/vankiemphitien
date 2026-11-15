@@ -50,7 +50,7 @@
     }
   },
   "journey": {
-    "transitionWidth": 0.018,
+    "transitionWidth": 0.03,
     "regions": [
       {
         "id": "sect-valley",
