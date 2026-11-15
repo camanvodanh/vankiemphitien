@@ -9058,3 +9058,18 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
     max-width:calc(100% - 12px)!important;
   }
 }
+
+
+/* REVISION 132 — font Unicode thống nhất, bảo đảm dấu tiếng Việt và chữ Trung trên iOS/Safari. */
+:root{
+  --vkp-font-ui:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,"Noto Sans","PingFang SC",sans-serif;
+}
+html,body,button,input,textarea,select,label,.lock-notice,.status,.camera-info,
+.ranking table,.site-footer,.hero-copy,.stage-title,.language-picker{
+  font-family:var(--vkp-font-ui)!important;
+  font-synthesis:none;
+}
+html[lang="zh-CN"],html[lang="zh-CN"] body,html[lang="zh-CN"] button,
+html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
+  font-family:system-ui,-apple-system,"PingFang SC","Noto Sans CJK SC",Arial,sans-serif!important;
+}
