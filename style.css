@@ -8996,3 +8996,21 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
   .arena-frame>.game-camera>.camera-screen{min-height:0!important;}
   .arena-frame>.game-ranking>.table-wrap{height:0!important;max-height:none!important;}
 }
+
+
+/* REVISION 130 — căn giữa và tự co chữ hai dòng thể chất/hiệu ứng Thiên Lý Kính. */
+.arena-frame>.game-camera .camera-secondary-info{
+  display:flex!important;flex:0 0 auto!important;flex-direction:column!important;
+  align-items:center!important;justify-content:center!important;
+  width:100%!important;min-width:0!important;max-width:100%!important;
+  gap:1px!important;text-align:center!important;overflow:hidden!important;
+}
+.arena-frame>.game-camera #leaderTalent,
+.arena-frame>.game-camera #leaderEffect{
+  display:block!important;flex:0 0 auto!important;align-self:center!important;
+  width:100%!important;min-width:0!important;max-width:100%!important;
+  margin:0 auto!important;padding:0!important;
+  text-align:center!important;text-align-last:center!important;
+  white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+  line-height:1.12!important;
+}
