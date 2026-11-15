@@ -8934,3 +8934,19 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
   .arena-frame>.game-camera #leaderTalent,
   .arena-frame>.game-camera #leaderEffect{font-size:8px!important;}
 }
+
+
+/* REVISION 128 — căn giữa độc lập tên hiệu ứng trong Thiên Lý Kính. */
+.arena-frame>.game-camera .camera-secondary-info{
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+  justify-items:stretch!important;align-items:center!important;
+  width:100%!important;min-width:0!important;
+}
+.arena-frame>.game-camera #leaderTalent,
+.arena-frame>.game-camera #leaderEffect{
+  position:static!important;left:auto!important;right:auto!important;
+  justify-self:stretch!important;align-self:center!important;
+  width:100%!important;min-width:0!important;max-width:100%!important;
+  text-align:center!important;text-align-last:center!important;
+  margin-inline:auto!important;transform:none!important;
+}
