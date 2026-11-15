@@ -339,3 +339,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Desktop landscape từ 1000px: ghim góc phải bên trong cột Canvas, phía trên hàng điều khiển.
 - Portrait: ghim góc phải phía trên của vùng game. Khi đổi hướng hoặc breakpoint, phải áp dụng lại đủ inset để không kế thừa tọa độ cũ.
 - Không thay đổi vị trí bảng khi đang mở rộng, nội dung triệu hồi hoặc logic gameplay.
+
+
+## 29. Hoạt ảnh ăn Bún Chua Cay và nâng cấp đạo cụ
+
+- Khi tuyệt chiêu kích hoạt, Thần Sầu thực hiện động tác đưa tô bún lên sát miệng, nghiêng tô và có dòng bún/nước dùng chảy vào miệng; chuyển động diễn ra trong pha ăn khoảng 0.9 giây đầu.
+- Tô bún được vẽ nhiều lớp: tô sứ men ngà/đỏ son, chân đế, nước dùng đỏ cam, sợi bún, cà chua, thịt, rau thơm, ớt và hơi nóng/giọt dầu ớt.
+- Hoạt ảnh và tô bún hiển thị đồng nhất trên Canvas chính và Thiên Lý Kính thông qua cùng renderer drawRacer.
+- Chỉ thay đổi cách thể hiện; giữ nguyên gameplay ×1.20 trong 3.5 giây, cooldown 11.5 giây và các hiệu ứng chung.
