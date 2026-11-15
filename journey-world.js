@@ -112,7 +112,7 @@
     target.save();target.translate(x,y);target.rotate(angle||0);target.scale(scale,scale);
     const blade=color||"#a9c4d4",edge="#d4d9d2",gold="#ad9363",dark="#344454";
     target.lineJoin="round";target.lineCap="round";
-    // Lưỡi kiếm dài rõ tỷ lệ, mũi nhọn ở -112 và chuôi kéo xuống +42.
+    // Tỷ lệ tạo hình tiêu chuẩn; kích thước thực tế được điều tiết theo từng lớp bố trí.
     if(kind===0){
       target.fillStyle=blade;target.beginPath();target.moveTo(0,-116);target.lineTo(8,-91);target.lineTo(5,4);target.lineTo(0,17);target.lineTo(-5,4);target.lineTo(-8,-91);target.closePath();target.fill();
       target.strokeStyle=edge;target.lineWidth=1.7;target.stroke();
@@ -187,12 +187,26 @@
           drawCloudBank(target,x,y,scale,alpha,["#849da5","#78969e","#718d96","#607e8a"][layer]);
         }
       }
-      // Dải mây xoắn quanh thiên nhãn ở xa.
-      target.save();target.translate(565,260);target.rotate(time*.000018);
-      for(let ring=0;ring<5;ring++){
-        target.beginPath();target.ellipse(0,0,105+ring*37,28+ring*12,ring*.12,0,Math.PI*2);
-        target.strokeStyle=ring%2?"rgba(175,202,204,.26)":"rgba(119,159,169,.34)";
-        target.lineWidth=8-ring;target.stroke();
+      // Tầng vân đài và cầu mây nằm ngang, tạo chiều sâu mà không dùng vòng xoắn.
+      const cloudTerraces=[
+        [-80,188,430,22,.22],[270,164,390,18,.18],[690,205,470,24,.2],
+        [-120,352,520,25,.3],[430,375,470,22,.26],[820,330,390,20,.24]
+      ];
+      cloudTerraces.forEach(([x,y,w,h,alpha],i)=>{
+        const drift=((time*(i%2?-.006:.008)+i*173+w*2)%(w+1250))-w-120;
+        target.save();target.globalAlpha=alpha;
+        target.fillStyle=i%2?"#91aeb2":"#78969f";
+        target.beginPath();target.ellipse(drift,y,w*.5,h,0,0,Math.PI*2);target.fill();
+        target.strokeStyle="rgba(190,210,207,.28)";target.lineWidth=3;
+        target.beginPath();target.moveTo(drift-w*.42,y-3);target.bezierCurveTo(drift-w*.12,y-h*.8,drift+w*.15,y-h*.65,drift+w*.45,y-2);target.stroke();
+        target.restore();
+      });
+      // Những nhịp cầu vân mỏng nối các đảo tiên, chuyển động chậm theo gió.
+      target.save();target.strokeStyle="rgba(169,195,196,.34)";target.lineWidth=7;
+      for(let i=0;i<4;i++){
+        const y=260+i*31,offset=Math.sin(time*.00018+i)*9;
+        target.beginPath();target.moveTo(145,y+offset);target.bezierCurveTo(330,y-28+offset,465,y+32-offset,635,y+offset);
+        target.bezierCurveTo(790,y-24-offset,900,y+18+offset,1035,y-5);target.stroke();
       }
       target.restore();
       // Tám đảo tiên phân tầng, có chân núi lơ lửng và thác mây.
@@ -207,10 +221,10 @@
       drawPagodaGroup(target,810,198,.46,false);
       drawPagodaGroup(target,365,310,.43,false);
       drawPagodaGroup(target,965,297,.38,false);
-      target.strokeStyle="rgba(153,184,190,.62)";target.lineWidth=2.2;
-      for(let i=0;i<6;i++){
-        const x=((i*243+time*.012)%1450)-170,y=280+i*19;
-        target.beginPath();target.moveTo(x,y);target.bezierCurveTo(x+75,y-27,x+148,y+34,x+230,y-7);target.stroke();
+      target.strokeStyle="rgba(153,184,190,.48)";target.lineWidth=2;
+      for(let i=0;i<5;i++){
+        const x=((i*267+time*.009+1450)%1550)-210,y=302+i*25;
+        target.beginPath();target.moveTo(x,y);target.bezierCurveTo(x+90,y-8,x+165,y+10,x+255,y+1);target.stroke();
       }
       // Thác mây nhiều dòng từ đảo tiên, chuyển động theo thời gian.
       for(let i=0;i<7;i++){
@@ -237,31 +251,35 @@
         target.fillStyle=i%2?"#668ba0":"#71869d";target.beginPath();
         target.moveTo(x1-8,y1+42);target.lineTo(x1,y1+14);target.lineTo(x1+10,y1+44);target.lineTo(x1,y1+61);target.closePath();target.fill();
       });
-      // Sáu chủng kiếm cổ: trực kiếm, nhuyễn kiếm, trọng kiếm, kiếm mảnh,
-      // kiếm nguyệt nha và cự kiếm có sống dày.
+      // Kiếm cổ chia theo cụm nhỏ, nhiều chủng loại nhưng giữ tỷ lệ vừa phải.
       const palette=["#a9c4d4","#86a9bf","#b5a8c5","#b6a27c","#7eaaa5","#9babb9"];
-      for(let i=0;i<38;i++){
-        const x=20+(i*137)%1060,y=180+(i*71)%225;
-        const scale=.78+((i*7)%7)*.105,angle=Math.sin(i*2.1)*.34;
+      for(let i=0;i<28;i++){
+        const col=i%7,row=Math.floor(i/7);
+        const x=48+col*164+(row%2)*31+Math.sin(i*1.7)*12;
+        const y=188+row*56+Math.cos(i*2.1)*13;
+        const scale=.39+((i*5)%5)*.055,angle=Math.sin(i*2.1)*.27;
         drawSwordVariant(target,x,y,scale,angle,i%6,palette[i%palette.length]);
       }
-      // Linh kiếm bay theo ba cao độ, đường bay lệch nhau.
-      for(let i=0;i<18;i++){
-        const x=((i*113+time*(i%2?-.018:.022)+1320)%1320)-110;
-        const y=130+(i%6)*43+Math.sin(time*.0008+i)*12;
-        drawSwordVariant(target,x,y,.76+(i%4)*.13,Math.sin(time*.00035+i)*.24,i%6,palette[(i+2)%palette.length]);
+      // Linh kiếm bay thưa ở ba cao độ, không che các đảo kiếm và kiếm trận.
+      for(let i=0;i<12;i++){
+        const x=((i*173+time*(i%2?-.014:.017)+1370)%1370)-135;
+        const y=142+(i%4)*57+Math.sin(time*.0007+i)*9;
+        drawSwordVariant(target,x,y,.38+(i%3)*.065,Math.sin(time*.0003+i)*.2,i%6,palette[(i+2)%palette.length]);
       }
-      // Cổ kiếm cắm dày trên sườn núi, lưỡi dài nổi rõ trên nền tối.
+      // Cổ kiếm cắm thành từng nhóm dọc sườn núi, có khoảng trống giữa các nhóm.
       const embeddedPalette=["#a9c4d4","#86a9bf","#b5a8c5","#b6a27c","#7eaaa5","#9babb9"];
-      for(let i=0;i<30;i++){
-        const x=18+(i*89)%1060,y=365+(i*31)%68,scale=.66+((i*5)%5)*.09;
-        drawSwordVariant(target,x,y,scale,Math.sin(i*1.7)*.18,i%6,embeddedPalette[i%embeddedPalette.length]);
+      for(let i=0;i<22;i++){
+        const group=Math.floor(i/6),within=i%6;
+        const x=55+group*260+within*28+(within%2)*8;
+        const y=366+(within%3)*22+(group%2)*9;
+        const scale=.34+((i*3)%4)*.055;
+        drawSwordVariant(target,x,y,scale,Math.sin(i*1.7)*.16,i%6,embeddedPalette[i%embeddedPalette.length]);
       }
-      // Vòng kiếm bay quanh kiếm chủ, tạo quỹ đạo đồng tâm.
-      for(let i=0;i<14;i++){
-        const a=time*.00018+i*Math.PI*2/14,radius=112+(i%3)*48;
+      // Một nhóm nhỏ linh kiếm hộ vệ quanh kiếm chủ, không tạo vành kiếm quá dày.
+      for(let i=0;i<8;i++){
+        const a=time*.00016+i*Math.PI*2/8,radius=158+(i%2)*34;
         const x=590+Math.cos(a)*radius,y=266+Math.sin(a)*radius*.43;
-        drawSwordVariant(target,x,y,.72+(i%3)*.12,a*.18,i%6,palette[(i+3)%palette.length]);
+        drawSwordVariant(target,x,y,.39+(i%2)*.06,a*.18,i%6,palette[(i+3)%palette.length]);
       }
       // Ba tầng kiếm trận phù văn màu lam xám, tránh ánh sáng trắng chói.
       target.save();target.translate(590,270);target.rotate(-time*.000045);
@@ -284,7 +302,7 @@
       const coreGlow=target.createRadialGradient(590,270,5,590,270,82);
       coreGlow.addColorStop(0,"rgba(151,187,204,.24)");coreGlow.addColorStop(.45,"rgba(91,132,158,.13)");coreGlow.addColorStop(1,"rgba(58,91,116,0)");
       target.fillStyle=coreGlow;target.beginPath();target.arc(590,270,82,0,Math.PI*2);target.fill();
-      drawSwordVariant(target,590,270,1.18,0,2,"#b8d0dc");
+      drawSwordVariant(target,590,270,.72,0,2,"#b8d0dc");
       target.save();target.translate(590,255);target.rotate(time*.00006);
       target.strokeStyle="rgba(139,172,190,.38)";target.lineWidth=2;
       for(let i=0;i<12;i++){target.rotate(Math.PI/6);target.beginPath();target.ellipse(0,0,118,35,0,0,Math.PI*2);target.stroke();}
