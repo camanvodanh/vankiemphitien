@@ -282,3 +282,12 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Mỗi nhân vật lưu sprite sheet `<character-id>-spritesheet.png`, frame PNG riêng tại `frames/<character-id>-00.png`, `-01.png`, ... và `README.md` ghi metadata.
 - Bộ frame giữ cùng kích thước canvas và nền trong suốt; thứ tự mặc định trái sang phải, trên xuống dưới.
 - Thư mục `assets/characters/than-sau/` dành cho Thần Sầu. Nhân vật chưa được bật trong gameplay cho đến khi các ảnh PNG thực tế được thêm vào repository và bộ nạp/render được tích hợp.
+
+
+## 22. Nhân vật huyền thoại Thần Sầu
+
+- ID nội bộ: `than-sau`; tên hiển thị: `Thần Sầu`; tài nguyên: `assets/characters/than-sau/than-sau-spritesheet.png`.
+- Sprite sheet gồm 10 frame theo lưới 5 cột × 2 hàng, thứ tự trái sang phải rồi từ hàng trên xuống hàng dưới. Renderer dùng chung cho Canvas trường đua và Thiên Lý Kính; tốc độ hoạt ảnh khoảng 105 ms/frame, nội suy nearest-neighbor để giữ nét pixel.
+- Nhập thủ công các tên `Shen`, `Sầu`, `Trần Đạt Thọ`, `Thần Sầu`, `神愁` đều quy về nhân vật `Thần Sầu`.
+- Chỉ ở chế độ triệu hồi ngẫu nhiên: xác suất có một Thần Sầu trong lượt là `min(40%, 1.2% + 0.38% × số lượng triệu hồi)`. Ví dụ 10 nhân vật ≈ 5%, 50 ≈ 20.2%, 100 ≈ 39.2%. Tối đa một bản thể mỗi lượt; không cộng thêm nhân vật ngoài số lượng đã chọn.
+- Thần Sầu giữ nguyên hệ thống tiến độ, tốc độ, hiệu ứng, thứ hạng và về đích của tiên nhân thường; chỉ thay hình ảnh bằng sprite animation. Nếu ảnh không tải được, renderer cũ được dùng làm dự phòng.
