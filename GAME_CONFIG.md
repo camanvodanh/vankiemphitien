@@ -347,3 +347,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Tô bún được vẽ nhiều lớp: tô sứ men ngà/đỏ son, chân đế, nước dùng đỏ cam, sợi bún, cà chua, thịt, rau thơm, ớt và hơi nóng/giọt dầu ớt.
 - Hoạt ảnh và tô bún hiển thị đồng nhất trên Canvas chính và Thiên Lý Kính thông qua cùng renderer drawRacer.
 - Chỉ thay đổi cách thể hiện; giữ nguyên gameplay ×1.20 trong 3.5 giây, cooldown 11.5 giây và các hiệu ứng chung.
+
+
+## 30. Bố cục HUD, thông báo và font đa ngôn ngữ
+
+- Hàng 1: đồng hồ đếm ngược ở giữa mép trên trong hộp riêng; hàng 2: thông báo sự kiện/kết thúc; hàng 3: bảng tên cảnh giới. Ba vùng không giao nhau và bảng tên cảnh giới kết thúc trước mép trên đường đua (TRACK.top).
+- Cỡ chữ HUD tăng có giới hạn theo chiều rộng Canvas hiển thị để dễ đọc trên điện thoại; hộp thông báo và bảng cảnh giới co theo độ rộng chữ, không tràn khung.
+- Canvas ưu tiên Arial/Noto Sans/PingFang SC fallback thay vì font serif dễ thiếu glyph; CSS giao diện dùng system-ui và fallback CJK. Không thay đổi nội dung/gameplay.
+- Từ điển EN/CN bao gồm nhãn thời gian, thông báo sự kiện, tên cảnh giới, cổng và các hiệu ứng đua; bản gốc tiếng Việt giữ nguyên dấu. Bản vá i18n phải xử lý cả fillText và strokeText, đồng thời giữ nguyên font gốc sau mỗi lần vẽ.
