@@ -1845,30 +1845,11 @@ createRacer = function(name,index){
   {"id":"cold-moon-sword","name":"Hàn Nguyệt Kiếm Thể","boost":1.035}
  ];
  racer.talent={...talents[index%talents.length]};
- racer.trackZoneMask=0;
  return racer;
 };
 
-function activateTrackZone(racer,zone,index){
- if(racer.finished)return;
- const talentBonus=racer.talent&&zone.polarity==="positive"?racer.talent.boost:1;
- const multiplier=clamp(zone.multiplier*talentBonus,VKP_DATA.effects.balance.speedLimits.min,VKP_DATA.effects.balance.speedLimits.max);
- racer.speedMultiplier=multiplier;
- racer.effectTimer=zone.duration;
- racer.effectDuration=zone.duration;
- racer.effectType=zone.effectType;
- racer.effectName=zone.name;
- racer.effectPolarity=zone.polarity;
- const x=racerX(racer),y=laneY(index);
- cameraFocusId=racer.id;
- // Mỗi lần qua cổng chỉ tạo một cụm hạt nhỏ; giới hạn theo quy mô cuộc đua.
- const particleCount=racers.length>=70?2:racers.length>=40?4:8;
- addParticles(x,y,particleCount,zone.color);
-}
-
 const phase1BaseUpdateRace=updateRace;
 updateRace=function(dt){
- const before=new Map(racers.map(r=>[r.id,r.progress]));
  const rankBefore=new Map(sortedRacers().map((r,i)=>[r.id,i+1]));
  phase1BaseUpdateRace(dt);
  if(!started||finished)return;
@@ -1878,20 +1859,6 @@ updateRace=function(dt){
    addParticles(racerX(racer),laneY(racers.indexOf(racer)),10);
    racer.overtakeFlashTimer=.28;
   }
- });
- const zones=VKP_DATA.effects.trackZones||[];
- racers.forEach((racer,index)=>{
-  if(racer.finished)return;
-  const previous=before.get(racer.id)||0;
-  const current=racer.progress;
-  zones.forEach((zone,zoneIndex)=>{
-   const bit=1<<zoneIndex;
-   const threshold=distance*zone.progress;
-   if(!(racer.trackZoneMask&bit)&&previous<threshold&&current>=threshold){
-    racer.trackZoneMask|=bit;
-    activateTrackZone(racer,zone,index);
-   }
-  });
  });
 };
 
@@ -1909,8 +1876,3 @@ processFinish=function(racer,index){
  }
 };
 
-const phase1BaseStartRace=startRace;
-startRace=function(){
- phase1BaseStartRace();
- racers.forEach(r=>{r.trackZoneMask=0;});
-};
