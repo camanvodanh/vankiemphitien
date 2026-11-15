@@ -4947,6 +4947,29 @@ if(activeEffect==="talisman"||activeEffect==="talisman_guard"||activeEffect==="t
     }
   }
   target.restore();
+  // Dấu ấn thể chất: mã màu nhỏ gắn cạnh mỗi tiên nhân, không thay đổi tạo hình hay gameplay.
+  if(target!==cameraCtx&&racer.talent&&racer.talent.id){
+    const marks={
+      "wind":["PH","#8ed8c7"],"thunder":["LD","#a98be8"],"sword":["KT","#b7d8ed"],
+      "shadow":["AD","#8d9bb4"],"steady":["HQ","#c2a77a"],"fire":["HL","#e69b62"],
+      "ice":["BT","#9bd9e9"],"azure-phoenix":["TL","#d9a5c7"],"kunpeng":["CB","#82b8b1"],
+      "heavenly-machine":["TC","#d5bd83"],"sword-bone":["VA","#9ebbd5"],"purple-lightning":["TD","#a78be8"],
+      "moon-shadow":["NA","#b8a9db"],"vajra":["KC","#d4b477"],"nine-sun":["CD","#e6b66c"],
+      "void":["HK","#8999b5"],"star":["TT","#e5d38e"],"dragon-elephant":["LT","#c58d72"],
+      "azure-wood":["TM","#8ebc83"],"cold-moon-sword":["HN","#a5c9dc"]
+    };
+    const mark=marks[racer.talent.id]||["??","#c9b27b"];
+    const bw=29,bh=13,bx=x-bw/2,by=y-Math.max(25,scale*47)-bh;
+    target.save();
+    target.globalAlpha=.96;
+    target.fillStyle="rgba(13,27,34,.9)";
+    target.beginPath();target.moveTo(bx+3,by);target.lineTo(bx+bw-3,by);target.lineTo(bx+bw,by+bh/2);target.lineTo(bx+bw-3,by+bh);target.lineTo(bx+3,by+bh);target.lineTo(bx,by+bh/2);target.closePath();target.fill();
+    target.strokeStyle=mark[1];target.lineWidth=1.15;target.stroke();
+    target.fillStyle=mark[1];target.beginPath();target.arc(bx+6.5,by+bh/2,2.3,0,Math.PI*2);target.fill();
+    target.font="bold 7px Arial,sans-serif";target.textAlign="center";target.textBaseline="middle";
+    target.fillStyle="#fff4d7";target.fillText(mark[0],bx+18,by+bh/2,17);
+    target.restore();
+  }
 }
 
 
