@@ -186,3 +186,6 @@
 
 
 46. HUD thời gian, thông báo sự kiện/kết thúc và tên cảnh giới phải nằm trên ba hàng riêng trong vùng trời phía trên đường đua: thời gian ở hàng đầu, thông báo ở hàng thứ hai, tên cảnh giới ở hàng thứ ba; đáy tên cảnh giới phải nằm trên TRACK.top, không được đè lên làn đua. Kích thước chữ tự tăng vừa phải trên viewport hẹp dựa theo chiều rộng Canvas hiển thị; hộp nền phải co theo nội dung và không tràn mép. Font Canvas và giao diện phải dùng fallback Unicode hỗ trợ tiếng Việt có dấu và chữ Trung trên iOS/Safari; mọi chuỗi HUD, thông báo, tên cảnh giới và tên hiệu ứng phải đi qua hệ thống dịch khi đổi ngôn ngữ.
+
+
+47. Sprite sheet Thần Sầu phải luôn giữ trục thẳng đứng; hiệu ứng chỉ được dịch chuyển/tạo tư thế, không xoay toàn bộ khung pixel gây cảm giác ảnh bị nghiêng và lấn đường đua. Mỗi nhân vật khi vẽ trên Canvas chính phải được cô lập trạng thái save/restore; lỗi của một nhân vật không được làm hỏng transform của đường đua hoặc các nhân vật khác. Toàn bộ render phải khôi phục Canvas bằng finally kể cả khi scenery, nhân vật, camera hoặc cảnh kết thúc phát sinh lỗi. Thiên Lý Kính cũng phải cô lập lỗi vẽ nhân vật. Không thay đổi gameplay, thứ hạng, tốc độ hoặc thời lượng hiệu ứng.
