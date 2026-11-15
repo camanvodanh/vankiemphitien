@@ -331,3 +331,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 ## 27. Tay pixel gốc của Thần Sầu trong cảnh nhận thưởng
 - Không dùng Canvas path/stroke/ellipse để dựng cánh tay, tay áo hoặc bàn tay của Thần Sầu trong animation nhận quà.
 - Giữ nguyên tay theo frame pixel gốc từ sprite sheet 5×2; lớp thưởng chỉ vẽ hộp quà và ánh sao, không phủ tay giả lên nhân vật.
+
+## 28. Vị trí bảng Triệu Hồi khi thu nhỏ
+
+- Khi `.game-setup` có class `.is-minimized`, chỉ thanh tiêu đề còn hiển thị và phải nằm gọn trong vùng Canvas trường đua, không phủ Thiên Lý Kính hoặc Tiên Bảng.
+- Landscape 600–999px: ghim thanh vào góc phải phía dưới của cột game, nhưng nằm phía trên hàng điều khiển Chạy/Dừng; không dùng phần trăm right tính theo toàn bộ arena nếu làm thanh trôi sang cột bên cạnh.
+- Desktop landscape từ 1000px: ghim góc phải bên trong cột Canvas, phía trên hàng điều khiển.
+- Portrait: ghim góc phải phía trên của vùng game. Khi đổi hướng hoặc breakpoint, phải áp dụng lại đủ inset để không kế thừa tọa độ cũ.
+- Không thay đổi vị trí bảng khi đang mở rộng, nội dung triệu hồi hoặc logic gameplay.
