@@ -7070,6 +7070,25 @@ function drawRacer(target, racer, x, y, scale, time) {
     -54, -54, 108, 108
   );
 
+  // Thần Sầu luôn cầm tô bún nhỏ ở tay trước; khi ăn, hơi cay và khói bốc lên.
+  target.save();
+  target.translate(29, -1);
+  target.rotate(-.12);
+  target.fillStyle = "#f0d8a0";
+  target.beginPath();target.ellipse(0, 8, 13, 5, 0, 0, Math.PI * 2);target.fill();
+  target.fillStyle = "#b84e38";
+  target.beginPath();target.moveTo(-12,3);target.quadraticCurveTo(-10,18,0,18);target.quadraticCurveTo(10,18,12,3);target.closePath();target.fill();
+  target.strokeStyle = "#f7e7c4";target.lineWidth = 2;target.beginPath();target.ellipse(0,3,12,4.5,0,0,Math.PI*2);target.stroke();
+  target.fillStyle = "#f5d98e";target.beginPath();target.ellipse(-3,2,5,2.2,-.2,0,Math.PI*2);target.ellipse(4,3,4,2,0,0,Math.PI*2);target.fill();
+  target.strokeStyle = "#f7edce";target.lineWidth = 1.2;target.beginPath();target.moveTo(-5,1);target.quadraticCurveTo(-9,-5,-4,-8);target.moveTo(2,0);target.quadraticCurveTo(7,-6,3,-10);target.stroke();
+  if(racer.thanSauEatingTimer>0){
+    const steam=time*.008;
+    target.globalAlpha=.9;target.strokeStyle="#fff2c7";target.lineWidth=1.6;
+    for(let i=0;i<3;i++){const sx=-5+i*5,sy=-10-Math.sin(steam+i)*2;target.beginPath();target.moveTo(sx,sy);target.quadraticCurveTo(sx-3,sy-5,sx+1,sy-9);target.stroke();}
+    target.fillStyle="#ff704d";target.beginPath();target.arc(-14,-5,2,0,Math.PI*2);target.arc(14,-8,1.8,0,Math.PI*2);target.fill();
+  }
+  target.restore();
+
   if (racer.effectTimer > 0 && racer.effectName && target !== cameraCtx) {
     target.save();
     target.font = "bold 7px Arial, sans-serif";
