@@ -66,9 +66,9 @@
     peaks.forEach(([x,y])=>target.lineTo(x,y));target.lineTo(1100,555);target.lineTo(0,555);target.closePath();target.fill();
     target.fillStyle="rgba(20,43,48,.20)";target.fillRect(0,430,1100,125);
     // Dải mây ngang làm nhịp nối thị giác, không tạo particle hay timer.
-    target.globalAlpha=.28;target.fillStyle=region.accent||"#e8f3df";
+    target.save();target.globalAlpha=.28;target.fillStyle=region.accent||"#e8f3df";
     for(let i=0;i<5;i++){const x=((i*257+time*.008)%(1320))-110,y=175+(i%3)*54;target.fillRect(x,y,125,3);target.fillRect(x+22,y-5,62,3);}
-    target.globalAlpha=1;
+    target.restore();
   }
   function drawRegionLandmark(target,region,time){
     const kind=region.landmark;
