@@ -83,6 +83,38 @@ Object.assign(DICT.cn,{
 "Đã có tiên nhân. Nhấn Chạy để bắt đầu; muốn đổi danh sách, hãy nhấn Dừng rồi Khởi tạo.":"仙人已就绪。点击开始比赛；如需更改名单，请点击停止，然后重新设置。"
 });
 
+// REVISION 132 — từ điển bổ sung cho HUD, thông báo sự kiện, cảnh giới và hiệu ứng động.
+Object.assign(DICT.en,{
+"THỜI GIAN":"TIME","Linh Khí Bùng Nổ":"Spiritual Energy Erupts","Tiên Kiếm Gia Tốc":"Immortal Sword Acceleration",
+"Thiên Địa Dị Tượng":"Heaven-and-Earth Phenomenon","Kiếm Quang Hộ Thể":"Swordlight Shield","Tiên Khí Hội Tụ":"Immortal Energy Converges",
+"Phong Vân Biến Động":"Winds and Clouds Shift","Kiếm Ý Tăng Vọt":"Sword Intent Surges",
+"TIÊN MÔN SƠN ĐẠO":"IMMORTAL SECT MOUNTAIN PATH","VÂN HẢI THIÊN KHÔNG":"SEA OF CLOUDS","VẠN KIẾM KIẾM VỰC":"MYRIAD SWORD DOMAIN",
+"CỬU THIÊN LÔI VỰC":"NINE-HEAVEN THUNDER REALM","THIÊN CUNG TIÊN ĐÀI":"CELESTIAL PALACE",
+"TRÚNG ĐỘC":"POISONED","SUY LỰC":"WEAKENED","HỒI LINH ĐAN":"SPIRIT RECOVERY PILL","VA CHẠM":"COLLISION",
+"LÔI KÍCH":"LIGHTNING STRIKE","CUỒNG PHONG":"GALE","CHOÁNG":"DIZZY","NGẤT":"FAINT","DU LONG BỘ":"DRAGON WANDER STEP",
+"TỤ KHÍ ĐAN":"QI-GATHERING PILL","KIẾM Ý":"SWORD INTENT","ĐẠP VÂN":"CLOUD STEP","TỤ LINH TRẬN":"SPIRIT GATHERING FORMATION",
+"VẠN KIẾM TRẬN":"MYRIAD SWORD FORMATION","BÁT QUÁI TRẬN":"EIGHT TRIGRAM FORMATION","KIẾM VŨ":"SWORD DANCE",
+"PHÙ TỐC":"SPEED TALISMAN","HỘ THÂN PHÙ":"PROTECTIVE TALISMAN","LÔI PHÙ":"THUNDER TALISMAN","PHONG HÀNH":"WIND WALK",
+"ẢNH ĐỘN":"SHADOW STEP","KIẾM ĐỘN":"SWORD DASH","BẠO BỘ":"BURST STEP","LƯU VÂN BỘ":"FLOWING CLOUD STEP",
+"VÂN HẢI GIA TRÌ":"SEA OF CLOUDS BLESSING","KIẾM VỰC KHAI PHONG":"SWORD DOMAIN UNSEALED",
+"LÔI VỰC THIÊN PHẠT":"THUNDER REALM JUDGMENT","THIÊN CUNG TIÊN QUANG":"CELESTIAL PALACE RADIANCE"
+});
+Object.assign(DICT.cn,{
+"THỜI GIAN":"时间","Linh Khí Bùng Nổ":"灵气爆发","Tiên Kiếm Gia Tốc":"仙剑加速",
+"Thiên Địa Dị Tượng":"天地异象","Kiếm Quang Hộ Thể":"剑光护体","Tiên Khí Hội Tụ":"仙气汇聚",
+"Phong Vân Biến Động":"风云变幻","Kiếm Ý Tăng Vọt":"剑意暴涨",
+"TIÊN MÔN SƠN ĐẠO":"仙门山道","VÂN HẢI THIÊN KHÔNG":"云海天穹","VẠN KIẾM KIẾM VỰC":"万剑剑域",
+"CỬU THIÊN LÔI VỰC":"九天雷域","THIÊN CUNG TIÊN ĐÀI":"天宫仙台",
+"TRÚNG ĐỘC":"中毒","SUY LỰC":"虚弱","HỒI LINH ĐAN":"回灵丹","VA CHẠM":"碰撞",
+"LÔI KÍCH":"雷击","CUỒNG PHONG":"狂风","CHOÁNG":"眩晕","NGẤT":"昏厥","DU LONG BỘ":"游龙步",
+"TỤ KHÍ ĐAN":"聚气丹","KIẾM Ý":"剑意","ĐẠP VÂN":"踏云","TỤ LINH TRẬN":"聚灵阵",
+"VẠN KIẾM TRẬN":"万剑阵","BÁT QUÁI TRẬN":"八卦阵","KIẾM VŨ":"剑舞",
+"PHÙ TỐC":"疾速符","HỘ THÂN PHÙ":"护身符","LÔI PHÙ":"雷符","PHONG HÀNH":"风行",
+"ẢNH ĐỘN":"影遁","KIẾM ĐỘN":"剑遁","BẠO BỘ":"爆步","LƯU VÂN BỘ":"流云步",
+"VÂN HẢI GIA TRÌ":"云海加持","KIẾM VỰC KHAI PHONG":"剑域开锋",
+"LÔI VỰC THIÊN PHẠT":"雷域天罚","THIÊN CUNG TIÊN QUANG":"天宫仙光"
+});
+
 const LANGS={vi:"VN",en:"EN",cn:"CN"};
 const STORAGE_KEY="vankiemphitien-language";
 let language="vi";
@@ -97,7 +129,7 @@ function translateText(value,lang=language){
     if(result===from)return to;
     if(result.includes(from))result=result.split(from).join(to);
   }
-  if(lang==="cn")result=result.replace(/([\\u3400-\\u9fff])\\s+([\\u3400-\\u9fff])/g,"$1$2");
+  if(lang==="cn")result=result.replace(/([\u3400-\u9fff])\s+([\u3400-\u9fff])/g,"$1$2");
   return result;
 }
 function applyNode(node){
@@ -199,7 +231,15 @@ function init(){
 if(typeof CanvasRenderingContext2D!=="undefined"){
   ["fillText","strokeText"].forEach(method=>{
     const original=CanvasRenderingContext2D.prototype[method];
-    CanvasRenderingContext2D.prototype[method]=function(text,...args){return original.call(this,translateText(text),...args);};
+    CanvasRenderingContext2D.prototype[method]=function(text,...args){
+      const originalFont=this.font;
+      // Ưu tiên font Unicode có dấu tiếng Việt và fallback CJK trên iOS/Safari.
+      if(/Georgia|Times New Roman|serif/i.test(originalFont)){
+        this.font=originalFont.replace(/Georgia|Times New Roman|serif/gi,'Arial, "Noto Sans", "PingFang SC", sans-serif');
+      }
+      try{return original.call(this,translateText(text),...args);}
+      finally{this.font=originalFont;}
+    };
   });
 }
 window.VKP_I18N={get language(){return language;},setLanguage,translate:translateText};
