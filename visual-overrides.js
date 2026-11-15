@@ -4503,7 +4503,7 @@ function drawRacingArtifact(target,kind,phase){
 }
 
 // Nhân vật triệu hồi: gương mặt, sắc da, tóc và trang phục có biến thể.
-function drawRacer(target,racer,x,y,scale,time){
+function __drawRacerBaseThanSau(target,racer,x,y,scale,time){
   const female=racer.gender==="female";
   const skins=VKP_DATA.characters.appearance.skinTones;
   const hairs=VKP_DATA.characters.appearance.hairColors;
@@ -7011,3 +7011,77 @@ function __sectCrowdSaveCache(canvasElement){
   },"image/png");
 }
 
+
+
+// =====================================================
+// THẦN SẦU — sprite sheet 5x2, 10 frame pixel ngự kiếm.
+// Dùng chung drawRacer cho Canvas chính và Thiên Lý Kính.
+// =====================================================
+const __thanSauSpriteSheet = new Image();
+let __thanSauSpriteReady = false;
+__thanSauSpriteSheet.onload = () => { __thanSauSpriteReady = true; };
+__thanSauSpriteSheet.onerror = () => {
+  console.warn("Không tải được sprite sheet Thần Sầu.");
+};
+__thanSauSpriteSheet.src = "assets/characters/than-sau/than-sau-spritesheet.png?v=1";
+
+function drawRacer(target, racer, x, y, scale, time) {
+  if (!racer || !racer.isLegendaryThanSau || !__thanSauSpriteReady ||
+      !__thanSauSpriteSheet.naturalWidth || !__thanSauSpriteSheet.naturalHeight) {
+    return __drawRacerBaseThanSau(target, racer, x, y, scale, time);
+  }
+
+  const columns = 5, rows = 2, frameCount = 10;
+  const frameWidth = __thanSauSpriteSheet.naturalWidth / columns;
+  const frameHeight = __thanSauSpriteSheet.naturalHeight / rows;
+  const frameIndex = ((Math.floor(time / 105 + (racer.phase || 0) * 2) % frameCount) + frameCount) % frameCount;
+  const sx = (frameIndex % columns) * frameWidth;
+  const sy = Math.floor(frameIndex / columns) * frameHeight;
+  const bob = Math.sin(time * .009 + (racer.phase || 0)) * 1.6;
+
+  target.save();
+  target.translate(x, y + bob);
+  target.scale(scale * 1.08, scale * 1.08);
+  target.imageSmoothingEnabled = false;
+
+  const glow = target.createRadialGradient(0, 0, 5, 0, 0, 54);
+  glow.addColorStop(0, "rgba(255,220,145,.30)");
+  glow.addColorStop(1, "rgba(255,220,145,0)");
+  target.fillStyle = glow;
+  target.fillRect(-56, -54, 112, 108);
+
+  if (racer.effectTimer > 0) {
+    const pulse = 1 + Math.sin(time * .018) * .08;
+    const color = racer.effectType === "slow" ? "#8de8ef" :
+      racer.effectType === "boost" ? "#ffe17b" : "#d9c4ff";
+    target.save();
+    target.globalAlpha = .42;
+    target.strokeStyle = color;
+    target.lineWidth = 2;
+    target.beginPath();
+    target.ellipse(0, 8, 43 * pulse, 17 * pulse, 0, 0, Math.PI * 2);
+    target.stroke();
+    target.restore();
+  }
+
+  target.drawImage(
+    __thanSauSpriteSheet,
+    sx, sy, frameWidth, frameHeight,
+    -54, -54, 108, 108
+  );
+
+  if (racer.effectTimer > 0 && racer.effectName && target !== cameraCtx) {
+    target.save();
+    target.font = "bold 7px Arial, sans-serif";
+    target.textAlign = "center";
+    target.textBaseline = "middle";
+    target.lineJoin = "round";
+    target.lineWidth = 2.2;
+    target.strokeStyle = "rgba(14,25,24,.98)";
+    target.strokeText(racer.effectName, 0, -65, 126);
+    target.fillStyle = "#fff1bd";
+    target.fillText(racer.effectName, 0, -65, 126);
+    target.restore();
+  }
+  target.restore();
+}
