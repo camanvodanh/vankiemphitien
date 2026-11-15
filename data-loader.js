@@ -12,11 +12,11 @@
   "scenery.js?v=race-phase1-v179",
   "audience.js?v=race-phase1-v179",
   "race-render.js?v=race-phase1-v180",
-  "visual-overrides.js?v=race-phase1-v189",
+  "visual-overrides.js?v=race-phase1-v190",
   "music.js?v=race-phase1-v179",
   "race-logic.js?v=race-phase1-v186",
-  "journey-world.js?v=journey-world-v12",
-  "i18n.js?v=race-phase1-v179"
+  "journey-world.js?v=journey-world-v13",
+  "i18n.js?v=race-phase1-v180"
  ];
  for(const src of scripts){
   await new Promise((resolve,reject)=>{
