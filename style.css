@@ -8950,3 +8950,49 @@ html body .arena-frame>.game-setup:not(.is-minimized):not([hidden]) textarea#nam
   text-align:center!important;text-align-last:center!important;
   margin-inline:auto!important;transform:none!important;
 }
+
+
+/* REVISION 129 — cố định đồng bộ Thiên Lý Kính và Tiên Bảng, tách chiều cao panel khỏi số hàng. */
+.arena-frame>.game-camera,
+.arena-frame>.game-ranking{
+  min-width:0!important;min-height:0!important;max-width:100%!important;
+  box-sizing:border-box!important;overflow:hidden!important;
+}
+.arena-frame>.game-camera{
+  display:flex!important;flex-direction:column!important;align-self:stretch!important;
+}
+.arena-frame>.game-camera>.camera-info{flex:0 0 auto!important;min-height:0!important;}
+.arena-frame>.game-camera>.camera-screen{
+  flex:1 1 0!important;min-height:0!important;height:auto!important;
+}
+.arena-frame>.game-ranking{
+  display:flex!important;flex-direction:column!important;align-self:stretch!important;
+}
+.arena-frame>.game-ranking>.ranking-heading{flex:0 0 auto!important;}
+.arena-frame>.game-ranking>.table-wrap{
+  flex:1 1 0!important;min-height:0!important;max-height:none!important;
+  height:0!important;overflow-x:hidden!important;overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+}
+.arena-frame>.game-ranking table{width:100%!important;table-layout:fixed!important;}
+@media screen and (orientation:landscape) and (min-width:600px){
+  .arena-frame{
+    grid-template-rows:minmax(0,1fr) auto!important;
+    align-items:stretch!important;
+  }
+  .arena-frame>.game-camera,
+  .arena-frame>.game-ranking{
+    height:100%!important;max-height:100%!important;
+  }
+  .arena-frame>.game-camera>.camera-screen{min-height:0!important;}
+  .arena-frame>.game-ranking>.table-wrap{height:0!important;max-height:none!important;}
+}
+@media screen and (orientation:portrait){
+  .arena-frame>.game-camera,
+  .arena-frame>.game-ranking{
+    height:clamp(260px,72vw,440px)!important;
+    min-height:260px!important;max-height:440px!important;
+  }
+  .arena-frame>.game-camera>.camera-screen{min-height:0!important;}
+  .arena-frame>.game-ranking>.table-wrap{height:0!important;max-height:none!important;}
+}
