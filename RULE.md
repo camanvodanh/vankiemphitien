@@ -195,3 +195,6 @@
 
 
 49. Pháp bảo Long Tuyền Ngọc Hồ và dòng linh thủy phát ra từ nó không được vẽ trong hàm phong cảnh nền dùng chung. Khi đổi cảnh giới, không để lại vòi nước/dòng nước từ pháp bảo ở cảnh không có pháp bảo. Sông, thác và dòng chảy tự nhiên của từng cảnh vẫn được giữ nguyên.
+
+
+50. Tuyệt chiêu Bún Chua Cay của Thần Sầu phải được nhận diện bằng trạng thái nhân vật/đồng hồ tuyệt chiêu, không phụ thuộc duy nhất vào chuỗi effectName có thể bị dịch hoặc thay đổi. Mọi nhánh vẽ Du Long Bộ phải loại trừ Thần Sầu; khi thanSauEatingTimer còn hiệu lực phải hiện tô bún, động tác ăn và dòng bún/nước dùng. Không thay đổi boost ×1.20, thời lượng 3.5 giây hoặc cooldown 11.5 giây.
