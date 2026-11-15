@@ -140,3 +140,6 @@
 
 28. Các thiên phú/thể chất của tiên nhân phải có dấu hiệu hình ảnh dễ nhận biết ngay trên nhân vật trong Canvas chính; dấu hiệu dùng mã ngắn, màu riêng theo ID, kích thước gọn và không che mặt/kiếm. Thiên Lý Kính phải hiển thị đầy đủ tên thể chất của nhân vật đang được chiếu. Không thay đổi hệ số thiên phú hoặc logic gameplay khi chỉ bổ sung cách quan sát.
 29. Tiêu đề tên cảnh giới sau khi qua cổng phải luôn đọc được trọn vẹn. Banner thông báo người dẫn đầu/về đích không được vẽ đè lên tiêu đề cảnh giới; phải giữ hai vùng hiển thị tách biệt theo tọa độ Canvas và kiểm tra thứ tự render.
+
+
+30. Thiên Lý Kính phải sắp xếp thông tin thành các hàng rõ ràng, không chồng chéo: hạng và tên ở hàng đầu; tốc độ/thời gian hiệu ứng ở hàng riêng; tên thể chất (không có tiền tố “Thể chất:”) và tên hiệu ứng ở hàng thông tin phụ. Màn hình camera nằm dưới cùng của khung, chiếm phần diện tích còn lại. Hệ số tốc độ và thời gian hiệu ứng cùng màu: xanh lá khi tăng tốc, đỏ khi giảm tốc. Chỉ thay đổi cách trình bày, không thay đổi cách chọn nhân vật được chiếu hay gameplay.
