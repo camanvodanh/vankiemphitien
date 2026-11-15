@@ -326,21 +326,28 @@ function racerX(racer) {
 
 function drawRacers(time) {
   if (!racers.length) return;
-
   const scale = racerScale();
-
   racers.forEach((racer, index) => {
-    const x = racerX(racer);
-    const y = laneY(index);
-
-    drawRacer(ctx, racer, x, y, scale, time);
-    drawRacerName(racer, x, y, scale);
-
-    if (racer.finished) {
-      ctx.fillStyle = "#ffe7a8";
-      ctx.font = "bold 12px Georgia";
-      ctx.textAlign = "center";
-      ctx.fillText("✦", x, y - 31 * scale);
+    const x = racerX(racer), y = laneY(index);
+    ctx.save();
+    try {
+      drawRacer(ctx, racer, x, y, scale, time);
+      drawRacerName(racer, x, y, scale);
+      if (racer.finished) {
+        ctx.fillStyle = "#ffe7a8";
+        ctx.font = "bold 12px Arial, sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("✦", x, y - 31 * scale);
+      }
+    } catch (error) {
+      if (!window.__vkRacerRenderErrors) window.__vkRacerRenderErrors = new Set();
+      const key = String(racer && racer.name || "unknown");
+      if (!window.__vkRacerRenderErrors.has(key)) {
+        window.__vkRacerRenderErrors.add(key);
+        console.error("Lỗi vẽ tiên nhân, đã cô lập khỏi khung hình:", key, error);
+      }
+    } finally {
+      ctx.restore();
     }
   });
 }
@@ -721,30 +728,34 @@ canvas.addEventListener("wheel",event=>{event.preventDefault();zoomGameAt(gameZo
 })();
 function render(time){
   ctx.clearRect(0,0,W,H);
-  // Khung gọn theo chiều cao mới: giữ nguyên tọa độ gốc của trường đua,
-  // không dịch toàn cảnh xuống dưới làm dư bầu trời và quảng trường.
   ctx.save();
-  ctx.translate(W/2+gamePanX,H/2+gamePanY);
-  ctx.scale(gameZoom,gameZoom);
-  ctx.translate(-W/2,-H/2);
-  if(finished){
-    // drawPodiumScene tự dựng đúng nền nghi lễ/quảng trường theo từng giai đoạn.
-    // Không vẽ drawScenery lần thứ hai ở đây: khán đài có hàng trăm nhân vật
-    // và việc lặp lại toàn bộ phong cảnh mỗi frame gây tụt FPS rõ rệt.
-    drawPodiumScene(ctx,time,false);drawParticles();drawCamera(time);
-    ctx.restore();updateRanking();return;
-  }
-  // Lỗi ở một chi tiết phong cảnh/khán đài không được phép chặn toàn bộ
-  // nhân vật và vòng lặp render. Nếu scenery lỗi, vẫn tiếp tục vẽ đường đua.
   try {
-    drawScenery(time);
-  } catch (error) {
-    if (!window.__vkSceneryErrorLogged) {
-      window.__vkSceneryErrorLogged = true;
-      console.error("Lỗi riêng lớp phong cảnh/khán đài:", error);
+    ctx.translate(W/2+gamePanX,H/2+gamePanY);
+    ctx.scale(gameZoom,gameZoom);
+    ctx.translate(-W/2,-H/2);
+    if(finished){
+      drawPodiumScene(ctx,time,false);
+      drawParticles();
+      drawCamera(time);
+      updateRanking();
+      return;
     }
+    try {
+      drawScenery(time);
+    } catch (error) {
+      if (!window.__vkSceneryErrorLogged) {
+        window.__vkSceneryErrorLogged = true;
+        console.error("Lỗi riêng lớp phong cảnh/khán đài:", error);
+      }
+    }
+    drawTrackLines();
+    drawRaceHud();
+    drawRacers(time);
+    drawAnnouncement();
+    drawParticles();
+    drawCamera(time);
+    updateRanking();
+  } finally {
+    ctx.restore();
   }
-  drawTrackLines();drawRaceHud();drawRacers(time);drawAnnouncement();drawParticles();drawCamera(time);
-  ctx.restore();
-  updateRanking();
 }
