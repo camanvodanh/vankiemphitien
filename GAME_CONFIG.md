@@ -300,7 +300,7 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Thể chất riêng: `Bún Chua Cay Thánh Thể`, hiển thị trong Thiên Lý Kính như thể chất của Thần Sầu.
 - Tạo hình: sprite pixel Thần Sầu cầm tô bún chua cay trên tay; khi ăn, tô bún có hơi nóng/khói cay và điểm nhấn ớt.
 - Tuyệt chiêu tự kích hoạt trong cuộc đua khi cooldown về 0 và Thần Sầu không đang chịu hiệu ứng khác: ăn bún, nhận tăng tốc ×1.20 trong 3.5 giây; cooldown 11.5 giây. Hệ số vẫn bị giới hạn bởi `effects.balance.speedLimits` hiện hành.
-- Hiệu ứng hiển thị: `Bún Chua Cay`; hiệu ứng gameplay dùng loại boost tích cực, không sửa xác suất hay thông số hiệu ứng của các tiên nhân khác.
+- Tên tuyệt chiêu/hiệu ứng hiển thị: `Ăn Bún Chua Cay`; hiệu ứng gameplay dùng loại boost tích cực, không sửa xác suất hay thông số hiệu ứng của các tiên nhân khác.
 
 
 ## 24. Kích thước panel phụ và tư thế Thần Sầu nhận thưởng
@@ -313,7 +313,7 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 
 ## 25. Tên thể chất và hiệu ứng trong Thiên Lý Kính
 
-- Thể chất của Thần Sầu hiển thị chính xác là Bún Chua Cay Thánh Thể; tên tuyệt chiêu/hiệu ứng vẫn là Bún Chua Cay.
+- Thể chất của Thần Sầu hiển thị chính xác là Bún Chua Cay Thánh Thể; tên tuyệt chiêu/hiệu ứng là Ăn Bún Chua Cay.
 - Dòng tên thể chất và dòng tên hiệu ứng đều căn giữa độc lập theo toàn bộ chiều rộng vùng thông tin.
 - Khi chuỗi dài, renderer giao diện tự giảm cỡ chữ dựa trên độ rộng thực tế của dòng. Chỉ hiển thị ellipsis nếu chuỗi vẫn vượt quá chiều rộng sau khi đạt cỡ chữ tối thiểu.
 - Không thay đổi tên nhân vật, gameplay, hệ số, thời lượng hoặc thứ tự hiển thị các hàng.
@@ -323,6 +323,6 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 
 - Sprite Thần Sầu phải có hoạt ảnh hành động theo effectType thay vì chỉ vẽ một vòng sáng mờ. Các nhóm hiệu ứng như tăng tốc/thân pháp, suy yếu/ngất, độc, va chạm, lôi kích, cuồng phong, choáng, linh đan, kiếm ý/kiếm trận, phù chú và tụ linh đều có dấu hiệu Canvas riêng dễ nhận biết.
 - Khi có hiệu ứng, dáng bay của Thần Sầu thay đổi theo loại hiệu ứng; hiệu ứng hình ảnh được vẽ cả ở Canvas đường đua và Thiên Lý Kính. Thiên Lý Kính ưu tiên theo dõi Thần Sầu khi nhân vật này kích hoạt hiệu ứng.
-- Tuyệt chiêu Bún Chua Cay tiếp tục giữ hệ số ×1.20, thời lượng 3.5 giây và cooldown 11.5 giây; khi kích hoạt, tô bún được nâng lên, khói cay và hạt ớt xuất hiện.
+- Tuyệt chiêu Ăn Bún Chua Cay tiếp tục giữ hệ số ×1.20, thời lượng 3.5 giây và cooldown 11.5 giây; khi kích hoạt, tô bún được nâng lên, khói cay và hạt ớt xuất hiện.
 - Khi nhập tên thủ công, chỉ cần chuỗi sau chuẩn hóa có chứa sau (từ “Sầu”) hoặc shen là tên được quy về “Thần Sầu”, không phân biệt hoa thường và dấu. Các bí danh đầy đủ “Trần Đạt Thọ” và “神愁” vẫn được hỗ trợ.
 - Không thay đổi xác suất hiệu ứng chung, hệ số tốc độ, thời lượng đua hoặc chỉ số các nhân vật khác.
