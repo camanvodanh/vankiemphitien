@@ -355,3 +355,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Cỡ chữ HUD tăng có giới hạn theo chiều rộng Canvas hiển thị để dễ đọc trên điện thoại; hộp thông báo và bảng cảnh giới co theo độ rộng chữ, không tràn khung.
 - Canvas ưu tiên Arial/Noto Sans/PingFang SC fallback thay vì font serif dễ thiếu glyph; CSS giao diện dùng system-ui và fallback CJK. Không thay đổi nội dung/gameplay.
 - Từ điển EN/CN bao gồm nhãn thời gian, thông báo sự kiện, tên cảnh giới, cổng và các hiệu ứng đua; bản gốc tiếng Việt giữ nguyên dấu. Bản vá i18n phải xử lý cả fillText và strokeText, đồng thời giữ nguyên font gốc sau mỗi lần vẽ.
+
+
+## 31. An toàn renderer nhân vật và khôi phục Canvas
+
+- Sprite pixel Thần Sầu luôn được vẽ thẳng đứng; các hiệu ứng như choáng, lôi, kiếm dash, Ảnh Độn và thân pháp vẫn thể hiện bằng dịch chuyển/nhịp chuyển động và lớp hiệu ứng riêng, không xoay toàn bộ sprite sheet.
+- Mỗi tiên nhân trên Canvas chính có vùng trạng thái Canvas độc lập. Nếu một nhân vật phát sinh lỗi, bỏ qua phần vẽ lỗi của nhân vật đó và tiếp tục các nhân vật còn lại.
+- Hàm render toàn cảnh luôn gọi restore() trong finally, tránh giữ lại transform/rotation/clip khi một lớp vẽ gặp lỗi. Thiên Lý Kính có cơ chế cô lập lỗi tương tự.
+- Chỉ thay đổi độ an toàn và cách trình bày hình ảnh; không thay đổi dữ liệu cuộc đua, thứ hạng, tốc độ, xác suất hoặc thời lượng hiệu ứng.
