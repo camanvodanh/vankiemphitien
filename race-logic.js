@@ -1927,7 +1927,9 @@ createRacer = function(name,index){
   {"id":"azure-wood","name":"Thanh Mộc Linh Thể","boost":1.025},
   {"id":"cold-moon-sword","name":"Hàn Nguyệt Kiếm Thể","boost":1.035}
  ];
- racer.talent={...talents[index%talents.length]};
+ racer.talent=racer.isLegendaryThanSau
+  ? {id:"bun-chua-cay",name:"Bún Chua Cay Thánh Thể"}
+  : {...talents[index%talents.length]};
  return racer;
 };
 
