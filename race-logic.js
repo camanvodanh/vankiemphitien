@@ -1823,11 +1823,26 @@ const phase1BaseCreateRacer = createRacer;
 createRacer = function(name,index){
  const racer=phase1BaseCreateRacer(name,index);
  const talents=[
-  {id:"wind",name:"Phong Linh Thể",boost:1.025},
-  {id:"thunder",name:"Lôi Linh Thể",boost:1.035},
-  {id:"sword",name:"Kiếm Tâm",boost:1.02},
-  {id:"shadow",name:"Ảnh Độn Thể",boost:1.03},
-  {id:"steady",name:"Huyền Quy Thể",boost:1.015}
+  {"id":"wind","name":"Phong Linh Thể","boost":1.025},
+  {"id":"thunder","name":"Lôi Linh Thể","boost":1.035},
+  {"id":"sword","name":"Kiếm Tâm","boost":1.02},
+  {"id":"shadow","name":"Ảnh Độn Thể","boost":1.03},
+  {"id":"steady","name":"Huyền Quy Thể","boost":1.015},
+  {"id":"fire","name":"Hỏa Linh Căn","boost":1.035},
+  {"id":"ice","name":"Băng Tâm","boost":1.025},
+  {"id":"azure-phoenix","name":"Thanh Loan Huyết Mạch","boost":1.04},
+  {"id":"kunpeng","name":"Côn Bằng Chi Thể","boost":1.045},
+  {"id":"heavenly-machine","name":"Thiên Cơ Đạo Thể","boost":1.02},
+  {"id":"sword-bone","name":"Vô Ảnh Kiếm Cốt","boost":1.035},
+  {"id":"purple-lightning","name":"Tử Điện Linh Thể","boost":1.04},
+  {"id":"moon-shadow","name":"Nguyệt Ảnh Thể","boost":1.025},
+  {"id":"vajra","name":"Kim Cang Thể","boost":1.015},
+  {"id":"nine-sun","name":"Cửu Dương Thể","boost":1.03},
+  {"id":"void","name":"Hư Không Đạo Thể","boost":1.04},
+  {"id":"star","name":"Tinh Thần Linh Thể","boost":1.03},
+  {"id":"dragon-elephant","name":"Long Tượng Bá Thể","boost":1.02},
+  {"id":"azure-wood","name":"Thanh Mộc Linh Thể","boost":1.025},
+  {"id":"cold-moon-sword","name":"Hàn Nguyệt Kiếm Thể","boost":1.035}
  ];
  racer.talent={...talents[index%talents.length]};
  racer.trackZoneMask=0;
