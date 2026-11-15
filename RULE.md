@@ -153,3 +153,6 @@
 
 
 34. Tài nguyên nhân vật đặc biệt phải đặt trong `assets/characters/<character-id>/`, dùng ID ASCII chữ thường nối bằng dấu gạch ngang. Mỗi nhân vật có `README.md`, sprite sheet `<character-id>-spritesheet.png` và frame riêng trong `frames/<character-id>-00.png`, `-01.png`, ...; giữ kích thước canvas frame đồng nhất và nền trong suốt. Không kích hoạt nhân vật trong gameplay khi ảnh chưa được đưa vào repository và bộ nạp/render sprite chưa được tích hợp, kiểm tra.
+
+
+35. Thần Sầu là nhân vật huyền thoại dùng sprite sheet tại `assets/characters/than-sau/than-sau-spritesheet.png`, bố cục 5 cột × 2 hàng (10 frame), dùng chung hàm `drawRacer` cho Canvas chính và Thiên Lý Kính. Nhập thủ công một trong các bí danh Shen, Sầu, Trần Đạt Thọ, Thần Sầu, 神愁 phải tạo đúng nhân vật Thần Sầu. Khi triệu hồi ngẫu nhiên, xác suất xuất hiện tăng theo số lượng trong lượt, tối đa một Thần Sầu mỗi lượt; không ảnh hưởng số lượng nhân vật, tốc độ hoặc cân bằng các nhân vật khác. Nếu sprite chưa tải được, phải fallback về renderer hiện tại.
