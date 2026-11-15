@@ -269,3 +269,8 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Vòng nét đứt quanh thân do lớp vẽ hiệu ứng cá nhân trong visual-overrides.js đã được loại bỏ; trạng thái hiệu ứng cá nhân, xác suất 95%/5%, hệ số và thời lượng vẫn giữ nguyên.
 - Thiên Lý Kính giữ khung panel cố định, không cho phần chữ làm tăng tràn chiều cao hoặc chiều rộng. Thông tin hiển thị thành bốn dòng gọn: hạng/tốc độ; tên nhân vật; tên thể chất; tên hiệu ứng. Mỗi dòng tự ellipsis nếu quá dài; Canvas chiếm phần còn lại, giữ tỷ lệ 7:4.
 - Tiên Bảng vẫn render đầy đủ danh sách; vùng cuộn dọc được tăng chiều cao để nhìn thấy khoảng 10 hạng trước khi cần kéo. Không thay đổi thứ tự, dữ liệu, nhịp cập nhật hoặc kết quả xếp hạng.
+
+## 20. Căn giữa tên hiệu ứng Thiên Lý Kính
+
+- Tên hiệu ứng nằm ở hàng riêng và được căn giữa độc lập trên toàn bộ chiều rộng vùng thông tin; không phụ thuộc vị trí/độ rộng tên thể chất. Khi thể chất trống, tên hiệu ứng vẫn chính giữa.
+- Chỉ thay đổi căn chỉnh hiển thị; không thay đổi tên, trạng thái, xác suất, thời lượng hoặc hệ số hiệu ứng.
