@@ -628,7 +628,7 @@ function leaderOf(){
   return finishQueue.length?finishQueue[finishQueue.length-1]:null;
 }
 function drawCamera(time){
- drawCameraBackground();
+ drawCameraBackground(time);
  if(!started||!racers.length){
   $("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Hạng --/--";
   cameraCtx.fillStyle="#fff2c9";cameraCtx.font="bold 14px Arial, sans-serif";cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";
