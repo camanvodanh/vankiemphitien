@@ -363,3 +363,10 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Mỗi tiên nhân trên Canvas chính có vùng trạng thái Canvas độc lập. Nếu một nhân vật phát sinh lỗi, bỏ qua phần vẽ lỗi của nhân vật đó và tiếp tục các nhân vật còn lại.
 - Hàm render toàn cảnh luôn gọi restore() trong finally, tránh giữ lại transform/rotation/clip khi một lớp vẽ gặp lỗi. Thiên Lý Kính có cơ chế cô lập lỗi tương tự.
 - Chỉ thay đổi độ an toàn và cách trình bày hình ảnh; không thay đổi dữ liệu cuộc đua, thứ hạng, tốc độ, xác suất hoặc thời lượng hiệu ứng.
+
+
+## 32. Tách lớp Ăn Bún Chua Cay khỏi Du Long Bộ
+
+- Nhánh boost của Thần Sầu chỉ vẽ Du Long Bộ khi hiệu ứng không mang tên “Ăn Bún Chua Cay”; tuyệt chiêu ăn bún không còn bị rồng phủ lên.
+- Tô bún và dòng bún/nước dùng được đặt đúng điểm bắt đầu tại tô và hướng lên miệng; hơi nóng, viền linh khí đỏ cam và hạt ớt được vẽ sau lớp hiệu ứng chung để luôn nhìn rõ.
+- Các lượt boost khác tiếp tục hiển thị Du Long Bộ như cũ. Không thay đổi tốc độ ×1.20, thời lượng 3.5 giây hoặc cooldown 11.5 giây.
