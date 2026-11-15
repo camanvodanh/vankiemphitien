@@ -194,6 +194,40 @@
         const x=((i*113+time*.025)%1260)-80,y=145+(i%4)*37+Math.sin(time*.001+i)*9;
         drawSwordVariant(target,x,y,.48+(i%3)*.13,Math.sin(time*.0004+i)*.18,i%4,palette[(i+2)%palette.length]);
       }
+      // Rừng cổ kiếm cắm trên các sống núi với nhiều kiểu chuôi và lưỡi.
+      const embeddedPalette=["#d9e8f6","#9cc8e8","#e4d5ff","#d9b978","#86d9d0","#f0e7c8"];
+      for(let i=0;i<34;i++){
+        const x=18+(i*89)%1060,y=345+(i*47)%91,scale=.34+((i*5)%7)*.065;
+        drawSwordVariant(target,x,y,scale,Math.sin(i*1.7)*.22,i%4,embeddedPalette[i%embeddedPalette.length]);
+        if(i%3===0){target.strokeStyle="rgba(159,210,255,.34)";target.lineWidth=1;target.beginPath();target.moveTo(x,y+7);target.lineTo(x-7,y+23);target.lineTo(x+5,y+31);target.stroke();}
+      }
+      for(let i=0;i<16;i++){
+        const a=time*.00022+i*Math.PI*2/16,radius=105+(i%3)*43;
+        const x=590+Math.cos(a)*radius,y=270+Math.sin(a)*radius*.48;
+        drawSwordVariant(target,x,y,.36+(i%4)*.055,a*.22,i%4,embeddedPalette[(i+2)%embeddedPalette.length]);
+      }
+      // Ba tầng kiếm trận, phù văn, tia nối và tám trụ kiếm trấn trận.
+      target.save();target.translate(590,270);target.rotate(-time*.000055);
+      for(let ring=0;ring<3;ring++){
+        target.beginPath();target.ellipse(0,0,92+ring*47,31+ring*19,0,0,Math.PI*2);
+        target.strokeStyle=ring===1?"rgba(211,235,255,.62)":"rgba(143,190,239,.4)";
+        target.lineWidth=ring===1?2.2:1.2;target.setLineDash(ring===2?[7,5]:[2,5]);target.stroke();
+      }
+      target.setLineDash([]);
+      for(let i=0;i<16;i++){
+        const a=i*Math.PI/8,inner=104,outer=230;
+        target.strokeStyle=i%2?"rgba(189,220,255,.42)":"rgba(244,224,177,.48)";
+        target.lineWidth=1.1;target.beginPath();target.moveTo(Math.cos(a)*inner,Math.sin(a)*inner*.42);target.lineTo(Math.cos(a)*outer,Math.sin(a)*outer*.42);target.stroke();
+      }
+      for(let i=0;i<8;i++){
+        const a=i*Math.PI/4+time*.00004,x=Math.cos(a)*224,y=Math.sin(a)*92;
+        drawSwordVariant(target,x,y,.58,a+Math.PI/2,i%4,embeddedPalette[i%embeddedPalette.length]);
+      }
+      target.restore();
+      const coreGlow=target.createRadialGradient(590,270,5,590,270,92);
+      coreGlow.addColorStop(0,"rgba(228,246,255,.48)");coreGlow.addColorStop(.35,"rgba(120,180,235,.19)");coreGlow.addColorStop(1,"rgba(80,130,205,0)");
+      target.fillStyle=coreGlow;target.beginPath();target.arc(590,270,92,0,Math.PI*2);target.fill();
+      drawSwordVariant(target,590,270,1.02,0,2,"#e5f4ff");
       // Trận kiếm khổng lồ phía xa và các vòng kiếm khí.
       target.save();target.translate(590,255);target.rotate(time*.00008);
       target.strokeStyle="rgba(185,220,255,.6)";target.lineWidth=2;
@@ -284,6 +318,28 @@
     drawRegionLandmark(target,region,time);
     target.restore();
   }
+  function drawRealmArrivalTitle(time){
+    let index=-1;
+    for(let i=1;i<regions.length;i++){const elapsed=frameProgress-(Number(regions[i].start)||0);if(elapsed>=0&&elapsed<.035){index=i;break;}}
+    if(index<0)return;
+    const region=regions[index],phase=(frameProgress-Number(region.start))/.035;
+    const fade=Math.min(1,phase*7,(1-phase)*5);
+    const title=String(region.name||region.shortName||"CẢNH GIỚI MỚI").toLocaleUpperCase("vi");
+    const width=Math.min(560,Math.max(330,title.length*15+76)),x=550,y=91;
+    ctx.save();ctx.globalAlpha=Math.max(0,fade);
+    const glow=ctx.createRadialGradient(x,y,12,x,y,250);glow.addColorStop(0,region.accent||"#e7f2ff");glow.addColorStop(1,"rgba(0,0,0,0)");
+    ctx.fillStyle=glow;ctx.fillRect(x-260,y-54,520,108);
+    ctx.fillStyle="rgba(13,24,43,.88)";ctx.beginPath();
+    ctx.moveTo(x-width/2+18,y-23);ctx.lineTo(x-width/2+5,y);ctx.lineTo(x-width/2+18,y+23);
+    ctx.lineTo(x+width/2-18,y+23);ctx.lineTo(x+width/2-5,y);ctx.lineTo(x+width/2-18,y-23);ctx.closePath();ctx.fill();
+    ctx.strokeStyle=region.accent||"#e8d29b";ctx.lineWidth=2;ctx.stroke();
+    ctx.strokeStyle="rgba(255,245,211,.72)";ctx.lineWidth=1;ctx.beginPath();
+    ctx.moveTo(x-width/2+30,y-15);ctx.lineTo(x-width/2+48,y);ctx.lineTo(x-width/2+30,y+15);
+    ctx.moveTo(x+width/2-30,y-15);ctx.lineTo(x+width/2-48,y);ctx.lineTo(x+width/2-30,y+15);ctx.stroke();
+    ctx.fillStyle="#fff7df";ctx.textAlign="center";ctx.textBaseline="middle";ctx.font="bold 21px Georgia,serif";
+    ctx.shadowColor=region.accent||"#d9eaff";ctx.shadowBlur=10;ctx.fillText(title,x,y,width-64);ctx.shadowBlur=0;ctx.restore();
+  }
+
   function drawMainRealm(time){
     if(!regions.length||typeof ctx==="undefined"||frameProgress<Number(regions[1]&&regions[1].start||.2))return;
     const blend=activeBlend(frameProgress);
@@ -304,6 +360,7 @@
       }
     }
     ctx.restore();
+    drawRealmArrivalTitle(time);
   }
   function drawMiniRealm(time=0){
     if(!regions.length||typeof cameraCtx==="undefined"||frameProgress<Number(regions[1]&&regions[1].start||.2))return;
@@ -423,7 +480,7 @@
     let portal=null,index=-1;
     for(let i=0;i<portals.length;i++){
       const gap=Number(portals[i].progress||0)-progress;
-      if(gap>=0&&gap<=.04){portal=portals[i];index=i;break;}
+      if(gap>=0){portal=portals[i];index=i;break;}
     }
     if(!portal)return;
     const gap=Number(portal.progress||0)-progress;
@@ -456,11 +513,13 @@
     // Vệt tinh tú nhỏ nằm trong lòng khe, không tạo particle động.
     ctx.fillStyle="#fff6d5";
     for(let i=0;i<4;i++){const yy=top+28+i*(bottom-top-56)/3;ctx.fillRect(x+(i%2?5:-4),yy,2,2);}
-    const label=String(portal.shortName||("CẢNH GIỚI "+(index+2)));
-    ctx.font="bold 8px Arial";ctx.textAlign="center";ctx.textBaseline="middle";
-    const labelY=top-13;ctx.fillStyle="#172337";ctx.fillRect(x-38,labelY-7,76,14);
-    ctx.strokeStyle=color;ctx.lineWidth=1;ctx.strokeRect(x-38.5,labelY-7.5,77,15);
-    ctx.fillStyle="#fff4d5";ctx.fillText(label,x,labelY,72);
+    const destination=regions[index+1];
+    const label=String(destination&&destination.name||portal.shortName||("CẢNH GIỚI "+(index+2))).toLocaleUpperCase("vi");
+    ctx.font="bold 14px Georgia,serif";ctx.textAlign="center";ctx.textBaseline="middle";
+    const labelWidth=Math.min(280,Math.max(150,ctx.measureText(label).width+34)),labelY=top-24;
+    ctx.fillStyle="rgba(12,23,42,.94)";ctx.fillRect(x-labelWidth/2,labelY-14,labelWidth,28);
+    ctx.strokeStyle=color;ctx.lineWidth=2;ctx.strokeRect(x-labelWidth/2,labelY-14,labelWidth,28);
+    ctx.fillStyle="#fff4d5";ctx.fillText(label,x,labelY,labelWidth-18);
     ctx.restore();
   }
   if(typeof render==="function"){
