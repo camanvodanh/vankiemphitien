@@ -239,12 +239,28 @@ function getRandomQuantity() {
   return amount;
 }
 
+// Nhận diện bí danh Thần Sầu khi người chơi tự nhập tên.
+function normalizeThanSauName(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D")
+    .toLowerCase()
+    .replace(/[^a-z0-9\u4e00-\u9fff]/g, "");
+}
+function isThanSauAlias(value) {
+  return ["shen", "sau", "trandattho", "thansau", "神愁"]
+    .includes(normalizeThanSauName(value));
+}
+
 function createRacer(name, index) {
   const color = palette[index % palette.length];
 
   return {
     id: Math.random().toString(36).slice(2),
     name,
+    isLegendaryThanSau: isThanSauAlias(name),
     gender: /nữ|tiên tử|thánh nữ|tiểu thư|cô nương|nguyệt|thanh huyền|linh nhi|nhược|tử yên|băng tâm/i.test(name) ? "female" : (randInt(0,1) === 0 ? "male" : "female"),
     appearanceSeed: randInt(0,4),
     progress: 0,
@@ -270,13 +286,21 @@ function summon() {
 
   const names = getInputNames();
 
-  const finalNames = names.length > 0
-    ? names
-    : Array.from(
-        { length: getRandomQuantity() },
-        (_, i) =>
-          `Tiên nhân ${String(i + 1).padStart(2, "0")}`
-      );
+  const manualNames = names.length > 0;
+  let finalNames;
+  if (manualNames) {
+    finalNames = names.map(name => isThanSauAlias(name) ? "Thần Sầu" : name);
+  } else {
+    const randomCount = getRandomQuantity();
+    finalNames = Array.from(
+      { length: randomCount },
+      (_, i) => `Tiên nhân ${String(i + 1).padStart(2, "0")}`
+    );
+    const thanSauChance = Math.min(0.40, 0.012 + randomCount * 0.0038);
+    if (Math.random() < thanSauChance) {
+      finalNames[randInt(0, randomCount - 1)] = "Thần Sầu";
+    }
+  }
 
   if (finalNames.length > 100) {
     $("lockNotice").textContent =
