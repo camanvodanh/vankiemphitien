@@ -4,10 +4,10 @@ Các tệp JSON trong thư mục này chứa dữ liệu và thông số có th�
 
 - `characters.json`: bảng màu nhân vật, cấp bậc môn phái, màu da và tóc.
 - `swords.json`: bảng màu phi kiếm/pháp khí và số kiểu hình.
-- `effects.json`: danh sách hiệu ứng cuộc đua, hệ số tốc độ, thời lượng, màu và hạt hiệu ứng.
+- `effects.json`: danh sách hiệu ứng ngẫu nhiên của tiên nhân, hệ số tốc độ, thời lượng, màu và hạt hiệu ứng; không còn cấu hình ba mốc địa hình 24% / 53% / 78%.
 - `summoning.json`: thời gian nghi lễ, nhịp triệu hồi, số đợt, cột sáng và giới hạn nhân vật.
 - `ceremony.json`: thời gian giải tán, chưởng môn lên kiếm, bay đi và trao thưởng.
-- `scenery.json`: bảng màu bầu trời, mặt trời và cấu hình hành trình 5 cảnh giới (mốc chuyển cảnh, màu chủ đạo, cổng chuyển cảnh).
+- `scenery.json`: bảng màu bầu trời, mặt trời và cấu hình hành trình 5 cảnh giới (mốc chuyển cảnh, màu chủ đạo, cổng chuyển cảnh). Phần vẽ cảnh nhiều lớp, mây động, rừng kiếm, sấm sét và quần thể Thiên Cung nằm trong `journey-world.js`.
 
 ## Chỉnh sửa
 Sửa giá trị trong tệp JSON, giữ nguyên tên khóa và cú pháp JSON. Sau khi commit, tải lại trang; `data-loader.js` sẽ tải các JSON trước rồi mới khởi chạy JavaScript.
