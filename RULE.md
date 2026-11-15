@@ -146,3 +146,5 @@
 
 
 31. Thiên Lý Kính dùng đúng ba hàng thông tin: (1) hạng canh trái và tốc độ/thời gian canh phải trên cùng hàng; (2) tên nhân vật canh giữa; (3) tên thể chất và tên hiệu ứng cùng hàng, canh giữa và chỉ phân cách bằng khoảng trống, không chèn dấu. Canvas nằm dưới phần thông tin, neo đáy panel và chiếm phần còn lại. Dấu hiệu thể chất trên nhân vật không dùng huy hiệu lớn; chỉ dùng dấu màu nhỏ cạnh pháp bảo để không che mặt/tên. Số tốc độ và giây còn lại phải cùng màu xanh lá khi tăng, đỏ khi giảm. Không thay đổi lựa chọn camera hoặc gameplay.
+
+32. Vòng nét đứt quanh nhân vật biểu thị hiệu ứng cá nhân phải được bỏ khỏi phần vẽ; không xóa trạng thái, xác suất, thời lượng, hệ số hoặc hiệu ứng gameplay liên quan. Thiên Lý Kính phải có khung hiển thị cố định trong panel: thông tin không được đẩy Canvas tràn hoặc làm panel vượt kích thước; hạng/tốc độ cùng hàng, tên nhân vật một hàng, tên thể chất và tên hiệu ứng ở hai hàng riêng. Mỗi hàng chữ phải co/ellipsis trong chiều rộng khả dụng. Tiên Bảng tiếp tục chứa toàn bộ danh sách và cuộn dọc; vùng nhìn nên hiển thị xấp xỉ 10 hạng cùng lúc trên thiết bị thông thường.
