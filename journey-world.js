@@ -18,7 +18,10 @@
       const value=Number(racers[i]&&racers[i].progress)||0;
       if(value>furthest)furthest=value;
     }
-    return Math.max(0,Math.min(1,furthest/distance));
+    const progress=Math.max(0,Math.min(1,furthest/distance));
+    // Dùng chung tiến độ đã quét một lần cho cả cổng cảnh giới và cổng gameplay.
+    window.__vkJourneyProgress=progress;
+    return progress;
   }
   function smooth(value){const t=Math.max(0,Math.min(1,value));return t*t*(3-2*t);}
   function activeBlend(progress){
@@ -120,11 +123,14 @@
   function drawMainRealm(time){
     if(!regions.length||typeof ctx==="undefined")return;
     const blend=activeBlend(frameProgress);
-    if(blend.length===1){drawRegionScene(ctx,blend[0].region,time,1);return;}
-    // Vẽ cảnh mới kín khung trước, rồi phủ cảnh cũ với alpha giảm dần.
-    // Nhờ vậy hai cảnh thực sự crossfade, không còn thấy cảnh gốc xuyên qua như lớp filter.
+    // Giới hạn lớp cảnh giới ở tầng trời/sơn mạch phía sau.
+    // Không phủ lên quảng trường tiền cảnh, đặc biệt là chưởng môn và nghi thức.
+    ctx.save();ctx.beginPath();ctx.rect(0,0,1100,478);ctx.clip();
+    if(blend.length===1){drawRegionScene(ctx,blend[0].region,time,1);ctx.restore();return;}
+    // Vẽ cảnh mới kín vùng nền trước, rồi crossfade cảnh cũ trong đúng vùng clip.
     drawRegionScene(ctx,blend[1].region,time,1);
     drawRegionScene(ctx,blend[0].region,time,blend[0].alpha);
+    ctx.restore();
   }
   function drawMiniRealm(){
     if(!regions.length||typeof cameraCtx==="undefined")return;
@@ -136,14 +142,14 @@
   function drawJourneyPortals(){
     if(!racers.length||finished||!portals.length)return;
     const progress=frameProgress;
-    // Chỉ hiện cổng kế tiếp; các cổng ở xa không còn dồn thành một hàng phủ kín đường đua.
+    // Chỉ hiện cổng kế tiếp trong 8% cuối trước ranh giới; vừa qua là ẩn ngay.
     let portal=null,index=-1;
     for(let i=0;i<portals.length;i++){
-      if(progress<Number(portals[i].progress||0)+.012){portal=portals[i];index=i;break;}
+      const gap=Number(portals[i].progress||0)-progress;
+      if(gap>=0&&gap<=.08){portal=portals[i];index=i;break;}
     }
     if(!portal)return;
     const distanceToPortal=Number(portal.progress||0)-progress;
-    if(distanceToPortal>.24)return;
     const x=TRACK.left+35+(TRACK.right-TRACK.left-45)*Number(portal.progress||0);
     const top=TRACK.top+8,bottom=TRACK.bottom-142,color=portal.color||"#a9d9d5";
     const alpha=Math.max(.25,Math.min(.96,1-distanceToPortal*2.7));
