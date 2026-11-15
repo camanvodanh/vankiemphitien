@@ -308,40 +308,5 @@
         ]
       }
     ]
-  },
-  "trackZones": [
-    {
-      "id": "spirit-gate",
-      "name": "Cổng Tụ Linh",
-      "shortName": "TỤ LINH",
-      "progress": 0.24,
-      "color": "#9ce9c5",
-      "polarity": "positive",
-      "effectType": "formation",
-      "multiplier": 1.11,
-      "duration": 2.4
-    },
-    {
-      "id": "sword-array",
-      "name": "Kiếm Trận",
-      "shortName": "KIẾM TRẬN",
-      "progress": 0.53,
-      "color": "#b8d8ff",
-      "polarity": "positive",
-      "effectType": "formation_sword",
-      "multiplier": 1.13,
-      "duration": 2.2
-    },
-    {
-      "id": "thunder-zone",
-      "name": "Lôi Vực",
-      "shortName": "LÔI VỰC",
-      "progress": 0.78,
-      "color": "#b7baff",
-      "polarity": "negative",
-      "effectType": "lightning",
-      "multiplier": 0.91,
-      "duration": 1.8
-    }
-  ]
+  }
 }
