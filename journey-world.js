@@ -321,7 +321,7 @@
       cameraCtx.fillStyle=wash;cameraCtx.fillRect(0,0,width,height);
       cameraCtx.translate(0,-37.5);
       cameraCtx.scale(scale,scale);
-      drawRegionScene(cameraCtx,layer.region,time,1);
+      drawRegionScene(cameraCtx,layer.region,time,layer.alpha);
       cameraCtx.restore();
     }
     const active=blend[blend.length-1].region;
@@ -337,6 +337,7 @@
     // Cổng mới thanh tẩy cả hiệu ứng đang chạy lẫn hiệu ứng đang chờ kích hoạt.
     racer.speedMultiplier=1;racer.effectTimer=0;racer.effectDuration=0;
     racer.effectType="";racer.effectName="";racer.effectPolarity="";
+    racer.rankChangeText="";racer.rankChangeTimer=0;
     racer.pendingEffect=null;racer.pendingEffectTimer=0;racer.effectCooldown=0;
     racer.personalEffectType="";racer.personalEffectName="";
     racer.personalEffectPolarity="";racer.personalEffectMultiplier=1;
