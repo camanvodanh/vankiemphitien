@@ -325,6 +325,95 @@
       cameraCtx.strokeRect(1.5,1.5,width-3,height-3);cameraCtx.restore();
     }
   }
+  function applyPortalEffect(racer,portal,index){
+    if(!racer||racer.finished||!portal||!portal.effect)return;
+    const gate=portal.effect,config=(window.VKP_DATA.effects&&window.VKP_DATA.effects.balance)||{};
+    const limits=config.speedLimits||{min:.75,max:1.25};
+    // Cổng mới thanh tẩy cả hiệu ứng đang chạy lẫn hiệu ứng đang chờ kích hoạt.
+    racer.speedMultiplier=1;racer.effectTimer=0;racer.effectDuration=0;
+    racer.effectType="";racer.effectName="";racer.effectPolarity="";
+    racer.pendingEffect=null;racer.pendingEffectTimer=0;racer.effectCooldown=0;
+    racer.personalEffectType="";racer.personalEffectName="";
+    racer.personalEffectPolarity="";racer.personalEffectMultiplier=1;
+    const gateMultiplier=Number(gate.multiplier)||1;
+    let personalMultiplier=1,personal=null,personalDuration=0;
+    if(Math.random()>=Number(config.noEffectChance??.05)){
+      const ranked=sortedRacers(),rank=Math.max(0,ranked.indexOf(racer));
+      const ratio=ranked.length>1?rank/(ranked.length-1):.5;
+      const position=ratio<1/3?"front":ratio>2/3?"back":"middle";
+      const goodChance=Number((config.positionGoodChance||{})[position]??.5);
+      const polarity=Math.random()<goodChance?"positive":"negative";
+      const weights=config.tierWeights||{light:.35,medium:.4,strong:.25};
+      const roll=Math.random(),tier=roll<weights.light?"light":roll<weights.light+weights.medium?"medium":"strong";
+      const pool=(window.VKP_DATA.effects.raceEvents||[]).filter(item=>item.polarity===polarity);
+      if(pool.length){
+        const chosen=pool[Math.floor(Math.random()*pool.length)];
+        const ranges=polarity==="positive"?config.multipliers.boost:config.multipliers.slow;
+        const range=ranges&&ranges[tier]||[1,1];
+        const variation=1+(Math.random()*2-1)*Number(config.multiplierVariation||0);
+        personalMultiplier=(Number(range[0])+(Number(range[1])-Number(range[0]))*Math.random())*variation;
+        personalDuration=Number(config.durationSeconds&&config.durationSeconds[0]||2)+Math.random()*(Number(config.durationSeconds&&config.durationSeconds[1]||5)-Number(config.durationSeconds&&config.durationSeconds[0]||2));
+        personal={...chosen,tier};
+      }
+    }
+    const gateDuration=Math.max(.5,Number(gate.duration)||4);
+    const totalDuration=Math.max(gateDuration,personalDuration);
+    racer.effectType=String(gate.type||"cloud_step");
+    racer.effectName=String(gate.name||portal.shortName||"Cổng cảnh giới")+(personal?" · "+personal.name:"");
+    racer.effectPolarity=personal&&personal.polarity!==gate.polarity?"mixed":(personal?personal.polarity:gate.polarity||"positive");
+    racer.effectTimer=totalDuration;racer.effectDuration=totalDuration;
+    racer.speedMultiplier=clamp(gateMultiplier*personalMultiplier,Number(limits.min)||.75,Number(limits.max)||1.25);
+    racer.effectCooldown=totalDuration;
+    racer.personalEffectType=personal?personal.type:"";
+    racer.personalEffectName=personal?personal.name:"";
+    racer.personalEffectPolarity=personal?personal.polarity:"";
+    racer.personalEffectMultiplier=personalMultiplier;
+    racer.portalEffectIndex=index;
+    racer.pendingEffect=null;racer.pendingEffectTimer=0;
+    cameraFocusId=racer.id;
+    const count=racers.length>=70?2:racers.length>=40?4:8;
+    if(typeof addParticles==="function")addParticles(racerX(racer),laneY(racers.indexOf(racer)),count,gate.color||"#d9f2ff");
+  }
+
+  // Mỗi tiên nhân chỉ chịu tác động một lần tại mỗi cổng; tiến độ và quãng
+  // đường không đổi. Hiệu ứng cổng được áp dụng sau updateRace để ghi đè
+  // sạch hiệu ứng cũ, kể cả hiệu ứng ngẫu nhiên vừa được xếp lịch ở frame đó.
+  if(typeof createRacer==="function"){
+    const baseCreateRacer=createRacer;
+    createRacer=function(name,index){
+      const racer=baseCreateRacer(name,index);
+      racer.realmPortalMask=0;
+      return racer;
+    };
+  }
+  if(typeof startRace==="function"){
+    const baseStartRace=startRace;
+    startRace=function(){
+      baseStartRace();
+      if(running)racers.forEach(racer=>{racer.realmPortalMask=0;});
+    };
+  }
+  if(typeof updateRace==="function"){
+    const baseUpdateRace=updateRace;
+    updateRace=function(dt){
+      const before=new Map(racers.map(racer=>[racer.id,Number(racer.progress)||0]));
+      baseUpdateRace(dt);
+      if(!started||!portals.length)return;
+      racers.forEach(racer=>{
+        if(racer.finished)return;
+        const previous=before.get(racer.id)||0,current=Number(racer.progress)||0;
+        if(current<=previous)return;
+        portals.forEach((portal,index)=>{
+          const bit=1<<index,threshold=Number(portal.progress)*distance;
+          if(!(racer.realmPortalMask&bit)&&previous<threshold&&current>=threshold){
+            racer.realmPortalMask|=bit;
+            applyPortalEffect(racer,portal,index);
+          }
+        });
+      });
+    };
+  }
+
   function drawJourneyPortals(){
     if(!racers.length||finished||!portals.length)return;
     const progress=frameProgress;
