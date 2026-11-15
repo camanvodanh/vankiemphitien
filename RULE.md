@@ -136,3 +136,7 @@
 
 
 27. Bố cục Vân Hải không dùng các vòng xoắn/vòng elip đồng tâm gây rối mắt; ưu tiên tầng mây ngang, vân đài, cầu mây, đảo tiên và thác mây có khoảng thở. Kiếm Vực phải phân bổ kiếm theo cụm và lớp cao độ, giữ khoảng trống để đọc rõ cảnh; kiếm bay, kiếm cắm và kiếm trung tâm dùng tỷ lệ vừa phải, không phóng lớn hoặc chồng dày. Khi chỉnh mật độ, phải giữ được cảm giác Vạn Kiếm nhưng không để kiếm che kín cảnh hoặc lấn át nhân vật.
+
+
+28. Các thiên phú/thể chất của tiên nhân phải có dấu hiệu hình ảnh dễ nhận biết ngay trên nhân vật trong Canvas chính; dấu hiệu dùng mã ngắn, màu riêng theo ID, kích thước gọn và không che mặt/kiếm. Thiên Lý Kính phải hiển thị đầy đủ tên thể chất của nhân vật đang được chiếu. Không thay đổi hệ số thiên phú hoặc logic gameplay khi chỉ bổ sung cách quan sát.
+29. Tiêu đề tên cảnh giới sau khi qua cổng phải luôn đọc được trọn vẹn. Banner thông báo người dẫn đầu/về đích không được vẽ đè lên tiêu đề cảnh giới; phải giữ hai vùng hiển thị tách biệt theo tọa độ Canvas và kiểm tra thứ tự render.
