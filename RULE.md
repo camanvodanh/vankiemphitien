@@ -192,3 +192,6 @@
 
 
 48. Khi Thần Sầu kích hoạt “Ăn Bún Chua Cay”, renderer không được dùng nhánh hiệu ứng boost để vẽ Du Long Bộ. Tô bún, dòng bún/nước dùng nối từ tô lên miệng, hơi nóng và điểm sáng ớt phải được vẽ ở lớp trên cùng để không bị hiệu ứng khác che khuất. Hiệu ứng Du Long Bộ vẫn giữ nguyên cho các lượt boost không phải Ăn Bún Chua Cay. Không thay đổi hệ số, thời lượng hoặc cooldown gameplay.
+
+
+49. Pháp bảo Long Tuyền Ngọc Hồ và dòng linh thủy phát ra từ nó không được vẽ trong hàm phong cảnh nền dùng chung. Khi đổi cảnh giới, không để lại vòi nước/dòng nước từ pháp bảo ở cảnh không có pháp bảo. Sông, thác và dòng chảy tự nhiên của từng cảnh vẫn được giữ nguyên.
