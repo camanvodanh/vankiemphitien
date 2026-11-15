@@ -12,10 +12,10 @@
   "scenery.js?v=race-phase1-v179",
   "audience.js?v=race-phase1-v179",
   "race-render.js?v=race-phase1-v180",
-  "visual-overrides.js?v=race-phase1-v186",
+  "visual-overrides.js?v=race-phase1-v187",
   "music.js?v=race-phase1-v179",
-  "race-logic.js?v=race-phase1-v185",
-  "journey-world.js?v=journey-world-v11",
+  "race-logic.js?v=race-phase1-v186",
+  "journey-world.js?v=journey-world-v12",
   "i18n.js?v=race-phase1-v179"
  ];
  for(const src of scripts){
