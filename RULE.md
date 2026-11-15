@@ -178,3 +178,5 @@
 
 
 43. Thần Sầu tuyệt đối không được vẽ đè cánh tay, ống tay áo hoặc bàn tay giả bằng Canvas, kể cả trong cảnh nhận thưởng. Tay phải lấy nguyên từ các frame pixel gốc của sprite sheet; chỉ được vẽ đạo cụ/hộp quà và hiệu ứng xung quanh, không vẽ bộ phận cơ thể giả.
+
+44. Khi bảng Triệu Hồi có trạng thái `.is-minimized`, thanh tiêu đề phải được ghim tuyệt đối bên trong vùng trường đua, không được định vị theo Thiên Lý Kính hoặc Tiên Bảng. Trên landscape 600–999px, cạnh phải thanh phải nằm trong cột Canvas và chừa hàng điều khiển phía dưới; trên desktop landscape cũng nằm trong cột Canvas, phía trên hàng Chạy/Dừng; trên portrait nằm ở góc phải phía trên của vùng game. Phải ghi đè các giá trị top/right/bottom/left cũ tại cuối stylesheet để không bị lệch khi xoay màn hình hoặc đổi breakpoint.
