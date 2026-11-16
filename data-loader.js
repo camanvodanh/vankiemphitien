@@ -11,7 +11,7 @@
   "core.js?v=race-phase1-v180",
   "scenery.js?v=race-phase1-v182",
   "audience.js?v=race-phase1-v180",
-  "race-render.js?v=race-phase1-v183",
+  "race-render.js?v=race-phase1-v184",
   "visual-overrides.js?v=race-phase1-v203",
   "music.js?v=race-phase1-v180",
   "race-logic.js?v=race-phase1-v199",
