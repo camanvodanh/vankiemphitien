@@ -560,3 +560,13 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Particle vẫn giữ nguyên ngân sách thích ứng theo số racer, tạo hạt, cập nhật tại chỗ và vẽ alpha theo vòng đời. Các hiệu ứng linh khí/khán đài và helper nghi thức đang có điểm gọi không bị thay đổi.
 - Giữ `discipleCrowdLayout` vì IIFE khởi tạo có tiêu thụ `Math.random()` khi nạp script; loại bỏ sẽ thay đổi chuỗi ngẫu nhiên dùng để tạo sao/mây và các thành phần khởi tạo tiếp theo. Đây là dữ liệu không được đọc nhưng có side effect, nên chưa xóa trong cleanup bảo toàn hành vi.
 - Tăng cache version cho các JavaScript đã sửa; không thay đổi thông số gameplay hoặc cách vẽ các renderer đang hoạt động.
+
+
+## 60. Cấu hình JSON và nguồn mặc định — giai đoạn 4F
+- Sáu tệp JSON đang được nạp trước JavaScript: `characters.json`, `swords.json`, `effects.json`, `summoning.json`, `ceremony.json`, `scenery.json`.
+- `data/swords.json.shapeCount=8` điều khiển số hình kiếm trong `drawRacingArtifact()`; `styleCount` đã bỏ vì không có nơi sử dụng.
+- `data/ceremony.json.awards.topCount=3` điều khiển số tiên nhân được chọn vào nghi thức. Renderer vẫn thiết kế tối đa ba vị trí.
+- Các trường chính sách hiệu ứng không có consumer đã được bỏ khỏi `effects.json`; logic hiện hành trong `race-render.js` vẫn giữ nguyên.
+- Danh sách thời lượng triệu hồi chỉ lấy từ `summoning.durationOptions`; hai select dùng chung một mảng đã chuẩn hóa.
+- `journey-world.js` đọc trực tiếp các giá trị cân bằng hiệu ứng từ `effects.json`, không lặp lại các giá trị mặc định giống hệt trong JavaScript.
+- Mọi giá trị JSON còn lại đều có đường đọc đã xác định; không xóa trường được truy cập động hoặc qua destructuring.
