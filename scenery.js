@@ -23,13 +23,6 @@ function initStars() {
     alpha: rand(.28, .55)
   }));
 
-  waterLines = Array.from({ length: 30 }, () => ({
-    x: rand(0, W),
-    y: rand(500, 645),
-    length: rand(12, 48),
-    speed: rand(7, 18),
-    alpha: rand(.15, .45)
-  }));
 }
 
 // =====================================================
@@ -173,29 +166,6 @@ function drawPine(x, y, scale, color = "#315b45") {
   ctx.restore();
 }
 
-function drawTree(x, y, scale, color = "#315b45") {
-  ctx.save();
-
-  ctx.translate(x, y);
-  ctx.scale(scale, scale);
-
-  ctx.fillStyle = "#584632";
-  ctx.fillRect(-4, -3, 8, 42);
-
-  ctx.fillStyle = color;
-
-  ctx.beginPath();
-  ctx.arc(0, -12, 22, 0, Math.PI * 2);
-  ctx.arc(-14, 2, 15, 0, Math.PI * 2);
-  ctx.arc(14, 3, 15, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.fillStyle = "rgba(159,190,126,.55)";
-  ctx.fillRect(-8, -28, 5, 4);
-  ctx.fillRect(7, -17, 5, 4);
-
-  ctx.restore();
-}
 
 // =====================================================
 // MÁI KIẾN TRÚC TIÊN MÔN
