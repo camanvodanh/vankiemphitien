@@ -1119,7 +1119,7 @@ function setSetupPanel(show){
  if(show) panel.classList.remove("is-minimized");
  const button=panel.querySelector(".window-minimize");
  if(button){
-  button.textContent=show?"−":"+";
+  button.textContent="−";
   button.setAttribute("aria-expanded",String(!!show));
   button.setAttribute("aria-label",show?"Thu nhỏ khởi tạo đại hội":"Mở rộng khởi tạo đại hội");
   button.title=show?"Thu nhỏ":"Mở rộng";
@@ -1133,8 +1133,8 @@ function collapseSetupPanel(){
  panel.classList.add("is-minimized");
  const button=panel.querySelector(".window-minimize");
  if(button){
-  button.textContent="+";
-  button.setAttribute("aria-expanded","false");
+  button.textContent="−";
+  button.setAttribute("aria-expanded","true");
   button.setAttribute("aria-label","Mở rộng khởi tạo đại hội");
   button.title="Mở rộng";
  }
@@ -1172,6 +1172,17 @@ function syncButtons(){
     if(document.documentElement.dataset.panelWindowsReady==="1")return;
     document.documentElement.dataset.panelWindowsReady="1";
     document.addEventListener("click",event=>{
+      const collapsedTrigger=event.target.closest&&event.target.closest(".summon-collapsed-trigger");
+      if(collapsedTrigger){
+        const panel=document.querySelector(".arena-frame .game-setup");
+        if(panel){
+          panel.classList.remove("is-minimized");panel.hidden=false;
+          const control=panel.querySelector(".window-minimize");
+          if(control){control.textContent="−";control.setAttribute("aria-expanded","true");control.setAttribute("aria-label","Thu nhỏ bảng triệu hồi");control.title="Thu nhỏ";}
+          collapsedTrigger.setAttribute("aria-expanded","true");
+          event.preventDefault();event.stopPropagation();return;
+        }
+      }
       const title=event.target.closest&&event.target.closest(".game-setup .setup-title-wrap");
       if(title){
         const panel=title.closest(".game-setup");
@@ -1197,7 +1208,7 @@ function syncButtons(){
       if(!panel)return;
       const minimized=panel.classList.toggle("is-minimized");
       if(panel.classList.contains("game-setup")) panel.hidden=false;
-      button.textContent=minimized?"+":"−";
+      button.textContent="−";
       button.setAttribute("aria-expanded",String(!minimized));
       button.setAttribute("aria-label",minimized?"Mở rộng bảng":"Thu nhỏ bảng");
       button.title=minimized?"Mở rộng":"Thu nhỏ";
