@@ -448,3 +448,9 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 
 - Giữ nguyên cấu trúc ba hàng xen kẽ. Điều chỉnh cụm kiến trúc phía phải để né cổng đích (trụ gần nhất tại x=964): Tàng Bảo Các x=700, Bách Thảo Các x=850; Quan Tinh Lâu x=850; Hộ Sơn Trận Các x=700, Ngoại Vụ Điện x=850. Các tòa bên trái và kích thước/kiểu kiến trúc không đổi.
 - Nút Triệu Hồi thu nhỏ có chiều cao bằng chính khung đếm ngược: HUD cao 42 đơn vị Canvas, vì vậy kích thước CSS của nút được tính từ tỷ lệ `canvasRect.height / canvas.height` (và tỷ lệ bố cục arena), cập nhật qua resize/ResizeObserver. Không dùng 42px CSS cố định; CSS dùng biến `--summon-launcher-size` do logic đặt.
+
+
+## 44. Giới hạn Tiên Bảng và căn giữa tên hiệu ứng Thiên Lý Kính
+
+- Hàm cập nhật Tiên Bảng chỉ dựng tối đa 10 phần tử đầu sau khi sắp xếp; các vị trí từ 11 trở đi không được hiển thị thành hàng bổ sung. Vùng bảng giới hạn chiều cao tối đa 340px hoặc 58vh (lấy mức nhỏ hơn), cuộn dọc bên trong khi cần.
+- Hai dòng thiên phú và hiệu ứng trong Thiên Lý Kính cùng nằm trên trục giữa. Riêng `#leaderEffect` phải không có padding lệch, text-indent hay transform; căn giữa cả flex item và nội dung chữ.
