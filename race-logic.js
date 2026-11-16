@@ -1191,7 +1191,6 @@ function getPlazaRitualPose(time){
   if(!summonRitualStartedAt)return 0;
   const age=(time-summonRitualStartedAt)/1000;
   const rise=Math.max(0,Math.min(1,(age-.12)/.82));
-  const returnStart=summonRitualReturnAt? summonRitualReturnAt-950:Infinity;
   const lower=summonRitualReturnAt?Math.max(0,Math.min(1,(summonRitualReturnAt-time)/950)):1;
   const smooth=value=>value*value*(3-2*value);
   return Math.min(smooth(rise),smooth(lower));
