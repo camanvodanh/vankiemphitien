@@ -256,3 +256,10 @@
 
 
 67. Thiên Lý Kính: hàng thông tin đầu phải bố trí Hạng canh trái, tốc độ và thời gian hiệu ứng canh phải trên cùng một hàng; không để các revision CSS cũ căn giữa ghi đè. Khung màn hình phải bao sát vùng Canvas, không để khoảng trống dọc hoặc viền khung bị hở; Canvas lấp đầy vùng hiển thị và không phát sinh thanh cuộn. Giữ nguyên ba hàng thông tin, màu tăng/giảm tốc và lựa chọn nhân vật đang được chiếu.
+
+
+## 67. Dọn mã chết theo từng giai đoạn
+- Chỉ xóa hàm khi đã rà soát toàn bộ repository và xác nhận không có lời gọi thực tế; không suy luận chỉ từ tên hoặc số lần xuất hiện.
+- Không gộp/xóa các hàm trùng tên nếu chúng tham gia chuỗi wrapper, ghi đè có chủ đích hoặc được gọi động.
+- Sau mỗi thay đổi JavaScript, kiểm tra cú pháp từng file và thứ tự nạp script; tăng cache version trong `data-loader.js` cho mọi script đã sửa.
+- Cleanup phải giữ nguyên các hàm renderer cuối cùng đang hoạt động và không tự ý thay đổi bố cục/gameplay.
