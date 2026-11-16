@@ -287,3 +287,11 @@
 - Giữ nguyên chuỗi nghi thức trao thưởng hiện hành: cảnh giải tán, chưởng môn đứng dậy, phi kiếm tiếp cận, chưởng môn ngự kiếm bay qua TOP 3, trao hộp thưởng, phản ứng nhận thưởng và khán đài.
 - Loại bỏ hai bản `drawMasterBaguaAura()` không còn điểm gọi; hiệu ứng Thái Cực Ngọc Luân hiện hành vẫn được vẽ qua `drawMasterBaguaHalo()`.
 - Chỉ hợp nhất khai báo bị ghi đè, không thay đổi thân renderer cuối cùng, dữ liệu nghi thức, mốc thời gian, tọa độ, kích thước, hiệu ứng hoặc gameplay.
+
+
+## 71. Hợp nhất điều khiển cuộc đua và trạng thái — giai đoạn 4C
+- `race-logic.js` chỉ giữ khai báo cuối cùng đang có hiệu lực cho `getInputNames()`, `summon()`, `setSettingsLocked()`, `syncButtons()`, `startRace()`, `togglePause()`, `resumeRace()`, `finishRace()`, `resetGame()`, `leaderOf()` và `stopRace()`; các bản cũ bị ghi đè đã được loại bỏ.
+- Giữ nguyên `updateRace()`, `processFinish()`, `assignFinishTimes()`, `frame()`, `updateRanking()`, hàng đợi thông báo về đích/người dẫn đầu và logic khóa/mở khóa thiết lập.
+- Giữ nguyên các wrapper nghi thức lưu renderer gốc: `summonOriginalDrawRacer`, `summonOriginalDrawRacerName`, `summonBaseDrawSpectator`; không thay đổi hiệu ứng hiện thân, tư thế chưởng môn/khán đài hoặc hiệu ứng triệu hồi theo đợt.
+- `journey-world.js` vẫn được nạp sau `race-logic.js`; lớp chuyển cảnh tiếp tục đọc tiến độ thực tế và bọc renderer theo đúng thứ tự hiện hành.
+- Không thay đổi công thức tốc độ, tiến độ, thời gian về đích, xác suất sự kiện, thời lượng đếm ngược, thứ hạng hoặc nhịp nghi thức. Cache `race-logic.js` tăng lên `v199`.
