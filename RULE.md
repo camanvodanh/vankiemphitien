@@ -218,3 +218,6 @@
 
 
 57. Nút trường kiếm khi bảng Triệu Hồi thu nhỏ phải nằm ở góc phải-bên trong của chính vùng game, neo theo hình học layout của Canvas và không trôi sang các panel bên cạnh hoặc ra ngoài game. Khi bảng Triệu Hồi mở, biểu tượng trường kiếm trong pháp trận được đưa vào nút khai trận ở tâm pháp luân bên trong bảng. Phải giữ nguyên hai vòng xoay, giá trị/thời lượng, trình chỉnh sửa, nút xoay và toàn bộ thông số/cơ chế triệu hồi; chỉ thay diện mạo nút trung tâm, không thay đổi logic.
+
+
+58. HUD đếm ngược trên Canvas chỉ hiển thị giá trị thời gian, không có nhãn “THỜI GIAN”; khung phải gọn nhưng đủ rộng cho chuỗi thời gian ở mọi kích thước Canvas. Khi bảng Triệu Hồi thu nhỏ, nút trường kiếm nằm ở góc phải-phía trên bên trong Canvas, có kích thước xấp xỉ chiều cao khung đếm ngược và phải bám theo góc Canvas khi resize/xoay màn hình. Trong quần thể tiên môn, giữ nguyên bố cục các hàng và mọi tòa nhà; chỉ Bách Thảo Các và Ngoại Vụ Điện được dịch khỏi vùng cổng đích nếu bị cổng che. Không thay đổi các vị trí kiến trúc khác hoặc gameplay.
