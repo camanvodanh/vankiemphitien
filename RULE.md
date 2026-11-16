@@ -321,3 +321,13 @@
 - `race-logic.js`: chỉ tạo một danh sách thời lượng từ `summoning.durationOptions`, dùng chung cho hai select; bỏ mảng mặc định bị khai báo lặp.
 - `journey-world.js`: dùng trực tiếp các giá trị bắt buộc trong `effects.balance` đã được nạp từ JSON, bỏ các số dự phòng trùng với cấu hình `.05`, `.5`, `.35/.4/.25`, `.75/1.25` và khoảng thời lượng `[2,5]`.
 - Tăng cache version cho các JavaScript thay đổi. Không đổi giá trị cấu hình đang hoạt động, xác suất, tốc độ, thời lượng, thứ hạng, hiệu ứng hoặc hình ảnh.
+
+
+## 75. Rà soát tài nguyên tĩnh — giai đoạn 4G
+- Đối chiếu toàn bộ Git tree với `index.html`, `data-loader.js`, các JavaScript đang nạp và CSS. Tài nguyên nhị phân hiện có: sprite sheet Thần Sầu PNG (2,923,455 bytes) và nhạc mở đầu MP3 (1,694,112 bytes).
+- Cả hai tài nguyên đều đang được tham chiếu thật: sprite sheet được renderer Thần Sầu dùng; MP3 được `music.js` dùng cho giai đoạn chuẩn bị. Không xóa, đổi tên, nén lại hoặc thay thế chúng trong đợt này để tránh thay đổi hình ảnh/âm thanh.
+- Chuyển tải sprite sheet Thần Sầu sang lazy-load: chỉ yêu cầu PNG khi renderer gặp nhân vật có `isLegendaryThanSau`. Trước khi tải xong, renderer tiếp tục dùng nhân vật dự phòng hiện có; sau khi tải xong, sprite 5×2 và 10 frame hoạt động như trước. Người chơi không triệu hồi Thần Sầu sẽ không tải PNG gần 2.9 MB.
+- `music.js` chỉ khởi tạo Audio khi có tương tác người dùng; giữ nguyên ba URL nhạc và cách phát hiện tại. Track setup dùng MP3 local; track race/award vẫn lấy từ URL bên ngoài.
+- Xác nhận `script.js` là bản game cũ không được `index.html`, `data-loader.js`, CSS hay bất kỳ tệp đang tải nào tham chiếu. Xóa bản JS cũ này khỏi repository. Việc này giảm dung lượng lưu trữ repo, không làm giảm thêm request của trang vì file vốn không được tải.
+- Giữ `assets/characters/than-sau/frames/.gitkeep`: đây là placeholder của thư mục frame riêng theo quy ước asset, không phải ảnh được tải.
+- Không có PNG/JPG/WebP/GIF/MP4/WAV/OGG hoặc font local nào khác trong Git tree. CSS chỉ import Google Fonts từ xa. Tăng cache version cho `visual-overrides.js`.
