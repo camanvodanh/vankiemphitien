@@ -14,9 +14,9 @@ Lưu 3 file MP3 của game trong thư mục này. Giữ đúng tên file để k
 3. Tải lên đúng ba file `setup.mp3`, `race.mp3`, `award.mp3`.
 4. Commit lên nhánh `main`.
 
-**Lưu ý:** Dùng chữ thường, không dấu, không khoảng trắng; định dạng MP3. Đường dẫn sau khi tải lên sẽ là:
+**Lưu ý:** Dùng chữ thường, không dấu, không khoảng trắng; định dạng MP3. `setup.mp3` hiện được game dùng làm nhạc mở đầu. `race.mp3` và `award.mp3` vẫn chưa được chuyển sang nguồn local. Đường dẫn các file là:
 - `assets/music/setup.mp3`
 - `assets/music/race.mp3`
 - `assets/music/award.mp3`
 
-Hiện tại `music.js` vẫn phát nhạc từ URL bên ngoài. Việc tạo thư mục và tải MP3 lên chưa tự chuyển nguồn phát; cần cập nhật `music.js` sau khi đã có đủ file.
+`music.js` phát nhạc mở đầu từ `assets/music/setup.mp3`; hai giai đoạn đua và vinh danh vẫn dùng URL bên ngoài cho đến khi tải lên đủ file tương ứng và cập nhật nguồn phát.
