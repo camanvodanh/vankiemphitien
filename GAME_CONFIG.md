@@ -428,3 +428,10 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Nút được định vị theo góc phải-dưới của chính Canvas trường đua bằng kích thước/vị trí Canvas thực tế; không neo theo toàn bộ arena, không phủ sang Thiên Lý Kính, Tiên Bảng hoặc hàng điều khiển.
 - Khi đổi kích thước viewport, xoay màn hình hoặc thay đổi kích thước Canvas, vị trí nút được cập nhật để luôn bám góc Canvas. Nhấn nút mở lại bảng Triệu Hồi.
 - Dấu “−” trên tiêu đề và nút khai trận có id summon trong pháp luân không thay đổi; không tác động gameplay.
+
+
+## 41. Trường kiếm trong tâm pháp luân và nút mở lại ở góc phải vùng game
+
+- Khi bảng Triệu Hồi thu nhỏ, nút trường kiếm-pháp trận neo cố định tại góc phải-bên trong Canvas, sử dụng tọa độ layout thực tế của Canvas trong arena để không lệch sang Thiên Lý Kính/Tiên Bảng hoặc ra ngoài vùng game.
+- Khi bảng Triệu Hồi mở, dùng cùng thiết kế trường kiếm-pháp trận cho nút khai trận ở chính tâm pháp luân bên trong bảng.
+- Giữ nguyên vòng ngoài chọn số tiên nhân, vòng trong chọn thời lượng, hai ô hiển thị/chỉnh sửa thông số, thao tác kéo/xoay, nút xoay màn hình và logic triệu hồi. Chỉ thay SVG và diện mạo nút tâm.
