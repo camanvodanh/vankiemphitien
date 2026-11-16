@@ -9870,3 +9870,40 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
 .arena-frame>.game-camera>.camera-info>.camera-top-info>#leaderSpeed .camera-speed-time{
   margin-left:2px!important;
 }
+
+/* REVISION 157 — Cố định và đồng hàng tiêu đề Thiên Lý Kính / Tiên Bảng. */
+.arena-frame>.game-camera{
+  justify-content:flex-start!important;
+  align-self:start!important;
+}
+.arena-frame>.game-camera>.camera-heading,
+.arena-frame>.game-ranking>.ranking-heading{
+  box-sizing:border-box!important;
+  display:flex!important;
+  flex:0 0 34px!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  width:100%!important;
+  height:34px!important;
+  min-height:34px!important;
+  max-height:34px!important;
+  margin:0 0 5px!important;
+  padding:0 2px 5px!important;
+  border-bottom:1px solid rgba(198,161,92,.42)!important;
+  position:sticky!important;
+  top:0!important;
+  z-index:6!important;
+}
+.arena-frame>.game-camera>.camera-heading>.camera-title,
+.arena-frame>.game-ranking>.ranking-heading h3{
+  display:flex!important;
+  align-items:center!important;
+  min-width:0!important;
+  margin:0!important;
+  line-height:1.15!important;
+}
+.arena-frame>.game-camera>.camera-heading>.window-minimize,
+.arena-frame>.game-ranking>.ranking-heading>.window-minimize{
+  flex:0 0 auto!important;
+  align-self:center!important;
+}
