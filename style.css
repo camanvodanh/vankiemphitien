@@ -9468,3 +9468,45 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   .arena-frame>.game-camera #leaderSpeed .camera-speed-down,
   .arena-frame>.game-camera #leaderSpeed .camera-speed-neutral{font-size:9px!important;}
 }
+
+
+/* REVISION 148 — Hạng trái, tốc độ/giây phải; khung hình Thiên Lý Kính khép sát canvas. */
+.arena-frame>.game-camera>.camera-info>.camera-top-info{
+  display:flex!important;flex:0 0 auto!important;flex-flow:row nowrap!important;
+  align-items:center!important;justify-content:space-between!important;
+  gap:8px!important;width:100%!important;min-width:0!important;
+  margin:0!important;padding:0!important;
+}
+.arena-frame>.game-camera>.camera-info>.camera-top-info>.camera-rank-slot{
+  display:flex!important;flex:1 1 auto!important;align-items:center!important;
+  justify-content:flex-start!important;width:auto!important;min-width:0!important;
+  max-width:calc(100% - 76px)!important;margin:0!important;padding:0!important;
+  text-align:left!important;
+}
+.arena-frame>.game-camera>.camera-info>.camera-top-info>#leaderProgress{
+  display:inline-flex!important;flex:0 1 auto!important;align-items:center!important;
+  justify-content:flex-start!important;width:auto!important;max-width:100%!important;
+  margin:0!important;padding:1px 5px!important;text-align:left!important;
+  white-space:nowrap!important;
+}
+.arena-frame>.game-camera>.camera-info>.camera-top-info>#leaderSpeed{
+  display:inline-flex!important;flex:0 0 auto!important;align-items:center!important;
+  justify-content:flex-end!important;width:auto!important;max-width:55%!important;
+  min-width:0!important;margin:0!important;padding:0!important;
+  text-align:right!important;white-space:nowrap!important;
+}
+.arena-frame>.game-camera>.camera-info>.camera-top-info>#leaderSpeed:empty{display:none!important;}
+.arena-frame>.game-camera>.camera-screen{
+  display:flex!important;flex:1 1 0!important;align-items:stretch!important;
+  justify-content:stretch!important;min-width:0!important;min-height:0!important;
+  width:100%!important;height:auto!important;aspect-ratio:auto!important;
+  margin:0!important;padding:0!important;overflow:hidden!important;
+  box-sizing:border-box!important;border:1px solid rgba(214,184,119,.72)!important;
+  border-radius:5px!important;background:#091d1d!important;
+}
+.arena-frame>.game-camera>.camera-screen>#leaderCanvas{
+  display:block!important;flex:1 1 auto!important;align-self:stretch!important;
+  width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;
+  max-width:100%!important;max-height:100%!important;
+  margin:0!important;padding:0!important;object-fit:fill!important;
+}
