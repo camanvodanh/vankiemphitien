@@ -1178,15 +1178,15 @@ function syncButtons(){
     const arena=document.querySelector(".arena-frame");
     function placeSummonLauncher(){
       if(!launcher||!gameCanvas||!arena)return;
-      const size=Math.max(48,Math.min(62,Math.min(window.innerWidth,window.innerHeight)*.072));
-      let x=gameCanvas.offsetLeft+gameCanvas.clientWidth-size-8;
-      let y=gameCanvas.offsetTop+gameCanvas.clientHeight-size-8;
+      const size=42;
+      let x=gameCanvas.offsetLeft+gameCanvas.clientWidth-size-10;
+      let y=gameCanvas.offsetTop+7;
       if(gameCanvas.offsetParent!==arena){
         const cr=gameCanvas.getBoundingClientRect(),ar=arena.getBoundingClientRect();
         const sx=arena.offsetWidth/(ar.width||arena.offsetWidth||1);
         const sy=arena.offsetHeight/(ar.height||arena.offsetHeight||1);
-        x=(cr.right-ar.left)*sx-size-8;
-        y=(cr.bottom-ar.top)*sy-size-8;
+        x=(cr.right-ar.left)*sx-size-10;
+        y=(cr.top-ar.top)*sy+7;
       }
       launcher.style.position="absolute";
       launcher.style.width=size+"px";
