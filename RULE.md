@@ -238,3 +238,6 @@
 ## 61. Mặt trời và nhãn tên cảnh giới trên trường đua
 - Mặt trời của cảnh chính đặt lệch trái khỏi cụm lầu các bên phải và cao hơn đường mái; giữ quầng sáng vừa phải, không để kiến trúc che phần tâm mặt trời.
 - Bảng tên cảnh giới xuất hiện dưới HUD thông báo, tại vùng trống giữa thông báo và làn đua đầu tiên. Thu gọn chiều cao bảng và cỡ chữ; không chồng lên đồng hồ đếm ngược hoặc thông báo sự kiện.
+
+
+62. Footer chỉ giữ phần ghi nhận tác giả; không hiển thị chú thích/attribution nhạc ở cuối trang. Các nút `.window-minimize` của Thiên Lý Kính và Tiên Bảng phải hiển thị `−` khi panel mở, chuyển thành `+` khi panel thu nhỏ; khi mở lại phải đổi về `−`. Đồng bộ `textContent`, `aria-expanded`, `aria-label` và `title` theo cùng trạng thái.
