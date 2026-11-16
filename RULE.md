@@ -247,3 +247,6 @@
 
 
 64. Tiên Bảng phải tự co chiều cao theo nội dung thực tế: tiêu đề + tối đa 10 hàng dữ liệu, không khóa chiều cao toàn panel 290px và không để khoảng trống lớn sau hạng 10. Vùng table-wrap chỉ có max-height 209px và cuộn dọc khi vượt quá 10 hàng; bảng không được ép min-height/height bằng vùng trống. Panel Thiên Lý Kính không bị kéo giãn theo chiều cao dư của Tiên Bảng.
+
+
+65. Thiên Lý Kính là panel chuẩn kích thước: chiều cao dùng biến responsive chung, giới hạn theo viewport để vẫn đủ vùng thông tin và khung hình. Tiên Bảng phải dùng đúng cùng chiều cao đó; khi thay đổi chiều cao panel chuẩn thì cả hai cập nhật đồng bộ. Tiên Bảng cuộn toàn bộ thứ hạng bên trong, không làm panel cao thêm theo số hàng. Thiên Lý Kính luôn hiển thị tốc độ hệ số; khi có hiệu ứng tốc độ phải hiển thị cả thời gian còn lại tính bằng giây. Tăng tốc dùng màu xanh lá cho cả hệ số và giây, giảm tốc dùng màu đỏ; tốc độ bình thường dùng màu trung tính.
