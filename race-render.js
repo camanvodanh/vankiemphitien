@@ -319,16 +319,6 @@ function drawRacers(time) {
 // HẠT SÁNG VÀ SỰ KIỆN
 // =====================================================
 
-const eventMessages = [
-  "Linh Khí Bùng Nổ",
-  "Tiên Kiếm Gia Tốc",
-  "Thiên Địa Dị Tượng",
-  "Kiếm Quang Hộ Thể",
-  "Tiên Khí Hội Tụ",
-  "Phong Vân Biến Động",
-  "Kiếm Ý Tăng Vọt"
-];
-
 // Ngân sách hạt thích ứng theo số tiên nhân để tránh bùng nổ draw calls.
 function getParticleBudget(){
   return racers.length>=70?180:racers.length>=40?280:480;
