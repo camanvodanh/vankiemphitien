@@ -876,10 +876,12 @@ function drawCamera(time){
    : "";
   const multiplier=Number(racer.speedMultiplier||1);
   const hasSpeedEffect=racer.effectTimer>0&&Math.abs(multiplier-1)>.001;
-  const speedClass=multiplier>=1?"camera-speed-up":"camera-speed-down";
-  const speedText=hasSpeedEffect
-   ? '<small class="'+speedClass+'">× '+multiplier.toFixed(1)+' <span class="camera-speed-time">'+Math.max(0,racer.effectTimer).toFixed(1)+'s</span></small>'
+  const speedClass=multiplier>1.001?"camera-speed-up":multiplier<.999?"camera-speed-down":"camera-speed-neutral";
+  const speedValue="× "+multiplier.toFixed(1);
+  const speedTime=hasSpeedEffect
+   ? ' <span class="camera-speed-time">· '+Math.max(0,racer.effectTimer).toFixed(1)+'s</span>'
    : "";
+  const speedText='<small class="'+speedClass+'">'+speedValue+speedTime+'</small>';
   $("leaderProgress").innerHTML='Hạng '+rank+' '+rankArrow;
   $("leaderSpeed").innerHTML=speedText;
 }
