@@ -38,45 +38,42 @@ function initStars() {
 
 function drawSky(time) {
   const g = ctx.createLinearGradient(0, 0, 0, H);
-
   VKP_DATA.scenery.sky.gradient.forEach(([stop,color])=>g.addColorStop(stop,color));
-
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, W, H);
 
   stars.forEach(s => {
-    const twinkle =
-      .7 + Math.sin(time * .0015 + s.phase) * .3;
-
+    const twinkle = .7 + Math.sin(time * .0015 + s.phase) * .3;
     ctx.globalAlpha = s.alpha * twinkle;
     ctx.fillStyle = "#fff3c6";
     ctx.fillRect(s.x, s.y, s.size, s.size);
   });
-
   ctx.globalAlpha = 1;
 
-  const sun = ctx.createRadialGradient(
-    VKP_DATA.scenery.sky.sun.x, VKP_DATA.scenery.sky.sun.y, VKP_DATA.scenery.sky.sun.innerRadius, VKP_DATA.scenery.sky.sun.x, VKP_DATA.scenery.sky.sun.y, VKP_DATA.scenery.sky.sun.outerRadius
+  // Tâm quầng sáng và các tia nắng luôn lấy chung tọa độ từ cấu hình mặt trời.
+  const sunConfig = VKP_DATA.scenery.sky.sun;
+  const sunGradient = ctx.createRadialGradient(
+    sunConfig.x, sunConfig.y, sunConfig.innerRadius,
+    sunConfig.x, sunConfig.y, sunConfig.outerRadius
   );
-
-  VKP_DATA.scenery.sky.sun.stops.forEach(([stop,color])=>sun.addColorStop(stop,color));
-
-  ctx.fillStyle = sun;
-  ctx.fillRect(...VKP_DATA.scenery.sky.sun.rect);
+  sunConfig.stops.forEach(([stop,color])=>sunGradient.addColorStop(stop,color));
+  ctx.fillStyle = sunGradient;
+  ctx.fillRect(...sunConfig.rect);
 
   ctx.save();
   ctx.globalAlpha = .1;
   ctx.fillStyle = "#fff3c3";
-
+  const rayX = sunConfig.x;
+  const rayY = sunConfig.y + 10;
   for (let i = 0; i < 5; i++) {
+    const left = rayX - 185 + i * 82;
     ctx.beginPath();
-    ctx.moveTo(835, 90);
-    ctx.lineTo(650 + i * 100, 400);
-    ctx.lineTo(710 + i * 100, 400);
+    ctx.moveTo(rayX, rayY);
+    ctx.lineTo(left, 400);
+    ctx.lineTo(left + 62, 400);
     ctx.closePath();
     ctx.fill();
   }
-
   ctx.restore();
 }
 
