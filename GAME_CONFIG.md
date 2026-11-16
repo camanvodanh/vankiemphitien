@@ -536,3 +536,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Nghi thức TOP 3 vẫn sử dụng cùng các giai đoạn và helper: `drawAwardPlazaBackdropV2()`, `drawCeremonyBackdrop()`, `drawCeremonySeatedMaster()`, `drawStandingSectMaster()`, `drawAwardMaster()`, `drawGrandAwardPedestalV2()`, `drawCeremonyRankGift()`, `drawThanSauGiftReach()`, `drawThanSauGiftReception()` và `drawRecipientCelebrationGiftV2()`.
 - `drawRaceHud()` cuối cùng hiển thị đồng hồ còn lại; `drawAnnouncement()` cuối cùng hiển thị thông báo sự kiện/kết thúc. Không khôi phục các bản HUD cũ đã bị ghi đè.
 - Không thay đổi thông số hoặc hình ảnh của các renderer cuối cùng; đây là cleanup khai báo trùng.
+
+
+## 57. Điều khiển cuộc đua và trạng thái — giai đoạn 4C
+- `updateRace()` là vòng cập nhật duy nhất; xử lý hiệu ứng, dao động tốc độ, vượt hạng, thời điểm cắt đích và gọi `finishRace()` khi toàn bộ racer hoàn tất hoặc chạm giới hạn thời lượng.
+- Các hàm điều khiển chỉ giữ bản cuối cùng: `summon()`, `startRace()`, `togglePause()`, `resumeRace()`, `finishRace()`, `resetGame()`, `stopRace()`, `setSettingsLocked()`, `syncButtons()` và `leaderOf()`.
+- `finishRace()` cuối cùng chuyển nhạc sang pha trao thưởng, đặt `ceremonyStartedAt`, chốt trạng thái racer, khóa hiệu ứng thi đấu, cập nhật Tiên Bảng và mở nghi thức TOP 3. Không thay thế bằng bản `finishRace()` cũ không có nghi thức.
+- Giữ các bộ hẹn giờ/chu kỳ triệu hồi, `completeSummonReveal()`, `summonCycleId`, hàng đợi thông báo và wrapper renderer lưu bản gốc để không làm mất hiệu ứng hiện thân hoặc pose khán đài.
+- Thứ tự loader vẫn là `race-logic.js` trước `journey-world.js`; không đổi cách chuyển cảnh theo tiến độ.
