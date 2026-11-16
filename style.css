@@ -9244,3 +9244,36 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
   line-height:1.12!important;transform:none!important;
 }
+
+
+/* REVISION 142 — Tiên Bảng hiển thị đúng chiều cao 10 hàng rồi cuộn toàn bộ thứ hạng; hai khung phụ đồng chiều cao. */
+.arena-frame>.game-camera,
+.arena-frame>.game-ranking{
+  box-sizing:border-box!important;min-width:0!important;min-height:0!important;
+  height:100%!important;max-height:100%!important;align-self:stretch!important;
+}
+.arena-frame>.game-ranking>.table-wrap{
+  flex:0 1 auto!important;height:auto!important;min-height:0!important;
+  max-height:calc(10 * (1.15em + 8px) + 1.15em + 8px)!important;
+  overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior:contain!important;scrollbar-gutter:stable;
+}
+.arena-frame>.game-ranking table{height:auto!important;table-layout:fixed!important;}
+.arena-frame>.game-camera .camera-secondary-info{
+  display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+  width:100%!important;min-width:0!important;text-align:center!important;
+}
+.arena-frame>.game-camera .camera-secondary-info #leaderEffect{
+  display:block!important;position:static!important;width:100%!important;max-width:100%!important;min-width:0!important;
+  margin:0 auto!important;padding:0!important;text-indent:0!important;text-align:center!important;text-align-last:center!important;
+  white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;transform:none!important;align-self:center!important;
+}
+@media screen and (orientation:portrait){
+  .arena-frame>.game-camera,.arena-frame>.game-ranking{
+    height:clamp(300px,78vw,440px)!important;min-height:300px!important;max-height:440px!important;
+  }
+  .arena-frame>.game-ranking>.table-wrap{max-height:calc(10 * (1.15em + 8px) + 1.15em + 8px)!important;}
+}
+@media screen and (orientation:landscape) and (min-width:600px){
+  .arena-frame>.game-camera,.arena-frame>.game-ranking{height:100%!important;max-height:100%!important;}
+  .arena-frame>.game-ranking>.table-wrap{max-height:calc(10 * (1.15em + 8px) + 1.15em + 8px)!important;}
+}
