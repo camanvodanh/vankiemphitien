@@ -382,3 +382,9 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Renderer nhận diện hành động ăn bún bằng cờ nhân vật Thần Sầu và thanSauEatingTimer, không phụ thuộc so sánh chuỗi effectName.
 - Mọi nhánh Du Long Bộ loại trừ nhân vật Thần Sầu để không thể biến tuyệt chiêu riêng thành hiệu ứng rồng khi tên hiệu ứng bị thay đổi/dịch.
 - Tô bún, động tác đưa tô lên miệng, dòng bún/nước dùng và hơi nóng vẫn hiển thị trong thời gian ăn; hiệu ứng boost gameplay giữ nguyên ×1.20 trong 3.5 giây, cooldown 11.5 giây.
+
+## 35. Nguồn nhạc mở đầu local
+
+- Phase `setup` dùng file `assets/music/setup.mp3` (tên hiển thị: Tĩnh Tâm Tu Luyện).
+- Phase `race` tiếp tục dùng `imperial-china-cinematic.mp3`; phase `award` tiếp tục dùng `the-victory-of-heroes.mp3` từ nguồn hiện tại.
+- Chỉ đổi nguồn phát khi file tương ứng đã tồn tại trong repository. Giữ nguyên cơ chế unlock theo thao tác người dùng, loop, fade chuyển bài, nút bật/tắt và lưu lựa chọn.
