@@ -9115,7 +9115,7 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   cursor:pointer!important;touch-action:manipulation!important;
   -webkit-tap-highlight-color:transparent;
 }
-.arena-frame>.game-setup.is-minimized .summon-mini-array{
+.arena-frame>.game-setup.is-minimized .summon-mini-sword{
   display:block!important;width:100%!important;height:100%!important;
   overflow:visible!important;filter:drop-shadow(0 0 3px rgba(172,238,205,.5));
   animation:summonMiniSealBreath 3.8s ease-in-out infinite;
@@ -9137,5 +9137,16 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   50%{opacity:1;filter:drop-shadow(0 0 5px rgba(172,238,205,.78));}
 }
 @media (prefers-reduced-motion:reduce){
-  .arena-frame>.game-setup.is-minimized .summon-mini-array{animation:none!important;}
+  .arena-frame>.game-setup.is-minimized .summon-mini-sword{animation:none!important;}
+}
+
+
+/* REVISION 134 — biểu tượng kiếm dài, có lưỡi, hộ thủ và chuôi rõ nét trong nút thu nhỏ. */
+.arena-frame>.game-setup.is-minimized .summon-mini-sword{
+  display:block!important;width:100%!important;height:100%!important;
+  overflow:visible!important;filter:drop-shadow(0 0 3px rgba(172,238,205,.55));
+  animation:summonMiniSealBreath 3.8s ease-in-out infinite;
+}
+@media (prefers-reduced-motion:reduce){
+  .arena-frame>.game-setup.is-minimized .summon-mini-sword{animation:none!important;}
 }
