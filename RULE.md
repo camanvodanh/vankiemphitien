@@ -336,10 +336,17 @@
 ## 76. Tỷ lệ Thiên Lý Kính và tên cảnh trong thông báo
 - Canvas Thiên Lý Kính có kích thước nội tại 420×240, vì vậy vùng hiển thị phải giữ tỷ lệ 7:4 trên mọi bố cục.
 - Khung `.camera-screen` không được flex-grow để lấp chiều cao dư của panel; Canvas dùng chiều cao tự động theo chiều rộng, không dùng `height:100%` hoặc `object-fit:fill`.
-- Thông báo sự kiện và về đích trên trường đua luôn có tiền tố tên cảnh giới hiện hành; tên cảnh lấy từ cấu hình `data/scenery.json` và tiến độ chuyển cảnh, không thay đổi nội dung sự kiện hay gameplay.
+- Thông báo sự kiện và về đích thông thường không tự thêm tên cảnh giới. Tên cảnh chỉ xuất hiện trong thông báo riêng khi nhân vật đầu tiên vượt qua khe nứt tương ứng.
 
 
 ## 77. Cố định chiều cao Thiên Lý Kính theo nội dung
 - Thiên Lý Kính không dùng chiều cao cố định bằng Tiên Bảng; panel tự ôm tiêu đề, thông tin và khung hình.
 - `.camera-screen` và `#leaderCanvas` giữ tỷ lệ 7:4 theo kích thước nội tại 420×240. Khung hình không flex-grow để lấp chiều cao dư; phần nền trống dưới ảnh được loại bỏ.
 - Panel vẫn giữ vị trí neo hiện tại trong arena; không thay đổi renderer nhân vật, cách chọn người dẫn đầu hoặc nội dung HUD.
+
+
+## 78. Đồng bộ Tiên Bảng và thông báo vượt cảnh
+- Tiên Bảng kéo giãn theo chiều cao thực tế của Thiên Lý Kính trong cùng hàng arena; không tự quyết định chiều cao hàng bằng nội dung dài.
+- Vùng danh sách xếp hạng hiển thị tối đa 10 hàng (cùng hàng tiêu đề); hạng từ 11 trở đi cuộn bên trong, không làm panel hoặc arena cao thêm.
+- Thông báo thông thường và thông báo về đích chỉ hiển thị nội dung gốc, không ghép tên cảnh giới.
+- Mỗi khe nứt chỉ phát một thông báo tên cảnh khi nhân vật đầu tiên thực sự vượt qua; các nhân vật sau vẫn nhận hiệu ứng cổng riêng nhưng không spam thông báo lặp.
