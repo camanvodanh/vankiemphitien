@@ -598,3 +598,9 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - `drawAnnouncement()` không tự thêm tiền tố cảnh giới vào các thông báo sự kiện/kết thúc khác.
 
 - `journey-world.js` dùng `ResizeObserver` để cập nhật chiều cao Tiên Bảng theo đúng chiều cao thực tế của Thiên Lý Kính; danh sách xếp hạng không điều khiển chiều cao panel.
+
+
+## 65. Tiên Bảng làm chuẩn chiều cao, Thiên Lý Kính căn giữa
+- Tiên Bảng có vùng hiển thị cố định đủ hàng tiêu đề và 10 vị trí đầu; hạng 11 trở đi cuộn trong `.table-wrap`. Vùng này luôn giữ chiều cao dành cho 10 vị trí, không co theo số lượng người tham gia.
+- Chiều cao tổng thể Tiên Bảng là nguồn chuẩn. `journey-world.js` quan sát panel này bằng `ResizeObserver` và đồng bộ chiều cao Thiên Lý Kính theo đúng kích thước thực tế.
+- Nội dung Thiên Lý Kính (tiêu đề, thông tin và canvas) căn giữa theo chiều dọc; Canvas vẫn giữ tỷ lệ 7:4 và không bị kéo méo.
