@@ -454,3 +454,9 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 
 - Hàm cập nhật Tiên Bảng chỉ dựng tối đa 10 phần tử đầu sau khi sắp xếp; các vị trí từ 11 trở đi không được hiển thị thành hàng bổ sung. Vùng bảng giới hạn chiều cao tối đa 340px hoặc 58vh (lấy mức nhỏ hơn), cuộn dọc bên trong khi cần.
 - Hai dòng thiên phú và hiệu ứng trong Thiên Lý Kính cùng nằm trên trục giữa. Riêng `#leaderEffect` phải không có padding lệch, text-indent hay transform; căn giữa cả flex item và nội dung chữ.
+
+
+## 45. Chiều cao Tiên Bảng, cuộn toàn bộ thứ hạng và Thiên Lý Kính
+- Không giới hạn số phần tử trong updateRanking(); Tiên Bảng giữ toàn bộ thứ hạng. Vùng hiển thị giới hạn chiều cao xấp xỉ tiêu đề cộng 10 hàng, sau đó cuộn dọc bên trong.
+- Thiên Lý Kính và Tiên Bảng dùng cùng chiều cao panel trên bố cục dọc và ngang; trên điện thoại dọc chiều cao panel dùng clamp(300px, 78vw, 440px).
+- Dòng tên hiệu ứng trong Thiên Lý Kính được căn giữa qua style nội tuyến đồng bộ và selector CSS có độ ưu tiên cao; tên dài được ellipsis, không tràn khung.
