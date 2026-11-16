@@ -583,3 +583,9 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 ## 62. Tỷ lệ Thiên Lý Kính và tên cảnh trong thông báo
 - `#leaderCanvas` có kích thước nội tại 420×240; `.camera-screen` và canvas phải giữ tỷ lệ 7:4. Khung camera không kéo giãn canvas theo chiều cao panel, không dùng flex-grow để ép chiều cao và không dùng `object-fit:fill`.
 - Renderer thông báo lấy tên cảnh giới hiện hành từ `window.__vkGetCurrentRealmName()` (được cung cấp bởi `journey-world.js`) rồi ghép trước nội dung thông báo. Danh sách tên và mốc cảnh vẫn lấy từ `data/scenery.json`.
+
+
+## 63. Cố định khung Thiên Lý Kính theo tỷ lệ gốc
+- Panel Thiên Lý Kính tự co theo nội dung thực tế thay vì dùng chung chiều cao cố định với Tiên Bảng.
+- Canvas 420×240 và vùng hiển thị giữ tỷ lệ 7:4; không kéo dãn theo chiều cao panel và không tạo khoảng trống dư phía dưới.
+- Tên cảnh giới được ghép vào đầu thông báo sự kiện/kết thúc thông qua window.__vkGetCurrentRealmName(); nguồn tên và mốc chuyển cảnh vẫn là data/scenery.json.
