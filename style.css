@@ -9363,3 +9363,35 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   min-width:var(--summon-launcher-size,52px)!important;
   min-height:var(--summon-launcher-size,52px)!important;
 }
+
+
+/* REVISION 146 — Tiên Bảng tự ôm sát tiêu đề và tối đa 10 hàng, bỏ vùng trống dưới hạng 10. */
+.arena-frame>.game-ranking{
+  box-sizing:border-box!important;
+  display:flex!important;flex-direction:column!important;
+  height:fit-content!important;
+  min-height:0!important;max-height:none!important;
+  align-self:start!important;
+}
+.arena-frame>.game-ranking>.ranking-heading{flex:0 0 auto!important;}
+.arena-frame>.game-ranking>.table-wrap{
+  display:block!important;flex:0 1 auto!important;
+  height:auto!important;min-height:0!important;max-height:209px!important;
+  overflow-x:hidden!important;overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+}
+.arena-frame>.game-ranking table{
+  height:auto!important;min-height:0!important;
+  margin:0!important;border-spacing:0!important;
+}
+.arena-frame>.game-ranking table thead,
+.arena-frame>.game-ranking table tbody{height:auto!important;min-height:0!important;}
+.arena-frame>.game-ranking table th,
+.arena-frame>.game-ranking table td{
+  height:19px!important;min-height:0!important;
+  padding:3px 4px!important;line-height:11px!important;
+}
+.arena-frame>.game-camera{
+  height:auto!important;min-height:0!important;max-height:none!important;
+  align-self:start!important;
+}
