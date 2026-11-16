@@ -9510,3 +9510,17 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   max-width:100%!important;max-height:100%!important;
   margin:0!important;padding:0!important;object-fit:fill!important;
 }
+
+
+/* REVISION 149 — khóa tỷ lệ gốc Thiên Lý Kính, không kéo giãn theo chiều cao panel. */
+.arena-frame>.game-camera>.camera-screen{
+  display:block!important;flex:0 0 auto!important;align-self:stretch!important;
+  width:100%!important;height:auto!important;min-width:0!important;min-height:0!important;
+  max-height:none!important;aspect-ratio:7 / 4!important;overflow:hidden!important;
+}
+.arena-frame>.game-camera>.camera-screen>#leaderCanvas{
+  display:block!important;flex:none!important;align-self:auto!important;
+  width:100%!important;height:auto!important;min-width:0!important;min-height:0!important;
+  max-width:100%!important;max-height:none!important;aspect-ratio:7 / 4!important;
+  object-fit:contain!important;
+}
