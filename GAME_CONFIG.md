@@ -596,3 +596,5 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Chiều cao Tiên Bảng không được làm tăng chiều cao arena hoặc kéo giãn Canvas Thiên Lý Kính.
 - `journey-world.js` phát thông báo tên cảnh đúng một lần ở mỗi portal, khi nhân vật đầu tiên vượt qua. Hiệu ứng cổng vẫn áp dụng riêng cho từng nhân vật.
 - `drawAnnouncement()` không tự thêm tiền tố cảnh giới vào các thông báo sự kiện/kết thúc khác.
+
+- `journey-world.js` dùng `ResizeObserver` để cập nhật chiều cao Tiên Bảng theo đúng chiều cao thực tế của Thiên Lý Kính; danh sách xếp hạng không điều khiển chiều cao panel.
