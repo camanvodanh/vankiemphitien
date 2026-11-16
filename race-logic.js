@@ -1134,7 +1134,7 @@ function collapseSetupPanel(){
  const button=panel.querySelector(".window-minimize");
  if(button){
   button.textContent="−";
-  button.setAttribute("aria-expanded","true");
+  button.setAttribute("aria-expanded","false");
   button.setAttribute("aria-label","Mở rộng khởi tạo đại hội");
   button.title="Mở rộng";
  }
