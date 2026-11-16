@@ -462,3 +462,9 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 
 - `data/scenery.json` đặt tâm mặt trời tại x=730, y=68, quầng bán kính 140 và vùng phủ `[545,-92,370,330]`. Trong `scenery.js`, các tia nắng phải lấy đúng tâm x/y này làm điểm xuất phát, không dùng tọa độ cũ cố định.
 - `drawRealmArrivalTitle()` đặt tên cảnh giới tại tâm x=550, y=114 với bảng cao 28px, nằm dưới hàng thông báo (kết thúc ở y=97) và phía trên làn đua đầu tiên; không thay đổi vị trí HUD thời gian hay thông báo.
+
+
+## 47. Footer và ký hiệu thu nhỏ/mở rộng panel
+
+- Footer không hiển thị dòng chú thích nguồn nhạc; phần ghi nhận tác giả vẫn được giữ lại.
+- Thiên Lý Kính và Tiên Bảng: panel mở dùng nút `−`; panel thu nhỏ dùng nút `+`. Nhấn nút chuyển trạng thái và ký hiệu ngay lập tức; khi mở lại phải trở về `−`. Đồng bộ thuộc tính trợ năng theo trạng thái thực tế.
