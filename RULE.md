@@ -244,3 +244,6 @@
 
 
 63. Mở rộng vùng bay phải đồng bộ với chiều cao Canvas, giữ tỷ lệ hiển thị đúng theo kích thước nội tại và không kéo méo nhân vật. Khoảng bay dọc phải tăng nhưng vẫn chừa khoảng trống với nhãn khán đài; cổng đích kéo xuống theo đáy đường đua. Nút Triệu Hồi thu nhỏ dùng 52 đơn vị Canvas, quy đổi theo chiều cao Canvas thực tế và chừa khoảng an toàn bên phải để không che cổng đích. Tiên Bảng chỉ có vùng nhìn cao đúng tiêu đề + 10 hàng; danh sách còn lại cuộn bên trong. Thiên Lý Kính và Tiên Bảng dùng cùng chiều cao gọn 290px.
+
+
+64. Tiên Bảng phải tự co chiều cao theo nội dung thực tế: tiêu đề + tối đa 10 hàng dữ liệu, không khóa chiều cao toàn panel 290px và không để khoảng trống lớn sau hạng 10. Vùng table-wrap chỉ có max-height 209px và cuộn dọc khi vượt quá 10 hàng; bảng không được ép min-height/height bằng vùng trống. Panel Thiên Lý Kính không bị kéo giãn theo chiều cao dư của Tiên Bảng.
