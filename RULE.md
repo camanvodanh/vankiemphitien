@@ -250,3 +250,6 @@
 
 
 65. Thiên Lý Kính là panel chuẩn kích thước: chiều cao dùng biến responsive chung, giới hạn theo viewport để vẫn đủ vùng thông tin và khung hình. Tiên Bảng phải dùng đúng cùng chiều cao đó; khi thay đổi chiều cao panel chuẩn thì cả hai cập nhật đồng bộ. Tiên Bảng cuộn toàn bộ thứ hạng bên trong, không làm panel cao thêm theo số hàng. Thiên Lý Kính luôn hiển thị tốc độ hệ số; khi có hiệu ứng tốc độ phải hiển thị cả thời gian còn lại tính bằng giây. Tăng tốc dùng màu xanh lá cho cả hệ số và giây, giảm tốc dùng màu đỏ; tốc độ bình thường dùng màu trung tính.
+
+
+66. Nghi thức kết thúc: khi dựng cảnh nền quảng trường bằng `drawScenery()`, phải ẩn bản thể chưởng môn trong lớp khán đài trong toàn bộ giai đoạn rời ngai/chuẩn bị ngự kiếm; bản thể duy nhất được vẽ bởi `drawPodiumScene()`. Trong giai đoạn kiếm tiếp cận, không crossfade hai bản thể đứng và ngự kiếm chồng lên nhau. Chỉ chuyển sang `drawAwardMaster()` khi kiếm đã gần tới vị trí dưới chân; khi đó không vẽ thêm kiếm tiếp cận riêng vì sprite ngự kiếm đã chứa phi kiếm và đúng một Thái Cực Ngọc Luân. Giữ một chưởng môn và một vòng Thái Cực trong mọi frame; camera mini và Canvas chính không được làm thay đổi trạng thái ẩn/hiện toàn cục của lớp khán đài.
