@@ -10,9 +10,9 @@
  const scripts=[
   "core.js?v=race-phase1-v180",
   "scenery.js?v=race-phase1-v182",
-  "audience.js?v=race-phase1-v179",
+  "audience.js?v=race-phase1-v180",
   "race-render.js?v=race-phase1-v183",
-  "visual-overrides.js?v=race-phase1-v201",
+  "visual-overrides.js?v=race-phase1-v202",
   "music.js?v=race-phase1-v180",
   "race-logic.js?v=race-phase1-v198",
   "journey-world.js?v=journey-world-v15",
