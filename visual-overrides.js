@@ -7512,19 +7512,16 @@ function drawRaceHud() {
   const remaining=Math.max(0,duration-elapsed);
   const viewWidth=(typeof canvas!=="undefined"&&canvas.clientWidth)||W;
   const uiScale=clamp(1100/viewWidth,1,1.42);
-  const boxW=176,boxH=46,x=(W-boxW)/2,y=7;
+  const boxW=150,boxH=42,x=(W-boxW)/2,y=7;
   ctx.save();
   ctx.fillStyle="rgba(17,43,36,.94)";
   ctx.fillRect(x,y,boxW,boxH);
   ctx.strokeStyle="rgba(232,199,126,.95)";ctx.lineWidth=1.5;
   ctx.strokeRect(x+.75,y+.75,boxW-1.5,boxH-1.5);
   ctx.textAlign="center";ctx.textBaseline="middle";
-  ctx.fillStyle="#f0d79c";
-  ctx.font="700 "+(10.5*uiScale)+"px Arial, \"Noto Sans\", \"PingFang SC\", sans-serif";
-  ctx.fillText("THỜI GIAN",W/2,y+12,boxW-12);
   ctx.fillStyle="#fff4d1";ctx.shadowColor="rgba(255,224,153,.42)";ctx.shadowBlur=5;
-  ctx.font="700 "+(25*uiScale)+"px Arial, \"Noto Sans\", \"PingFang SC\", sans-serif";
-  ctx.fillText(timeText(remaining),W/2,y+33,boxW-12);
+  ctx.font="700 "+(22*uiScale)+"px Arial, \"Noto Sans\", \"PingFang SC\", sans-serif";
+  ctx.fillText(timeText(remaining),W/2,y+boxH/2,boxW-14);
   ctx.restore();
 }
 
@@ -7563,7 +7560,7 @@ function drawSectArchitecture(time){
     {x:330,y:190,s:.45,title:"TÀNG KINH CÁC",type:"scripture",accent:"#8c6043",phase:1.1},
     {x:550,y:190,s:.76,title:"LĂNG TIÊU CHÍNH ĐIỆN",type:"main",accent:"#9d4939",phase:2.2},
     {x:770,y:190,s:.45,title:"TÀNG BẢO CÁC",type:"treasure",accent:"#b68a43",phase:3.3},
-    {x:988,y:190,s:.43,title:"BÁCH THẢO CÁC",type:"herb",accent:"#648653",phase:4.4},
+    {x:870,y:190,s:.43,title:"BÁCH THẢO CÁC",type:"herb",accent:"#648653",phase:4.4},
 
     // Hàng trung cảnh: điện chuyên tu, cách nhau để mái không chồng lấn.
     {x:185,y:326,s:.48,title:"GIẢNG ĐẠO CÁC",type:"lecture",accent:"#577d83",phase:.7},
@@ -7576,7 +7573,7 @@ function drawSectArchitecture(time){
     {x:350,y:444,s:.37,title:"ĐỆ TỬ VIỆN",type:"academy",accent:"#66817a",phase:2.5},
     {x:550,y:444,s:.39,title:"TRẬN PHÁP CÁC",type:"array",accent:"#4f7b83",phase:3.6},
     {x:750,y:444,s:.37,title:"HỘ SƠN TRẬN CÁC",type:"guardian",accent:"#527e88",phase:4.7},
-    {x:955,y:444,s:.36,title:"NGOẠI VỤ ĐIỆN",type:"foreign",accent:"#916c48",phase:5.8}
+    {x:865,y:444,s:.36,title:"NGOẠI VỤ ĐIỆN",type:"foreign",accent:"#916c48",phase:5.8}
   ];
 
   buildings.forEach((b,index)=>{
