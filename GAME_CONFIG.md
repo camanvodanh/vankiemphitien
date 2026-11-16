@@ -485,3 +485,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Vùng .table-wrap có giới hạn tối đa 209px; danh sách dài hơn 10 hàng cuộn bên trong.
 - Không ép chiều cao tối thiểu cho table, thead, tbody; không để phần nền trống bên dưới hàng thứ 10.
 - Thiên Lý Kính không bị kéo giãn theo chiều cao dư của Tiên Bảng.
+
+
+## 50. Kích thước đồng bộ Thiên Lý Kính và Tiên Bảng; hiển thị tốc độ
+
+- Thiên Lý Kính là chuẩn chiều cao responsive dùng biến `--side-panel-height`, giới hạn trong khoảng 280–390px theo chiều cao viewport (điện thoại nhỏ tối đa 360px).
+- Tiên Bảng luôn dùng chính xác cùng chiều cao với Thiên Lý Kính; không tự co theo số hàng. Toàn bộ danh sách cuộn dọc bên trong phần nội dung, tiêu đề đứng yên.
+- Khung Thiên Lý Kính chia vùng thông tin và canvas theo chiều cao còn lại; không ép canvas tràn hoặc làm méo tỷ lệ.
+- Dòng Hạng luôn đi kèm hệ số tốc độ. Khi có hiệu ứng tăng/giảm tốc, hiển thị thêm thời gian còn lại dạng giây với một chữ số thập phân. Hệ số và thời gian cùng màu: tăng tốc xanh lá, giảm tốc đỏ; bình thường màu trung tính.
