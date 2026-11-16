@@ -206,3 +206,6 @@
 
 
 53. Nút bảng Triệu Hồi khi thu nhỏ phải bỏ toàn bộ chữ và chỉ hiển thị nút pháp trận tròn có thể nhận biết, có vùng chạm đủ lớn và trạng thái focus rõ. Giữ nguyên vị trí neo responsive hiện hành trong khung game ở portrait, landscape điện thoại và desktop; không để panel hoặc nút trôi sang Thiên Lý Kính/Tiên Bảng. Khi mở rộng, tiêu đề và nút thu nhỏ thông thường vẫn hoạt động như trước. Không thay đổi logic triệu hồi.
+
+
+54. Biểu tượng nút Triệu Hồi thu nhỏ phải là một thanh kiếm tiên dài, dễ nhận biết ngay ở kích thước nút trên điện thoại. Lưỡi kiếm phải chiếm phần lớn chiều cao biểu tượng; hộ thủ, chuôi và chóp chuôi phải phân biệt rõ, có chi tiết kim loại/ngọc cao cấp. Không dùng hình sao, pháp trận hoặc thanh kiếm quá ngắn làm chủ thể. Giữ nguyên nút tròn, kích thước, vị trí neo responsive, vùng chạm và hành vi mở bảng; không thay đổi logic triệu hồi.
