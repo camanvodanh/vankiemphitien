@@ -270,3 +270,12 @@
 - Không xóa các primitive dùng chung bởi renderer hiện hành: `drawSky`, `drawMovingClouds`, `drawCloud`, `drawPine`, `drawTree`, `drawSectPavilion` và `drawSectMountainLedge`.
 - Các hàm dựng cảnh cũ chỉ được giữ nếu có điểm gọi từ renderer đang hoạt động; không giữ bản `drawScenery()` cũ trong `race-render.js` hoặc `scenery.js` khi nó đã bị ghi đè trước lúc vòng lặp game chạy.
 - Sau khi dọn, kiểm tra cả thứ tự nạp script và mọi lời gọi cross-file; tăng cache version cho từng script đã thay đổi.
+
+
+## 69. Hợp nhất renderer khán đài — giai đoạn 4A
+- Chỉ giữ một `drawCrowd()` cuối cùng trong `visual-overrides.js`; các bản khai báo cũ trong `audience.js` và `visual-overrides.js` đã được loại bỏ.
+- Chỉ giữ một `drawSpectator()` cuối cùng trong `visual-overrides.js`. Các bản cũ trong `audience.js` và bản ghi đè trung gian đã được loại bỏ.
+- Chỉ giữ wrapper cuối cùng của `drawFormalSpectator()`, chuyển tiếp đến `drawSpectator()`; các renderer độc lập và wrapper trung gian đã bị ghi đè được loại bỏ.
+- Giữ nguyên bố cục và phân cấp khán đài trong renderer cuối: tạp dịch, ngoại môn, nội môn, nòng cốt, chân truyền đệ tử, trưởng lão và chưởng môn. Không đổi số lượng, tọa độ, tỷ lệ, màu sắc hoặc logic nghi thức.
+- `audience.js` vẫn giữ các helper dùng chung như `drawAura()` và `drawCrowdFlag()`. Cache version được tăng cho hai file JavaScript đã sửa.
+- Đây là hợp nhất mã trùng lặp; không thay đổi gameplay.
