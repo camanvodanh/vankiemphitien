@@ -263,3 +263,10 @@
 - Không gộp/xóa các hàm trùng tên nếu chúng tham gia chuỗi wrapper, ghi đè có chủ đích hoặc được gọi động.
 - Sau mỗi thay đổi JavaScript, kiểm tra cú pháp từng file và thứ tự nạp script; tăng cache version trong `data-loader.js` cho mọi script đã sửa.
 - Cleanup phải giữ nguyên các hàm renderer cuối cùng đang hoạt động và không tự ý thay đổi bố cục/gameplay.
+
+
+## 68. Dọn phong cảnh cũ — giai đoạn 2
+- `visual-overrides.js` là nguồn renderer phong cảnh hiện hành cuối cùng. Khi dọn bản cũ, giữ nguyên định nghĩa cuối của `drawScenery`, `drawRiver`, `drawMountainRange`, `drawSpiritBirds`, `drawDenseForest`, `drawAmbientEnergy`, `drawRiverCurrent` và `drawSectArchitecture`.
+- Không xóa các primitive dùng chung bởi renderer hiện hành: `drawSky`, `drawMovingClouds`, `drawCloud`, `drawPine`, `drawTree`, `drawSectPavilion` và `drawSectMountainLedge`.
+- Các hàm dựng cảnh cũ chỉ được giữ nếu có điểm gọi từ renderer đang hoạt động; không giữ bản `drawScenery()` cũ trong `race-render.js` hoặc `scenery.js` khi nó đã bị ghi đè trước lúc vòng lặp game chạy.
+- Sau khi dọn, kiểm tra cả thứ tự nạp script và mọi lời gọi cross-file; tăng cache version cho từng script đã thay đổi.
