@@ -371,3 +371,9 @@
 - Sửa đúng lời gọi `installCameraPanelSync()` khi DOM đã sẵn sàng; `ResizeObserver` luôn theo dõi Tiên Bảng và đồng bộ cả `height`, `min-height`, `max-height` của Thiên Lý Kính theo kích thước border-box thực tế.
 - Nội dung Thiên Lý Kính được căn giữa theo chiều dọc; canvas giữ tỷ lệ 7:4, không kéo méo. Tên và thông tin phụ có cỡ chữ responsive, được phép xuống dòng nhưng không tràn viền.
 - Chuẩn hóa padding hai panel, loại bỏ margin/padding dư quanh vùng canvas và bảng; vùng bảng vẫn đủ 242px cho tiêu đề + 10 hạng, các hạng tiếp theo cuộn nội bộ.
+
+
+## 82. Hàng Hạng và tốc độ trong Thiên Lý Kính
+- Trong hàng thông tin đầu của Thiên Lý Kính, thứ tự là Hạng trước, tiếp đến khoảng cách nhỏ, rồi tốc độ và thời gian hiệu ứng.
+- Bỏ hoàn toàn border, nền, bo góc và shadow bao quanh nhãn Hạng; giữ chữ Hạng rõ ràng.
+- Toàn bộ hàng được căn giữa theo chiều ngang như một cụm thống nhất, không đẩy Hạng và tốc độ về hai mép panel.
