@@ -358,3 +358,9 @@
 - Chiều cao tổng thể Tiên Bảng được quyết định bởi tiêu đề, padding và vùng danh sách 10 vị trí; không bị ép theo Thiên Lý Kính.
 - `journey-world.js` quan sát Tiên Bảng bằng `ResizeObserver` và đặt chiều cao Thiên Lý Kính bằng đúng chiều cao Tiên Bảng.
 - Các phần tử bên trong Thiên Lý Kính được căn giữa theo chiều dọc trong panel; khung Canvas vẫn giữ tỷ lệ 7:4, không kéo dãn hình ảnh.
+
+
+## 80. Cố định Tiên Bảng đủ 10 vị trí
+- Vùng cuộn Tiên Bảng cao cố định 242px, tính theo 11 hàng × 22px: một hàng tiêu đề cột và 10 hàng thứ hạng.
+- Mỗi hàng của bảng có chiều cao 22px theo border-box; vị trí thứ 11 trở đi cuộn trong vùng này, không làm tăng chiều cao panel.
+- Chiều cao tổng thể panel Tiên Bảng thay đổi theo vùng 242px mới; ResizeObserver hiện có tiếp tục đồng bộ Thiên Lý Kính theo panel.
