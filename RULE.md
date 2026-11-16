@@ -331,3 +331,9 @@
 - Xác nhận `script.js` là bản game cũ không được `index.html`, `data-loader.js`, CSS hay bất kỳ tệp đang tải nào tham chiếu. Xóa bản JS cũ này khỏi repository. Việc này giảm dung lượng lưu trữ repo, không làm giảm thêm request của trang vì file vốn không được tải.
 - Giữ `assets/characters/than-sau/frames/.gitkeep`: đây là placeholder của thư mục frame riêng theo quy ước asset, không phải ảnh được tải.
 - Không có PNG/JPG/WebP/GIF/MP4/WAV/OGG hoặc font local nào khác trong Git tree. CSS chỉ import Google Fonts từ xa. Tăng cache version cho `visual-overrides.js`.
+
+
+## 76. Tỷ lệ Thiên Lý Kính và tên cảnh trong thông báo
+- Canvas Thiên Lý Kính có kích thước nội tại 420×240, vì vậy vùng hiển thị phải giữ tỷ lệ 7:4 trên mọi bố cục.
+- Khung `.camera-screen` không được flex-grow để lấp chiều cao dư của panel; Canvas dùng chiều cao tự động theo chiều rộng, không dùng `height:100%` hoặc `object-fit:fill`.
+- Thông báo sự kiện và về đích trên trường đua luôn có tiền tố tên cảnh giới hiện hành; tên cảnh lấy từ cấu hình `data/scenery.json` và tiến độ chuyển cảnh, không thay đổi nội dung sự kiện hay gameplay.
