@@ -1171,6 +1171,31 @@ function syncButtons(){
   function attach(){
     if(document.documentElement.dataset.panelWindowsReady==="1")return;
     document.documentElement.dataset.panelWindowsReady="1";
+    // Neo nút trường kiếm theo góc phải-dưới của chính Canvas, không theo toàn bộ arena.
+    const launcher=document.querySelector(".arena-frame>.summon-collapsed-trigger");
+    const gameCanvas=document.getElementById("game");
+    const arena=document.querySelector(".arena-frame");
+    function placeSummonLauncher(){
+      if(!launcher||!gameCanvas||!arena)return;
+      const canvasRect=gameCanvas.getBoundingClientRect();
+      const arenaRect=arena.getBoundingClientRect();
+      if(!canvasRect.width||!canvasRect.height)return;
+      const size=Math.max(58,Math.min(76,Math.min(window.innerWidth,window.innerHeight)*.078));
+      launcher.style.width=size+"px";
+      launcher.style.height=size+"px";
+      launcher.style.left=Math.max(0,canvasRect.right-arenaRect.left-size-9)+"px";
+      launcher.style.top=Math.max(0,canvasRect.bottom-arenaRect.top-size-9)+"px";
+      launcher.style.right="auto";
+      launcher.style.bottom="auto";
+    }
+    placeSummonLauncher();
+    window.addEventListener("resize",placeSummonLauncher,{passive:true});
+    if(typeof ResizeObserver==="function"){
+      const launcherObserver=new ResizeObserver(placeSummonLauncher);
+      launcherObserver.observe(gameCanvas);
+      launcherObserver.observe(arena);
+    }
+
     document.addEventListener("click",event=>{
       const collapsedTrigger=event.target.closest&&event.target.closest(".summon-collapsed-trigger");
       if(collapsedTrigger){
