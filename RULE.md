@@ -350,3 +350,5 @@
 - Vùng danh sách xếp hạng hiển thị tối đa 10 hàng (cùng hàng tiêu đề); hạng từ 11 trở đi cuộn bên trong, không làm panel hoặc arena cao thêm.
 - Thông báo thông thường và thông báo về đích chỉ hiển thị nội dung gốc, không ghép tên cảnh giới.
 - Mỗi khe nứt chỉ phát một thông báo tên cảnh khi nhân vật đầu tiên thực sự vượt qua; các nhân vật sau vẫn nhận hiệu ứng cổng riêng nhưng không spam thông báo lặp.
+
+- Chiều cao Tiên Bảng được đồng bộ bằng `ResizeObserver` theo kích thước thực tế của Thiên Lý Kính, kể cả khi viewport đổi hướng hoặc kích thước.
