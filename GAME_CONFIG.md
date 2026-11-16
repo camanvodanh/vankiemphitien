@@ -616,3 +616,9 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Thông báo vượt khe nứt lấy `name` đầy đủ của cảnh đích trong `data/scenery.json`, không dùng `shortName` nếu đã có tên đầy đủ và không thêm tiền tố “BƯỚC VÀO”.
 - Bộ đồng bộ chiều cao được khởi tạo đúng trong cả hai trạng thái DOM đang tải và đã tải; ResizeObserver đặt chiều cao border-box Thiên Lý Kính bằng Tiên Bảng.
 - Nội dung camera căn giữa theo chiều dọc, thông tin có thể xuống dòng an toàn, canvas không đổi tỷ lệ 7:4. Padding/viền hai panel được chuẩn hóa để không có phần tử con thò khỏi khung hoặc khoảng đệm lệch.
+
+
+## 68. Bố cục hàng thứ hạng và tốc độ của Thiên Lý Kính
+- `.camera-top-info` hiển thị Hạng trước, theo sau bởi khoảng cách nhỏ và cụm tốc độ + thời gian.
+- `#leaderProgress` không có viền, nền, bo góc hoặc shadow. Hàng thông tin căn giữa nguyên cụm; không dùng `space-between` đẩy hai phía ra xa.
+- Kích thước chữ co giãn theo viewport, giữ một dòng và giới hạn chiều rộng để tránh tràn khung.
