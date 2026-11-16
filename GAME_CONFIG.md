@@ -460,3 +460,8 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Không giới hạn số phần tử trong updateRanking(); Tiên Bảng giữ toàn bộ thứ hạng. Vùng hiển thị giới hạn chiều cao xấp xỉ tiêu đề cộng 10 hàng, sau đó cuộn dọc bên trong.
 - Thiên Lý Kính và Tiên Bảng dùng cùng chiều cao panel trên bố cục dọc và ngang; trên điện thoại dọc chiều cao panel dùng clamp(300px, 78vw, 440px).
 - Dòng tên hiệu ứng trong Thiên Lý Kính được căn giữa qua style nội tuyến đồng bộ và selector CSS có độ ưu tiên cao; tên dài được ellipsis, không tràn khung.
+
+
+## 46. Vị trí mặt trời và nhãn tên cảnh giới
+- `data/scenery.json` đặt tâm mặt trời tại x=730, y=68, quầng bán kính 140 và vùng phủ `[545,-92,370,330]`, tránh trục lầu các phía phải.
+- `drawRealmArrivalTitle()` đặt tên cảnh giới tại tâm x=550, y=114 với bảng cao 28px, nằm dưới hàng thông báo (kết thúc ở y=97) và phía trên làn đua đầu tiên; không thay đổi vị trí HUD thời gian hay thông báo.
