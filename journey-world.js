@@ -40,6 +40,12 @@
     window.__vkJourneyProgress=progress;
     return progress;
   }
+  function currentRealmName(){
+    let active=regions[0]||null;
+    for(let i=1;i<regions.length;i++)if(frameProgress>=Number(regions[i].start||0))active=regions[i];
+    return String(active&&(active.shortName||active.name)||"").toLocaleUpperCase("vi");
+  }
+  window.__vkGetCurrentRealmName=currentRealmName;
   function smooth(value){const t=Math.max(0,Math.min(1,value));return t*t*(3-2*t);}
   function activeBlend(progress){
     if(!regions.length||progress<Number(regions[1]&&regions[1].start||.2))return [];
