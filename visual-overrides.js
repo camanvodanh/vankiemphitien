@@ -7627,12 +7627,4 @@ function drawRiverCurrent(time){
   ctx.restore();
 }
 
-/* Giữ nguyên đội hình và số lượng; thêm nhãn nhỏ để nhận diện từng tầng đệ tử. */
-const __phase2DrawCrowdBase=drawCrowd;
-function drawCrowd(time){
-  __phase2DrawCrowdBase(time);
-  drawRoleLabel(550,646,"NỘI MÔN","#c5eee1",.76);
-  drawRoleLabel(550,704,"NÒNG CỐT","#ffe3a0",.78);
-  drawRoleLabel(550,750,"NGOẠI MÔN","#b9d9ee",.78);
-  drawRoleLabel(550,826,"TẠP DỊCH","#d2c6a9",.78);
-}
+/* Giữ nguyên hình người và bố trí khán đài hiện hành; cấp bậc đã được phân biệt bằng đạo bào, đai ngọc, phụ kiện và linh quang từ ROLE. */
