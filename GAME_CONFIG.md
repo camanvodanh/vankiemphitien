@@ -570,3 +570,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Danh sách thời lượng triệu hồi chỉ lấy từ `summoning.durationOptions`; hai select dùng chung một mảng đã chuẩn hóa.
 - `journey-world.js` đọc trực tiếp các giá trị cân bằng hiệu ứng từ `effects.json`, không lặp lại các giá trị mặc định giống hệt trong JavaScript.
 - Mọi giá trị JSON còn lại đều có đường đọc đã xác định; không xóa trường được truy cập động hoặc qua destructuring.
+
+
+## 61. Tài nguyên tĩnh và tải lười — giai đoạn 4G
+- Sprite sheet `assets/characters/than-sau/than-sau-spritesheet.png` là tài nguyên đang hoạt động (5 cột × 2 hàng, 10 frame). Renderer chỉ tải ảnh khi gặp nhân vật Thần Sầu; trong lúc chờ ảnh, dùng renderer dự phòng hiện tại.
+- Nhạc mở đầu `assets/music/setup.mp3` là tài nguyên đang hoạt động. `music.js` tạo Audio sau tương tác người dùng; nhạc đua và vinh danh vẫn dùng URL ngoài. Không xóa hoặc đổi nguồn nhạc.
+- Bản `script.js` cũ không được trang hoặc loader tham chiếu nên đã loại khỏi repository. Đây không phải script runtime hiện tại; game chạy qua `data-loader.js` và 9 script theo thứ tự đã cấu hình.
+- Không xóa placeholder `assets/characters/than-sau/frames/.gitkeep`; thư mục này dành cho frame PNG độc lập bổ sung trong tương lai.
+- Không thay đổi nội dung hình ảnh, kích thước canvas, frame timing, hiệu ứng hoặc chất lượng âm thanh trong giai đoạn này.
