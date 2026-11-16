@@ -9560,3 +9560,47 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   aspect-ratio:7 / 4!important;
   object-fit:contain!important;
 }
+
+
+/* REVISION 151 — Tiên Bảng đồng chiều cao với Thiên Lý Kính; tối đa 10 hàng rồi cuộn.
+   Chiều cao hàng grid lấy theo Thiên Lý Kính tự ôm nội dung ở revision 150. */
+.arena-frame>.game-ranking{
+  box-sizing:border-box!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-self:stretch!important;
+  height:100%!important;
+  min-height:0!important;
+  max-height:100%!important;
+  overflow:hidden!important;
+}
+.arena-frame>.game-ranking>.ranking-heading{flex:0 0 auto!important;}
+.arena-frame>.game-ranking>.table-wrap{
+  display:block!important;
+  flex:1 1 auto!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:calc(10 * 19px + 25px)!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+  scrollbar-gutter:stable;
+}
+.arena-frame>.game-ranking table{
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  margin:0!important;
+  table-layout:fixed!important;
+}
+.arena-frame>.game-ranking table thead,
+.arena-frame>.game-ranking table tbody{height:auto!important;min-height:0!important;}
+.arena-frame>.game-ranking table th,
+.arena-frame>.game-ranking table td{
+  box-sizing:border-box!important;
+  height:19px!important;
+  min-height:0!important;
+  padding:3px 4px!important;
+  line-height:11px!important;
+}
