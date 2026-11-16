@@ -544,3 +544,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - `finishRace()` cuối cùng chuyển nhạc sang pha trao thưởng, đặt `ceremonyStartedAt`, chốt trạng thái racer, khóa hiệu ứng thi đấu, cập nhật Tiên Bảng và mở nghi thức TOP 3. Không thay thế bằng bản `finishRace()` cũ không có nghi thức.
 - Giữ các bộ hẹn giờ/chu kỳ triệu hồi, `completeSummonReveal()`, `summonCycleId`, hàng đợi thông báo và wrapper renderer lưu bản gốc để không làm mất hiệu ứng hiện thân hoặc pose khán đài.
 - Thứ tự loader vẫn là `race-logic.js` trước `journey-world.js`; không đổi cách chuyển cảnh theo tiến độ.
+
+
+## 58. Wrapper render, camera Thiên Lý Kính và IIFE — giai đoạn 4D
+- Renderer nền camera cũ trong `race-render.js` đã bị bản `drawCameraBackground()` ở `visual-overrides.js` thay thế trước khi game bắt đầu; đã xóa phần khai báo thừa. Camera đang chạy vẫn dùng nền tiên môn hiện hành và lớp cảnh giới từ `journey-world.js`.
+- Thứ tự wrapper được giữ: nền camera hiện hành → wrapper `drawCameraBackground()` của `journey-world.js` → `drawCamera()` vẽ người dẫn đầu và thông tin hạng. Không đổi kích thước canvas camera, tỷ lệ nhân vật, tên hoặc thuật toán chọn người dẫn đầu.
+- `render()` được `journey-world.js` bọc đúng một lần để cập nhật tiến độ cảnh giới trước renderer gốc. `drawScenery()` chụp nền gốc rồi hòa trộn cảnh chính; `drawTrackLines()` bổ sung cổng không gian; camera dùng cùng tiến độ để hiển thị tiểu cảnh đồng bộ.
+- Các wrapper cổng giới trong `createRacer()`, `startRace()` và `updateRace()` vẫn gọi hàm gốc trước khi áp dụng/reset mặt nạ cổng; mỗi racer chỉ nhận hiệu ứng một lần tại mỗi cổng. IIFE khởi tạo giao diện và gesture được giữ nguyên, không cài thêm listener.
+- Đây là cleanup renderer bị thay thế; không thay đổi phong cảnh, crossfade, cổng, tốc độ, thứ hạng, thời lượng, hiệu ứng hoặc gameplay. Cache `race-render.js` tăng lên `v184`.
