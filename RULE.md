@@ -233,3 +233,8 @@
 - Tiên Bảng không được cắt mảng thứ hạng ở 10 phần tử. Phải giữ toàn bộ danh sách theo thứ tự hiện hành; vùng nhìn chỉ cao tương đương tiêu đề và khoảng 10 hàng, cuộn dọc bên trong để xem các hạng tiếp theo.
 - Trên bố cục dọc, Thiên Lý Kính và Tiên Bảng có cùng chiều cao panel. Trên bố cục ngang, hai panel tiếp tục kéo giãn bằng nhau theo hàng bố cục.
 - Tên hiệu ứng #leaderEffect phải được căn giữa bằng cả CSS và luồng cập nhật thông tin; không để kiểu chữ nội tuyến làm lệch trục.
+
+
+## 61. Mặt trời và nhãn tên cảnh giới trên trường đua
+- Mặt trời của cảnh chính đặt lệch trái khỏi cụm lầu các bên phải và cao hơn đường mái; giữ quầng sáng vừa phải, không để kiến trúc che phần tâm mặt trời.
+- Bảng tên cảnh giới xuất hiện dưới HUD thông báo, tại vùng trống giữa thông báo và làn đua đầu tiên. Thu gọn chiều cao bảng và cỡ chữ; không chồng lên đồng hồ đếm ngược hoặc thông báo sự kiện.
