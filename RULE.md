@@ -279,3 +279,11 @@
 - Giữ nguyên bố cục và phân cấp khán đài trong renderer cuối: tạp dịch, ngoại môn, nội môn, nòng cốt, chân truyền đệ tử, trưởng lão và chưởng môn. Không đổi số lượng, tọa độ, tỷ lệ, màu sắc hoặc logic nghi thức.
 - `audience.js` vẫn giữ các helper dùng chung như `drawAura()` và `drawCrowdFlag()`. Cache version được tăng cho hai file JavaScript đã sửa.
 - Đây là hợp nhất mã trùng lặp; không thay đổi gameplay.
+
+
+## 70. Hợp nhất renderer nhân vật, HUD và nghi thức trao thưởng — giai đoạn 4B
+- `visual-overrides.js` chỉ giữ renderer cuối cùng của `drawRacer()`, `drawRacingArtifact()`, `drawRaceHud()`, `drawAnnouncement()`, `drawPodiumScene()`, `drawAwardMaster()`, `drawMasterBaguaHalo()`, `drawCeremonySeatedMaster()`, `drawAwardThroneOnlyV2()`, `drawStandingSectMaster()` và `drawRacerName()`.
+- Giữ nguyên `__drawRacerBaseThanSau()` làm renderer dự phòng cho `drawRacer()` khi sprite Thần Sầu chưa sẵn sàng hoặc nhân vật không dùng sprite; không xóa chuỗi hiệu ứng nhân vật.
+- Giữ nguyên chuỗi nghi thức trao thưởng hiện hành: cảnh giải tán, chưởng môn đứng dậy, phi kiếm tiếp cận, chưởng môn ngự kiếm bay qua TOP 3, trao hộp thưởng, phản ứng nhận thưởng và khán đài.
+- Loại bỏ hai bản `drawMasterBaguaAura()` không còn điểm gọi; hiệu ứng Thái Cực Ngọc Luân hiện hành vẫn được vẽ qua `drawMasterBaguaHalo()`.
+- Chỉ hợp nhất khai báo bị ghi đè, không thay đổi thân renderer cuối cùng, dữ liệu nghi thức, mốc thời gian, tọa độ, kích thước, hiệu ứng hoặc gameplay.
