@@ -528,3 +528,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Chỉ còn một `drawCrowd()` cuối cùng trong `visual-overrides.js`, một `drawSpectator()` cuối cùng trong `visual-overrides.js` và một wrapper `drawFormalSpectator()` cuối cùng.
 - Renderer khán đài giữ nguyên các tầng tạp dịch, ngoại môn, nội môn, nòng cốt, chân truyền đệ tử, trưởng lão và chưởng môn; không thay đổi bố cục, số lượng hay hiệu ứng.
 - `audience.js` tiếp tục cung cấp các helper còn được dùng; cache version `audience.js` và `visual-overrides.js` được tăng sau khi hợp nhất.
+
+
+## 56. Renderer nhân vật, HUD và nghi thức trao thưởng — giai đoạn 4B
+- Renderer đang hoạt động nằm ở các khai báo cuối trong `visual-overrides.js`; các khai báo cũ bị ghi đè đã được loại bỏ.
+- `drawRacer()` vẫn chuyển sang `__drawRacerBaseThanSau()` nếu sprite sheet Thần Sầu chưa tải xong/không hợp lệ hoặc racer không phải nhân vật Thần Sầu. Không xóa hàm dự phòng này.
+- Nghi thức TOP 3 vẫn sử dụng cùng các giai đoạn và helper: `drawAwardPlazaBackdropV2()`, `drawCeremonyBackdrop()`, `drawCeremonySeatedMaster()`, `drawStandingSectMaster()`, `drawAwardMaster()`, `drawGrandAwardPedestalV2()`, `drawCeremonyRankGift()`, `drawThanSauGiftReach()`, `drawThanSauGiftReception()` và `drawRecipientCelebrationGiftV2()`.
+- `drawRaceHud()` cuối cùng hiển thị đồng hồ còn lại; `drawAnnouncement()` cuối cùng hiển thị thông báo sự kiện/kết thúc. Không khôi phục các bản HUD cũ đã bị ghi đè.
+- Không thay đổi thông số hoặc hình ảnh của các renderer cuối cùng; đây là cleanup khai báo trùng.
