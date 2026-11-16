@@ -582,10 +582,17 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 
 ## 62. Tỷ lệ Thiên Lý Kính và tên cảnh trong thông báo
 - `#leaderCanvas` có kích thước nội tại 420×240; `.camera-screen` và canvas phải giữ tỷ lệ 7:4. Khung camera không kéo giãn canvas theo chiều cao panel, không dùng flex-grow để ép chiều cao và không dùng `object-fit:fill`.
-- Renderer thông báo lấy tên cảnh giới hiện hành từ `window.__vkGetCurrentRealmName()` (được cung cấp bởi `journey-world.js`) rồi ghép trước nội dung thông báo. Danh sách tên và mốc cảnh vẫn lấy từ `data/scenery.json`.
+- Tên cảnh giới không còn được ghép vào mọi thông báo; chỉ thông báo riêng lúc nhân vật đầu tiên vượt khe nứt mới hiển thị tên cảnh đích lấy từ `data/scenery.json`.
 
 
 ## 63. Cố định khung Thiên Lý Kính theo tỷ lệ gốc
 - Panel Thiên Lý Kính tự co theo nội dung thực tế thay vì dùng chung chiều cao cố định với Tiên Bảng.
 - Canvas 420×240 và vùng hiển thị giữ tỷ lệ 7:4; không kéo dãn theo chiều cao panel và không tạo khoảng trống dư phía dưới.
 - Tên cảnh giới được ghép vào đầu thông báo sự kiện/kết thúc thông qua window.__vkGetCurrentRealmName(); nguồn tên và mốc chuyển cảnh vẫn là data/scenery.json.
+
+
+## 64. Đồng bộ chiều cao Tiên Bảng và thông báo chuyển cảnh
+- Tiên Bảng dùng chiều cao hàng grid do Thiên Lý Kính xác định; danh sách tối đa 10 hàng hiển thị trong panel, các hạng sau cuộn nội bộ.
+- Chiều cao Tiên Bảng không được làm tăng chiều cao arena hoặc kéo giãn Canvas Thiên Lý Kính.
+- `journey-world.js` phát thông báo tên cảnh đúng một lần ở mỗi portal, khi nhân vật đầu tiên vượt qua. Hiệu ứng cổng vẫn áp dụng riêng cho từng nhân vật.
+- `drawAnnouncement()` không tự thêm tiền tố cảnh giới vào các thông báo sự kiện/kết thúc khác.
