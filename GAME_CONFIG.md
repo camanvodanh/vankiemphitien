@@ -395,5 +395,5 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Quần thể kiến trúc nền có ba lớp: hàng hậu cảnh gồm Tụ Linh Tháp, Tàng Kinh Các, Lăng Tiêu Chính Điện, Tàng Bảo Các và Bách Thảo Các; hàng trung cảnh là các điện chuyên tu; hàng tiền cảnh là động phủ và các điện phụ.
 - Lăng Tiêu Chính Điện có tỷ lệ lớn nhất; các lầu phụ được tăng kích thước vừa phải, giữ khoảng cách mái và biển hiệu để không chồng lấn.
 - Vân mặt sông dùng chuyển động ngang chậm hơn bản trước (hệ số drift khoảng 0.0175 px/ms); giữ nguyên lòng sông, màu nước, đường bờ và các cơ chế cảnh giới.
-- Đội hình khán đài và số lượng nhân vật giữ nguyên. Nhãn NỘI MÔN, NÒNG CỐT, NGOẠI MÔN và TẠP DỊCH giúp phân biệt tầng; màu đạo bào và linh quang vẫn lấy từ `data/characters.json`.
+- Đội hình khán đài và số lượng nhân vật giữ nguyên. Các cấp bậc được phân biệt bằng màu đạo bào, đai ngọc, phụ kiện và linh quang lấy từ `data/characters.json`; không phủ nhãn chữ lên nhân vật.
 - Đây là thay đổi trình bày Canvas; không tác động tiến độ, tốc độ, thứ hạng, triệu hồi hoặc hiệu ứng đua.
