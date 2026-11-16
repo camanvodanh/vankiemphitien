@@ -388,3 +388,12 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Phase `setup` dùng file `assets/music/setup.mp3` (tên hiển thị: Tĩnh Tâm Tu Luyện).
 - Phase `race` tiếp tục dùng `imperial-china-cinematic.mp3`; phase `award` tiếp tục dùng `the-victory-of-heroes.mp3` từ nguồn hiện tại.
 - Chỉ đổi nguồn phát khi file tương ứng đã tồn tại trong repository. Giữ nguyên cơ chế unlock theo thao tác người dùng, loop, fade chuyển bài, nút bật/tắt và lưu lựa chọn.
+
+
+## 36. Giai đoạn 2 — hoàn thiện bố cục tiên môn
+
+- Quần thể kiến trúc nền có ba lớp: hàng hậu cảnh gồm Tụ Linh Tháp, Tàng Kinh Các, Lăng Tiêu Chính Điện, Tàng Bảo Các và Bách Thảo Các; hàng trung cảnh là các điện chuyên tu; hàng tiền cảnh là động phủ và các điện phụ.
+- Lăng Tiêu Chính Điện có tỷ lệ lớn nhất; các lầu phụ được tăng kích thước vừa phải, giữ khoảng cách mái và biển hiệu để không chồng lấn.
+- Vân mặt sông dùng chuyển động ngang chậm hơn bản trước (hệ số drift khoảng 0.0175 px/ms); giữ nguyên lòng sông, màu nước, đường bờ và các cơ chế cảnh giới.
+- Đội hình khán đài và số lượng nhân vật giữ nguyên. Nhãn NỘI MÔN, NÒNG CỐT, NGOẠI MÔN và TẠP DỊCH giúp phân biệt tầng; màu đạo bào và linh quang vẫn lấy từ `data/characters.json`.
+- Đây là thay đổi trình bày Canvas; không tác động tiến độ, tốc độ, thứ hạng, triệu hồi hoặc hiệu ứng đua.
