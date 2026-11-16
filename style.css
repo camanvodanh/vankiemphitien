@@ -9212,3 +9212,35 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   max-width:none!important;max-height:none!important;flex:none!important;
 }
 .arena-frame>.summon-collapsed-trigger svg{width:100%!important;height:100%!important;}
+
+
+/* REVISION 140 — Tiên Bảng chỉ chiếm chiều cao tối đa 10 hàng; phần còn lại cuộn bên trong. */
+.arena-frame>.game-ranking>.table-wrap{
+  flex:0 1 auto!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:min(340px,58vh)!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+  scrollbar-gutter:stable;
+}
+.arena-frame>.game-ranking table{width:100%!important;table-layout:fixed!important;}
+
+/* REVISION 141 — ép tên hiệu ứng và thiên phú trong Thiên Lý Kính cùng trục giữa. */
+.arena-frame>.game-camera .camera-secondary-info{
+  display:flex!important;flex-direction:column!important;
+  align-items:stretch!important;justify-content:center!important;
+  width:100%!important;min-width:0!important;max-width:100%!important;
+  margin:0!important;padding:0!important;text-align:center!important;
+}
+.arena-frame>.game-camera .camera-secondary-info #leaderTalent,
+.arena-frame>.game-camera .camera-secondary-info #leaderEffect{
+  display:flex!important;flex:0 0 auto!important;align-items:center!important;
+  justify-content:center!important;align-self:stretch!important;
+  box-sizing:border-box!important;width:100%!important;min-width:0!important;max-width:100%!important;
+  margin:0!important;padding:0!important;text-indent:0!important;
+  text-align:center!important;text-align-last:center!important;
+  white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+  line-height:1.12!important;transform:none!important;
+}
