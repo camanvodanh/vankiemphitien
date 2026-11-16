@@ -442,3 +442,9 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - HUD đếm ngược chỉ hiển thị giá trị thời gian; bỏ nhãn “THỜI GIAN”. Khung gọn 150×42 đơn vị Canvas, chữ căn giữa và co theo chiều rộng hiển thị.
 - Khi bảng Triệu Hồi thu nhỏ, nút trường kiếm-pháp trận có kích thước 42×42 px, đặt ở góc phải-phía trên bên trong Canvas, cách mép trên 7 px và mép phải 10 px; vị trí được tính theo layout Canvas và cập nhật khi resize/xoay màn hình.
 - Bố cục ba hàng kiến trúc tiên môn và toàn bộ các tòa còn lại giữ nguyên. Bách Thảo Các dịch từ x=988 sang x=870; Ngoại Vụ Điện dịch từ x=955 sang x=865 để tránh vùng cổng đích tại TRACK.right=1000. Đây là thay đổi tọa độ trình bày, không tác động gameplay.
+
+
+## 43. Bố cục xen kẽ lầu các và kích thước nút Triệu Hồi theo HUD
+
+- Giữ nguyên cấu trúc ba hàng xen kẽ. Điều chỉnh cụm kiến trúc phía phải để né cổng đích (trụ gần nhất tại x=964): Tàng Bảo Các x=700, Bách Thảo Các x=850; Quan Tinh Lâu x=850; Hộ Sơn Trận Các x=700, Ngoại Vụ Điện x=850. Các tòa bên trái và kích thước/kiểu kiến trúc không đổi.
+- Nút Triệu Hồi thu nhỏ có chiều cao bằng chính khung đếm ngược: HUD cao 42 đơn vị Canvas, vì vậy kích thước CSS của nút được tính từ tỷ lệ `canvasRect.height / canvas.height` (và tỷ lệ bố cục arena), cập nhật qua resize/ResizeObserver. Không dùng 42px CSS cố định; CSS dùng biến `--summon-launcher-size` do logic đặt.
