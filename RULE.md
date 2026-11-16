@@ -295,3 +295,11 @@
 - Giữ nguyên các wrapper nghi thức lưu renderer gốc: `summonOriginalDrawRacer`, `summonOriginalDrawRacerName`, `summonBaseDrawSpectator`; không thay đổi hiệu ứng hiện thân, tư thế chưởng môn/khán đài hoặc hiệu ứng triệu hồi theo đợt.
 - `journey-world.js` vẫn được nạp sau `race-logic.js`; lớp chuyển cảnh tiếp tục đọc tiến độ thực tế và bọc renderer theo đúng thứ tự hiện hành.
 - Không thay đổi công thức tốc độ, tiến độ, thời gian về đích, xác suất sự kiện, thời lượng đếm ngược, thứ hạng hoặc nhịp nghi thức. Cache `race-logic.js` tăng lên `v199`.
+
+
+## 72. Wrapper render, camera Thiên Lý Kính và IIFE — giai đoạn 4D
+- `race-render.js` chỉ giữ `drawCamera()` và luồng render; renderer `drawCameraBackground()` nền cũ đã bị thay thế hoàn toàn bởi bản trong `visual-overrides.js` nên được loại bỏ. Không thay đổi renderer camera đang hoạt động.
+- Thứ tự lớp camera được giữ: `visual-overrides.js` định nghĩa nền camera hiện hành, sau đó `journey-world.js` bọc nền này để vẽ cảnh giới tương ứng; `drawCamera()` tiếp tục vẽ người dẫn đầu, tên và thứ hạng.
+- `journey-world.js` vẫn được nạp sau `race-logic.js` và bọc các hàm gốc `createRacer()`, `startRace()`, `updateRace()`, `render()`. Giữ nguyên capture hàm gốc, cờ `realmPortalMask`, tiến độ dùng chung, crossfade năm cảnh giới, tiểu cảnh camera và bốn cổng hiệu ứng.
+- IIFE trong `race-render.js`, `race-logic.js`, `journey-world.js`, `music.js` và `i18n.js` vẫn là các khối khởi tạo riêng được thực thi một lần theo loader tuần tự. Các IIFE gắn sự kiện có guard `dataset` được giữ nguyên; không nhân đôi handler hoặc gọi lại khởi tạo.
+- Chỉ loại bỏ renderer camera cũ đã chết; không thay đổi bố cục Thiên Lý Kính, cách chọn người dẫn đầu, chuyển cảnh, cổng hiệu ứng, gameplay hoặc nhịp render. Cache `race-render.js` tăng lên `v184`.
