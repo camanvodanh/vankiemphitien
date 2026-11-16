@@ -397,3 +397,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Vân mặt sông dùng chuyển động ngang chậm hơn bản trước (hệ số drift khoảng 0.0175 px/ms); giữ nguyên lòng sông, màu nước, đường bờ và các cơ chế cảnh giới.
 - Đội hình khán đài và số lượng nhân vật giữ nguyên. Các cấp bậc được phân biệt bằng màu đạo bào, đai ngọc, phụ kiện và linh quang lấy từ `data/characters.json`; không phủ nhãn chữ lên nhân vật.
 - Đây là thay đổi trình bày Canvas; không tác động tiến độ, tốc độ, thứ hạng, triệu hồi hoặc hiệu ứng đua.
+
+
+## 37. Nút pháp trận Triệu Hồi thu nhỏ
+
+- Khi `.game-setup.is-minimized`, ẩn chữ tiêu đề và chỉ giữ nút pháp trận tròn vẽ bằng SVG: vòng trận đồng tâm, phù văn và tâm linh lực.
+- Kích thước nút dùng `clamp(38px, 5.2vmin, 54px)`, có vùng chạm, viền sáng và focus-visible; giảm/chặn animation khi người dùng bật reduced motion.
+- Giữ nguyên các vị trí neo portrait/landscape/desktop tại REVISION 131 trong `style.css`; không đổi thuật toán responsive hoặc vị trí hiện hành.
+- Khi nhấn pháp trận, dùng chính nút `.summon-seal-trigger` hiện tại để mở lại bảng; không thêm handler hoặc thay đổi logic triệu hồi.
