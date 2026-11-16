@@ -1184,12 +1184,12 @@ function syncButtons(){
       const arenaRect=arena.getBoundingClientRect();
       const scaleX=arena.offsetWidth/(arenaRect.width||arena.offsetWidth||1);
       const scaleY=arena.offsetHeight/(arenaRect.height||arena.offsetHeight||1);
-      // HUD cao 42 đơn vị Canvas; nút được nới nhẹ lên 48 đơn vị và vẫn quy đổi theo Canvas.
-      const canvasScaleY=canvasRect.height/(gameCanvas.height||825);
+      // Nút tăng nhẹ lên 52 đơn vị Canvas; giữ khoảng hở với cổng đích và HUD.
+      const canvasScaleY=canvasRect.height/(gameCanvas.height||900);
       const canvasScaleX=canvasRect.width/(gameCanvas.width||1100);
-      const size=48*canvasScaleY*scaleY;
+      const size=52*canvasScaleY*scaleY;
       const topInset=7*canvasScaleY*scaleY;
-      const rightInset=10*canvasScaleX*scaleX;
+      const rightInset=12*canvasScaleX*scaleX;
       const x=(canvasRect.right-arenaRect.left)*scaleX-size-rightInset;
       const y=(canvasRect.top-arenaRect.top)*scaleY+topInset;
       launcher.style.position="absolute";
