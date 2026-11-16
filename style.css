@@ -9194,3 +9194,10 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   transform:translate(-50%,-50%) scale(.93)!important;
 }
 .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon:disabled{opacity:.55!important;filter:saturate(.55)!important;}
+
+
+/* REVISION 138 — HUD chỉ còn con số; nút kiếm thu nhỏ ở góc phải-trên cùng chiều cao khung đếm ngược. */
+.arena-frame>.summon-collapsed-trigger{
+  width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important;
+}
+.arena-frame>.summon-collapsed-trigger svg{width:100%!important;height:100%!important;}
