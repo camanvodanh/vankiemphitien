@@ -224,3 +224,6 @@
 
 
 59. Khi tinh chỉnh bố cục tiên môn, các tòa nhà phải tiếp tục xen kẽ theo ba hàng hậu cảnh/trung cảnh/tiền cảnh; không dồn thành một hàng hoặc để mái/biển hiệu lọt vào vùng cổng đích. Cổng đích nằm tại TRACK.right và có trụ hai bên; giữ vùng an toàn bên trái trụ gần nhất. Bố trí lại cụm bên phải theo nhịp so le: Tàng Bảo Các và Hộ Sơn Trận Các xấp xỉ 700; Bách Thảo Các, Quan Tinh Lâu và Ngoại Vụ Điện xấp xỉ 850. Nút Triệu Hồi thu nhỏ phải có kích thước hiển thị quy đổi từ đúng 42 đơn vị chiều cao HUD Canvas, không đặt cố định 42 CSS px; CSS không được ghi đè kích thước động do JavaScript tính.
+
+
+60. Tiên Bảng chỉ hiển thị tối đa 10 vị trí đầu; dữ liệu và thứ hạng phía sau không được tạo thành các hàng hiển thị vượt quá Top 10. Khung bảng có chiều cao giới hạn tương ứng tối đa 10 hàng và cuộn nội bộ nếu nội dung cần thiết. Trong Thiên Lý Kính, tên thiên phú và tên hiệu ứng phải nằm trên cùng trục giữa, căn giữa cả phần tử lẫn chữ; không để padding, text-indent hoặc căn lề cũ làm lệch riêng tên hiệu ứng.
