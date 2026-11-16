@@ -9169,3 +9169,28 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
 .arena-frame>.summon-collapsed-trigger:active{transform:scale(.94);}
 .arena-frame>.summon-collapsed-trigger:focus-visible{outline:2px solid #fff0bd;outline-offset:4px;border-radius:50%;}
 @media (prefers-reduced-motion:reduce){.arena-frame>.summon-collapsed-trigger svg{animation:none!important;}}
+
+
+/* REVISION 137 — đặt trường kiếm ở góc phải-bên trong vùng game và đưa pháp trận kiếm vào tâm pháp luân.
+   Giữ nguyên hai vòng xoay, hai ô thông số và toàn bộ cơ chế triệu hồi hiện hữu. */
+.arena-frame>.summon-collapsed-trigger{
+  z-index:190!important;width:clamp(48px,7.2vmin,62px)!important;height:clamp(48px,7.2vmin,62px)!important;
+  min-width:48px!important;min-height:48px!important;padding:0!important;
+}
+.arena-frame>.summon-collapsed-trigger svg{width:100%!important;height:100%!important;}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon{
+  width:clamp(48px,38%,68px)!important;height:clamp(48px,38%,68px)!important;
+  min-width:clamp(48px,38%,68px)!important;min-height:clamp(48px,38%,68px)!important;
+  padding:0!important;border:0!important;border-radius:50%!important;
+  overflow:visible!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon svg{
+  display:block!important;width:100%!important;height:100%!important;overflow:visible!important;
+  filter:drop-shadow(0 0 5px rgba(130,239,197,.78))!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon:active:not(:disabled){
+  transform:translate(-50%,-50%) scale(.93)!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon:disabled{opacity:.55!important;filter:saturate(.55)!important;}
