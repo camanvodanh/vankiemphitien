@@ -75,9 +75,8 @@ function timeText(value) {
 }
 
 function laneGap() {
-  // Chừa khoảng trời phía dưới đường đua để phi kiếm luôn bay cao,
-  // không hạ ngang tầm ngai và ghế của chưởng môn.
-  const flightBottom = TRACK.bottom - 140;
+  // Mở rộng khoảng bay theo chiều dọc; vẫn chừa vùng khán đài bên dưới.
+  const flightBottom = TRACK.bottom - 90;
   return Math.max(1, (flightBottom - TRACK.top) /
     Math.max(1, racers.length));
 }
