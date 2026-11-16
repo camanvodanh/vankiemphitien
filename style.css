@@ -9152,30 +9152,20 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
 }
 
  
-/* REVISION 135 — tách nút thu nhỏ (−) khỏi nút mở lại bằng trường kiếm.
-   Khi thu nhỏ, ẩn toàn bộ panel; kiếm nổi ở góc phải vùng game, không nằm trên nút −. */
+/* REVISION 136 — pháp trận triệu hồi bao quanh trường kiếm; neo nút theo chính Canvas game. */
 .arena-frame>.game-setup.is-minimized{display:none!important;}
 .arena-frame>.summon-collapsed-trigger{
-  display:none;position:absolute;z-index:125;place-items:center;box-sizing:border-box;
-  width:clamp(40px,5.4vmin,56px);height:clamp(40px,5.4vmin,56px);
-  min-width:40px;min-height:40px;margin:0;padding:3px;
-  border:1px solid rgba(239,211,139,.96);border-radius:50%;
-  color:transparent;font-size:0;line-height:0;
-  background:radial-gradient(circle at 50% 45%,rgba(115,196,164,.34),transparent 58%),linear-gradient(145deg,#244d43 0%,#102d2b 58%,#081d20 100%);
-  box-shadow:0 0 0 2px rgba(17,43,39,.82),0 0 0 4px rgba(203,169,98,.42),0 3px 10px rgba(0,0,0,.55),inset 0 0 9px rgba(176,235,207,.24);
-  cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+ display:none;position:absolute;z-index:190;place-items:center;box-sizing:border-box;
+ width:clamp(58px,7.8vmin,76px);height:clamp(58px,7.8vmin,76px);
+ min-width:58px;min-height:58px;margin:0;padding:0;border:0;border-radius:50%;
+ background:transparent!important;box-shadow:none!important;color:transparent;font-size:0;line-height:0;
+ cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transform:translateZ(0);
 }
 .arena-frame>.game-setup.is-minimized~.summon-collapsed-trigger{display:grid!important;}
-.arena-frame>.summon-collapsed-trigger svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 3px rgba(172,238,205,.55));animation:summonMiniSealBreath 3.8s ease-in-out infinite;}
-.arena-frame>.summon-collapsed-trigger::before{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(222,194,125,.58);pointer-events:none;}
-.arena-frame>.summon-collapsed-trigger:active{transform:scale(.93);}
-.arena-frame>.summon-collapsed-trigger:focus-visible{outline:2px solid #fff0bd;outline-offset:5px;}
-@media screen and (orientation:landscape) and (min-width:600px) and (max-width:999px){
- .arena-frame>.summon-collapsed-trigger{right:calc(100% - 39.3% + 5px);bottom:clamp(30px,7dvh,40px);left:auto;top:auto;max-width:calc(39.3% - 12px);}
+.arena-frame>.summon-collapsed-trigger svg{
+ display:block;width:100%;height:100%;overflow:visible;
+ filter:drop-shadow(0 0 5px rgba(130,239,197,.78));animation:summonMiniSealBreath 3.4s ease-in-out infinite;
 }
-@media screen and (orientation:landscape) and (min-width:1000px){
- .arena-frame>.summon-collapsed-trigger{right:calc(100% - 46% + 6px);bottom:clamp(36px,5dvh,50px);left:auto;top:auto;max-width:calc(46% - 14px);}
-}
-@media screen and (orientation:landscape) and (min-width:600px) and (max-height:430px){.arena-frame>.summon-collapsed-trigger{bottom:31px;}}
-@media screen and (orientation:portrait){.arena-frame>.summon-collapsed-trigger{inset:6px 6px auto auto;max-width:calc(100% - 12px);}}
+.arena-frame>.summon-collapsed-trigger:active{transform:scale(.94);}
+.arena-frame>.summon-collapsed-trigger:focus-visible{outline:2px solid #fff0bd;outline-offset:4px;border-radius:50%;}
 @media (prefers-reduced-motion:reduce){.arena-frame>.summon-collapsed-trigger svg{animation:none!important;}}
