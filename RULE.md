@@ -203,3 +203,6 @@
 
 
 52. Giai đoạn hoàn thiện bố cục tiên môn: kiến trúc chính điện và các lầu các phải có phân cấp kích thước rõ, nhiều lớp hậu/trung/tiền cảnh, biển hiệu đọc được và khoảng cách không chồng mái. Sông giữ một lòng liên tục; vân mặt nước chuyển động chậm, đều, không lấn át cảnh. Khán đài giữ đúng số lượng và đội hình hiện hành, phân biệt tạp dịch/ngoại môn/nội môn/nòng cốt/thân truyền/trưởng lão bằng màu đạo bào, phụ kiện và linh quang; không đặt nhãn chữ phủ lên đầu hoặc thân nhân vật. Không đổi gameplay, thứ hạng, tốc độ hoặc thời lượng hiệu ứng.
+
+
+53. Nút bảng Triệu Hồi khi thu nhỏ phải bỏ toàn bộ chữ và chỉ hiển thị nút pháp trận tròn có thể nhận biết, có vùng chạm đủ lớn và trạng thái focus rõ. Giữ nguyên vị trí neo responsive hiện hành trong khung game ở portrait, landscape điện thoại và desktop; không để panel hoặc nút trôi sang Thiên Lý Kính/Tiên Bảng. Khi mở rộng, tiêu đề và nút thu nhỏ thông thường vẫn hoạt động như trước. Không thay đổi logic triệu hồi.
