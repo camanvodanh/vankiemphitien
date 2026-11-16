@@ -9654,3 +9654,30 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   max-width:100%!important;max-height:none!important;aspect-ratio:7 / 4!important;
   object-fit:contain!important;
 }
+
+
+/* REVISION 154 — vùng nhìn đủ chính xác 10 hạng + 1 hàng tiêu đề. */
+.arena-frame>.game-ranking>.table-wrap{
+  flex:0 0 242px!important;
+  height:242px!important;
+  min-height:242px!important;
+  max-height:242px!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+}
+.arena-frame>.game-ranking table{
+  border-collapse:separate!important;
+  border-spacing:0!important;
+}
+.arena-frame>.game-ranking table thead tr,
+.arena-frame>.game-ranking table tbody tr{
+  height:22px!important;
+}
+.arena-frame>.game-ranking table th,
+.arena-frame>.game-ranking table td{
+  box-sizing:border-box!important;
+  height:22px!important;
+  min-height:22px!important;
+  padding:3px 4px!important;
+  line-height:14px!important;
+}
