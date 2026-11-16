@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#102b27">
   <title>Vạn Kiếm Phi Tiên</title>
-  <link rel="stylesheet" href="style.css?v=responsive-arena-v177">
+  <link rel="stylesheet" href="style.css?v=responsive-arena-v178">
 </head>
 <body class="game-page">
   <main class="page game-app">
@@ -38,29 +38,7 @@
         <section class="panel summon-panel game-setup">
           <div class="setup-heading window-heading">
             <div class="setup-title-wrap"><span class="summon-title-mark" aria-hidden="true">✦</span><h2><span class="setup-title-full">Tiên Môn · Triệu Hồi</span><span class="setup-title-short">Triệu Hồi</span></h2></div>
-            <button class="window-minimize summon-seal-trigger" type="button" aria-label="Thu nhỏ bảng triệu hồi" aria-expanded="true" title="Thu nhỏ"><svg class="summon-mini-sword" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-              <defs>
-                <linearGradient id="miniSwordBlade" x1="0" y1="0" x2="1" y2="0">
-                  <stop stop-color="#5eaa91"/><stop offset=".22" stop-color="#d9f8e7"/><stop offset=".5" stop-color="#fffef0"/><stop offset=".76" stop-color="#b4e5d0"/><stop offset="1" stop-color="#397e70"/>
-                </linearGradient>
-                <linearGradient id="miniSwordGold" x1="0" y1="0" x2="0" y2="1">
-                  <stop stop-color="#fff3bd"/><stop offset=".42" stop-color="#e7c778"/><stop offset="1" stop-color="#936331"/>
-                </linearGradient>
-                <linearGradient id="miniSwordGrip" x1="0" y1="0" x2="1" y2="1">
-                  <stop stop-color="#e9d5a0"/><stop offset=".5" stop-color="#9b7542"/><stop offset="1" stop-color="#563c2d"/>
-                </linearGradient>
-              </defs>
-              <path d="M32 3 36.8 13.5 34.8 39.5 32 45 29.2 39.5 27.2 13.5Z" fill="url(#miniSwordBlade)" stroke="url(#miniSwordGold)" stroke-width="1.45" stroke-linejoin="round"/>
-              <path d="M32 6 33.2 15 32.5 38.5 32 41 31.5 38.5 30.8 15Z" fill="#fffef0" opacity=".88"/>
-              <path d="M28 15 30.5 19M36 15 33.5 19" stroke="#f7fff0" stroke-width=".8" opacity=".9"/>
-              <path d="M27.5 38.5 21 43.2 23 47.2 41 47.2 43 43.2 36.5 38.5 34.5 42 29.5 42Z" fill="url(#miniSwordGold)" stroke="#fff0bd" stroke-width="1.2" stroke-linejoin="round"/>
-              <path d="M29 46.5 29 56.2Q32 59.5 35 56.2L35 46.5Z" fill="url(#miniSwordGrip)" stroke="#e7c77f" stroke-width="1"/>
-              <path d="m29.3 49 5.4 2m-5.4 1.7 5.4 2m-5.4 1.6 4.2 1.5" stroke="#f5dfaa" stroke-width="1.15" stroke-linecap="round"/>
-              <path d="M27.2 59.2 32 56.8 36.8 59.2 32 63Z" fill="url(#miniSwordGold)" stroke="#fff0bd" stroke-width="1"/>
-              <path d="M32 1.8 33.5 5.5 32 8 30.5 5.5Z" fill="#fff8d9" stroke="#e7c778" stroke-width=".7"/>
-              <path d="M18 29q3-5 7-6M46 29q-3-5-7-6" fill="none" stroke="#a9e9cf" stroke-width="1" opacity=".7"/>
-              <circle cx="32" cy="44.5" r="2" fill="#f8f0c5" stroke="#a7783e" stroke-width=".7"/>
-            </svg></button>
+            <button class="window-minimize" type="button" aria-label="Thu nhỏ bảng triệu hồi" aria-expanded="true" title="Thu nhỏ">−</button>
           </div>
           <div class="summon-artwork" aria-hidden="true">
             
@@ -83,6 +61,30 @@
 
           <p id="lockNotice" class="lock-notice" aria-live="polite">Xoay vòng ngoài chọn số tiên nhân, vòng trong chọn thời lượng; chạm tâm pháp trận để triệu hồi.</p>
         </section>
+
+        <button class="summon-collapsed-trigger" type="button" aria-label="Mở lại bảng triệu hồi" title="Mở bảng Triệu Hồi" aria-expanded="false"><svg class="summon-mini-sword" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+              <defs>
+                <linearGradient id="miniSwordBlade" x1="0" y1="0" x2="1" y2="0">
+                  <stop stop-color="#5eaa91"/><stop offset=".22" stop-color="#d9f8e7"/><stop offset=".5" stop-color="#fffef0"/><stop offset=".76" stop-color="#b4e5d0"/><stop offset="1" stop-color="#397e70"/>
+                </linearGradient>
+                <linearGradient id="miniSwordGold" x1="0" y1="0" x2="0" y2="1">
+                  <stop stop-color="#fff3bd"/><stop offset=".42" stop-color="#e7c778"/><stop offset="1" stop-color="#936331"/>
+                </linearGradient>
+                <linearGradient id="miniSwordGrip" x1="0" y1="0" x2="1" y2="1">
+                  <stop stop-color="#e9d5a0"/><stop offset=".5" stop-color="#9b7542"/><stop offset="1" stop-color="#563c2d"/>
+                </linearGradient>
+              </defs>
+              <path d="M32 3 36.8 13.5 34.8 39.5 32 45 29.2 39.5 27.2 13.5Z" fill="url(#miniSwordBlade)" stroke="url(#miniSwordGold)" stroke-width="1.45" stroke-linejoin="round"/>
+              <path d="M32 6 33.2 15 32.5 38.5 32 41 31.5 38.5 30.8 15Z" fill="#fffef0" opacity=".88"/>
+              <path d="M28 15 30.5 19M36 15 33.5 19" stroke="#f7fff0" stroke-width=".8" opacity=".9"/>
+              <path d="M27.5 38.5 21 43.2 23 47.2 41 47.2 43 43.2 36.5 38.5 34.5 42 29.5 42Z" fill="url(#miniSwordGold)" stroke="#fff0bd" stroke-width="1.2" stroke-linejoin="round"/>
+              <path d="M29 46.5 29 56.2Q32 59.5 35 56.2L35 46.5Z" fill="url(#miniSwordGrip)" stroke="#e7c77f" stroke-width="1"/>
+              <path d="m29.3 49 5.4 2m-5.4 1.7 5.4 2m-5.4 1.6 4.2 1.5" stroke="#f5dfaa" stroke-width="1.15" stroke-linecap="round"/>
+              <path d="M27.2 59.2 32 56.8 36.8 59.2 32 63Z" fill="url(#miniSwordGold)" stroke="#fff0bd" stroke-width="1"/>
+              <path d="M32 1.8 33.5 5.5 32 8 30.5 5.5Z" fill="#fff8d9" stroke="#e7c778" stroke-width=".7"/>
+              <path d="M18 29q3-5 7-6M46 29q-3-5-7-6" fill="none" stroke="#a9e9cf" stroke-width="1" opacity=".7"/>
+              <circle cx="32" cy="44.5" r="2" fill="#f8f0c5" stroke="#a7783e" stroke-width=".7"/>
+            </svg></button>
 
         <div class="arena-controls">
           <button id="setupToggle" class="btn muted setup-toggle" hidden>☰ Thiết lập</button>
