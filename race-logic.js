@@ -798,6 +798,8 @@ function leaderOf(){
 // Co chữ thể chất/hiệu ứng theo chiều rộng thực tế; chỉ đo lại khi nội dung hoặc kích thước đổi.
 function fitCameraInfoText(id,value){
  const element=$(id);if(!element)return;
+ element.style.display="block";element.style.width="100%";element.style.marginInline="auto";
+ element.style.padding="0";element.style.textIndent="0";element.style.textAlign="center";element.style.textAlignLast="center";
  const text=String(value||"");
  if(element.textContent!==text)element.textContent=text;
  const width=element.clientWidth;
@@ -912,7 +914,7 @@ function updateRanking(){
  }
  // Trước cuộc đua giữ đúng thứ tự triệu hồi, chỉ thêm tên khi tiên nhân hiện thân.
  const source=raceActive?sortedRacers():racers;
- const sorted=source.filter(r=>!revealing||!Number.isFinite(r.summonRevealAt)||now>=r.summonRevealAt).slice(0,10);
+ const sorted=source.filter(r=>!revealing||!Number.isFinite(r.summonRevealAt)||now>=r.summonRevealAt);
  if(!sorted.length){
   // Khi có danh sách, không để placeholder "Đang triệu hồi" tồn tại dai dẳng.
   // Bảng tạm để trống trong lúc chờ nhóm đầu tiên; khi hoàn tất sẽ hiện đủ tên.
