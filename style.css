@@ -9277,3 +9277,11 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   .arena-frame>.game-camera,.arena-frame>.game-ranking{height:100%!important;max-height:100%!important;}
   .arena-frame>.game-ranking>.table-wrap{max-height:calc(10 * (1.15em + 8px) + 1.15em + 8px)!important;}
 }
+
+/* REVISION 143 — khóa padding hàng theo công thức viewport 10 vị trí, tránh sai số giữa desktop và mobile. */
+.arena-frame>.game-ranking table th,
+.arena-frame>.game-ranking table td{
+  box-sizing:border-box!important;
+  padding-top:4px!important;padding-bottom:4px!important;
+  line-height:1.15!important;
+}
