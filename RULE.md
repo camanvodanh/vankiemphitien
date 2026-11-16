@@ -221,3 +221,6 @@
 
 
 58. HUD đếm ngược trên Canvas chỉ hiển thị giá trị thời gian, không có nhãn “THỜI GIAN”; khung phải gọn nhưng đủ rộng cho chuỗi thời gian ở mọi kích thước Canvas. Khi bảng Triệu Hồi thu nhỏ, nút trường kiếm nằm ở góc phải-phía trên bên trong Canvas, có kích thước xấp xỉ chiều cao khung đếm ngược và phải bám theo góc Canvas khi resize/xoay màn hình. Trong quần thể tiên môn, giữ nguyên bố cục các hàng và mọi tòa nhà; chỉ Bách Thảo Các và Ngoại Vụ Điện được dịch khỏi vùng cổng đích nếu bị cổng che. Không thay đổi các vị trí kiến trúc khác hoặc gameplay.
+
+
+59. Khi tinh chỉnh bố cục tiên môn, các tòa nhà phải tiếp tục xen kẽ theo ba hàng hậu cảnh/trung cảnh/tiền cảnh; không dồn thành một hàng hoặc để mái/biển hiệu lọt vào vùng cổng đích. Cổng đích nằm tại TRACK.right và có trụ hai bên; giữ vùng an toàn bên trái trụ gần nhất. Bố trí lại cụm bên phải theo nhịp so le: Tàng Bảo Các và Hộ Sơn Trận Các xấp xỉ 700; Bách Thảo Các, Quan Tinh Lâu và Ngoại Vụ Điện xấp xỉ 850. Nút Triệu Hồi thu nhỏ phải có kích thước hiển thị quy đổi từ đúng 42 đơn vị chiều cao HUD Canvas, không đặt cố định 42 CSS px; CSS không được ghi đè kích thước động do JavaScript tính.
