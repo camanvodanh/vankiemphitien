@@ -493,3 +493,10 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Tiên Bảng luôn dùng chính xác cùng chiều cao với Thiên Lý Kính; không tự co theo số hàng. Toàn bộ danh sách cuộn dọc bên trong phần nội dung, tiêu đề đứng yên.
 - Khung Thiên Lý Kính chia vùng thông tin và canvas theo chiều cao còn lại; không ép canvas tràn hoặc làm méo tỷ lệ.
 - Dòng Hạng luôn đi kèm hệ số tốc độ. Khi có hiệu ứng tăng/giảm tốc, hiển thị thêm thời gian còn lại dạng giây với một chữ số thập phân. Hệ số và thời gian cùng màu: tăng tốc xanh lá, giảm tốc đỏ; bình thường màu trung tính.
+
+
+## 51. Sửa chồng hình chưởng môn trong nghi thức kết thúc
+
+- Trong toàn bộ giai đoạn giải tán/đứng dậy/kiếm tiếp cận, lớp khán đài ẩn chưởng môn nền; `drawPodiumScene()` là nguồn duy nhất vẽ chưởng môn nghi thức.
+- Khi kiếm tiếp cận, chỉ vẽ chưởng môn đứng cùng kiếm đang bay tới. Tại ngưỡng p=0.86, chuyển một lần sang chưởng môn ngự kiếm; không crossfade hai sprite nên không có hai ảnh đè nhau.
+- Khi đã chuyển sang ngự kiếm, không vẽ kiếm tiếp cận độc lập; `drawAwardMaster()` tự vẽ phi kiếm và một Thái Cực Ngọc Luân. Không thay đổi các mốc thời gian nghi thức hoặc bố cục vinh danh TOP 3.
