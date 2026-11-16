@@ -468,3 +468,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 
 - Footer không hiển thị dòng chú thích nguồn nhạc; phần ghi nhận tác giả vẫn được giữ lại.
 - Thiên Lý Kính và Tiên Bảng: panel mở dùng nút `−`; panel thu nhỏ dùng nút `+`. Nhấn nút chuyển trạng thái và ký hiệu ngay lập tức; khi mở lại phải trở về `−`. Đồng bộ thuộc tính trợ năng theo trạng thái thực tế.
+
+
+## 48. Mở rộng chiều cao trường đua và thu gọn hai panel phụ
+
+- Canvas chính dùng kích thước nội tại 1100×900 (tỷ lệ 11:9), thay cho 1100×825; CSS phải giữ tỷ lệ mới, không kéo méo hình.
+- Đường đua có TRACK.bottom=570; vùng bay kết thúc tại TRACK.bottom−90=480, tăng chiều cao làn bay từ 280 lên 365 đơn vị và vẫn chừa khoảng cách với nhãn khán đài.
+- Nút pháp trận Triệu Hồi thu nhỏ tăng từ 48 lên 52 đơn vị Canvas; neo theo Canvas, cách mép trên 7 và mép phải 12 đơn vị.
+- Thiên Lý Kính và Tiên Bảng cùng cao 290px. Tiên Bảng có viewport 209px cho hàng tiêu đề + 10 hàng dữ liệu; các vị trí còn lại cuộn dọc bên trong, tên dài ellipsis trong cột tên.
