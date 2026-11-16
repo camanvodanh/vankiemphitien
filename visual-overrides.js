@@ -1573,7 +1573,9 @@ function drawRacingArtifact(target,kind,phase){
   const female=arguments.length>3&&arguments[3]==="female";
   const palettes=VKP_DATA.swords.racingPalettes;
   const p=palettes[((kind%palettes.length)+palettes.length)%palettes.length];
-  const blade=p[0],edge=p[1],fuller=p[2],metal=p[3],shape=((kind%8)+8)%8;
+  const blade=p[0],edge=p[1],fuller=p[2],metal=p[3];
+  const shapeCount=VKP_DATA.swords.shapeCount;
+  const shape=((kind%shapeCount)+shapeCount)%shapeCount;
   target.save();target.translate(0,18);target.rotate(Math.PI/2+Math.sin(phase)*.012);
   target.globalAlpha=1;
 
@@ -1835,7 +1837,7 @@ function drawRecipientCelebrationGiftV2(target,x,riderY,rank,scale,bounce,mini){
 
 
 function drawPodiumScene(target,time,mini=false){
-  const ordered=sortedRacers().slice(0,3),w=target.canvas.width,h=target.canvas.height;
+  const ordered=sortedRacers().slice(0,VKP_DATA.ceremony.awards.topCount),w=target.canvas.width,h=target.canvas.height;
   const elapsed=Math.max(0,(performance.now()-ceremonyStartedAt)/1000);
   const count=ordered.length;
   
