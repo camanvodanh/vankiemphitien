@@ -345,23 +345,6 @@ const discipleCrowdLayout = (() => {
 })();
 
 
-function drawTempleAuras(time){
-  const sites=[[230,310,72,.2],[430,230,62,1.3],[675,279,78,2.4],[865,245,66,3.5],[540,386,54,4.4]];
-  sites.forEach(([x,y,r,p])=>{
-    ctx.save();
-    const glow=ctx.createRadialGradient(x,y-15,2,x,y-15,r);
-    glow.addColorStop(0,"rgba(255,230,172,.18)");glow.addColorStop(.5,"rgba(169,225,222,.08)");glow.addColorStop(1,"rgba(169,225,222,0)");
-    ctx.fillStyle=glow;ctx.fillRect(x-r,y-r,r*2,r*2);
-    for(let i=0;i<34;i++){
-      const a=time*.00022+p+i*2.399,orbit=r*(.2+((i*17)%29)/34);
-      const px=x+Math.cos(a)*orbit,py=y-14+Math.sin(a*1.19)*orbit*.48;
-      ctx.globalAlpha=.18+.55*Math.pow(Math.sin(time*.002+i+p),2);
-      ctx.fillStyle=i%4===0?"#fff0bc":"#bde9dc";
-      ctx.beginPath();ctx.arc(px,py,1+(i%3)*.4,0,Math.PI*2);ctx.fill();
-    }
-    ctx.restore();
-  });
-}
 
 // Cổng tiên môn có mặt trước, mặt bên và hai trụ nghiêng theo phối cảnh.
 function drawImmortalFinishGate(){
@@ -794,15 +777,6 @@ function drawDenseForest(time){
 
 
 
-function drawGiftBox(target,x,y,scale,color){
-  target.save();target.translate(x,y);target.scale(scale,scale);
-  target.shadowColor=color;target.shadowBlur=12;
-  target.fillStyle=color;target.fillRect(-8,-7,16,14);
-  target.strokeStyle="#fff5d1";target.lineWidth=1.5;target.strokeRect(-8,-7,16,14);
-  target.fillStyle="#fff1c2";target.fillRect(-2,-7,4,14);target.fillRect(-8,-2,16,3);
-  target.beginPath();target.ellipse(-3,-10,4,2.5,-.4,0,Math.PI*2);target.ellipse(3,-10,4,2.5,.4,0,Math.PI*2);target.fill();
-  target.restore();
-}
 
 
 
@@ -1432,33 +1406,6 @@ function drawFormalSpectator(x,y,scale,roleName,time,phase=0){
 // đứng thẳng, lưỡi kiếm ngang hướng phải; thêm chim trời.
 // =====================================================
 
-function drawPlazaGate(time){
-  const x=550,top=505,bottom=650;
-  ctx.save();
-  ctx.globalAlpha=.96;
-  // Hai trụ cổng ngọc và đế đá.
-  for(const side of [-1,1]){
-    const px=x+side*104;
-    const grad=ctx.createLinearGradient(px-9,0,px+9,0);
-    grad.addColorStop(0,"#70502f");grad.addColorStop(.35,"#efd28b");grad.addColorStop(.7,"#a87b3e");grad.addColorStop(1,"#5d402b");
-    ctx.fillStyle=grad;ctx.fillRect(px-8,top+28,16,bottom-top-28);
-    ctx.strokeStyle="#f1d58f";ctx.lineWidth=1.5;ctx.strokeRect(px-8,top+28,16,bottom-top-28);
-    ctx.fillStyle="#765331";ctx.fillRect(px-17,bottom-8,34,8);
-    ctx.fillStyle="#e8c77f";ctx.fillRect(px-20,bottom-12,40,4);
-    ctx.fillStyle="#f8e6ac";ctx.beginPath();ctx.arc(px,top+22,5,0,Math.PI*2);ctx.fill();
-  }
-  // Vòm cổng.
-  ctx.beginPath();ctx.moveTo(x-116,top+37);ctx.quadraticCurveTo(x,top-45,x+116,top+37);
-  ctx.strokeStyle="#68472d";ctx.lineWidth=15;ctx.stroke();
-  ctx.strokeStyle="#e8c77f";ctx.lineWidth=7;ctx.stroke();
-  ctx.strokeStyle="rgba(255,244,197,.8)";ctx.lineWidth=1.5;ctx.stroke();
-  // Biển hiệu.
-  ctx.fillStyle="#71332c";ctx.fillRect(x-57,top+2,114,28);
-  ctx.strokeStyle="#f0d28a";ctx.lineWidth=2;ctx.strokeRect(x-57,top+2,114,28);
-  ctx.fillStyle="#fff0c5";ctx.font="bold 15px Georgia";ctx.textAlign="center";ctx.textBaseline="middle";
-  ctx.fillText("VẠN KIẾM TIÊN MÔN",x,top+16);
-  ctx.restore();
-}
 
 
 
@@ -1891,8 +1838,7 @@ function drawPodiumScene(target,time,mini=false){
   const ordered=sortedRacers().slice(0,3),w=target.canvas.width,h=target.canvas.height;
   const elapsed=Math.max(0,(performance.now()-ceremonyStartedAt)/1000);
   const count=ordered.length;
-  const miniAwardStart=VKP_DATA.ceremony.awards.awardStart,miniMasterFlightDuration=VKP_DATA.ceremony.awards.masterFlightDuration;
-
+  
   // Thiên Lý Kính bỏ qua cảnh giải tán, đứng dậy và nhảy lên phi kiếm tại quảng trường.
   // Khung mini đi thẳng tới cùng cảnh trao giải, cùng nền, bục, người nhận và quỹ đạo chưởng môn.
   if(mini)window.__awardMasterDepartureActive=false;
@@ -2026,7 +1972,7 @@ function drawPodiumScene(target,time,mini=false){
     if(elapsed<dropStart)continue;
     if(p<1){
       const eased=awardSmoothstep(p),masterAt=clamp((elapsed-awardStart)/masterFlightDuration,0,1);
-      const masterGiftX=w*(-.16+1.32*masterAt),masterGiftY=h*(.205+Math.sin(masterAt*Math.PI*2)*.012);
+      const masterGiftY=h*(.205+Math.sin(masterAt*Math.PI*2)*.012);
       const giftY=masterGiftY+(riderY-masterGiftY)*eased;
       const raise=awardSmoothstep(p/.78);
       if(racer.isLegendaryThanSau){
