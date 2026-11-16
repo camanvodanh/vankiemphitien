@@ -447,20 +447,20 @@
     const gameCanvas=document.getElementById("game");
     const viewWidth=(gameCanvas&&gameCanvas.clientWidth)||1100;
     const uiScale=Math.min(1.42,Math.max(1,1100/viewWidth));
-    const x=550,y=125;
+    const x=550,y=114;
     ctx.save();ctx.globalAlpha=Math.max(0,fade);
-    ctx.font="700 "+(21*uiScale)+'px Arial, "Noto Sans", "PingFang SC", sans-serif';
+    ctx.font="700 "+(18*uiScale)+'px Arial, "Noto Sans", "PingFang SC", sans-serif';
     const textWidth=ctx.measureText(title).width;
     const width=Math.min(760,Math.max(340,textWidth+104));
     const glow=ctx.createRadialGradient(x,y,12,x,y,Math.max(190,width*.48));glow.addColorStop(0,region.accent||"#e7f2ff");glow.addColorStop(1,"rgba(0,0,0,0)");
-    ctx.fillStyle=glow;ctx.fillRect(x-width/2-24,y-38,width+48,76);
+    ctx.fillStyle=glow;ctx.fillRect(x-width/2-24,y-29,width+48,58);
     ctx.fillStyle="rgba(13,24,43,.96)";ctx.beginPath();
-    ctx.moveTo(x-width/2+18,y-21);ctx.lineTo(x-width/2+5,y);ctx.lineTo(x-width/2+18,y+21);
-    ctx.lineTo(x+width/2-18,y+21);ctx.lineTo(x+width/2-5,y);ctx.lineTo(x+width/2-18,y-21);ctx.closePath();ctx.fill();
+    ctx.moveTo(x-width/2+18,y-14);ctx.lineTo(x-width/2+5,y);ctx.lineTo(x-width/2+18,y+14);
+    ctx.lineTo(x+width/2-18,y+14);ctx.lineTo(x+width/2-5,y);ctx.lineTo(x+width/2-18,y-14);ctx.closePath();ctx.fill();
     ctx.strokeStyle=region.accent||"#e8d29b";ctx.lineWidth=2;ctx.stroke();
     ctx.strokeStyle="rgba(255,245,211,.72)";ctx.lineWidth=1;ctx.beginPath();
-    ctx.moveTo(x-width/2+30,y-13);ctx.lineTo(x-width/2+48,y);ctx.lineTo(x-width/2+30,y+13);
-    ctx.moveTo(x+width/2-30,y-13);ctx.lineTo(x+width/2-48,y);ctx.lineTo(x+width/2-30,y+13);ctx.stroke();
+    ctx.moveTo(x-width/2+30,y-9);ctx.lineTo(x-width/2+48,y);ctx.lineTo(x-width/2+30,y+9);
+    ctx.moveTo(x+width/2-30,y-9);ctx.lineTo(x+width/2-48,y);ctx.lineTo(x+width/2-30,y+9);ctx.stroke();
     ctx.fillStyle="#fff7df";ctx.textAlign="center";ctx.textBaseline="middle";
     ctx.shadowColor=region.accent||"#d9eaff";ctx.shadowBlur=10;ctx.fillText(title,x,y,width-68);ctx.shadowBlur=0;ctx.restore();
   }
