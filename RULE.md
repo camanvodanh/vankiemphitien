@@ -337,3 +337,9 @@
 - Canvas Thiên Lý Kính có kích thước nội tại 420×240, vì vậy vùng hiển thị phải giữ tỷ lệ 7:4 trên mọi bố cục.
 - Khung `.camera-screen` không được flex-grow để lấp chiều cao dư của panel; Canvas dùng chiều cao tự động theo chiều rộng, không dùng `height:100%` hoặc `object-fit:fill`.
 - Thông báo sự kiện và về đích trên trường đua luôn có tiền tố tên cảnh giới hiện hành; tên cảnh lấy từ cấu hình `data/scenery.json` và tiến độ chuyển cảnh, không thay đổi nội dung sự kiện hay gameplay.
+
+
+## 77. Cố định chiều cao Thiên Lý Kính theo nội dung
+- Thiên Lý Kính không dùng chiều cao cố định bằng Tiên Bảng; panel tự ôm tiêu đề, thông tin và khung hình.
+- `.camera-screen` và `#leaderCanvas` giữ tỷ lệ 7:4 theo kích thước nội tại 420×240. Khung hình không flex-grow để lấp chiều cao dư; phần nền trống dưới ảnh được loại bỏ.
+- Panel vẫn giữ vị trí neo hiện tại trong arena; không thay đổi renderer nhân vật, cách chọn người dẫn đầu hoặc nội dung HUD.
