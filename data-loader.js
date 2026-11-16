@@ -8,13 +8,13 @@
  }));
  window.VKP_DATA=Object.fromEntries(entries);
  const scripts=[
-  "core.js?v=race-phase1-v180",
-  "scenery.js?v=race-phase1-v182",
-  "audience.js?v=race-phase1-v180",
-  "race-render.js?v=race-phase1-v184",
-  "visual-overrides.js?v=race-phase1-v203",
+  "core.js?v=race-phase1-v181",
+  "scenery.js?v=race-phase1-v183",
+  "audience.js?v=race-phase1-v181",
+  "race-render.js?v=race-phase1-v185",
+  "visual-overrides.js?v=race-phase1-v204",
   "music.js?v=race-phase1-v180",
-  "race-logic.js?v=race-phase1-v200",
+  "race-logic.js?v=race-phase1-v201",
   "journey-world.js?v=journey-world-v15",
   "i18n.js?v=race-phase1-v181"
  ];
