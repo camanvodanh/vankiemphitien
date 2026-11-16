@@ -405,3 +405,10 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Kích thước nút dùng `clamp(38px, 5.2vmin, 54px)`, có vùng chạm, viền sáng và focus-visible; giảm/chặn animation khi người dùng bật reduced motion.
 - Giữ nguyên các vị trí neo portrait/landscape/desktop tại REVISION 131 trong `style.css`; không đổi thuật toán responsive hoặc vị trí hiện hành.
 - Khi nhấn pháp trận, dùng chính nút `.summon-seal-trigger` hiện tại để mở lại bảng; không thêm handler hoặc thay đổi logic triệu hồi.
+
+
+## 38. Biểu tượng kiếm của nút Triệu Hồi thu nhỏ
+
+- Khi bảng Triệu Hồi thu nhỏ, phần hình bên trong nút tròn là một thanh kiếm tiên dài theo trục dọc, nhìn rõ lưỡi kiếm, sống/rãnh sáng, hộ thủ, chuôi quấn và chóp chuôi.
+- Kiếm dùng phối màu ngọc bích, bạc sáng và vàng cổ, có độ tương phản đủ để nhận biết ở kích thước 38–54px; không được rút ngắn thành biểu tượng hình thoi/ngôi sao.
+- Nút tròn, kích thước co giãn, vị trí responsive, hiệu ứng focus và thao tác mở rộng bảng giữ nguyên. Chỉ thay hình SVG bên trong, không tác động gameplay.
