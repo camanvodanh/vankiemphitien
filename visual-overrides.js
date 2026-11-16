@@ -2211,11 +2211,11 @@ function drawAwardMaster(target,x,y,scale,time){
 // =====================================================
 const __thanSauSpriteSheet = new Image();
 let __thanSauSpriteReady = false;
+let __thanSauSpriteRequested = false;
 __thanSauSpriteSheet.onload = () => { __thanSauSpriteReady = true; };
 __thanSauSpriteSheet.onerror = () => {
   console.warn("Không tải được sprite sheet Thần Sầu.");
 };
-__thanSauSpriteSheet.src = "assets/characters/than-sau/than-sau-spritesheet.png?v=1";
 
 function drawThanSauEffect(target,racer,time,scale=1){
   if(!(racer&&racer.effectTimer>0))return;
@@ -2564,6 +2564,10 @@ if(activeEffect==="talisman"||activeEffect==="talisman_guard"||activeEffect==="t
   }
 }
 function drawRacer(target, racer, x, y, scale, time) {
+  if (racer && racer.isLegendaryThanSau && !__thanSauSpriteRequested) {
+    __thanSauSpriteRequested = true;
+    __thanSauSpriteSheet.src = "assets/characters/than-sau/than-sau-spritesheet.png?v=1";
+  }
   if (!racer || !racer.isLegendaryThanSau || !__thanSauSpriteReady ||
       !__thanSauSpriteSheet.naturalWidth || !__thanSauSpriteSheet.naturalHeight) {
     return __drawRacerBaseThanSau(target, racer, x, y, scale, time);
