@@ -578,3 +578,8 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Bản `script.js` cũ không được trang hoặc loader tham chiếu nên đã loại khỏi repository. Đây không phải script runtime hiện tại; game chạy qua `data-loader.js` và 9 script theo thứ tự đã cấu hình.
 - Không xóa placeholder `assets/characters/than-sau/frames/.gitkeep`; thư mục này dành cho frame PNG độc lập bổ sung trong tương lai.
 - Không thay đổi nội dung hình ảnh, kích thước canvas, frame timing, hiệu ứng hoặc chất lượng âm thanh trong giai đoạn này.
+
+
+## 62. Tỷ lệ Thiên Lý Kính và tên cảnh trong thông báo
+- `#leaderCanvas` có kích thước nội tại 420×240; `.camera-screen` và canvas phải giữ tỷ lệ 7:4. Khung camera không kéo giãn canvas theo chiều cao panel, không dùng flex-grow để ép chiều cao và không dùng `object-fit:fill`.
+- Renderer thông báo lấy tên cảnh giới hiện hành từ `window.__vkGetCurrentRealmName()` (được cung cấp bởi `journey-world.js`) rồi ghép trước nội dung thông báo. Danh sách tên và mốc cảnh vẫn lấy từ `data/scenery.json`.
