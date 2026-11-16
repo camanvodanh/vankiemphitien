@@ -519,7 +519,8 @@
       }
     }
     ctx.restore();
-    drawRealmArrivalTitle(time);
+    // Tên cảnh giới đã được hiển thị trong thông báo vượt cổng;
+    // không vẽ thêm banner riêng bên dưới thông báo.
   }
   function drawMiniRealm(time=0){
     if(!regions.length||typeof cameraCtx==="undefined"||frameProgress<Number(regions[1]&&regions[1].start||.2))return;
