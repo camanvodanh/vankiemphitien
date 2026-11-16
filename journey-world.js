@@ -47,6 +47,32 @@
     return String(active&&(active.shortName||active.name)||"").toLocaleUpperCase("vi");
   }
   window.__vkGetCurrentRealmName=currentRealmName;
+
+  // Tiên Bảng luôn khớp chính xác chiều cao thực tế của Thiên Lý Kính.
+  function syncRankingPanelHeight(){
+    const camera=document.querySelector(".game-camera");
+    const ranking=document.querySelector(".game-ranking");
+    if(!camera||!ranking)return;
+    const height=camera.getBoundingClientRect().height;
+    if(height>0)ranking.style.setProperty("height",height+"px","important");
+  }
+  function installRankingPanelSync(){
+    const camera=document.querySelector(".game-camera");
+    if(!camera)return;
+    syncRankingPanelHeight();
+    if(typeof ResizeObserver==="function"){
+      const observer=new ResizeObserver(syncRankingPanelHeight);
+      observer.observe(camera);
+    }else{
+      window.addEventListener("resize",syncRankingPanelHeight,{passive:true});
+    }
+    window.addEventListener("orientationchange",syncRankingPanelHeight,{passive:true});
+  }
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded",installRankingPanelSync,{once:true});
+  }else{
+    installRankingPanelSync();
+  }
   function smooth(value){const t=Math.max(0,Math.min(1,value));return t*t*(3-2*t);}
   function activeBlend(progress){
     if(!regions.length||progress<Number(regions[1]&&regions[1].start||.2))return [];
