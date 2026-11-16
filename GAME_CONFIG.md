@@ -519,7 +519,7 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 ## 54. Dọn phong cảnh cũ — giai đoạn 2
 - `visual-overrides.js` giữ một bản renderer phong cảnh cuối cùng. Đã xóa các bản `drawScenery()` cũ và các bản bị ghi đè của `drawRiver()`, `drawMountainRange()`, `drawSpiritBirds()`, `drawDenseForest()`, `drawAmbientEnergy()`, `drawRiverCurrent()` và `drawSectArchitecture()`.
 - Đã xóa các lớp cảnh cũ không còn nằm trong cảnh hiện hành: thác nước, dòng thác liên kết, suối núi, vách thác, cụm núi-thác đôi, pháp bảo linh tuyền cũ và các bản vẽ cung điện nền cũ.
-- `scenery.js` chỉ còn các thành phần nền còn được cảnh hiện hành dùng: `initStars()`, `drawSky()`, `drawCloud()`, `drawMovingClouds()`, `drawPine()` và `drawTree()`.
+- `scenery.js` giữ các thành phần nền còn được cảnh hiện hành dùng: `initStars()`, `drawSky()`, `drawCloud()`, `drawMovingClouds()` và `drawPine()`; `drawTree()` đã được loại bỏ ở giai đoạn 4E vì không còn điểm gọi.
 - Đã xóa `drawScenery()` cũ trong `race-render.js`; lời gọi render vẫn dùng `drawScenery()` cuối cùng trong `visual-overrides.js`.
 - Giữ nguyên các hàm vẽ hiện hành và kiến trúc tiên môn, rừng cây, sông, khán giả, nghi thức trao thưởng; không thay đổi dữ liệu hoặc thông số gameplay.
 
@@ -552,3 +552,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - `render()` được `journey-world.js` bọc đúng một lần để cập nhật tiến độ cảnh giới trước renderer gốc. `drawScenery()` chụp nền gốc rồi hòa trộn cảnh chính; `drawTrackLines()` bổ sung cổng không gian; camera dùng cùng tiến độ để hiển thị tiểu cảnh đồng bộ.
 - Các wrapper cổng giới trong `createRacer()`, `startRace()` và `updateRace()` vẫn gọi hàm gốc trước khi áp dụng/reset mặt nạ cổng; mỗi racer chỉ nhận hiệu ứng một lần tại mỗi cổng. IIFE giao diện/gesture đang hoạt động được giữ nguyên. Hai IIFE xoay màn hình cũ đã được loại bỏ vì các nút `rotateView`, `rotateScreen`, `rotateHint` không tồn tại trong `index.html`, nên chúng không khởi tạo được chức năng nào.
 - Đây là cleanup renderer bị thay thế; không thay đổi phong cảnh, crossfade, cổng, tốc độ, thứ hạng, thời lượng, hiệu ứng hoặc gameplay. Cache `race-render.js` tăng lên `v184`.
+
+
+## 59. Helper tiện ích, particle và trạng thái không dùng — giai đoạn 4E
+- Loại bỏ helper không có điểm gọi trong renderer hiện hành: `drawTree()`, `drawEnergyRings()`, `drawAudiencePlatform()`, `drawDiscipleSeats()`, `drawElderSeats()`, `drawMasterThrone()`, `drawTempleAuras()`, `drawGiftBox()`, `drawPlazaGate()`.
+- Loại bỏ trạng thái/dữ liệu không được sử dụng: `waterLines`, `eventMessages`, `miniAwardStart`, `miniMasterFlightDuration`, `masterGiftX`, `returnStart`.
+- Particle vẫn giữ nguyên ngân sách thích ứng theo số racer, tạo hạt, cập nhật tại chỗ và vẽ alpha theo vòng đời. Các hiệu ứng linh khí/khán đài và helper nghi thức đang có điểm gọi không bị thay đổi.
+- Giữ `discipleCrowdLayout` vì IIFE khởi tạo có tiêu thụ `Math.random()` khi nạp script; loại bỏ sẽ thay đổi chuỗi ngẫu nhiên dùng để tạo sao/mây và các thành phần khởi tạo tiếp theo. Đây là dữ liệu không được đọc nhưng có side effect, nên chưa xóa trong cleanup bảo toàn hành vi.
+- Tăng cache version cho các JavaScript đã sửa; không thay đổi thông số gameplay hoặc cách vẽ các renderer đang hoạt động.
