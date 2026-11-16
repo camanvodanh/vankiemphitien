@@ -241,3 +241,6 @@
 
 
 62. Footer chỉ giữ phần ghi nhận tác giả; không hiển thị chú thích/attribution nhạc ở cuối trang. Các nút `.window-minimize` của Thiên Lý Kính và Tiên Bảng phải hiển thị `−` khi panel mở, chuyển thành `+` khi panel thu nhỏ; khi mở lại phải đổi về `−`. Đồng bộ `textContent`, `aria-expanded`, `aria-label` và `title` theo cùng trạng thái.
+
+
+63. Mở rộng vùng bay phải đồng bộ với chiều cao Canvas, giữ tỷ lệ hiển thị đúng theo kích thước nội tại và không kéo méo nhân vật. Khoảng bay dọc phải tăng nhưng vẫn chừa khoảng trống với nhãn khán đài; cổng đích kéo xuống theo đáy đường đua. Nút Triệu Hồi thu nhỏ dùng 52 đơn vị Canvas, quy đổi theo chiều cao Canvas thực tế và chừa khoảng an toàn bên phải để không che cổng đích. Tiên Bảng chỉ có vùng nhìn cao đúng tiêu đề + 10 hàng; danh sách còn lại cuộn bên trong. Thiên Lý Kính và Tiên Bảng dùng cùng chiều cao gọn 290px.
