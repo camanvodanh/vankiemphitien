@@ -377,3 +377,8 @@
 - Trong hàng thông tin đầu của Thiên Lý Kính, thứ tự là Hạng trước, tiếp đến khoảng cách nhỏ, rồi tốc độ và thời gian hiệu ứng.
 - Bỏ hoàn toàn border, nền, bo góc và shadow bao quanh nhãn Hạng; giữ chữ Hạng rõ ràng.
 - Toàn bộ hàng được căn giữa theo chiều ngang như một cụm thống nhất, không đẩy Hạng và tốc độ về hai mép panel.
+
+## 83. Cố định hàng tiêu đề hai panel và không lặp tên cảnh giới
+- Hàng tiêu đề “Thiên Lý Kính” và “Tiên Bảng” phải nằm ở đầu hai panel, cùng chiều cao 34px, cùng căn chỉnh theo trục dọc và không bị đẩy xuống do căn giữa nội dung Thiên Lý Kính.
+- Tiên Bảng cuộn danh sách bên trong `.table-wrap`; hàng tiêu đề panel nằm ngoài vùng cuộn và luôn được giữ ở đầu. Hàng tiêu đề Thiên Lý Kính cũng giữ vị trí đầu panel.
+- Tên cảnh giới mới chỉ hiển thị trong thông báo khi tiên nhân đầu tiên vượt cổng. Không vẽ thêm banner/tên cảnh giới riêng trên Canvas trong cùng thời điểm, tránh lặp nội dung phía dưới thông báo.
