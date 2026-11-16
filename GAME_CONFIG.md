@@ -604,3 +604,9 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Tiên Bảng có vùng hiển thị cố định đủ hàng tiêu đề và 10 vị trí đầu; hạng 11 trở đi cuộn trong `.table-wrap`. Vùng này luôn giữ chiều cao dành cho 10 vị trí, không co theo số lượng người tham gia.
 - Chiều cao tổng thể Tiên Bảng là nguồn chuẩn. `journey-world.js` quan sát panel này bằng `ResizeObserver` và đồng bộ chiều cao Thiên Lý Kính theo đúng kích thước thực tế.
 - Nội dung Thiên Lý Kính (tiêu đề, thông tin và canvas) căn giữa theo chiều dọc; Canvas vẫn giữ tỷ lệ 7:4 và không bị kéo méo.
+
+
+## 66. Vùng nhìn 10 hạng của Tiên Bảng
+- `.table-wrap` cố định 242px, bằng 11 hàng × 22px (gồm hàng tiêu đề cột và 10 vị trí đầu).
+- Các hàng tiêu đề và dữ liệu đều khóa 22px theo border-box để không bị co thấp hoặc nở ngoài dự tính. Hạng 11 trở đi cuộn bên trong.
+- ResizeObserver tiếp tục lấy chiều cao thực tế Tiên Bảng để đồng bộ Thiên Lý Kính.
