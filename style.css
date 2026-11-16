@@ -9285,3 +9285,40 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   padding-top:4px!important;padding-bottom:4px!important;
   line-height:1.15!important;
 }
+
+
+/* REVISION 144 — nút Triệu Hồi lớn hơn nhẹ; hai panel phụ cùng chiều cao và Tiên Bảng thấy 10 hàng. */
+.arena-frame>.summon-collapsed-trigger{
+  width:var(--summon-launcher-size,48px)!important;
+  height:var(--summon-launcher-size,48px)!important;
+  min-width:var(--summon-launcher-size,48px)!important;
+  min-height:var(--summon-launcher-size,48px)!important;
+}
+.arena-frame>.game-camera,
+.arena-frame>.game-ranking{
+  box-sizing:border-box!important;
+  height:clamp(320px,36vw,440px)!important;
+  min-height:320px!important;
+  max-height:440px!important;
+}
+.arena-frame>.game-ranking>.table-wrap{
+  flex:0 1 auto!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:calc(10 * (1.15em + 8px) + 1.15em + 8px)!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+  scrollbar-gutter:stable;
+}
+.arena-frame>.game-ranking table{
+  width:100%!important;
+  table-layout:fixed!important;
+}
+.arena-frame>.game-ranking table th,
+.arena-frame>.game-ranking table td{
+  box-sizing:border-box!important;
+  padding-top:4px!important;
+  padding-bottom:4px!important;
+  line-height:1.15!important;
+}
