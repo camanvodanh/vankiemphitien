@@ -522,3 +522,9 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - `scenery.js` chỉ còn các thành phần nền còn được cảnh hiện hành dùng: `initStars()`, `drawSky()`, `drawCloud()`, `drawMovingClouds()`, `drawPine()` và `drawTree()`.
 - Đã xóa `drawScenery()` cũ trong `race-render.js`; lời gọi render vẫn dùng `drawScenery()` cuối cùng trong `visual-overrides.js`.
 - Giữ nguyên các hàm vẽ hiện hành và kiến trúc tiên môn, rừng cây, sông, khán giả, nghi thức trao thưởng; không thay đổi dữ liệu hoặc thông số gameplay.
+
+
+## 55. Hợp nhất renderer khán đài — giai đoạn 4A
+- Chỉ còn một `drawCrowd()` cuối cùng trong `visual-overrides.js`, một `drawSpectator()` cuối cùng trong `visual-overrides.js` và một wrapper `drawFormalSpectator()` cuối cùng.
+- Renderer khán đài giữ nguyên các tầng tạp dịch, ngoại môn, nội môn, nòng cốt, chân truyền đệ tử, trưởng lão và chưởng môn; không thay đổi bố cục, số lượng hay hiệu ứng.
+- `audience.js` tiếp tục cung cấp các helper còn được dùng; cache version `audience.js` và `visual-overrides.js` được tăng sau khi hợp nhất.
