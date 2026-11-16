@@ -9609,3 +9609,48 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
 /* REVISION 152 — chiều cao Tiên Bảng được đồng bộ chính xác bằng ResizeObserver. */
 .arena-frame>.game-ranking{height:auto!important;max-height:none!important;min-height:0!important;align-self:start!important;}
 .arena-frame>.game-ranking>.table-wrap{flex:1 1 auto!important;max-height:215px!important;min-height:0!important;overflow-y:auto!important;}
+
+
+/* REVISION 153 — Tiên Bảng làm chuẩn 10 vị trí; Thiên Lý Kính đồng bộ và căn giữa nội dung. */
+.arena-frame>.game-ranking{
+  box-sizing:border-box!important;display:flex!important;flex-direction:column!important;
+  height:auto!important;min-height:0!important;max-height:none!important;
+  align-self:start!important;overflow:hidden!important;
+}
+.arena-frame>.game-ranking>.ranking-heading{flex:0 0 auto!important;}
+.arena-frame>.game-ranking>.table-wrap{
+  display:block!important;flex:0 0 215px!important;width:100%!important;
+  height:215px!important;min-height:215px!important;max-height:215px!important;
+  overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior:contain!important;
+  scrollbar-gutter:stable;
+}
+.arena-frame>.game-ranking table{
+  width:100%!important;height:auto!important;min-height:0!important;
+  margin:0!important;table-layout:fixed!important;
+}
+.arena-frame>.game-ranking table thead,
+.arena-frame>.game-ranking table tbody{height:auto!important;min-height:0!important;}
+.arena-frame>.game-ranking table th,
+.arena-frame>.game-ranking table td{
+  box-sizing:border-box!important;height:19px!important;min-height:0!important;
+  padding:3px 4px!important;line-height:11px!important;
+}
+.arena-frame>.game-camera{
+  box-sizing:border-box!important;display:flex!important;flex-direction:column!important;
+  justify-content:center!important;align-items:stretch!important;
+  min-height:0!important;max-height:none!important;gap:6px!important;overflow:hidden!important;
+}
+.arena-frame>.game-camera>.camera-heading,
+.arena-frame>.game-camera>.camera-info{flex:0 0 auto!important;}
+.arena-frame>.game-camera>.camera-info{display:flex!important;flex-direction:column!important;}
+.arena-frame>.game-camera>.camera-screen{
+  display:block!important;flex:0 0 auto!important;align-self:stretch!important;
+  width:100%!important;height:auto!important;min-height:0!important;
+  aspect-ratio:7 / 4!important;overflow:hidden!important;
+}
+.arena-frame>.game-camera>.camera-screen>#leaderCanvas{
+  display:block!important;flex:none!important;align-self:auto!important;
+  width:100%!important;height:auto!important;min-height:0!important;
+  max-width:100%!important;max-height:none!important;aspect-ratio:7 / 4!important;
+  object-fit:contain!important;
+}
