@@ -198,3 +198,5 @@
 
 
 50. Tuyệt chiêu Bún Chua Cay của Thần Sầu phải được nhận diện bằng trạng thái nhân vật/đồng hồ tuyệt chiêu, không phụ thuộc duy nhất vào chuỗi effectName có thể bị dịch hoặc thay đổi. Mọi nhánh vẽ Du Long Bộ phải loại trừ Thần Sầu; khi thanSauEatingTimer còn hiệu lực phải hiện tô bún, động tác ăn và dòng bún/nước dùng. Không thay đổi boost ×1.20, thời lượng 3.5 giây hoặc cooldown 11.5 giây.
+
+51. Nhạc mở đầu ở phase `setup` phải phát từ `assets/music/setup.mp3` khi file đã có trong repository; giữ nguyên nhạc `race` và `award` nếu người dùng chỉ yêu cầu thay nhạc mở đầu. Khi đổi nguồn script `music.js`, phải tăng cache-busting tương ứng trong `data-loader.js`; không tự đổi cơ chế unlock, chuyển phase, fade, loop hoặc nút bật/tắt.
