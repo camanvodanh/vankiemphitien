@@ -9,6 +9,7 @@
   const portals=Array.isArray(config.portals)?config.portals:[];
   const transitionWidth=Math.max(.005,Math.min(.04,Number(config.transitionWidth)||.018));
   let frameProgress=0;
+  let announcedPortalMask=0;
   let baseSceneCanvas=null;
   let baseSceneCtx=null;
 
@@ -574,7 +575,10 @@
     const baseStartRace=startRace;
     startRace=function(){
       baseStartRace();
-      if(running)racers.forEach(racer=>{racer.realmPortalMask=0;});
+      if(running){
+        announcedPortalMask=0;
+        racers.forEach(racer=>{racer.realmPortalMask=0;});
+      }
     };
   }
   if(typeof updateRace==="function"){
@@ -592,6 +596,16 @@
           if(!(racer.realmPortalMask&bit)&&previous<threshold&&current>=threshold){
             racer.realmPortalMask|=bit;
             applyPortalEffect(racer,portal,index);
+            // Chỉ thông báo một lần ở mỗi khe nứt, khi tiên nhân đầu tiên thực sự bước qua.
+            if(!(announcedPortalMask&bit)){
+              announcedPortalMask|=bit;
+              const destination=regions[index+1];
+              const realmName=String(destination&&(destination.shortName||destination.name)||portal.shortName||("CẢNH GIỚI "+(index+2))).toLocaleUpperCase("vi");
+              eventText="BƯỚC VÀO "+realmName;
+              eventTextLife=2.8;
+              const eventNode=typeof $==="function"?$("event"):document.getElementById("event");
+              if(eventNode)eventNode.textContent=eventText;
+            }
           }
         });
       });
