@@ -476,3 +476,12 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Đường đua có TRACK.bottom=570; vùng bay kết thúc tại TRACK.bottom−90=480, tăng chiều cao làn bay từ 280 lên 365 đơn vị và vẫn chừa khoảng cách với nhãn khán đài.
 - Nút pháp trận Triệu Hồi thu nhỏ tăng từ 48 lên 52 đơn vị Canvas; neo theo Canvas, cách mép trên 7 và mép phải 12 đơn vị.
 - Thiên Lý Kính và Tiên Bảng cùng cao 290px. Tiên Bảng có viewport 209px cho hàng tiêu đề + 10 hàng dữ liệu; các vị trí còn lại cuộn dọc bên trong, tên dài ellipsis trong cột tên.
+
+
+## 49. Tiên Bảng tự co chiều cao, không có khoảng trống dưới hạng 10
+
+- Bỏ chiều cao cố định 290px của Tiên Bảng.
+- Panel tự co theo tiêu đề + số hàng đang hiển thị, tối đa 10 hàng.
+- Vùng .table-wrap có giới hạn tối đa 209px; danh sách dài hơn 10 hàng cuộn bên trong.
+- Không ép chiều cao tối thiểu cho table, thead, tbody; không để phần nền trống bên dưới hàng thứ 10.
+- Thiên Lý Kính không bị kéo giãn theo chiều cao dư của Tiên Bảng.
