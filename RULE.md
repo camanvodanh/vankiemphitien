@@ -215,3 +215,6 @@
 
 
 56. Nút mở lại bảng Triệu Hồi phải là trường kiếm đặt trong pháp trận triệu hồi hoàn chỉnh: có vòng trận, đường phù văn, các điểm linh lực và ánh sáng ngọc/vàng bao quanh kiếm. Nút phải được định vị theo góc phải-dưới của chính Canvas trường đua, không căn theo toàn bộ khung arena hoặc các panel Thiên Lý Kính/Tiên Bảng; khi đổi kích thước, xoay màn hình hoặc thay đổi tỷ lệ Canvas, nút vẫn bám đúng góc Canvas. Nhấn nút mở lại bảng Triệu Hồi; dấu “−” trên tiêu đề và nút khai trận bên trong pháp luân giữ nguyên chức năng.
+
+
+57. Nút trường kiếm khi bảng Triệu Hồi thu nhỏ phải nằm ở góc phải-bên trong của chính vùng game, neo theo hình học layout của Canvas và không trôi sang các panel bên cạnh hoặc ra ngoài game. Khi bảng Triệu Hồi mở, biểu tượng trường kiếm trong pháp trận được đưa vào nút khai trận ở tâm pháp luân bên trong bảng. Phải giữ nguyên hai vòng xoay, giá trị/thời lượng, trình chỉnh sửa, nút xoay và toàn bộ thông số/cơ chế triệu hồi; chỉ thay diện mạo nút trung tâm, không thay đổi logic.
