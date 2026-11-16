@@ -9,12 +9,12 @@
  window.VKP_DATA=Object.fromEntries(entries);
  const scripts=[
   "core.js?v=race-phase1-v179",
-  "scenery.js?v=race-phase1-v179",
+  "scenery.js?v=race-phase1-v180",
   "audience.js?v=race-phase1-v179",
   "race-render.js?v=race-phase1-v181",
-  "visual-overrides.js?v=race-phase1-v197",
+  "visual-overrides.js?v=race-phase1-v198",
   "music.js?v=race-phase1-v180",
-  "race-logic.js?v=race-phase1-v194",
+  "race-logic.js?v=race-phase1-v195",
   "journey-world.js?v=journey-world-v14",
   "i18n.js?v=race-phase1-v181"
  ];
