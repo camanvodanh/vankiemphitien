@@ -12,6 +12,7 @@
   let announcedPortalMask=0;
   let baseSceneCanvas=null;
   let baseSceneCtx=null;
+  let cameraPanelObserver=null;
 
   function captureBaseScene(){
     if(typeof ctx==="undefined"||!ctx.canvas)return;
@@ -54,15 +55,22 @@
     const ranking=document.querySelector(".game-ranking");
     if(!camera||!ranking)return;
     const height=ranking.getBoundingClientRect().height;
-    if(height>0)camera.style.setProperty("height",height+"px","important");
+    if(height>0){
+      const current=camera.getBoundingClientRect().height;
+      if(Math.abs(current-height)>.5){
+        camera.style.setProperty("height",height+"px","important");
+        camera.style.setProperty("min-height",height+"px","important");
+        camera.style.setProperty("max-height",height+"px","important");
+      }
+    }
   }
   function installCameraPanelSync(){
     const ranking=document.querySelector(".game-ranking");
     if(!ranking)return;
     syncCameraPanelHeight();
     if(typeof ResizeObserver==="function"){
-      const observer=new ResizeObserver(syncCameraPanelHeight);
-      observer.observe(ranking);
+      cameraPanelObserver=new ResizeObserver(syncCameraPanelHeight);
+      cameraPanelObserver.observe(ranking);
     }else{
       window.addEventListener("resize",syncCameraPanelHeight,{passive:true});
     }
@@ -71,7 +79,7 @@
   if(document.readyState==="loading"){
     document.addEventListener("DOMContentLoaded",installCameraPanelSync,{once:true});
   }else{
-    installRankingPanelSync();
+    installCameraPanelSync();
   }
   function smooth(value){const t=Math.max(0,Math.min(1,value));return t*t*(3-2*t);}
   function activeBlend(progress){
@@ -626,8 +634,8 @@
             if(!(announcedPortalMask&bit)){
               announcedPortalMask|=bit;
               const destination=regions[index+1];
-              const realmName=String(destination&&(destination.shortName||destination.name)||portal.shortName||("CẢNH GIỚI "+(index+2))).toLocaleUpperCase("vi");
-              eventText="BƯỚC VÀO "+realmName;
+              const realmName=String((destination&&destination.name)||(destination&&destination.shortName)||portal.name||portal.shortName||("CẢNH GIỚI "+(index+2))).toLocaleUpperCase("vi");
+              eventText=realmName;
               eventTextLife=2.8;
               const eventNode=typeof $==="function"?$("event"):document.getElementById("event");
               if(eventNode)eventNode.textContent=eventText;
