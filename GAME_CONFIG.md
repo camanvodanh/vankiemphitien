@@ -435,3 +435,10 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Khi bảng Triệu Hồi thu nhỏ, nút trường kiếm-pháp trận neo cố định tại góc phải-bên trong Canvas, sử dụng tọa độ layout thực tế của Canvas trong arena để không lệch sang Thiên Lý Kính/Tiên Bảng hoặc ra ngoài vùng game.
 - Khi bảng Triệu Hồi mở, dùng cùng thiết kế trường kiếm-pháp trận cho nút khai trận ở chính tâm pháp luân bên trong bảng.
 - Giữ nguyên vòng ngoài chọn số tiên nhân, vòng trong chọn thời lượng, hai ô hiển thị/chỉnh sửa thông số, thao tác kéo/xoay, nút xoay màn hình và logic triệu hồi. Chỉ thay SVG và diện mạo nút tâm.
+
+
+## 42. HUD đếm ngược, nút Triệu Hồi và khoảng thoáng cổng đích
+
+- HUD đếm ngược chỉ hiển thị giá trị thời gian; bỏ nhãn “THỜI GIAN”. Khung gọn 150×42 đơn vị Canvas, chữ căn giữa và co theo chiều rộng hiển thị.
+- Khi bảng Triệu Hồi thu nhỏ, nút trường kiếm-pháp trận có kích thước 42×42 px, đặt ở góc phải-phía trên bên trong Canvas, cách mép trên 7 px và mép phải 10 px; vị trí được tính theo layout Canvas và cập nhật khi resize/xoay màn hình.
+- Bố cục ba hàng kiến trúc tiên môn và toàn bộ các tòa còn lại giữ nguyên. Bách Thảo Các dịch từ x=988 sang x=870; Ngoại Vụ Điện dịch từ x=955 sang x=865 để tránh vùng cổng đích tại TRACK.right=1000. Đây là thay đổi tọa độ trình bày, không tác động gameplay.
