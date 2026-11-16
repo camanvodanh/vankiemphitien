@@ -420,3 +420,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Khi bảng thu nhỏ, ẩn panel và hiển thị nút trường kiếm riêng ở góc phải vùng game. Nút kiếm nằm ngoài panel, không trùng vị trí nút “−”, nhấn vào sẽ mở lại bảng.
 - Nút kiếm dùng đúng neo responsive trong cột game: portrait góc phải phía trên; landscape điện thoại và desktop ở góc phải phía dưới nhưng nằm trên hàng điều khiển. Giữ nguyên kích thước co giãn và vùng chạm.
 - Nút khai trận có id summon bên trong pháp luân vẫn giữ nguyên chức năng; không thay đổi gameplay.
+
+
+## 40. Pháp trận trường kiếm mở lại bảng Triệu Hồi
+
+- Nút thu nhỏ riêng hiển thị trường kiếm tiên nằm trong pháp trận triệu hồi nhiều lớp, gồm vòng trận, hình học phù văn, điểm linh lực và ánh sáng ngọc bích/vàng cổ.
+- Nút được định vị theo góc phải-dưới của chính Canvas trường đua bằng kích thước/vị trí Canvas thực tế; không neo theo toàn bộ arena, không phủ sang Thiên Lý Kính, Tiên Bảng hoặc hàng điều khiển.
+- Khi đổi kích thước viewport, xoay màn hình hoặc thay đổi kích thước Canvas, vị trí nút được cập nhật để luôn bám góc Canvas. Nhấn nút mở lại bảng Triệu Hồi.
+- Dấu “−” trên tiêu đề và nút khai trận có id summon trong pháp luân không thay đổi; không tác động gameplay.
