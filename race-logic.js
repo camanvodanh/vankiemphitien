@@ -1171,25 +1171,34 @@ function syncButtons(){
   function attach(){
     if(document.documentElement.dataset.panelWindowsReady==="1")return;
     document.documentElement.dataset.panelWindowsReady="1";
-    // Neo nút trường kiếm theo góc phải-dưới của chính Canvas, không theo toàn bộ arena.
+    // Ghim nút mở lại ở góc phải-bên trong vùng Canvas, dùng tọa độ layout của Canvas
+    // trong arena để tránh sai lệch do khung game có nhiều cột và co giãn theo hướng màn hình.
     const launcher=document.querySelector(".arena-frame>.summon-collapsed-trigger");
     const gameCanvas=document.getElementById("game");
     const arena=document.querySelector(".arena-frame");
     function placeSummonLauncher(){
       if(!launcher||!gameCanvas||!arena)return;
-      const canvasRect=gameCanvas.getBoundingClientRect();
-      const arenaRect=arena.getBoundingClientRect();
-      if(!canvasRect.width||!canvasRect.height)return;
-      const size=Math.max(58,Math.min(76,Math.min(window.innerWidth,window.innerHeight)*.078));
+      const size=Math.max(48,Math.min(62,Math.min(window.innerWidth,window.innerHeight)*.072));
+      let x=gameCanvas.offsetLeft+gameCanvas.clientWidth-size-8;
+      let y=gameCanvas.offsetTop+gameCanvas.clientHeight-size-8;
+      if(gameCanvas.offsetParent!==arena){
+        const cr=gameCanvas.getBoundingClientRect(),ar=arena.getBoundingClientRect();
+        const sx=arena.offsetWidth/(ar.width||arena.offsetWidth||1);
+        const sy=arena.offsetHeight/(ar.height||arena.offsetHeight||1);
+        x=(cr.right-ar.left)*sx-size-8;
+        y=(cr.bottom-ar.top)*sy-size-8;
+      }
+      launcher.style.position="absolute";
       launcher.style.width=size+"px";
       launcher.style.height=size+"px";
-      launcher.style.left=Math.max(0,canvasRect.right-arenaRect.left-size-9)+"px";
-      launcher.style.top=Math.max(0,canvasRect.bottom-arenaRect.top-size-9)+"px";
+      launcher.style.left=Math.max(0,x)+"px";
+      launcher.style.top=Math.max(0,y)+"px";
       launcher.style.right="auto";
       launcher.style.bottom="auto";
     }
     placeSummonLauncher();
     window.addEventListener("resize",placeSummonLauncher,{passive:true});
+    window.addEventListener("orientationchange",placeSummonLauncher,{passive:true});
     if(typeof ResizeObserver==="function"){
       const launcherObserver=new ResizeObserver(placeSummonLauncher);
       launcherObserver.observe(gameCanvas);
