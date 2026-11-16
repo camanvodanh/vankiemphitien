@@ -364,3 +364,10 @@
 - Vùng cuộn Tiên Bảng cao cố định 242px, tính theo 11 hàng × 22px: một hàng tiêu đề cột và 10 hàng thứ hạng.
 - Mỗi hàng của bảng có chiều cao 22px theo border-box; vị trí thứ 11 trở đi cuộn trong vùng này, không làm tăng chiều cao panel.
 - Chiều cao tổng thể panel Tiên Bảng thay đổi theo vùng 242px mới; ResizeObserver hiện có tiếp tục đồng bộ Thiên Lý Kính theo panel.
+
+
+## 81. Thông báo tên đầy đủ cảnh giới và căn chỉnh hai panel phụ
+- Khi tiên nhân đầu tiên vượt qua khe nứt, thông báo chỉ hiển thị tên đầy đủ lấy từ `regions[index+1].name`; không thêm cụm “BƯỚC VÀO”. Mỗi khe nứt vẫn chỉ thông báo một lần.
+- Sửa đúng lời gọi `installCameraPanelSync()` khi DOM đã sẵn sàng; `ResizeObserver` luôn theo dõi Tiên Bảng và đồng bộ cả `height`, `min-height`, `max-height` của Thiên Lý Kính theo kích thước border-box thực tế.
+- Nội dung Thiên Lý Kính được căn giữa theo chiều dọc; canvas giữ tỷ lệ 7:4, không kéo méo. Tên và thông tin phụ có cỡ chữ responsive, được phép xuống dòng nhưng không tràn viền.
+- Chuẩn hóa padding hai panel, loại bỏ margin/padding dư quanh vùng canvas và bảng; vùng bảng vẫn đủ 242px cho tiêu đề + 10 hạng, các hạng tiếp theo cuộn nội bộ.
