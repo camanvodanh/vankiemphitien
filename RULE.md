@@ -267,7 +267,7 @@
 
 ## 68. Dọn phong cảnh cũ — giai đoạn 2
 - `visual-overrides.js` là nguồn renderer phong cảnh hiện hành cuối cùng. Khi dọn bản cũ, giữ nguyên định nghĩa cuối của `drawScenery`, `drawRiver`, `drawMountainRange`, `drawSpiritBirds`, `drawDenseForest`, `drawAmbientEnergy`, `drawRiverCurrent` và `drawSectArchitecture`.
-- Không xóa các primitive dùng chung bởi renderer hiện hành: `drawSky`, `drawMovingClouds`, `drawCloud`, `drawPine`, `drawTree`, `drawSectPavilion` và `drawSectMountainLedge`.
+- Giữ các primitive còn được renderer hiện hành gọi: `drawSky`, `drawMovingClouds`, `drawCloud`, `drawPine`, `drawSectPavilion` và `drawSectMountainLedge`. `drawTree` không có điểm gọi và đã được loại bỏ ở giai đoạn 4E.
 - Các hàm dựng cảnh cũ chỉ được giữ nếu có điểm gọi từ renderer đang hoạt động; không giữ bản `drawScenery()` cũ trong `race-render.js` hoặc `scenery.js` khi nó đã bị ghi đè trước lúc vòng lặp game chạy.
 - Sau khi dọn, kiểm tra cả thứ tự nạp script và mọi lời gọi cross-file; tăng cache version cho từng script đã thay đổi.
 
@@ -303,3 +303,11 @@
 - `journey-world.js` vẫn được nạp sau `race-logic.js` và bọc các hàm gốc `createRacer()`, `startRace()`, `updateRace()`, `render()`. Giữ nguyên capture hàm gốc, cờ `realmPortalMask`, tiến độ dùng chung, crossfade năm cảnh giới, tiểu cảnh camera và bốn cổng hiệu ứng.
 - IIFE trong `race-render.js`, `race-logic.js`, `journey-world.js`, `music.js` và `i18n.js` vẫn là các khối khởi tạo riêng được thực thi một lần theo loader tuần tự. Giữ các IIFE đang hoạt động và guard `dataset`; loại bỏ hai IIFE xoay màn hình cũ vì `index.html` không có `rotateView`, `rotateScreen`, `rotateHint`, nên chúng chỉ đăng ký khởi tạo rồi thoát mà không tạo chức năng hoặc handler.
 - Chỉ loại bỏ renderer camera cũ đã chết; không thay đổi bố cục Thiên Lý Kính, cách chọn người dẫn đầu, chuyển cảnh, cổng hiệu ứng, gameplay hoặc nhịp render. Cache `race-render.js` tăng lên `v184`.
+
+
+## 73. Helper tiện ích, particle và trạng thái không dùng — giai đoạn 4E
+- Đã loại bỏ các helper không còn điểm gọi: `drawTree()`, `drawEnergyRings()`, `drawAudiencePlatform()`, `drawDiscipleSeats()`, `drawElderSeats()`, `drawMasterThrone()`, `drawTempleAuras()`, `drawGiftBox()` và `drawPlazaGate()`.
+- Đã loại bỏ dữ liệu/biến không được đọc: `waterLines`, `eventMessages`, `miniAwardStart`, `miniMasterFlightDuration`, `masterGiftX` và biến cục bộ `returnStart`.
+- Giữ nguyên particle đang hoạt động: `getParticleBudget()`, `addParticles()`, `updateParticles()`, `drawParticles()` và các điểm phát hạt trong hiệu ứng đua; giữ `drawAura()`, `drawCrowdFlag()`, `drawPine()`, `drawDenseForest()`, `drawAmbientEnergy()`, `drawRiverCurrent()` cùng các helper nghi thức/nhân vật đang được renderer gọi.
+- Giữ nguyên `discipleCrowdLayout` dù hiện không có điểm đọc: IIFE khởi tạo của nó tiêu thụ số ngẫu nhiên ngay khi nạp `visual-overrides.js`; bỏ khối này sẽ dịch chuỗi `Math.random()` trước khi khởi tạo sao/mây và có thể làm thay đổi bố cục ngẫu nhiên hiện tại. Chưa loại bỏ để tránh thay đổi ngoài phạm vi.
+- Cache các file JavaScript đã sửa được tăng trong `data-loader.js`. Không thay đổi thuật toán particle, mật độ khán đài hiện hành, hiệu ứng linh khí, tốc độ, thứ hạng hoặc thời lượng cuộc đua.
