@@ -253,3 +253,6 @@
 
 
 66. Nghi thức kết thúc: khi dựng cảnh nền quảng trường bằng `drawScenery()`, phải ẩn bản thể chưởng môn trong lớp khán đài trong toàn bộ giai đoạn rời ngai/chuẩn bị ngự kiếm; bản thể duy nhất được vẽ bởi `drawPodiumScene()`. Trong giai đoạn kiếm tiếp cận, không crossfade hai bản thể đứng và ngự kiếm chồng lên nhau. Chỉ chuyển sang `drawAwardMaster()` khi kiếm đã gần tới vị trí dưới chân; khi đó không vẽ thêm kiếm tiếp cận riêng vì sprite ngự kiếm đã chứa phi kiếm và đúng một Thái Cực Ngọc Luân. Giữ một chưởng môn và một vòng Thái Cực trong mọi frame; camera mini và Canvas chính không được làm thay đổi trạng thái ẩn/hiện toàn cục của lớp khán đài.
+
+
+67. Thiên Lý Kính: hàng thông tin đầu phải bố trí Hạng canh trái, tốc độ và thời gian hiệu ứng canh phải trên cùng một hàng; không để các revision CSS cũ căn giữa ghi đè. Khung màn hình phải bao sát vùng Canvas, không để khoảng trống dọc hoặc viền khung bị hở; Canvas lấp đầy vùng hiển thị và không phát sinh thanh cuộn. Giữ nguyên ba hàng thông tin, màu tăng/giảm tốc và lựa chọn nhân vật đang được chiếu.
