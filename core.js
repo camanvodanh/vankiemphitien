@@ -26,7 +26,6 @@ let racers = [];
 let particles = [];
 let stars = [];
 let clouds = [];
-let waterLines = [];
 
 let running = false;
 let paused = false;
