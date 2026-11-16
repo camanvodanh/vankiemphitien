@@ -507,3 +507,10 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Hàng đầu của HUD: Hạng nằm bên trái; hệ số tốc độ và thời gian hiệu ứng (nếu có) nằm bên phải, cùng một hàng.
 - Vùng Canvas phải lấp đầy khung màn hình bên trong panel; khung có viền khép kín sát vùng hình, không có khoảng trống dọc trên/dưới.
 - Không thay đổi kích thước nội tại 420×240, cách chọn tiên nhân, hệ số tốc độ hoặc thời lượng hiệu ứng.
+
+
+## 53. Cleanup mã nguồn — giai đoạn 1
+- Đã loại bỏ các helper không có lời gọi trong mã nguồn hiện hành: `drawWaterfallMountain()`, `drawNearBankTerraces()`, `drawWaterfallMouth()`, `drawMountainSpringArtifact()` và `drawSwordLandmark()`.
+- Đã loại bỏ khối cache IndexedDB khán đài REVISION 118 cùng biến/hàm liên quan vì không có điểm gọi tải/lưu cache; renderer `drawCrowd()` hiện hành không bị thay đổi.
+- Không gộp các hàm trùng tên trong giai đoạn này; các wrapper và các bản khai báo cuối đang hoạt động được giữ nguyên.
+- Đây là cleanup cấu trúc, không thay đổi bố cục Canvas, dữ liệu, thứ hạng, tốc độ, thời lượng hoặc xác suất gameplay.
