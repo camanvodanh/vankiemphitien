@@ -507,7 +507,7 @@
   function applyPortalEffect(racer,portal,index){
     if(!racer||racer.finished||!portal||!portal.effect)return;
     const gate=portal.effect,config=(window.VKP_DATA.effects&&window.VKP_DATA.effects.balance)||{};
-    const limits=config.speedLimits||{min:.75,max:1.25};
+    const limits=config.speedLimits;
     // Cổng mới thanh tẩy cả hiệu ứng đang chạy lẫn hiệu ứng đang chờ kích hoạt.
     racer.speedMultiplier=1;racer.effectTimer=0;racer.effectDuration=0;
     racer.effectType="";racer.effectName="";racer.effectPolarity="";
@@ -516,7 +516,7 @@
     racer.personalEffectPolarity="";racer.personalEffectMultiplier=1;
     const gateMultiplier=Number(gate.multiplier)||1;
     let personalMultiplier=1,personal=null,personalDuration=0;
-    if(Math.random()>=Number(config.noEffectChance??.05)){
+    if(Math.random()>=config.noEffectChance){
       const ranked=sortedRacers(),rank=Math.max(0,ranked.indexOf(racer));
       const ratio=ranked.length>1?rank/(ranked.length-1):.5;
       const position=ratio<1/3?"front":ratio>2/3?"back":"middle";
@@ -541,7 +541,7 @@
     racer.effectName=String(gate.name||portal.shortName||"Cổng cảnh giới")+(personal?" · "+personal.name:"");
     racer.effectPolarity=personal&&personal.polarity!==gate.polarity?"mixed":(personal?personal.polarity:gate.polarity||"positive");
     racer.effectTimer=totalDuration;racer.effectDuration=totalDuration;
-    racer.speedMultiplier=clamp(gateMultiplier*personalMultiplier,Number(limits.min)||.75,Number(limits.max)||1.25);
+    racer.speedMultiplier=clamp(gateMultiplier*personalMultiplier,limits.min,limits.max);
     racer.effectCooldown=totalDuration;
     racer.personalEffectType=personal?personal.type:"";
     racer.personalEffectName=personal?personal.name:"";
