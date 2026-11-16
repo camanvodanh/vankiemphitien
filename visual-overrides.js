@@ -6365,11 +6365,11 @@ function drawPodiumScene(target,time,mini=false){
 
   // Cảnh 1: toàn bộ tiên nhân giải tán khỏi quảng trường sau thông báo kết thúc.
   if(!mini&&elapsed<transitionEnd){
-    if(!mini&&target===ctx){
-      window.__awardMasterDepartureActive=elapsed>=seatEnd;
+    // Ẩn chưởng môn trong lớp khán đài suốt nghi thức; mỗi frame chỉ vẽ một bản thể ở lớp hoạt ảnh chủ động.
+    window.__awardMasterDepartureActive=true;
+    if(target===ctx){
       drawScenery(time);
     }else{
-      window.__awardMasterDepartureActive=elapsed>=seatEnd;
       drawAwardPlazaBackdropV2(target,time,mini);
     }
     if(elapsed<disperseEnd){
@@ -6407,15 +6407,16 @@ function drawPodiumScene(target,time,mini=false){
       // Phi kiếm từ bên phải lao tới, giảm tốc và dừng ngay dưới chân chưởng môn.
       const p=awardSmoothstep((elapsed-standEnd)/(swordEnd-standEnd));
       const swordX=w*(.91-.41*p),swordY=ty-h*.055;
-      drawCeremonyFlyingSword(target,swordX,swordY+24*(mini?.40:.76),mini?.40:.76,time);
-      const mount=p>.72?awardSmoothstep((p-.72)/.28):0;
-      target.save();target.globalAlpha=1-mount;
-      drawStandingSectMaster(target,tx,ty-h*.055,mini?.46:.82);
-      target.restore();
-      if(mount>0&&!mini){
-        target.save();target.globalAlpha=mount;
-        drawAwardMaster(target,tx,ty-h*.055*(1+mount*.5),mini?.40:.76,time);
-        target.restore();
+      // Chỉ có một bản thể: kiếm tiếp cận khi chưởng môn còn đứng; khi đã lên kiếm,
+      // chuyển hẳn sang sprite ngự kiếm (đã có kiếm + một Thái Cực Ngọc Luân).
+      const mounted=p>=.86;
+      if(!mounted){
+        drawCeremonyFlyingSword(target,swordX,swordY+24*(mini?.40:.76),mini?.40:.76,time);
+        drawStandingSectMaster(target,tx,ty-h*.055,mini?.46:.82);
+      }else if(!mini){
+        const mountProgress=awardSmoothstep((p-.86)/.14);
+        const masterY=ty-h*.055-h*.018*mountProgress;
+        drawAwardMaster(target,tx,masterY,mini?.40:.76,time);
       }
     }else{
       drawAwardThroneOnlyV2(target,tx,ty,masterScale,0);
