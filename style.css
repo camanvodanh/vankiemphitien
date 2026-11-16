@@ -9524,3 +9524,39 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   max-width:100%!important;max-height:none!important;aspect-ratio:7 / 4!important;
   object-fit:contain!important;
 }
+
+
+/* REVISION 150 — Thiên Lý Kính tự ôm nội dung, không để khoảng trống dưới khung hình.
+   Canvas 420×240 giữ tỷ lệ 7:4; chiều cao panel không ép giãn vùng camera. */
+.arena-frame>.game-camera{
+  box-sizing:border-box!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  align-self:start!important;
+  display:flex!important;
+  flex-direction:column!important;
+}
+.arena-frame>.game-camera>.camera-heading,
+.arena-frame>.game-camera>.camera-info{flex:0 0 auto!important;}
+.arena-frame>.game-camera>.camera-screen{
+  display:block!important;
+  flex:0 0 auto!important;
+  align-self:stretch!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  aspect-ratio:7 / 4!important;
+  overflow:hidden!important;
+}
+.arena-frame>.game-camera>.camera-screen>#leaderCanvas{
+  display:block!important;
+  flex:none!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  max-width:100%!important;
+  max-height:none!important;
+  aspect-ratio:7 / 4!important;
+  object-fit:contain!important;
+}
