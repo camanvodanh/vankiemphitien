@@ -9681,3 +9681,114 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   padding:3px 4px!important;
   line-height:14px!important;
 }
+
+
+/* REVISION 155 — Đồng bộ khung phụ, căn giữa nội dung và khép sát viền. */
+.arena-frame>.game-camera,
+.arena-frame>.game-ranking{
+  box-sizing:border-box!important;
+  padding:8px!important;
+  border-width:1px!important;
+}
+.arena-frame>.game-camera{
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  align-items:stretch!important;
+  gap:5px!important;
+  min-height:0!important;
+  overflow:hidden!important;
+}
+.arena-frame>.game-camera>.camera-heading{
+  flex:0 0 auto!important;
+  margin:0!important;
+  padding:0!important;
+}
+.arena-frame>.game-camera>.camera-info{
+  display:flex!important;
+  flex:0 0 auto!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  justify-content:center!important;
+  gap:4px!important;
+  width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  text-align:center!important;
+}
+.arena-frame>.game-camera>.camera-info>#leaderName{
+  display:block!important;
+  max-width:100%!important;
+  margin:0!important;
+  font-size:clamp(10px,1.15vw,13px)!important;
+  line-height:1.2!important;
+  overflow-wrap:anywhere!important;
+  text-align:center!important;
+}
+.arena-frame>.game-camera>.camera-info>.camera-secondary-info{
+  display:flex!important;
+  flex:0 0 auto!important;
+  flex-wrap:wrap!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:3px 7px!important;
+  width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  text-align:center!important;
+}
+.arena-frame>.game-camera .camera-secondary-info>span{
+  min-width:0!important;
+  max-width:100%!important;
+  font-size:clamp(9px,1vw,11px)!important;
+  line-height:1.2!important;
+  overflow-wrap:anywhere!important;
+  text-align:center!important;
+}
+.arena-frame>.game-camera>.camera-screen{
+  display:block!important;
+  box-sizing:border-box!important;
+  flex:0 0 auto!important;
+  align-self:stretch!important;
+  width:100%!important;
+  height:auto!important;
+  min-width:0!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  aspect-ratio:7 / 4!important;
+  overflow:hidden!important;
+}
+.arena-frame>.game-camera>.camera-screen>#leaderCanvas{
+  display:block!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  height:auto!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:100%!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:0!important;
+  aspect-ratio:7 / 4!important;
+  object-fit:contain!important;
+}
+.arena-frame>.game-ranking>.ranking-heading{
+  flex:0 0 auto!important;
+  margin:0 0 5px!important;
+  padding:0 0 5px!important;
+}
+.arena-frame>.game-ranking>.table-wrap{
+  box-sizing:border-box!important;
+  flex:0 0 242px!important;
+  width:100%!important;
+  height:242px!important;
+  min-height:242px!important;
+  max-height:242px!important;
+  margin:0!important;
+  padding:0!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+}
