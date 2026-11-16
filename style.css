@@ -9604,3 +9604,8 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   padding:3px 4px!important;
   line-height:11px!important;
 }
+
+
+/* REVISION 152 — chiều cao Tiên Bảng được đồng bộ chính xác bằng ResizeObserver. */
+.arena-frame>.game-ranking{height:auto!important;max-height:none!important;min-height:0!important;align-self:start!important;}
+.arena-frame>.game-ranking>.table-wrap{flex:1 1 auto!important;max-height:215px!important;min-height:0!important;overflow-y:auto!important;}
