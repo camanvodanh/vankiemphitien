@@ -520,18 +520,18 @@
       const ranked=sortedRacers(),rank=Math.max(0,ranked.indexOf(racer));
       const ratio=ranked.length>1?rank/(ranked.length-1):.5;
       const position=ratio<1/3?"front":ratio>2/3?"back":"middle";
-      const goodChance=Number((config.positionGoodChance||{})[position]??.5);
+      const goodChance=config.positionGoodChance[position];
       const polarity=Math.random()<goodChance?"positive":"negative";
-      const weights=config.tierWeights||{light:.35,medium:.4,strong:.25};
+      const weights=config.tierWeights;
       const roll=Math.random(),tier=roll<weights.light?"light":roll<weights.light+weights.medium?"medium":"strong";
       const pool=(window.VKP_DATA.effects.raceEvents||[]).filter(item=>item.polarity===polarity);
       if(pool.length){
         const chosen=pool[Math.floor(Math.random()*pool.length)];
         const ranges=polarity==="positive"?config.multipliers.boost:config.multipliers.slow;
         const range=ranges&&ranges[tier]||[1,1];
-        const variation=1+(Math.random()*2-1)*Number(config.multiplierVariation||0);
+        const variation=1+(Math.random()*2-1)*config.multiplierVariation;
         personalMultiplier=(Number(range[0])+(Number(range[1])-Number(range[0]))*Math.random())*variation;
-        personalDuration=Number(config.durationSeconds&&config.durationSeconds[0]||2)+Math.random()*(Number(config.durationSeconds&&config.durationSeconds[1]||5)-Number(config.durationSeconds&&config.durationSeconds[0]||2));
+        personalDuration=config.durationSeconds[0]+Math.random()*(config.durationSeconds[1]-config.durationSeconds[0]);
         personal={...chosen,tier};
       }
     }
