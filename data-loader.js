@@ -14,7 +14,7 @@
   "race-render.js?v=race-phase1-v182",
   "visual-overrides.js?v=race-phase1-v198",
   "music.js?v=race-phase1-v180",
-  "race-logic.js?v=race-phase1-v197",
+  "race-logic.js?v=race-phase1-v198",
   "journey-world.js?v=journey-world-v14",
   "i18n.js?v=race-phase1-v181"
  ];
