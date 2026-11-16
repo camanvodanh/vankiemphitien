@@ -6,7 +6,7 @@ const tracks={
   setup:{
     name:"Tĩnh Tâm Tu Luyện",
     title:"All The Tea In China",
-    url:"https://www.silvermansound.com/wp-content/uploads/all-the-tea-in-china.mp3"
+    url:"assets/music/setup.mp3"
   },
   race:{
     name:"Vạn Kiếm Tranh Phong",
