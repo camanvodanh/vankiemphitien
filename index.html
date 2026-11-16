@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#102b27">
   <title>Vạn Kiếm Phi Tiên</title>
-  <link rel="stylesheet" href="style.css?v=responsive-arena-v179">
+  <link rel="stylesheet" href="style.css?v=responsive-arena-v180">
 </head>
 <body class="game-page">
   <main class="page game-app">
@@ -49,7 +49,37 @@
               <button type="button" class="dial-readout dial-quantity-readout" id="openQuantityDial"><small>SỐ TIÊN NHÂN</small><strong id="dialQuantityValue">10</strong></button>
               <button type="button" class="dial-readout dial-duration-readout" id="openDurationDial"><small>THỜI LƯỢNG</small><strong id="dialDurationValue">60s</strong></button>
               <div class="dial-editor" id="dialEditor" hidden><label id="dialEditorLabel" for="dialEditorInput">Số tiên nhân</label><input id="dialEditorInput" type="number" min="2" max="100" value="10"><select id="dialEditorSelect" hidden><option value="30">30 giây</option><option value="60" selected>60 giây</option><option value="120">120 giây</option><option value="180">180 giây</option><option value="300">300 giây</option></select><button type="button" id="dialEditorDone">Xong</button></div>
-              <button id="summon" class="btn primary dial-summon" type="button" aria-label="Chạm tâm pháp trận để triệu hồi"><svg viewBox="0 0 72 72" aria-hidden="true"><defs><linearGradient id="summonButtonGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff8d9"/><stop offset=".48" stop-color="#e6c477"/><stop offset="1" stop-color="#8d6534"/></linearGradient><linearGradient id="swordJade" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f5fff0"/><stop offset=".45" stop-color="#b7e7cf"/><stop offset="1" stop-color="#4c967b"/></linearGradient></defs><path d="M36 5 43 42 36 55 29 42Z" fill="url(#swordJade)" stroke="url(#summonButtonGold)" stroke-width="1.8"/><path d="M36 7v45M32 37l4 5 4-5" fill="none" stroke="#fff9d9" stroke-width="1.2"/><path d="M23 43h26l-3 6H26Z" fill="url(#summonButtonGold)" stroke="#fff0c1" stroke-width="1.2"/><path d="M36 49v12M31 60h10" stroke="#e7ca86" stroke-width="3" stroke-linecap="round"/><path d="M36 4 33 16 36 13 39 16Z" fill="#fff8d9"/><path d="M19 22q8-9 17-10M53 22q-8-9-17-10" fill="none" stroke="#c8f2dc" stroke-width="1" opacity=".8"/></svg></button>
+              <button id="summon" class="btn primary dial-summon" type="button" aria-label="Chạm tâm pháp trận để triệu hồi"><svg class="summon-altar-emblem" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+<defs>
+<radialGradient id="altarSealCore"><stop stop-color="#eaffdf" stop-opacity=".62"/><stop offset=".48" stop-color="#8ce8c1" stop-opacity=".2"/><stop offset="1" stop-color="#4abf9b" stop-opacity="0"/></radialGradient>
+<linearGradient id="altarSealGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff5c9"/><stop offset=".48" stop-color="#d9ae59"/><stop offset="1" stop-color="#8e6334"/></linearGradient>
+<linearGradient id="altarSealJade" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#387b68"/><stop offset=".25" stop-color="#d8f7e6"/><stop offset=".52" stop-color="#fffef1"/><stop offset=".78" stop-color="#a8e2c9"/><stop offset="1" stop-color="#397c6b"/></linearGradient>
+<linearGradient id="altarSealGrip" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f0dfb0"/><stop offset=".5" stop-color="#927044"/><stop offset="1" stop-color="#49382d"/></linearGradient>
+<filter id="altarSealGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<circle cx="50" cy="50" r="47" fill="url(#altarSealCore)"/>
+<g fill="none" stroke="url(#altarSealGold)" stroke-linecap="round" filter="url(#altarSealGlow)">
+<circle cx="50" cy="50" r="44" stroke-width="1.35"/><circle cx="50" cy="50" r="39.5" stroke-width=".7" stroke-dasharray="2 2.8"/>
+<circle cx="50" cy="50" r="31.5" stroke-width="1"/><circle cx="50" cy="50" r="27.5" stroke-width=".55" stroke-dasharray="1.5 3"/>
+<path d="M50 3 54 11 50 15 46 11Z M97 50 89 54 85 50 89 46Z M50 97 46 89 50 85 54 89Z M3 50 11 46 15 50 11 54Z" stroke-width="1.2"/>
+<path d="M50 12 88 50 50 88 12 50Z M50 20 80 50 50 80 20 50Z" stroke-width=".8" opacity=".8"/>
+<path d="M27 27 73 73M73 27 27 73" stroke-width=".55" stroke-dasharray="2 3" opacity=".8"/>
+<path d="M50 7V18M50 82V93M7 50H18M82 50H93" stroke-width="1.2"/>
+</g>
+<g fill="#ffe9a8" stroke="#a87b3f" stroke-width=".55" filter="url(#altarSealGlow)">
+<path d="m50 17 2.4 4.4-2.4 4.4-2.4-4.4Z M83 50l-4.4 2.4-4.4-2.4 4.4-2.4Z M50 83l-2.4-4.4 2.4-4.4 2.4 4.4Z M17 50l4.4-2.4 4.4 2.4-4.4 2.4Z"/>
+<circle cx="50" cy="6.5" r="1.5"/><circle cx="93.5" cy="50" r="1.5"/><circle cx="50" cy="93.5" r="1.5"/><circle cx="6.5" cy="50" r="1.5"/>
+</g>
+<g fill="none" stroke="#b9f5d9" stroke-width=".85" opacity=".92"><path d="m29 17 3 5-3 5-3-5ZM71 17l3 5-3 5-3-5ZM83 29l-5 3-5-3 5-3ZM83 71l-5 3-5-3 5-3ZM71 83l-3-5 3-5 3 5ZM29 83l-3-5 3-5 3 5ZM17 71l5-3 5 3-5 3ZM17 29l5-3 5 3-5 3Z"/></g>
+<g filter="url(#altarSealGlow)" stroke-linejoin="round">
+<path d="M50 10 55.1 25 53.1 57 50 64 46.9 57 44.9 25Z" fill="url(#altarSealJade)" stroke="url(#altarSealGold)" stroke-width="1.45"/>
+<path d="m50 14 1.7 13-.8 30-.9 3-.9-3-.8-30Z" fill="#fffef0" opacity=".9"/>
+<path d="m45.1 51-9 7 3 5h21.8l3-5-9-7-3.5 5h-3.8Z" fill="url(#altarSealGold)" stroke="#fff0bd" stroke-width="1.2"/>
+<path d="M45.5 62h9v18q-4.5 5-9 0Z" fill="url(#altarSealGrip)" stroke="#e8cc89" stroke-width="1"/>
+<path d="m46 67 8 3m-8 2 8 3m-8 2 6 2" stroke="#f8e9bd" stroke-width="1.15" stroke-linecap="round"/>
+<path d="m44.5 81 5.5-3 5.5 3L50 89Z" fill="url(#altarSealGold)" stroke="#fff0bd" stroke-width="1"/>
+<path d="m47.5 20 2.5-6 2.5 6-2.5 3Z" fill="#fff9d9" stroke="#e7c778" stroke-width=".65"/>
+</g></svg></button>
             </div>
             <div class="altar-native-settings" aria-hidden="true">
               <input id="quantity" type="number" min="2" max="100" value="10" tabindex="-1">
