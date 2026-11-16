@@ -48,28 +48,28 @@
   }
   window.__vkGetCurrentRealmName=currentRealmName;
 
-  // Tiên Bảng luôn khớp chính xác chiều cao thực tế của Thiên Lý Kính.
-  function syncRankingPanelHeight(){
+  // Tiên Bảng là panel chuẩn; Thiên Lý Kính nhận đúng chiều cao của Tiên Bảng.
+  function syncCameraPanelHeight(){
     const camera=document.querySelector(".game-camera");
     const ranking=document.querySelector(".game-ranking");
     if(!camera||!ranking)return;
-    const height=camera.getBoundingClientRect().height;
-    if(height>0)ranking.style.setProperty("height",height+"px","important");
+    const height=ranking.getBoundingClientRect().height;
+    if(height>0)camera.style.setProperty("height",height+"px","important");
   }
-  function installRankingPanelSync(){
-    const camera=document.querySelector(".game-camera");
-    if(!camera)return;
-    syncRankingPanelHeight();
+  function installCameraPanelSync(){
+    const ranking=document.querySelector(".game-ranking");
+    if(!ranking)return;
+    syncCameraPanelHeight();
     if(typeof ResizeObserver==="function"){
-      const observer=new ResizeObserver(syncRankingPanelHeight);
-      observer.observe(camera);
+      const observer=new ResizeObserver(syncCameraPanelHeight);
+      observer.observe(ranking);
     }else{
-      window.addEventListener("resize",syncRankingPanelHeight,{passive:true});
+      window.addEventListener("resize",syncCameraPanelHeight,{passive:true});
     }
-    window.addEventListener("orientationchange",syncRankingPanelHeight,{passive:true});
+    window.addEventListener("orientationchange",syncCameraPanelHeight,{passive:true});
   }
   if(document.readyState==="loading"){
-    document.addEventListener("DOMContentLoaded",installRankingPanelSync,{once:true});
+    document.addEventListener("DOMContentLoaded",installCameraPanelSync,{once:true});
   }else{
     installRankingPanelSync();
   }
