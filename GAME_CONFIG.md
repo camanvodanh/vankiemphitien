@@ -500,3 +500,10 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Trong toàn bộ giai đoạn giải tán/đứng dậy/kiếm tiếp cận, lớp khán đài ẩn chưởng môn nền; `drawPodiumScene()` là nguồn duy nhất vẽ chưởng môn nghi thức.
 - Khi kiếm tiếp cận, chỉ vẽ chưởng môn đứng cùng kiếm đang bay tới. Tại ngưỡng p=0.86, chuyển một lần sang chưởng môn ngự kiếm; không crossfade hai sprite nên không có hai ảnh đè nhau.
 - Khi đã chuyển sang ngự kiếm, không vẽ kiếm tiếp cận độc lập; `drawAwardMaster()` tự vẽ phi kiếm và một Thái Cực Ngọc Luân. Không thay đổi các mốc thời gian nghi thức hoặc bố cục vinh danh TOP 3.
+
+
+## 52. Căn hàng thông tin và khung màn hình Thiên Lý Kính
+
+- Hàng đầu của HUD: Hạng nằm bên trái; hệ số tốc độ và thời gian hiệu ứng (nếu có) nằm bên phải, cùng một hàng.
+- Vùng Canvas phải lấp đầy khung màn hình bên trong panel; khung có viền khép kín sát vùng hình, không có khoảng trống dọc trên/dưới.
+- Không thay đổi kích thước nội tại 420×240, cách chọn tiên nhân, hệ số tốc độ hoặc thời lượng hiệu ứng.
