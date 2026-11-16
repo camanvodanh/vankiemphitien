@@ -227,3 +227,9 @@
 
 
 60. Tiên Bảng chỉ hiển thị tối đa 10 vị trí đầu; dữ liệu và thứ hạng phía sau không được tạo thành các hàng hiển thị vượt quá Top 10. Khung bảng có chiều cao giới hạn tương ứng tối đa 10 hàng và cuộn nội bộ nếu nội dung cần thiết. Trong Thiên Lý Kính, tên thiên phú và tên hiệu ứng phải nằm trên cùng trục giữa, căn giữa cả phần tử lẫn chữ; không để padding, text-indent hoặc căn lề cũ làm lệch riêng tên hiệu ứng.
+
+
+## 59. Tiên Bảng cuộn đủ danh sách và đồng bộ khung Thiên Lý Kính
+- Tiên Bảng không được cắt mảng thứ hạng ở 10 phần tử. Phải giữ toàn bộ danh sách theo thứ tự hiện hành; vùng nhìn chỉ cao tương đương tiêu đề và khoảng 10 hàng, cuộn dọc bên trong để xem các hạng tiếp theo.
+- Trên bố cục dọc, Thiên Lý Kính và Tiên Bảng có cùng chiều cao panel. Trên bố cục ngang, hai panel tiếp tục kéo giãn bằng nhau theo hàng bố cục.
+- Tên hiệu ứng #leaderEffect phải được căn giữa bằng cả CSS và luồng cập nhật thông tin; không để kiểu chữ nội tuyến làm lệch trục.
