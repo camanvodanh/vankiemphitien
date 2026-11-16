@@ -1424,16 +1424,13 @@ render=function(time){renderBeforeSummonArrival(time);drawSummonRitual(time);dra
  const editorLabel=$("dialEditorLabel"),editorInput=$("dialEditorInput"),editorSelect=$("dialEditorSelect");
  const done=$("dialEditorDone"),qText=$("dialQuantityValue"),tText=$("dialDurationValue");
  if(!q||!speed||!names||!qRing||!tRing||!editor)return;
- const durationOptions=Array.isArray((window.VKP_DATA&&window.VKP_DATA.summoning||{}).durationOptions)?(window.VKP_DATA.summoning.durationOptions.map(Number)):[5,10,15,30,60,120,180,240,300,600];
+ const durations=VKP_DATA.summoning.durationOptions.map(Number);
  [speed,editorSelect].forEach(select=>{
    if(!select)return;
    const current=Number(select.value)||60;
-   select.replaceChildren(...durationOptions.map(value=>{const option=document.createElement("option");option.value=String(value);option.textContent=value+" giây";return option;}));
-   select.value=String(durationOptions.includes(current)?current:60);
+   select.replaceChildren(...durations.map(value=>{const option=document.createElement("option");option.value=String(value);option.textContent=value+" giây";return option;}));
+   select.value=String(durations.includes(current)?current:60);
  });
- const durationConfig=(window.VKP_DATA&&window.VKP_DATA.summoning)||{};
-  const durations=Array.isArray(durationConfig.durationOptions)&&durationConfig.durationOptions.length
-    ?durationConfig.durationOptions.map(Number):[5,10,15,30,60,120,180,240,300,600];
  let activeEditor="",drag=null;
  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
  function update(){
