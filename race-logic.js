@@ -1121,7 +1121,7 @@ function setSetupPanel(show){
  if(show) panel.classList.remove("is-minimized");
  const button=panel.querySelector(".window-minimize");
  if(button){
-  button.textContent="−";
+  button.textContent=show?"−":"+";
   button.setAttribute("aria-expanded",String(!!show));
   button.setAttribute("aria-label",show?"Thu nhỏ khởi tạo đại hội":"Mở rộng khởi tạo đại hội");
   button.title=show?"Thu nhỏ":"Mở rộng";
@@ -1135,7 +1135,7 @@ function collapseSetupPanel(){
  panel.classList.add("is-minimized");
  const button=panel.querySelector(".window-minimize");
  if(button){
-  button.textContent="−";
+  button.textContent="+";
   button.setAttribute("aria-expanded","false");
   button.setAttribute("aria-label","Mở rộng khởi tạo đại hội");
   button.title="Mở rộng";
@@ -1249,7 +1249,7 @@ function syncButtons(){
       if(!panel)return;
       const minimized=panel.classList.toggle("is-minimized");
       if(panel.classList.contains("game-setup")) panel.hidden=false;
-      button.textContent="−";
+      button.textContent=minimized?"+":"−";
       button.setAttribute("aria-expanded",String(!minimized));
       button.setAttribute("aria-label",minimized?"Mở rộng bảng":"Thu nhỏ bảng");
       button.title=minimized?"Mở rộng":"Thu nhỏ";
