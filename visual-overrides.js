@@ -7559,21 +7559,21 @@ function drawSectArchitecture(time){
     {x:112,y:190,s:.43,title:"TỤ LINH THÁP",type:"tower",accent:"#39766e",phase:.2},
     {x:330,y:190,s:.45,title:"TÀNG KINH CÁC",type:"scripture",accent:"#8c6043",phase:1.1},
     {x:550,y:190,s:.76,title:"LĂNG TIÊU CHÍNH ĐIỆN",type:"main",accent:"#9d4939",phase:2.2},
-    {x:770,y:190,s:.45,title:"TÀNG BẢO CÁC",type:"treasure",accent:"#b68a43",phase:3.3},
-    {x:870,y:190,s:.43,title:"BÁCH THẢO CÁC",type:"herb",accent:"#648653",phase:4.4},
+    {x:700,y:190,s:.45,title:"TÀNG BẢO CÁC",type:"treasure",accent:"#b68a43",phase:3.3},
+    {x:850,y:190,s:.43,title:"BÁCH THẢO CÁC",type:"herb",accent:"#648653",phase:4.4},
 
     // Hàng trung cảnh: điện chuyên tu, cách nhau để mái không chồng lấn.
     {x:185,y:326,s:.48,title:"GIẢNG ĐẠO CÁC",type:"lecture",accent:"#577d83",phase:.7},
     {x:430,y:326,s:.49,title:"ĐAN CÁC",type:"alchemy",accent:"#9e543b",phase:1.8},
     {x:670,y:326,s:.49,title:"LUYỆN KHÍ ĐIỆN",type:"forge",accent:"#82604a",phase:2.9},
-    {x:915,y:326,s:.48,title:"QUAN TINH LÂU",type:"observatory",accent:"#536c91",phase:4},
+    {x:850,y:326,s:.48,title:"QUAN TINH LÂU",type:"observatory",accent:"#536c91",phase:4},
 
     // Hàng tiền cảnh kiến trúc: động phủ và các điện nhỏ hơn, vẫn rõ hình.
     {x:145,y:444,s:.36,title:"BẾ QUAN ĐỘNG PHỦ",type:"cave",accent:"#536b62",phase:1.4},
     {x:350,y:444,s:.37,title:"ĐỆ TỬ VIỆN",type:"academy",accent:"#66817a",phase:2.5},
     {x:550,y:444,s:.39,title:"TRẬN PHÁP CÁC",type:"array",accent:"#4f7b83",phase:3.6},
-    {x:750,y:444,s:.37,title:"HỘ SƠN TRẬN CÁC",type:"guardian",accent:"#527e88",phase:4.7},
-    {x:865,y:444,s:.36,title:"NGOẠI VỤ ĐIỆN",type:"foreign",accent:"#916c48",phase:5.8}
+    {x:700,y:444,s:.37,title:"HỘ SƠN TRẬN CÁC",type:"guardian",accent:"#527e88",phase:4.7},
+    {x:850,y:444,s:.36,title:"NGOẠI VỤ ĐIỆN",type:"foreign",accent:"#916c48",phase:5.8}
   ];
 
   buildings.forEach((b,index)=>{
