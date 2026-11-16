@@ -7551,3 +7551,88 @@ function drawAnnouncement(){
   ctx.fillText(message,W/2,y+boxH/2,boxW-22);
   ctx.restore();
 }
+
+
+/* PHASE 2 — TIÊN MÔN: QUẦN THỂ KIẾN TRÚC, DÒNG SÔNG VÀ NHẬN DIỆN CẤP BẬC.
+ * Chỉ thay lớp trình bày; không đụng tới gameplay hoặc thứ tự cảnh giới.
+ */
+function drawSectArchitecture(time){
+  const buildings=[
+    // Hàng hậu cảnh: các lầu cao, thoáng, tạo đường chân trời kiến trúc.
+    {x:112,y:190,s:.43,title:"TỤ LINH THÁP",type:"tower",accent:"#39766e",phase:.2},
+    {x:330,y:190,s:.45,title:"TÀNG KINH CÁC",type:"scripture",accent:"#8c6043",phase:1.1},
+    {x:550,y:190,s:.76,title:"LĂNG TIÊU CHÍNH ĐIỆN",type:"main",accent:"#9d4939",phase:2.2},
+    {x:770,y:190,s:.45,title:"TÀNG BẢO CÁC",type:"treasure",accent:"#b68a43",phase:3.3},
+    {x:988,y:190,s:.43,title:"BÁCH THẢO CÁC",type:"herb",accent:"#648653",phase:4.4},
+
+    // Hàng trung cảnh: điện chuyên tu, cách nhau để mái không chồng lấn.
+    {x:185,y:326,s:.48,title:"GIẢNG ĐẠO CÁC",type:"lecture",accent:"#577d83",phase:.7},
+    {x:430,y:326,s:.49,title:"ĐAN CÁC",type:"alchemy",accent:"#9e543b",phase:1.8},
+    {x:670,y:326,s:.49,title:"LUYỆN KHÍ ĐIỆN",type:"forge",accent:"#82604a",phase:2.9},
+    {x:915,y:326,s:.48,title:"QUAN TINH LÂU",type:"observatory",accent:"#536c91",phase:4},
+
+    // Hàng tiền cảnh kiến trúc: động phủ và các điện nhỏ hơn, vẫn rõ hình.
+    {x:145,y:444,s:.36,title:"BẾ QUAN ĐỘNG PHỦ",type:"cave",accent:"#536b62",phase:1.4},
+    {x:350,y:444,s:.37,title:"ĐỆ TỬ VIỆN",type:"academy",accent:"#66817a",phase:2.5},
+    {x:550,y:444,s:.39,title:"TRẬN PHÁP CÁC",type:"array",accent:"#4f7b83",phase:3.6},
+    {x:750,y:444,s:.37,title:"HỘ SƠN TRẬN CÁC",type:"guardian",accent:"#527e88",phase:4.7},
+    {x:955,y:444,s:.36,title:"NGOẠI VỤ ĐIỆN",type:"foreign",accent:"#916c48",phase:5.8}
+  ];
+
+  buildings.forEach((b,index)=>{
+    const bob=Math.sin(time*.00072+b.phase)*1.65;
+    const drift=Math.sin(time*.00042+b.phase)*.65;
+    drawSectMountainLedge(b.x,b.y,b.s);
+    drawSectPavilion(b.x+drift,b.y-5+bob,b.s,"",b.type,b.accent);
+
+    // Biển hiệu nhỏ gọn, có viền tối để đọc được trên nền núi và mái.
+    const labelY=b.y-5-169*b.s;
+    ctx.save();
+    ctx.textAlign="center";ctx.textBaseline="middle";ctx.lineJoin="round";
+    ctx.font="bold "+(index===2?13:10.5)+"px Arial, sans-serif";
+    ctx.lineWidth=3;ctx.strokeStyle="rgba(12,25,22,.96)";
+    ctx.strokeText(b.title,b.x,labelY,Math.min(174,210*b.s+30));
+    ctx.fillStyle=index===2?"#ffe4a0":"#fff0c0";
+    ctx.fillText(b.title,b.x,labelY,Math.min(174,210*b.s+30));
+    ctx.restore();
+  });
+}
+
+/* Nước trôi chậm, đều: giữ nguyên hình lòng sông và chỉ giảm tốc vân mặt nước. */
+function drawRiverCurrent(time){
+  ctx.save();ctx.lineCap="round";ctx.lineJoin="round";
+  const riverPath=()=>{
+    ctx.beginPath();ctx.moveTo(-80,520);
+    ctx.bezierCurveTo(150,505,260,536,430,521);
+    ctx.bezierCurveTo(610,506,720,536,880,520);
+    ctx.bezierCurveTo(1030,506,1110,530,1180,516);
+  };
+  ctx.strokeStyle="#29483c";ctx.lineWidth=66;riverPath();ctx.stroke();
+  ctx.strokeStyle="rgba(199,183,139,.82)";ctx.lineWidth=59;riverPath();ctx.stroke();
+  const water=ctx.createLinearGradient(0,488,0,552);
+  water.addColorStop(0,"#c5eee0");water.addColorStop(.28,"#69beb8");
+  water.addColorStop(.66,"#318d95");water.addColorStop(1,"#185f6c");
+  ctx.strokeStyle=water;ctx.lineWidth=53;riverPath();ctx.stroke();
+
+  // Dải phản quang ngắn, trôi ngang chậm khoảng một nửa tốc độ cũ.
+  const drift=(time*.0175)%156;
+  for(let i=0;i<30;i++){
+    const x=((i*45+drift)%1320)-70;
+    const y=520+Math.sin(x*.008)*7+Math.sin(i*1.5)*3;
+    ctx.strokeStyle=i%5===0?"rgba(255,255,246,.82)":"rgba(218,252,239,.46)";
+    ctx.lineWidth=i%4===0?1.9:1.05;
+    ctx.beginPath();ctx.moveTo(x,y);
+    ctx.quadraticCurveTo(x+9,y-2,x+20,y+.7);ctx.stroke();
+  }
+  ctx.restore();
+}
+
+/* Giữ nguyên đội hình và số lượng; thêm nhãn nhỏ để nhận diện từng tầng đệ tử. */
+const __phase2DrawCrowdBase=drawCrowd;
+function drawCrowd(time){
+  __phase2DrawCrowdBase(time);
+  drawRoleLabel(550,646,"NỘI MÔN","#c5eee1",.76);
+  drawRoleLabel(550,704,"NÒNG CỐT","#ffe3a0",.78);
+  drawRoleLabel(550,750,"NGOẠI MÔN","#b9d9ee",.78);
+  drawRoleLabel(550,826,"TẠP DỊCH","#d2c6a9",.78);
+}
