@@ -346,9 +346,15 @@
 
 
 ## 78. Đồng bộ Tiên Bảng và thông báo vượt cảnh
-- Tiên Bảng kéo giãn theo chiều cao thực tế của Thiên Lý Kính trong cùng hàng arena; không tự quyết định chiều cao hàng bằng nội dung dài.
-- Vùng danh sách xếp hạng hiển thị tối đa 10 hàng (cùng hàng tiêu đề); hạng từ 11 trở đi cuộn bên trong, không làm panel hoặc arena cao thêm.
+- Tiên Bảng là panel chuẩn, có chiều cao tự nhiên cố định theo tiêu đề và vùng danh sách đủ 10 vị trí đầu; không lấy chiều cao từ Thiên Lý Kính.
+- Vùng danh sách có chiều cao cố định đủ hiển thị hàng tiêu đề của bảng và 10 hàng xếp hạng; từ vị trí 11 trở đi cuộn bên trong, không làm panel hoặc arena cao thêm.
+- Thiên Lý Kính nhận chiều cao thực tế của Tiên Bảng thông qua `ResizeObserver`; phần tiêu đề, thông tin và khung hình được căn giữa theo chiều dọc bên trong panel.
 - Thông báo thông thường và thông báo về đích chỉ hiển thị nội dung gốc, không ghép tên cảnh giới.
 - Mỗi khe nứt chỉ phát một thông báo tên cảnh khi nhân vật đầu tiên thực sự vượt qua; các nhân vật sau vẫn nhận hiệu ứng cổng riêng nhưng không spam thông báo lặp.
 
-- Chiều cao Tiên Bảng được đồng bộ bằng `ResizeObserver` theo kích thước thực tế của Thiên Lý Kính, kể cả khi viewport đổi hướng hoặc kích thước.
+
+## 79. Tiên Bảng là chuẩn chiều cao cho Thiên Lý Kính
+- Tiên Bảng luôn dành vùng nhìn cho 10 vị trí đầu; toàn bộ thứ hạng từ vị trí 11 trở đi nằm trong vùng cuộn dọc riêng. Chiều cao vùng cuộn được cố định đủ chứa hàng tiêu đề và 10 hàng dữ liệu, kể cả khi số người hiện tại ít hơn 10.
+- Chiều cao tổng thể Tiên Bảng được quyết định bởi tiêu đề, padding và vùng danh sách 10 vị trí; không bị ép theo Thiên Lý Kính.
+- `journey-world.js` quan sát Tiên Bảng bằng `ResizeObserver` và đặt chiều cao Thiên Lý Kính bằng đúng chiều cao Tiên Bảng.
+- Các phần tử bên trong Thiên Lý Kính được căn giữa theo chiều dọc trong panel; khung Canvas vẫn giữ tỷ lệ 7:4, không kéo dãn hình ảnh.
