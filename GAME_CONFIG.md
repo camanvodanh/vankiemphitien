@@ -622,3 +622,8 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - `.camera-top-info` hiển thị Hạng trước, theo sau bởi khoảng cách nhỏ và cụm tốc độ + thời gian.
 - `#leaderProgress` không có viền, nền, bo góc hoặc shadow. Hàng thông tin căn giữa nguyên cụm; không dùng `space-between` đẩy hai phía ra xa.
 - Kích thước chữ co giãn theo viewport, giữ một dòng và giới hạn chiều rộng để tránh tràn khung.
+
+## 69. Cố định tiêu đề Thiên Lý Kính / Tiên Bảng và loại tên cảnh giới trùng
+- Hai hàng tiêu đề panel có cùng chiều cao 34px, được căn giữa theo chiều dọc và cố định ở đầu panel. Thiên Lý Kính không dùng căn giữa toàn bộ cột làm tiêu đề lệch hàng với Tiên Bảng.
+- Phần danh sách Tiên Bảng cuộn riêng trong `.table-wrap`, không cuộn hàng tiêu đề panel.
+- Khi vượt cổng, tên cảnh giới chỉ xuất hiện trong thông báo sự kiện. Không gọi renderer banner tên cảnh giới riêng trên Canvas để tránh hiển thị lặp bên dưới thông báo.
