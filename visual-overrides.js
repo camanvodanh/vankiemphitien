@@ -2699,8 +2699,7 @@ function drawAnnouncement(){
   if(!message)return;
   const isFinish=finishMessageLife>0;
   const life=isFinish?finishMessageLife:eventTextLife;
-  const realmName=typeof window.__vkGetCurrentRealmName==="function"?window.__vkGetCurrentRealmName():"";
-  const displayMessage=realmName?realmName+" · "+message:message;
+  const displayMessage=message;
   const viewWidth=(typeof canvas!=="undefined"&&canvas.clientWidth)||W;
   const uiScale=clamp(1100/viewWidth,1,1.42);
   ctx.save();
