@@ -912,7 +912,7 @@ function updateRanking(){
  }
  // Trước cuộc đua giữ đúng thứ tự triệu hồi, chỉ thêm tên khi tiên nhân hiện thân.
  const source=raceActive?sortedRacers():racers;
- const sorted=source.filter(r=>!revealing||!Number.isFinite(r.summonRevealAt)||now>=r.summonRevealAt);
+ const sorted=source.filter(r=>!revealing||!Number.isFinite(r.summonRevealAt)||now>=r.summonRevealAt).slice(0,10);
  if(!sorted.length){
   // Khi có danh sách, không để placeholder "Đang triệu hồi" tồn tại dai dẳng.
   // Bảng tạm để trống trong lúc chờ nhóm đầu tiên; khi hoàn tất sẽ hiện đủ tên.
