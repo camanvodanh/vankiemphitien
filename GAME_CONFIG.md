@@ -514,3 +514,11 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Đã loại bỏ khối cache IndexedDB khán đài REVISION 118 cùng biến/hàm liên quan vì không có điểm gọi tải/lưu cache; renderer `drawCrowd()` hiện hành không bị thay đổi.
 - Không gộp các hàm trùng tên trong giai đoạn này; các wrapper và các bản khai báo cuối đang hoạt động được giữ nguyên.
 - Đây là cleanup cấu trúc, không thay đổi bố cục Canvas, dữ liệu, thứ hạng, tốc độ, thời lượng hoặc xác suất gameplay.
+
+
+## 54. Dọn phong cảnh cũ — giai đoạn 2
+- `visual-overrides.js` giữ một bản renderer phong cảnh cuối cùng. Đã xóa các bản `drawScenery()` cũ và các bản bị ghi đè của `drawRiver()`, `drawMountainRange()`, `drawSpiritBirds()`, `drawDenseForest()`, `drawAmbientEnergy()`, `drawRiverCurrent()` và `drawSectArchitecture()`.
+- Đã xóa các lớp cảnh cũ không còn nằm trong cảnh hiện hành: thác nước, dòng thác liên kết, suối núi, vách thác, cụm núi-thác đôi, pháp bảo linh tuyền cũ và các bản vẽ cung điện nền cũ.
+- `scenery.js` chỉ còn các thành phần nền còn được cảnh hiện hành dùng: `initStars()`, `drawSky()`, `drawCloud()`, `drawMovingClouds()`, `drawPine()` và `drawTree()`.
+- Đã xóa `drawScenery()` cũ trong `race-render.js`; lời gọi render vẫn dùng `drawScenery()` cuối cùng trong `visual-overrides.js`.
+- Giữ nguyên các hàm vẽ hiện hành và kiến trúc tiên môn, rừng cây, sông, khán giả, nghi thức trao thưởng; không thay đổi dữ liệu hoặc thông số gameplay.
