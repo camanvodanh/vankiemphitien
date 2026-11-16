@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#102b27">
   <title>Vạn Kiếm Phi Tiên</title>
-  <link rel="stylesheet" href="style.css?v=responsive-arena-v178">
+  <link rel="stylesheet" href="style.css?v=responsive-arena-v179">
 </head>
 <body class="game-page">
   <main class="page game-app">
@@ -62,29 +62,37 @@
           <p id="lockNotice" class="lock-notice" aria-live="polite">Xoay vòng ngoài chọn số tiên nhân, vòng trong chọn thời lượng; chạm tâm pháp trận để triệu hồi.</p>
         </section>
 
-        <button class="summon-collapsed-trigger" type="button" aria-label="Mở lại bảng triệu hồi" title="Mở bảng Triệu Hồi" aria-expanded="false"><svg class="summon-mini-sword" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-              <defs>
-                <linearGradient id="miniSwordBlade" x1="0" y1="0" x2="1" y2="0">
-                  <stop stop-color="#5eaa91"/><stop offset=".22" stop-color="#d9f8e7"/><stop offset=".5" stop-color="#fffef0"/><stop offset=".76" stop-color="#b4e5d0"/><stop offset="1" stop-color="#397e70"/>
-                </linearGradient>
-                <linearGradient id="miniSwordGold" x1="0" y1="0" x2="0" y2="1">
-                  <stop stop-color="#fff3bd"/><stop offset=".42" stop-color="#e7c778"/><stop offset="1" stop-color="#936331"/>
-                </linearGradient>
-                <linearGradient id="miniSwordGrip" x1="0" y1="0" x2="1" y2="1">
-                  <stop stop-color="#e9d5a0"/><stop offset=".5" stop-color="#9b7542"/><stop offset="1" stop-color="#563c2d"/>
-                </linearGradient>
-              </defs>
-              <path d="M32 3 36.8 13.5 34.8 39.5 32 45 29.2 39.5 27.2 13.5Z" fill="url(#miniSwordBlade)" stroke="url(#miniSwordGold)" stroke-width="1.45" stroke-linejoin="round"/>
-              <path d="M32 6 33.2 15 32.5 38.5 32 41 31.5 38.5 30.8 15Z" fill="#fffef0" opacity=".88"/>
-              <path d="M28 15 30.5 19M36 15 33.5 19" stroke="#f7fff0" stroke-width=".8" opacity=".9"/>
-              <path d="M27.5 38.5 21 43.2 23 47.2 41 47.2 43 43.2 36.5 38.5 34.5 42 29.5 42Z" fill="url(#miniSwordGold)" stroke="#fff0bd" stroke-width="1.2" stroke-linejoin="round"/>
-              <path d="M29 46.5 29 56.2Q32 59.5 35 56.2L35 46.5Z" fill="url(#miniSwordGrip)" stroke="#e7c77f" stroke-width="1"/>
-              <path d="m29.3 49 5.4 2m-5.4 1.7 5.4 2m-5.4 1.6 4.2 1.5" stroke="#f5dfaa" stroke-width="1.15" stroke-linecap="round"/>
-              <path d="M27.2 59.2 32 56.8 36.8 59.2 32 63Z" fill="url(#miniSwordGold)" stroke="#fff0bd" stroke-width="1"/>
-              <path d="M32 1.8 33.5 5.5 32 8 30.5 5.5Z" fill="#fff8d9" stroke="#e7c778" stroke-width=".7"/>
-              <path d="M18 29q3-5 7-6M46 29q-3-5-7-6" fill="none" stroke="#a9e9cf" stroke-width="1" opacity=".7"/>
-              <circle cx="32" cy="44.5" r="2" fill="#f8f0c5" stroke="#a7783e" stroke-width=".7"/>
-            </svg></button>
+        <button class="summon-collapsed-trigger" type="button" aria-label="Mở lại bảng triệu hồi" title="Mở bảng Triệu Hồi" aria-expanded="false"><svg class="summon-mini-sword" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+<defs>
+<radialGradient id="summonSealCore"><stop stop-color="#eaffdf" stop-opacity=".62"/><stop offset=".48" stop-color="#8ce8c1" stop-opacity=".2"/><stop offset="1" stop-color="#4abf9b" stop-opacity="0"/></radialGradient>
+<linearGradient id="summonSealGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff5c9"/><stop offset=".48" stop-color="#d9ae59"/><stop offset="1" stop-color="#8e6334"/></linearGradient>
+<linearGradient id="summonSealJade" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#387b68"/><stop offset=".25" stop-color="#d8f7e6"/><stop offset=".52" stop-color="#fffef1"/><stop offset=".78" stop-color="#a8e2c9"/><stop offset="1" stop-color="#397c6b"/></linearGradient>
+<linearGradient id="summonSealGrip" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f0dfb0"/><stop offset=".5" stop-color="#927044"/><stop offset="1" stop-color="#49382d"/></linearGradient>
+<filter id="summonSealGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<circle cx="50" cy="50" r="47" fill="url(#summonSealCore)"/>
+<g fill="none" stroke="url(#summonSealGold)" stroke-linecap="round" filter="url(#summonSealGlow)">
+<circle cx="50" cy="50" r="44" stroke-width="1.35"/><circle cx="50" cy="50" r="39.5" stroke-width=".7" stroke-dasharray="2 2.8"/>
+<circle cx="50" cy="50" r="31.5" stroke-width="1"/><circle cx="50" cy="50" r="27.5" stroke-width=".55" stroke-dasharray="1.5 3"/>
+<path d="M50 3 54 11 50 15 46 11Z M97 50 89 54 85 50 89 46Z M50 97 46 89 50 85 54 89Z M3 50 11 46 15 50 11 54Z" stroke-width="1.2"/>
+<path d="M50 12 88 50 50 88 12 50Z M50 20 80 50 50 80 20 50Z" stroke-width=".8" opacity=".8"/>
+<path d="M27 27 73 73M73 27 27 73" stroke-width=".55" stroke-dasharray="2 3" opacity=".8"/>
+<path d="M50 7V18M50 82V93M7 50H18M82 50H93" stroke-width="1.2"/>
+</g>
+<g fill="#ffe9a8" stroke="#a87b3f" stroke-width=".55" filter="url(#summonSealGlow)">
+<path d="m50 17 2.4 4.4-2.4 4.4-2.4-4.4Z M83 50l-4.4 2.4-4.4-2.4 4.4-2.4Z M50 83l-2.4-4.4 2.4-4.4 2.4 4.4Z M17 50l4.4-2.4 4.4 2.4-4.4 2.4Z"/>
+<circle cx="50" cy="6.5" r="1.5"/><circle cx="93.5" cy="50" r="1.5"/><circle cx="50" cy="93.5" r="1.5"/><circle cx="6.5" cy="50" r="1.5"/>
+</g>
+<g fill="none" stroke="#b9f5d9" stroke-width=".85" opacity=".92"><path d="m29 17 3 5-3 5-3-5ZM71 17l3 5-3 5-3-5ZM83 29l-5 3-5-3 5-3ZM83 71l-5 3-5-3 5-3ZM71 83l-3-5 3-5 3 5ZM29 83l-3-5 3-5 3 5ZM17 71l5-3 5 3-5 3ZM17 29l5-3 5 3-5 3Z"/></g>
+<g filter="url(#summonSealGlow)" stroke-linejoin="round">
+<path d="M50 10 55.1 25 53.1 57 50 64 46.9 57 44.9 25Z" fill="url(#summonSealJade)" stroke="url(#summonSealGold)" stroke-width="1.45"/>
+<path d="m50 14 1.7 13-.8 30-.9 3-.9-3-.8-30Z" fill="#fffef0" opacity=".9"/>
+<path d="m45.1 51-9 7 3 5h21.8l3-5-9-7-3.5 5h-3.8Z" fill="url(#summonSealGold)" stroke="#fff0bd" stroke-width="1.2"/>
+<path d="M45.5 62h9v18q-4.5 5-9 0Z" fill="url(#summonSealGrip)" stroke="#e8cc89" stroke-width="1"/>
+<path d="m46 67 8 3m-8 2 8 3m-8 2 6 2" stroke="#f8e9bd" stroke-width="1.15" stroke-linecap="round"/>
+<path d="m44.5 81 5.5-3 5.5 3L50 89Z" fill="url(#summonSealGold)" stroke="#fff0bd" stroke-width="1"/>
+<path d="m47.5 20 2.5-6 2.5 6-2.5 3Z" fill="#fff9d9" stroke="#e7c778" stroke-width=".65"/>
+</g></svg></button>
 
         <div class="arena-controls">
           <button id="setupToggle" class="btn muted setup-toggle" hidden>☰ Thiết lập</button>
