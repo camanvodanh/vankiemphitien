@@ -9201,3 +9201,14 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important;
 }
 .arena-frame>.summon-collapsed-trigger svg{width:100%!important;height:100%!important;}
+
+
+/* REVISION 139 — nút thu nhỏ lấy kích thước CSS động từ chiều cao HUD Canvas (42 đơn vị). */
+.arena-frame>.summon-collapsed-trigger{
+  width:var(--summon-launcher-size,42px)!important;
+  height:var(--summon-launcher-size,42px)!important;
+  min-width:var(--summon-launcher-size,42px)!important;
+  min-height:var(--summon-launcher-size,42px)!important;
+  max-width:none!important;max-height:none!important;flex:none!important;
+}
+.arena-frame>.summon-collapsed-trigger svg{width:100%!important;height:100%!important;}
