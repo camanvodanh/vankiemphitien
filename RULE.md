@@ -212,3 +212,6 @@
 
  
 55. Nút thu nhỏ của bảng Triệu Hồi luôn là dấu “−” nằm trên thanh tiêu đề khi bảng đang mở. Không gắn biểu tượng kiếm vào nút này. Khi thu nhỏ, ẩn toàn bộ panel và hiển thị một nút trường kiếm riêng tại góc phải vùng game; nút kiếm chỉ có nhiệm vụ mở lại bảng. Nút kiếm phải nằm ngoài panel để không bị định vị theo nút “−”, giữ neo responsive trong cột game ở portrait/landscape/desktop. Không thay đổi nút khai trận hoặc logic triệu hồi.
+
+
+56. Nút mở lại bảng Triệu Hồi phải là trường kiếm đặt trong pháp trận triệu hồi hoàn chỉnh: có vòng trận, đường phù văn, các điểm linh lực và ánh sáng ngọc/vàng bao quanh kiếm. Nút phải được định vị theo góc phải-dưới của chính Canvas trường đua, không căn theo toàn bộ khung arena hoặc các panel Thiên Lý Kính/Tiên Bảng; khi đổi kích thước, xoay màn hình hoặc thay đổi tỷ lệ Canvas, nút vẫn bám đúng góc Canvas. Nhấn nút mở lại bảng Triệu Hồi; dấu “−” trên tiêu đề và nút khai trận bên trong pháp luân giữ nguyên chức năng.
