@@ -58,14 +58,7 @@
     for(let i=1;i<regions.length;i++)if(progress>=Number(regions[i].start||0))active=regions[i];
     return progress<Number(regions[1]&&regions[1].start||.2)?[]:[{region:active,alpha:1}];
   }
-  function drawSwordLandmark(target,x,y,scale,angle,color){
-    target.save();target.translate(x,y);target.rotate(angle||0);target.scale(scale,scale);
-    target.fillStyle="#34495d";target.fillRect(-2,3,4,12);
-    target.fillStyle="#d8bd7b";target.fillRect(-6,1,12,3);
-    target.fillStyle=color;target.beginPath();target.moveTo(0,-27);target.lineTo(4,-5);target.lineTo(2,3);target.lineTo(-2,3);target.lineTo(-4,-5);target.closePath();target.fill();
-    target.strokeStyle="rgba(245,250,255,.88)";target.lineWidth=1;target.stroke();target.restore();
-  }
-  function drawIsland(target,x,y,scale,color){
+    function drawIsland(target,x,y,scale,color){
     target.save();target.translate(x,y);target.scale(scale,scale);
     target.fillStyle="#435e67";target.beginPath();target.moveTo(-76,0);target.quadraticCurveTo(-48,-15,0,-12);target.quadraticCurveTo(48,-18,76,0);target.lineTo(43,18);target.lineTo(15,31);target.lineTo(-18,24);target.closePath();target.fill();
     target.fillStyle=color;target.beginPath();target.moveTo(-82,-3);target.quadraticCurveTo(-42,-22,0,-15);target.quadraticCurveTo(43,-22,82,-3);target.quadraticCurveTo(35,7,-8,5);target.quadraticCurveTo(-48,8,-82,-3);target.closePath();target.fill();
