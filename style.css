@@ -9792,3 +9792,81 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   overflow-x:hidden!important;
   overflow-y:auto!important;
 }
+
+
+/* REVISION 156 — Hạng đứng trước tốc độ/thời gian, bỏ khung Hạng và căn giữa cả hàng. */
+.arena-frame>.game-camera>.camera-info>.camera-top-info{
+  display:flex!important;
+  flex:0 0 auto!important;
+  flex-flow:row nowrap!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:7px!important;
+  width:100%!important;
+  min-width:0!important;
+  margin:0 auto!important;
+  padding:0!important;
+  text-align:center!important;
+}
+.arena-frame>.game-camera>.camera-info>.camera-top-info>.camera-rank-slot{
+  display:inline-flex!important;
+  flex:0 0 auto!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:auto!important;
+  min-width:0!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:0!important;
+  text-align:center!important;
+}
+.arena-frame>.game-camera>.camera-info>.camera-top-info>#leaderProgress{
+  display:inline-flex!important;
+  flex:0 0 auto!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:auto!important;
+  min-width:0!important;
+  max-width:100%!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  outline:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:#f4d99a!important;
+  font-size:clamp(10px,1.05vw,13px)!important;
+  font-weight:900!important;
+  line-height:1.2!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+}
+.arena-frame>.game-camera>.camera-info>.camera-top-info>#leaderSpeed{
+  display:inline-flex!important;
+  flex:0 1 auto!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:auto!important;
+  min-width:0!important;
+  max-width:calc(100% - 65px)!important;
+  margin:0!important;
+  padding:0!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+}
+.arena-frame>.game-camera>.camera-info>.camera-top-info>#leaderSpeed>small{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:4px!important;
+  margin:0!important;
+  padding:0!important;
+  font-size:clamp(10px,1.05vw,13px)!important;
+  line-height:1.2!important;
+  white-space:nowrap!important;
+}
+.arena-frame>.game-camera>.camera-info>.camera-top-info>#leaderSpeed .camera-speed-time{
+  margin-left:2px!important;
+}
