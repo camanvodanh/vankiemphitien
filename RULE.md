@@ -311,3 +311,13 @@
 - Giữ nguyên particle đang hoạt động: `getParticleBudget()`, `addParticles()`, `updateParticles()`, `drawParticles()` và các điểm phát hạt trong hiệu ứng đua; giữ `drawAura()`, `drawCrowdFlag()`, `drawPine()`, `drawDenseForest()`, `drawAmbientEnergy()`, `drawRiverCurrent()` cùng các helper nghi thức/nhân vật đang được renderer gọi.
 - Giữ nguyên `discipleCrowdLayout` dù hiện không có điểm đọc: IIFE khởi tạo của nó tiêu thụ số ngẫu nhiên ngay khi nạp `visual-overrides.js`; bỏ khối này sẽ dịch chuỗi `Math.random()` trước khi khởi tạo sao/mây và có thể làm thay đổi bố cục ngẫu nhiên hiện tại. Chưa loại bỏ để tránh thay đổi ngoài phạm vi.
 - Cache các file JavaScript đã sửa được tăng trong `data-loader.js`. Không thay đổi thuật toán particle, mật độ khán đài hiện hành, hiệu ứng linh khí, tốc độ, thứ hạng hoặc thời lượng cuộc đua.
+
+
+## 74. Dữ liệu cấu hình JSON và mặc định trùng lặp — giai đoạn 4F
+- Đối chiếu sáu tệp JSON trong `data/` với toàn bộ JavaScript được nạp. Giữ các trường được đọc trực tiếp, đọc qua object/dynamic key hoặc destructuring.
+- `data/swords.json`: `shapeCount` trở thành nguồn duy nhất quyết định số hình kiếm; bỏ `styleCount` vì không có renderer hay luồng nào đọc trường này.
+- `data/effects.json`: bỏ các trường chính sách `sameEffect`, `oppositeEffect`, `oppositePolarity`, `antiBadLuck` vì chúng không được đọc; hành vi hiệu ứng hiện tại vẫn do `activateRaceEffect()` thực thi, không đổi quy tắc cộng dồn/thay thế.
+- `data/ceremony.json`: dùng `awards.topCount` cho số vị trí được chọn thay vì khai báo cứng `3` trong renderer; giới hạn bố cục TOP 3 hiện có không thay đổi với giá trị cấu hình hiện tại.
+- `race-logic.js`: chỉ tạo một danh sách thời lượng từ `summoning.durationOptions`, dùng chung cho hai select; bỏ mảng mặc định bị khai báo lặp.
+- `journey-world.js`: dùng trực tiếp các giá trị bắt buộc trong `effects.balance` đã được nạp từ JSON, bỏ các số dự phòng trùng với cấu hình `.05`, `.5`, `.35/.4/.25`, `.75/1.25` và khoảng thời lượng `[2,5]`.
+- Tăng cache version cho các JavaScript thay đổi. Không đổi giá trị cấu hình đang hoạt động, xác suất, tốc độ, thời lượng, thứ hạng, hiệu ứng hoặc hình ảnh.
