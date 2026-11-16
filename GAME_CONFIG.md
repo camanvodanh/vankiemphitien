@@ -610,3 +610,9 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - `.table-wrap` cố định 242px, bằng 11 hàng × 22px (gồm hàng tiêu đề cột và 10 vị trí đầu).
 - Các hàng tiêu đề và dữ liệu đều khóa 22px theo border-box để không bị co thấp hoặc nở ngoài dự tính. Hạng 11 trở đi cuộn bên trong.
 - ResizeObserver tiếp tục lấy chiều cao thực tế Tiên Bảng để đồng bộ Thiên Lý Kính.
+
+
+## 67. Tên đầy đủ cảnh giới và đồng bộ khung Thiên Lý Kính
+- Thông báo vượt khe nứt lấy `name` đầy đủ của cảnh đích trong `data/scenery.json`, không dùng `shortName` nếu đã có tên đầy đủ và không thêm tiền tố “BƯỚC VÀO”.
+- Bộ đồng bộ chiều cao được khởi tạo đúng trong cả hai trạng thái DOM đang tải và đã tải; ResizeObserver đặt chiều cao border-box Thiên Lý Kính bằng Tiên Bảng.
+- Nội dung camera căn giữa theo chiều dọc, thông tin có thể xuống dòng an toàn, canvas không đổi tỷ lệ 7:4. Padding/viền hai panel được chuẩn hóa để không có phần tử con thò khỏi khung hoặc khoảng đệm lệch.
