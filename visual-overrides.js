@@ -2699,12 +2699,14 @@ function drawAnnouncement(){
   if(!message)return;
   const isFinish=finishMessageLife>0;
   const life=isFinish?finishMessageLife:eventTextLife;
+  const realmName=typeof window.__vkGetCurrentRealmName==="function"?window.__vkGetCurrentRealmName():"";
+  const displayMessage=realmName?realmName+" · "+message:message;
   const viewWidth=(typeof canvas!=="undefined"&&canvas.clientWidth)||W;
   const uiScale=clamp(1100/viewWidth,1,1.42);
   ctx.save();
   ctx.globalAlpha=clamp(life/.55,0,1);
   ctx.font="700 "+(18*uiScale)+"px Arial, \"Noto Sans\", \"PingFang SC\", sans-serif";
-  const boxW=Math.min(W-40,Math.max(310,ctx.measureText(message).width+42));
+  const boxW=Math.min(W-40,Math.max(310,ctx.measureText(displayMessage).width+42));
   const boxH=38,x=(W-boxW)/2,y=59;
   ctx.fillStyle=isFinish?"rgba(99,59,26,.96)":"rgba(18,48,40,.95)";
   ctx.fillRect(x,y,boxW,boxH);
@@ -2713,7 +2715,7 @@ function drawAnnouncement(){
   ctx.fillStyle=isFinish?"#ffe9ad":"#fff0c5";
   ctx.textAlign="center";ctx.textBaseline="middle";
   ctx.shadowColor="rgba(255,226,166,.3)";ctx.shadowBlur=4;
-  ctx.fillText(message,W/2,y+boxH/2,boxW-22);
+  ctx.fillText(displayMessage,W/2,y+boxH/2,boxW-22);
   ctx.restore();
 }
 
