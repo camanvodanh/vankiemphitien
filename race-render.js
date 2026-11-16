@@ -12,43 +12,6 @@ TRACK.bottom = 570;
 // TỔNG HỢP PHONG CẢNH
 // =====================================================
 
-function drawScenery(time) {
-  drawSky(time);
-  drawMountainRange();
-  drawMovingClouds(time);
-
-  drawFloatingPlatform(165, 290, .8);
-  drawFloatingPlatform(940, 275, .75);
-
-  drawPagoda(165, 310, .82, "#554335");
-  drawPagoda(950, 290, .88, "#584333");
-
-  drawPalace(275, 370, .53, false);
-  drawPalace(825, 365, .55, false);
-  drawPalace(550, 320, 1.05, true);
-
-  drawWaterfall(890, 275, 35, 180, time);
-  drawWaterfall(105, 345, 23, 105, time);
-
-  drawRiver(time);
-  drawBridge();
-
-  drawPine(28, 465, 1.15);
-  drawPine(65, 475, .9);
-  drawPine(160, 465, .75);
-  drawPine(335, 470, .8);
-  drawPine(760, 470, .8);
-  drawPine(1030, 455, 1.1);
-  drawPine(1070, 480, .85);
-
-  drawTree(200, 460, .75);
-  drawTree(390, 485, .65);
-  drawTree(710, 480, .7);
-  drawTree(1000, 465, .7);
-
-  // Khán giả ở khu vực riêng phía dưới
-  drawCrowd(time);
-}
 
 // =====================================================
 // HUD
