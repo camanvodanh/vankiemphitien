@@ -7,127 +7,9 @@
 // =====================================================
 
 
-function drawFormalSpectator(x, y, scale, roleName, time, phase = 0) {
-  const role = ROLE[roleName] || ROLE.outer;
-  const female = Math.abs(Math.floor(phase * 7 + (roleName==="elder"?1:0))) % 2 === 1;
-  const hair = roleName==="master" || roleName==="elder" ? "#ded8ca" : (female ? "#211e29" : "#302a27");
-  const skin = female ? "#f4cda9" : "#dcae89";
-  const robe = female && roleName!=="master" ? "#b77f9f" : role.robe;
-  ctx.save();ctx.translate(x,y);ctx.scale(scale*role.scale,scale);
-  ctx.fillStyle="rgba(24,28,24,.30)";ctx.beginPath();ctx.ellipse(0,19,19,5,0,0,Math.PI*2);ctx.fill();
-  // Thân áo phân biệt rõ: nữ có eo thon, tay áo rộng và tà váy xòe.
-  ctx.fillStyle=role.dark;ctx.beginPath();
-  if(female){ctx.moveTo(-8,-5);ctx.quadraticCurveTo(0,-9,8,-5);ctx.lineTo(19,18);ctx.quadraticCurveTo(0,23,-19,18);ctx.closePath();}
-  else{ctx.moveTo(-13,-5);ctx.lineTo(13,-5);ctx.lineTo(19,18);ctx.lineTo(-19,18);ctx.closePath();}
-  ctx.fill();
-  ctx.fillStyle=robe;ctx.beginPath();
-  if(female){ctx.moveTo(-7,-7);ctx.lineTo(7,-7);ctx.lineTo(11,9);ctx.lineTo(17,18);ctx.quadraticCurveTo(0,22,-17,18);ctx.lineTo(-11,9);ctx.closePath();}
-  else{ctx.moveTo(-10,-7);ctx.lineTo(10,-7);ctx.lineTo(14,13);ctx.lineTo(-14,13);ctx.closePath();}
-  ctx.fill();
-  // Cổ áo chéo và đai lưng.
-  ctx.strokeStyle="#f2e5c7";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-4,-7);ctx.lineTo(2,2);ctx.lineTo(7,-5);ctx.stroke();
-  ctx.fillStyle=role.belt;ctx.fillRect(-10,5,20,3);
-  ctx.fillStyle="#efc39b";ctx.strokeStyle=skin;ctx.lineWidth=4;ctx.lineCap="round";
-  ctx.beginPath();ctx.moveTo(-10,-2);ctx.lineTo(-16,7);ctx.moveTo(10,-2);ctx.lineTo(16,7);ctx.stroke();
-  ctx.fillStyle=skin;ctx.beginPath();ctx.ellipse(0,-17,female?5.5:6.2,7,0,0,Math.PI*2);ctx.fill();
-  // Tóc nam búi cao; tóc nữ dài, có mái và trâm ngọc.
-  ctx.fillStyle=hair;
-  if(female){
-    ctx.beginPath();ctx.moveTo(-7,-20);ctx.quadraticCurveTo(-10,-31,0,-31);ctx.quadraticCurveTo(10,-31,7,-19);ctx.lineTo(9,0);ctx.quadraticCurveTo(5,5,5,-12);ctx.lineTo(-5,-12);ctx.quadraticCurveTo(-5,4,-9,1);ctx.closePath();ctx.fill();
-    ctx.beginPath();ctx.arc(0,-29,4,0,Math.PI*2);ctx.fill();
-    ctx.strokeStyle="#e8cf8d";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(1,-30);ctx.lineTo(10,-34);ctx.stroke();
-  }else{
-    ctx.beginPath();ctx.arc(0,-23,7,Math.PI,Math.PI*2);ctx.fill();ctx.fillRect(-7,-23,3,7);ctx.fillRect(4,-23,3,7);
-    ctx.beginPath();ctx.ellipse(0,-31,4,5,0,0,Math.PI*2);ctx.fill();
-  }
-  ctx.fillStyle="#45352e";ctx.fillRect(-3,-18,1.6,1.6);ctx.fillRect(2,-18,1.6,1.6);
-  if(roleName==="elder"||roleName==="master"){
-    if(!female){ctx.fillStyle=hair;ctx.beginPath();ctx.moveTo(-3,-10);ctx.lineTo(3,-10);ctx.lineTo(2,2);ctx.lineTo(0,5);ctx.lineTo(-2,2);ctx.closePath();ctx.fill();}
-  }
-  if(roleName==="master"){ctx.fillStyle="#e8c36e";ctx.beginPath();ctx.moveTo(-8,-26);ctx.lineTo(-5,-38);ctx.lineTo(0,-31);ctx.lineTo(5,-38);ctx.lineTo(8,-26);ctx.closePath();ctx.fill();}
-  if(roleName==="elder"){ctx.strokeStyle="#dfc17e";ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(21,-20);ctx.lineTo(21,23);ctx.stroke();}
-  if(role.aura){ctx.globalAlpha=.35;const halo=ctx.createRadialGradient(0,-9,2,0,-9,35);halo.addColorStop(0,role.aura+"66");halo.addColorStop(1,role.aura+"00");ctx.fillStyle=halo;ctx.beginPath();ctx.ellipse(0,-8,35,28,0,0,Math.PI*2);ctx.fill();}
-  ctx.restore();
-}
 
-function drawCrowd(time) {
-  // Khán đài danh dự ở trung tâm: chưởng môn > trưởng lão > thân truyền.
-  // Mỗi nhóm có bệ riêng, không đè lên hàng đệ tử phổ thông.
 
-  // Dãy đệ tử thường ở xa khu vực danh dự, chia hai cánh.
-  const rows = [
-    { y: 760, count: 17, start: 18, step: 32, role: "servant", scale: .67 },
-    { y: 760, count: 17, start: 538, step: 32, role: "outer", scale: .69 },
-    { y: 730, count: 7, start: 18, step: 40, role: "inner", scale: .76 },
-    { y: 730, count: 7, start: 842, step: 40, role: "core", scale: .80 },
-    { y: 790, count: 17, start: 18, step: 32, role: "outer", scale: .66 }
-  ];
 
-  rows.forEach((row, ri) => {
-    for (let i = 0; i < row.count; i++) {
-      drawSpectator(
-        row.start + i * row.step,
-        row.y + (i % 2) * 3,
-        row.scale,
-        row.role,
-        time,
-        i * .63 + ri
-      );
-    }
-  });
-
-  // Bệ trung tâm dành riêng cho chưởng môn.
-  drawAudiencePlatform(550, 688, 190);
-  ctx.fillStyle = "#50352b";
-  ctx.fillRect(475, 626, 150, 61);
-  ctx.fillStyle = "#d9b976";
-  ctx.fillRect(468, 681, 164, 8);
-  ctx.fillStyle = "#8d3430";
-  ctx.fillRect(495, 634, 110, 50);
-  ctx.strokeStyle = "#f2d58d";
-  ctx.lineWidth = 3;
-  ctx.strokeRect(500, 639, 100, 42);
-
-  // Vương miện/ngai nổi bật.
-  ctx.fillStyle = "#e8cb83";
-  ctx.beginPath();
-  ctx.moveTo(490, 640); ctx.lineTo(500, 616);
-  ctx.lineTo(525, 632); ctx.lineTo(550, 605);
-  ctx.lineTo(575, 632); ctx.lineTo(600, 616);
-  ctx.lineTo(610, 640); ctx.closePath(); ctx.fill();
-
-  drawFormalSpectator(550, 658, 1.32, "master", time, 0);
-  drawRoleLabel(550, 592, "CHƯỞNG MÔN", "#f2d17d", 1.35);
-
-  // Trưởng lão ngồi hai bên, thấp hơn và nhỏ hơn chưởng môn.
-  drawAudiencePlatform(255, 700, 245);
-  drawAudiencePlatform(845, 700, 245);
-
-  const elders = [
-    [170, 682], [225, 682], [280, 682], [335, 682],
-    [765, 682], [820, 682], [875, 682], [930, 682]
-  ];
-  elders.forEach((p, i) => {
-    drawFormalSpectator(p[0], p[1], 1.00, "elder", time, i);
-  });
-  drawRoleLabel(255, 640, "ĐẠI TRƯỞNG LÃO", "#d4b5fa", 1.08);
-  drawRoleLabel(845, 640, "TRƯỞNG LÃO", "#d4b5fa", 1.08);
-
-  // Thân truyền ngồi hàng kế tiếp, nằm ngoài khoảng chiếm chỗ của hai nhóm trên.
-  drawAudiencePlatform(550, 730, 390);
-  const personal = [
-    [390, 712], [450, 712], [510, 712],
-    [590, 712], [650, 712], [710, 712]
-  ];
-  personal.forEach((p, i) => {
-    drawFormalSpectator(p[0], p[1], .88, "disciple", time, i);
-  });
-  drawRoleLabel(550, 674, "CHÂN TRUYỀN ĐỆ TỬ", "#a9c9f0", .98);
-
-  // Cờ nghi lễ ở hai rìa, không chắn nhân vật.
-  drawCrowdFlag(12, 710, "#a53f36", time);
-  drawCrowdFlag(1085, 710, "#b18a43", time);
-}
 
 
 
@@ -278,41 +160,7 @@ function drawRacer(target,racer,x,y,scale,time){
 // Hướng đua trong game: trái -> phải.
 // =====================================================
 
-function drawCrowd(time) {
-  // Đệ tử phổ thông được đẩy ra xa hai cánh và hàng dưới.
-  const rows=[
-    {y:785,n:18,x:12,step:31,r:"servant",s:.62},
-    {y:785,n:18,x:550,step:31,r:"outer",s:.62},
-    {y:752,n:8,x:12,step:39,r:"outer",s:.68},
-    {y:752,n:8,x:790,step:39,r:"inner",s:.70},
-    {y:716,n:6,x:10,step:43,r:"inner",s:.72},
-    {y:716,n:6,x:832,step:43,r:"core",s:.74}
-  ];
-  rows.forEach((r,k)=>{for(let i=0;i<r.n;i++)drawSpectator(r.x+i*r.step,r.y+(i%2)*2,r.s,r.r,time,i*.61+k);});
 
-  // Ba cấp ghế danh dự gần nhau, không đè vào đệ tử thường.
-  drawAudiencePlatform(550,646,164);
-  ctx.fillStyle="#50352b";ctx.fillRect(490,590,120,53);
-  ctx.fillStyle="#d9b976";ctx.fillRect(480,640,140,8);
-  ctx.fillStyle="#8d3430";ctx.fillRect(503,598,94,42);
-  ctx.strokeStyle="#f2d58d";ctx.lineWidth=3;ctx.strokeRect(507,602,86,34);
-  ctx.fillStyle="#e8cb83";ctx.beginPath();
-  ctx.moveTo(495,603);ctx.lineTo(504,580);ctx.lineTo(528,594);
-  ctx.lineTo(550,568);ctx.lineTo(572,594);ctx.lineTo(596,580);
-  ctx.lineTo(605,603);ctx.closePath();ctx.fill();
-  drawFormalSpectator(550,623,1.18,"master",time,0);
-  drawRoleLabel(550,557,"CHƯỞNG MÔN","#f2d17d",1.28);
-
-  drawAudiencePlatform(360,665,150);drawAudiencePlatform(740,665,150);
-  [[315,650],[365,650],[415,650],[685,650],[735,650],[785,650]].forEach((p,i)=>drawFormalSpectator(p[0],p[1],.88,"elder",time,i));
-  drawRoleLabel(360,616,"TRƯỞNG LÃO","#d4b5fa",.96);
-  drawRoleLabel(740,616,"TRƯỞNG LÃO","#d4b5fa",.96);
-
-  drawAudiencePlatform(550,690,210);
-  [[455,676],[505,676],[555,676],[605,676],[655,676]].forEach((p,i)=>drawFormalSpectator(p[0],p[1],.76,"disciple",time,i));
-  drawRoleLabel(555,646,"THÂN TRUYỀN","#a9c9f0",.88);
-  drawCrowdFlag(12,700,"#a53f36",time);drawCrowdFlag(1085,700,"#b18a43",time);
-}
 
 
 
@@ -456,42 +304,7 @@ function drawRaceHud() {
 
 // Mái ngói cong sát thân điện, diềm mái liền nhà; biển hiệu treo ở mặt trước,
 // đúng khoảng giữa mép mái và thân điện.
-function drawCrowd(time) {
-  // Dãy danh dự chia thành ba cụm có khoảng trống rõ ràng.
-  drawAudiencePlatform(550,682,142);
-  drawFormalSpectator(550,654,1.25,"master",time,0);
-  drawRoleLabel(550,617,"CHƯỞNG MÔN","#f2d17d",1.25);
 
-  drawAudiencePlatform(255,710,188);
-  drawAudiencePlatform(845,710,188);
-  [[190,682],[255,682],[320,682]].forEach((p,i)=>drawFormalSpectator(p[0],p[1],.96,"elder",time,i));
-  [[780,682],[845,682],[910,682]].forEach((p,i)=>drawFormalSpectator(p[0],p[1],.96,"elder",time,i+3));
-  drawRoleLabel(255,644,"ĐẠI TRƯỞNG LÃO","#d4b5fa",1.02);
-  drawRoleLabel(845,644,"TRƯỞNG LÃO","#d4b5fa",1.02);
-
-  drawAudiencePlatform(550,750,260);
-  [[445,721],[495,721],[545,721],[595,721],[645,721]].forEach((p,i)=>drawFormalSpectator(p[0],p[1],.82,"disciple",time,i));
-  drawRoleLabel(550,684,"CHÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.94);
-
-  // Đệ tử phổ thông phân bố cân hai cánh, chừa lề an toàn cho nhân vật và HUD.
-  const bands=[
-    {x:28,y:670,n:8,role:"servant",s:.66},
-    {x:28,y:720,n:8,role:"outer",s:.68},
-    {x:28,y:775,n:8,role:"inner",s:.64},
-    {x:724,y:670,n:8,role:"outer",s:.68},
-    {x:724,y:720,n:8,role:"servant",s:.66},
-    {x:724,y:775,n:8,role:"core",s:.64}
-  ];
-  bands.forEach((row,r)=>{
-    for(let i=0;i<row.n;i++){
-      const x=row.x+i*48+(i%2)*3;
-      const y=row.y+Math.sin(i*1.7+r)*3;
-      drawSpectator(x,y,row.s,row.role,time,i*.71+r*1.3);
-    }
-  });
-  drawCrowdFlag(18,690,"#a53f36",time);
-  drawCrowdFlag(W-18,690,"#b18a43",time);
-}
 
 
 // HUD ở hai góc trên, nền xanh ôm vừa nội dung.
@@ -583,42 +396,7 @@ function drawImmortalFinishGate() {
 
 // Địa hình núi nhiều sống núi, đỉnh nhọn, vách đá dựng và tầng đá ngoằn ngoèo.
 
-function drawCrowd(time) {
-  // Khu danh dự nằm phía trên; đệ tử cổ vũ phổ thông đứng thành hàng phía dưới.
-  drawAudiencePlatform(550, 654, 150);
-  drawFormalSpectator(550, 626, 1.22, "master", time, 0);
-  drawRoleLabel(550, 566, "CHƯỞNG MÔN", "#f2d17d", 1.18);
 
-  drawAudiencePlatform(255, 680, 220);
-  drawAudiencePlatform(845, 680, 220);
-  [[165,652],[225,652],[285,652],[345,652],
-   [755,652],[815,652],[875,652],[935,652]].forEach((p,i) =>
-    drawFormalSpectator(p[0],p[1],.92,"elder",time,i)
-  );
-  drawRoleLabel(255, 596, "ĐẠI TRƯỞNG LÃO", "#d4b5fa", .98);
-  drawRoleLabel(845, 596, "TRƯỞNG LÃO", "#d4b5fa", .98);
-
-  drawAudiencePlatform(550, 727, 310);
-  [[410,699],[465,699],[520,699],[575,699],[630,699],[685,699]].forEach((p,i) =>
-    drawFormalSpectator(p[0],p[1],.78,"disciple",time,i)
-  );
-  // Bảng thân truyền tách khỏi ngai, đặt phía trên hàng ghế riêng.
-  drawRoleLabel(550, 642, "CHÂN TRUYỀN ĐỆ TỬ", "#a9c9f0", .92);
-
-  // Chỉ bố trí đệ tử phổ thông ở hai cánh và hàng cuối, không đứng đè lên ghế VIP.
-  const rows = [
-    { x: 18, y: 770, n: 6, role: "servant", scale: .70 },
-    { x: 782, y: 770, n: 6, role: "outer", scale: .70 }
-  ];
-  rows.forEach((r, ri) => {
-    for (let i = 0; i < r.n; i++) {
-      drawSpectator(r.x + i * 52, r.y + (i % 2) * 2, r.scale, r.role, time, i * .7 + ri);
-    }
-  });
-
-  drawCrowdFlag(12, 746, "#a53f36", time);
-  drawCrowdFlag(W - 18, 746, "#b18a43", time);
-}
 
 
 // Tránh để thẻ HOÀN THÀNH che cổng đích TIÊN MÔN ở góc phải.
@@ -659,44 +437,7 @@ function drawRaceHud() {
 // REVISION 7 — BỐ CỤC KHÁN ĐÀI, HỒ TỰ NHIÊN, CỔNG 3D
 // =====================================================
 
-function drawCrowd(time) {
-  // Ba khu vực danh dự cùng một tầng: thân truyền trái, chưởng môn giữa, trưởng lão phải.
-  drawAudiencePlatform(300, 681, 205);
-  drawFormalSpectator(300, 649, 1.02, "disciple", time, 0);
-  drawRoleLabel(300, 610, "CHÂN TRUYỀN ĐỆ TỬ", "#a9c9f0", .96);
 
-  drawAudiencePlatform(550, 681, 178);
-  drawFormalSpectator(550, 649, 1.18, "master", time, 0);
-  drawRoleLabel(550, 600, "CHƯỞNG MÔN", "#f2d17d", 1.12);
-
-  drawAudiencePlatform(800, 681, 205);
-  drawFormalSpectator(800, 649, 1.02, "elder", time, 1);
-  drawRoleLabel(800, 610, "TRƯỞNG LÃO", "#d4b5fa", .98);
-
-  // Đám đông đứng dày thành nhiều lớp như khán giả concert, thấp hơn khu danh dự.
-  const crowdRows = [
-    { y: 725, count: 34, x: 14, step: 32, scale: .67, role: "servant" },
-    { y: 750, count: 35, x: 4, step: 32, scale: .63, role: "outer" },
-    { y: 774, count: 36, x: -3, step: 31, scale: .59, role: "inner" },
-    { y: 795, count: 37, x: -8, step: 30, scale: .53, role: "core" }
-  ];
-  crowdRows.forEach((row, ri) => {
-    for (let i = 0; i < row.count; i++) {
-      const stagger = (i % 2) * 7;
-      const sway = Math.sin(time * .002 + i * .8 + ri) * 2;
-      drawSpectator(
-        row.x + i * row.step + stagger,
-        row.y + sway,
-        row.scale,
-        row.role,
-        time,
-        i * .57 + ri * 1.3
-      );
-    }
-  });
-  drawCrowdFlag(12, 713, "#a53f36", time);
-  drawCrowdFlag(W - 18, 713, "#b18a43", time);
-}
 
 // Hồ dạng lòng chảo tự nhiên, bờ đất/đá ôm theo địa hình; không đặt các viên đá lên mặt nước.
 
@@ -883,47 +624,7 @@ function drawVIPChair(x,y,scale,tone,time,phase=0){
  ctx.restore();
 }
 
-function drawCrowd(time) {
-  drawVIPChair(550, 672, 1.38, "#762f32", time, 0);
-  drawFormalSpectator(550, 662, 1.18, "master", time, 0);
-  drawRoleLabel(550, 615, "CHƯỞNG MÔN", "#f2d17d", 1.1);
 
-  const elders = [
-    [58,696],[145,689],[232,684],[319,689],[406,696],[475,699],
-    [625,699],[694,696],[781,689],[868,684],[955,689],[1042,696]
-  ];
-  elders.forEach(([x,y],i) => {
-    drawVIPChair(x,y,.86,"#5b456b",time,i);
-    drawFormalSpectator(x,y-7,.78,"elder",time,i*.8);
-  });
-  drawRoleLabel(260,642,"TRƯỞNG LÃO","#d4b5fa",.95);
-  drawRoleLabel(840,642,"TRƯỞNG LÃO","#d4b5fa",.95);
-
-  const disciples = [
-    [385,650],[440,650],[495,650],[605,650],[660,650],[715,650],
-    [412,713],[474,713],[626,713],[688,713]
-  ];
-  disciples.forEach(([x,y],i) => {
-    drawVIPChair(x,y,.72,"#405d82",time,i*.7);
-    drawFormalSpectator(x,y-8,.69,"disciple",time,i);
-  });
-  drawRoleLabel(550,608,"CHÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.92);
-
-  const rows = [
-    {y:748,count:35,x:4,step:32,scale:.62,role:"servant"},
-    {y:773,count:36,x:-3,step:31,scale:.58,role:"outer"},
-    {y:796,count:37,x:-8,step:30,scale:.52,role:"inner"}
-  ];
-  rows.forEach((row,ri) => {
-    for(let i=0;i<row.count;i++) {
-      drawSpectator(row.x+i*row.step+(i%2)*6,
-        row.y+Math.sin(time*.002+i+ri)*1.6,
-        row.scale,row.role,time,i*.57+ri);
-    }
-  });
-  drawCrowdFlag(12,728,"#a53f36",time);
-  drawCrowdFlag(W-18,728,"#b18a43",time);
-}
 
 // Hồ và sông nhập thành một lòng nước liên tục; gợn ngắn theo dòng chảy.
 
@@ -968,37 +669,7 @@ const discipleCrowdLayout = (() => {
   });
 })();
 
-function drawCrowd(time){
-  const disciples=Array.from({length:10},(_,i)=>[80+i*40,680]);
-  disciples.forEach(([x,y],i)=>{
-    drawVIPAura(x,y-13,29,"#a9d7ff",time,i,.42);
-    drawVIPChair(x,y,.58,"#405d82",time,i*.65);
-    drawFormalSpectator(x,y-8,.58,"disciple",time,i);
-  });
-  drawRoleLabel(260,632,"CHÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.92);
 
-  drawVIPAura(550,650,120,"#ffe5a0",time,.4,1);
-  drawVIPAura(550,650,82,"#fff0bf",time,1.8,.9);
-  drawVIPChair(550,674,1.38,"#762f32",time,0);
-  drawFormalSpectator(550,662,1.16,"master",time,0);
-  drawRoleLabel(550,606,"CHƯỞNG MÔN","#f2d17d",1.1);
-
-  const elders=Array.from({length:10},(_,i)=>[660+i*40,680]);
-  elders.forEach(([x,y],i)=>{
-    drawVIPAura(x,y-12,36,"#d7baff",time,i*.75,.55);
-    drawVIPChair(x,y,.60,"#5b456b",time,i);
-    drawFormalSpectator(x,y-8,.60,"elder",time,i*.8);
-  });
-  drawRoleLabel(860,632,"TRƯỞNG LÃO","#d4b5fa",.92);
-
-  // Ba hàng đệ tử xen kẽ; nòng cốt ít người ở trung tâm và được các cấp bao quanh.
-  discipleCrowdLayout.forEach((p,i)=>{
-    const sway=Math.sin(time*.002+i*.8)*1.35;
-    drawSpectator(p.x,p.y+sway,p.scale,p.role,time,i*.57);
-  });
-  drawCrowdFlag(12,710,"#a53f36",time);
-  drawCrowdFlag(W-18,710,"#b18a43",time);
-}
 function drawTempleAuras(time){
   const sites=[[230,310,72,.2],[430,230,62,1.3],[675,279,78,2.4],[865,245,66,3.5],[540,386,54,4.4]];
   sites.forEach(([x,y,r,p])=>{
@@ -1133,31 +804,7 @@ function drawRoleLabel(x,y,label,color="#fff0c5",scale=1){
  ctx.lineWidth=3.5;ctx.strokeStyle="rgba(19,29,25,.95)";ctx.strokeText(label,x,y);
  ctx.fillStyle=color;ctx.fillText(label,x,y);ctx.restore();
 }
-function drawCrowd(time){
- drawVIPAura(550,646,145,"#ffe5a0",time,.4,1.9);drawVIPAura(550,646,92,"#fff0bf",time,1.8,1.5);
- drawVIPChair(550,674,1.48,"#762f32",time,0);drawFormalSpectator(550,662,1.16,"master",time,0);
- drawRoleLabel(550,596,"CHƯỞNG MÔN","#f2d17d",1.12);
- const disciples=Array.from({length:10},(_,i)=>[58+i*40,680]);
- disciples.forEach(([x,y],i)=>{drawVIPAura(x,y-12,34,"#a9d7ff",time,i*.7,.62);drawVIPChair(x,y,.82,"#405d82",time,i*.65);drawFormalSpectator(x,y-8,.70,"disciple",time,i);});
- drawRoleLabel(255,625,"CHÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.94);
- const elders=Array.from({length:10},(_,i)=>[682+i*40,680]);
- elders.forEach(([x,y],i)=>{drawVIPAura(x,y-12,38,"#d7baff",time,i*.75,.72);drawVIPChair(x,y,.88,"#5b456b",time,i);drawFormalSpectator(x,y-8,.74,"elder",time,i*.8);});
- drawRoleLabel(862,625,"TRƯỞNG LÃO","#d4b5fa",.94);
- const core=Array.from({length:12},(_,i)=>[52+i*90,713]);
- core.forEach(([x,y],i)=>{drawVIPAura(x,y-9,27,"#b8e5d6",time,i*.61,.30);drawVIPChair(x,y,.53,"#466b61",time,i*.55);drawFormalSpectator(x,y-6,.48,"core",time,i*.52);});
- const rows=[
-  {role:"inner",count:38,y:727,start:2,step:29,scale:.44,spread:12},
-  {role:"outer",count:52,y:746,start:-2,step:21,scale:.40,spread:15},
-  {role:"servant",count:66,y:765,start:-4,step:17,scale:.35,spread:17},
-  {role:"servant",count:78,y:783,start:-5,step:14,scale:.31,spread:18}
- ];
- rows.forEach((row,ri)=>{for(let i=0;i<row.count;i++){
-  const x=row.start+i*row.step+Math.sin(i*2.399+ri)*6+(i%2)*2;
-  const y=row.y+Math.sin(i*1.73+ri*2.1)*row.spread+Math.cos(i*.43+ri)*3;
-  drawSpectator(x,y,row.scale,row.role,time,i*.59+ri);
- }});
- drawCrowdFlag(12,714,"#a53f36",time);drawCrowdFlag(W-18,714,"#b18a43",time);
-}
+
 
 function drawSectMountainLedge(x,y,scale){
  ctx.save();ctx.translate(x,y);ctx.scale(scale,scale);
@@ -1212,110 +859,12 @@ function drawPodiumScene(target,time,mini=false){
 
 
 
-function drawCrowd(time){
-  // Khu vực tôn vị: môn chủ ở chính giữa, hai hàng thân truyền và trưởng lão tách biệt.
-  drawVIPAura(550,646,145,"#ffe5a0",time,.4,1.9);
-  drawVIPAura(550,646,92,"#fff0bf",time,1.8,1.5);
-  drawVIPChair(550,674,1.48,"#762f32",time,0);
-  drawFormalSpectator(550,662,1.16,"master",time,0);
-  drawRoleLabel(550,596,"CHƯỞNG MÔN","#f2d17d",1.12);
 
-  const disciples=Array.from({length:10},(_,i)=>[265+i*19,665]);
-  disciples.forEach(([x,y],i)=>{
-    drawVIPAura(x,y-12,30,"#a9d7ff",time,i*.7,.55);
-    drawVIPChair(x,y,.70,"#405d82",time,i*.65);
-    drawFormalSpectator(x,y-8,.62,"disciple",time,i);
-  });
-  drawRoleLabel(360,628,"CHÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.88);
-
-  const elders=Array.from({length:10},(_,i)=>[645+i*19,665]);
-  elders.forEach(([x,y],i)=>{
-    drawVIPAura(x,y-12,32,"#d7baff",time,i*.75,.62);
-    drawVIPChair(x,y,.74,"#5b456b",time,i);
-    drawFormalSpectator(x,y-8,.65,"elder",time,i*.8);
-  });
-  drawRoleLabel(740,628,"TRƯỞNG LÃO","#d4b5fa",.88);
-
-  // Nòng cốt đứng thành hai cụm nghi lễ, không có ghế.
-  for(let i=0;i<18;i++){
-    const x=75+i*55+(i%2)*5,y=710+Math.sin(i*1.7)*3;
-    drawVIPAura(x,y-10,20,"#b8e5d6",time,i*.61,.22);
-    drawSpectator(x,y,.55,"core",time,i*.73);
-  }
-  for(let i=0;i<14;i++){
-    const x=165+i*55,y=728+Math.sin(i*1.9)*2;
-    drawSpectator(x,y,.43,"core",time,i*1.13+2);
-  }
-
-  // Đám đông đứng dày phía sau, phân lớp theo cấp bậc.
-  const rows=[
-    {role:"inner",count:42,y:748,start:-5,step:27,scale:.39,spread:7},
-    {role:"outer",count:58,y:765,start:-5,step:20,scale:.35,spread:8},
-    {role:"servant",count:76,y:782,start:-5,step:15,scale:.32,spread:8},
-    {role:"servant",count:88,y:797,start:-5,step:13,scale:.29,spread:7}
-  ];
-  rows.forEach((row,ri)=>{
-    for(let i=0;i<row.count;i++){
-      const x=row.start+i*row.step+Math.sin(i*2.399+ri)*5+(i%2)*2;
-      const y=row.y+Math.sin(i*1.73+ri*2.1)*row.spread+Math.cos(i*.43+ri)*2;
-      drawSpectator(x,y,row.scale,row.role,time,i*.59+ri*1.7);
-    }
-  });
-  drawCrowdFlag(12,724,"#a53f36",time);
-  drawCrowdFlag(W-18,724,"#b18a43",time);
-}
 
 
 /* === CẢNH QUẦN THỂ TIÊN MÔN & LỄ TRAO GIẢI ĐẠI ĐIỂN === */
 
-function drawCrowd(time){
- // Chưởng môn ngồi chính giữa, lùi sâu về hậu đài.
- drawVIPAura(550,552,112,"#ffe5a0",time,.4,2.2);
- drawVIPAura(550,552,70,"#fff0bf",time,1.8,1.7);
- drawVIPChair(550,579,1.38,"#762f32",time,0);
- drawFormalSpectator(550,566,1.04,"master",time,0);
- drawRoleLabel(550,493,"CHƯỞNG MÔN","#f2d17d",1.05);
 
- // Thân truyền bên trái, trưởng lão bên phải; tách hẳn khỏi bảo tọa.
- for(let i=0;i<10;i++){
-  const x=150+i*22,y=612;
-  drawVIPAura(x,y-10,22,"#a9d7ff",time,i*.7,.42);
-  drawVIPChair(x,y,.58,"#405d82",time,i*.65);
-  drawFormalSpectator(x,y-7,.52,"disciple",time,i);
- }
- drawRoleLabel(260,566,"CHÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.82);
- for(let i=0;i<10;i++){
-  const x=730+i*22,y=612;
-  drawVIPAura(x,y-10,23,"#d7baff",time,i*.75,.45);
-  drawVIPChair(x,y,.60,"#5b456b",time,i);
-  drawFormalSpectator(x,y-7,.54,"elder",time,i*.8);
- }
- drawRoleLabel(840,566,"TRƯỞNG LÃO","#d4b5fa",.82);
-
- // Nòng cốt đứng thành một cụm liền khối, không ghế.
- for(let i=0;i<28;i++){
-  const col=i%7,row=Math.floor(i/7),x=445+col*35+(row%2)*7,y=660+row*14+Math.sin(i*1.7)*2;
-  drawVIPAura(x,y-8,12,"#b8e5d6",time,i*.61,.15);
-  drawSpectator(x,y,.43,"core",time,i*.73);
- }
- drawRoleLabel(550,635,"ĐỆ TỬ NÒNG CỐT","#f5d984",.78);
-
- // Nội môn, ngoại môn và tạp dịch chen thành biển người bao quanh.
- const groups=[
-  {role:"inner",count:64,scale:.37,y0:684,y1:735},
-  {role:"outer",count:92,scale:.34,y0:705,y1:765},
-  {role:"servant",count:132,scale:.30,y0:735,y1:798}
- ];
- groups.forEach((g,gi)=>{
-  for(let i=0;i<g.count;i++){
-   const col=i%48,row=Math.floor(i/48);
-   const x=12+col*23+Math.sin(i*2.17+gi)*8+(row%2)*5;
-   const y=g.y0+(g.y1-g.y0)*((Math.floor(i/48)+.5)/Math.max(1,Math.ceil(g.count/48)))+Math.sin(i*1.91+gi)*9;
-   drawSpectator(x,y,g.scale,g.role,time,i*.59+gi*2.1);
-  }
- });
- drawCrowdFlag(12,696,"#a53f36",time);drawCrowdFlag(W-18,696,"#b18a43",time);
-}
 
 
 function drawRacerNameOnTarget(target,racer,x,y,rank,scale=1){
@@ -1558,59 +1107,7 @@ function drawMasterBaguaAura(time){
   ctx.restore();
 }
 
-function drawCrowd(time){
-  // Chưởng môn ở chính giữa, hai nhóm danh dự ngồi tách hẳn hai bên.
-  drawMasterBaguaAura(time);
-  drawVIPAura(550,552,112,"#ffe5a0",time,.4,2.2);
-  drawVIPAura(550,552,70,"#fff0bf",time,1.8,1.7);
-  drawVIPChair(550,579,1.38,"#762f32",time,0);
-  drawFormalSpectator(550,566,1.04,"master",time,0);
-  drawRoleLabel(550,493,"CHƯỞNG MÔN","#f2d17d",1.05);
 
-  // Thân truyền: 10 người ngồi bên trái, giãn đều, không sát nhau.
-  for(let i=0;i<10;i++){
-    const x=78+i*41,y=612;
-    drawVIPAura(x,y-10,22,"#a9d7ff",time,i*.7,.42);
-    drawVIPChair(x,y,.58,"#405d82",time,i*.65);
-    drawFormalSpectator(x,y-7,.52,"disciple",time,i);
-  }
-  drawRoleLabel(263,566,"CHÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.82);
-
-  // Trưởng lão: 10 người bên phải, khoảng cách đồng đều.
-  for(let i=0;i<10;i++){
-    const x=662+i*41,y=612;
-    drawVIPAura(x,y-10,23,"#d7baff",time,i*.75,.45);
-    drawVIPChair(x,y,.60,"#5b456b",time,i);
-    drawFormalSpectator(x,y-7,.54,"elder",time,i*.8);
-  }
-  drawRoleLabel(867,566,"TRƯỞNG LÃO","#d4b5fa",.82);
-
-  // Nòng cốt đứng thành cụm, bỏ hoàn toàn bảng chữ trên đầu.
-  for(let i=0;i<28;i++){
-    const col=i%7,row=Math.floor(i/7);
-    const x=445+col*35+(row%2)*7;
-    const y=660+row*14+Math.sin(i*1.7)*2;
-    drawVIPAura(x,y-8,12,"#b8e5d6",time,i*.61,.15);
-    drawSpectator(x,y,.43,"core",time,i*.73);
-  }
-
-  // Các tầng đệ tử phổ thông tụ đông xung quanh nhưng vẫn có khe đứng riêng.
-  const groups=[
-    {role:"inner",count:64,scale:.37,y0:684,y1:735},
-    {role:"outer",count:92,scale:.34,y0:705,y1:765},
-    {role:"servant",count:132,scale:.30,y0:735,y1:798}
-  ];
-  groups.forEach((g,gi)=>{
-    for(let i=0;i<g.count;i++){
-      const col=i%48,row=Math.floor(i/48);
-      const x=12+col*23+Math.sin(i*2.17+gi)*6+(row%2)*5;
-      const y=g.y0+(g.y1-g.y0)*((row+.5)/Math.max(1,Math.ceil(g.count/48)))+Math.sin(i*1.91+gi)*7;
-      drawSpectator(x,y,g.scale,g.role,time,i*.59+gi*2.1);
-    }
-  });
-  drawCrowdFlag(12,696,"#a53f36",time);
-  drawCrowdFlag(W-18,696,"#b18a43",time);
-}
 
 // Trao riêng từng giải trong 4,5 giây; sau đủ ba lượt mới dựng bục vinh danh.
 function drawPodiumScene(target,time,mini=false){
@@ -2261,10 +1758,7 @@ function drawSpectator(x,y,scale,roleName,time,phase=0){
  ctx.restore();
 }
 
-function drawFormalSpectator(x,y,scale,roleName,time,phase=0){
-  // Dùng cùng màu phẩm cấp cho nam và nữ; chỉ khác phom áo, tóc và gương mặt.
-  drawSpectator(x,y,scale,roleName,time,phase);
-}
+
 
 
 // Kiếm có màu nhận diện theo giới tính; kiểu dáng thay đổi theo pháp bảo.
@@ -2868,56 +2362,7 @@ function drawPlazaGate(time){
   ctx.restore();
 }
 
-function drawCrowd(time){
-  // Cổng và cờ là lớp nền; không đặt cây, bụi cỏ, cầu hay bậc thang trên sân.
-  drawPlazaGate(time);
-  drawCrowdFlag(35,735,"#a53f36",time);
-  drawCrowdFlag(W-35,735,"#b18a43",time);
-  drawCrowdFlag(175,700,"#426f8a",time);
-  drawCrowdFlag(W-175,700,"#8e4f83",time);
 
-  // Chưởng môn ngự tại trung tâm quảng trường.
-  drawVIPAura(550,650,104,"#ffe5a0",time,.4,1.25);
-  drawVIPChair(550,672,1.34,"#762f32",time,0);
-  drawFormalSpectator(550,655,1.08,"master",time,0);
-  drawRoleLabel(550,590,"CHƯỞNG MÔN","#f2d17d",1.05);
-
-  // Trưởng lão ngồi hai cánh, không chồng lên khu thân truyền.
-  const elders=[145,235,865,955];
-  elders.forEach((x,i)=>{
-    const y=688;
-    drawVIPAura(x,y-12,28,"#d7baff",time,i*.8,.38);
-    drawVIPChair(x,y,.72,"#5b456b",time,i);
-    drawFormalSpectator(x,y-9,.72,"elder",time,i*.9);
-  });
-  drawRoleLabel(235,645,"TRƯỞNG LÃO","#d4b5fa",.88);
-  drawRoleLabel(865,645,"TRƯỞNG LÃO","#d4b5fa",.88);
-
-  // Thân truyền đệ tử ngồi hàng riêng trước đài chưởng môn.
-  const direct=[390,455,520,585,650,715];
-  direct.forEach((x,i)=>{
-    const y=690;
-    drawVIPAura(x,y-12,22,"#a9d7ff",time,i*.7,.35);
-    drawVIPChair(x,y,.62,"#405d82",time,i*.65);
-    drawFormalSpectator(x,y-8,.62,"disciple",time,i);
-  });
-  drawRoleLabel(550,645,"CHÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.88);
-
-  // Các hàng đệ tử phổ thông tách tầng rõ ràng, không bị che khuất.
-  const rows=[
-    {role:"core",count:14,y:738,scale:.48},
-    {role:"inner",count:20,y:778,scale:.39},
-    {role:"outer",count:24,y:818,scale:.36},
-    {role:"servant",count:28,y:858,scale:.32}
-  ];
-  rows.forEach((row,ri)=>{
-    for(let i=0;i<row.count;i++){
-      const x=28+i*(1044/(row.count-1));
-      const y=row.y+Math.sin(i*1.37+ri)*2;
-      drawSpectator(x,y,row.scale,row.role,time,i*.63+ri*1.8);
-    }
-  });
-}
 
 function drawSpiritBirds(time){
   // Tiên hạc đầu đỏ: thân trắng thanh thoát, cổ đen, cánh lông nhiều lớp.
@@ -3085,73 +2530,7 @@ function drawRacingArtifact(target,kind,phase){
   target.restore();
 }
 
-function drawCrowd(time){
-  // Chưởng môn ở chính giữa, hai nhóm danh dự ngồi tách hẳn hai bên.
-  drawVIPAura(550,552,112,"#ffe5a0",time,.4,2.2);
-  drawVIPAura(550,552,70,"#fff0bf",time,1.8,1.7);
-  drawVIPChair(550,579,1.38,"#762f32",time,0);
-  drawFormalSpectator(550,566,1.04,"master",time,0);
-  drawRoleLabel(550,493,"CHƯỞNG MÔN","#f2d17d",1.05);
 
-  // Thân truyền: 10 người ngồi bên trái, giãn đều, không sát nhau.
-  for(let i=0;i<10;i++){
-    const x=78+i*41,y=612;
-    drawVIPAura(x,y-10,22,"#a9d7ff",time,i*.7,.42);
-    drawVIPChair(x,y,.58,"#405d82",time,i*.65);
-    drawFormalSpectator(x,y-7,.52,"disciple",time,i);
-  }
-  drawRoleLabel(263,566,"CHÂN TRUYỀN ĐỆ TỬ","#a9c9f0",.82);
-
-  // Trưởng lão: 10 người bên phải, khoảng cách đồng đều.
-  for(let i=0;i<10;i++){
-    const x=662+i*41,y=612;
-    drawVIPAura(x,y-10,23,"#d7baff",time,i*.75,.45);
-    drawVIPChair(x,y,.60,"#5b456b",time,i);
-    drawFormalSpectator(x,y-7,.54,"elder",time,i*.8);
-  }
-  drawRoleLabel(867,566,"TRƯỞNG LÃO","#d4b5fa",.82);
-
-  // Nòng cốt đứng thành cụm, bỏ hoàn toàn bảng chữ trên đầu.
-  for(let i=0;i<28;i++){
-    const col=i%7,row=Math.floor(i/7);
-    const x=445+col*35+(row%2)*7;
-    const y=660+row*14+Math.sin(i*1.7)*2;
-    drawVIPAura(x,y-8,12,"#b8e5d6",time,i*.61,.15);
-    drawSpectator(x,y,.43,"core",time,i*.73);
-  }
-
-  // Nội môn: tách khỏi cụm nòng cốt ở chính giữa.
-  // Chia đều thành hai cánh trái/phải, mỗi cánh 32 người (4 hàng x 8 người).
-  // Chừa hành lang trung tâm để nòng cốt có không gian riêng.
-  const innerSide=[
-    {x0:18,dir:1},
-    {x0:682,dir:1}
-  ];
-  innerSide.forEach((side,si)=>{
-    for(let i=0;i<32;i++){
-      const col=i%8,row=Math.floor(i/8);
-      const x=side.x0+col*54+Math.sin(i*1.37+si)*2.2;
-      const y=674+row*17+Math.sin(i*1.83+si)*1.8;
-      drawSpectator(x,y,.36,"inner",time,i*.59+si*2.1);
-    }
-  });
-
-  // Ngoại môn và tạp dịch xếp thành các dải phía dưới, phủ đều chiều ngang.
-  const groups=[
-    {role:"outer",count:92,scale:.33,y0:690,y1:720},
-    {role:"servant",count:132,scale:.29,y0:850,y1:895}
-  ];
-  groups.forEach((g,gi)=>{
-    for(let i=0;i<g.count;i++){
-      const col=i%48,row=Math.floor(i/48);
-      const x=12+col*23+Math.sin(i*2.17+gi)*5+(row%2)*4;
-      const y=g.y0+(g.y1-g.y0)*((row+.5)/Math.max(1,Math.ceil(g.count/48)))+Math.sin(i*1.91+gi)*3;
-      drawSpectator(x,y,g.scale,g.role,time,i*.59+gi*2.1);
-    }
-  });
-  drawCrowdFlag(12,696,"#a53f36",time);
-  drawCrowdFlag(W-18,696,"#b18a43",time);
-}
 
 
 
