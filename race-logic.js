@@ -1178,19 +1178,25 @@ function syncButtons(){
     const arena=document.querySelector(".arena-frame");
     function placeSummonLauncher(){
       if(!launcher||!gameCanvas||!arena)return;
-      const size=42;
-      let x=gameCanvas.offsetLeft+gameCanvas.clientWidth-size-10;
-      let y=gameCanvas.offsetTop+7;
-      if(gameCanvas.offsetParent!==arena){
-        const cr=gameCanvas.getBoundingClientRect(),ar=arena.getBoundingClientRect();
-        const sx=arena.offsetWidth/(ar.width||arena.offsetWidth||1);
-        const sy=arena.offsetHeight/(ar.height||arena.offsetHeight||1);
-        x=(cr.right-ar.left)*sx-size-10;
-        y=(cr.top-ar.top)*sy+7;
-      }
+      const canvasRect=gameCanvas.getBoundingClientRect();
+      const arenaRect=arena.getBoundingClientRect();
+      const scaleX=arena.offsetWidth/(arenaRect.width||arena.offsetWidth||1);
+      const scaleY=arena.offsetHeight/(arenaRect.height||arena.offsetHeight||1);
+      // HUD đếm ngược cao 42 đơn vị Canvas; đổi đúng sang pixel hiển thị
+      // để nút kiếm có chiều cao thực tế bằng chính khung thời gian.
+      const canvasScaleY=canvasRect.height/(gameCanvas.height||825);
+      const canvasScaleX=canvasRect.width/(gameCanvas.width||1100);
+      const size=42*canvasScaleY*scaleY;
+      const topInset=7*canvasScaleY*scaleY;
+      const rightInset=10*canvasScaleX*scaleX;
+      const x=(canvasRect.right-arenaRect.left)*scaleX-size-rightInset;
+      const y=(canvasRect.top-arenaRect.top)*scaleY+topInset;
       launcher.style.position="absolute";
+      launcher.style.setProperty("--summon-launcher-size",size+"px");
       launcher.style.width=size+"px";
       launcher.style.height=size+"px";
+      launcher.style.minWidth=size+"px";
+      launcher.style.minHeight=size+"px";
       launcher.style.left=Math.max(0,x)+"px";
       launcher.style.top=Math.max(0,y)+"px";
       launcher.style.right="auto";
