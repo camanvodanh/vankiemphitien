@@ -440,28 +440,25 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 ## 42. HUD đếm ngược, nút Triệu Hồi và khoảng thoáng cổng đích
 
 - HUD đếm ngược chỉ hiển thị giá trị thời gian; bỏ nhãn “THỜI GIAN”. Khung gọn 150×42 đơn vị Canvas, chữ căn giữa và co theo chiều rộng hiển thị.
-- Khi bảng Triệu Hồi thu nhỏ, nút trường kiếm-pháp trận có kích thước 42×42 px, đặt ở góc phải-phía trên bên trong Canvas, cách mép trên 7 px và mép phải 10 px; vị trí được tính theo layout Canvas và cập nhật khi resize/xoay màn hình.
-- Bố cục ba hàng kiến trúc tiên môn và toàn bộ các tòa còn lại giữ nguyên. Bách Thảo Các dịch từ x=988 sang x=870; Ngoại Vụ Điện dịch từ x=955 sang x=865 để tránh vùng cổng đích tại TRACK.right=1000. Đây là thay đổi tọa độ trình bày, không tác động gameplay.
-
+- Khi bảng Triệu Hồi thu nhỏ, nút trường kiếm-pháp trận có kích thước 48 đơn vị Canvas, đặt ở góc phải-phía trên bên trong Canvas, cách mép trên 7 và mép phải 10 đơn vị; vị trí/kích thước được quy đổi theo Canvas và cập nhật khi resize/xoay màn hình. Nút lớn hơn nhẹ so với HUD 42 đơn vị nhưng không chạm khung đếm ngược hoặc vùng cổng đích.
+- Bố cục kiến trúc giữ ba hàng xen kẽ và cân xứng qua x=550; không để mái/biển hiệu lọt vào vùng cổng đích gần x=964.
 
 ## 43. Bố cục xen kẽ lầu các và kích thước nút Triệu Hồi theo HUD
 
-- Giữ nguyên cấu trúc ba hàng xen kẽ. Điều chỉnh cụm kiến trúc phía phải để né cổng đích (trụ gần nhất tại x=964): Tàng Bảo Các x=700, Bách Thảo Các x=850; Quan Tinh Lâu x=850; Hộ Sơn Trận Các x=700, Ngoại Vụ Điện x=850. Các tòa bên trái và kích thước/kiểu kiến trúc không đổi.
-- Nút Triệu Hồi thu nhỏ có chiều cao bằng chính khung đếm ngược: HUD cao 42 đơn vị Canvas, vì vậy kích thước CSS của nút được tính từ tỷ lệ `canvasRect.height / canvas.height` (và tỷ lệ bố cục arena), cập nhật qua resize/ResizeObserver. Không dùng 42px CSS cố định; CSS dùng biến `--summon-launcher-size` do logic đặt.
+- Giữ ba hàng kiến trúc xen kẽ và cân xứng quanh trục x=550. Hàng hậu cảnh: các tâm x=250, 380, 550, 720, 850; hàng trung cảnh: x=220, 420, 680, 880; hàng tiền cảnh: x=250, 400, 550, 700, 850. Không đặt công trình hoặc biển hiệu vào vùng an toàn trước trụ cổng đích gần x=964. Tên công trình đặt gần sát đỉnh mái.
+- Nút Triệu Hồi thu nhỏ dùng kích thước 48 đơn vị Canvas, quy đổi theo `canvasRect.height / canvas.height` (và tỷ lệ bố cục arena), cập nhật qua resize/ResizeObserver. CSS chỉ đọc biến `--summon-launcher-size`, không dùng kích thước CSS cố định.
 
+## 44. Tiên Bảng cuộn toàn bộ thứ hạng và căn giữa tên hiệu ứng Thiên Lý Kính
 
-## 44. Giới hạn Tiên Bảng và căn giữa tên hiệu ứng Thiên Lý Kính
+- Hàm cập nhật Tiên Bảng giữ toàn bộ danh sách đã sắp xếp; không cắt dữ liệu ở Top 10. Khung nhìn hiển thị khoảng 10 vị trí đầu, phần còn lại cuộn dọc bên trong.
+- Hai dòng thiên phú và hiệu ứng trong Thiên Lý Kính cùng nằm trên trục giữa; căn giữa cả phần tử lẫn nội dung chữ. Riêng `#leaderEffect` không có padding lệch, text-indent hoặc transform.
 
-- Hàm cập nhật Tiên Bảng chỉ dựng tối đa 10 phần tử đầu sau khi sắp xếp; các vị trí từ 11 trở đi không được hiển thị thành hàng bổ sung. Vùng bảng giới hạn chiều cao tối đa 340px hoặc 58vh (lấy mức nhỏ hơn), cuộn dọc bên trong khi cần.
-- Hai dòng thiên phú và hiệu ứng trong Thiên Lý Kính cùng nằm trên trục giữa. Riêng `#leaderEffect` phải không có padding lệch, text-indent hay transform; căn giữa cả flex item và nội dung chữ.
+## 45. Chiều cao Tiên Bảng và Thiên Lý Kính
 
-
-## 45. Chiều cao Tiên Bảng, cuộn toàn bộ thứ hạng và Thiên Lý Kính
-- Không giới hạn số phần tử trong updateRanking(); Tiên Bảng giữ toàn bộ thứ hạng. Vùng hiển thị giới hạn chiều cao xấp xỉ tiêu đề cộng 10 hàng, sau đó cuộn dọc bên trong.
-- Thiên Lý Kính và Tiên Bảng dùng cùng chiều cao panel trên bố cục dọc và ngang; trên điện thoại dọc chiều cao panel dùng clamp(300px, 78vw, 440px).
-- Dòng tên hiệu ứng trong Thiên Lý Kính được căn giữa qua style nội tuyến đồng bộ và selector CSS có độ ưu tiên cao; tên dài được ellipsis, không tràn khung.
-
+- Thiên Lý Kính và Tiên Bảng dùng cùng chiều cao panel trên mọi hướng màn hình: `clamp(320px, 36vw, 440px)`.
+- Thiên Lý Kính co khung camera theo phần diện tích còn lại; Tiên Bảng cuộn nội bộ, ưu tiên thấy 10 hàng đầu và vẫn giữ toàn bộ thứ hạng phía sau.
 
 ## 46. Vị trí mặt trời và nhãn tên cảnh giới
-- `data/scenery.json` đặt tâm mặt trời tại x=730, y=68, quầng bán kính 140 và vùng phủ `[545,-92,370,330]`, tránh trục lầu các phía phải.
+
+- `data/scenery.json` đặt tâm mặt trời tại x=730, y=68, quầng bán kính 140 và vùng phủ `[545,-92,370,330]`. Trong `scenery.js`, các tia nắng phải lấy đúng tâm x/y này làm điểm xuất phát, không dùng tọa độ cũ cố định.
 - `drawRealmArrivalTitle()` đặt tên cảnh giới tại tâm x=550, y=114 với bảng cao 28px, nằm dưới hàng thông báo (kết thúc ở y=97) và phía trên làn đua đầu tiên; không thay đổi vị trí HUD thời gian hay thông báo.
