@@ -435,7 +435,7 @@ function drawSectPavilion(x,y,scale,title,type,accent){
 
 /* REVISION 16 — tên rõ nét, khán đài phân tầng, không dùng bảng nền. */
 function drawRoleLabel(x,y,label,color="#fff0c5",scale=1){
- ctx.save();ctx.font="bold "+Math.max(12,15*scale)+"px Arial, sans-serif";
+ ctx.save();ctx.font="bold "+Math.max(15,18*scale)+"px Arial, sans-serif";
  ctx.textAlign="center";ctx.textBaseline="middle";ctx.lineJoin="round";
  ctx.lineWidth=3.5;ctx.strokeStyle="rgba(19,29,25,.95)";ctx.strokeText(label,x,y);
  ctx.fillStyle=color;ctx.fillText(label,x,y);ctx.restore();
@@ -2755,9 +2755,9 @@ function drawSectArchitecture(time){
     const labelY=b.y-5-156*b.s;
     ctx.save();
     ctx.textAlign="center";ctx.textBaseline="middle";ctx.lineJoin="round";
-    ctx.font="bold "+(index===2?15:12.5)+"px Arial, sans-serif";
+    ctx.font="bold "+(index===2?18.5:15.5)+"px Arial, sans-serif";
     ctx.lineWidth=3;ctx.strokeStyle="rgba(12,25,22,.96)";
-    ctx.strokeText(b.title,b.x,labelY,Math.min(174,210*b.s+30));
+    ctx.strokeText(b.title,b.x,labelY,Math.min(210,250*b.s+38));
     ctx.fillStyle=index===2?"#ffe4a0":"#fff0c0";
     ctx.fillText(b.title,b.x,labelY,Math.min(174,210*b.s+30));
     ctx.restore();
