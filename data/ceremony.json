@@ -12,5 +12,14 @@
     "masterFlightDuration": 3.9,
     "giftDropDuration": 0.72,
     "topCount": 3
+  },
+  "opening": {
+    "stageDurationsMs": [
+      2200,
+      2500,
+      2800
+    ],
+    "featuredNames": 6,
+    "commentaryDurationMs": 3400
   }
 }
