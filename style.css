@@ -9907,3 +9907,15 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   flex:0 0 auto!important;
   align-self:center!important;
 }
+
+
+/* REVISION 158 — nút Triệu Hồi thu nhỏ đồng cỡ nút Chạy/Dừng; tăng độ rõ chữ cấp bậc và lầu các. */
+.arena-frame{
+  --summon-launcher-size:44px;
+}
+@media screen and (orientation:landscape) and (min-width:1000px){
+  .arena-frame{--summon-launcher-size:clamp(40px,4.5dvh,48px);}
+}
+@media screen and (orientation:landscape) and (min-width:600px) and (max-height:430px){
+  .arena-frame{--summon-launcher-size:26px;}
+}
