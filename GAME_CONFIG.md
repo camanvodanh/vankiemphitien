@@ -681,3 +681,10 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Nhãn cấp bậc dùng một viền xanh đen mảnh 1.65px theo scale và màu chữ sáng; bỏ các lớp viền đồng tâm gây nhòe.
 - Biển hiệu công trình dùng một viền xanh đen 2.2px, riêng chính điện 2.8px; không có quầng/bóng hoặc bảng nền cấp bậc.
 - Cache: `audience.js v183`, `visual-overrides.js v218`.
+
+
+## 80. Nhãn chức danh và hộp nhập pháp luân
+- Bộ vẽ nhãn chức danh đang hoạt động là `drawRoleLabel()` trong `visual-overrides.js`, do file này tải sau và ghi đè hàm cùng tên trong `audience.js`.
+- Chữ chức danh tăng cỡ, chỉ có một viền xanh đen 3–3.5px, không chồng nhiều lớp viền.
+- Hộp nhập số lượng/thời lượng nằm trên nút kiếm; nút kiếm ẩn trong thời gian hộp nhập mở để không che số và lựa chọn.
+- Cache: `visual-overrides.js v219`, `style.css responsive-arena-v203`.
