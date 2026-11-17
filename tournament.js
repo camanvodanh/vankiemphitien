@@ -113,7 +113,7 @@
 
     if(speaker.type==="racer"&&speaker.racer){
       const list=getRacers();
-      const racer=list.find(item=>item===speaker.racer||item.id===speaker.racer.id)||null;
+      const racer=list.find(item=>item===speaker.racer||(speaker.racer.id!=null&&item.id===speaker.racer.id))||null;
       if(racer){
         if(typeof finished!=="undefined"&&finished&&typeof sortedRacers==="function"){
           const ordered=sortedRacers();
@@ -127,6 +127,8 @@
             const riderY=topByRank[rank]-57;
             return {x:podiumX[podiumIndex],y:riderY-78};
           }
+          // Người ngoài tam giáp không còn xuất hiện ở cảnh trao thưởng; trưởng lão tiếp lời thay.
+          return {x:744,y:558};
         }
         if(typeof racerX==="function"&&typeof laneY==="function"){
           const index=list.indexOf(racer);
