@@ -10068,3 +10068,60 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
     max-width:38px!important;max-height:38px!important;
   }
 }
+
+
+/* REVISION 162 — khóa nút triệu hồi gọn trên iPhone, không tràn pháp luân. */
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon{
+  position:absolute!important;left:50%!important;top:50%!important;
+  right:auto!important;bottom:auto!important;
+  box-sizing:border-box!important;
+  width:36px!important;height:36px!important;
+  min-width:36px!important;min-height:36px!important;
+  max-width:36px!important;max-height:36px!important;
+  padding:0!important;margin:0!important;
+  transform:translate(-50%,-50%)!important;
+  z-index:45!important;overflow:hidden!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon svg{
+  display:block!important;width:31px!important;height:31px!important;
+  max-width:31px!important;max-height:31px!important;
+}
+.arena-frame>.summon-collapsed-trigger{
+  width:36px!important;height:36px!important;
+  min-width:36px!important;min-height:36px!important;
+  max-width:36px!important;max-height:36px!important;
+  z-index:300!important;box-sizing:border-box!important;
+}
+.arena-frame>.summon-collapsed-trigger svg{
+  width:100%!important;height:100%!important;
+}
+@media(max-width:600px){
+  .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon{
+    width:34px!important;height:34px!important;
+    min-width:34px!important;min-height:34px!important;
+    max-width:34px!important;max-height:34px!important;
+  }
+  .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon svg{
+    width:29px!important;height:29px!important;max-width:29px!important;max-height:29px!important;
+  }
+  .arena-frame>.summon-collapsed-trigger{
+    width:34px!important;height:34px!important;
+    min-width:34px!important;min-height:34px!important;
+    max-width:34px!important;max-height:34px!important;
+  }
+}
+@media(max-width:380px){
+  .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon{
+    width:32px!important;height:32px!important;
+    min-width:32px!important;min-height:32px!important;
+    max-width:32px!important;max-height:32px!important;
+  }
+  .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon svg{
+    width:27px!important;height:27px!important;max-width:27px!important;max-height:27px!important;
+  }
+  .arena-frame>.summon-collapsed-trigger{
+    width:32px!important;height:32px!important;
+    min-width:32px!important;min-height:32px!important;
+    max-width:32px!important;max-height:32px!important;
+  }
+}
