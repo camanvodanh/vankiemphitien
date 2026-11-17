@@ -442,9 +442,9 @@ function drawRoleLabel(x,y,label,color="#fff0c5",scale=1){
  ctx.font="bold "+Math.max(15,18*scale)+"px Arial, sans-serif";
  ctx.textAlign="center";ctx.textBaseline="middle";ctx.lineJoin="round";
  // Viền tối liền nét giúp chữ nổi rõ trên nền trời, núi, nước và khán đài sáng.
- ctx.lineWidth=Math.max(2.2,2.8*scale);ctx.strokeStyle="rgba(20,35,30,.96)";
+ ctx.lineWidth=Math.max(5,5.8*scale);ctx.strokeStyle="rgba(8,20,18,1)";
  ctx.strokeText(label,x,y);
- ctx.lineWidth=Math.max(1,1.25*scale);ctx.strokeStyle="rgba(239,211,145,.72)";
+ ctx.lineWidth=Math.max(1.8,2.2*scale);ctx.strokeStyle="rgba(255,226,160,1)";
  ctx.strokeText(label,x,y);
  ctx.fillStyle=color;ctx.fillText(label,x,y);
  ctx.restore();
@@ -2771,11 +2771,12 @@ function drawSectArchitecture(time){
     ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;ctx.filter="none";
     // Viền tối ôm sát chữ để giữ tương phản khi biển hiệu trùng màu nền.
     ctx.lineJoin="round";
-    ctx.lineWidth=index===2?3.2:2.7;
-    ctx.strokeStyle="rgba(18,34,30,.97)";
+    // Viền ngoài dày, tối gần đen; viền sáng mảnh tách chữ khỏi nền.
+    ctx.lineWidth=index===2?7:5.8;
+    ctx.strokeStyle="rgba(8,20,18,1)";
     ctx.strokeText(b.title,b.x,labelY,Math.min(210,250*b.s+38));
-    ctx.lineWidth=index===2?1.15:1;
-    ctx.strokeStyle="rgba(238,207,132,.82)";
+    ctx.lineWidth=index===2?2.5:2;
+    ctx.strokeStyle="rgba(255,225,155,1)";
     ctx.strokeText(b.title,b.x,labelY,Math.min(210,250*b.s+38));
     ctx.fillStyle=index===2?"#ffe4a0":"#fff0c0";
     ctx.fillText(b.title,b.x,labelY,Math.min(210,250*b.s+38));
