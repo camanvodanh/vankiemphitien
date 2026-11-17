@@ -339,6 +339,8 @@
     stopLiveFollowing();
     liveSpeaker=speaker||{type:"elder"};
     liveMessage.textContent=String(message||"");
+    liveBar.classList.remove("speaker-master","speaker-elder","speaker-core","speaker-disciple","speaker-inner","speaker-outer","speaker-servant","speaker-racer");
+    liveBar.classList.add("speaker-"+(liveSpeaker.type||"elder"));
     liveBar.classList.add("is-visible");
     positionLiveBubble();
     livePositionFrame=requestAnimationFrame(followLiveBubble);
@@ -376,22 +378,23 @@
       const name=value.slice(leaderPrefix.length).trim();
       const racer=getRacerByName(name);
       const exchanges=[
-        {speaker:{type:"elder"},line:"Chưởng môn, vị tiểu hữu ấy đã vượt lên rồi! Kiếm thế thật không tầm thường."},
-        {speaker:{type:"master"},line:"Ừm, thân pháp vững, tâm cũng không loạn. Cứ xem con đường phía trước cậu ấy còn tiến được đến đâu."},
-        {speaker:{type:"core"},line:"Đệ tử cũng thấy vậy! Vừa rồi một kiếm lướt qua, suýt nữa đã đổi ngôi đầu."},
-        {speaker:{type:"elder"},line:"Ha ha, xem ra hôm nay các phong đều có nhân tài đáng mong đợi."},
-        {speaker:{type:"master"},line:"Thắng bại còn ở phía trước. Chư vị cứ bình tâm thưởng thức."}
+        {speaker:{type:"elder"},line:"Chưởng môn, "+name+" vừa vượt lên rồi! Kiếm thế thật khá!"},
+        {speaker:{type:"master"},line:"Ta thấy rồi. "+name+" giữ thân pháp rất vững, không hề rối loạn."},
+        {speaker:{type:"core"},line:"Đệ tử cũng để ý vị ấy từ đầu. Xem ra lần này có đối thủ đáng gờm!"},
+        {speaker:{type:"elder"},line:"Ha ha, đại hội năm nay quả nhiên có nhiều nhân tài."},
+        {speaker:{type:"master"},line:"Cứ để họ tự mình phân cao thấp. Người có bản lĩnh ắt sẽ nổi bật."}
       ];
       const exchange=exchanges[commentaryTurn++%exchanges.length];
       showLive(exchange.line,exchange.speaker);
       exchangeTimer=window.setTimeout(()=>{
         exchangeTimer=0;
+        const cheerName=name.replace(/\\s+(sư huynh|sư tỷ|đạo hữu)$/i,"").trim();
         const cheers=[
-          "Sư huynh cố lên! Đừng để họ vượt qua!",
-          "Hay lắm! Một kiếm vừa rồi đẹp quá!",
-          "Đệ tử bên này đang cổ vũ cho huynh đó!",
-          "Nhanh lên nào! Sắp đuổi kịp rồi!",
-          "Phong ta hôm nay nhất định có người vào tam giáp!"
+          cheerName+" sư huynh cố lên! Đừng để bị vượt qua!",
+          "Hàn... à không, "+cheerName+" sư huynh, hay lắm!",
+          cheerName+" sư huynh! Một kiếm vừa rồi đẹp quá!",
+          "Cố lên! "+cheerName+" sư huynh sắp bỏ xa họ rồi!",
+          "Đệ tử đặt cược vào "+cheerName+" sư huynh đó!"
         ];
         showLive(cheers[(commentaryTurn-1)%cheers.length],{type:"outer"});
       },1900);
