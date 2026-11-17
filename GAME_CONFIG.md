@@ -647,3 +647,9 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Chữ biển hiệu Giảng Đạo Các bỏ nét stroke tối; các nhãn công trình reset đầy đủ trạng thái bóng/lọc Canvas để tránh chữ đen lặp phía sau.
 - Nút triệu hồi ở tâm pháp luân được định vị tuyệt đối chính giữa, kích thước 44px desktop, 40px mobile, 38px màn hình rất hẹp.
 - Nút mở lại khi thu nhỏ chuyển từ góc phải sang góc trái-trên của Canvas để không đè lên cổng về đích ở mép phải; tọa độ luôn giới hạn trong vùng arena. Kích thước 42/40/38px theo breakpoint.
+
+
+## 74. Chữ nhãn một lớp và điều khiển triệu hồi gọn
+- `drawRoleLabel()` và nhãn công trình không còn vẽ nét viền chữ tối; chỉ vẽ một lớp fillText sáng.
+- Nút Triệu Hồi: 36px mặc định, 34px mobile, 32px màn hình ≤380px; SVG lần lượt 31/29/27px.
+- Nút mở lại bảng: 36/34/32px theo cùng breakpoint, giữ vị trí trái-trên Canvas từ logic hiện hành.
