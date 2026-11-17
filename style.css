@@ -10293,6 +10293,16 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
 .tournament-speech-bubble.is-visible{
   opacity:1;visibility:visible;transform:translate(-50%,-100%);
 }
+.tournament-speech-bubble.is-below{
+  transform:translate(-50%,8px);
+}
+.tournament-speech-bubble.is-below.is-visible{
+  transform:translate(-50%,8px);
+}
+.tournament-speech-bubble.is-below::after{
+  top:-7px;bottom:auto;border:0;border-top:1.5px solid #b99a60;border-left:1.5px solid #b99a60;
+  transform:translateX(-50%) rotate(45deg);
+}
 .tournament-speech-message{
   display:block;max-width:100%;color:#263d34;
   font-size:clamp(12px,1.7vw,15px);font-weight:800;
