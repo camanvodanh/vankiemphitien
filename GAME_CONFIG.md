@@ -627,3 +627,8 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Hai hàng tiêu đề panel có cùng chiều cao 34px, được căn giữa theo chiều dọc và cố định ở đầu panel. Thiên Lý Kính không dùng căn giữa toàn bộ cột làm tiêu đề lệch hàng với Tiên Bảng.
 - Phần danh sách Tiên Bảng cuộn riêng trong `.table-wrap`, không cuộn hàng tiêu đề panel.
 - Khi vượt cổng, tên cảnh giới chỉ xuất hiện trong thông báo sự kiện. Không gọi renderer banner tên cảnh giới riêng trên Canvas để tránh hiển thị lặp bên dưới thông báo.
+
+## 70. Nút triệu hồi và nhãn kiến trúc/cấp bậc
+- Nút Triệu Hồi dạng thu nhỏ đồng cỡ nút Chạy/Dừng theo breakpoint: 44px mặc định, 40–48px trên desktop ngang lớn và 26px ở màn hình ngang rất thấp.
+- `drawRoleLabel()` tăng font cơ sở từ `12 * scale` lên `15 * scale` (tối thiểu 12px), giúp Chưởng Môn, Chân Truyền Đệ Tử và Trưởng Lão dễ đọc hơn.
+- `drawSectArchitecture()` tăng nhãn công trình thường lên 12.5px và Lăng Tiêu Chính Điện lên 15px; không thay đổi vị trí các công trình.
