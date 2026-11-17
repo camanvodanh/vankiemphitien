@@ -741,3 +741,9 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Sự kiện đổi người dẫn đầu kích hoạt lượt đối thoại luân phiên giữa trưởng lão, chưởng môn và chân truyền đệ tử. Tiếp sau là một câu cổ vũ từ hàng ngoại môn/đệ tử phía dưới.
 - Lời thoại hiển thị tuần tự trong cùng bong bóng, giữ neo vị trí theo nhân vật đang nói; không thay đổi thuật toán đua hoặc thứ hạng.
 - Cache: `tournament.js v6`, `style.css responsive-arena-v208`, `data-loader.js v155`.
+
+## 87. Bong bóng theo cấp bậc và cổ vũ gọi tên
+- Kích thước tối đa của bong bóng được phân theo vai phát ngôn và breakpoint; hộp thoại co theo nội dung, không dùng cùng một kích thước lớn cho mọi nhân vật.
+- Lời đối đáp của trưởng lão/chưởng môn có nhắc tên người đang dẫn đầu. Đệ tử khán đài cổ vũ trực tiếp bằng tên racer và xưng hô phù hợp.
+- Không đổi cách tính hạng, tốc độ, tiến độ hay thời lượng cuộc đua.
+- Cache: `tournament.js v7`, `style.css responsive-arena-v209`, `data-loader.js v156`.
