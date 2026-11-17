@@ -47,67 +47,30 @@ function drawAura(x, y, radius, color, time, phase = 0) {
 
 function drawRoleLabel(x, y, text, color, scale = 1) {
   ctx.save();
-
   ctx.font = `bold ${Math.max(7, 9 * scale)}px Georgia`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
+  ctx.lineJoin = "round";
+  ctx.miterLimit = 2;
 
-  const width = ctx.measureText(text).width + 16;
-  const height = 17 * scale;
+  // Chỉ vẽ chữ trực tiếp lên cảnh, không bảng nền/khung/ô chữ.
+  // Viền ngoài tối tạo tương phản trên mây trắng; viền vàng giữ phong cách tiên hiệp.
+  ctx.lineWidth = Math.max(4, 5 * scale);
+  ctx.strokeStyle = "rgba(5,17,16,1)";
+  ctx.strokeText(text, x, y);
 
-  // Bóng bảng
-  ctx.fillStyle = "rgba(20,22,20,.4)";
-  ctx.fillRect(
-    x - width / 2 + 2,
-    y - height / 2 + 3,
-    width,
-    height
-  );
+  ctx.lineWidth = Math.max(2, 2.5 * scale);
+  ctx.strokeStyle = "#f3d58e";
+  ctx.strokeText(text, x, y);
 
-  // Khung ngoài
-  ctx.fillStyle = "#8d7049";
-  ctx.fillRect(
-    x - width / 2 - 3,
-    y - height / 2 - 3,
-    width + 6,
-    height + 6
-  );
+  ctx.lineWidth = Math.max(0.9, 1.1 * scale);
+  ctx.strokeStyle = "#152a25";
+  ctx.strokeText(text, x, y);
 
-  // Viền vàng
-  ctx.fillStyle = "#e5cb8a";
-  ctx.fillRect(
-    x - width / 2 - 1,
-    y - height / 2 - 1,
-    width + 2,
-    height + 2
-  );
-
-  // Nền bảng
-  ctx.fillStyle = "rgba(39,35,29,.96)";
-  ctx.fillRect(
-    x - width / 2,
-    y - height / 2,
-    width,
-    height
-  );
-
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 1;
-  ctx.strokeRect(
-    x - width / 2 + 2,
-    y - height / 2 + 2,
-    width - 4,
-    height - 4
-  );
-
-  ctx.fillStyle = "#fff0c5";
-  ctx.shadowColor = color;
-  ctx.shadowBlur = 4;
+  ctx.fillStyle = color || "#fff0c5";
   ctx.fillText(text, x, y);
-
   ctx.restore();
 }
-
 // =====================================================
 // GHẾ NGỒI THÂN TRUYỀN
 // =====================================================
