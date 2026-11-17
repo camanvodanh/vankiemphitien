@@ -1672,22 +1672,23 @@ function drawCrowd(time) {
     drawSpectator(x,y,.37,"inner",time,i*.59);
   }
 
-  // Khôi phục đầy đủ ngoại môn và tạp dịch theo bố cục cũ.
+  // Ngoại môn 112 người (2 hàng), tạp dịch 168 người (3 hàng).
+  // Cả hai nhóm dùng 56 cột cố định để mật độ đồng nhất, không còn hàng cuối thưa.
   const groups=[
-    {role:"outer",count:92,scale:.34,y0:705,y1:765},
-    {role:"servant",count:132,scale:.30,y0:785,y1:885}
+    {role:"outer",count:112,columns:56,scale:.34,y0:705,y1:765},
+    {role:"servant",count:168,columns:56,scale:.30,y0:785,y1:885}
   ];
   groups.forEach((g,gi)=>{
-    const rowCount=Math.ceil(g.count/48);
+    const rowCount=Math.ceil(g.count/g.columns);
     for(let row=0;row<rowCount;row++){
-      const rowStart=row*48;
-      const itemsInRow=Math.min(48,g.count-rowStart);
+      const rowStart=row*g.columns;
+      const itemsInRow=Math.min(g.columns,g.count-rowStart);
       for(let col=0;col<itemsInRow;col++){
         const i=rowStart+col;
-        // Mỗi hàng tự trải đều toàn chiều ngang, kể cả hàng cuối chưa đủ 48 người.
+        // Tọa độ ngang cố định từ mép trái tới mép phải: 56 người/hàng.
         const spread=itemsInRow>1?col/(itemsInRow-1):.5;
-        const x=28+spread*(W-56)+Math.sin(i*2.17+gi)*3;
-        const y=g.y0+(g.y1-g.y0)*((row+.5)/rowCount)+Math.sin(i*1.91+gi)*5;
+        const x=28+spread*(W-56);
+        const y=g.y0+(g.y1-g.y0)*((row+.5)/rowCount)+Math.sin(i*1.91+gi)*2;
         drawSpectator(x,y,g.scale,g.role,time,i*.59+gi*2.1);
       }
     }
