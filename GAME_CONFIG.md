@@ -754,3 +754,10 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Trong lúc đua, lời cổ vũ từ các hàng đệ tử xuất hiện liên tục, luân phiên nhiều câu và nhiều tên người thi đấu. Khi tạm dừng, lịch chờ tiếp tục kiểm tra; khi kết thúc sẽ dừng.
 - Không còn câu “Ta đã về đích”; kết quả xếp hạng vẫn giữ nguyên.
 - Cache: `tournament.js v8`, `style.css responsive-arena-v210`, `data-loader.js v157`.
+
+
+## 89. Khôi phục bong bóng bình luận trực tiếp
+- Loại bỏ điều kiện chặn hiển thị không cần thiết trong hàm tạo bong bóng; bảo đảm phần tử mới luôn được đưa lên lớp trên của sân đua.
+- Bổ sung dự phòng khởi động lời cổ vũ từ thay đổi trạng thái khi cuộc đua thực sự chạy; chỉ phát lời khi đã qua đếm ngược, đang chạy và không tạm dừng/kết thúc.
+- Giữ nguyên giới hạn số bong bóng, neo nhân vật, lời thoại và logic thứ hạng.
+- Cache: `tournament.js v9`, `style.css responsive-arena-v211`, `data-loader.js v158`.
