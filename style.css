@@ -10286,7 +10286,7 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   transition:opacity .22s ease,transform .22s ease,visibility .22s ease;
 }
 .tournament-speech-bubble::after{
-  content:"";position:absolute;left:50%;bottom:-7px;width:13px;height:13px;
+  content:"";position:absolute;left:var(--speech-tail-x,50%);bottom:-7px;width:13px;height:13px;
   background:#f6f0df;border-right:1.5px solid #b99a60;border-bottom:1.5px solid #b99a60;
   transform:translateX(-50%) rotate(45deg);
 }
