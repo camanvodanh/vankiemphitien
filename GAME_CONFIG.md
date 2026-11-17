@@ -695,3 +695,10 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Hàng cuối không còn dồn về trái và để trống phần phải: ngoại môn 44 người, tạp dịch 36 người vẫn được căn từ trái sang phải.
 - Không tăng số lượng: giữ 92 ngoại môn và 132 tạp dịch; giảm dao động ngang để tránh nhân vật chạm mép.
 - Cache `visual-overrides.js`: v220.
+
+## 82. Số lượng và mật độ ngoại môn, tạp dịch
+- Ngoại môn: 112 nhân vật, chia 2 hàng × 56.
+- Tạp dịch: 168 nhân vật, chia 3 hàng × 56.
+- Tất cả các hàng dùng cùng khoảng cách ngang cố định trên toàn chiều rộng; không tạo hàng cuối ít người hoặc lệch về một phía.
+- Giữ tỷ lệ nhân vật hiện tại; giảm nhẹ dao động dọc, bỏ dao động ngang.
+- Cache `visual-overrides.js`: v221.
