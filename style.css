@@ -9929,3 +9929,39 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   min-width:var(--summon-launcher-size)!important;
   min-height:var(--summon-launcher-size)!important;
 }
+
+
+/* REVISION 159 — phóng to nút Triệu Hồi ở tâm pháp luân và nút mở lại; ưu tiên nhãn kiến trúc dễ đọc. */
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon{
+  width:68px!important;height:68px!important;
+  min-width:68px!important;min-height:68px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon svg{
+  width:54px!important;height:54px!important;
+}
+.arena-frame>.summon-collapsed-trigger{
+  width:60px!important;height:60px!important;
+  min-width:60px!important;min-height:60px!important;
+}
+@media(max-width:600px){
+  .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon{
+    width:62px!important;height:62px!important;
+    min-width:62px!important;min-height:62px!important;
+  }
+  .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon svg{
+    width:50px!important;height:50px!important;
+  }
+  .arena-frame>.summon-collapsed-trigger{
+    width:56px!important;height:56px!important;
+    min-width:56px!important;min-height:56px!important;
+  }
+}
+@media(max-width:380px){
+  .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon{
+    width:58px!important;height:58px!important;
+    min-width:58px!important;min-height:58px!important;
+  }
+  .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon svg{
+    width:46px!important;height:46px!important;
+  }
+}
