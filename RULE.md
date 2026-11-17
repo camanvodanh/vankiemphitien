@@ -453,3 +453,10 @@
 - Hàng cuối của nhóm tạp dịch (36 người) và ngoại môn (44 người) vẫn trải đều từ lề trái đến lề phải; các hàng đủ 48 người giữ mật độ gần như cũ.
 - Giữ nguyên tổng số nhân vật, cấp bậc, tỷ lệ và vùng chiều dọc; giảm dao động ngang để nhân vật sát mép không bị cắt.
 - Cache `visual-overrides.js` tăng lên v220.
+
+## 95. Tăng mật độ ngoại môn và tạp dịch
+- Ngoại môn tăng từ 92 lên 112 người, bố trí 2 hàng, mỗi hàng 56 người.
+- Tạp dịch tăng từ 132 lên 168 người, bố trí 3 hàng, mỗi hàng 56 người.
+- Hai nhóm dùng cùng lưới 56 cột, tọa độ ngang cố định trải từ mép trái tới mép phải Canvas; bỏ dao động ngang để tránh cảm giác hàng bị lệch hoặc không đều.
+- Giữ nguyên tỷ lệ nhân vật và vùng chiều dọc; chỉ giảm dao động dọc nhẹ để đội hình gọn mà vẫn có chuyển động tự nhiên.
+- Cache `visual-overrides.js` tăng lên v221.
