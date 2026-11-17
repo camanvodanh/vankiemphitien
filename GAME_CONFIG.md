@@ -735,3 +735,9 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Nếu thiếu khoảng trống phía trên, bong bóng chuyển xuống dưới nhân vật và đảo đuôi thoại; giới hạn tâm và đuôi để không tràn khỏi sân.
 - Trong lúc bong bóng hiện, `drawAnnouncement()` không vẽ banner toàn sân trùng nội dung. Thông báo countdown/gameplay còn lại không bị thay đổi.
 - `#event` nhận tín hiệu khai cuộc để observer hiển thị lời của trưởng lão. Cache: tournament.js v5, i18n.js v184, style.css responsive-arena-v207, data-loader.js v154.
+
+## 86. Lời bình đối đáp và bong bóng thoại gọn
+- Bong bóng thoại giới hạn chiều rộng, giảm padding, font và bóng đổ để không lấn át nhân vật; mobile dùng giới hạn nhỏ hơn.
+- Sự kiện đổi người dẫn đầu kích hoạt lượt đối thoại luân phiên giữa trưởng lão, chưởng môn và chân truyền đệ tử. Tiếp sau là một câu cổ vũ từ hàng ngoại môn/đệ tử phía dưới.
+- Lời thoại hiển thị tuần tự trong cùng bong bóng, giữ neo vị trí theo nhân vật đang nói; không thay đổi thuật toán đua hoặc thứ hạng.
+- Cache: `tournament.js v6`, `style.css responsive-arena-v208`, `data-loader.js v155`.
