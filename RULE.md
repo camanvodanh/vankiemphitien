@@ -418,3 +418,8 @@
 - Viền được vẽ đồng tâm, không lệch hướng và không dùng shadow/offset, tránh cảm giác có một bản chữ đen thứ hai phía sau.
 - Cache `visual-overrides.js` tăng lên `v214`; không thay đổi vị trí, cỡ chữ, kiến trúc hoặc gameplay.
 - Điều chỉnh độ dày viền để đọc rõ trên màn hình điện thoại: viền ngoài xanh đen 5.8px (chính điện 7px), viền trong vàng sáng 2px (chính điện 2.5px); nhãn cấp bậc dùng viền ngoài tối tối thiểu 5px và viền trong vàng tối thiểu 1.8px. Cache visual-overrides.js v215.
+
+## 89. Bảng tên tương phản cho kiến trúc và cấp bậc
+- Nhãn các lầu các/chính điện dùng bảng nền xanh mực bán đục, bo góc, viền vàng hai lớp; chữ tiếp tục có viền tối và viền vàng sáng.
+- `drawRoleLabel()` cũng tạo bảng tên riêng cho Chưởng Môn, Chân Truyền Đệ Tử và Trưởng Lão. Không để chữ trực tiếp trên nền núi, mây hoặc linh quang vì độ sáng nền thay đổi theo cảnh.
+- Cache `visual-overrides.js` tăng lên v216.
