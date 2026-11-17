@@ -1679,11 +1679,17 @@ function drawCrowd(time) {
   ];
   groups.forEach((g,gi)=>{
     const rowCount=Math.ceil(g.count/48);
-    for(let i=0;i<g.count;i++){
-      const col=i%48,row=Math.floor(i/48);
-      const x=12+col*23+Math.sin(i*2.17+gi)*6+(row%2)*5;
-      const y=g.y0+(g.y1-g.y0)*((row+.5)/rowCount)+Math.sin(i*1.91+gi)*5;
-      drawSpectator(x,y,g.scale,g.role,time,i*.59+gi*2.1);
+    for(let row=0;row<rowCount;row++){
+      const rowStart=row*48;
+      const itemsInRow=Math.min(48,g.count-rowStart);
+      for(let col=0;col<itemsInRow;col++){
+        const i=rowStart+col;
+        // Mỗi hàng tự trải đều toàn chiều ngang, kể cả hàng cuối chưa đủ 48 người.
+        const spread=itemsInRow>1?col/(itemsInRow-1):.5;
+        const x=28+spread*(W-56)+Math.sin(i*2.17+gi)*3;
+        const y=g.y0+(g.y1-g.y0)*((row+.5)/rowCount)+Math.sin(i*1.91+gi)*5;
+        drawSpectator(x,y,g.scale,g.role,time,i*.59+gi*2.1);
+      }
     }
   });
   drawCrowdFlag(12,696,"#a53f36",time);
