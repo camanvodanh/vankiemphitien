@@ -209,17 +209,26 @@
       {role:"core",say:name=>name+" đạo hữu quả nhiên có bản lĩnh, đường kiếm thật đẹp!"},
       {role:"outer",say:name=>"Sư huynh bên trái cố lên! Đừng để mất vị trí!"},
       {role:"inner",say:name=>"Đuổi kịp rồi! Chỉ còn một đoạn nữa thôi!"},
-      {role:"servant",say:name=>"Đệ tử cổ vũ cho tất cả các vị! Bay nhanh lên nào!"}
+      {role:"servant",say:name=>"Đệ tử cổ vũ cho tất cả các vị! Bay nhanh lên nào!"},
+      {role:"disciple",say:name=>name+" sư huynh, phía trước đang có cơ hội! Tăng tốc đi!"},
+      {role:"inner",say:name=>"Đẹp lắm! Đường kiếm ấy khiến người xem cũng thấy nhiệt huyết!"},
+      {role:"outer",say:name=>name+" sư huynh! Đệ tử tin huynh làm được!"},
+      {role:"core",say:name=>"Thân pháp ấy rất có triển vọng. Chư vị xem, lại áp sát rồi!"},
+      {role:"servant",say:name=>"Cố lên! Cố lên! Khán đài đang cổ vũ cho các vị!"},
+      {role:"disciple",say:name=>"Đừng chậm lại! Cơ hội đổi thứ hạng ngay trước mắt!"},
+      {role:"inner",say:name=>name+" đạo hữu, cố giữ nhịp thở và kiếm thế!"},
+      {role:"outer",say:name=>"Sắp vượt rồi! Mau lên, chỉ còn một chút nữa!"}
     ];
     const speak=()=>{
       crowdTimer=0;
       if(typeof finished!=="undefined"&&finished)return;
       if(typeof running==="undefined"||!running||paused){crowdTimer=window.setTimeout(speak,1000);return;}
       const list=getRacers(),leader=typeof leaderOf==="function"?leaderOf():null;
-      const name=leader&&leader.name?String(leader.name):list.length?String(list[crowdTurn%list.length].name||"vị sư huynh"):"các vị sư huynh";
+      const target=list.length?(crowdTurn%4===0&&leader?leader:list[crowdTurn%list.length]):null;
+      const name=target&&target.name?String(target.name):"các vị sư huynh";
       const entry=lines[crowdTurn++%lines.length];
       showLive(entry.say(name),{type:entry.role});
-      crowdTimer=window.setTimeout(speak,1750+Math.floor(Math.random()*650));
+      crowdTimer=window.setTimeout(speak,1200+Math.floor(Math.random()*550));
     };
     crowdTimer=window.setTimeout(speak,900);
   }
