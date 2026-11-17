@@ -382,3 +382,8 @@
 - Hàng tiêu đề “Thiên Lý Kính” và “Tiên Bảng” phải nằm ở đầu hai panel, cùng chiều cao 34px, cùng căn chỉnh theo trục dọc và không bị đẩy xuống do căn giữa nội dung Thiên Lý Kính.
 - Tiên Bảng cuộn danh sách bên trong `.table-wrap`; hàng tiêu đề panel nằm ngoài vùng cuộn và luôn được giữ ở đầu. Hàng tiêu đề Thiên Lý Kính cũng giữ vị trí đầu panel.
 - Tên cảnh giới mới chỉ hiển thị trong thông báo khi tiên nhân đầu tiên vượt cổng. Không vẽ thêm banner/tên cảnh giới riêng trên Canvas trong cùng thời điểm, tránh lặp nội dung phía dưới thông báo.
+
+## 84. Kích thước nút Triệu Hồi và độ rõ nhãn Tiên Môn
+- Nút mở lại bảng Triệu Hồi khi thu nhỏ dùng cùng kích thước responsive với cụm nút Chạy/Dừng: mặc định 44px, desktop ngang lớn theo `clamp(40px,4.5dvh,48px)`, màn hình ngang rất thấp 26px.
+- Nhãn vai trò Chưởng Môn, Chân Truyền Đệ Tử và Trưởng Lão tăng cỡ chữ từ hệ số 12px lên 15px theo scale, có mức sàn 12px.
+- Tên các lầu các tăng từ 10.5px lên 12.5px; Lăng Tiêu Chính Điện tăng từ 13px lên 15px. Vị trí, giới hạn chiều rộng và bố cục kiến trúc giữ nguyên.
