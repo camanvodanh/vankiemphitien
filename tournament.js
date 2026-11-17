@@ -361,9 +361,8 @@
     }
     if(value.includes("PHOTO FINISH")){
       const gap=value.match(/cách nhau\s+(.+?)\s*ms/i);
-      const names=value.match(/PHOTO FINISH\s*[·-]\s*(.*?)\s*[·-]\s*cách nhau/i);
       const dialogue=gap
-        ?(names?names[1]+" vừa tạo nên màn về đích sát nút, chỉ cách nhau "+gap[1]+" ms!":"Hai vị tiên hữu vừa tạo nên màn về đích sát nút, chỉ cách nhau "+gap[1]+" ms!")
+        ?"Hai vị tiên hữu vừa về đích sát nút, chỉ cách nhau "+gap[1]+" ms!"
         :"Cuộc đua vừa có một màn về đích vô cùng sít sao!";
       showLive(dialogue,{type:"elder"});
       return;
@@ -372,7 +371,7 @@
     if(finish){
       const name=finish[2].trim();
       const racer=getRacerByName(name);
-      showLive(name+" đã về đích ở vị trí thứ "+finish[1]+"!",racer?{type:"racer",racer}:{type:"elder"});
+      showLive(name+" đã về đích!",racer?{type:"racer",racer}:{type:"elder"});
       return;
     }
     if(value.includes("ĐẠI HỘI KẾT THÚC")){
@@ -398,7 +397,7 @@
       :[];
     const champion=names[0];
     showLive(
-      champion?"Chúc mừng "+champion+", đã đoạt ngôi quán quân!":"Tam giáp Đại hội đã được định danh!",
+      champion?champion+" đã đoạt ngôi quán quân.":"Đại hội đã định danh tam giáp.",
       {type:"master"}
     );
   }
