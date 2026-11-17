@@ -637,3 +637,8 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Nút chính ở tâm pháp luân tăng lên 68px, biểu tượng 54px; breakpoint mobile ≤600px là 62px/50px và ≤380px là 58px/46px. Các override cuối stylesheet khóa kích thước để không bị quy tắc mobile cũ ghi đè.
 - Nút mở lại bảng khi thu nhỏ tăng lên 60px, mobile ≤600px là 56px.
 - `drawRoleLabel()` tăng font lên `Math.max(15,18*scale)`; nhãn công trình thường tăng lên 15.5px, công trình trung tâm 18.5px và tăng giới hạn chiều rộng vẽ.
+
+## 72. Chữ biển hiệu và kích thước nút Triệu Hồi
+- Biển hiệu kiến trúc chỉ dùng chữ sáng, không còn lớp viền tối dày tạo cảm giác đổ bóng; tắt shadow kế thừa trước khi vẽ.
+- Nút tâm pháp luân dùng 48px desktop, 44px mobile và 40px màn hình rất hẹp; biểu tượng lần lượt 42px, 38px và 34px. Nút có z-index cao trong pháp luân, còn bảng thiết lập vẫn ở trên Canvas.
+- Nút mở lại khi thu nhỏ dùng 44px desktop, 42px mobile, 40px ở màn hình rất hẹp và z-index cao để không bị cổng đích che.
