@@ -37,12 +37,11 @@
   ];
 
   let opening=null;
-  let liveBar=null;
-  let liveMessage=null;
-  let liveSpeaker={type:"elder"};
+  const liveBubbles=[];
   let livePositionFrame=0;
+  let crowdTimer=0;
   let stageTimer=0;
-  let liveTimer=0;
+
   let active=false;
   let bypassStart=false;
   let lastEvent="";
@@ -50,6 +49,7 @@
   let closingShown=false;
   let commentaryTurn=0;
   let exchangeTimer=0;
+  let crowdTurn=0;
 
   function getRacers(){
     return typeof racers!=="undefined"&&Array.isArray(racers)?racers:[];
@@ -90,88 +90,36 @@
     return opening;
   }
 
-  function buildLiveBar(){
-    if(liveBar)return;
-    liveBar=document.createElement("div");
-    liveBar.className="tournament-speech-bubble";
-    liveBar.setAttribute("aria-live","polite");
-    liveBar.setAttribute("aria-atomic","true");
-    liveBar.innerHTML='<strong class="tournament-speech-message"></strong>';
-    arena.appendChild(liveBar);
-    liveMessage=liveBar.querySelector(".tournament-speech-message");
-  }
-
   function getRacerByName(name){
     const wanted=String(name||"").trim();
     if(!wanted)return null;
     return getRacers().find(racer=>String(racer.name||"").trim()===wanted)||null;
   }
 
-  function getSpeakerAnchor(){
+  function getSpeakerAnchor(speaker){
     const canvas=document.getElementById("game");
     const width=canvas?canvas.width:1100;
     const height=canvas?canvas.height:900;
-    const speaker=liveSpeaker||{type:"elder"};
-
+    speaker=speaker||{type:"elder"};
     if(speaker.type==="racer"&&speaker.racer){
       const list=getRacers();
       const racer=list.find(item=>item===speaker.racer||(speaker.racer.id!=null&&item.id===speaker.racer.id))||null;
       if(racer){
         if(typeof finished!=="undefined"&&finished&&typeof sortedRacers==="function"){
-          const ordered=sortedRacers();
-          const rank=ordered.indexOf(racer)+1;
-          const count=Math.min(3,ordered.length);
+          const ordered=sortedRacers(),rank=ordered.indexOf(racer)+1,count=Math.min(3,ordered.length);
           const podiumX=count===1?[width*.5]:count===2?[width*.25,width*.5]:[width*.25,width*.5,width*.75];
-          const rankAt=count===1?[1]:count===2?[2,1]:[2,1,3];
-          const podiumIndex=rankAt.indexOf(rank);
+          const rankAt=count===1?[1]:count===2?[2,1]:[2,1,3],podiumIndex=rankAt.indexOf(rank);
           const topByRank={1:height*.535,2:height*.655,3:height*.715};
-          if(podiumIndex>=0){
-            const riderY=topByRank[rank]-57;
-            return {x:podiumX[podiumIndex],y:riderY-78};
-          }
-          // Người ngoài tam giáp không còn xuất hiện ở cảnh trao thưởng; trưởng lão tiếp lời thay.
+          if(podiumIndex>=0)return {x:podiumX[podiumIndex],y:topByRank[rank]-125};
           return {x:744,y:587};
         }
         if(typeof racerX==="function"&&typeof laneY==="function"){
-          const index=list.indexOf(racer);
-          const scale=typeof racerScale==="function"?racerScale():1;
-          return {x:racerX(racer),y:laneY(index)-Math.max(34,scale*42)};
+          const index=list.indexOf(racer),scale=typeof racerScale==="function"?racerScale():1;
+          return {x:racerX(racer),y:laneY(index)-Math.max(28,scale*36)};
         }
       }
     }
-
-    if(speaker.type==="master"){
-      if(typeof finished!=="undefined"&&finished&&typeof ceremonyStartedAt!=="undefined"&&ceremonyStartedAt>0){
-        const elapsed=Math.max(0,(performance.now()-ceremonyStartedAt)/1000);
-        const departure=window.VKP_DATA&&window.VKP_DATA.ceremony&&window.VKP_DATA.ceremony.departure
-          ?window.VKP_DATA.ceremony.departure:{};
-        const swordEnd=Number(departure.swordArrivalEnd)||4.55;
-        const flyEnd=Number(departure.flightEnd)||7.15;
-        const transitionEnd=Number(departure.transitionEnd)||7.7;
-        const smooth=value=>{const p=Math.max(0,Math.min(1,value));return p*p*(3-2*p);};
-        if(elapsed<transitionEnd){
-          if(elapsed<swordEnd)return {x:width*.5,y:518};
-          const p=smooth((elapsed-swordEnd)/Math.max(.01,flyEnd-swordEnd));
-          return {
-            x:width*(.5+.82*p),
-            y:height*(612/825)-height*(.055+.31*p)+42
-          };
-        }
-        const awards=window.VKP_DATA&&window.VKP_DATA.ceremony&&window.VKP_DATA.ceremony.awards
-          ?window.VKP_DATA.ceremony.awards:{};
-        const awardStart=Number(awards.awardStart)||8.05;
-        const flightDuration=Number(awards.masterFlightDuration)||3.9;
-        const p=Math.max(0,Math.min(1,(elapsed-awardStart)/Math.max(.01,flightDuration)));
-        return {
-          x:width*(-.16+1.32*p),
-          y:height*(.205+Math.sin(p*Math.PI*2)*.012)+45
-        };
-      }
-      return {x:width*.5,y:518};
-    }
-
-    // Mặc định trưởng lão thứ ba từ trái sang: nằm rõ trong vùng quảng trường,
-    // tránh nhãn chức danh TRƯỞNG LÃO ở phía bên phải.
+    if(speaker.type==="master")return {x:width*.5,y:518};
     if(speaker.type==="elder")return {x:744,y:587};
     if(speaker.type==="disciple")return {x:263,y:535};
     if(speaker.type==="core")return {x:550,y:615};
@@ -181,48 +129,108 @@
     return {x:744,y:558};
   }
 
-  function positionLiveBubble(){
-    if(!liveBar||!liveBar.classList.contains("is-visible"))return;
+  function positionLiveBubble(item){
+    if(!item||!item.el.classList.contains("is-visible"))return;
     const canvas=document.getElementById("game");
     if(!canvas)return;
-    const canvasRect=canvas.getBoundingClientRect();
-    const arenaRect=arena.getBoundingClientRect();
-    if(!canvasRect.width||!canvasRect.height||!arenaRect.width||!arenaRect.height)return;
-
-    const width=canvas.width||1100,height=canvas.height||900;
-    const anchor=getSpeakerAnchor();
+    const cr=canvas.getBoundingClientRect(),ar=arena.getBoundingClientRect();
+    if(!cr.width||!cr.height||!ar.width||!ar.height)return;
+    const width=canvas.width||1100,height=canvas.height||900,a=getSpeakerAnchor(item.speaker);
     const zoom=typeof gameZoom!=="undefined"?gameZoom:1;
-    const panX=typeof gamePanX!=="undefined"?gamePanX:0;
-    const panY=typeof gamePanY!=="undefined"?gamePanY:0;
-    const screenX=width*.5+panX+(anchor.x-width*.5)*zoom;
-    const screenY=height*.5+panY+(anchor.y-height*.5)*zoom;
-    const anchorLeft=canvasRect.left-arenaRect.left+(screenX/width)*canvasRect.width;
-    const top=canvasRect.top-arenaRect.top+(screenY/height)*canvasRect.height;
-    const halfWidth=(liveBar.offsetWidth||196)/2;
-    const bubbleCenter=Math.max(halfWidth+8,Math.min(arenaRect.width-halfWidth-8,anchorLeft));
-    const tailX=Math.max(12,Math.min((liveBar.offsetWidth||280)-12,anchorLeft-bubbleCenter+halfWidth));
-    const bubbleHeight=liveBar.offsetHeight||42;
-    const isBelow=top<bubbleHeight+18;
-    liveBar.classList.toggle("is-below",isBelow);
-    liveBar.style.left=bubbleCenter+"px";
-    liveBar.style.setProperty("--speech-tail-x",tailX+"px");
-    liveBar.style.top=Math.max(10,Math.min(arenaRect.height-18,top))+"px";
+    const panX=typeof gamePanX!=="undefined"?gamePanX:0,panY=typeof gamePanY!=="undefined"?gamePanY:0;
+    const sx=width*.5+panX+(a.x-width*.5)*zoom,sy=height*.5+panY+(a.y-height*.5)*zoom;
+    const anchorX=cr.left-ar.left+(sx/width)*cr.width,anchorY=cr.top-ar.top+(sy/height)*cr.height;
+    const scaleX=cr.width/width;
+    const sideShift=item.speaker.type==="master"?Math.min(150,Math.max(92,ar.width*.14)):0;
+    const drop=item.speaker.type==="master"?Math.max(28,34*scaleX):0;
+    const center=anchorX+sideShift;
+    const half=(item.el.offsetWidth||180)/2;
+    const bubbleCenter=Math.max(half+8,Math.min(ar.width-half-8,center));
+    const tailX=Math.max(12,Math.min((item.el.offsetWidth||180)-12,anchorX-bubbleCenter+half));
+    const top=anchorY+drop;
+    item.el.classList.toggle("is-below",top<(item.el.offsetHeight||50)+16);
+    item.el.style.left=bubbleCenter+"px";
+    item.el.style.setProperty("--speech-tail-x",tailX+"px");
+    item.el.style.top=Math.max(8,Math.min(ar.height-16,top))+"px";
   }
 
   function followLiveBubble(){
-    if(!liveBar||!liveBar.classList.contains("is-visible")){
-      livePositionFrame=0;
-      return;
-    }
-    positionLiveBubble();
-    livePositionFrame=requestAnimationFrame(followLiveBubble);
+    const visible=liveBubbles.filter(item=>item.el.isConnected&&item.el.classList.contains("is-visible"));
+    liveBubbles.splice(0,liveBubbles.length,...visible);
+    visible.forEach(positionLiveBubble);
+    if(visible.length)livePositionFrame=requestAnimationFrame(followLiveBubble);
+    else livePositionFrame=0;
   }
 
-  function stopLiveFollowing(){
-    if(livePositionFrame){
-      cancelAnimationFrame(livePositionFrame);
-      livePositionFrame=0;
+  function ensureLiveFollowing(){
+    if(!livePositionFrame)livePositionFrame=requestAnimationFrame(followLiveBubble);
+  }
+
+  function clearLiveBubbles(){
+    liveBubbles.forEach(item=>{clearTimeout(item.timer);item.el.remove()});
+    liveBubbles.length=0;
+    if(livePositionFrame){cancelAnimationFrame(livePositionFrame);livePositionFrame=0}
+  }
+
+  function showLive(message,speaker={type:"elder"}){
+    if(active||!message)return;
+    const el=document.createElement("div");
+    el.className="tournament-speech-bubble speaker-"+(speaker.type||"elder");
+    el.setAttribute("aria-live","polite");
+    const label=document.createElement("strong");
+    label.className="tournament-speech-message";
+    label.textContent=String(message);
+    el.appendChild(label);
+    arena.appendChild(el);
+    const item={el,speaker,timer:0};
+    liveBubbles.push(item);
+    // Giữ nhiều lời thoại cùng lúc nhưng giới hạn số hộp để không phủ kín trường đua.
+    while(liveBubbles.length>7){
+      const oldest=liveBubbles.shift();
+      clearTimeout(oldest.timer);oldest.el.remove();
     }
+    el.classList.add("is-visible");
+    positionLiveBubble(item);
+    ensureLiveFollowing();
+    item.timer=window.setTimeout(()=>{
+      el.classList.remove("is-visible","is-below");
+      el.remove();
+      const index=liveBubbles.indexOf(item);
+      if(index>=0)liveBubbles.splice(index,1);
+    },Math.max(3800,commentaryDuration+500));
+  }
+
+  function startCrowdChatter(){
+    if(crowdTimer)return;
+    const lines=[
+      {role:"outer",say:name=>name+" sư huynh! Cố lên! Đệ tử đang dõi theo huynh đây!"},
+      {role:"inner",say:name=>"Nhanh quá! "+name+" sư huynh sắp vượt thêm một người rồi!"},
+      {role:"servant",say:name=>"Hay quá! "+name+" sư huynh, giữ vững kiếm thế nhé!"},
+      {role:"disciple",say:name=>"Phong chúng ta có hy vọng đoạt vị trí cao rồi! Cố lên!"},
+      {role:"core",say:name=>name+" đạo hữu quả nhiên có bản lĩnh, đường kiếm thật đẹp!"},
+      {role:"outer",say:name=>"Sư huynh bên trái cố lên! Đừng để mất vị trí!"},
+      {role:"inner",say:name=>"Đuổi kịp rồi! Chỉ còn một đoạn nữa thôi!"},
+      {role:"servant",say:name=>"Đệ tử cổ vũ cho tất cả các vị! Bay nhanh lên nào!"}
+    ];
+    const speak=()=>{
+      crowdTimer=0;
+      if(typeof running==="undefined"||!running||paused||finished)return;
+      const list=getRacers(),leader=typeof leaderOf==="function"?leaderOf():null;
+      const name=leader&&leader.name?String(leader.name):list.length?String(list[crowdTurn%list.length].name||"vị sư huynh"):"các vị sư huynh";
+      const entry=lines[crowdTurn++%lines.length];
+      showLive(entry.say(name),{type:entry.role});
+      crowdTimer=window.setTimeout(speak,1750+Math.floor(Math.random()*650));
+    };
+    crowdTimer=window.setTimeout(speak,900);
+  }
+
+  // Không vẽ banner toàn sân trùng với lời thoại trên nhân vật.
+  const baseDrawAnnouncement=window.drawAnnouncement;
+  if(typeof baseDrawAnnouncement==="function"){
+    window.drawAnnouncement=function(...args){
+      if(liveBubbles.some(item=>item.el.classList.contains("is-visible")))return;
+      return baseDrawAnnouncement.apply(this,args);
+    };
   }
 
   function renderStage(){
@@ -370,13 +378,15 @@
     lastEvent=value;
     if(value.startsWith("BẮT ĐẦU SAU"))return;
     if(value.includes("ĐẠI HỘI BẮT ĐẦU")){
-      showLive("Đại hội Ngự Kiếm chính thức khai cuộc!",{type:"elder"});
+      showLive("Đại hội Ngự Kiếm chính thức khai cuộc! Chư vị chuẩn bị thưởng thức!",{type:"elder"});
+      startCrowdChatter();
       return;
     }
     const leaderPrefix="HẠNG 1 · ĐANG DẪN ĐẦU:";
     if(value.startsWith(leaderPrefix)){
       const name=value.slice(leaderPrefix.length).trim();
       const racer=getRacerByName(name);
+      startCrowdChatter();
       const exchanges=[
         {speaker:{type:"elder"},line:"Chưởng môn, "+name+" vừa vượt lên rồi! Kiếm thế thật khá!"},
         {speaker:{type:"master"},line:"Ta thấy rồi. "+name+" giữ thân pháp rất vững, không hề rối loạn."},
@@ -411,7 +421,7 @@
     if(finish){
       const name=finish[2].trim();
       const racer=getRacerByName(name);
-      showLive("Ta đã về đích!",racer?{type:"racer",racer}:{type:"elder"});
+      // Bỏ lời thoại "Ta đã về đích"; giữ nguyên bảng xếp hạng và thông báo hệ thống.
       return;
     }
     if(value.includes("ĐẠI HỘI KẾT THÚC")){
@@ -446,10 +456,9 @@
   const summonButton=document.getElementById("summon");
   if(summonButton)summonButton.addEventListener("click",()=>{
     if(active)closeOpening();
-    if(liveTimer){clearTimeout(liveTimer);liveTimer=0;}
     if(exchangeTimer){clearTimeout(exchangeTimer);exchangeTimer=0;}
-    if(liveBar)liveBar.classList.remove("is-visible","is-below");
-    stopLiveFollowing();
+    if(crowdTimer){clearTimeout(crowdTimer);crowdTimer=0;}
+    clearLiveBubbles();
   },true);
   document.addEventListener("keydown",event=>{
     if(active&&event.key==="Escape"){
@@ -465,8 +474,8 @@
   }
   window.addEventListener("pagehide",()=>{
     clearStageTimer();
-    if(liveTimer)clearTimeout(liveTimer);
     if(exchangeTimer)clearTimeout(exchangeTimer);
-    stopLiveFollowing();
+    if(crowdTimer)clearTimeout(crowdTimer);
+    clearLiveBubbles();
   });
 })();
