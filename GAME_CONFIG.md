@@ -653,3 +653,9 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - `drawRoleLabel()` và nhãn công trình không còn vẽ nét viền chữ tối; chỉ vẽ một lớp fillText sáng.
 - Nút Triệu Hồi: 36px mặc định, 34px mobile, 32px màn hình ≤380px; SVG lần lượt 31/29/27px.
 - Nút mở lại bảng: 36/34/32px theo cùng breakpoint, giữ vị trí trái-trên Canvas từ logic hiện hành.
+
+## 75. Viền tương phản cho nhãn kiến trúc và cấp bậc
+- Tên các lầu các và điện dùng viền ngoài xanh đen đậm, viền trong vàng nhạt mảnh, rồi tô chữ màu sáng để dễ đọc trên nền có màu tương đồng hoặc nền sáng.
+- Nhãn Chưởng Môn, Chân Truyền Đệ Tử và Trưởng Lão dùng cùng kiểu viền, độ dày điều chỉnh theo tỷ lệ chữ.
+- Các nét viền vẽ đồng tâm, không đổ bóng hoặc dịch lệch nên không tạo bóng chữ đen phía sau.
+- Cache visual-overrides.js: v214.
