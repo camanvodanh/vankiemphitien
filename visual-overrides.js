@@ -435,10 +435,14 @@ function drawSectPavilion(x,y,scale,title,type,accent){
 
 /* REVISION 16 — tên rõ nét, khán đài phân tầng, không dùng bảng nền. */
 function drawRoleLabel(x,y,label,color="#fff0c5",scale=1){
- ctx.save();ctx.font="bold "+Math.max(15,18*scale)+"px Arial, sans-serif";
+ ctx.save();
+ ctx.globalAlpha=1;ctx.globalCompositeOperation="source-over";
+ ctx.shadowColor="rgba(0,0,0,0)";ctx.shadowBlur=0;
+ ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;ctx.filter="none";
+ ctx.font="bold "+Math.max(15,18*scale)+"px Arial, sans-serif";
  ctx.textAlign="center";ctx.textBaseline="middle";ctx.lineJoin="round";
- ctx.lineWidth=3.5;ctx.strokeStyle="rgba(19,29,25,.95)";ctx.strokeText(label,x,y);
- ctx.fillStyle=color;ctx.fillText(label,x,y);ctx.restore();
+ ctx.lineWidth=0;ctx.fillStyle=color;ctx.fillText(label,x,y);
+ ctx.restore();
 }
 
 
@@ -2758,10 +2762,11 @@ function drawSectArchitecture(time){
     ctx.font="bold "+(index===2?18.5:15.5)+"px Arial, sans-serif";
     // Reset toàn bộ trạng thái đổ bóng/lọc kế thừa trước khi vẽ chữ biển hiệu.
     ctx.globalAlpha=1;ctx.globalCompositeOperation="source-over";
-    ctx.shadowBlur=0;ctx.shadowColor="rgba(0,0,0,0)";
+    ctx.shadowColor="transparent";ctx.shadowBlur=0;
     ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;ctx.filter="none";
-    ctx.lineWidth=0;
+    ctx.lineWidth=0;ctx.strokeStyle="transparent";
     ctx.fillStyle=index===2?"#ffe4a0":"#fff0c0";
+    // Vẽ duy nhất một lớp chữ sáng; tuyệt đối không stroke/đổ bóng chữ.
     ctx.fillText(b.title,b.x,labelY,Math.min(210,250*b.s+38));
     ctx.restore();
   });
