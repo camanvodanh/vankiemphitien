@@ -172,6 +172,66 @@
     if(livePositionFrame){cancelAnimationFrame(livePositionFrame);livePositionFrame=0}
   }
 
+  function showLive(message,speaker={type:"elder"}){
+    if(active||!message)return;
+    const el=document.createElement("div");
+    el.className="tournament-speech-bubble speaker-"+(speaker.type||"elder");
+    el.setAttribute("aria-live","polite");
+    const label=document.createElement("strong");
+    label.className="tournament-speech-message";
+    label.textContent=String(message);
+    el.appendChild(label);
+    arena.appendChild(el);
+    const item={el,speaker,timer:0};
+    liveBubbles.push(item);
+    while(liveBubbles.length>7){
+      const oldest=liveBubbles.shift();
+      clearTimeout(oldest.timer);oldest.el.remove();
+    }
+    el.classList.add("is-visible");
+    positionLiveBubble(item);
+    ensureLiveFollowing();
+    item.timer=window.setTimeout(()=>{
+      el.classList.remove("is-visible","is-below");
+      el.remove();
+      const index=liveBubbles.indexOf(item);
+      if(index>=0)liveBubbles.splice(index,1);
+    },Math.max(3800,commentaryDuration+500));
+  }
+
+  function startCrowdChatter(){
+    if(crowdTimer)return;
+    const lines=[
+      {role:"outer",say:name=>name+" sư huynh! Cố lên! Đệ tử đang dõi theo huynh đây!"},
+      {role:"inner",say:name=>"Nhanh quá! "+name+" sư huynh sắp vượt thêm một người rồi!"},
+      {role:"servant",say:name=>"Hay quá! "+name+" sư huynh, giữ vững kiếm thế nhé!"},
+      {role:"disciple",say:name=>"Phong chúng ta có hy vọng đoạt vị trí cao rồi! Cố lên!"},
+      {role:"core",say:name=>name+" đạo hữu quả nhiên có bản lĩnh, đường kiếm thật đẹp!"},
+      {role:"outer",say:name=>"Sư huynh bên trái cố lên! Đừng để mất vị trí!"},
+      {role:"inner",say:name=>"Đuổi kịp rồi! Chỉ còn một đoạn nữa thôi!"},
+      {role:"servant",say:name=>"Đệ tử cổ vũ cho tất cả các vị! Bay nhanh lên nào!"}
+    ];
+    const speak=()=>{
+      crowdTimer=0;
+      if(typeof finished!=="undefined"&&finished)return;
+      if(typeof running==="undefined"||!running||paused){crowdTimer=window.setTimeout(speak,1000);return;}
+      const list=getRacers(),leader=typeof leaderOf==="function"?leaderOf():null;
+      const name=leader&&leader.name?String(leader.name):list.length?String(list[crowdTurn%list.length].name||"vị sư huynh"):"các vị sư huynh";
+      const entry=lines[crowdTurn++%lines.length];
+      showLive(entry.say(name),{type:entry.role});
+      crowdTimer=window.setTimeout(speak,1750+Math.floor(Math.random()*650));
+    };
+    crowdTimer=window.setTimeout(speak,900);
+  }
+
+  const baseDrawAnnouncement=window.drawAnnouncement;
+  if(typeof baseDrawAnnouncement==="function"){
+    window.drawAnnouncement=function(...args){
+      if(liveBubbles.some(item=>item.el.classList.contains("is-visible")))return;
+      return baseDrawAnnouncement.apply(this,args);
+    };
+  }
+
   function handleEventAnnouncement(){
     if(!eventNode)return;
     const value=(typeof finishMessageLife!=="undefined"&&finishMessageLife>0&&typeof finishMessage!=="undefined"&&finishMessage)
