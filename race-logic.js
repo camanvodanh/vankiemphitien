@@ -203,6 +203,7 @@ function frame(time) {
           $("lockNotice").textContent = "Cuộc đua đang diễn ra. Theo dõi trực tiếp hoặc nhấn Tạm dừng.";
           eventText = "ĐẠI HỘI BẮT ĐẦU!";
           eventTextLife = 1.5;
+          $("event").textContent = eventText;
         }
       }
     }
