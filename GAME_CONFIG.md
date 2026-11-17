@@ -659,3 +659,4 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Nhãn Chưởng Môn, Chân Truyền Đệ Tử và Trưởng Lão dùng cùng kiểu viền, độ dày điều chỉnh theo tỷ lệ chữ.
 - Các nét viền vẽ đồng tâm, không đổ bóng hoặc dịch lệch nên không tạo bóng chữ đen phía sau.
 - Cache visual-overrides.js: v214.
+- Tăng rõ độ dày viền chữ: tên lầu các 5.8px, chính điện 7px; viền trong vàng 2–2.5px. Nhãn cấp bậc có viền ngoài tối tối thiểu 5px và viền trong vàng tối thiểu 1.8px. Cache visual-overrides.js v215.
