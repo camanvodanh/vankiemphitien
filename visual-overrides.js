@@ -2756,10 +2756,11 @@ function drawSectArchitecture(time){
     ctx.save();
     ctx.textAlign="center";ctx.textBaseline="middle";ctx.lineJoin="round";
     ctx.font="bold "+(index===2?18.5:15.5)+"px Arial, sans-serif";
-    ctx.lineWidth=3;ctx.strokeStyle="rgba(12,25,22,.96)";
-    ctx.strokeText(b.title,b.x,labelY,Math.min(210,250*b.s+38));
+    // Biển hiệu dùng chữ sáng sạch; không vẽ viền tối dày gây cảm giác bóng chữ phía sau.
+    ctx.shadowBlur=0;ctx.shadowColor="transparent";
+    ctx.lineWidth=0;
     ctx.fillStyle=index===2?"#ffe4a0":"#fff0c0";
-    ctx.fillText(b.title,b.x,labelY,Math.min(174,210*b.s+30));
+    ctx.fillText(b.title,b.x,labelY,Math.min(210,250*b.s+38));
     ctx.restore();
   });
 }
