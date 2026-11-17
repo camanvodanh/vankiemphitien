@@ -387,3 +387,8 @@
 - Nút mở lại bảng Triệu Hồi khi thu nhỏ dùng cùng kích thước responsive với cụm nút Chạy/Dừng: mặc định 44px, desktop ngang lớn theo `clamp(40px,4.5dvh,48px)`, màn hình ngang rất thấp 26px.
 - Nhãn vai trò Chưởng Môn, Chân Truyền Đệ Tử và Trưởng Lão tăng cỡ chữ từ hệ số 12px lên 15px theo scale, có mức sàn 12px.
 - Tên các lầu các tăng từ 10.5px lên 12.5px; Lăng Tiêu Chính Điện tăng từ 13px lên 15px. Vị trí, giới hạn chiều rộng và bố cục kiến trúc giữ nguyên.
+
+## 85. Phóng lớn nút Triệu Hồi và nhãn khu vực Tiên Môn
+- Nút Triệu Hồi thực tế ở tâm pháp luân (`.altar-dial #summon`) có kích thước 68×68px, biểu tượng kiếm 54×54px; trên màn hình rộng tối đa 600px dùng 62×62px, màn hình rất hẹp tối đa 380px dùng 58×58px.
+- Nút mở lại bảng Triệu Hồi khi thu nhỏ có kích thước 60px trên màn hình lớn và 56px trên màn hình rộng tối đa 600px.
+- Nhãn Chưởng Môn, Chân Truyền Đệ Tử và Trưởng Lão dùng font `max(15px,18*scale)`; tên lầu các dùng 15.5px, riêng công trình trung tâm 18.5px. Tăng giới hạn chiều rộng chữ để giảm co chữ.
