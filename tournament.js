@@ -189,7 +189,7 @@
     const leaderPrefix="HẠNG 1 · ĐANG DẪN ĐẦU:";
     if(value.startsWith(leaderPrefix)){
       const name=value.slice(leaderPrefix.length).trim();
-      const racer=getRacerByName(name);
+      if(exchangeTimer){clearTimeout(exchangeTimer);exchangeTimer=0;}
       startCrowdChatter();
       const exchanges=[
         {speaker:{type:"elder"},line:"Chưởng môn, "+name+" vừa vượt lên rồi! Kiếm thế thật khá!"},
