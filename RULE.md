@@ -428,3 +428,8 @@
 - Loại bỏ hoàn toàn bảng tên nền tối/bo góc cho nhãn lầu các và các chức danh khán đài.
 - Chữ vẽ trực tiếp trên cảnh bằng ba lớp stroke đồng tâm: viền ngoài xanh đen dày, viền vàng sáng ở giữa, lõi xanh đen mảnh sát nét chữ; cuối cùng fill màu sáng. Không dùng shadow hoặc offset.
 - Áp dụng cho toàn bộ tên công trình, Chưởng Môn, Chân Truyền Đệ Tử và Trưởng Lão. Cache visual-overrides.js v217.
+
+## 91. Loại bỏ bảng tên cấp bậc tại đúng bộ vẽ đang hoạt động
+- Bảng tên Chưởng Môn/Trưởng Lão/Chân Truyền được vẽ bởi `drawRoleLabel()` trong `audience.js`, không phải bản hàm đã chỉnh trước đó trong visual overrides.
+- Đã bỏ toàn bộ hình chữ nhật nền, khung và bóng bảng; thay bằng ba lớp viền chữ đồng tâm (xanh đen ngoài, vàng sáng giữa, xanh đen mảnh trong) rồi tô màu chữ.
+- Cache audience.js tăng lên v182. Nhãn công trình trong `visual-overrides.js` tiếp tục dùng chữ trực tiếp, không bảng nền.
