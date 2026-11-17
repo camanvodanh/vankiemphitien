@@ -46,6 +46,7 @@
   let bypassStart=false;
   let lastEvent="";
   let lastStatus="";
+  let closingShown=false;
 
   function getRacers(){
     return typeof racers!=="undefined"&&Array.isArray(racers)?racers:[];
@@ -219,7 +220,10 @@
 
   function handleEventAnnouncement(){
     if(!eventNode)return;
-    const value=eventNode.textContent.trim();
+    const value=(typeof finishMessageLife!=="undefined"&&finishMessageLife>0&&typeof finishMessage!=="undefined"&&finishMessage)
+      ?String(finishMessage).trim()
+      :(typeof eventTextLife!=="undefined"&&eventTextLife>0&&typeof eventText!=="undefined"&&eventText
+        ?String(eventText).trim():eventNode.textContent.trim());
     if(!value||value===lastEvent)return;
     lastEvent=value;
     if(value.startsWith("BẮT ĐẦU SAU"))return;
@@ -245,9 +249,14 @@
   function handleStatusAnnouncement(){
     if(!statusNode)return;
     const value=statusNode.textContent.trim();
-    if(!value||value===lastStatus)return;
+    if(!value||value===lastStatus){
+      if(typeof finished!=="undefined"&&!finished)closingShown=false;
+      return;
+    }
     lastStatus=value;
-    if(!value.includes("Đại hội kết thúc"))return;
+    if(typeof finished==="undefined"||!finished){closingShown=false;return;}
+    if(closingShown)return;
+    closingShown=true;
     const names=rankBody
       ?Array.from(rankBody.querySelectorAll("tr")).slice(0,3)
         .map(row=>row.cells&&row.cells[1]?row.cells[1].textContent.trim():"")
