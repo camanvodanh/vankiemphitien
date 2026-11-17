@@ -479,3 +479,12 @@
 - Tọa độ bong bóng bám theo Canvas, cập nhật liên tục khi phóng to, thu nhỏ hoặc kéo khung cảnh; tự dừng cập nhật khi lời thoại kết thúc.
 - Chỉ thay lớp trình bày lời bình. Không sửa thông báo gốc, luồng sự kiện, thời gian hiển thị, kết quả cuộc đua hoặc nghi thức trao thưởng.
 - Cache: `tournament.js?v=tournament-v4`, `i18n.js v183`, `style.css?v=responsive-arena-v206`.
+
+
+## 98. Chỉ hiển thị lời thoại trên đầu người phát ngôn
+- Bong bóng trắng chỉ chứa câu thoại, không kèm nhãn “Trưởng lão bình luận”, “Tin về đích” hoặc chức danh người nói.
+- Lời của tiên nhân dẫn đầu/về đích dùng ngôi thứ nhất; lời của trưởng lão và chưởng môn cũng hiển thị như hội thoại trực tiếp.
+- Tắt banner Canvas trùng nội dung trong thời gian bong bóng hiện; đuôi bong bóng hướng đúng về nhân vật, tự chuyển xuống dưới nếu người nói ở sát mép trên.
+- Neo vị trí được căn theo đầu nhân vật cho các vai trưởng lão, chưởng môn, chân truyền, nòng cốt, nội môn, ngoại môn, tạp dịch và tiên nhân ngự kiếm.
+- Phát tín hiệu DOM khi khai cuộc và tăng cache-busting của index để trình duyệt không giữ controller cũ. Gameplay không đổi.
+- Cache: tournament.js v5, i18n.js v184, style.css responsive-arena-v207, data-loader.js v154.
