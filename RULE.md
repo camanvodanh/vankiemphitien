@@ -433,3 +433,9 @@
 - Bảng tên Chưởng Môn/Trưởng Lão/Chân Truyền được vẽ bởi `drawRoleLabel()` trong `audience.js`, không phải bản hàm đã chỉnh trước đó trong visual overrides.
 - Đã bỏ toàn bộ hình chữ nhật nền, khung và bóng bảng; thay bằng ba lớp viền chữ đồng tâm (xanh đen ngoài, vàng sáng giữa, xanh đen mảnh trong) rồi tô màu chữ.
 - Cache audience.js tăng lên v182. Nhãn công trình trong `visual-overrides.js` tiếp tục dùng chữ trực tiếp, không bảng nền.
+
+
+## 92. Làm sắc nét chữ nhãn, bỏ viền nhiều lớp gây mờ
+- Nhãn cấp bậc trong `audience.js` chỉ dùng một nét viền xanh đen mảnh (1.65px theo scale), sau đó tô màu chữ sáng; không chồng các nét vàng/đen dày.
+- Biển hiệu công trình trong `visual-overrides.js` dùng một nét viền xanh đen 2.2px (chính điện 2.8px), giữ màu chữ sáng; không tạo quầng hoặc hiệu ứng bóng.
+- Không thêm bảng nền/khung cho nhãn cấp bậc. Cache: `audience.js v183`, `visual-overrides.js v218`.
