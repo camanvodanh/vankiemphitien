@@ -398,3 +398,9 @@
 - Nút Triệu Hồi ở tâm pháp luân giảm còn 48px trên màn hình lớn, 44px trên màn hình tối đa 600px và 40px trên màn hình tối đa 380px; biểu tượng tương ứng 42/38/34px.
 - Nút tâm pháp luân có lớp hiển thị cao hơn các vòng pháp luân; bảng triệu hồi tiếp tục nằm trên Canvas. Nút mở lại khi thu nhỏ giảm còn 44px, 42px trên mobile và 40px ở màn hình rất hẹp, đồng thời giữ z-index cao để không bị cảnh cổng đích che.
 - Tăng phiên bản cache CSS lên v200 và visual-overrides lên v211.
+
+## 87. Làm sạch mọi lớp chữ tối ở biển hiệu và cố định nút Triệu Hồi
+- Chữ trên biển hiệu Giảng Đạo Các bỏ `strokeText()` màu đen; tên 14 lầu các vẽ chữ sáng thuần, reset `globalAlpha`, `globalCompositeOperation`, shadow offset, shadow blur, shadow color và filter trước khi vẽ để không nhận bóng từ trạng thái Canvas trước.
+- Nút tâm pháp luân được neo đúng tâm bằng `left:50%`, `top:50%`, `translate(-50%,-50%)`, kích thước 44px desktop, 40px mobile và 38px màn hình rất hẹp; biểu tượng tương ứng 38/34/32px.
+- Nút mở lại bảng khi thu nhỏ chuyển sang góc trái-trên của Canvas, tránh cổng kết thúc ở mép phải; vị trí được tính theo kích thước Canvas và giới hạn trong arena. Kích thước 42px desktop, 40px mobile và 38px màn hình rất hẹp; z-index cao hơn lớp Canvas.
+- Cache CSS v201, visual-overrides v212 và race-logic v203.
