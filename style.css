@@ -9919,3 +9919,13 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
 @media screen and (orientation:landscape) and (min-width:600px) and (max-height:430px){
   .arena-frame{--summon-launcher-size:26px;}
 }
+
+.arena-frame>.arena-controls>#start,
+.arena-frame>.arena-controls>#stop{
+  box-sizing:border-box!important;
+  flex:0 0 var(--summon-launcher-size)!important;
+  width:var(--summon-launcher-size)!important;
+  height:var(--summon-launcher-size)!important;
+  min-width:var(--summon-launcher-size)!important;
+  min-height:var(--summon-launcher-size)!important;
+}
