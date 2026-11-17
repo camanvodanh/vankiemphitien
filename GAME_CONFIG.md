@@ -642,3 +642,8 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Biển hiệu kiến trúc chỉ dùng chữ sáng, không còn lớp viền tối dày tạo cảm giác đổ bóng; tắt shadow kế thừa trước khi vẽ.
 - Nút tâm pháp luân dùng 48px desktop, 44px mobile và 40px màn hình rất hẹp; biểu tượng lần lượt 42px, 38px và 34px. Nút có z-index cao trong pháp luân, còn bảng thiết lập vẫn ở trên Canvas.
 - Nút mở lại khi thu nhỏ dùng 44px desktop, 42px mobile, 40px ở màn hình rất hẹp và z-index cao để không bị cổng đích che.
+
+## 73. Biển hiệu không viền đen và nút Triệu Hồi không chồng cổng
+- Chữ biển hiệu Giảng Đạo Các bỏ nét stroke tối; các nhãn công trình reset đầy đủ trạng thái bóng/lọc Canvas để tránh chữ đen lặp phía sau.
+- Nút triệu hồi ở tâm pháp luân được định vị tuyệt đối chính giữa, kích thước 44px desktop, 40px mobile, 38px màn hình rất hẹp.
+- Nút mở lại khi thu nhỏ chuyển từ góc phải sang góc trái-trên của Canvas để không đè lên cổng về đích ở mép phải; tọa độ luôn giới hạn trong vùng arena. Kích thước 42/40/38px theo breakpoint.
