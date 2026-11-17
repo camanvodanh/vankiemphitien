@@ -439,3 +439,10 @@
 - Nhãn cấp bậc trong `audience.js` chỉ dùng một nét viền xanh đen mảnh (1.65px theo scale), sau đó tô màu chữ sáng; không chồng các nét vàng/đen dày.
 - Biển hiệu công trình trong `visual-overrides.js` dùng một nét viền xanh đen 2.2px (chính điện 2.8px), giữ màu chữ sáng; không tạo quầng hoặc hiệu ứng bóng.
 - Không thêm bảng nền/khung cho nhãn cấp bậc. Cache: `audience.js v183`, `visual-overrides.js v218`.
+
+
+## 93. Sửa đúng nhãn chức danh đang hiển thị và lớp hộp nhập triệu hồi
+- Hàm `drawRoleLabel()` hoạt động thực tế nằm trong `visual-overrides.js`; file này được nạp sau `audience.js` nên khai báo toàn cục tại đây ghi đè hàm cùng tên trước đó.
+- Nhãn Chưởng Môn, Chân Truyền Đệ Tử và Trưởng Lão dùng chữ lớn hơn, một nét viền xanh đen 3–3.5px và màu chữ sáng; bỏ các lớp viền đồng tâm gây bết chữ.
+- Khi hộp nhập số lượng/thời lượng mở, hộp nhập có z-index cao nhất trong pháp luân; nút kiếm trung tâm bị hạ lớp và ẩn tạm thời để không che input/select.
+- Cache: `visual-overrides.js v219`, `style.css responsive-arena-v203`.
