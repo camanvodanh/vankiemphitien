@@ -727,3 +727,11 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Vị trí được quy đổi từ tọa độ Canvas sang khung sân và tính cả `gameZoom`, `gamePanX`, `gamePanY`; vòng cập nhật vị trí chỉ chạy trong thời gian bong bóng đang hiện.
 - Không thay đổi `data/ceremony.json`, mốc nghi thức, thời gian lời bình hoặc logic xếp hạng.
 - Cache: `tournament.js?v=tournament-v4`, `i18n.js v183`, `style.css?v=responsive-arena-v206`.
+
+
+## 85. Lời thoại trực tiếp và neo đầu nhân vật
+- Lời bình không còn tiêu đề chức danh; nội dung trong bong bóng là câu thoại trực tiếp. Tiên nhân dẫn đầu/về đích nói ở ngôi thứ nhất; trưởng lão và chưởng môn phát biểu theo vai.
+- Neo các vai khán đài được đặt tại đỉnh đầu/mão thực tế; racer dùng `laneY()` trừ khoảng 42 đơn vị theo scale. Tọa độ Canvas tiếp tục áp dụng pan/zoom hiện tại.
+- Nếu thiếu khoảng trống phía trên, bong bóng chuyển xuống dưới nhân vật và đảo đuôi thoại; giới hạn tâm và đuôi để không tràn khỏi sân.
+- Trong lúc bong bóng hiện, `drawAnnouncement()` không vẽ banner toàn sân trùng nội dung. Thông báo countdown/gameplay còn lại không bị thay đổi.
+- `#event` nhận tín hiệu khai cuộc để observer hiển thị lời của trưởng lão. Cache: tournament.js v5, i18n.js v184, style.css responsive-arena-v207, data-loader.js v154.
