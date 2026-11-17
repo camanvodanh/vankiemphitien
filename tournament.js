@@ -38,8 +38,9 @@
 
   let opening=null;
   let liveBar=null;
-  let liveLabel=null;
   let liveMessage=null;
+  let liveSpeaker={type:"elder"};
+  let livePositionFrame=0;
   let stageTimer=0;
   let liveTimer=0;
   let active=false;
@@ -90,13 +91,127 @@
   function buildLiveBar(){
     if(liveBar)return;
     liveBar=document.createElement("div");
-    liveBar.className="tournament-livebar";
+    liveBar.className="tournament-speech-bubble";
     liveBar.setAttribute("aria-live","polite");
     liveBar.setAttribute("aria-atomic","true");
-    liveBar.innerHTML='<span class="tournament-live-label"></span><strong class="tournament-live-message"></strong>';
+    liveBar.innerHTML='<strong class="tournament-speech-message"></strong>';
     arena.appendChild(liveBar);
-    liveLabel=liveBar.querySelector(".tournament-live-label");
-    liveMessage=liveBar.querySelector(".tournament-live-message");
+    liveMessage=liveBar.querySelector(".tournament-speech-message");
+  }
+
+  function getRacerByName(name){
+    const wanted=String(name||"").trim();
+    if(!wanted)return null;
+    return getRacers().find(racer=>String(racer.name||"").trim()===wanted)||null;
+  }
+
+  function getSpeakerAnchor(){
+    const canvas=document.getElementById("game");
+    const width=canvas?canvas.width:1100;
+    const height=canvas?canvas.height:900;
+    const speaker=liveSpeaker||{type:"elder"};
+
+    if(speaker.type==="racer"&&speaker.racer){
+      const list=getRacers();
+      const racer=list.find(item=>item===speaker.racer||item.id===speaker.racer.id)||null;
+      if(racer){
+        if(typeof finished!=="undefined"&&finished&&typeof sortedRacers==="function"){
+          const ordered=sortedRacers();
+          const rank=ordered.indexOf(racer)+1;
+          const count=Math.min(3,ordered.length);
+          const podiumX=count===1?[width*.5]:count===2?[width*.25,width*.5]:[width*.25,width*.5,width*.75];
+          const rankAt=count===1?[1]:count===2?[2,1]:[2,1,3];
+          const podiumIndex=rankAt.indexOf(rank);
+          const topByRank={1:height*.535,2:height*.655,3:height*.715};
+          if(podiumIndex>=0){
+            const riderY=topByRank[rank]-57;
+            return {x:podiumX[podiumIndex],y:riderY-78};
+          }
+        }
+        if(typeof racerX==="function"&&typeof laneY==="function"){
+          const index=list.indexOf(racer);
+          const scale=typeof racerScale==="function"?racerScale():1;
+          return {x:racerX(racer),y:laneY(index)-Math.max(48,scale*66)};
+        }
+      }
+    }
+
+    if(speaker.type==="master"){
+      if(typeof finished!=="undefined"&&finished&&typeof ceremonyStartedAt!=="undefined"&&ceremonyStartedAt>0){
+        const elapsed=Math.max(0,(performance.now()-ceremonyStartedAt)/1000);
+        const departure=window.VKP_DATA&&window.VKP_DATA.ceremony&&window.VKP_DATA.ceremony.departure
+          ?window.VKP_DATA.ceremony.departure:{};
+        const swordEnd=Number(departure.swordArrivalEnd)||4.55;
+        const flyEnd=Number(departure.flightEnd)||7.15;
+        const transitionEnd=Number(departure.transitionEnd)||7.7;
+        const smooth=value=>{const p=Math.max(0,Math.min(1,value));return p*p*(3-2*p);};
+        if(elapsed<transitionEnd){
+          if(elapsed<swordEnd)return {x:width*.5,y:558};
+          const p=smooth((elapsed-swordEnd)/Math.max(.01,flyEnd-swordEnd));
+          return {
+            x:width*(.5+.82*p),
+            y:height*(612/825)-height*(.055+.31*p)+42
+          };
+        }
+        const awards=window.VKP_DATA&&window.VKP_DATA.ceremony&&window.VKP_DATA.ceremony.awards
+          ?window.VKP_DATA.ceremony.awards:{};
+        const awardStart=Number(awards.awardStart)||8.05;
+        const flightDuration=Number(awards.masterFlightDuration)||3.9;
+        const p=Math.max(0,Math.min(1,(elapsed-awardStart)/Math.max(.01,flightDuration)));
+        return {
+          x:width*(-.16+1.32*p),
+          y:height*(.205+Math.sin(p*Math.PI*2)*.012)+45
+        };
+      }
+      return {x:width*.5,y:558};
+    }
+
+    // Mặc định trưởng lão thứ ba từ trái sang: nằm rõ trong vùng quảng trường,
+    // tránh nhãn chức danh TRƯỞNG LÃO ở phía bên phải.
+    if(speaker.type==="elder")return {x:744,y:558};
+    if(speaker.type==="disciple")return {x:263,y:535};
+    if(speaker.type==="core")return {x:550,y:615};
+    if(speaker.type==="inner")return {x:420,y:650};
+    if(speaker.type==="outer")return {x:550,y:705};
+    if(speaker.type==="servant")return {x:550,y:785};
+    return {x:744,y:558};
+  }
+
+  function positionLiveBubble(){
+    if(!liveBar||!liveBar.classList.contains("is-visible"))return;
+    const canvas=document.getElementById("game");
+    if(!canvas)return;
+    const canvasRect=canvas.getBoundingClientRect();
+    const arenaRect=arena.getBoundingClientRect();
+    if(!canvasRect.width||!canvasRect.height||!arenaRect.width||!arenaRect.height)return;
+
+    const width=canvas.width||1100,height=canvas.height||900;
+    const anchor=getSpeakerAnchor();
+    const zoom=typeof gameZoom!=="undefined"?gameZoom:1;
+    const panX=typeof gamePanX!=="undefined"?gamePanX:0;
+    const panY=typeof gamePanY!=="undefined"?gamePanY:0;
+    const screenX=width*.5+panX+(anchor.x-width*.5)*zoom;
+    const screenY=height*.5+panY+(anchor.y-height*.5)*zoom;
+    const left=canvasRect.left-arenaRect.left+(screenX/width)*canvasRect.width;
+    const top=canvasRect.top-arenaRect.top+(screenY/height)*canvasRect.height;
+    liveBar.style.left=Math.max(12,Math.min(arenaRect.width-12,left))+"px";
+    liveBar.style.top=Math.max(42,Math.min(arenaRect.height-18,top))+"px";
+  }
+
+  function followLiveBubble(){
+    if(!liveBar||!liveBar.classList.contains("is-visible")){
+      livePositionFrame=0;
+      return;
+    }
+    positionLiveBubble();
+    livePositionFrame=requestAnimationFrame(followLiveBubble);
+  }
+
+  function stopLiveFollowing(){
+    if(livePositionFrame){
+      cancelAnimationFrame(livePositionFrame);
+      livePositionFrame=0;
+    }
   }
 
   function renderStage(){
@@ -205,16 +320,20 @@
     beginOpening();
   }
 
-  function showLive(label,message){
+  function showLive(message,speaker={type:"elder"}){
     if(active)return;
     buildLiveBar();
     if(liveTimer){clearTimeout(liveTimer);liveTimer=0;}
-    liveLabel.textContent=label;
-    liveMessage.textContent=message;
+    stopLiveFollowing();
+    liveSpeaker=speaker||{type:"elder"};
+    liveMessage.textContent=String(message||"");
     liveBar.classList.add("is-visible");
+    positionLiveBubble();
+    livePositionFrame=requestAnimationFrame(followLiveBubble);
     liveTimer=window.setTimeout(()=>{
       liveTimer=0;
       if(liveBar)liveBar.classList.remove("is-visible");
+      stopLiveFollowing();
     },commentaryDuration);
   }
 
@@ -228,21 +347,34 @@
     lastEvent=value;
     if(value.startsWith("BẮT ĐẦU SAU"))return;
     if(value.includes("ĐẠI HỘI BẮT ĐẦU")){
-      showLive("TRƯỞNG LÃO BÌNH LUẬN","Đại hội Ngự Kiếm chính thức khai cuộc!");
+      showLive("Đại hội Ngự Kiếm chính thức khai cuộc!",{type:"elder"});
       return;
     }
     const leaderPrefix="HẠNG 1 · ĐANG DẪN ĐẦU:";
     if(value.startsWith(leaderPrefix)){
       const name=value.slice(leaderPrefix.length).trim();
-      showLive("TRƯỞNG LÃO BÌNH LUẬN",name+" đang dẫn đầu đại hội!");
+      const racer=getRacerByName(name);
+      showLive(name+" đang dẫn đầu đại hội!",racer?{type:"racer",racer}:{type:"elder"});
       return;
     }
     if(value.includes("PHOTO FINISH")){
-      showLive("KHOẢNH KHẮC SÁT NÚT",value);
+      const gap=value.match(/cách nhau\\s+(.+?)\\s*ms/i);
+      const names=value.match(/PHOTO FINISH\\s*[·-]\\s*(.*?)\\s*[·-]\\s*cách nhau/i);
+      const dialogue=gap
+        ?(names?names[1]+" vừa tạo nên màn về đích sát nút, chỉ cách nhau "+gap[1]+" ms!":"Hai vị tiên hữu vừa tạo nên màn về đích sát nút, chỉ cách nhau "+gap[1]+" ms!")
+        :"Cuộc đua vừa có một màn về đích vô cùng sít sao!";
+      showLive(dialogue,{type:"elder"});
       return;
     }
-    if(value.includes("ĐÃ VỀ ĐÍCH")){
-      showLive("TIN VỀ ĐÍCH",value);
+    const finish=value.match(/^HẠNG\\s+(\\d+)\\s*:\\s*(.+?)\\s+ĐÃ VỀ ĐÍCH!?$/i);
+    if(finish){
+      const name=finish[2].trim();
+      const racer=getRacerByName(name);
+      showLive(name+" đã về đích ở vị trí thứ "+finish[1]+"!",racer?{type:"racer",racer}:{type:"elder"});
+      return;
+    }
+    if(value.includes("ĐẠI HỘI KẾT THÚC")){
+      showLive("Đại hội đã khép lại, tam giáp đã định!",{type:"master"});
     }
   }
 
@@ -263,8 +395,10 @@
         .filter(name=>name&&name!=="Chưa có tiên nhân")
       :[];
     const champion=names[0];
-    showLive("CHƯỞNG MÔN VINH DANH TAM GIÁP",
-      champion?champion+" đã đoạt ngôi quán quân.":"Đại hội đã định danh tam giáp.");
+    showLive(
+      champion?"Chúc mừng "+champion+", đã đoạt ngôi quán quân!":"Tam giáp Đại hội đã được định danh!",
+      {type:"master"}
+    );
   }
 
   startButton.addEventListener("click",onStartCapture,true);
@@ -285,5 +419,6 @@
   window.addEventListener("pagehide",()=>{
     clearStageTimer();
     if(liveTimer)clearTimeout(liveTimer);
+    stopLiveFollowing();
   });
 })();
