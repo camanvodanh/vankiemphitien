@@ -499,3 +499,10 @@
 - Bong bóng có giới hạn chiều rộng riêng theo vai người nói: chưởng môn/trưởng lão rộng hơn, chân truyền vừa phải, đệ tử phổ thông nhỏ hơn; trên mobile tiếp tục thu gọn. Chiều rộng thực tế vẫn co theo nội dung ngắn, không ép mọi câu thành hộp cố định.
 - Lời bình khi đổi người dẫn đầu đưa tên người thi đấu vào nhận xét. Lượt cổ vũ từ hàng đệ tử gọi đích danh người dẫn đầu, kèm xưng hô sư huynh; nếu tên đã có hậu tố xưng hô thì không lặp.
 - Cache: `tournament.js v7`, `style.css responsive-arena-v209`, `data-loader.js v156`.
+
+## 101. Bong bóng lớn theo vai, nhiều lời thoại đồng thời
+- Bong bóng thoại được tăng kích thước rõ rệt và có min/max width riêng theo vai: chưởng môn lớn nhất, trưởng lão lớn, chân truyền/đệ tử vừa, nội/ngoại môn và tạp dịch nhỏ hơn. Kích thước mobile có bộ giới hạn riêng.
+- Mỗi lời thoại là một bong bóng độc lập, neo theo đầu người nói; tối đa 7 bong bóng cùng lúc. Chưởng môn được đặt lệch sang bên và thấp hơn, mũi tên vẫn trỏ về vị trí chưởng môn để tránh che đường đua.
+- Khi cuộc đua chạy, đệ tử khán đài liên tục thay phiên cổ vũ, luân phiên gọi tên nhiều người thi đấu. Tạm dừng vẫn giữ lịch cổ vũ để tiếp tục khi chạy lại; kết thúc/triệu hồi/rời trang dọn timer và bong bóng.
+- Đã bỏ lời thoại riêng “Ta đã về đích”; bảng hạng và thông báo hệ thống không bị thay đổi.
+- Cache: `tournament.js v8`, `style.css responsive-arena-v210`, `data-loader.js v157`.
