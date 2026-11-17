@@ -494,3 +494,8 @@
 - Khi có người vượt lên dẫn đầu, lời bình luân phiên giữa trưởng lão, chưởng môn và chân truyền đệ tử theo kiểu đối đáp tự nhiên; sau đó có lời cổ vũ ngắn từ hàng đệ tử bên dưới.
 - Mỗi lượt hội thoại thay thế bong bóng trước, không tạo nhiều hộp cùng lúc. Bộ hẹn giờ trao đổi được dọn khi có sự kiện mới, triệu hồi hoặc rời trang.
 - Cache: `tournament.js v6`, `style.css responsive-arena-v208`, `data-loader.js v155`.
+
+## 100. Kích thước bong bóng theo vai và lời cổ vũ gọi tên
+- Bong bóng có giới hạn chiều rộng riêng theo vai người nói: chưởng môn/trưởng lão rộng hơn, chân truyền vừa phải, đệ tử phổ thông nhỏ hơn; trên mobile tiếp tục thu gọn. Chiều rộng thực tế vẫn co theo nội dung ngắn, không ép mọi câu thành hộp cố định.
+- Lời bình khi đổi người dẫn đầu đưa tên người thi đấu vào nhận xét. Lượt cổ vũ từ hàng đệ tử gọi đích danh người dẫn đầu, kèm xưng hô sư huynh; nếu tên đã có hậu tố xưng hô thì không lặp.
+- Cache: `tournament.js v7`, `style.css responsive-arena-v209`, `data-loader.js v156`.
