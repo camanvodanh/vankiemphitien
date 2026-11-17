@@ -670,3 +670,8 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Tên lầu các và chức danh dùng chữ trực tiếp trên cảnh, không có nền hộp/bo góc.
 - Viền ba lớp đồng tâm: xanh đen ngoài, vàng sáng giữa, xanh đen mảnh trong; fill màu chữ sáng, không shadow/offset.
 - Cache visual-overrides.js: v217.
+
+## 78. Bỏ bảng tên ở hàm nhãn cấp bậc đang chạy
+- Hàm hoạt động là `drawRoleLabel()` trong `audience.js`; đã loại bỏ nền bảng, khung, bóng và chỉ giữ chữ viền ba lớp trực tiếp trên cảnh.
+- Tên lầu các trong `visual-overrides.js` cũng vẽ trực tiếp không bảng nền.
+- Cache audience.js: v182.
