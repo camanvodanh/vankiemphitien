@@ -446,3 +446,10 @@
 - Nhãn Chưởng Môn, Chân Truyền Đệ Tử và Trưởng Lão dùng chữ lớn hơn, một nét viền xanh đen 3–3.5px và màu chữ sáng; bỏ các lớp viền đồng tâm gây bết chữ.
 - Khi hộp nhập số lượng/thời lượng mở, hộp nhập có z-index cao nhất trong pháp luân; nút kiếm trung tâm bị hạ lớp và ẩn tạm thời để không che input/select.
 - Cache: `visual-overrides.js v219`, `style.css responsive-arena-v203`.
+
+
+## 94. Căn đều hàng cổ vũ ngoại môn và tạp dịch
+- Mỗi hàng ngoại môn/tạp dịch tự phân bố theo toàn chiều ngang Canvas, không dùng số cột cố định khiến hàng cuối ngắn bị dồn về bên trái.
+- Hàng cuối của nhóm tạp dịch (36 người) và ngoại môn (44 người) vẫn trải đều từ lề trái đến lề phải; các hàng đủ 48 người giữ mật độ gần như cũ.
+- Giữ nguyên tổng số nhân vật, cấp bậc, tỷ lệ và vùng chiều dọc; giảm dao động ngang để nhân vật sát mép không bị cắt.
+- Cache `visual-overrides.js` tăng lên v220.
