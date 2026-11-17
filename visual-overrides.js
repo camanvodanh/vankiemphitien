@@ -2774,17 +2774,11 @@ function drawSectArchitecture(time){
     ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;ctx.filter="none";
     // Viền tối ôm sát chữ để giữ tương phản khi biển hiệu trùng màu nền.
     ctx.lineJoin="round";
-    // Chữ nổi trực tiếp trên cảnh: viền đen dày + viền vàng sáng + lõi tối mảnh.
+    // Một nét viền xanh đen mảnh, sắc; giữ lòng chữ sáng và không tạo quầng mờ.
     const labelMaxWidth=Math.min(210,250*b.s+38);
     ctx.lineJoin="round";ctx.miterLimit=2;
-    ctx.lineWidth=index===2?7.2:6.2;
-    ctx.strokeStyle="rgba(5,17,16,1)";
-    ctx.strokeText(b.title,b.x,labelY,labelMaxWidth);
-    ctx.lineWidth=index===2?4:3.4;
-    ctx.strokeStyle="#f3d58e";
-    ctx.strokeText(b.title,b.x,labelY,labelMaxWidth);
-    ctx.lineWidth=index===2?1.8:1.5;
-    ctx.strokeStyle="#152a25";
+    ctx.lineWidth=index===2?2.8:2.2;
+    ctx.strokeStyle="#17251f";
     ctx.strokeText(b.title,b.x,labelY,labelMaxWidth);
     ctx.fillStyle=index===2?"#ffe8ad":"#fff3d0";
     ctx.fillText(b.title,b.x,labelY,labelMaxWidth);
