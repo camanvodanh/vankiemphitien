@@ -726,4 +726,4 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Hỗ trợ mở rộng người nói theo vai: `master`, `elder`, `disciple`, `core`, `inner`, `outer`, `servant`, hoặc đối tượng racer thực tế.
 - Vị trí được quy đổi từ tọa độ Canvas sang khung sân và tính cả `gameZoom`, `gamePanX`, `gamePanY`; vòng cập nhật vị trí chỉ chạy trong thời gian bong bóng đang hiện.
 - Không thay đổi `data/ceremony.json`, mốc nghi thức, thời gian lời bình hoặc logic xếp hạng.
-- Cache: `tournament.js?v=tournament-v3`, `i18n.js v183`, `style.css?v=responsive-arena-v205`.
+- Cache: `tournament.js?v=tournament-v4`, `i18n.js v183`, `style.css?v=responsive-arena-v206`.
