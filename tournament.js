@@ -358,15 +358,15 @@
       return;
     }
     if(value.includes("PHOTO FINISH")){
-      const gap=value.match(/cách nhau\\s+(.+?)\\s*ms/i);
-      const names=value.match(/PHOTO FINISH\\s*[·-]\\s*(.*?)\\s*[·-]\\s*cách nhau/i);
+      const gap=value.match(/cách nhau\s+(.+?)\s*ms/i);
+      const names=value.match(/PHOTO FINISH\s*[·-]\s*(.*?)\s*[·-]\s*cách nhau/i);
       const dialogue=gap
         ?(names?names[1]+" vừa tạo nên màn về đích sát nút, chỉ cách nhau "+gap[1]+" ms!":"Hai vị tiên hữu vừa tạo nên màn về đích sát nút, chỉ cách nhau "+gap[1]+" ms!")
         :"Cuộc đua vừa có một màn về đích vô cùng sít sao!";
       showLive(dialogue,{type:"elder"});
       return;
     }
-    const finish=value.match(/^HẠNG\\s+(\\d+)\\s*:\\s*(.+?)\\s+ĐÃ VỀ ĐÍCH!?$/i);
+    const finish=value.match(/^HẠNG\s+(\d+)\s*:\s*(.+?)\s+ĐÃ VỀ ĐÍCH!?$/i);
     if(finish){
       const name=finish[2].trim();
       const racer=getRacerByName(name);
