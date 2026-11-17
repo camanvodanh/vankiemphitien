@@ -392,3 +392,9 @@
 - Nút Triệu Hồi thực tế ở tâm pháp luân (`.altar-dial #summon`) có kích thước 68×68px, biểu tượng kiếm 54×54px; trên màn hình rộng tối đa 600px dùng 62×62px, màn hình rất hẹp tối đa 380px dùng 58×58px.
 - Nút mở lại bảng Triệu Hồi khi thu nhỏ có kích thước 60px trên màn hình lớn và 56px trên màn hình rộng tối đa 600px.
 - Nhãn Chưởng Môn, Chân Truyền Đệ Tử và Trưởng Lão dùng font `max(15px,18*scale)`; tên lầu các dùng 15.5px, riêng công trình trung tâm 18.5px. Tăng giới hạn chiều rộng chữ để giảm co chữ.
+
+## 86. Làm sạch chữ biển hiệu và thu gọn nút Triệu Hồi
+- Nhãn các lầu các trong `drawSectArchitecture()` không còn vẽ `strokeText()` màu tối dày; bỏ bóng kế thừa bằng cách đặt `shadowBlur=0`, chỉ giữ lớp chữ sáng. Cả nét vẽ và chữ dùng chung giới hạn chiều rộng.
+- Nút Triệu Hồi ở tâm pháp luân giảm còn 48px trên màn hình lớn, 44px trên màn hình tối đa 600px và 40px trên màn hình tối đa 380px; biểu tượng tương ứng 42/38/34px.
+- Nút tâm pháp luân có lớp hiển thị cao hơn các vòng pháp luân; bảng triệu hồi tiếp tục nằm trên Canvas. Nút mở lại khi thu nhỏ giảm còn 44px, 42px trên mobile và 40px ở màn hình rất hẹp, đồng thời giữ z-index cao để không bị cảnh cổng đích che.
+- Tăng phiên bản cache CSS lên v200 và visual-overrides lên v211.
