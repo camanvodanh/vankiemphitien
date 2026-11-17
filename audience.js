@@ -53,18 +53,9 @@ function drawRoleLabel(x, y, text, color, scale = 1) {
   ctx.lineJoin = "round";
   ctx.miterLimit = 2;
 
-  // Chỉ vẽ chữ trực tiếp lên cảnh, không bảng nền/khung/ô chữ.
-  // Viền ngoài tối tạo tương phản trên mây trắng; viền vàng giữ phong cách tiên hiệp.
-  ctx.lineWidth = Math.max(4, 5 * scale);
-  ctx.strokeStyle = "rgba(5,17,16,1)";
-  ctx.strokeText(text, x, y);
-
-  ctx.lineWidth = Math.max(2, 2.5 * scale);
-  ctx.strokeStyle = "#f3d58e";
-  ctx.strokeText(text, x, y);
-
-  ctx.lineWidth = Math.max(0.9, 1.1 * scale);
-  ctx.strokeStyle = "#152a25";
+  // Một nét viền nâu đen mảnh, sắc; bỏ các lớp vàng chồng làm nhòe chữ nhỏ.
+  ctx.lineWidth = Math.max(1.35, 1.65 * scale);
+  ctx.strokeStyle = "#17251f";
   ctx.strokeText(text, x, y);
 
   ctx.fillStyle = color || "#fff0c5";
