@@ -10277,7 +10277,7 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
 .tournament-speech-bubble{
   position:absolute!important;top:0;left:50%;z-index:1150;
   display:block;box-sizing:border-box;width:max-content;
-  max-width:min(230px,calc(100% - 28px));padding:6px 9px 7px;
+  max-width:min(176px,calc(100% - 34px));padding:4px 6px 5px;
   border:1px solid #b99a60;border-radius:10px;
   background:linear-gradient(180deg,#fffef9 0%,#f6f0df 100%);
   box-shadow:0 3px 10px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.95);
@@ -10305,8 +10305,8 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
 }
 .tournament-speech-message{
   display:block;max-width:100%;color:#263d34;
-  font-size:clamp(10px,1.25vw,12px);font-weight:750;
-  line-height:1.25;text-wrap:pretty;overflow-wrap:anywhere;
+  font-size:clamp(9px,1.05vw,10.5px);font-weight:750;
+  line-height:1.18;text-wrap:pretty;overflow-wrap:anywhere;
 }
 @keyframes tournamentCurtainIn{
   from{opacity:0}to{opacity:1}
@@ -10329,7 +10329,8 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   .tournament-roster-wrap{margin-top:14px}
   .tournament-progress{margin-top:16px}
   .tournament-action{min-height:40px;min-width:170px}
-  .tournament-speech-bubble{padding:5px 8px 6px;max-width:min(210px,calc(100% - 20px))}
+  .tournament-speech-bubble{padding:4px 6px 5px;max-width:min(158px,calc(100% - 24px))}
+  .tournament-speech-message{font-size:9px;line-height:1.16}
 }
 @media(max-height:560px) and (orientation:landscape){
   .tournament-card{display:grid;grid-template-columns:64px minmax(0,1fr);column-gap:14px;align-items:center;padding:12px 18px}
@@ -10350,4 +10351,18 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
 @media(prefers-reduced-motion:reduce){
   .tournament-curtain,.tournament-title,.tournament-sigil{animation:none!important}
   .tournament-action,.tournament-progress>span,.tournament-speech-bubble{transition:none!important}
+}
+
+/* Bong bóng co theo cấp bậc và độ dài câu thoại */
+.tournament-speech-bubble.speaker-master{max-width:min(184px,calc(100% - 34px))}
+.tournament-speech-bubble.speaker-elder{max-width:min(170px,calc(100% - 34px))}
+.tournament-speech-bubble.speaker-core,.tournament-speech-bubble.speaker-disciple{max-width:min(150px,calc(100% - 34px))}
+.tournament-speech-bubble.speaker-inner,.tournament-speech-bubble.speaker-outer,.tournament-speech-bubble.speaker-servant{max-width:min(132px,calc(100% - 34px))}
+.tournament-speech-bubble.speaker-racer{max-width:min(142px,calc(100% - 34px))}
+@media(max-width:600px){
+  .tournament-speech-bubble.speaker-master{max-width:min(166px,calc(100% - 24px))}
+  .tournament-speech-bubble.speaker-elder{max-width:min(152px,calc(100% - 24px))}
+  .tournament-speech-bubble.speaker-core,.tournament-speech-bubble.speaker-disciple{max-width:min(138px,calc(100% - 24px))}
+  .tournament-speech-bubble.speaker-inner,.tournament-speech-bubble.speaker-outer,.tournament-speech-bubble.speaker-servant{max-width:min(122px,calc(100% - 24px))}
+  .tournament-speech-bubble.speaker-racer{max-width:min(130px,calc(100% - 24px))}
 }
