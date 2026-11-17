@@ -8,7 +8,10 @@ Object.assign(DICT.en,{
 "TOP 1 · QUÁN QUÂN":"TOP 1 · CHAMPION","TOP 2 · Á QUÂN":"TOP 2 · RUNNER-UP","TOP 3 · QUÝ QUÂN":"TOP 3 · THIRD PLACE",
 "VẠN KIẾM TIÊN MÔN":"MYRIAD SWORDS IMMORTAL SECT","CHƯỞNG MÔN CHUẨN BỊ BAN THƯỞNG":"THE SECT MASTER PREPARES THE AWARDS",
 "NGỰ KIẾM KHỞI HÀNH":"SWORDS TAKE FLIGHT","BAN THƯỞNG TAM GIÁP":"AWARDS FOR THE TOP THREE","VINH DANH HOÀN TẤT":"HONOR CEREMONY COMPLETE",
-"Tĩnh Tâm Tu Luyện":"Tranquil Cultivation","Vạn Kiếm Tranh Phong":"Myriad Swords Competition","Tiên Hội Vinh Danh":"Immortal Tournament Awards"
+"Tĩnh Tâm Tu Luyện":"Tranquil Cultivation","Vạn Kiếm Tranh Phong":"Myriad Swords Competition","Tiên Hội Vinh Danh":"Immortal Tournament Awards",
+ "Hai vị tiên hữu vừa về đích sát nút, chỉ cách nhau ":"The two immortals finished almost together, only ",
+ "Cuộc đua vừa có một màn về đích vô cùng sít sao!":"The race had an incredibly close finish!",
+ " đã về đích!":" has crossed the finish line!"
 });
 Object.assign(DICT.cn,{
 "THỜI GIAN":"时间","ĐÃ VỀ ĐÍCH":"已抵达终点","Hạng --/--":"排名 --/--",
@@ -16,7 +19,10 @@ Object.assign(DICT.cn,{
 "TOP 1 · QUÁN QUÂN":"第一名 · 冠军","TOP 2 · Á QUÂN":"第二名 · 亚军","TOP 3 · QUÝ QUÂN":"第三名 · 季军",
 "VẠN KIẾM TIÊN MÔN":"万剑仙门","CHƯỞNG MÔN CHUẨN BỊ BAN THƯỞNG":"掌门准备颁奖",
 "NGỰ KIẾM KHỞI HÀNH":"御剑启程","BAN THƯỞNG TAM GIÁP":"前三颁奖","VINH DANH HOÀN TẤT":"荣耀仪式完成",
-"Tĩnh Tâm Tu Luyện":"静心修炼","Vạn Kiếm Tranh Phong":"万剑争锋","Tiên Hội Vinh Danh":"仙会荣耀"
+"Tĩnh Tâm Tu Luyện":"静心修炼","Vạn Kiếm Tranh Phong":"万剑争锋","Tiên Hội Vinh Danh":"仙会荣耀",
+ "Hai vị tiên hữu vừa về đích sát nút, chỉ cách nhau ":"两位仙友几乎同时冲线，仅相差",
+ "Cuộc đua vừa có một màn về đích vô cùng sít sao!":"本场竞速上演了惊险的贴线冲刺！",
+ " đã về đích!":"已冲过终点！"
 });
 
 Object.assign(DICT.en,{
