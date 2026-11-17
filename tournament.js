@@ -48,6 +48,8 @@
   let lastEvent="";
   let lastStatus="";
   let closingShown=false;
+  let commentaryTurn=0;
+  let exchangeTimer=0;
 
   function getRacers(){
     return typeof racers!=="undefined"&&Array.isArray(racers)?racers:[];
@@ -196,10 +198,10 @@
     const screenY=height*.5+panY+(anchor.y-height*.5)*zoom;
     const anchorLeft=canvasRect.left-arenaRect.left+(screenX/width)*canvasRect.width;
     const top=canvasRect.top-arenaRect.top+(screenY/height)*canvasRect.height;
-    const halfWidth=(liveBar.offsetWidth||280)/2;
+    const halfWidth=(liveBar.offsetWidth||196)/2;
     const bubbleCenter=Math.max(halfWidth+8,Math.min(arenaRect.width-halfWidth-8,anchorLeft));
     const tailX=Math.max(12,Math.min((liveBar.offsetWidth||280)-12,anchorLeft-bubbleCenter+halfWidth));
-    const bubbleHeight=liveBar.offsetHeight||54;
+    const bubbleHeight=liveBar.offsetHeight||42;
     const isBelow=top<bubbleHeight+18;
     liveBar.classList.toggle("is-below",isBelow);
     liveBar.style.left=bubbleCenter+"px";
@@ -333,6 +335,7 @@
     if(active)return;
     buildLiveBar();
     if(liveTimer){clearTimeout(liveTimer);liveTimer=0;}
+    if(exchangeTimer){clearTimeout(exchangeTimer);exchangeTimer=0;}
     stopLiveFollowing();
     liveSpeaker=speaker||{type:"elder"};
     liveMessage.textContent=String(message||"");
@@ -372,7 +375,26 @@
     if(value.startsWith(leaderPrefix)){
       const name=value.slice(leaderPrefix.length).trim();
       const racer=getRacerByName(name);
-      showLive("Ta đã vươn lên dẫn đầu đại hội!",racer?{type:"racer",racer}:{type:"elder"});
+      const exchanges=[
+        {speaker:{type:"elder"},line:"Chưởng môn, vị tiểu hữu ấy đã vượt lên rồi! Kiếm thế thật không tầm thường."},
+        {speaker:{type:"master"},line:"Ừm, thân pháp vững, tâm cũng không loạn. Cứ xem con đường phía trước cậu ấy còn tiến được đến đâu."},
+        {speaker:{type:"core"},line:"Đệ tử cũng thấy vậy! Vừa rồi một kiếm lướt qua, suýt nữa đã đổi ngôi đầu."},
+        {speaker:{type:"elder"},line:"Ha ha, xem ra hôm nay các phong đều có nhân tài đáng mong đợi."},
+        {speaker:{type:"master"},line:"Thắng bại còn ở phía trước. Chư vị cứ bình tâm thưởng thức."}
+      ];
+      const exchange=exchanges[commentaryTurn++%exchanges.length];
+      showLive(exchange.line,exchange.speaker);
+      exchangeTimer=window.setTimeout(()=>{
+        exchangeTimer=0;
+        const cheers=[
+          "Sư huynh cố lên! Đừng để họ vượt qua!",
+          "Hay lắm! Một kiếm vừa rồi đẹp quá!",
+          "Đệ tử bên này đang cổ vũ cho huynh đó!",
+          "Nhanh lên nào! Sắp đuổi kịp rồi!",
+          "Phong ta hôm nay nhất định có người vào tam giáp!"
+        ];
+        showLive(cheers[(commentaryTurn-1)%cheers.length],{type:"outer"});
+      },1900);
       return;
     }
     if(value.includes("PHOTO FINISH")){
@@ -422,6 +444,7 @@
   if(summonButton)summonButton.addEventListener("click",()=>{
     if(active)closeOpening();
     if(liveTimer){clearTimeout(liveTimer);liveTimer=0;}
+    if(exchangeTimer){clearTimeout(exchangeTimer);exchangeTimer=0;}
     if(liveBar)liveBar.classList.remove("is-visible","is-below");
     stopLiveFollowing();
   },true);
@@ -440,6 +463,7 @@
   window.addEventListener("pagehide",()=>{
     clearStageTimer();
     if(liveTimer)clearTimeout(liveTimer);
+    if(exchangeTimer)clearTimeout(exchangeTimer);
     stopLiveFollowing();
   });
 })();
