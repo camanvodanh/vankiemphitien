@@ -128,12 +128,12 @@
             return {x:podiumX[podiumIndex],y:riderY-78};
           }
           // Người ngoài tam giáp không còn xuất hiện ở cảnh trao thưởng; trưởng lão tiếp lời thay.
-          return {x:744,y:558};
+          return {x:744,y:587};
         }
         if(typeof racerX==="function"&&typeof laneY==="function"){
           const index=list.indexOf(racer);
           const scale=typeof racerScale==="function"?racerScale():1;
-          return {x:racerX(racer),y:laneY(index)-Math.max(48,scale*66)};
+          return {x:racerX(racer),y:laneY(index)-Math.max(34,scale*42)};
         }
       }
     }
@@ -148,7 +148,7 @@
         const transitionEnd=Number(departure.transitionEnd)||7.7;
         const smooth=value=>{const p=Math.max(0,Math.min(1,value));return p*p*(3-2*p);};
         if(elapsed<transitionEnd){
-          if(elapsed<swordEnd)return {x:width*.5,y:558};
+          if(elapsed<swordEnd)return {x:width*.5,y:518};
           const p=smooth((elapsed-swordEnd)/Math.max(.01,flyEnd-swordEnd));
           return {
             x:width*(.5+.82*p),
@@ -165,12 +165,12 @@
           y:height*(.205+Math.sin(p*Math.PI*2)*.012)+45
         };
       }
-      return {x:width*.5,y:558};
+      return {x:width*.5,y:518};
     }
 
     // Mặc định trưởng lão thứ ba từ trái sang: nằm rõ trong vùng quảng trường,
     // tránh nhãn chức danh TRƯỞNG LÃO ở phía bên phải.
-    if(speaker.type==="elder")return {x:744,y:558};
+    if(speaker.type==="elder")return {x:744,y:587};
     if(speaker.type==="disciple")return {x:263,y:535};
     if(speaker.type==="core")return {x:550,y:615};
     if(speaker.type==="inner")return {x:420,y:650};
@@ -199,9 +199,12 @@
     const halfWidth=(liveBar.offsetWidth||280)/2;
     const bubbleCenter=Math.max(halfWidth+8,Math.min(arenaRect.width-halfWidth-8,anchorLeft));
     const tailX=Math.max(12,Math.min((liveBar.offsetWidth||280)-12,anchorLeft-bubbleCenter+halfWidth));
+    const bubbleHeight=liveBar.offsetHeight||54;
+    const isBelow=top<bubbleHeight+18;
+    liveBar.classList.toggle("is-below",isBelow);
     liveBar.style.left=bubbleCenter+"px";
     liveBar.style.setProperty("--speech-tail-x",tailX+"px");
-    liveBar.style.top=Math.max(42,Math.min(arenaRect.height-18,top))+"px";
+    liveBar.style.top=Math.max(10,Math.min(arenaRect.height-18,top))+"px";
   }
 
   function followLiveBubble(){
@@ -338,9 +341,18 @@
     livePositionFrame=requestAnimationFrame(followLiveBubble);
     liveTimer=window.setTimeout(()=>{
       liveTimer=0;
-      if(liveBar)liveBar.classList.remove("is-visible");
+      if(liveBar)liveBar.classList.remove("is-visible","is-below");
       stopLiveFollowing();
     },commentaryDuration);
+  }
+
+  // Chỉ dùng bong bóng thoại trên nhân vật, không lặp lại banner Canvas toàn sân.
+  const baseDrawAnnouncement=window.drawAnnouncement;
+  if(typeof baseDrawAnnouncement==="function"){
+    window.drawAnnouncement=function(...args){
+      if(liveBar&&liveBar.classList.contains("is-visible"))return;
+      return baseDrawAnnouncement.apply(this,args);
+    };
   }
 
   function handleEventAnnouncement(){
@@ -360,26 +372,25 @@
     if(value.startsWith(leaderPrefix)){
       const name=value.slice(leaderPrefix.length).trim();
       const racer=getRacerByName(name);
-      showLive(name+" đang dẫn đầu đại hội!",racer?{type:"racer",racer}:{type:"elder"});
+      showLive("Ta đã vươn lên dẫn đầu đại hội!",racer?{type:"racer",racer}:{type:"elder"});
       return;
     }
     if(value.includes("PHOTO FINISH")){
-      const gap=value.match(/cách nhau\s+(.+?)\s*ms/i);
-      const dialogue=gap
-        ?"Hai vị tiên hữu vừa về đích sát nút, chỉ cách nhau "+gap[1]+" ms!"
-        :"Cuộc đua vừa có một màn về đích vô cùng sít sao!";
-      showLive(dialogue,{type:"elder"});
+      const dialogue="Chỉ chênh lệch trong gang tấc! Quả là một trận tranh phong kịch liệt!";
+      const recentFinisher=typeof finishQueue!=="undefined"&&finishQueue.length
+        ?finishQueue[finishQueue.length-1]:null;
+      showLive(dialogue,recentFinisher?{type:"racer",racer:recentFinisher}:{type:"elder"});
       return;
     }
     const finish=value.match(/^HẠNG\s+(\d+)\s*:\s*(.+?)\s+ĐÃ VỀ ĐÍCH!?$/i);
     if(finish){
       const name=finish[2].trim();
       const racer=getRacerByName(name);
-      showLive(name+" đã về đích!",racer?{type:"racer",racer}:{type:"elder"});
+      showLive("Ta đã về đích!",racer?{type:"racer",racer}:{type:"elder"});
       return;
     }
     if(value.includes("ĐẠI HỘI KẾT THÚC")){
-      showLive("Đại hội đã khép lại, tam giáp đã định!",{type:"master"});
+      showLive("Chúc mừng tam giáp! Các vị đã làm rạng danh tiên môn.",{type:"master"});
     }
   }
 
@@ -401,14 +412,19 @@
       :[];
     const champion=names[0];
     showLive(
-      champion?champion+" đã đoạt ngôi quán quân.":"Đại hội đã định danh tam giáp.",
+      "Chúc mừng tam giáp! Các vị đã làm rạng danh tiên môn.",
       {type:"master"}
     );
   }
 
   startButton.addEventListener("click",onStartCapture,true);
   const summonButton=document.getElementById("summon");
-  if(summonButton)summonButton.addEventListener("click",()=>{if(active)closeOpening();},true);
+  if(summonButton)summonButton.addEventListener("click",()=>{
+    if(active)closeOpening();
+    if(liveTimer){clearTimeout(liveTimer);liveTimer=0;}
+    if(liveBar)liveBar.classList.remove("is-visible","is-below");
+    stopLiveFollowing();
+  },true);
   document.addEventListener("keydown",event=>{
     if(active&&event.key==="Escape"){
       closeOpening();
