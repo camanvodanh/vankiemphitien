@@ -470,3 +470,12 @@
 - Lời bình chỉ đọc thông báo đã có trong `#event` và trạng thái kết thúc trong `#status`; không tạo sự kiện ngẫu nhiên, không đổi thứ hạng, thời gian, tốc độ hoặc kết quả cuộc đua.
 - Nghi thức trao thưởng Canvas, TOP 3, Thiên Lý Kính, Tiên Bảng, triệu hồi, nhạc và các hiệu ứng hiện có được giữ nguyên. `tournament.js` được nạp sau `i18n.js` để nội dung mới tiếp tục hỗ trợ Việt/Anh/Trung.
 - Cache: `tournament.js?v=tournament-v2`, `i18n.js` v182, `style.css` responsive-arena-v204, `data-loader.js` v153.
+
+
+## 97. Lời thoại gắn trực tiếp với nhân vật phát ngôn
+- Bỏ nhãn tiêu đề kiểu “TRƯỞNG LÃO BÌNH LUẬN”, “TIN VỀ ĐÍCH”, “CHƯỞNG MÔN VINH DANH TAM GIÁP”; bong bóng chỉ hiển thị câu thoại.
+- Bong bóng có nền trắng ngà, chữ xanh đậm, viền vàng nhạt và đuôi thoại hướng xuống nhân vật; không dùng thanh thông báo cố định trên đầu sân.
+- Lời khai mạc gắn với trưởng lão; lời chúc mừng/trao thưởng gắn với chưởng môn; lời dẫn đầu và về đích gắn với đúng tiên nhân tương ứng. Có thể khai báo thêm các vai tạp dịch, ngoại môn, nội môn, nòng cốt và chân truyền làm người phát ngôn.
+- Tọa độ bong bóng bám theo Canvas, cập nhật liên tục khi phóng to, thu nhỏ hoặc kéo khung cảnh; tự dừng cập nhật khi lời thoại kết thúc.
+- Chỉ thay lớp trình bày lời bình. Không sửa thông báo gốc, luồng sự kiện, thời gian hiển thị, kết quả cuộc đua hoặc nghi thức trao thưởng.
+- Cache: `tournament.js?v=tournament-v3`, `style.css?v=responsive-arena-v205`.
