@@ -143,6 +143,64 @@ Object.assign(DICT.cn,{
 "Lôi Vực Thiên Phạt":"雷域天罚","Thiên Cung Tiên Quang":"天宫仙光"
 });
 
+
+Object.assign(DICT.en,{
+ "NGHI THỨC KHAI MẠC":"OPENING CEREMONY",
+ "ĐẠI HỘI TÔNG MÔN":"SECT TOURNAMENT",
+ "VẠN KIẾM TỀ TỤ · TIÊN ĐẠO TRANH PHONG":"MYRIAD SWORDS GATHER · IMMORTAL PATHS COMPETE",
+ "Vạn Kiếm Tiên Môn nghênh đón chư phong tề tụ, cùng chứng kiến đại hội ngự kiếm.":"The Myriad Swords Immortal Sect welcomes every peak to witness the flying-sword tournament.",
+ "CHƯ PHONG HỘI TỤ":"THE PEAKS CONVERGE",
+ "TIÊN NHÂN ĐÃ TỀ TỰU":"IMMORTALS ASSEMBLED",
+ "ĐẠI DIỆN CÁC MẠCH CÙNG TRANH PHONG":"DISCIPLES OF EVERY LINEAGE COMPETE",
+ "Đệ tử các mạch đã tề tựu tại Vạn Kiếm Đài. Thiên Lý Kính và Tiên Bảng chuẩn bị ghi danh từng vị.":"Disciples of every lineage have gathered at Myriad Swords Arena. The Celestial Mirror and Immortal Ranking are ready to record every name.",
+ "CHƯỞNG MÔN TUYÊN LỆNH":"THE SECT MASTER PROCLAIMS",
+ "KIẾM HỘI KHAI PHONG":"THE SWORD TOURNAMENT BEGINS",
+ "VẠN KIẾM ĐÃ SẴN SÀNG":"THE MYRIAD SWORDS ARE READY",
+ "Nghi thức hoàn tất. Chờ hiệu lệnh khai chiến, tranh đoạt tiên duyên và vinh danh tam giáp.":"The ceremony is complete. Await the signal to compete for immortal fortune and the top three honors.",
+ "TIÊN NHÂN THAM DỰ":"PARTICIPANTS",
+ "VỊ TRÍ VINH DANH":"HONORED PLACES",
+ "ĐẠI DIỆN TIÊN MÔN":"SECT REPRESENTATIVES",
+ "Khai chiến ngay":"Begin now",
+ "Nghi thức tự chuyển sang khai chiến · Chạm nút để bắt đầu ngay":"The ceremony will begin automatically · Tap to start now",
+ " vị tiên hữu khác":" more immortals",
+ "TRƯỞNG LÃO BÌNH LUẬN":"ELDER COMMENTARY",
+ "Đại hội Ngự Kiếm chính thức khai cuộc!":"The flying-sword tournament has officially begun!",
+ " đang dẫn đầu đại hội!":" is leading the tournament!",
+ "KHOẢNH KHẮC SÁT NÚT":"PHOTO FINISH",
+ "TIN VỀ ĐÍCH":"FINISHING UPDATE",
+ "CHƯỞNG MÔN VINH DANH TAM GIÁP":"THE SECT MASTER HONORS THE TOP THREE",
+ " đã đoạt ngôi quán quân.":" has claimed the championship.",
+ "Đại hội đã định danh tam giáp.":"The tournament's top three have been decided."
+});
+Object.assign(DICT.cn,{
+ "NGHI THỨC KHAI MẠC":"开幕仪式",
+ "ĐẠI HỘI TÔNG MÔN":"宗门大会",
+ "VẠN KIẾM TỀ TỤ · TIÊN ĐẠO TRANH PHONG":"万剑齐聚 · 仙道争锋",
+ "Vạn Kiếm Tiên Môn nghênh đón chư phong tề tụ, cùng chứng kiến đại hội ngự kiếm.":"万剑仙门迎接诸峰齐聚，共同见证御剑大会。",
+ "CHƯ PHONG HỘI TỤ":"诸峰齐聚",
+ "TIÊN NHÂN ĐÃ TỀ TỰU":"诸仙已至",
+ "ĐẠI DIỆN CÁC MẠCH CÙNG TRANH PHONG":"各脉弟子同台争锋",
+ "Đệ tử các mạch đã tề tựu tại Vạn Kiếm Đài. Thiên Lý Kính và Tiên Bảng chuẩn bị ghi danh từng vị.":"各脉弟子已齐聚万剑台，天理镜与仙榜即将记录诸位名次。",
+ "CHƯỞNG MÔN TUYÊN LỆNH":"掌门宣令",
+ "KIẾM HỘI KHAI PHONG":"剑会开锋",
+ "VẠN KIẾM ĐÃ SẴN SÀNG":"万剑已备",
+ "Nghi thức hoàn tất. Chờ hiệu lệnh khai chiến, tranh đoạt tiên duyên và vinh danh tam giáp.":"仪式已毕，静候开战号令，争夺仙缘，角逐前三荣耀。",
+ "TIÊN NHÂN THAM DỰ":"参赛仙人",
+ "VỊ TRÍ VINH DANH":"荣耀席位",
+ "ĐẠI DIỆN TIÊN MÔN":"仙门代表",
+ "Khai chiến ngay":"立即开战",
+ "Nghi thức tự chuyển sang khai chiến · Chạm nút để bắt đầu ngay":"仪式结束后自动开战 · 点击即可立即开始",
+ " vị tiên hữu khác":"位仙友",
+ "TRƯỞNG LÃO BÌNH LUẬN":"长老评述",
+ "Đại hội Ngự Kiếm chính thức khai cuộc!":"御剑大会正式开幕！",
+ " đang dẫn đầu đại hội!":"暂居大会榜首！",
+ "KHOẢNH KHẮC SÁT NÚT":"毫厘之争",
+ "TIN VỀ ĐÍCH":"抵达捷报",
+ "CHƯỞNG MÔN VINH DANH TAM GIÁP":"掌门嘉奖前三",
+ " đã đoạt ngôi quán quân.":"夺得魁首。",
+ "Đại hội đã định danh tam giáp.":"大会前三名次已定。"
+});
+
 const LANGS={vi:"VN",en:"EN",cn:"CN"};
 const STORAGE_KEY="vankiemphitien-language";
 let language="vi";
