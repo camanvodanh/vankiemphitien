@@ -488,3 +488,9 @@
 - Neo vị trí được căn theo đầu nhân vật cho các vai trưởng lão, chưởng môn, chân truyền, nòng cốt, nội môn, ngoại môn, tạp dịch và tiên nhân ngự kiếm.
 - Phát tín hiệu DOM khi khai cuộc và tăng cache-busting của index để trình duyệt không giữ controller cũ. Gameplay không đổi.
 - Cache: tournament.js v5, i18n.js v184, style.css responsive-arena-v207, data-loader.js v154.
+
+## 99. Bong bóng gọn và đối thoại tự nhiên
+- Bong bóng lời thoại được thu gọn, giới hạn chiều rộng khoảng 230px trên màn hình lớn và 210px trên mobile; cỡ chữ nhỏ hơn, khoảng đệm gọn để cân đối với đầu nhân vật.
+- Khi có người vượt lên dẫn đầu, lời bình luân phiên giữa trưởng lão, chưởng môn và chân truyền đệ tử theo kiểu đối đáp tự nhiên; sau đó có lời cổ vũ ngắn từ hàng đệ tử bên dưới.
+- Mỗi lượt hội thoại thay thế bong bóng trước, không tạo nhiều hộp cùng lúc. Bộ hẹn giờ trao đổi được dọn khi có sự kiện mới, triệu hồi hoặc rời trang.
+- Cache: `tournament.js v6`, `style.css responsive-arena-v208`, `data-loader.js v155`.
