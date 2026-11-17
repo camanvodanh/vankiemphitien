@@ -16,7 +16,7 @@
 - Đây là game web dùng HTML, CSS, JavaScript và Canvas.
 - `index.html` chứa cấu trúc DOM, canvas, bảng Tiên Bảng và nạp `data-loader.js`.
 - `data-loader.js` nạp dữ liệu JSON và lần lượt nạp các script trò chơi theo thứ tự:
-  `core.js`, `scenery.js`, `audience.js`, `race-render.js`, `visual-overrides.js`, `music.js`, `race-logic.js`, `i18n.js`.
+  `core.js`, `scenery.js`, `audience.js`, `race-render.js`, `visual-overrides.js`, `music.js`, `race-logic.js`, `journey-world.js`, `i18n.js`, `tournament.js`.
 - Dữ liệu cấu hình nằm trong `data/characters.json`, `data/swords.json`, `data/effects.json`, `data/summoning.json`, `data/ceremony.json`, `data/scenery.json`.
 - `GAME_CONFIG.md` ghi nhận các thiết lập gameplay/UI, giá trị mặc định, giới hạn, nguồn thực thi và nguyên tắc cân bằng; phải cập nhật cùng khi thay đổi thiết lập.
 - `core.js`: biến và tiện ích lõi.
@@ -26,6 +26,7 @@
 - `music.js`: âm nhạc.
 - `race-logic.js`: triệu hồi, trạng thái đua, thứ hạng, về đích, Tiên Bảng và vòng lặp animation.
 - `i18n.js`: ngôn ngữ.
+- `tournament.js`: nghi thức khai mạc Đại hội Tông Môn và lời bình trực tiếp; chỉ điều phối giao diện, không thay thế logic đua hoặc nghi thức trao thưởng Canvas.
 - Không thay thế hình vẽ Canvas bằng ảnh minh họa hoặc thư viện ngoài nếu người dùng không yêu cầu.
 
 ## 3. Quy tắc JavaScript và trạng thái
@@ -460,3 +461,12 @@
 - Hai nhóm dùng cùng lưới 56 cột, tọa độ ngang cố định trải từ mép trái tới mép phải Canvas; bỏ dao động ngang để tránh cảm giác hàng bị lệch hoặc không đều.
 - Giữ nguyên tỷ lệ nhân vật và vùng chiều dọc; chỉ giảm dao động dọc nhẹ để đội hình gọn mà vẫn có chuyển động tự nhiên.
 - Cache `visual-overrides.js` tăng lên v221.
+
+
+## 96. Đại hội Tông Môn — nghi thức khai mạc và lời bình
+- Sau khi triệu hồi hoàn tất, thao tác Chạy đầu tiên của mỗi lượt được điều phối qua `tournament.js`: ba hồi khai mạc, giới thiệu số tiên nhân/thời lượng và một số đạo danh đại diện, sau đó tự chuyển sang logic `startRace()` hiện có.
+- Nút “Khai chiến ngay” cho phép bỏ qua phần trình diễn; phím Escape đóng nghi thức mà không tự khởi chạy cuộc đua. Khi đang chạy hoặc tạm ngưng, nút Chạy/Tiếp tục vẫn đi thẳng vào logic cũ.
+- Thời lượng từng hồi, số đạo danh giới thiệu và thời gian lời bình lấy từ `data/ceremony.json` mục `opening`; không sửa các mốc `departure`/`awards` hiện có.
+- Lời bình chỉ đọc thông báo đã có trong `#event` và trạng thái kết thúc trong `#status`; không tạo sự kiện ngẫu nhiên, không đổi thứ hạng, thời gian, tốc độ hoặc kết quả cuộc đua.
+- Nghi thức trao thưởng Canvas, TOP 3, Thiên Lý Kính, Tiên Bảng, triệu hồi, nhạc và các hiệu ứng hiện có được giữ nguyên. `tournament.js` được nạp sau `i18n.js` để nội dung mới tiếp tục hỗ trợ Việt/Anh/Trung.
+- Cache: `tournament.js?v=tournament-v1`, `i18n.js` v182, `style.css` responsive-arena-v204, `data-loader.js` v153.
