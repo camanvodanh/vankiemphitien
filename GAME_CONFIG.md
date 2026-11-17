@@ -5,7 +5,7 @@
 ## 1. Nguyên tắc nguồn dữ liệu
 
 - Các tệp JSON trong thư mục `data/` là nguồn cấu hình dữ liệu cho các nhóm đã được code đọc từ `window.VKP_DATA`.
-- `data-loader.js` hiện tải 6 tệp: `characters.json`, `swords.json`, `effects.json`, `summoning.json`, `ceremony.json`, `scenery.json`; chỉ sau khi tải thành công mới nạp các script game.
+- `data-loader.js` hiện tải 6 tệp: `characters.json`, `swords.json`, `effects.json`, `summoning.json`, `ceremony.json`, `scenery.json`; chỉ sau khi tải thành công mới nạp các script game. Sau `i18n.js`, loader nạp thêm `tournament.js` để điều phối nghi thức Đại hội Tông Môn và lời bình giao diện.
 - Không tạo thêm giá trị mặc định trùng lặp trong JavaScript nếu giá trị đã có trong JSON. Nếu UI cần danh sách lựa chọn tĩnh (HTML select, slider, aria min/max), phải đồng bộ với JSON hoặc chuyển sang sinh từ JSON.
 - Không sửa riêng tài liệu mà bỏ quên JSON, UI hoặc logic đang sử dụng thiết lập đó. Sau khi đổi giá trị phải kiểm tra toàn bộ nơi đọc giá trị.
 - Các thông số chưa được đưa vào JSON vẫn có thể đang được đặt trực tiếp trong JavaScript/CSS/HTML. Không được tự ý chuyển chúng sang JSON trong một lần sửa nhỏ nếu chưa kiểm tra đầy đủ tác động.
@@ -142,6 +142,7 @@ Cấu hình `particleBurst` gốc: count 18; angleStep 0.3490658504 rad; speed 1
 - Giai đoạn rời vị trí: `disperseEnd=2`, `seatEnd=3`, `standEnd=3.55`, `swordArrivalEnd=4.55`, `flightEnd=7.15`, `transitionEnd=7.7` (giây).
 - Trao thưởng: `awardStart=8.05`, `masterFlightDuration=3.9`, `giftDropDuration=0.72` (giây).
 - `topCount=3`: số vị trí nhận thưởng theo cấu hình hiện tại.
+- Mục `opening`: nghi thức khai mạc giao diện trước khi gọi `startRace()`; `stageDurationsMs=[2200,2500,2800]` là thời lượng ba hồi (ms), `featuredNames=6` là số đạo danh giới thiệu tối đa, `commentaryDurationMs=3400` là thời gian hiển thị lời bình (ms).
 
 Không thay đổi mốc thời gian riêng lẻ nếu chưa kiểm tra toàn bộ chuỗi hoạt ảnh và camera mini; hai khung cảnh phải đồng bộ cùng mốc nghi thức.
 
@@ -702,3 +703,18 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Tất cả các hàng dùng cùng khoảng cách ngang cố định trên toàn chiều rộng; không tạo hàng cuối ít người hoặc lệch về một phía.
 - Giữ tỷ lệ nhân vật hiện tại; giảm nhẹ dao động dọc, bỏ dao động ngang.
 - Cache `visual-overrides.js`: v221.
+
+
+## 83. Đại hội Tông Môn — cấu hình khai mạc
+
+Nguồn cấu hình: `data/ceremony.json` → `opening`; bộ điều phối: `tournament.js`.
+
+| Thiết lập | Giá trị hiện tại | Ý nghĩa |
+|---|---:|---|
+| Hồi khai mạc 1 | 2200 ms | Tuyên bố Đại hội Tông Môn |
+| Hồi khai mạc 2 | 2500 ms | Giới thiệu chư phong và đạo danh đại diện |
+| Hồi khai mạc 3 | 2800 ms | Chưởng môn tuyên lệnh khai chiến |
+| Đạo danh giới thiệu tối đa | 6 | Các tên đầu danh sách triệu hồi, phần còn lại hiển thị số lượng bổ sung |
+| Lời bình trực tiếp | 3400 ms | Hiển thị ngắn khi đổi người dẫn đầu, có người về đích hoặc kết thúc |
+
+Tổng thời lượng tự động của nghi thức là 7,5 giây; người xem có thể nhấn “Khai chiến ngay” để chuyển sang đếm ngược 3 giây hiện có. Đây chỉ là lớp trình diễn trước cuộc đua và lời bình đọc từ thông báo/trạng thái sẵn có; không tác động cân bằng, tiến độ, thứ hạng hoặc thời gian về đích. Các mốc `departure` và `awards` cũ tiếp tục điều khiển nghi thức trao thưởng Canvas.
