@@ -675,3 +675,9 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Hàm hoạt động là `drawRoleLabel()` trong `audience.js`; đã loại bỏ nền bảng, khung, bóng và chỉ giữ chữ viền ba lớp trực tiếp trên cảnh.
 - Tên lầu các trong `visual-overrides.js` cũng vẽ trực tiếp không bảng nền.
 - Cache audience.js: v182.
+
+
+## 79. Làm sắc nét chữ nhãn
+- Nhãn cấp bậc dùng một viền xanh đen mảnh 1.65px theo scale và màu chữ sáng; bỏ các lớp viền đồng tâm gây nhòe.
+- Biển hiệu công trình dùng một viền xanh đen 2.2px, riêng chính điện 2.8px; không có quầng/bóng hoặc bảng nền cấp bậc.
+- Cache: `audience.js v183`, `visual-overrides.js v218`.
