@@ -10371,3 +10371,14 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
  .tournament-speech-bubble.speaker-servant{min-width:116px;max-width:min(148px,calc(100% - 18px))}
  .tournament-speech-bubble.speaker-racer{min-width:142px;max-width:min(185px,calc(100% - 18px))}
 }
+
+/* HOTFIX 2026-11-17: bảo đảm bong bóng bình luận luôn nổi trên lớp sân đua. */
+.arena-frame .tournament-speech-bubble{
+  z-index:1500!important;
+  display:block!important;
+  pointer-events:none!important;
+}
+.arena-frame .tournament-speech-bubble.is-visible{
+  opacity:1!important;
+  visibility:visible!important;
+}
