@@ -388,7 +388,7 @@
       showLive(exchange.line,exchange.speaker);
       exchangeTimer=window.setTimeout(()=>{
         exchangeTimer=0;
-        const cheerName=name.replace(/\\s+(sư huynh|sư tỷ|đạo hữu)$/i,"").trim();
+        const cheerName=name.replace(/\s+(sư huynh|sư tỷ|đạo hữu)$/i,"").trim();
         const cheers=[
           cheerName+" sư huynh cố lên! Đừng để bị vượt qua!",
           cheerName+" sư huynh, hay lắm! Cứ giữ nhịp kiếm ấy!",
