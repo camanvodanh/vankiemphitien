@@ -688,3 +688,10 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Chữ chức danh tăng cỡ, chỉ có một viền xanh đen 3–3.5px, không chồng nhiều lớp viền.
 - Hộp nhập số lượng/thời lượng nằm trên nút kiếm; nút kiếm ẩn trong thời gian hộp nhập mở để không che số và lựa chọn.
 - Cache: `visual-overrides.js v219`, `style.css responsive-arena-v203`.
+
+
+## 81. Phân bố đều khán đài ngoại môn và tạp dịch
+- Mỗi hàng tự trải đều theo chiều ngang Canvas dựa trên số nhân vật thực tế trong hàng.
+- Hàng cuối không còn dồn về trái và để trống phần phải: ngoại môn 44 người, tạp dịch 36 người vẫn được căn từ trái sang phải.
+- Không tăng số lượng: giữ 92 ngoại môn và 132 tạp dịch; giảm dao động ngang để tránh nhân vật chạm mép.
+- Cache `visual-overrides.js`: v220.
