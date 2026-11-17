@@ -207,6 +207,19 @@ Object.assign(DICT.cn,{
  "Đại hội đã định danh tam giáp.":"大会前三名次已定。"
 });
 
+Object.assign(DICT.en,{
+  "Ta đã vươn lên dẫn đầu đại hội!":"I have surged into the lead!",
+  "Chỉ chênh lệch trong gang tấc! Quả là một trận tranh phong kịch liệt!":"The finish was decided by a hair's breadth! What a fierce contest!",
+  "Ta đã về đích!":"I've crossed the finish line!",
+  "Chúc mừng tam giáp! Các vị đã làm rạng danh tiên môn.":"Congratulations to the top three! You have brought honor to the sect."
+});
+Object.assign(DICT.cn,{
+  "Ta đã vươn lên dẫn đầu đại hội!":"我已跃居榜首！",
+  "Chỉ chênh lệch trong gang tấc! Quả là một trận tranh phong kịch liệt!":"胜负只在毫厘之间！真是一场激烈的较量！",
+  "Ta đã về đích!":"我已抵达终点！",
+  "Chúc mừng tam giáp! Các vị đã làm rạng danh tiên môn.":"恭喜前三！诸位为宗门争得荣耀。"
+});
+
 const LANGS={vi:"VN",en:"EN",cn:"CN"};
 const STORAGE_KEY="vankiemphitien-language";
 let language="vi";
