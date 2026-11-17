@@ -897,14 +897,19 @@ function collapseSetupPanel(){
       const arenaRect=arena.getBoundingClientRect();
       const scaleX=arena.offsetWidth/(arenaRect.width||arena.offsetWidth||1);
       const scaleY=arena.offsetHeight/(arenaRect.height||arena.offsetHeight||1);
-      // Nút tăng nhẹ lên 52 đơn vị Canvas; giữ khoảng hở với cổng đích và HUD.
+      // Nút mở lại đặt ở góc trái-trên của Canvas, tránh hoàn toàn cổng kết thúc ở mép phải.
+      // Kích thước và lề tính theo tỷ lệ Canvas, sau đó giới hạn trong khung arena.
       const canvasScaleY=canvasRect.height/(gameCanvas.height||900);
       const canvasScaleX=canvasRect.width/(gameCanvas.width||1100);
-      const size=52*canvasScaleY*scaleY;
-      const topInset=7*canvasScaleY*scaleY;
-      const rightInset=12*canvasScaleX*scaleX;
-      const x=(canvasRect.right-arenaRect.left)*scaleX-size-rightInset;
-      const y=(canvasRect.top-arenaRect.top)*scaleY+topInset;
+      const size=42*canvasScaleY*scaleY;
+      const leftInset=16*canvasScaleX*scaleX;
+      const topInset=16*canvasScaleY*scaleY;
+      const canvasLeft=(canvasRect.left-arenaRect.left)*scaleX;
+      const canvasTop=(canvasRect.top-arenaRect.top)*scaleY;
+      const canvasRight=(canvasRect.right-arenaRect.left)*scaleX;
+      const canvasBottom=(canvasRect.bottom-arenaRect.top)*scaleY;
+      const x=Math.max(4,Math.min(canvasRight-size-4,canvasLeft+leftInset));
+      const y=Math.max(4,Math.min(canvasBottom-size-4,canvasTop+topInset));
       launcher.style.position="absolute";
       launcher.style.setProperty("--summon-launcher-size",size+"px");
       launcher.style.width=size+"px";
