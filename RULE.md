@@ -404,3 +404,10 @@
 - Nút tâm pháp luân được neo đúng tâm bằng `left:50%`, `top:50%`, `translate(-50%,-50%)`, kích thước 44px desktop, 40px mobile và 38px màn hình rất hẹp; biểu tượng tương ứng 38/34/32px.
 - Nút mở lại bảng khi thu nhỏ chuyển sang góc trái-trên của Canvas, tránh cổng kết thúc ở mép phải; vị trí được tính theo kích thước Canvas và giới hạn trong arena. Kích thước 42px desktop, 40px mobile và 38px màn hình rất hẹp; z-index cao hơn lớp Canvas.
 - Cache CSS v201, visual-overrides v212 và race-logic v203.
+
+
+## 88. Loại bỏ viền chữ tối và thu nhỏ nút triệu hồi trên iPhone
+- Nhãn kiến trúc và nhãn cấp bậc chỉ vẽ một lớp chữ sáng; không dùng strokeText hoặc bóng đen lệch phía sau.
+- Trạng thái Canvas được reset trước khi vẽ nhãn để tránh kế thừa shadow/filter từ lớp cảnh khác.
+- Nút Triệu Hồi chính khóa tâm pháp luân, kích thước 36px mặc định, 34px trên điện thoại và 32px ở màn hình rất hẹp; biểu tượng nhỏ hơn nút để không tràn mép.
+- Nút mở lại bảng khi thu nhỏ cũng giảm về 36/34/32px; vị trí góc trái-trên của Canvas được giữ để tránh cổng đích bên phải.
