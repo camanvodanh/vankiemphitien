@@ -665,3 +665,8 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Tên công trình có bảng nền xanh mực bán đục, bo góc, viền vàng kép và chữ sáng có viền tương phản.
 - Chưởng Môn, Chân Truyền Đệ Tử và Trưởng Lão cũng dùng bảng tên nền tối riêng để luôn đọc được trên nền mây/núi sáng.
 - Cache visual-overrides.js: v216.
+
+## 77. Nhãn chữ viền nhiều lớp, không có bảng nền
+- Tên lầu các và chức danh dùng chữ trực tiếp trên cảnh, không có nền hộp/bo góc.
+- Viền ba lớp đồng tâm: xanh đen ngoài, vàng sáng giữa, xanh đen mảnh trong; fill màu chữ sáng, không shadow/offset.
+- Cache visual-overrides.js: v217.
