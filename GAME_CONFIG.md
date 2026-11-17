@@ -718,3 +718,12 @@ Nguồn cấu hình: `data/ceremony.json` → `opening`; bộ điều phối: `t
 | Lời bình trực tiếp | 3400 ms | Hiển thị ngắn khi đổi người dẫn đầu, có người về đích hoặc kết thúc |
 
 Tổng thời lượng tự động của nghi thức là 7,5 giây; người xem có thể nhấn “Khai chiến ngay” để chuyển sang đếm ngược 3 giây hiện có. Đây chỉ là lớp trình diễn trước cuộc đua và lời bình đọc từ thông báo/trạng thái sẵn có; không tác động cân bằng, tiến độ, thứ hạng hoặc thời gian về đích. Các mốc `departure` và `awards` cũ tiếp tục điều khiển nghi thức trao thưởng Canvas.
+
+
+## 84. Bong bóng thoại theo nhân vật phát ngôn
+- Giao diện lời bình do `tournament.js` quản lý; nội dung lấy từ các thông báo cuộc đua và trạng thái kết thúc sẵn có.
+- Mặc định: trưởng lão thứ ba từ trái sang phát lời khai mạc; chưởng môn phát lời chúc mừng tam giáp; tiên nhân đang dẫn đầu hoặc vừa cán đích tự mang lời thoại tương ứng.
+- Hỗ trợ mở rộng người nói theo vai: `master`, `elder`, `disciple`, `core`, `inner`, `outer`, `servant`, hoặc đối tượng racer thực tế.
+- Vị trí được quy đổi từ tọa độ Canvas sang khung sân và tính cả `gameZoom`, `gamePanX`, `gamePanY`; vòng cập nhật vị trí chỉ chạy trong thời gian bong bóng đang hiện.
+- Không thay đổi `data/ceremony.json`, mốc nghi thức, thời gian lời bình hoặc logic xếp hạng.
+- Cache: `tournament.js?v=tournament-v3`, `style.css?v=responsive-arena-v205`.
