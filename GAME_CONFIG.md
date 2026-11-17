@@ -747,3 +747,10 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Lời đối đáp của trưởng lão/chưởng môn có nhắc tên người đang dẫn đầu. Đệ tử khán đài cổ vũ trực tiếp bằng tên racer và xưng hô phù hợp.
 - Không đổi cách tính hạng, tốc độ, tiến độ hay thời lượng cuộc đua.
 - Cache: `tournament.js v7`, `style.css responsive-arena-v209`, `data-loader.js v156`.
+
+## 88. Bong bóng lớn, hội thoại đồng thời và cổ vũ liên tục
+- Bong bóng tăng kích thước và phân biệt theo vai nhân vật, có kích thước riêng cho mobile. Bong bóng bám sát đầu người nói; riêng chưởng môn dịch sang bên và xuống thấp, mũi tên vẫn trỏ đúng vị trí.
+- Hệ thống hỗ trợ nhiều bong bóng độc lập cùng hiện (giới hạn 7), thay vì ghi đè một hộp thoại duy nhất.
+- Trong lúc đua, lời cổ vũ từ các hàng đệ tử xuất hiện liên tục, luân phiên nhiều câu và nhiều tên người thi đấu. Khi tạm dừng, lịch chờ tiếp tục kiểm tra; khi kết thúc sẽ dừng.
+- Không còn câu “Ta đã về đích”; kết quả xếp hạng vẫn giữ nguyên.
+- Cache: `tournament.js v8`, `style.css responsive-arena-v210`, `data-loader.js v157`.
