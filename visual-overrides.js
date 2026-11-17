@@ -441,18 +441,13 @@ function drawRoleLabel(x,y,label,color="#fff0c5",scale=1){
  ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;ctx.filter="none";
  ctx.font="bold "+Math.max(15,18*scale)+"px Arial, sans-serif";
  ctx.textAlign="center";ctx.textBaseline="middle";ctx.lineJoin="round";
- // Bảng tên xanh mực bán đục bảo đảm tương phản kể cả khi phía sau là mây/núi sáng.
- const plateW=Math.ceil(ctx.measureText(label).width+22);
- const plateH=Math.max(25,Math.ceil(27*scale));
- const px=x-plateW/2,py=y-plateH/2;
- ctx.fillStyle="rgba(7,25,22,.94)";
- ctx.beginPath();ctx.roundRect(px,py,plateW,plateH,7);ctx.fill();
- ctx.strokeStyle="#e8c77b";ctx.lineWidth=1.8;ctx.stroke();
- ctx.strokeStyle="rgba(255,239,190,.75)";ctx.lineWidth=.7;
- ctx.strokeRect(px+3,py+3,plateW-6,plateH-6);
- ctx.lineWidth=Math.max(3.5,4.2*scale);ctx.strokeStyle="rgba(3,13,12,1)";
+ // Không dùng bảng nền: viền chữ nhiều lớp, đồng tâm để tách khỏi nền sáng.
+ ctx.lineJoin="round";ctx.miterLimit=2;
+ ctx.lineWidth=Math.max(6,7*scale);ctx.strokeStyle="rgba(5,17,16,1)";
  ctx.strokeText(label,x,y);
- ctx.lineWidth=Math.max(1.4,1.7*scale);ctx.strokeStyle="#ffe3a0";
+ ctx.lineWidth=Math.max(3.2,3.8*scale);ctx.strokeStyle="#f3d58e";
+ ctx.strokeText(label,x,y);
+ ctx.lineWidth=Math.max(1.4,1.7*scale);ctx.strokeStyle="#152a25";
  ctx.strokeText(label,x,y);
  ctx.fillStyle=color;ctx.fillText(label,x,y);
  ctx.restore();
@@ -2779,23 +2774,19 @@ function drawSectArchitecture(time){
     ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;ctx.filter="none";
     // Viền tối ôm sát chữ để giữ tương phản khi biển hiệu trùng màu nền.
     ctx.lineJoin="round";
-    // Bảng tên nền xanh mực viền vàng: chữ không còn phụ thuộc màu núi/mây phía sau.
+    // Chữ nổi trực tiếp trên cảnh: viền đen dày + viền vàng sáng + lõi tối mảnh.
     const labelMaxWidth=Math.min(210,250*b.s+38);
-    const labelWidth=Math.min(labelMaxWidth,Math.ceil(ctx.measureText(b.title).width+18));
-    const labelHeight=index===2?27:23;
-    const plateX=b.x-labelWidth/2,plateY=labelY-labelHeight/2;
-    ctx.fillStyle="rgba(7,25,22,.93)";
-    ctx.beginPath();ctx.roundRect(plateX,plateY,labelWidth,labelHeight,5);ctx.fill();
-    ctx.strokeStyle="#e7c477";ctx.lineWidth=index===2?2:1.5;ctx.stroke();
-    ctx.strokeStyle="rgba(255,239,190,.72)";ctx.lineWidth=.65;
-    ctx.strokeRect(plateX+2.5,plateY+2.5,labelWidth-5,labelHeight-5);
-    ctx.lineWidth=index===2?4.2:3.5;
-    ctx.strokeStyle="rgba(3,13,12,1)";
+    ctx.lineJoin="round";ctx.miterLimit=2;
+    ctx.lineWidth=index===2?7.2:6.2;
+    ctx.strokeStyle="rgba(5,17,16,1)";
     ctx.strokeText(b.title,b.x,labelY,labelMaxWidth);
-    ctx.lineWidth=index===2?1.8:1.4;
-    ctx.strokeStyle="#ffe3a0";
+    ctx.lineWidth=index===2?4:3.4;
+    ctx.strokeStyle="#f3d58e";
     ctx.strokeText(b.title,b.x,labelY,labelMaxWidth);
-    ctx.fillStyle=index===2?"#ffe4a0":"#fff0c0";
+    ctx.lineWidth=index===2?1.8:1.5;
+    ctx.strokeStyle="#152a25";
+    ctx.strokeText(b.title,b.x,labelY,labelMaxWidth);
+    ctx.fillStyle=index===2?"#ffe8ad":"#fff3d0";
     ctx.fillText(b.title,b.x,labelY,labelMaxWidth);
     ctx.restore();
   });
