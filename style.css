@@ -9965,3 +9965,57 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
     width:46px!important;height:46px!important;
   }
 }
+
+ 
+/* REVISION 160 — chữ biển hiệu không đổ bóng giả; nút Triệu Hồi gọn và luôn nổi trên cảnh cổng. */
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .summon-artwork{
+  overflow:visible!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial{
+  isolation:isolate!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon{
+  z-index:30!important;
+  width:48px!important;height:48px!important;
+  min-width:48px!important;min-height:48px!important;
+  max-width:48px!important;max-height:48px!important;
+}
+.arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon svg{
+  width:42px!important;height:42px!important;
+}
+.arena-frame>.summon-collapsed-trigger{
+  z-index:240!important;
+  width:44px!important;height:44px!important;
+  min-width:44px!important;min-height:44px!important;
+  max-width:44px!important;max-height:44px!important;
+}
+@media(max-width:600px){
+  .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon{
+    width:44px!important;height:44px!important;
+    min-width:44px!important;min-height:44px!important;
+    max-width:44px!important;max-height:44px!important;
+  }
+  .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon svg{
+    width:38px!important;height:38px!important;
+  }
+  .arena-frame>.summon-collapsed-trigger{
+    width:42px!important;height:42px!important;
+    min-width:42px!important;min-height:42px!important;
+    max-width:42px!important;max-height:42px!important;
+  }
+}
+@media(max-width:380px){
+  .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon{
+    width:40px!important;height:40px!important;
+    min-width:40px!important;min-height:40px!important;
+    max-width:40px!important;max-height:40px!important;
+  }
+  .arena-frame>.game-setup:not(.is-minimized):not([hidden]) .altar-dial #summon svg{
+    width:34px!important;height:34px!important;
+  }
+  .arena-frame>.summon-collapsed-trigger{
+    width:40px!important;height:40px!important;
+    min-width:40px!important;min-height:40px!important;
+    max-width:40px!important;max-height:40px!important;
+  }
+}
