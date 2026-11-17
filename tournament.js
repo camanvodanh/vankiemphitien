@@ -173,9 +173,10 @@
   }
 
   function showLive(message,speaker={type:"elder"}){
-    if(active||!message)return;
+    if(!message)return;
     const el=document.createElement("div");
     el.className="tournament-speech-bubble speaker-"+(speaker.type||"elder");
+    el.style.zIndex="1500";
     el.setAttribute("aria-live","polite");
     const label=document.createElement("strong");
     label.className="tournament-speech-message";
@@ -222,7 +223,7 @@
     const speak=()=>{
       crowdTimer=0;
       if(typeof finished!=="undefined"&&finished)return;
-      if(typeof running==="undefined"||!running||paused){crowdTimer=window.setTimeout(speak,1000);return;}
+        if(typeof running==="undefined"||!running||paused||!started){crowdTimer=window.setTimeout(speak,1000);return;}
       const list=getRacers(),leader=typeof leaderOf==="function"?leaderOf():null;
       const target=list.length?(crowdTurn%4===0&&leader?leader:list[crowdTurn%list.length]):null;
       const name=target&&target.name?String(target.name):"các vị sư huynh";
@@ -304,6 +305,10 @@
 
   function handleStatusAnnouncement(){
     if(!statusNode)return;
+    // Dự phòng sự kiện: một số lần cập nhật trạng thái không làm #event đổi nội dung.
+    if(typeof running!=="undefined"&&running&&typeof started!=="undefined"&&started&&!paused&&!finished){
+      startCrowdChatter();
+    }
     const value=statusNode.textContent.trim();
     if(!value||value===lastStatus){
       if(typeof finished!=="undefined"&&!finished)closingShown=false;
