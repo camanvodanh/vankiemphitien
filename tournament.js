@@ -194,9 +194,13 @@
     const panY=typeof gamePanY!=="undefined"?gamePanY:0;
     const screenX=width*.5+panX+(anchor.x-width*.5)*zoom;
     const screenY=height*.5+panY+(anchor.y-height*.5)*zoom;
-    const left=canvasRect.left-arenaRect.left+(screenX/width)*canvasRect.width;
+    const anchorLeft=canvasRect.left-arenaRect.left+(screenX/width)*canvasRect.width;
     const top=canvasRect.top-arenaRect.top+(screenY/height)*canvasRect.height;
-    liveBar.style.left=Math.max(12,Math.min(arenaRect.width-12,left))+"px";
+    const halfWidth=(liveBar.offsetWidth||280)/2;
+    const bubbleCenter=Math.max(halfWidth+8,Math.min(arenaRect.width-halfWidth-8,anchorLeft));
+    const tailX=Math.max(12,Math.min((liveBar.offsetWidth||280)-12,anchorLeft-bubbleCenter+halfWidth));
+    liveBar.style.left=bubbleCenter+"px";
+    liveBar.style.setProperty("--speech-tail-x",tailX+"px");
     liveBar.style.top=Math.max(42,Math.min(arenaRect.height-18,top))+"px";
   }
 
