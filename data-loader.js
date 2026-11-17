@@ -12,7 +12,7 @@
   "scenery.js?v=race-phase1-v183",
   "audience.js?v=race-phase1-v181",
   "race-render.js?v=race-phase1-v185",
-  "visual-overrides.js?v=race-phase1-v209",
+  "visual-overrides.js?v=race-phase1-v210",
   "music.js?v=race-phase1-v180",
   "race-logic.js?v=race-phase1-v202",
   "journey-world.js?v=journey-world-v22",
