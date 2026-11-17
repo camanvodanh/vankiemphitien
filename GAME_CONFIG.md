@@ -632,3 +632,8 @@ Các thông số này chỉ là ghi nhận hiện trạng; không tự ý chỉn
 - Nút Triệu Hồi dạng thu nhỏ đồng cỡ nút Chạy/Dừng theo breakpoint: 44px mặc định, 40–48px trên desktop ngang lớn và 26px ở màn hình ngang rất thấp.
 - `drawRoleLabel()` tăng font cơ sở từ `12 * scale` lên `15 * scale` (tối thiểu 12px), giúp Chưởng Môn, Chân Truyền Đệ Tử và Trưởng Lão dễ đọc hơn.
 - `drawSectArchitecture()` tăng nhãn công trình thường lên 12.5px và Lăng Tiêu Chính Điện lên 15px; không thay đổi vị trí các công trình.
+
+## 71. Kích thước nút Triệu Hồi và font nhãn cảnh quan
+- Nút chính ở tâm pháp luân tăng lên 68px, biểu tượng 54px; breakpoint mobile ≤600px là 62px/50px và ≤380px là 58px/46px. Các override cuối stylesheet khóa kích thước để không bị quy tắc mobile cũ ghi đè.
+- Nút mở lại bảng khi thu nhỏ tăng lên 60px, mobile ≤600px là 56px.
+- `drawRoleLabel()` tăng font lên `Math.max(15,18*scale)`; nhãn công trình thường tăng lên 15.5px, công trình trung tâm 18.5px và tăng giới hạn chiều rộng vẽ.
