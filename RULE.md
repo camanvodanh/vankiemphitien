@@ -423,3 +423,8 @@
 - Nhãn các lầu các/chính điện dùng bảng nền xanh mực bán đục, bo góc, viền vàng hai lớp; chữ tiếp tục có viền tối và viền vàng sáng.
 - `drawRoleLabel()` cũng tạo bảng tên riêng cho Chưởng Môn, Chân Truyền Đệ Tử và Trưởng Lão. Không để chữ trực tiếp trên nền núi, mây hoặc linh quang vì độ sáng nền thay đổi theo cảnh.
 - Cache `visual-overrides.js` tăng lên v216.
+
+## 90. Nhãn kiến trúc và cấp bậc không dùng bảng nền
+- Loại bỏ hoàn toàn bảng tên nền tối/bo góc cho nhãn lầu các và các chức danh khán đài.
+- Chữ vẽ trực tiếp trên cảnh bằng ba lớp stroke đồng tâm: viền ngoài xanh đen dày, viền vàng sáng ở giữa, lõi xanh đen mảnh sát nét chữ; cuối cùng fill màu sáng. Không dùng shadow hoặc offset.
+- Áp dụng cho toàn bộ tên công trình, Chưởng Môn, Chân Truyền Đệ Tử và Trưởng Lão. Cache visual-overrides.js v217.
