@@ -391,7 +391,7 @@
         const cheerName=name.replace(/\\s+(sư huynh|sư tỷ|đạo hữu)$/i,"").trim();
         const cheers=[
           cheerName+" sư huynh cố lên! Đừng để bị vượt qua!",
-          "Hàn... à không, "+cheerName+" sư huynh, hay lắm!",
+          cheerName+" sư huynh, hay lắm! Cứ giữ nhịp kiếm ấy!",
           cheerName+" sư huynh! Một kiếm vừa rồi đẹp quá!",
           "Cố lên! "+cheerName+" sư huynh sắp bỏ xa họ rồi!",
           "Đệ tử đặt cược vào "+cheerName+" sư huynh đó!"
