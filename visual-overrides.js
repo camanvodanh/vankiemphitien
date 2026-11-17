@@ -437,19 +437,17 @@ function drawSectPavilion(x,y,scale,title,type,accent){
 function drawRoleLabel(x,y,label,color="#fff0c5",scale=1){
  ctx.save();
  ctx.globalAlpha=1;ctx.globalCompositeOperation="source-over";
- ctx.shadowColor="rgba(0,0,0,0)";ctx.shadowBlur=0;
+ ctx.shadowColor="transparent";ctx.shadowBlur=0;
  ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;ctx.filter="none";
- ctx.font="bold "+Math.max(15,18*scale)+"px Arial, sans-serif";
- ctx.textAlign="center";ctx.textBaseline="middle";ctx.lineJoin="round";
- // Không dùng bảng nền: viền chữ nhiều lớp, đồng tâm để tách khỏi nền sáng.
+ // Tăng cỡ chữ và chỉ giữ một nét viền tối rõ ràng để chữ không bị bết/mờ.
+ ctx.font="900 "+Math.max(17,20*scale)+"px Arial, sans-serif";
+ ctx.textAlign="center";ctx.textBaseline="middle";
  ctx.lineJoin="round";ctx.miterLimit=2;
- ctx.lineWidth=Math.max(6,7*scale);ctx.strokeStyle="rgba(5,17,16,1)";
+ ctx.lineWidth=Math.max(3,3.5*scale);
+ ctx.strokeStyle="#10251f";
  ctx.strokeText(label,x,y);
- ctx.lineWidth=Math.max(3.2,3.8*scale);ctx.strokeStyle="#f3d58e";
- ctx.strokeText(label,x,y);
- ctx.lineWidth=Math.max(1.4,1.7*scale);ctx.strokeStyle="#152a25";
- ctx.strokeText(label,x,y);
- ctx.fillStyle=color;ctx.fillText(label,x,y);
+ ctx.fillStyle=color;
+ ctx.fillText(label,x,y);
  ctx.restore();
 }
 
