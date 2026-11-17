@@ -469,4 +469,4 @@
 - Thời lượng từng hồi, số đạo danh giới thiệu và thời gian lời bình lấy từ `data/ceremony.json` mục `opening`; không sửa các mốc `departure`/`awards` hiện có.
 - Lời bình chỉ đọc thông báo đã có trong `#event` và trạng thái kết thúc trong `#status`; không tạo sự kiện ngẫu nhiên, không đổi thứ hạng, thời gian, tốc độ hoặc kết quả cuộc đua.
 - Nghi thức trao thưởng Canvas, TOP 3, Thiên Lý Kính, Tiên Bảng, triệu hồi, nhạc và các hiệu ứng hiện có được giữ nguyên. `tournament.js` được nạp sau `i18n.js` để nội dung mới tiếp tục hỗ trợ Việt/Anh/Trung.
-- Cache: `tournament.js?v=tournament-v1`, `i18n.js` v182, `style.css` responsive-arena-v204, `data-loader.js` v153.
+- Cache: `tournament.js?v=tournament-v2`, `i18n.js` v182, `style.css` responsive-arena-v204, `data-loader.js` v153.
