@@ -411,3 +411,9 @@
 - Trạng thái Canvas được reset trước khi vẽ nhãn để tránh kế thừa shadow/filter từ lớp cảnh khác.
 - Nút Triệu Hồi chính khóa tâm pháp luân, kích thước 36px mặc định, 34px trên điện thoại và 32px ở màn hình rất hẹp; biểu tượng nhỏ hơn nút để không tràn mép.
 - Nút mở lại bảng khi thu nhỏ cũng giảm về 36/34/32px; vị trí góc trái-trên của Canvas được giữ để tránh cổng đích bên phải.
+
+## 88. Viền chữ nhãn lầu các và cấp bậc khán đài
+- Nhãn tên công trình trong `drawSectArchitecture()` dùng hai lớp stroke ôm sát chữ: viền ngoài xanh đen đậm và viền trong vàng nhạt mảnh, sau đó mới fill màu chữ.
+- `drawRoleLabel()` áp dụng cùng cấu trúc viền cho Chưởng Môn, Chân Truyền Đệ Tử và Trưởng Lão; độ dày co theo scale.
+- Viền được vẽ đồng tâm, không lệch hướng và không dùng shadow/offset, tránh cảm giác có một bản chữ đen thứ hai phía sau.
+- Cache `visual-overrides.js` tăng lên `v214`; không thay đổi vị trí, cỡ chữ, kiến trúc hoặc gameplay.
