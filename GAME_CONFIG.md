@@ -768,3 +768,10 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Bộ lập lịch chờ hết đếm ngược và chỉ phát lời khi cuộc đua đang chạy, không tạm dừng.
 - Đặt các thuộc tính hiển thị quan trọng ngay trên bong bóng và khóa lớp hiển thị phía trên sân đua; trạng thái hết hạn vẫn ẩn bong bóng.
 - Cache: `tournament.js v10`, `style.css responsive-arena-v212`, `data-loader.js v159`.
+
+
+## 91. Lời bình trực tiếp và tăng tốc về đích trong giây cuối
+- `tournament.js` khởi tạo độc lập, không gọi các callback nghi thức không tồn tại; bong bóng được tạo trực tiếp khi bắt đầu/khai cuộc, neo theo Canvas và tự dọn khi hết thời gian.
+- Bộ cổ vũ chỉ chạy sau khi qua đếm ngược, đang đua và không tạm dừng; dừng khi cuộc đua kết thúc.
+- Trong giây cuối (`00:01`), mọi racer chưa về đích được tăng tiến độ theo phần quãng đường còn lại và thời gian còn lại, bảo đảm cùng chạm vạch khi đồng hồ về `00:00`. Thứ hạng vẫn dựa trên tiến độ và thời điểm chạm đích.
+- Cache: `tournament.js v11`, `race-logic.js v204`, `data-loader.js v160`.
