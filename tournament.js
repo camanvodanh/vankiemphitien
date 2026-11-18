@@ -176,7 +176,10 @@
     if(!message)return;
     const el=document.createElement("div");
     el.className="tournament-speech-bubble speaker-"+(speaker.type||"elder");
-    el.style.zIndex="1500";
+    el.style.setProperty("z-index","1500","important");
+    el.style.setProperty("display","block","important");
+    el.style.setProperty("opacity","1","important");
+    el.style.setProperty("visibility","visible","important");
     el.setAttribute("aria-live","polite");
     const label=document.createElement("strong");
     label.className="tournament-speech-message";
@@ -223,7 +226,7 @@
     const speak=()=>{
       crowdTimer=0;
       if(typeof finished!=="undefined"&&finished)return;
-        if(typeof running==="undefined"||!running||paused||!started){crowdTimer=window.setTimeout(speak,1000);return;}
+        if(typeof running==="undefined"||!running||paused||(typeof started!=="undefined"&&!started)){crowdTimer=window.setTimeout(speak,700);return;}
       const list=getRacers(),leader=typeof leaderOf==="function"?leaderOf():null;
       const target=list.length?(crowdTurn%4===0&&leader?leader:list[crowdTurn%list.length]):null;
       const name=target&&target.name?String(target.name):"các vị sư huynh";
@@ -331,6 +334,8 @@
   }
 
   startButton.addEventListener("click",onStartCapture,true);
+  // Bắt đầu bộ lập lịch cổ vũ ngay khi người chơi nhấn Chạy; bộ lập lịch tự chờ cuộc đua qua đếm ngược.
+  startButton.addEventListener("click",startCrowdChatter,false);
   const summonButton=document.getElementById("summon");
   if(summonButton)summonButton.addEventListener("click",()=>{
     if(active)closeOpening();
