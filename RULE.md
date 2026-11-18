@@ -549,4 +549,4 @@
 - Neo theo vị trí nhân vật sau khi áp dụng zoom/pan, cập nhật liên tục để không trôi khỏi người nói.
 - Kích thước phân cấp theo vai trò; Chưởng môn lớn nhất, trưởng lão tiếp theo, nòng cốt/đệ tử chân truyền trung bình, nội môn nhỏ hơn, ngoại môn và tạp dịch nhỏ nhất.
 - Tọa độ neo nằm ở khu vực khán đài dưới đường đua, không đặt bong bóng lên khu vực thí sinh thi đấu.
-- Cache: `tournament.js v13`, `style.css responsive-arena-v215`, `data-loader.js v162`.
+- Cache: `tournament.js v13`, `style.css responsive-arena-v216`, `data-loader.js v162`.
