@@ -761,3 +761,10 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Bổ sung dự phòng khởi động lời cổ vũ từ thay đổi trạng thái khi cuộc đua thực sự chạy; chỉ phát lời khi đã qua đếm ngược, đang chạy và không tạm dừng/kết thúc.
 - Giữ nguyên giới hạn số bong bóng, neo nhân vật, lời thoại và logic thứ hạng.
 - Cache: `tournament.js v9`, `style.css responsive-arena-v211`, `data-loader.js v158`.
+
+
+## 90. Hotfix khôi phục bong bóng bình luận (18-11-2026)
+- Khởi động bộ lập lịch cổ vũ trực tiếp từ thao tác nhấn Chạy, không phụ thuộc duy nhất vào MutationObserver của thông báo khai cuộc.
+- Bộ lập lịch chờ hết đếm ngược và chỉ phát lời khi cuộc đua đang chạy, không tạm dừng.
+- Đặt các thuộc tính hiển thị quan trọng ngay trên bong bóng và khóa lớp hiển thị phía trên sân đua; trạng thái hết hạn vẫn ẩn bong bóng.
+- Cache: `tournament.js v10`, `style.css responsive-arena-v212`, `data-loader.js v159`.
