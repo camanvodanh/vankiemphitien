@@ -10470,3 +10470,76 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
     min-width:94px!important;max-width:min(128px,calc(100% - 12px))!important;
   }
 }
+
+
+/* REVISION 166 — dải bình luận độc lập, tuyệt đối không phủ Canvas đường đua. */
+.arena-frame>.race-commentary-rail{
+  position:relative!important;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:34px;
+  padding:3px 8px;
+  overflow:hidden;
+  box-sizing:border-box;
+  border-bottom:1px solid rgba(195,155,83,.42);
+  background:linear-gradient(90deg,rgba(14,34,29,.96),rgba(28,57,47,.96),rgba(14,34,29,.96));
+  pointer-events:none;
+}
+.arena-frame>.race-commentary-rail>.tournament-speech-bubble{
+  position:static!important;
+  inset:auto!important;
+  display:block!important;
+  width:max-content!important;
+  min-width:0!important;
+  max-width:min(72%,680px)!important;
+  max-height:29px;
+  margin:0 auto!important;
+  padding:3px 8px!important;
+  overflow:hidden!important;
+  border:1px solid rgba(201,170,105,.8)!important;
+  border-radius:6px!important;
+  box-shadow:0 1px 4px rgba(0,0,0,.2)!important;
+  transform:none!important;
+  opacity:1!important;
+  visibility:visible!important;
+  text-align:center;
+}
+.arena-frame>.race-commentary-rail>.tournament-speech-bubble::after{display:none!important}
+.arena-frame>.race-commentary-rail .tournament-speech-message{
+  display:-webkit-box!important;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  max-height:2.25em;
+  overflow:hidden;
+  font-size:8px!important;
+  line-height:1.12!important;
+  font-weight:750!important;
+}
+.arena-frame>.race-commentary-rail .speaker-master{min-width:112px!important;max-width:min(178px,78%)!important}
+.arena-frame>.race-commentary-rail .speaker-elder{min-width:104px!important;max-width:min(160px,76%)!important}
+.arena-frame>.race-commentary-rail .speaker-core,
+.arena-frame>.race-commentary-rail .speaker-disciple{min-width:92px!important;max-width:min(144px,74%)!important}
+.arena-frame>.race-commentary-rail .speaker-inner,
+.arena-frame>.race-commentary-rail .speaker-outer{min-width:82px!important;max-width:min(124px,72%)!important;padding:3px 6px!important}
+.arena-frame>.race-commentary-rail .speaker-servant{min-width:72px!important;max-width:min(108px,70%)!important;padding:2px 5px!important}
+.arena-frame>.race-commentary-rail .speaker-racer{min-width:92px!important;max-width:min(144px,74%)!important}
+@media(max-width:600px){
+  .arena-frame>.race-commentary-rail{min-height:29px;padding:2px 5px}
+  .arena-frame>.race-commentary-rail>.tournament-speech-bubble{
+    max-width:78%!important;max-height:25px;padding:2px 6px!important;border-radius:5px!important
+  }
+  .arena-frame>.race-commentary-rail .tournament-speech-message{
+    font-size:7px!important;line-height:1.08!important;max-height:2.16em
+  }
+  .arena-frame>.race-commentary-rail .speaker-master{min-width:98px!important;max-width:154px!important}
+  .arena-frame>.race-commentary-rail .speaker-elder{min-width:92px!important;max-width:140px!important}
+  .arena-frame>.race-commentary-rail .speaker-core,
+  .arena-frame>.race-commentary-rail .speaker-disciple{min-width:84px!important;max-width:128px!important}
+  .arena-frame>.race-commentary-rail .speaker-inner,
+  .arena-frame>.race-commentary-rail .speaker-outer{min-width:76px!important;max-width:112px!important;padding:2px 5px!important}
+  .arena-frame>.race-commentary-rail .speaker-servant{min-width:66px!important;max-width:98px!important;padding:2px 4px!important}
+  .arena-frame>.race-commentary-rail .speaker-racer{min-width:84px!important;max-width:128px!important}
+}
