@@ -10395,3 +10395,78 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   opacity:0!important;
   visibility:hidden!important;
 }
+
+
+/* REVISION 165 — thu nhỏ bong bóng lời bình, phân cấp theo địa vị người nói. */
+.arena-frame>.tournament-speech-bubble{
+  min-width:0!important;
+  width:max-content!important;
+  padding:5px 8px 6px!important;
+  border-radius:8px!important;
+  max-width:min(190px,calc(100% - 16px))!important;
+}
+.arena-frame>.tournament-speech-bubble .tournament-speech-message{
+  font-size:9px!important;
+  line-height:1.18!important;
+  font-weight:750!important;
+}
+.arena-frame>.tournament-speech-bubble.speaker-master{
+  min-width:128px!important;max-width:min(178px,calc(100% - 16px))!important;
+  padding:6px 9px 7px!important;
+}
+.arena-frame>.tournament-speech-bubble.speaker-elder{
+  min-width:116px!important;max-width:min(164px,calc(100% - 16px))!important;
+}
+.arena-frame>.tournament-speech-bubble.speaker-core,
+.arena-frame>.tournament-speech-bubble.speaker-disciple{
+  min-width:104px!important;max-width:min(148px,calc(100% - 16px))!important;
+}
+.arena-frame>.tournament-speech-bubble.speaker-inner,
+.arena-frame>.tournament-speech-bubble.speaker-outer{
+  min-width:92px!important;max-width:min(132px,calc(100% - 16px))!important;
+  padding:4px 7px 5px!important;
+}
+.arena-frame>.tournament-speech-bubble.speaker-servant{
+  min-width:82px!important;max-width:min(116px,calc(100% - 16px))!important;
+  padding:4px 6px 5px!important;
+}
+.arena-frame>.tournament-speech-bubble.speaker-racer{
+  min-width:104px!important;max-width:min(148px,calc(100% - 16px))!important;
+}
+.arena-frame>.tournament-speech-bubble::after{
+  width:10px!important;height:10px!important;bottom:-6px!important;
+}
+.arena-frame>.tournament-speech-bubble.is-below::after{
+  top:-6px!important;bottom:auto!important;
+}
+@media(max-width:600px){
+  .arena-frame>.tournament-speech-bubble{
+    max-width:min(164px,calc(100% - 12px))!important;
+    padding:4px 7px 5px!important;
+  }
+  .arena-frame>.tournament-speech-bubble .tournament-speech-message{
+    font-size:8px!important;line-height:1.16!important;
+  }
+  .arena-frame>.tournament-speech-bubble.speaker-master{
+    min-width:112px!important;max-width:min(150px,calc(100% - 12px))!important;
+  }
+  .arena-frame>.tournament-speech-bubble.speaker-elder{
+    min-width:104px!important;max-width:min(140px,calc(100% - 12px))!important;
+  }
+  .arena-frame>.tournament-speech-bubble.speaker-core,
+  .arena-frame>.tournament-speech-bubble.speaker-disciple{
+    min-width:94px!important;max-width:min(128px,calc(100% - 12px))!important;
+  }
+  .arena-frame>.tournament-speech-bubble.speaker-inner,
+  .arena-frame>.tournament-speech-bubble.speaker-outer{
+    min-width:84px!important;max-width:min(116px,calc(100% - 12px))!important;
+    padding:4px 6px!important;
+  }
+  .arena-frame>.tournament-speech-bubble.speaker-servant{
+    min-width:74px!important;max-width:min(102px,calc(100% - 12px))!important;
+    padding:3px 5px 4px!important;
+  }
+  .arena-frame>.tournament-speech-bubble.speaker-racer{
+    min-width:94px!important;max-width:min(128px,calc(100% - 12px))!important;
+  }
+}
