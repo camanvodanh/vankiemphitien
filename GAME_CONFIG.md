@@ -781,3 +781,10 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Bong bóng lời bình được thu nhỏ theo thứ bậc: Chưởng môn/trưởng lão lớn nhất; nòng cốt/ngoại môn trung bình; nội môn nhỏ hơn; tạp dịch nhỏ nhất.
 - Giảm cỡ chữ, padding, chiều rộng tối thiểu và đuôi bong bóng; trên màn hình nhỏ tiếp tục thu gọn nhưng vẫn cho phép nội dung dài tự xuống dòng.
 - CSS cache: `responsive-arena-v213`.
+
+
+## 93. Dải bình luận không che khu vực thi đấu
+- Lời thoại được hiển thị trong một dải bố cục độc lập phía trên Canvas, không còn định vị tuyệt đối đè lên đường đua hoặc thí sinh.
+- Mỗi lượt chỉ có một bong bóng; nội dung tối đa hai dòng, giới hạn chiều cao và cắt gọn khi quá dài.
+- Cấp bậc nhân vật quyết định kích thước bong bóng; kích thước trên màn hình nhỏ được giảm thêm.
+- Cache: `tournament.js v12`, `style.css responsive-arena-v214`, `data-loader.js v161`.
