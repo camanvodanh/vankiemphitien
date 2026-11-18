@@ -788,3 +788,11 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Mỗi lượt chỉ có một bong bóng; nội dung tối đa hai dòng, giới hạn chiều cao và cắt gọn khi quá dài.
 - Cấp bậc nhân vật quyết định kích thước bong bóng; kích thước trên màn hình nhỏ được giảm thêm.
 - Cache: `tournament.js v12`, `style.css responsive-arena-v214`, `data-loader.js v161`.
+
+
+## 94. Bong bóng thoại neo theo đầu nhân vật
+- Lời bình xuất hiện trên đầu nhân vật khán đài tương ứng, có thể lệch nhẹ sang trái/phải nhưng mũi tên vẫn trỏ về đầu người nói.
+- Vị trí bám theo zoom/pan của Canvas và cập nhật liên tục.
+- Bong bóng phân cấp kích thước theo vai trò, thu gọn thêm trên điện thoại.
+- Neo trong khu vực khán đài, tách khỏi đường đua và các thí sinh.
+- Cache: `tournament.js v13`, `style.css responsive-arena-v215`, `data-loader.js v162`.
