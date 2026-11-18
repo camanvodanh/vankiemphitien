@@ -533,3 +533,11 @@
 - Bong bóng lời bình được thu nhỏ theo thứ bậc: Chưởng môn/trưởng lão lớn nhất; nòng cốt/ngoại môn trung bình; nội môn nhỏ hơn; tạp dịch nhỏ nhất.
 - Giảm cỡ chữ, padding, chiều rộng tối thiểu và đuôi bong bóng; trên màn hình nhỏ tiếp tục thu gọn nhưng vẫn cho phép nội dung dài tự xuống dòng.
 - CSS cache: `responsive-arena-v213`.
+
+
+## 93. Dải bình luận riêng, không che đường đua
+- Bong bóng lời bình được chuyển vào dải bình luận riêng nằm trước Canvas trong luồng bố cục; dải này làm Canvas dịch xuống theo chiều cao của chính nó, không phủ lên hình ảnh thi đấu.
+- Mỗi thời điểm chỉ hiển thị một lời bình; câu dài giới hạn tối đa hai dòng và được cắt gọn trong dải, không tràn xuống đường đua.
+- Kích thước vẫn phân cấp: Chưởng môn lớn nhất, trưởng lão kế tiếp, nòng cốt/ngoại môn trung bình, nội môn nhỏ hơn và tạp dịch nhỏ nhất; trên điện thoại tiếp tục thu gọn.
+- Không thay đổi tốc độ, vị trí, thứ hạng, camera hoặc tiến trình đua.
+- Cache: `tournament.js v12`, `style.css responsive-arena-v214`, `data-loader.js v161`.
