@@ -541,3 +541,12 @@
 - Kích thước vẫn phân cấp: Chưởng môn lớn nhất, trưởng lão kế tiếp, nòng cốt/ngoại môn trung bình, nội môn nhỏ hơn và tạp dịch nhỏ nhất; trên điện thoại tiếp tục thu gọn.
 - Không thay đổi tốc độ, vị trí, thứ hạng, camera hoặc tiến trình đua.
 - Cache: `tournament.js v12`, `style.css responsive-arena-v214`, `data-loader.js v161`.
+
+
+## 94. Bong bóng bám theo nhân vật phát biểu
+- Bỏ dải bình luận độc lập; bong bóng được định vị tuyệt đối theo tọa độ đầu của từng nhân vật khán đài trong Canvas.
+- Bong bóng nằm phía trên đầu hoặc lệch nhẹ sang bên; đuôi điều chỉnh vị trí ngang để luôn hướng về đúng người phát biểu.
+- Neo theo vị trí nhân vật sau khi áp dụng zoom/pan, cập nhật liên tục để không trôi khỏi người nói.
+- Kích thước phân cấp theo vai trò; Chưởng môn lớn nhất, trưởng lão tiếp theo, nòng cốt/đệ tử chân truyền trung bình, nội môn nhỏ hơn, ngoại môn và tạp dịch nhỏ nhất.
+- Tọa độ neo nằm ở khu vực khán đài dưới đường đua, không đặt bong bóng lên khu vực thí sinh thi đấu.
+- Cache: `tournament.js v13`, `style.css responsive-arena-v215`, `data-loader.js v162`.
