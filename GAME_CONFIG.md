@@ -795,4 +795,4 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Vị trí bám theo zoom/pan của Canvas và cập nhật liên tục.
 - Bong bóng phân cấp kích thước theo vai trò, thu gọn thêm trên điện thoại.
 - Neo trong khu vực khán đài, tách khỏi đường đua và các thí sinh.
-- Cache: `tournament.js v13`, `style.css responsive-arena-v215`, `data-loader.js v162`.
+- Cache: `tournament.js v13`, `style.css responsive-arena-v216`, `data-loader.js v162`.
