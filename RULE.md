@@ -527,3 +527,9 @@
 - Bộ cổ vũ chỉ chạy sau khi qua đếm ngược, đang đua và không tạm dừng; dừng khi cuộc đua kết thúc.
 - Trong giây cuối (`00:01`), mọi racer chưa về đích được tăng tiến độ theo phần quãng đường còn lại và thời gian còn lại, bảo đảm cùng chạm vạch khi đồng hồ về `00:00`. Thứ hạng vẫn dựa trên tiến độ và thời điểm chạm đích.
 - Cache: `tournament.js v11`, `race-logic.js v204`, `data-loader.js v160`.
+
+
+## 92. Thu nhỏ bong bóng bình luận theo cấp bậc
+- Bong bóng lời bình được thu nhỏ theo thứ bậc: Chưởng môn/trưởng lão lớn nhất; nòng cốt/ngoại môn trung bình; nội môn nhỏ hơn; tạp dịch nhỏ nhất.
+- Giảm cỡ chữ, padding, chiều rộng tối thiểu và đuôi bong bóng; trên màn hình nhỏ tiếp tục thu gọn nhưng vẫn cho phép nội dung dài tự xuống dòng.
+- CSS cache: `responsive-arena-v213`.
