@@ -10382,3 +10382,16 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   opacity:1!important;
   visibility:visible!important;
 }
+
+/* HOTFIX 2026-11-18: cưỡng chế hiển thị bong bóng, tránh bị quy tắc CSS khác ẩn. */
+.arena-frame > .tournament-speech-bubble{
+  display:block!important;
+  opacity:1!important;
+  visibility:visible!important;
+  z-index:1500!important;
+  pointer-events:none!important;
+}
+.arena-frame > .tournament-speech-bubble:not(.is-visible){
+  opacity:0!important;
+  visibility:hidden!important;
+}
