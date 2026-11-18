@@ -9,12 +9,8 @@
   if(!arena||!canvas||!startButton)return;
 
   const bubbles=[];
-  const commentaryRail=document.createElement("div");
-  commentaryRail.className="race-commentary-rail";
-  commentaryRail.setAttribute("aria-label","Lời bình trực tiếp");
-  commentaryRail.setAttribute("aria-live","polite");
-  arena.insertBefore(commentaryRail,canvas);
   let chatterTimer=0;
+  let frameRequest=0;
   let turn=0;
   let lastEvent="";
 
@@ -41,6 +37,45 @@
     return typeof racers!=="undefined"&&Array.isArray(racers)?racers:[];
   }
 
+  const speakerAnchors={
+    master:{x:550,y:568,side:1},
+    elder:{x:867,y:585,side:-1},
+    disciple:{x:263,y:585,side:1},
+    core:{x:550,y:642,side:-1},
+    inner:{x:380,y:638,side:1},
+    outer:{x:550,y:718,side:-1},
+    servant:{x:550,y:818,side:1},
+    racer:{x:550,y:642,side:1}
+  };
+
+  function positionBubble(item){
+    if(!item.el.isConnected)return;
+    const cr=canvas.getBoundingClientRect(),ar=arena.getBoundingClientRect();
+    if(!cr.width||!cr.height||!ar.width||!ar.height)return;
+    const anchor=speakerAnchors[item.type]||speakerAnchors.outer;
+    const zoom=typeof gameZoom!=="undefined"?gameZoom:1;
+    const panX=typeof gamePanX!=="undefined"?gamePanX:0;
+    const panY=typeof gamePanY!=="undefined"?gamePanY:0;
+    const sx=canvas.width*.5+panX+(anchor.x-canvas.width*.5)*zoom;
+    const sy=canvas.height*.5+panY+(anchor.y-canvas.height*.5)*zoom;
+    const px=cr.left-ar.left+sx/canvas.width*cr.width;
+    const py=cr.top-ar.top+sy/canvas.height*cr.height;
+    const width=item.el.offsetWidth||120;
+    const height=item.el.offsetHeight||34;
+    const side=anchor.side||1;
+    const offset=Math.min(22,width*.13)*side;
+    const left=Math.max(width/2+6,Math.min(ar.width-width/2-6,px+offset));
+    item.el.style.left=left+"px";
+    item.el.style.top=(py-7)+"px";
+    item.el.style.setProperty("--speech-tail-x",Math.max(10,Math.min(width-10,px-left+width/2))+"px");
+  }
+
+  function followBubbles(){
+    bubbles.forEach(positionBubble);
+    if(bubbles.length)frameRequest=requestAnimationFrame(followBubbles);
+    else frameRequest=0;
+  }
+
   function showBubble(message,type){
     if(!message)return;
     bubbles.forEach(item=>item.el.remove());
@@ -53,14 +88,17 @@
     text.className="tournament-speech-message";
     text.textContent=String(message);
     el.appendChild(text);
-    commentaryRail.appendChild(el);
+    arena.appendChild(el);
     const item={el,type};
     bubbles.push(item);
+    positionBubble(item);
+    if(!frameRequest)frameRequest=requestAnimationFrame(followBubbles);
     window.setTimeout(()=>{
       el.classList.remove("is-visible");
       el.remove();
       const i=bubbles.indexOf(item);
       if(i>=0)bubbles.splice(i,1);
+      if(!bubbles.length&&frameRequest){cancelAnimationFrame(frameRequest);frameRequest=0;}
     },4300);
   }
 
@@ -116,6 +154,7 @@
 
   window.addEventListener("pagehide",()=>{
     if(chatterTimer)clearTimeout(chatterTimer);
+    if(frameRequest)cancelAnimationFrame(frameRequest);
     bubbles.forEach(item=>item.el.remove());
     bubbles.length=0;
   });
