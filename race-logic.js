@@ -124,9 +124,16 @@ function updateRace(dt){
   const paceWave=1+Math.sin(elapsed*1.65+(racer.pacePhase||0))*(racer.paceAmplitude||.025);
   const previousProgress=racer.progress;
   const frameDistance=baseSpeed*paceWave*dt*racer.speedMultiplier;
-  const nextProgress=Math.min(distance,previousProgress+frameDistance);
-  if(nextProgress>=distance&&previousProgress<distance&&frameDistance>0){
-   const crossingFraction=clamp((distance-previousProgress)/frameDistance,0,1);
+  let nextProgress=Math.min(distance,previousProgress+frameDistance);
+  // Trong giây cuối, mọi tiên nhân còn đang bay được dẫn tốc dần về đích.
+  // Tính theo thời gian còn lại trước khung hình để tất cả chạm đích đúng 00:00.
+  const timeLeftBeforeFrame=Math.max(0,duration-(elapsed-dt));
+  if(timeLeftBeforeFrame>0&&timeLeftBeforeFrame<=1){
+   const catchUpFraction=clamp(dt/timeLeftBeforeFrame,0,1);
+   nextProgress=Math.min(distance,previousProgress+(distance-previousProgress)*catchUpFraction);
+  }
+  if(nextProgress>=distance&&previousProgress<distance&&nextProgress>previousProgress){
+   const crossingFraction=clamp((distance-previousProgress)/(nextProgress-previousProgress),0,1);
    racer.finishCrossingTime=Math.max(0,elapsed-dt+dt*crossingFraction);
   }
   racer.progress=nextProgress;
