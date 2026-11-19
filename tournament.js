@@ -91,8 +91,89 @@
     ["disciple",()=> "Đại hội hôm nay quá xuất sắc! Xin cho khán giả thêm một đôi mắt!"],
     ["outer",()=> "Chỉ còn một đoạn! Vận khí, kiếm ý, và đôi chân… à, phi kiếm!"],
     ["elder",()=> "Lão phu phán đoán: người về nhất sẽ là người chạm đích đầu tiên!"],
-    ["master",()=> "Các vị đã khiến tông môn rạng danh! Dù thắng hay thua, đừng quên trả phi kiếm!"]
+    ["master",()=> "Các vị đã khiến tông môn rạng danh! Dù thắng hay thua, đừng quên trả phi kiếm!"],
+    ["elder",()=> "Lão phu vừa định dùng thần thức dò thứ hạng, ai ngờ bảng xếp hạng chạy còn nhanh hơn thần thức!"],
+    ["elder",()=> "Kiếm tâm bất động, thân pháp như phong… riêng túi linh thạch của lão phu đang run!"],
+    ["elder",()=> "Hậu sinh này có căn cốt tốt! Nếu không về nhất, nhất định là do phi kiếm chưa được bảo dưỡng!"],
+    ["elder",()=> "Lão phu tu luyện ba nghìn năm, vẫn chưa học được cách cổ vũ mà không khản giọng!"],
+    ["elder",()=> "Đừng chỉ nhìn tốc độ! Hãy nhìn cả phong thái… dù lão phu cũng chẳng nhìn kịp!"],
+    ["elder",()=> "Người thắng lĩnh thưởng, người thua lĩnh ngộ. Còn lão phu lĩnh… hóa đơn trà!"],
+    ["elder",()=> "Thiên cơ biến đổi, thứ hạng đảo chiều. Xem ra hôm nay bói toán cũng phải cập nhật!"],
+    ["elder",()=> "Một thân kiếm khí kinh người! Chỉ tiếc lão phu vừa chớp mắt đã bỏ lỡ ba lần vượt mặt!"],
+    ["elder",()=> "Đạo tâm vững như bàn thạch! Chỉ có tim lão phu là đập như trống trận!"],
+    ["elder",()=> "Nếu tốc độ này đem đi giao linh đan, chắc cả tông môn khỏi cần lập đội vận chuyển!"],
+    ["disciple",()=> "Mau nhìn kìa! Người ấy vừa vượt lên! Ta còn chưa kịp đặt tên cho chiêu thức!"],
+    ["disciple",()=> "Sư huynh bay như kiếm quang, còn ta chạy theo tin tức cũng không kịp!"],
+    ["disciple",()=> "Ta đã luyện tiếng reo cổ vũ suốt đêm, hôm nay nhất định phải dùng hết!"],
+    ["disciple",()=> "Đừng lo phía sau! Có chúng ta ở đây… tuy không giúp được gì ngoài la hét!"],
+    ["disciple",()=> "Vừa rồi là bí thuật gì? Sao ta chỉ thấy một vệt sáng và một đám bụi tiên!"],
+    ["disciple",()=> "Nếu thắng được thưởng linh thạch, nhớ mời đồng môn một bữa linh tửu… à, trà tiên cũng được!"],
+    ["disciple",()=> "Ta cá người ấy còn giấu tuyệt chiêu! Không thì sao vẻ mặt vẫn bình thản thế kia!"],
+    ["disciple",()=> "Kiếm bay có thể mỏi không nhỉ? Ta nhìn thôi mà đã muốn ngồi nghỉ!"],
+    ["disciple",()=> "Đường đua hôm nay đúng là long tranh hổ đấu, còn ta tranh thủ giữ chỗ ngồi!"],
+    ["disciple",()=> "Ai vừa vượt qua vậy? Nhanh đến mức ta chưa kịp nhận ra màu áo!"],
+    ["core",()=> "Kiếm ý nhập vi, thân pháp vô song! Ta xin ghi chép lại… để lần sau còn khoe đã hiểu!"],
+    ["core",()=> "Người này khí vận thâm hậu, ngay cả gió cũng tự giác nhường đường!"],
+    ["core",()=> "Một bước vượt thiên kiêu, nửa bước khiến đối thủ nghi ngờ nhân sinh!"],
+    ["core",()=> "Đường kiếm có ba phần huyền diệu, bảy phần khiến người xem muốn xin bí kíp!"],
+    ["core",()=> "Ta nhìn ra rồi! Bí quyết là tập trung… tiếc rằng ta chỉ tập trung nhìn!"],
+    ["core",()=> "Nếu đây là thực lực bình thường, tuyệt kỹ chắc phải khiến trời đất đổi màu!"],
+    ["core",()=> "Thân pháp như quỷ mị, phi kiếm như thần long. Ghi chú: tuyệt đối không đua thử ở hành lang!"],
+    ["core",()=> "Khí thế áp đảo! Người phía sau chắc đang tính lại nhân sinh và số linh thạch còn lại!"],
+    ["core",()=> "Đạo hữu này tiến cảnh thần tốc, ta vừa định phân tích thì đã qua thêm một khúc!"],
+    ["core",()=> "Đúng là thiên tài! Ta xin làm người chứng kiến, vị trí này an toàn hơn dự thi!"],
+    ["inner",()=> "Vừa rồi đổi hướng giữa không trung! Động tác ấy đáng giá ba quyển thân pháp!"],
+    ["inner",()=> "Khoảng cách đang thu hẹp! Trận này chưa đến hồi kết, đừng vội mở tiệc ăn mừng!"],
+    ["inner",()=> "Người dẫn đầu giữ nhịp rất tốt, nhưng phía sau đã có kiếm quang áp sát!"],
+    ["inner",()=> "Ta cá đây là tuyệt học thân pháp mới! Tên chiêu: Chớp mắt đã ở phía trước!"],
+    ["inner",()=> "Đối thủ vừa tăng tốc, người dẫn đầu lập tức đáp lễ. Đúng là lễ nghi tu tiên!"],
+    ["inner",()=> "Tốc độ kinh người! Nếu dùng để né bài kiểm tra môn quy thì thật đáng tiếc!"],
+    ["inner",()=> "Một vòng kiếm ảnh, hai lần đổi vị trí! Ta cần thêm hai đôi mắt để theo dõi!"],
+    ["inner",()=> "Thứ hạng thay đổi liên tục, bảng Thiên Lý chắc sắp xin nghỉ phép!"],
+    ["inner",()=> "Kiếm quang giao thoa, linh khí cuộn trào! Khán đài hôm nay không uổng công đến sớm!"],
+    ["inner",()=> "Đừng xem thường người bám đuổi! Kẻ giữ sức đến cuối thường khiến cả sân kinh ngạc!"],
+    ["outer",()=> "Cố lên! Về đích trước thì được thưởng, về sau thì được… thêm kinh nghiệm!"],
+    ["outer",()=> "Phi kiếm lướt gió, áo bào tung bay! Ta đứng đây cũng thấy mình ngầu thêm chút!"],
+    ["outer",()=> "Đừng để kiếm khí tản mát! Linh thạch mua kiếm phù hôm nay đắt lắm!"],
+    ["outer",()=> "Người phía trước cứ bay, chúng ta phía sau cứ cổ vũ. Phân công thật hoàn mỹ!"],
+    ["outer",()=> "Ta vừa hô cố lên xong, người ấy đã vượt mất. Có cần hô nhanh hơn không?"],
+    ["outer",()=> "Nếu thắng cuộc có thưởng, ta xin đăng ký làm người vỗ tay chuyên nghiệp!"],
+    ["outer",()=> "Đường đua rộng thế mà vẫn tranh nhau từng tấc! Quả nhiên tiên duyên cũng phải cạnh tranh!"],
+    ["outer",()=> "Kiếm thế mạnh mẽ! Chỉ mong lúc hạ cánh vẫn nhớ phanh ở đâu!"],
+    ["outer",()=> "Một đường phá phong! Ta nghe tiếng gió thôi cũng biết người này không tầm thường!"],
+    ["outer",()=> "Cơ hội đang đến! Đừng để đối thủ vượt qua dễ như lấy đồ trong túi trữ vật!"],
+    ["servant",()=> "Đệ tử đã quét sạch quảng trường, xin chư vị đừng bay thấp làm bụi tiên bay lại!"],
+    ["servant",()=> "Ta vừa đặt ấm trà xuống thì ba vị đã đổi thứ hạng. Trà này uống không kịp nữa rồi!"],
+    ["servant",()=> "Nếu ai cần khăn lau kiếm, đệ tử có chuẩn bị! Nhưng xin đừng giảm tốc để nhận!"],
+    ["servant",()=> "Đệ tử cổ vũ hết mình! Chỉ mong lát nữa không phải nhặt phi kiếm rơi!"],
+    ["servant",()=> "Người bay nhanh quá, khay linh quả của ta còn chưa kịp đưa lên!"],
+    ["servant",()=> "Ta xin ghi công: hôm nay không ai va vào chổi của đệ tử!"],
+    ["servant",()=> "Đại hội thật náo nhiệt! Đệ tử nghe tiếng reo mà quên mất mình đang trực ban!"],
+    ["servant",()=> "Nếu phi kiếm có chuông báo, chắc cả sân giờ vang như hội chợ tiên gia!"],
+    ["servant",()=> "Đệ tử không biết phân biệt kiếm chiêu, nhưng biết ai sắp về đích rồi!"],
+    ["servant",()=> "Xin chư vị bay cẩn thận! Sân vừa lau xong, trượt một cái là mất phong độ!"],
+    ["master",()=> "Bổn tọa thấy rõ từng đường kiếm… chỉ là bảng thứ hạng đổi nhanh đến mức cần thêm một vị trưởng lão ghi chép!"],
+    ["master",()=> "Các vị cứ toàn lực tranh phong. Nếu phi kiếm hỏng, tông môn sẽ xem xét… sau khi kiểm kê linh thạch!"],
+    ["master",()=> "Người thắng không kiêu, người bại không nản. Riêng người làm rơi kiếm phải tự đi nhặt!"],
+    ["master",()=> "Bổn tọa rất hài lòng với tinh thần đại hội. Đặc biệt là tinh thần không ai bỏ cuộc giữa đường!"],
+    ["master",()=> "Một kiếm định phong vân! Nhưng nhớ giữ khoảng cách, bổn tọa không muốn mở thêm đại hội sửa sân!"],
+    ["master",()=> "Tông môn trọng tài năng, cũng trọng an toàn. Bay nhanh nhưng chớ biến thành sao băng!"]
   ];
+
+  // Tránh lặp câu theo từng vai: mỗi vai ghi nhớ 8 câu vừa phát.
+  const recentLinesByRole=Object.create(null);
+  function chooseDialogue(role,name,call){
+    const pool=lines.filter(line=>line[0]===role);
+    if(!pool.length)return null;
+    const recent=recentLinesByRole[role]||(recentLinesByRole[role]=[]);
+    const evaluated=pool.map(line=>({text:String(line[1](name,call)),line}));
+    let candidates=evaluated.filter(item=>!recent.includes(item.text));
+    if(!candidates.length){recent.length=0;candidates=evaluated;}
+    const chosen=candidates[Math.floor(Math.random()*candidates.length)];
+    recent.push(chosen.text);
+    if(recent.length>8)recent.shift();
+    return chosen.text;
+  }
 
   function racersNow(){
     return typeof racers!=="undefined"&&Array.isArray(racers)?racers:[];
@@ -241,10 +322,9 @@
         return;
       }
       const cycleIndex=turn++;
-      const choices=lines.filter(line=>line[0]===speaker);
-      const entry=choices.length?choices[Math.floor(Math.random()*choices.length)]:lines[cycleIndex%lines.length];
-      showBubble(entry[1](name,call),entry[0]);
-      if(!stopped&&!isFinished())chatterTimer=window.setTimeout(speak,1250+Math.floor(Math.random()*450));
+      const message=chooseDialogue(speaker,name,call);
+      if(message)showBubble(message,speaker);
+      if(!stopped&&!isFinished())chatterTimer=window.setTimeout(speak,900+Math.floor(Math.random()*400));
     };
     chatterTimer=window.setTimeout(speak,500);
   }
