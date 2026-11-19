@@ -990,3 +990,8 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Giữ nguyên Chưởng môn và ghế tại Canvas Y=565.
 - Chỉ hạ nhãn CHƯỞNG MÔN từ Y=438 xuống Y=444 (thêm 6 px), không thay đổi mặt, vương miện hoặc vòng Thái Cực.
 - Cache: visual-overrides.js v231, data-loader.js v190, index.html data-driven-v190.
+
+
+## 122. Thử nghiệm hạ nhãn Chưởng môn xuống Canvas Y=500
+- Chỉ thay đổi tọa độ nhãn CHƯỞNG MÔN từ Y=444 xuống Y=500 để kiểm tra vị trí mới; giữ nguyên tâm ngai và Chưởng môn tại Y=565, không thay đổi mặt, vương miện hoặc vòng Thái Cực.
+- Cache: visual-overrides.js v232, data-loader.js v191, index.html data-driven-v191.
