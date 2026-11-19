@@ -714,3 +714,10 @@
 - Giữ nguyên tọa độ các hàng Chân truyền, Trưởng lão, Nòng cốt và các tầng đệ tử khác; không dịch/chồng lại khán đài. Ngai được nâng để tách khỏi vùng Nòng cốt đang tập trung bên dưới.
 - Pháp trận triệu hồi và điểm niệm chú trung tâm được nâng tương ứng 45px (Y=674→629, Y=642→597) để khớp vị trí mới; không thay đổi thời lượng hay logic nghi thức.
 - Cache: `visual-overrides.js v226`, `race-logic.js v209`, `data-loader.js v185`, `index.html data-driven-v185`.
+
+
+## 117. Hạ khu vực Chưởng môn và cân bằng nhịp bình luận
+- Ngai/nhân vật Chưởng môn hạ xuống Canvas Y=620 (tỷ lệ theo chiều cao Canvas), nhãn Chưởng môn hạ xuống Y=570, đưa vị trí gần vòng Thái Cực hơn nhưng vẫn giữ khoảng trống trước hàng Nòng cốt.
+- Bình luận tự động giảm nhịp từ 0,9–1,3 giây xuống 2,1–3,0 giây; vai bình luận luân phiên ưu tiên Tạp dịch, Ngoại môn, Nội môn, Nòng cốt, Chân truyền, giảm mật độ Trưởng lão.
+- Sự kiện đổi người dẫn đầu có thứ tự: đệ tử/khán giả mở lời, Trưởng lão nhận xét sau khoảng 1,9 giây; Chưởng môn chỉ đáp mỗi 3 sự kiện và sau khoảng 3,9 giây, nếu sự kiện vẫn còn hiện hành. Photo finish cũng đan xen đệ tử trước Trưởng lão.
+- Cache: visual-overrides.js v227, tournament.js v33, data-loader.js v186, index.html data-driven-v186.
