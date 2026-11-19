@@ -721,3 +721,10 @@
 - Bình luận tự động giảm nhịp từ 0,9–1,3 giây xuống 2,1–3,0 giây; vai bình luận luân phiên ưu tiên Tạp dịch, Ngoại môn, Nội môn, Nòng cốt, Chân truyền, giảm mật độ Trưởng lão.
 - Sự kiện đổi người dẫn đầu có thứ tự: đệ tử/khán giả mở lời, Trưởng lão nhận xét sau khoảng 1,9 giây; Chưởng môn chỉ đáp mỗi 3 sự kiện và sau khoảng 3,9 giây, nếu sự kiện vẫn còn hiện hành. Photo finish cũng đan xen đệ tử trước Trưởng lão.
 - Cache: visual-overrides.js v227, tournament.js v33, data-loader.js v186, index.html data-driven-v186.
+
+
+## 118. Đặt ngai Chưởng môn vào khoảng giữa hai hàng danh vị và ổn định cảnh kết thúc
+- Tâm ngai Chưởng môn chuyển từ Canvas Y=620 xuống Y=590 (tỷ lệ theo chiều cao Canvas), nằm trong khoảng trống giữa hàng Chân truyền bên trái và Trưởng lão bên phải; cao hơn nhẹ hai hàng này và tách khỏi vùng Nòng cốt bên dưới.
+- Nhãn CHƯỞNG MÔN giữ nguyên Canvas Y=570, tiếp tục nằm sát vòng Thái Cực; không di chuyển nhãn theo ngai.
+- Loại bỏ thao tác render Thiên Lý Kính mini tự đặt lại cờ ẩn ngai của sân chính. Hai luồng render không còn ghi đè trạng thái của nhau, tránh ngai/Chưởng môn chớp mất rồi xuất hiện đè lên Nòng cốt sau cảnh đại hội kết thúc.
+- Cache: visual-overrides.js v228, data-loader.js v187, index.html data-driven-v187.
