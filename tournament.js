@@ -9,8 +9,9 @@
   if(!arena||!canvas||!startButton)return;
 
   const bubbles=[];
+  const bubbleQueue=[];
   let chatterTimer=0,frameRequest=0,turn=0,lastEvent="",bubbleSequence=0,stopped=false;
-  const MAX_BUBBLES=6,BUBBLE_LIFE=4300;
+  const MAX_BUBBLES=2,BUBBLE_LIFE=4300;
 
   function inferGender(name){
     const n=String(name||"").trim().toLowerCase();
@@ -100,7 +101,7 @@
   const speakerAnchors={
     // Hai vị trí hàng đầu dùng bong bóng nằm dưới điểm neo; đuôi hướng ngược lên
     // để chỉ đúng người đang thoại mà không phủ lên nhân vật thi đấu.
-    master:{x:550,y:755,side:1},elder:{x:867,y:600,side:-1,below:true},disciple:{x:263,y:600,side:1,below:true},core:{x:550,y:765,side:-1},inner:{x:380,y:775,side:1},outer:{x:550,y:795,side:-1},servant:{x:550,y:845,side:1},
+    master:{x:550,y:690,side:1,below:true},elder:{x:867,y:600,side:-1,below:true},disciple:{x:263,y:600,side:1,below:true},core:{x:550,y:765,side:-1},inner:{x:380,y:775,side:1},outer:{x:550,y:795,side:-1},servant:{x:550,y:845,side:1},
     racer:{x:550,y:720,side:1}
   };
 
@@ -123,7 +124,7 @@
     // Chọn vị trí trái/giữa/phải và các tầng dọc theo mức độ va chạm thực tế.
     // Các bong bóng đã được sắp theo thứ tự xuất hiện nên vị trí của chúng ổn định trong mỗi khung hình.
     const xSlots=[.16,.84,.34,.66,.50,.24,.76];
-    const yLevels=[0,1,-1,2,-2,3,-3];
+    const yLevels=[0,-1,1];
     const preferredX=px*.34+ar.width*.66;
     const baseY=anchor.below?py+8:py-10;
     const others=bubbles.filter(other=>other!==item&&other.el.isConnected&&other.el.style.left&&other.el.style.top);
@@ -163,12 +164,7 @@
     else frameRequest=0;
   }
 
-  function removeBubble(item){if(item.timer)clearTimeout(item.timer);item.el.remove();const i=bubbles.indexOf(item);if(i>=0)bubbles.splice(i,1);}
-  function clearBubbles(){bubbles.slice().forEach(removeBubble);if(frameRequest){cancelAnimationFrame(frameRequest);frameRequest=0;}}
-  function stopChatter(){stopped=true;if(chatterTimer){clearTimeout(chatterTimer);chatterTimer=0;}clearBubbles();}
-  function showBubble(message,type){
-    if(!message||stopped||isFinished())return;
-    while(bubbles.length>=MAX_BUBBLES)removeBubble(bubbles[0]);
+  function createBubble(message,type){
     const seq=++bubbleSequence;
     const el=document.createElement("div");
     el.className="tournament-speech-bubble speaker-"+type+" is-visible";
@@ -180,11 +176,42 @@
     el.appendChild(text);
     el.style.zIndex=String(1150+seq);
     arena.appendChild(el);
-    const item={el,type,sequence:seq,stack:bubbles.filter(b=>b.type===type).length,timer:0};
+    const item={el,type,sequence:seq,timer:0};
     bubbles.push(item);
     positionBubble(item);
     if(!frameRequest)frameRequest=requestAnimationFrame(followBubbles);
     item.timer=window.setTimeout(()=>removeBubble(item),BUBBLE_LIFE);
+  }
+  function flushBubbleQueue(){
+    if(stopped||isFinished()){bubbleQueue.length=0;return;}
+    while(bubbles.length<MAX_BUBBLES&&bubbleQueue.length){
+      const index=bubbleQueue.findIndex(entry=>!bubbles.some(item=>item.type===entry.type));
+      if(index<0)return;
+      const next=bubbleQueue.splice(index,1)[0];
+      createBubble(next.message,next.type);
+    }
+  }
+  function removeBubble(item){
+    if(item.timer)clearTimeout(item.timer);
+    item.el.remove();
+    const i=bubbles.indexOf(item);
+    if(i>=0)bubbles.splice(i,1);
+    flushBubbleQueue();
+  }
+  function clearBubbles(){
+    bubbleQueue.length=0;
+    bubbles.slice().forEach(item=>{if(item.timer)clearTimeout(item.timer);item.el.remove();});
+    bubbles.length=0;
+    if(frameRequest){cancelAnimationFrame(frameRequest);frameRequest=0;}
+  }
+  function stopChatter(){stopped=true;if(chatterTimer){clearTimeout(chatterTimer);chatterTimer=0;}clearBubbles();}
+  function showBubble(message,type){
+    if(!message||stopped||isFinished())return;
+    if(bubbles.length>=MAX_BUBBLES||bubbles.some(item=>item.type===type)){
+      if(bubbleQueue.length<12)bubbleQueue.push({message:String(message),type});
+      return;
+    }
+    createBubble(message,type);
   }
 
   function scheduleChatter(){
@@ -201,9 +228,15 @@
       const gender=inferGender(name);
       const call=addressedName(name,gender,true);
       // Luân phiên có trọng số để Trưởng lão và Chân truyền đệ tử thường xuyên tham gia bình luận.
-      const speakerCycle=["elder","disciple","core","inner","outer","servant","disciple","elder","inner","outer","core","master","servant"];
+      // Chưởng môn không nằm trong vòng cổ vũ tự phát; chỉ đáp lời khi có đối thoại sự kiện.
+      const speakerCycle=["elder","disciple","core","inner","outer","servant","disciple","elder","inner","outer","core","servant"];
+      const speaker=speakerCycle[turn%speakerCycle.length];
+      // Chờ chỗ trống và không để cùng một vai có hai bong bóng cùng lúc.
+      if(bubbles.length>=MAX_BUBBLES||bubbles.some(item=>item.type===speaker)){
+        chatterTimer=window.setTimeout(speak,450);
+        return;
+      }
       const cycleIndex=turn++;
-      const speaker=speakerCycle[cycleIndex%speakerCycle.length];
       const choices=lines.filter(line=>line[0]===speaker);
       const entry=choices.length?choices[Math.floor(Math.random()*choices.length)]:lines[cycleIndex%lines.length];
       showBubble(entry[1](name,call),entry[0]);
