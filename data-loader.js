@@ -1,6 +1,6 @@
 "use strict";
 (async function bootVanKiemPhiTien(){
- const names=["characters","swords","effects","summoning","ceremony","scenery"];
+ const names=["characters","swords","effects","summoning","ceremony","scenery","dialogues"];
  const entries=await Promise.all(names.map(async name=>{
   const response=await fetch("data/"+name+".json",{cache:"no-cache"});
   if(!response.ok)throw new Error("Không tải được data/"+name+".json ("+response.status+")");
@@ -17,7 +17,7 @@
   "race-logic.js?v=race-phase1-v206",
   "journey-world.js?v=journey-world-v22",
   "i18n.js?v=race-phase1-v184",
-  "tournament.js?v=tournament-v29"
+  "tournament.js?v=tournament-v30"
  ];
  for(const src of scripts){
   await new Promise((resolve,reject)=>{
