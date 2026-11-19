@@ -10733,3 +10733,31 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
     line-height:1.1!important;
   }
 }
+
+
+/* REVISION 225 — điều khiển tốc độ và slow motion tự động. */
+.arena-controls .race-speed-controls{
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:5px;
+  width:100%;margin:5px auto 0;padding:6px 8px;
+  border:1px solid rgba(205,174,111,.42);border-radius:10px;
+  background:linear-gradient(135deg,rgba(17,42,39,.94),rgba(35,57,48,.9));
+  box-shadow:inset 0 1px 0 rgba(255,244,205,.12),0 3px 10px rgba(0,0,0,.18);
+}
+.race-speed-caption,.race-speed-status{
+  color:#d9c99f;font-size:9px;font-weight:800;letter-spacing:.08em;
+}
+.race-speed-controls button{
+  min-width:38px;padding:5px 8px;border:1px solid rgba(220,194,137,.45);
+  border-radius:7px;background:rgba(255,255,255,.07);color:#f4e6c2;
+  font:700 10px/1.1 inherit;cursor:pointer;touch-action:manipulation;
+}
+.race-speed-controls button.is-active{
+  color:#352817;background:linear-gradient(180deg,#fff0bd,#c99b52);
+  border-color:#ffe4a0;box-shadow:0 0 9px rgba(244,202,112,.3);
+}
+.race-speed-status{min-width:76px;text-align:center;letter-spacing:.03em}
+@media(max-width:600px){
+ .arena-controls .race-speed-controls{gap:4px;padding:5px 4px;margin-top:4px}
+ .race-speed-controls button{min-width:34px;padding:6px 6px;font-size:9px}
+ .race-speed-caption,.race-speed-status{font-size:8px}
+}
