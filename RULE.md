@@ -698,3 +698,12 @@
 - Hiệu ứng đang có camera focus vẫn ưu tiên; cảnh mặc định theo người dẫn đầu. Camera mini hiển thị nhãn chế độ và phóng đại nhẹ cho các cảnh nổi bật.
 - Khởi tạo lại Camera Director khi triệu hồi, bắt đầu đua và reset; các tính năng zoom/pan thủ công trên Canvas chính không đổi.
 - Cache: `camera-director.js v1`, `race-logic.js v207`, `data-loader.js v183`, `index.html data-driven-v183`.
+
+
+## 115. Update 1 — Event Engine và giao diện Thiên Lý Kính
+- Thêm `race-events.js` làm event bus tập trung cho countdown, khai cuộc, đổi người dẫn đầu, vượt hạng, về đích, photo finish, kết thúc và reset.
+- Event có payload, thời điểm, ID tuần tự, subscribe/unsubscribe, lịch sử event gần nhất và cooldown theo loại/key để giảm spam.
+- Camera Director nhận event vượt hạng, về đích và photo finish qua Event Engine; không còn gọi camera trực tiếp từ mô phỏng.
+- Thiên Lý Kính bỏ banner/dòng nhãn mode như PHA VƯỢT HẠNG, HIỆU ỨNG, CAM LEADER; giữ thông tin tên tuyển thủ, hạng, tốc độ, thiên phú và hiệu ứng theo giao diện hiện tại.
+- Camera vẫn tự theo leader, tranh phong, effect focus, vượt hạng, finish và photo finish; không thay đổi logic tiến độ, tốc độ, thứ hạng hay gameplay.
+- Cache: `race-logic.js v208`, `camera-director.js v2`, `race-events.js v1`, `data-loader.js v184`, `index.html data-driven-v184`.
