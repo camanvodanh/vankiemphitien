@@ -673,3 +673,11 @@
 - Bong bóng Chưởng môn chuyển xuống dưới điểm neo ở Canvas y=560, mũi tên hướng lên Chưởng môn; vùng hiển thị bắt đầu dưới đáy đường đua y=525 và dưới vùng mặt/mão. Các bong bóng Trưởng lão giữ nguyên hướng và vị trí riêng.
 - Giữ nguyên giới hạn tối đa 2 bong bóng, Chưởng môn chỉ đáp lời trong sự kiện, cách xưng hô bậc trưởng bối và logic thi đấu.
 - Cache: `tournament.js v30`, `data-loader.js v180`, `index.html data-driven-v180`.
+
+
+## 112. Hạ bong bóng Trưởng lão và khôi phục lời bình khi tái đấu
+- Bong bóng Trưởng lão chuyển xuống dưới điểm neo ở Canvas y=620, mũi tên hướng lên người nói; tránh vùng đường đua và phần thân nhân vật đang thi đấu. Chưởng môn giữ vị trí riêng hiện tại.
+- Trưởng lão và Chưởng môn dùng hướng bong bóng phía dưới điểm neo; các vai khán đài khác giữ nguyên thuật toán phân bố và chống chồng lấn.
+- Khôi phục bộ lời bình khi có trạng thái triệu hồi, bắt đầu đếm ngược hoặc bắt đầu vòng đua mới. Nút Chạy cũng mở lại cờ lời bình nếu vòng đua trước đã kết thúc; bộ lập lịch tiếp tục chờ đến khi đua thực sự chạy.
+- Khi trao thưởng/kết thúc, lời bình vẫn dừng và xóa bong bóng như trước; không để timer của vòng cũ chạy sang vòng mới.
+- Cache: `tournament.js v31`, `data-loader.js v181`, `index.html data-driven-v181`.
