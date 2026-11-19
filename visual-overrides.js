@@ -1670,7 +1670,7 @@ function drawCrowd(time) {
   const masterSeatY=ctx.canvas.height*(565/825);
   if(!window.__awardMasterDepartureActive)drawCeremonySeatedMaster(ctx,550,masterSeatY,.82);
   // Hạ nhãn thêm một chút để sát vòng Thái Cực hơn; không thay đổi ngai hoặc Chưởng môn.
-  drawRoleLabel(550,444,"CHƯỞNG MÔN","#f2d17d",1.05);
+  drawRoleLabel(550,500,"CHƯỞNG MÔN","#f2d17d",1.05);
 
   for(let i=0;i<10;i++){
     const x=78+i*41,y=612;
