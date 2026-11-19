@@ -219,6 +219,7 @@ function frame(time) {
           eventText = "ĐẠI HỘI BẮT ĐẦU!";
           eventTextLife = 1.5;
           $("event").textContent = eventText;
+          if(window.VKPRaceEvents)window.VKPRaceEvents.emit("race:start",{racers:racers.slice()},{cooldown:0});
         }
       }
     }
@@ -449,6 +450,7 @@ function generateCultivationNames(amount) {
 }
 function getInputNames(){return uniqueNames($("names").value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean));}
 function summon(){
+ if(window.VKPRaceEvents)window.VKPRaceEvents.reset();
  if(window.VKPCameraDirector)window.VKPCameraDirector.reset();
   if(running||paused)return;
   // Vô hiệu hóa timer và trạng thái nghi thức của lượt triệu hồi trước.
@@ -505,6 +507,7 @@ function startRace(){
 function togglePause(){if(!running||finished)return;running=false;paused=true;if(window.CultivationMusic)window.CultivationMusic.pause();$("status").textContent="Đang tạm dừng";$("lockNotice").textContent="Cuộc đua đang tạm dừng. Nhấn Tiếp tục để xem tiếp.";syncButtons();}
 function resumeRace(){if(!paused||finished)return;paused=false;running=true;if(window.CultivationMusic)window.CultivationMusic.resume();$("status").textContent=started?"Đang tranh phong":"Bắt đầu sau "+countdown+"...";$("lockNotice").textContent=started?"Cuộc đua đang tiếp tục. Theo dõi nhân vật dẫn đầu.":"Tiếp theo: Chờ đếm ngược rồi theo dõi cuộc đua.";syncButtons();}
 function finishRace(){
+ if(window.VKPRaceEvents)window.VKPRaceEvents.emit("race:complete",{racers:sortedRacers().slice(),elapsed},{cooldown:0});
  if(window.CultivationMusic)window.CultivationMusic.setPhase("award");
  collapseSetupPanel();
  elapsed=duration;
