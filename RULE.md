@@ -587,3 +587,9 @@
 - Hạ điểm neo lời bình của môn chủ, trưởng lão, nòng cốt/thân truyền, nội môn và người đua để bong bóng không bay cao vào đường đua hoặc che nhân vật thi đấu.
 - Bong bóng cùng người nói xếp lệch nhẹ xuống dưới thay vì dồn ngược lên trên; vẫn giới hạn trong khung sân và bám theo camera.
 - Cache: `tournament.js v19`, `data-loader.js v168`.
+
+## 100. Khắc phục triệu hồi Thần Sầu bằng sprite pixel gốc
+- Xóa phép gán biến toàn cục chưa khai báo trong `visual-overrides.js` chạy ở strict mode; lỗi ReferenceError trước đó có thể làm dừng thực thi renderer trước khi hàm vẽ Thần Sầu được khởi tạo.
+- Tiếp tục dùng đúng tệp `assets/characters/than-sau/than-sau-spritesheet.png`, sprite sheet 5 cột × 2 hàng, 10 frame; không thay bằng nhân vật Canvas tự vẽ.
+- Khi vẽ từng frame, giữ tỷ lệ gốc theo `frameWidth / frameHeight`, không ép ảnh dọc thành khung vuông; tắt làm mịn ảnh để bảo toàn pixel art.
+- Cache: `visual-overrides.js v223`, sprite sheet `?v=3`, `data-loader.js v167`.
