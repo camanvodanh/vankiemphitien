@@ -10476,7 +10476,7 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
 /* REVISION 167 — bong bóng bám đầu nhân vật khán đài, đuôi chỉ đúng người nói. */
 .arena-frame>.tournament-speech-bubble{
   position:absolute!important;
-  z-index:1150!important;
+  z-index:1150;
   display:block!important;
   width:max-content!important;
   min-width:0!important;
