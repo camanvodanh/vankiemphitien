@@ -995,3 +995,11 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 ## 122. Thử nghiệm hạ nhãn Chưởng môn xuống Canvas Y=500
 - Chỉ thay đổi tọa độ nhãn CHƯỞNG MÔN từ Y=444 xuống Y=500 để kiểm tra vị trí mới; giữ nguyên tâm ngai và Chưởng môn tại Y=565, không thay đổi mặt, vương miện hoặc vòng Thái Cực.
 - Cache: visual-overrides.js v232, data-loader.js v191, index.html data-driven-v191.
+
+
+## 123. Điều khiển tốc độ và Slow Motion tự động
+- Cụm tốc độ nằm dưới nhóm nút điều khiển: 1x, 0.5x, 0.25x, 0.1x và TỰ ĐỘNG. Chế độ mặc định là TỰ ĐỘNG; chọn mức thủ công sẽ tắt tự động.
+- Khi đổi người dẫn đầu/vượt hạng Top 3: 0.5x trong khoảng 1.5–1.7 giây; Top 3 về đích: 0.25x khoảng 1.9 giây; photo finish: 0.1x khoảng 2.6 giây.
+- Sự kiện mạnh hơn được ưu tiên trong thời gian hiệu lực. Khi hiệu lực kết thúc, tốc độ trở về 1x (hoặc mức thủ công đã chọn).
+- Chỉ thời gian mô phỏng cuộc đua bị nhân hệ số. Countdown và hiệu ứng sân khấu vẫn chạy theo thời gian thực.
+- Cache: race-logic.js v210, race-events.js v2, style.css responsive-arena-v225, data-loader.js v192, index.html data-driven-v192.
