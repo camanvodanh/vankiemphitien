@@ -910,3 +910,12 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Bong bóng Trưởng lão và Chưởng môn luôn bố trí phía trên điểm neo đầu/mão, mũi tên hướng xuống người nói; thuật toán không thử đảo bong bóng xuống dưới hoặc chọn tầng thấp có thể che mặt. Điểm neo Trưởng lão điều chỉnh lên y=570; Chưởng môn giữ y=515.
 - Giữ nguyên giới hạn 2 bong bóng, hàng đợi, chống lặp lời thoại và logic cuộc đua.
 - Cache: `tournament.js v29`, `data-loader.js v179`.
+
+
+## 111. Kho lời thoại JSON, chống lặp mở rộng và hạ bong bóng Chưởng môn khỏi đường đua
+- Toàn bộ lời thoại bình luận của Trưởng lão, Chưởng môn, Chân truyền đệ tử, Nòng cốt, Nội môn, Ngoại môn và Tạp dịch được lưu trong `data/dialogues.json`; `data-loader.js` tải JSON vào `window.VKP_DATA.dialogues`, `tournament.js` chỉ đọc và thay placeholder `{call}`/`fallback`, không còn lưu kho câu thoại trong JavaScript.
+- Kho hiện có 191 câu: Trưởng lão 28, Chưởng môn 22, Chân truyền đệ tử 28, Nòng cốt 27, Nội môn 29, Ngoại môn 29, Tạp dịch 28; bổ sung 58 câu hài hước tu tiên về linh thạch, pháp bảo, phi kiếm, môn quy và sinh hoạt tông môn.
+- Chống lặp mở rộng: mỗi vai ghi nhớ 18 câu gần nhất, toàn sân ghi nhớ 32 câu; bộ chọn ưu tiên câu chưa xuất hiện ở cả hai lịch sử. Hàng đợi bỏ qua nội dung trùng đang hiển thị hoặc đã chờ, tránh phát lại cùng câu ngay sau lượt trước.
+- Bong bóng Chưởng môn chuyển xuống dưới điểm neo ở Canvas y=560, mũi tên hướng lên Chưởng môn; vùng hiển thị bắt đầu dưới đáy đường đua y=525 và dưới vùng mặt/mão. Các bong bóng Trưởng lão giữ nguyên hướng và vị trí riêng.
+- Giữ nguyên giới hạn tối đa 2 bong bóng, Chưởng môn chỉ đáp lời trong sự kiện, cách xưng hô bậc trưởng bối và logic thi đấu.
+- Cache: `tournament.js v30`, `data-loader.js v180`, `index.html data-driven-v180`.
