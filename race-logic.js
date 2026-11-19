@@ -179,9 +179,10 @@ let lastCanvasRenderAt = 0;
 let canvasRenderDisabled = false; // Giữ biến tương thích; không tự khóa khi gặp lỗi render.
 
 function frame(time) {
-  const dt = lastTime
-    ? Math.min((time - lastTime) / 1000, .05)
-    : 0;
+  const realDt = lastTime ? Math.max(0,(time-lastTime)/1000) : 0;
+  // Đồng hồ và mô phỏng cuộc đua nhận đủ thời gian thực đã trôi qua.
+  // Chỉ các hiệu ứng hình ảnh dùng dt giới hạn để tránh nhảy khung hình quá mạnh.
+  const dt = Math.min(realDt,.05);
 
   lastTime = time;
   sceneTime = time;
@@ -192,7 +193,7 @@ function frame(time) {
 
   if (running && !paused && !finished) {
     if (countdown > 0) {
-      countdownAccumulator += dt;
+      countdownAccumulator += realDt;
 
       while (countdown > 0 && countdownAccumulator >= 1) {
         countdownAccumulator -= 1;
@@ -215,7 +216,7 @@ function frame(time) {
       }
     }
 
-    if (started && countdown === 0 && !finished) updateRace(dt);
+    if (started && countdown === 0 && !finished) updateRace(realDt);
   }
 
   updateParticles(dt);
