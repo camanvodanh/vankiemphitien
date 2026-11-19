@@ -10701,24 +10701,35 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
 }
 
 
-/* REVISION 170 — thu gọn nhẹ bong bóng và chữ; tăng khoảng trống vùng đua. */
+/* REVISION 171 — thu nhỏ thêm; bong bóng hàng đầu nằm dưới người nói, đuôi chỉ ngược lên. */
 .arena-frame>.tournament-speech-bubble{
-  max-width:min(150px,calc(100% - 14px))!important;
-  padding:3px 6px 4px!important;
-  border-radius:7px!important;
+  max-width:min(138px,calc(100% - 14px))!important;
+  padding:3px 5px 3px!important;
+  border-radius:6px!important;
 }
 .arena-frame>.tournament-speech-bubble .tournament-speech-message{
-  font-size:7.5px!important;
-  line-height:1.14!important;
+  font-size:7px!important;
+  line-height:1.12!important;
+}
+.arena-frame>.tournament-speech-bubble.is-below{
+  transform:translate(-50%,8px)!important;
+}
+.arena-frame>.tournament-speech-bubble.is-below.is-visible{
+  transform:translate(-50%,8px)!important;
+}
+.arena-frame>.tournament-speech-bubble.is-below::after{
+  top:-5px!important;bottom:auto!important;
+  border:0!important;border-top:1px solid var(--bubble-edge)!important;
+  border-left:1px solid var(--bubble-edge)!important;
 }
 @media(max-width:600px){
   .arena-frame>.tournament-speech-bubble{
-    max-width:min(128px,calc(100% - 10px))!important;
-    padding:3px 5px 3px!important;
-    border-radius:6px!important;
+    max-width:min(118px,calc(100% - 10px))!important;
+    padding:2px 4px 3px!important;
+    border-radius:5px!important;
   }
   .arena-frame>.tournament-speech-bubble .tournament-speech-message{
-    font-size:6.8px!important;
-    line-height:1.12!important;
+    font-size:6.4px!important;
+    line-height:1.1!important;
   }
 }
