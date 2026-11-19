@@ -1,0 +1,781 @@
+{
+  "version": 1,
+  "description": "Kho lời thoại tu tiên theo vai. {call} được thay bằng cách xưng hô phù hợp; fallback dùng khi không có tên.",
+  "lines": [
+    {
+      "role": "outer",
+      "text": "{call}! Cố lên! Đệ tử đang dõi theo!",
+      "fallback": "Chư vị cố lên! Đệ tử đang dõi theo!"
+    },
+    {
+      "role": "inner",
+      "text": "{call} sắp vượt thêm một người rồi!",
+      "fallback": "Nhanh quá, sắp vượt thêm một người rồi!"
+    },
+    {
+      "role": "servant",
+      "text": "Hay quá, {call}! Giữ vững kiếm thế nhé!",
+      "fallback": "Hay quá! Giữ vững kiếm thế nhé!"
+    },
+    {
+      "role": "disciple",
+      "text": "{call} có hy vọng đoạt vị trí cao rồi!",
+      "fallback": "Phong chúng ta có hy vọng đoạt vị trí cao rồi!"
+    },
+    {
+      "role": "core",
+      "text": "{call} quả nhiên có bản lĩnh, đường kiếm thật đẹp!",
+      "fallback": "Đạo hữu quả nhiên có bản lĩnh, đường kiếm thật đẹp!"
+    },
+    {
+      "role": "outer",
+      "text": "{call}! Đệ tử tin \"+(h.toLowerCase().startsWith(\"sư huynh\")?\"huynh\":h.toLowerCase().startsWith(\"sư tỷ\")?\"tỷ\":\"đạo hữu\")+\" làm được!",
+      "fallback": "Đừng để mất vị trí! Cố lên!"
+    },
+    {
+      "role": "inner",
+      "text": "Đuổi kịp rồi! Chỉ còn một đoạn nữa thôi!"
+    },
+    {
+      "role": "servant",
+      "text": "Đệ tử cổ vũ cho tất cả các vị! Bay nhanh lên nào!"
+    },
+    {
+      "role": "disciple",
+      "text": "{call}, phía trước đang có cơ hội! Tăng tốc đi!",
+      "fallback": "Phía trước đang có cơ hội! Tăng tốc đi!"
+    },
+    {
+      "role": "inner",
+      "text": "Đẹp lắm! Đường kiếm ấy khiến người xem cũng thấy nhiệt huyết!"
+    },
+    {
+      "role": "outer",
+      "text": "Sắp vượt rồi! Mau lên, chỉ còn một chút nữa!"
+    },
+    {
+      "role": "core",
+      "text": "Thân pháp ấy rất có triển vọng. Lại áp sát rồi!"
+    },
+    {
+      "role": "servant",
+      "text": "Cố lên! Khán đài đang cổ vũ cho các vị!"
+    },
+    {
+      "role": "disciple",
+      "text": "Đừng chậm lại! Cơ hội đổi thứ hạng ngay trước mắt!"
+    },
+    {
+      "role": "inner",
+      "text": "{call}, cố giữ nhịp thở và kiếm thế!",
+      "fallback": "Đạo hữu, cố giữ nhịp thở và kiếm thế!"
+    },
+    {
+      "role": "outer",
+      "text": "Kiếm quang thật đẹp! Tranh phong càng lúc càng kịch liệt!"
+    },
+    {
+      "role": "elder",
+      "text": "{call} này thân pháp vững vàng, kiếm thế cũng có vài phần khí tượng!",
+      "fallback": "Lão phu sống ba ngàn năm, lần đầu thấy có người bay mà phong thái còn đẹp hơn lúc đi bộ!"
+    },
+    {
+      "role": "master",
+      "text": "Đại hội hôm nay, ai đoạt khôi thủ sẽ được bổn môn trọng thưởng… một lời khen thật dài!"
+    },
+    {
+      "role": "servant",
+      "text": "Sư huynh bay nhanh quá! Đệ tử nhìn theo mà quên cả quét sân!"
+    },
+    {
+      "role": "inner",
+      "text": "Đạo hữu vừa thi triển thân pháp gì vậy? Ta chỉ chớp mắt mà đã mất dấu!"
+    },
+    {
+      "role": "core",
+      "text": "Kiếm ý ngút trời! À không, hình như là gió thổi bay tóc thôi!"
+    },
+    {
+      "role": "disciple",
+      "text": "Người phía trước xin chậm một chút! Ta còn chưa kịp cổ vũ xong!"
+    },
+    {
+      "role": "outer",
+      "text": "Đây là tranh phong hay cuộc thi ai ngự kiếm giao hàng nhanh nhất?"
+    },
+    {
+      "role": "elder",
+      "text": "Khí tức vững vàng, tâm cảnh kiên định… trừ vị vừa suýt bay ngược kia!"
+    },
+    {
+      "role": "master",
+      "text": "Thắng bại là chuyện thường tình, nhưng bay lệch khỏi đường đua thì phải tìm đường về!"
+    },
+    {
+      "role": "servant",
+      "text": "Đệ tử đã chuẩn bị trà, nhưng chư vị nhanh đến mức trà còn chưa kịp nguội!"
+    },
+    {
+      "role": "inner",
+      "text": "Một kiếm phá không! Ba phần phong độ, bảy phần… vận may!"
+    },
+    {
+      "role": "core",
+      "text": "Người này có đại khí vận! Vừa nói xong đã vượt thêm một vị!"
+    },
+    {
+      "role": "disciple",
+      "text": "Sư huynh phía trước, phía sau có người đuổi! Không phải đòi nợ đâu!"
+    },
+    {
+      "role": "outer",
+      "text": "Ta cược một viên linh thạch… thôi, linh thạch của ta cũng đang nợ!"
+    },
+    {
+      "role": "elder",
+      "text": "Đừng xem thường đối thủ. Có khi người chậm nhất đang giữ bí thuật cuối cùng!"
+    },
+    {
+      "role": "master",
+      "text": "Các vị giữ vững đạo tâm! Đừng để tiếng reo hò làm quên mất hướng bay!"
+    },
+    {
+      "role": "servant",
+      "text": "Hảo kiếm! Hảo thân pháp! Hảo… ai vừa làm rơi dép vậy?"
+    },
+    {
+      "role": "inner",
+      "text": "Linh khí bùng nổ! Khán đài cũng sắp bùng nổ theo rồi!"
+    },
+    {
+      "role": "core",
+      "text": "Tư thế này, lão tổ nhìn thấy chắc cũng muốn đăng ký thi đấu!"
+    },
+    {
+      "role": "disciple",
+      "text": "Cố lên! Phía trước là vinh quang, phía sau là… áp lực đồng môn!"
+    },
+    {
+      "role": "outer",
+      "text": "Đường kiếm như rồng! Mà con rồng này hình như đang tìm đường!"
+    },
+    {
+      "role": "elder",
+      "text": "Lão phu thấy được một tia đột phá… trong khả năng giữ thăng bằng!"
+    },
+    {
+      "role": "master",
+      "text": "Ai còn giữ sức thì cứ dùng! Đại hội không có vòng thi tiết kiệm linh lực!"
+    },
+    {
+      "role": "servant",
+      "text": "Đệ tử xin phép cổ vũ bằng cả hai tay, vì một tay đang cầm bánh!"
+    },
+    {
+      "role": "inner",
+      "text": "Nhanh như chớp! Ta còn chưa kịp gọi tên đã vượt qua rồi!"
+    },
+    {
+      "role": "core",
+      "text": "Thiên tài quả nhiên khác biệt! Người thường như ta chỉ biết vỗ tay!"
+    },
+    {
+      "role": "disciple",
+      "text": "Đừng hoảng! Nếu mất vị trí, hãy mất một cách thật phong độ!"
+    },
+    {
+      "role": "outer",
+      "text": "Ngự kiếm mà không cần bản đồ! Quả là cảnh giới cao thâm!"
+    },
+    {
+      "role": "elder",
+      "text": "Tâm không động, kiếm không loạn… khán giả thì đang loạn cả lên!"
+    },
+    {
+      "role": "master",
+      "text": "Hôm nay không luận xuất thân, chỉ luận tốc độ và… khả năng không va vào nhau!"
+    },
+    {
+      "role": "servant",
+      "text": "Chư vị bay đẹp quá! Đệ tử đứng đây mà linh khí cũng tăng ba phần!"
+    },
+    {
+      "role": "inner",
+      "text": "Người dẫn đầu đang giữ ưu thế! Nhưng thiên cơ chưa định, đừng vội ăn mừng!"
+    },
+    {
+      "role": "core",
+      "text": "Một bước thiên đường, một bước… suýt chạm cổng!"
+    },
+    {
+      "role": "disciple",
+      "text": "Ta đã chuẩn bị tiếng reo cho người thắng! Ai thắng thì nhận nhé!"
+    },
+    {
+      "role": "outer",
+      "text": "Kiếm khí tung hoành! Mây cũng phải nhường đường, chắc vậy!"
+    },
+    {
+      "role": "elder",
+      "text": "Hậu sinh khả úy! Lão phu bắt đầu thấy muốn trẻ lại để dự thi!"
+    },
+    {
+      "role": "master",
+      "text": "Đại hội đang nóng! Xin khán giả giữ bình tĩnh, linh thạch không tự mọc lại!"
+    },
+    {
+      "role": "servant",
+      "text": "Nếu bay nhanh thế này, bữa cơm hôm nay chắc phải ăn trên phi kiếm!"
+    },
+    {
+      "role": "inner",
+      "text": "Trận thế biến hóa khôn lường! Ai nấy đều như có buff… tinh thần!"
+    },
+    {
+      "role": "core",
+      "text": "Đạo tâm sáng như gương! Riêng ta nhìn bảng xếp hạng hơi chóng mặt!"
+    },
+    {
+      "role": "disciple",
+      "text": "Cố lên! Đừng để đối thủ vượt! Đừng để kiếm bay trước, người bay sau!"
+    },
+    {
+      "role": "outer",
+      "text": "Đây mới là phong thái tiên gia! Ta xin ghi lại để… luyện lúc rảnh!"
+    },
+    {
+      "role": "elder",
+      "text": "Nếu đây là tốc độ thường ngày, lão phu xin miễn đi chợ cùng các vị!"
+    },
+    {
+      "role": "master",
+      "text": "Kẻ thắng nhận vinh quang, kẻ còn lại nhận kinh nghiệm và một bữa trà!"
+    },
+    {
+      "role": "servant",
+      "text": "Đệ tử không hiểu kiếm pháp, nhưng biết ai bay nhanh thì rất ngầu!"
+    },
+    {
+      "role": "inner",
+      "text": "Cơ hội lật ngược thế cờ đang đến! Thiên cơ bảo ta… cứ cổ vũ trước!"
+    },
+    {
+      "role": "core",
+      "text": "Đừng hỏi ta ai thắng! Ta đang bận thưởng thức màn ngự kiếm tuyệt diệu!"
+    },
+    {
+      "role": "disciple",
+      "text": "Đại hội hôm nay quá xuất sắc! Xin cho khán giả thêm một đôi mắt!"
+    },
+    {
+      "role": "outer",
+      "text": "Chỉ còn một đoạn! Vận khí, kiếm ý, và đôi chân… à, phi kiếm!"
+    },
+    {
+      "role": "elder",
+      "text": "Lão phu phán đoán: người về nhất sẽ là người chạm đích đầu tiên!"
+    },
+    {
+      "role": "master",
+      "text": "Các vị đã khiến tông môn rạng danh! Dù thắng hay thua, đừng quên trả phi kiếm!"
+    },
+    {
+      "role": "elder",
+      "text": "Lão phu vừa định dùng thần thức dò thứ hạng, ai ngờ bảng xếp hạng chạy còn nhanh hơn thần thức!"
+    },
+    {
+      "role": "elder",
+      "text": "Kiếm tâm bất động, thân pháp như phong… riêng túi linh thạch của lão phu đang run!"
+    },
+    {
+      "role": "elder",
+      "text": "{call} có căn cốt không tệ! Nếu chưa về nhất, e rằng phi kiếm còn chưa được bảo dưỡng!",
+      "fallback": "Hậu sinh này có căn cốt tốt! Nếu không về nhất, nhất định là do phi kiếm chưa được bảo dưỡng!"
+    },
+    {
+      "role": "elder",
+      "text": "Lão phu tu luyện ba nghìn năm, vẫn chưa học được cách cổ vũ mà không khản giọng!"
+    },
+    {
+      "role": "elder",
+      "text": "Lão phu thấy {call} tiến cảnh khá nhanh, hãy giữ vững đạo tâm!",
+      "fallback": "Đừng chỉ nhìn tốc độ! Hãy nhìn cả phong thái… dù lão phu cũng chẳng nhìn kịp!"
+    },
+    {
+      "role": "elder",
+      "text": "Người thắng lĩnh thưởng, người thua lĩnh ngộ. Còn lão phu lĩnh… hóa đơn trà!"
+    },
+    {
+      "role": "elder",
+      "text": "Thiên cơ biến đổi, thứ hạng đảo chiều. Xem ra hôm nay bói toán cũng phải cập nhật!"
+    },
+    {
+      "role": "elder",
+      "text": "Một thân kiếm khí kinh người! Chỉ tiếc lão phu vừa chớp mắt đã bỏ lỡ ba lần vượt mặt!"
+    },
+    {
+      "role": "elder",
+      "text": "Đạo tâm vững như bàn thạch! Chỉ có tim lão phu là đập như trống trận!"
+    },
+    {
+      "role": "elder",
+      "text": "Nếu tốc độ này đem đi giao linh đan, chắc cả tông môn khỏi cần lập đội vận chuyển!"
+    },
+    {
+      "role": "disciple",
+      "text": "Mau nhìn kìa! Người ấy vừa vượt lên! Ta còn chưa kịp đặt tên cho chiêu thức!"
+    },
+    {
+      "role": "disciple",
+      "text": "Sư huynh bay như kiếm quang, còn ta chạy theo tin tức cũng không kịp!"
+    },
+    {
+      "role": "disciple",
+      "text": "Ta đã luyện tiếng reo cổ vũ suốt đêm, hôm nay nhất định phải dùng hết!"
+    },
+    {
+      "role": "disciple",
+      "text": "Đừng lo phía sau! Có chúng ta ở đây… tuy không giúp được gì ngoài la hét!"
+    },
+    {
+      "role": "disciple",
+      "text": "Vừa rồi là bí thuật gì? Sao ta chỉ thấy một vệt sáng và một đám bụi tiên!"
+    },
+    {
+      "role": "disciple",
+      "text": "Nếu thắng được thưởng linh thạch, nhớ mời đồng môn một bữa linh tửu… à, trà tiên cũng được!"
+    },
+    {
+      "role": "disciple",
+      "text": "Ta cá người ấy còn giấu tuyệt chiêu! Không thì sao vẻ mặt vẫn bình thản thế kia!"
+    },
+    {
+      "role": "disciple",
+      "text": "Kiếm bay có thể mỏi không nhỉ? Ta nhìn thôi mà đã muốn ngồi nghỉ!"
+    },
+    {
+      "role": "disciple",
+      "text": "Đường đua hôm nay đúng là long tranh hổ đấu, còn ta tranh thủ giữ chỗ ngồi!"
+    },
+    {
+      "role": "disciple",
+      "text": "Ai vừa vượt qua vậy? Nhanh đến mức ta chưa kịp nhận ra màu áo!"
+    },
+    {
+      "role": "core",
+      "text": "Kiếm ý nhập vi, thân pháp vô song! Ta xin ghi chép lại… để lần sau còn khoe đã hiểu!"
+    },
+    {
+      "role": "core",
+      "text": "Người này khí vận thâm hậu, ngay cả gió cũng tự giác nhường đường!"
+    },
+    {
+      "role": "core",
+      "text": "Một bước vượt thiên kiêu, nửa bước khiến đối thủ nghi ngờ nhân sinh!"
+    },
+    {
+      "role": "core",
+      "text": "Đường kiếm có ba phần huyền diệu, bảy phần khiến người xem muốn xin bí kíp!"
+    },
+    {
+      "role": "core",
+      "text": "Ta nhìn ra rồi! Bí quyết là tập trung… tiếc rằng ta chỉ tập trung nhìn!"
+    },
+    {
+      "role": "core",
+      "text": "Nếu đây là thực lực bình thường, tuyệt kỹ chắc phải khiến trời đất đổi màu!"
+    },
+    {
+      "role": "core",
+      "text": "Thân pháp như quỷ mị, phi kiếm như thần long. Ghi chú: tuyệt đối không đua thử ở hành lang!"
+    },
+    {
+      "role": "core",
+      "text": "Khí thế áp đảo! Người phía sau chắc đang tính lại nhân sinh và số linh thạch còn lại!"
+    },
+    {
+      "role": "core",
+      "text": "Đạo hữu này tiến cảnh thần tốc, ta vừa định phân tích thì đã qua thêm một khúc!"
+    },
+    {
+      "role": "core",
+      "text": "Đúng là thiên tài! Ta xin làm người chứng kiến, vị trí này an toàn hơn dự thi!"
+    },
+    {
+      "role": "inner",
+      "text": "Vừa rồi đổi hướng giữa không trung! Động tác ấy đáng giá ba quyển thân pháp!"
+    },
+    {
+      "role": "inner",
+      "text": "Khoảng cách đang thu hẹp! Trận này chưa đến hồi kết, đừng vội mở tiệc ăn mừng!"
+    },
+    {
+      "role": "inner",
+      "text": "Người dẫn đầu giữ nhịp rất tốt, nhưng phía sau đã có kiếm quang áp sát!"
+    },
+    {
+      "role": "inner",
+      "text": "Ta cá đây là tuyệt học thân pháp mới! Tên chiêu: Chớp mắt đã ở phía trước!"
+    },
+    {
+      "role": "inner",
+      "text": "Đối thủ vừa tăng tốc, người dẫn đầu lập tức đáp lễ. Đúng là lễ nghi tu tiên!"
+    },
+    {
+      "role": "inner",
+      "text": "Tốc độ kinh người! Nếu dùng để né bài kiểm tra môn quy thì thật đáng tiếc!"
+    },
+    {
+      "role": "inner",
+      "text": "Một vòng kiếm ảnh, hai lần đổi vị trí! Ta cần thêm hai đôi mắt để theo dõi!"
+    },
+    {
+      "role": "inner",
+      "text": "Thứ hạng thay đổi liên tục, bảng Thiên Lý chắc sắp xin nghỉ phép!"
+    },
+    {
+      "role": "inner",
+      "text": "Kiếm quang giao thoa, linh khí cuộn trào! Khán đài hôm nay không uổng công đến sớm!"
+    },
+    {
+      "role": "inner",
+      "text": "Đừng xem thường người bám đuổi! Kẻ giữ sức đến cuối thường khiến cả sân kinh ngạc!"
+    },
+    {
+      "role": "outer",
+      "text": "Cố lên! Về đích trước thì được thưởng, về sau thì được… thêm kinh nghiệm!"
+    },
+    {
+      "role": "outer",
+      "text": "Phi kiếm lướt gió, áo bào tung bay! Ta đứng đây cũng thấy mình ngầu thêm chút!"
+    },
+    {
+      "role": "outer",
+      "text": "Đừng để kiếm khí tản mát! Linh thạch mua kiếm phù hôm nay đắt lắm!"
+    },
+    {
+      "role": "outer",
+      "text": "Người phía trước cứ bay, chúng ta phía sau cứ cổ vũ. Phân công thật hoàn mỹ!"
+    },
+    {
+      "role": "outer",
+      "text": "Ta vừa hô cố lên xong, người ấy đã vượt mất. Có cần hô nhanh hơn không?"
+    },
+    {
+      "role": "outer",
+      "text": "Nếu thắng cuộc có thưởng, ta xin đăng ký làm người vỗ tay chuyên nghiệp!"
+    },
+    {
+      "role": "outer",
+      "text": "Đường đua rộng thế mà vẫn tranh nhau từng tấc! Quả nhiên tiên duyên cũng phải cạnh tranh!"
+    },
+    {
+      "role": "outer",
+      "text": "Kiếm thế mạnh mẽ! Chỉ mong lúc hạ cánh vẫn nhớ phanh ở đâu!"
+    },
+    {
+      "role": "outer",
+      "text": "Một đường phá phong! Ta nghe tiếng gió thôi cũng biết người này không tầm thường!"
+    },
+    {
+      "role": "outer",
+      "text": "Cơ hội đang đến! Đừng để đối thủ vượt qua dễ như lấy đồ trong túi trữ vật!"
+    },
+    {
+      "role": "servant",
+      "text": "Đệ tử đã quét sạch quảng trường, xin chư vị đừng bay thấp làm bụi tiên bay lại!"
+    },
+    {
+      "role": "servant",
+      "text": "Ta vừa đặt ấm trà xuống thì ba vị đã đổi thứ hạng. Trà này uống không kịp nữa rồi!"
+    },
+    {
+      "role": "servant",
+      "text": "Nếu ai cần khăn lau kiếm, đệ tử có chuẩn bị! Nhưng xin đừng giảm tốc để nhận!"
+    },
+    {
+      "role": "servant",
+      "text": "Đệ tử cổ vũ hết mình! Chỉ mong lát nữa không phải nhặt phi kiếm rơi!"
+    },
+    {
+      "role": "servant",
+      "text": "Người bay nhanh quá, khay linh quả của ta còn chưa kịp đưa lên!"
+    },
+    {
+      "role": "servant",
+      "text": "Ta xin ghi công: hôm nay không ai va vào chổi của đệ tử!"
+    },
+    {
+      "role": "servant",
+      "text": "Đại hội thật náo nhiệt! Đệ tử nghe tiếng reo mà quên mất mình đang trực ban!"
+    },
+    {
+      "role": "servant",
+      "text": "Nếu phi kiếm có chuông báo, chắc cả sân giờ vang như hội chợ tiên gia!"
+    },
+    {
+      "role": "servant",
+      "text": "Đệ tử không biết phân biệt kiếm chiêu, nhưng biết ai sắp về đích rồi!"
+    },
+    {
+      "role": "servant",
+      "text": "Xin chư vị bay cẩn thận! Sân vừa lau xong, trượt một cái là mất phong độ!"
+    },
+    {
+      "role": "master",
+      "text": "Bổn tọa thấy rõ từng đường kiếm… chỉ là bảng thứ hạng đổi nhanh đến mức cần thêm một vị trưởng lão ghi chép!"
+    },
+    {
+      "role": "master",
+      "text": "Các vị cứ toàn lực tranh phong. Nếu phi kiếm hỏng, tông môn sẽ xem xét… sau khi kiểm kê linh thạch!"
+    },
+    {
+      "role": "master",
+      "text": "Người thắng không kiêu, người bại không nản. Riêng người làm rơi kiếm phải tự đi nhặt!"
+    },
+    {
+      "role": "master",
+      "text": "Bổn tọa rất hài lòng với tinh thần đại hội. Đặc biệt là tinh thần không ai bỏ cuộc giữa đường!"
+    },
+    {
+      "role": "master",
+      "text": "Một kiếm định phong vân! Nhưng nhớ giữ khoảng cách, bổn tọa không muốn mở thêm đại hội sửa sân!"
+    },
+    {
+      "role": "master",
+      "text": "Tông môn trọng tài năng, cũng trọng an toàn. Bay nhanh nhưng chớ biến thành sao băng!"
+    },
+    {
+      "role": "elder",
+      "text": "Lão phu đã xem thiên cơ, hôm nay người thắng chắc chắn là kẻ không bị gió thổi bay mũ!"
+    },
+    {
+      "role": "elder",
+      "text": "Đạo tâm như sắt, kiếm ý như rồng; chỉ có đầu gối lão phu nghe tiếng gió là muốn quỳ!"
+    },
+    {
+      "role": "elder",
+      "text": "Lão phu từng ngộ đạo dưới thác nghìn năm, nhưng chưa từng ngộ ra vì sao linh thạch cứ hết!"
+    },
+    {
+      "role": "elder",
+      "text": "Đừng khinh thường tốc độ ấy! Năm xưa lão phu cũng nhanh như vậy… trước khi đau lưng!"
+    },
+    {
+      "role": "elder",
+      "text": "Thiên kiêu tranh phong, long hổ tương tranh; lão phu tranh thủ giữ chỗ ngồi có tựa lưng!"
+    },
+    {
+      "role": "elder",
+      "text": "Một niệm thành kiếm, vạn pháp quy tông. Một lần gọi trà, ba vị đệ tử vẫn chưa mang tới!"
+    },
+    {
+      "role": "elder",
+      "text": "Lão phu nhìn thấu chiêu thức rồi! Có điều mắt già, xin nhìn lại lần nữa!"
+    },
+    {
+      "role": "elder",
+      "text": "Người tu đạo phải biết tiết chế. Trừ tốc độ, nhiệt huyết và số lần khoe pháp bảo!"
+    },
+    {
+      "role": "elder",
+      "text": "Kiếm khí này đủ chém đôi mây trời, tiếc rằng không chém nổi giá linh đan!"
+    },
+    {
+      "role": "elder",
+      "text": "Nếu thắng cuộc được thưởng thêm linh thạch, lão phu xin làm trọng tài… thật công tâm!"
+    },
+    {
+      "role": "disciple",
+      "text": "Sư huynh vừa lướt qua nhanh quá, ta chỉ kịp thấy áo bào và lòng tự trọng của mình!"
+    },
+    {
+      "role": "disciple",
+      "text": "Ta đã học thuộc mười câu cổ vũ, nhưng người thi đấu bay nhanh hơn trí nhớ của ta!"
+    },
+    {
+      "role": "disciple",
+      "text": "Đừng lo, phía sau có đồng môn! Đồng môn đang cổ vũ chứ không đuổi kịp đâu!"
+    },
+    {
+      "role": "disciple",
+      "text": "Nếu phi kiếm biết nói, chắc nó đang xin chủ nhân giảm ca làm!"
+    },
+    {
+      "role": "disciple",
+      "text": "Chiêu vừa rồi tên gì? Ta đặt tạm là Nhất Kiếm Làm Khán Giả Hết Hồn!"
+    },
+    {
+      "role": "disciple",
+      "text": "Người dẫn đầu bình tĩnh quá! Nếu là ta, đã quay lại xem ai đang đuổi rồi!"
+    },
+    {
+      "role": "disciple",
+      "text": "Ta nghe nói thắng cuộc có thưởng. Tự nhiên thấy đạo tâm mình kiên định hẳn!"
+    },
+    {
+      "role": "disciple",
+      "text": "Đừng để áp lực! Cùng lắm về sau ta kể rằng hôm nay ngươi cố tình nhường!"
+    },
+    {
+      "role": "core",
+      "text": "Kiếm ý nhập thần, thân pháp tuyệt diệu; đáng tiếc ta phân tích lâu quá nên người đã về đích!"
+    },
+    {
+      "role": "core",
+      "text": "Đây hẳn là bí pháp thất truyền: vừa bay vừa khiến đối thủ tự hoài nghi tốc độ của mình!"
+    },
+    {
+      "role": "core",
+      "text": "Ta đã nhìn ra sơ hở của đối thủ… nhưng người ấy vừa đổi vị trí, sơ hở cũng đi theo!"
+    },
+    {
+      "role": "core",
+      "text": "Thiên phú này trăm năm khó gặp. Ta gặp rồi, giờ chỉ mong đừng bị gọi lên thi đấu!"
+    },
+    {
+      "role": "core",
+      "text": "Một kiếm phá vạn pháp, một bước vượt thiên kiêu; một lần nhìn bảng hạng khiến ta chóng mặt!"
+    },
+    {
+      "role": "core",
+      "text": "Đường kiếm hoàn mỹ đến mức ta muốn chép lại, nhưng tay đang bận vỗ tay!"
+    },
+    {
+      "role": "core",
+      "text": "Người này có khí vận hộ thân. Đến gió cũng biết chọn đúng hướng để đẩy!"
+    },
+    {
+      "role": "core",
+      "text": "Ta xin ghi vào bí tịch: muốn thắng phải nhanh. Muốn không thua thì đừng nhìn bảng xếp hạng!"
+    },
+    {
+      "role": "inner",
+      "text": "Vừa rồi là độn thuật hay phi kiếm tăng tốc? Ta cần tra lại ba quyển bí điển!"
+    },
+    {
+      "role": "inner",
+      "text": "Thứ hạng đảo chiều nhanh hơn tâm trạng khi nghe trưởng lão báo kiểm tra môn quy!"
+    },
+    {
+      "role": "inner",
+      "text": "Kiếm quang vừa lóe, đối thủ đã mất hút. Có ai ghi lại tọa độ giúp ta không?"
+    },
+    {
+      "role": "inner",
+      "text": "Nếu giữ được nhịp này đến cuối, hôm nay bảng Thiên Lý phải viết thêm một trang!"
+    },
+    {
+      "role": "inner",
+      "text": "Đối thủ vừa áp sát! Đây là lúc dùng tuyệt kỹ… giả vờ như mình vẫn còn sức!"
+    },
+    {
+      "role": "inner",
+      "text": "Một bước sai có thể lỡ cơ duyên, một bước đúng có thể lỡ bữa cơm. Cố lên!"
+    },
+    {
+      "role": "inner",
+      "text": "Ta định chớp mắt một cái, ai ngờ bỏ lỡ cả ba lần vượt mặt!"
+    },
+    {
+      "role": "inner",
+      "text": "Trận này biến hóa khó lường, ngay cả linh thú dự đoán cũng xin rút lui!"
+    },
+    {
+      "role": "outer",
+      "text": "Ta vừa hô cố lên, người ấy đã vượt qua. Chắc phải luyện thêm thần thức để cổ vũ kịp!"
+    },
+    {
+      "role": "outer",
+      "text": "Phi kiếm lướt gió thật oai phong! Ta cũng muốn một thanh… loại trả góp linh thạch!"
+    },
+    {
+      "role": "outer",
+      "text": "Người trước mặt là đối thủ, người phía sau là áp lực, còn ta là người giữ chỗ ngồi!"
+    },
+    {
+      "role": "outer",
+      "text": "Cố lên! Về nhất có vinh quang, về nhì có kinh nghiệm, về cuối có thời gian ngắm cảnh!"
+    },
+    {
+      "role": "outer",
+      "text": "Đừng để kiếm bay một mình! Chủ nhân mà rơi xuống thì mất hết phong thái tiên gia!"
+    },
+    {
+      "role": "outer",
+      "text": "Ta xin làm người cổ vũ chuyên nghiệp. Lương trả bằng linh quả là được!"
+    },
+    {
+      "role": "outer",
+      "text": "Tốc độ ấy mà dùng đi giao thư tín, chắc thư đến nơi trước cả người nhận!"
+    },
+    {
+      "role": "outer",
+      "text": "Đừng sợ đối thủ mạnh! Hãy sợ lúc họ lấy ra thanh phi kiếm thứ hai!"
+    },
+    {
+      "role": "servant",
+      "text": "Đệ tử vừa lau xong bậc thềm, chư vị bay qua làm bụi tiên xoáy lại rồi!"
+    },
+    {
+      "role": "servant",
+      "text": "Trà đã rót, bánh đã bày, chỉ thiếu người thắng cuộc chịu ngồi xuống ăn!"
+    },
+    {
+      "role": "servant",
+      "text": "Đệ tử xin nhắc nhẹ: phi kiếm không cần đổ xăng, nhưng linh thạch thì vẫn tốn!"
+    },
+    {
+      "role": "servant",
+      "text": "Hôm nay đệ tử trực sân, xin chư vị đừng dùng tuyệt chiêu làm bay luôn cây chổi!"
+    },
+    {
+      "role": "servant",
+      "text": "Ta mang linh quả đến cổ vũ, quay lại đã thấy người thi đấu về đích. Quả vẫn còn nguyên!"
+    },
+    {
+      "role": "servant",
+      "text": "Nếu ai làm rơi túi trữ vật, xin báo đệ tử. Đệ tử sẽ… giao lại cho trưởng lão!"
+    },
+    {
+      "role": "servant",
+      "text": "Đệ tử không dám bình phẩm kiếm pháp, chỉ xin bình phẩm tốc độ ăn bánh của chư vị!"
+    },
+    {
+      "role": "servant",
+      "text": "Sân đua rộng lớn, xin đừng đáp xuống chỗ đệ tử đang phơi đạo bào!"
+    },
+    {
+      "role": "master",
+      "text": "Bổn tọa tuyên bố: hôm nay người thắng được thưởng lớn, người làm hỏng sân tự giác góp linh thạch!"
+    },
+    {
+      "role": "master",
+      "text": "Đạo tâm phải vững, kiếm tâm phải sáng; còn giờ ăn thì tuyệt đối không được trễ!"
+    },
+    {
+      "role": "master",
+      "text": "Bổn tọa đã chuẩn bị phần thưởng bí mật. Trưởng lão hỏi thì cứ nói là thiên cơ chưa tiện tiết lộ!"
+    },
+    {
+      "role": "master",
+      "text": "Các đệ tử cứ yên tâm tranh phong. Tông môn đã chuẩn bị… một đội sửa chữa phía sau!"
+    },
+    {
+      "role": "master",
+      "text": "Người thắng được ghi danh bảng vàng; người về cuối được giao nhiệm vụ lau kiếm đài!"
+    },
+    {
+      "role": "master",
+      "text": "Bổn tọa không thiên vị bất kỳ ai. Ai thắng thì bổn tọa khen người ấy trước!"
+    },
+    {
+      "role": "master",
+      "text": "Tu hành coi trọng căn cơ, thi đấu coi trọng tốc độ, còn bổn tọa coi trọng việc không ai làm vỡ ngai!"
+    },
+    {
+      "role": "master",
+      "text": "Nếu có ai hỏi bí quyết chiến thắng, hãy đáp: luyện tập chăm chỉ và đừng quên kiểm tra phi kiếm!"
+    }
+  ]
+}
