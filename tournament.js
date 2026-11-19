@@ -114,10 +114,11 @@
       const list=racersNow();
       const leader=typeof leaderOf==="function"?leaderOf():null;
       const target=turn%4===0&&leader?leader:list.length?list[turn%list.length]:null;
-      const name=target&&target.name?String(target.name):"các vị sư huynh";
+      const name=target&&target.name?String(target.name).trim():"";
+      const call=honorific(inferGender(name));
       const entry=lines[turn++%lines.length];
-      showBubble(entry[1](name),entry[0]);
-      chatterTimer=window.setTimeout(speak,1150+Math.floor(Math.random()*500));
+      showBubble(entry[1](name,call),entry[0]);
+      if(!stopped&&!isFinished())chatterTimer=window.setTimeout(speak,1250+Math.floor(Math.random()*450));
     };
     chatterTimer=window.setTimeout(speak,500);
   }
