@@ -148,7 +148,7 @@
  function toggle(){
   enabled=!enabled;
   try{localStorage.setItem(STORAGE_KEY,enabled?"1":"0");}catch(_){}
-  if(!enabled)stopAll();else unlock();
+  if(!enabled)stopAll();else{currentEffectKey=null;unlock();}
   updateButton();
  }
  function init(){
