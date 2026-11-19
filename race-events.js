@@ -26,7 +26,6 @@
   emit("leader:change",{racer,previousId:previous},{key:"leader-change",cooldown:1100});
  }
  window.VKPRaceEvents={subscribe,emit,reset,trackLeader,getRecent:type=>recent.get(type)||null};
- if(window.VKPSlowMotion)subscribe("*",window.VKPSlowMotion.onEvent);
  // Camera nhận cùng event bus, giữ riêng trách nhiệm lựa chọn khung hình.
  if(window.VKPCameraDirector){
   subscribe("racer:overtake",e=>window.VKPCameraDirector.onOvertake(e.payload.racer,e.payload.oldRank,e.payload.newRank));
@@ -60,7 +59,9 @@
   function setAuto(value){autoEnabled=!!value;autoUntil=0;updateUI();}
   function trigger(scale,milliseconds){
    if(!autoEnabled)return;
-   const until=now()+milliseconds;
+   const current=now();
+   if(autoUntil<=current){autoScale=1;autoUntil=0;}
+   const until=current+milliseconds;
    if(until>=autoUntil){autoScale=Math.min(autoScale||1,scale);autoUntil=until;}
    updateUI();
   }
@@ -81,11 +82,12 @@
   const autoButton=document.getElementById("raceAutoSlow");
   if(autoButton)autoButton.addEventListener("click",()=>setAuto(!autoEnabled));
   window.VKPSlowMotion={
-   getScale(){return autoEnabled&&autoUntil>now()?autoScale:manualScale;},
+   getScale(){if(autoEnabled&&autoUntil>0&&autoUntil<=now()){autoScale=1;autoUntil=0;updateUI();}return autoEnabled&&autoUntil>now()?autoScale:manualScale;},
    setManual,setAuto,onEvent,
    reset(){autoEnabled=true;manualScale=1;autoScale=1;autoUntil=0;updateUI();}
   };
   updateUI();
+  if(window.VKPRaceEvents)window.VKPRaceEvents.subscribe("*",onEvent);
  })();
 
 })();
