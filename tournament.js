@@ -142,7 +142,7 @@
 
   startButton.addEventListener("click",scheduleChatter);
   if(eventNode)new MutationObserver(handleEvent).observe(eventNode,{childList:true,characterData:true,subtree:true});
-  if(statusNode)new MutationObserver(()=>{if(isFinished())stopChatter();else if(typeof running!=="undefined"&&running&&typeof started!=="undefined"&&started&&!(typeof paused!=="undefined"&&paused))scheduleChatter();}).observe(statusNode,{childList:true,characterData:true,subtree:true});
+  if(statusNode)new MutationObserver(()=>{if(isFinished())stopChatter();else if(statusNode.textContent.includes("Đã triệu hồi"))stopped=false;else if(typeof running!=="undefined"&&running&&typeof started!=="undefined"&&started&&!(typeof paused!=="undefined"&&paused))scheduleChatter();}).observe(statusNode,{childList:true,characterData:true,subtree:true});
 
   const originalDraw=window.drawAnnouncement;
   if(typeof originalDraw==="function"){
