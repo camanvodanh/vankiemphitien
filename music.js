@@ -29,9 +29,9 @@ const audioPool={};
 
 function updateButton(){
   if(!button)return;
-  button.textContent=enabled?"♫ Nhạc: Bật":"♫ Nhạc: Tắt";
   button.setAttribute("aria-pressed",String(enabled));
-  button.title=enabled?"Tắt nhạc nền tiên hiệp":"Bật nhạc nền tiên hiệp";
+  button.setAttribute("aria-label",enabled?"Tắt nhạc nền":"Bật nhạc nền");
+  button.title=enabled?"Tắt nhạc nền":"Bật nhạc nền";
 }
 function getAudio(key){
   if(audioPool[key])return audioPool[key];
