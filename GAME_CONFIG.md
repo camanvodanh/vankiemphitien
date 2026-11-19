@@ -845,3 +845,11 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Tọa độ vùng hiển thị được phối hợp với vị trí neo người nói; đuôi bong bóng vẫn hướng về vị trí người nói, đồng thời giới hạn toàn bộ bong bóng trong khung sân.
 - Giữ nguyên độ cao neo, kiểu chữ, kích thước, màu sắc và hiệu ứng xếp tầng đã có.
 - Cache: `tournament.js v20`, `data-loader.js v168`.
+
+
+## 102. Bong bóng tiên môn đồng sắc đạo bào và tăng lời bình tôn vị
+- Màu nền, viền và chữ bong bóng được phối theo sắc đạo bào và nhãn chức danh: Chưởng môn chu sa/kim, Trưởng lão tử bào, Chân truyền lam ngọc, Nòng cốt thanh ngọc, Nội môn lam thanh, Ngoại môn thanh bạch, Tạp dịch ngà nâu, người đua xanh kiếm khí.
+- Bổ sung lớp chuyển sắc và viền nội quang nhẹ theo phong cách ngọc bài/lụa tiên hiệp; giữ nguyên cỡ chữ và bố cục bong bóng.
+- Tăng tần suất Trưởng lão và Chân truyền đệ tử bằng chu kỳ phát ngôn có trọng số; các vai khác vẫn luân phiên bình luận.
+- Hạ điểm neo bong bóng của Trưởng lão và Chân truyền từ y=750/745 xuống y=550, đưa lời thoại lên gần bảng danh vị và đầu nhân vật, không thay đổi các hàng khán giả khác.
+- Cache: `tournament.js v21`, `style.css responsive-arena-v222`, `data-loader.js v169`.
