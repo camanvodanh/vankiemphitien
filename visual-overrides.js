@@ -1665,9 +1665,11 @@ function drawRacingArtifact(target,kind,phase){
 // Núi chuyển thành các lớp sườn mềm; bỏ các mảng đá/vách vụn dư thừa.
 
 function drawCrowd(time) {
-  // Ngai Chưởng môn ở chính giữa hai khối danh vị, nâng cao hơn một tầng để tôn vị tối cao.
-  const masterSeatY=ctx.canvas.height*(620/825);
+  // Ngai nằm trong khoảng trống giữa Chân truyền và Trưởng lão,
+  // nhỉnh cao hơn hai hàng bên nhưng không lấn xuống khu Nòng cốt.
+  const masterSeatY=ctx.canvas.height*(590/825);
   if(!window.__awardMasterDepartureActive)drawCeremonySeatedMaster(ctx,550,masterSeatY,.82);
+  // Nhãn giữ sát vòng Thái Cực, không nâng theo ngai.
   drawRoleLabel(550,570,"CHƯỞNG MÔN","#f2d17d",1.05);
 
   for(let i=0;i<10;i++){
@@ -1889,7 +1891,7 @@ function drawPodiumScene(target,time,mini=false){
   
   // Thiên Lý Kính bỏ qua cảnh giải tán, đứng dậy và nhảy lên phi kiếm tại quảng trường.
   // Khung mini đi thẳng tới cùng cảnh trao giải, cùng nền, bục, người nhận và quỹ đạo chưởng môn.
-  if(mini)window.__awardMasterDepartureActive=false;
+  // Render mini không được ghi đè cờ ẩn ngai của sân chính.
   const title="BAN THƯỞNG TOP "+count+" TIÊN HỘI";
   const departure=VKP_DATA.ceremony.departure;
   const {disperseEnd,seatEnd,standEnd,swordArrivalEnd:swordEnd,flightEnd:flyEnd,transitionEnd}=departure;
