@@ -890,3 +890,8 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Khi nhân vật hết hiệu ứng hoặc nhóm thay đổi, lựa chọn được tính lại ở khung hình kế tiếp. Nhân vật không được chọn vẫn thi đấu và được ghi nhận đầy đủ trong Tiên Bảng.
 - Thiên Lý Kính luôn vẽ đầy đủ hiệu ứng cho nhân vật đang được chiếu; khi số lượng ít, tất cả nhân vật trên đường đua tiếp tục có hiệu ứng đầy đủ.
 - Cache: visual-overrides.js v224, data-loader.js v176.
+
+## 108. Đồng bộ ngai Chưởng môn và điểm neo lời thoại
+- Khi khán đài trở lại sau nghi thức kết thúc đại hội, tọa độ ngai Chưởng môn dùng cùng tỷ lệ chiều cao Canvas `612/825` như cảnh trao thưởng; không dùng tọa độ Y cố định, tránh ghế/ngai tụt xuống và che hàng Nòng cốt.
+- Điểm neo bong bóng Chưởng môn chuyển về gần đỉnh mão (tọa độ Canvas x=550, y=515); giữ cơ chế tự chọn phía trên/phía dưới và mũi tên hướng về người thoại.
+- Cache: `visual-overrides.js v225`, `tournament.js v27`, `data-loader.js v177`.
