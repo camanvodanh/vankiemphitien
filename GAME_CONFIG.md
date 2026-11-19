@@ -980,3 +980,8 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Tâm ngai Chưởng môn chuyển từ Canvas Y=590 lên Y=565 (tỷ lệ theo chiều cao Canvas), tạo khoảng cách rõ hơn với hàng Nòng cốt và cao hơn hàng Chân truyền/Trưởng lão tại Y=612.
 - Nhãn CHƯỞNG MÔN chuyển từ Y=570 lên Y=432, nằm sát phía trên mép vòng Thái Cực (vòng có tâm tại khoảng Y=525.6 và bán kính hiển thị khoảng 77 px), tránh che mặt nhân vật.
 - Cache: visual-overrides.js v229, data-loader.js v188, index.html data-driven-v188.
+
+## 120. Hạ nhãn Chưởng môn sát vòng Thái Cực, giữ nguyên ngai
+- Giữ nguyên tâm ngai và vị trí Chưởng môn tại Canvas Y=565; không thay đổi kích thước hoặc vị trí ghế.
+- Chỉ hạ nhãn CHƯỞNG MÔN từ Y=432 xuống Y=438, đưa chữ gần vòng Thái Cực hơn nhưng vẫn tách khỏi mặt, vương miện và vòng sáng.
+- Cache: visual-overrides.js v230, data-loader.js v189, index.html data-driven-v189.
