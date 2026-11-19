@@ -1667,10 +1667,10 @@ function drawRacingArtifact(target,kind,phase){
 function drawCrowd(time) {
   // Ngai nằm trong khoảng trống giữa Chân truyền và Trưởng lão,
   // nhỉnh cao hơn hai hàng bên nhưng không lấn xuống khu Nòng cốt.
-  const masterSeatY=ctx.canvas.height*(590/825);
+  const masterSeatY=ctx.canvas.height*(565/825);
   if(!window.__awardMasterDepartureActive)drawCeremonySeatedMaster(ctx,550,masterSeatY,.82);
-  // Nhãn giữ sát vòng Thái Cực, không nâng theo ngai.
-  drawRoleLabel(550,570,"CHƯỞNG MÔN","#f2d17d",1.05);
+  // Tên đặt ngay phía trên mép trên vòng Thái Cực, không che mặt Chưởng môn.
+  drawRoleLabel(550,432,"CHƯỞNG MÔN","#f2d17d",1.05);
 
   for(let i=0;i<10;i++){
     const x=78+i*41,y=612;
