@@ -1247,7 +1247,7 @@ function drawSummonRitual(time){
   const formation=smooth((age-.18)/.72);
   const energy=smooth((age-.78)/2.15);
   const omen=smooth((age-2.85)/1.25);
-  const cx=550,cy=674;
+  const cx=550,cy=629;
   ctx.save();
   ctx.globalCompositeOperation="screen";
 
@@ -1273,7 +1273,7 @@ function drawSummonRitual(time){
 
   // Chưởng môn niệm chú và kết ấn ngay tại ngai; không tạo nhân vật giả.
   const chant=smooth((age-.65)/1.1);
-  ctx.save();ctx.translate(cx,642);
+  ctx.save();ctx.translate(cx,597);
   ctx.globalAlpha=chant;
   ctx.strokeStyle="#fff0bd";ctx.lineWidth=2.4;ctx.shadowColor="#ffe4a0";ctx.shadowBlur=16;
   ctx.beginPath();ctx.arc(0,-43,9+7*Math.sin(age*5),0,Math.PI*2);ctx.stroke();
