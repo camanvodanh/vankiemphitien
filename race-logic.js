@@ -599,6 +599,7 @@ function drawCamera(time){
   return;
  }
  if(!started||!racers.length){
+  if(window.VKPAudio)window.VKPAudio.setCameraEffect(null);
   $("leaderName").textContent="Đang chờ cuộc đua";
   $("leaderProgress").textContent="--";
   $("leaderSpeed").innerHTML="";
@@ -611,6 +612,8 @@ function drawCamera(time){
  const shot=window.VKPCameraDirector&&window.VKPCameraDirector.select();
  let racer=shot&&shot.racer;
  if(!racer)racer=leaderOf();
+ // Âm hiệu ứng chỉ bám theo cảnh thực tế đang được Thiên Lý Kính chiếu.
+ if(window.VKPAudio)window.VKPAudio.setCameraEffect(shot&&shot.mode==="effect"&&racer?racer.effectType:null);
  if(!racer)return;
  // Không vẽ tên hiệu ứng đè lên nhân vật trong khung camera; hiển thị tên thật ở dòng thông tin.
  const cameraRacer=racer.effectName?{...racer,effectName:""}:racer;
