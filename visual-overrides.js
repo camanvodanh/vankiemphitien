@@ -931,13 +931,41 @@ function drawSpectator(x,y,scale,roleName,time,phase=0){
 // Kiếm có màu nhận diện theo giới tính; kiểu dáng thay đổi theo pháp bảo.
 
 
+// Chọn lọc lớp hiệu ứng trên đường đua theo từng loại, không thay đổi trạng thái thi đấu.
+let __raceEffectDisplayFrame=-1;
+let __raceEffectDisplayByType=new Map();
+function shouldDrawRaceEffect(target,racer,time){
+  if(!(racer&&racer.effectTimer>0&&racer.effectType))return false;
+  // Thiên Lý Kính luôn vẽ đầy đủ hiệu ứng cho nhân vật đang được chiếu.
+  if(target===cameraCtx)return true;
+  if(__raceEffectDisplayFrame!==time){
+    __raceEffectDisplayFrame=time;
+    __raceEffectDisplayByType=new Map();
+  }
+  const type=String(racer.effectType);
+  if(!__raceEffectDisplayByType.has(type)){
+    const group=racers.filter(item=>!item.finished&&item.effectTimer>0&&String(item.effectType)===type);
+    // Tối đa 8: hiện đầy đủ; 9–20: chọn 6; trên 20: chọn 4 nhân vật đại diện.
+    const limit=group.length<=8?group.length:group.length<=20?6:4;
+    const stableHash=value=>{
+      let hash=2166136261;
+      for(const char of String(value||"")){hash^=char.charCodeAt(0);hash=Math.imul(hash,16777619);}
+      return hash>>>0;
+    };
+    const selected=new Set(group.slice().sort((a,b)=>stableHash(a.id)-stableHash(b.id)).slice(0,limit).map(item=>String(item.id)));
+    __raceEffectDisplayByType.set(type,selected);
+  }
+  return __raceEffectDisplayByType.get(type).has(String(racer.id));
+}
+
 // Nhân vật triệu hồi: gương mặt, sắc da, tóc và trang phục có biến thể.
 function __drawRacerBaseThanSau(target,racer,x,y,scale,time){
   const female=racer.gender==="female";
   const skins=VKP_DATA.characters.appearance.skinTones;
   const hairs=VKP_DATA.characters.appearance.hairColors;
   const seed=(racer.appearanceSeed??0)%5,skin=skins[seed],hair=hairs[(seed+(female?1:0))%hairs.length];
-  const activeEffect=racer.effectTimer>0?racer.effectType:"";
+  const showRaceEffect=shouldDrawRaceEffect(target,racer,time);
+  const activeEffect=showRaceEffect?racer.effectType:"";
    const phase=time*.001,duration=Math.max(.001,racer.effectDuration||racer.effectTimer||1),progress=clamp(1-racer.effectTimer/duration,0,1);
   const wave=Math.sin(phase*7+racer.phase),pulse=Math.sin(phase*10+racer.phase);let actionX=0,actionY=0,actionAngle=0;
   switch(activeEffect){
@@ -1013,7 +1041,7 @@ function __drawRacerBaseThanSau(target,racer,x,y,scale,time){
   target.strokeStyle="#8b5144";target.lineWidth=.8;target.beginPath();target.moveTo(0,-18);target.lineTo(-.4,-16);target.moveTo(-2,-14);target.quadraticCurveTo(0,-13,2,-14);target.stroke();
   if(female){target.strokeStyle="#b86e73";target.lineWidth=.8;target.beginPath();target.moveTo(-5,-17);target.lineTo(-3,-16);target.moveTo(3,-16);target.lineTo(5,-17);target.stroke();}
   target.save();target.globalAlpha=.78;target.fillStyle=racer.color;target.beginPath();target.moveTo(-7,-4);target.quadraticCurveTo(-26,-1,-17,-15);target.lineTo(-4,-8);target.closePath();target.fill();target.restore();
-  if(racer.effectTimer>0&&racer.effectName&&target!==cameraCtx){target.save();target.font="bold 7px Arial,sans-serif";target.textAlign="center";target.textBaseline="middle";target.lineWidth=2;target.strokeStyle="rgba(14,25,24,.98)";target.strokeText(racer.effectName,0,-65,126);target.fillStyle="#fff1bd";target.fillText(racer.effectName,0,-65,126);target.restore();}
+  if(showRaceEffect&&racer.effectTimer>0&&racer.effectName&&target!==cameraCtx){target.save();target.font="bold 7px Arial,sans-serif";target.textAlign="center";target.textBaseline="middle";target.lineWidth=2;target.strokeStyle="rgba(14,25,24,.98)";target.strokeText(racer.effectName,0,-65,126);target.fillStyle="#fff1bd";target.fillText(racer.effectName,0,-65,126);target.restore();}
   // Chi tiết trang phục bổ sung: nữ có tà váy xòe và dải lụa; nam có trường bào hai tà, giáp vai.
   target.save();
   target.translate(0,0);
@@ -1032,7 +1060,7 @@ function __drawRacerBaseThanSau(target,racer,x,y,scale,time){
     target.moveTo(11,-5);target.lineTo(18,2);target.lineTo(13,7);target.stroke();
   }
   target.restore();
-  if(racer.effectTimer>0){
+  if(showRaceEffect&&racer.effectTimer>0){
     if(racers.length>35&&target!==cameraCtx){
       // Trường đua giảm tải hiệu ứng trang trí; Thiên Lý Kính vẫn vẽ đầy đủ hiệu ứng của nhân vật đang chiếu.
       target.save();target.globalAlpha=.48;
@@ -2251,14 +2279,14 @@ function drawThanSauSummonPlaceholder(target,x,y,scale,time){
 }
 
 function drawThanSauEffect(target,racer,time,scale=1){
-  if(!(racer&&racer.effectTimer>0))return;
+  if(!(racer&&shouldDrawRaceEffect(target,racer,time)))return;
   const activeEffect=racer.effectType||"";
   const phase=time*.001;
   const duration=Math.max(.001,racer.effectDuration||racer.effectTimer||1);
   const progress=clamp(1-racer.effectTimer/duration,0,1);
   const wave=Math.sin(phase*7+(racer.phase||0));
   const pulse=Math.sin(phase*10+(racer.phase||0));
-  if(racer.effectTimer>0){
+  if(racer.effectTimer>0&&shouldDrawRaceEffect(target,racer,time)){
     if(racers.length>35&&target!==cameraCtx){
       // Trường đua giảm tải hiệu ứng trang trí; Thiên Lý Kính vẫn vẽ đầy đủ hiệu ứng của nhân vật đang chiếu.
       target.save();target.globalAlpha=.48;
@@ -2608,7 +2636,7 @@ function drawRacer(target, racer, x, y, scale, time) {
   const frameWidth=__thanSauSpriteSheet.naturalWidth/columns,frameHeight=__thanSauSpriteSheet.naturalHeight/rows;
   const frameIndex=((Math.floor(time/105+(racer.phase||0)*2)%frameCount)+frameCount)%frameCount;
   const sx=(frameIndex%columns)*frameWidth,sy=Math.floor(frameIndex/columns)*frameHeight;
-  const phase=time*.001,active=racer.effectTimer>0,activeEffect=active?(racer.effectType||""):"";
+  const phase=time*.001,active=racer.effectTimer>0&&shouldDrawRaceEffect(target,racer,time),activeEffect=active?(racer.effectType||""):"";
   const duration=Math.max(.001,racer.effectDuration||racer.effectTimer||1);
   const progress=clamp(1-racer.effectTimer/duration,0,1);
   const wave=Math.sin(phase*7+(racer.phase||0)),pulse=Math.sin(phase*10+(racer.phase||0));
