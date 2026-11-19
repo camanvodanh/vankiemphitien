@@ -1665,10 +1665,10 @@ function drawRacingArtifact(target,kind,phase){
 // Núi chuyển thành các lớp sườn mềm; bỏ các mảng đá/vách vụn dư thừa.
 
 function drawCrowd(time) {
-  // Cùng áo bào đỏ, mão vàng và bát quái linh khí như chưởng môn ngự kiếm ban thưởng.
-  const masterSeatY=ctx.canvas.height*(612/825);
+  // Ngai Chưởng môn ở chính giữa hai khối danh vị, nâng cao hơn một tầng để tôn vị tối cao.
+  const masterSeatY=ctx.canvas.height*(565/825);
   if(!window.__awardMasterDepartureActive)drawCeremonySeatedMaster(ctx,550,masterSeatY,.82);
-  drawRoleLabel(550,493,"CHƯỞNG MÔN","#f2d17d",1.05);
+  drawRoleLabel(550,450,"CHƯỞNG MÔN","#f2d17d",1.05);
 
   for(let i=0;i<10;i++){
     const x=78+i*41,y=612;
