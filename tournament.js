@@ -118,9 +118,13 @@
     const px=cr.left-ar.left+sx/canvas.width*cr.width;
     const py=cr.top-ar.top+sy/canvas.height*cr.height;
     const width=item.el.offsetWidth||120,height=item.el.offsetHeight||34;
-    const side=anchor.side||1,offset=Math.min(22,width*.13)*side;
-    const drift=(item.sequence%3-1)*Math.min(34,width*.13);
-    const left=Math.max(width/2+5,Math.min(ar.width-width/2-5,px+offset+drift));
+    const side=anchor.side||1,offset=Math.min(16,width*.09)*side;
+    // Phân phối bong bóng theo các vùng ngang luân phiên thay vì neo tất cả ở giữa.
+    // Vẫn giữ một phần tọa độ người nói để đuôi bong bóng hướng về đúng khu vực.
+    const spreadSlots=[.17,.83,.35,.65,.50,.25,.75];
+    const spreadSlot=spreadSlots[(item.sequence-1)%spreadSlots.length];
+    const spreadCenter=px*.42+ar.width*spreadSlot*.58;
+    const left=Math.max(width/2+5,Math.min(ar.width-width/2-5,spreadCenter+offset));
     // CSS transform anchors bubble by its bottom edge. Keep it below the upper
     // audience rows; same-speaker bubbles stagger slightly downward, never upward.
     const stackDrop=Math.min(item.stack||0,2)*Math.min(12,height*.22);
