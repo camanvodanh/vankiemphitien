@@ -236,44 +236,60 @@
       const elderCall=seniorAddress(name);
       // Luân phiên có trọng số để Trưởng lão và Chân truyền đệ tử thường xuyên tham gia bình luận.
       // Chưởng môn không nằm trong vòng cổ vũ tự phát; chỉ đáp lời khi có đối thoại sự kiện.
-      const speakerCycle=["elder","disciple","core","inner","outer","servant","disciple","elder","inner","outer","core","servant"];
+      const speakerCycle=["servant","outer","inner","core","disciple","disciple","elder","outer","servant","inner","core","disciple"];
       const speaker=speakerCycle[turn%speakerCycle.length];
       // Chờ chỗ trống và không để cùng một vai có hai bong bóng cùng lúc.
       if(bubbles.length>=MAX_BUBBLES||bubbles.some(item=>item.type===speaker)){
-        chatterTimer=window.setTimeout(speak,450);
+        chatterTimer=window.setTimeout(speak,850);
         return;
       }
       const cycleIndex=turn++;
       const message=chooseDialogue(speaker,name,speaker==="elder"?elderCall:call);
       if(message)showBubble(message,speaker);
-      if(!stopped&&!isFinished())chatterTimer=window.setTimeout(speak,900+Math.floor(Math.random()*400));
+      if(!stopped&&!isFinished())chatterTimer=window.setTimeout(speak,2100+Math.floor(Math.random()*900));
     };
     chatterTimer=window.setTimeout(speak,500);
   }
 
+  let leaderEventCount=0;
+  function eventStillCurrent(value){return !stopped&&!isFinished()&&lastEvent===value;}
   function handleEvent(){
     if(!eventNode||stopped||isFinished())return;
     const value=eventNode.textContent.trim();
     if(!value||value===lastEvent)return;
     lastEvent=value;
     if(value.includes("ĐẠI HỘI BẮT ĐẦU")){
-      showBubble("Đại hội Ngự Kiếm chính thức khai cuộc! Chư vị chuẩn bị thưởng thức!","elder");
+      showBubble("Đại hội Ngự Kiếm chính thức khai cuộc! Chư vị chuẩn bị thưởng thức!","disciple");
       scheduleChatter();
     }else if(value.startsWith("HẠNG 1 · ĐANG DẪN ĐẦU:")){
       const name=value.slice("HẠNG 1 · ĐANG DẪN ĐẦU:".length).trim();
       const call=seniorAddress(name);
-      showBubble("Chưởng môn, "+call+" vừa vượt lên rồi! Kiếm thế thật khá!","elder");
+      leaderEventCount++;
+      const firstRole=["disciple","core","inner","outer","servant"][leaderEventCount%5];
+      const firstLine=chooseDialogue(firstRole,name,addressedName(name,inferGender(name),true));
+      if(firstLine)showBubble(firstLine,firstRole);
       window.setTimeout(()=>{
-        if(!isFinished()&&!stopped){
+        if(!eventStillCurrent(value))return;
+        const elderLine=chooseDialogue("elder",name,call);
+        if(elderLine)showBubble(elderLine,"elder");
+      },1900);
+      if(leaderEventCount%3===0){
+        window.setTimeout(()=>{
+          if(!eventStillCurrent(value))return;
           const masterLine=chooseDialogue("master",name,call);
-          showBubble("Ta thấy rồi, "+call+"! "+(masterLine||"Hãy giữ vững đạo tâm và kiếm thế!"),"master");
-        }
-      },850);
+          if(masterLine)showBubble("Ta thấy rồi, "+call+"! "+masterLine,"master");
+        },3900);
+      }
     }else if(value.includes("PHOTO FINISH")){
-      showBubble("Chỉ chênh lệch trong gang tấc! Quả là một trận tranh phong kịch liệt!","elder");
+      const line=chooseDialogue("disciple","","chư vị");
+      showBubble(line||"Chỉ chênh lệch trong gang tấc! Quả là một trận tranh phong kịch liệt!","disciple");
+      window.setTimeout(()=>{
+        if(!eventStillCurrent(value))return;
+        const elderLine=chooseDialogue("elder","","chư vị đệ tử");
+        if(elderLine)showBubble(elderLine,"elder");
+      },2000);
     }
   }
-
   startButton.addEventListener("click",()=>{
     // Listener của bộ điều khiển đua chạy trước; nếu nút vừa khởi động vòng đua mới,
     // mở lại lời bình ngay cả khi vòng trước đã kết thúc và đặt stopped=true.
