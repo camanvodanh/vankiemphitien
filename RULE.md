@@ -628,3 +628,11 @@
 - Bong bóng cũ được bố trí trước, bong bóng mới tìm vị trí còn trống; vị trí được tính lại theo camera/zoom để vẫn bám theo sân đua.
 - Mũi tên tiếp tục hướng về điểm neo người nói; giữ nguyên quy tắc đảo mũi tên cho Trưởng lão và Chân truyền.
 - Cache: `tournament.js v24`, `data-loader.js v172`.
+
+
+## 106. Luân phiên bong bóng thoại và đồng bộ đồng hồ thực
+- Tối đa 2 bong bóng được hiển thị đồng thời trên toàn sân; cùng một vai phát ngôn không xuất hiện hai bong bóng cùng lúc. Lời thoại sự kiện được xếp hàng và tiếp tục khi có chỗ trống; lời cổ vũ tự động chờ đến khi đủ chỗ thay vì tạo thêm bong bóng hoặc đẩy bong bóng cũ xuống.
+- Chưởng môn được loại khỏi chu kỳ phát biểu tự động. Chưởng môn chỉ đáp lời trong đối thoại sự kiện khi trưởng lão gọi/đề cập trực tiếp; vị trí neo được nâng lên và dùng chung cơ chế đảo đuôi lên/xuống như các vai khác.
+- Giảm số tầng dịch chuyển dọc của bong bóng từ 7 xuống 3 mức (giữa, gần hơn một tầng lên hoặc xuống), tránh rơi quá thấp khi có nhiều lời thoại.
+- Vòng lặp khung hình tách delta thời gian thực khỏi delta hiệu ứng: countdown và updateRace nhận toàn bộ thời gian thực đã trôi qua; hạt, fade và hiệu ứng hình ảnh vẫn giới hạn delta để tránh nhảy hình quá mạnh. Khi thiết bị hụt FPS, đồng hồ không còn tự bỏ phần thời gian vượt 50 ms mỗi khung.
+- Cache: tournament.js v25, race-logic.js v205, data-loader.js v173.
