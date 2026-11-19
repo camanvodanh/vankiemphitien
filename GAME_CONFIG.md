@@ -839,3 +839,9 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Tiếp tục dùng đúng tệp `assets/characters/than-sau/than-sau-spritesheet.png`, sprite sheet 5 cột × 2 hàng, 10 frame; không thay bằng nhân vật Canvas tự vẽ.
 - Khi vẽ từng frame, giữ tỷ lệ gốc theo `frameWidth / frameHeight`, không ép ảnh dọc thành khung vuông; tắt làm mịn ảnh để bảo toàn pixel art.
 - Cache: `visual-overrides.js v223`, sprite sheet `?v=3`, `data-loader.js v167`.
+
+## 101. Phân tán bong bóng lời bình theo chiều ngang
+- Không để các bong bóng liên tiếp dồn quanh tâm sân: lần lượt phân phối qua các vùng trái, phải, trong-trái, trong-phải và trung tâm, sau đó lặp lại với các vùng xen kẽ.
+- Tọa độ vùng hiển thị được phối hợp với vị trí neo người nói; đuôi bong bóng vẫn hướng về vị trí người nói, đồng thời giới hạn toàn bộ bong bóng trong khung sân.
+- Giữ nguyên độ cao neo, kiểu chữ, kích thước, màu sắc và hiệu ứng xếp tầng đã có.
+- Cache: `tournament.js v20`, `data-loader.js v168`.
