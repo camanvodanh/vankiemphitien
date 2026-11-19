@@ -98,9 +98,9 @@
   }
 
   const speakerAnchors={
-    // Hạ điểm neo của hàng nhân vật phía trên để bong bóng nằm thấp hơn,
-    // tránh lấn vào vùng phi kiếm và người đang thi đấu.
-    master:{x:550,y:755,side:1},elder:{x:867,y:580,side:-1},disciple:{x:263,y:580,side:1},core:{x:550,y:765,side:-1},inner:{x:380,y:775,side:1},outer:{x:550,y:795,side:-1},servant:{x:550,y:845,side:1},
+    // Hai vị trí hàng đầu dùng bong bóng nằm dưới điểm neo; đuôi hướng ngược lên
+    // để chỉ đúng người đang thoại mà không phủ lên nhân vật thi đấu.
+    master:{x:550,y:755,side:1},elder:{x:867,y:600,side:-1,below:true},disciple:{x:263,y:600,side:1,below:true},core:{x:550,y:765,side:-1},inner:{x:380,y:775,side:1},outer:{x:550,y:795,side:-1},servant:{x:550,y:845,side:1},
     racer:{x:550,y:720,side:1}
   };
 
@@ -119,18 +119,21 @@
     const py=cr.top-ar.top+sy/canvas.height*cr.height;
     const width=item.el.offsetWidth||120,height=item.el.offsetHeight||34;
     const side=anchor.side||1,offset=Math.min(16,width*.09)*side;
+    item.el.classList.toggle("is-below",!!anchor.below);
     // Phân phối bong bóng theo các vùng ngang luân phiên thay vì neo tất cả ở giữa.
     // Vẫn giữ một phần tọa độ người nói để đuôi bong bóng hướng về đúng khu vực.
     const spreadSlots=[.17,.83,.35,.65,.50,.25,.75];
     const spreadSlot=spreadSlots[(item.sequence-1)%spreadSlots.length];
     const spreadCenter=px*.42+ar.width*spreadSlot*.58;
     const left=Math.max(width/2+5,Math.min(ar.width-width/2-5,spreadCenter+offset));
-    // CSS transform anchors bubble by its bottom edge. Keep it below the upper
-    // audience rows; same-speaker bubbles stagger slightly downward, never upward.
-    const stackDrop=Math.min(item.stack||0,2)*Math.min(12,height*.22);
-    const bottom=Math.max(height+8,Math.min(ar.height-8,py-10+stackDrop));
+    // Nhóm hàng đầu đặt hộp thoại phía dưới điểm neo; mũi tên đảo lên trên.
+    // Các vai còn lại vẫn nằm phía trên điểm neo như trước.
+    const stackDrop=Math.min(item.stack||0,2)*Math.min(10,height*.18);
+    const bubbleY=anchor.below
+      ?Math.max(8,Math.min(ar.height-height-8,py+8+stackDrop))
+      :Math.max(height+8,Math.min(ar.height-8,py-10+stackDrop));
     item.el.style.left=left+"px";
-    item.el.style.top=bottom+"px";
+    item.el.style.top=bubbleY+"px";
     item.el.style.setProperty("--speech-tail-x",Math.max(10,Math.min(width-10,px-left+width/2))+"px");
   }
   function followBubbles(){
