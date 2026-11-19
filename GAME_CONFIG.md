@@ -814,10 +814,11 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 
 
 ## 97. Xưng hô có tên riêng và viết hoa theo vị trí câu
-- Bình luận về người đua ghép danh xưng với tên cụ thể, ví dụ `Sư tỷ Linh Nhi`, `Sư huynh Thiên Phong`, hoặc `Đạo hữu [tên]` nếu không nhận diện được giới tính.
-- Đầu câu viết hoa danh xưng; giữa câu dùng chữ thường (`sư tỷ Linh Nhi`, `sư huynh Thiên Phong`, `đạo hữu [tên]`). Không dùng danh xưng riêng lẻ khi đã có tên người đua.
-- Lời bình sự kiện người dẫn đầu cũng dùng tên kèm danh xưng được nhận diện.
-- Cache: `tournament.js v17`, `data-loader.js v166`.
+- Tên riêng luôn đứng trước danh xưng: `Trần Linh Nhi sư tỷ`, `Thừa Phong sư huynh`, `Diệp đạo hữu`.
+- Đầu câu chỉ viết hoa chữ cái đầu của tên/cụm xưng hô (ví dụ `Trần Linh Nhi sư tỷ!`); giữa câu viết thường theo ngữ cảnh (ví dụ `ta thấy Trần Linh Nhi sư tỷ đang dẫn đầu`).
+- Khi không nhận diện được giới tính, vẫn đặt tên trước danh xưng trung tính `đạo hữu`; không đảo thành `Sư tỷ Linh Nhi` hoặc `Đạo hữu Diệp`.
+- Lời bình sự kiện người dẫn đầu cũng dùng đúng thứ tự tên trước danh xưng.
+- Cache: `tournament.js v18`, `data-loader.js v167`.
 
 
 ## 98. Bong bóng lời bình gọn theo cấp bậc
