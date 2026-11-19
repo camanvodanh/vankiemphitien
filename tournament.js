@@ -39,7 +39,7 @@
       const template=name?entry.text:(entry.fallback||entry.text);
       return String(template||"").replace(/\{call\}/g,call||"").replace(/\{name\}/g,name||"");
     }
-  ]);;
+  ]);
 
   // Chống lặp theo cả vai và toàn sân; đồng thời tính cả câu đang chờ trong hàng đợi.
   const recentLinesByRole=Object.create(null);
@@ -67,7 +67,7 @@
   const speakerAnchors={
     // Hai vị trí hàng đầu dùng bong bóng nằm dưới điểm neo; đuôi hướng ngược lên
     // để chỉ đúng người đang thoại mà không phủ lên nhân vật thi đấu.
-    master:{x:550,y:550,side:1,below:true},elder:{x:867,y:570,side:-1,below:false},disciple:{x:263,y:600,side:1,below:true},core:{x:550,y:765,side:-1},inner:{x:380,y:775,side:1},outer:{x:550,y:795,side:-1},servant:{x:550,y:845,side:1},
+    master:{x:550,y:560,side:1,below:true},elder:{x:867,y:570,side:-1,below:false},disciple:{x:263,y:600,side:1,below:true},core:{x:550,y:765,side:-1},inner:{x:380,y:775,side:1},outer:{x:550,y:795,side:-1},servant:{x:550,y:845,side:1},
     racer:{x:550,y:720,side:1}
   };
 
@@ -235,7 +235,7 @@
       window.setTimeout(()=>{
         if(!isFinished()&&!stopped){
           const masterLine=chooseDialogue("master",name,call);
-          showBubble(masterLine||("Ta thấy rồi. "+call+" giữ thân pháp rất vững!"),"master");
+          showBubble("Ta thấy rồi, "+call+"! "+(masterLine||"Hãy giữ vững đạo tâm và kiếm thế!"),"master");
         }
       },850);
     }else if(value.includes("PHOTO FINISH")){
