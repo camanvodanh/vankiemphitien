@@ -101,7 +101,7 @@
   const speakerAnchors={
     // Hai vị trí hàng đầu dùng bong bóng nằm dưới điểm neo; đuôi hướng ngược lên
     // để chỉ đúng người đang thoại mà không phủ lên nhân vật thi đấu.
-    master:{x:550,y:690,side:1,below:true},elder:{x:867,y:600,side:-1,below:true},disciple:{x:263,y:600,side:1,below:true},core:{x:550,y:765,side:-1},inner:{x:380,y:775,side:1},outer:{x:550,y:795,side:-1},servant:{x:550,y:845,side:1},
+    master:{x:550,y:515,side:1,below:true},elder:{x:867,y:600,side:-1,below:true},disciple:{x:263,y:600,side:1,below:true},core:{x:550,y:765,side:-1},inner:{x:380,y:775,side:1},outer:{x:550,y:795,side:-1},servant:{x:550,y:845,side:1},
     racer:{x:550,y:720,side:1}
   };
 
