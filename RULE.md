@@ -565,3 +565,10 @@
 - Bong bóng thoại tự mở rộng chiều rộng/chiều cao, tự xuống dòng, không giới hạn 2 dòng và không cắt thành dấu ba chấm; giới hạn bề ngang theo khung sân, vị trí theo kích thước thực để không tràn khung.
 - Sprite nhân vật huyền thoại Thần Sầu được preload ngay khi renderer tải. Khi sprite chưa sẵn sàng, dùng bóng linh thể tạm thời thay vì vẽ nhân vật thường làm fallback rồi đổi sprite, tránh cảm giác nhân vật bị đè/thay thế sau triệu hồi.
 - Cache: `tournament.js v16`, `visual-overrides.js v222`, `style.css responsive-arena-v220`, `data-loader.js v165`.
+
+
+## 97. Xưng hô có tên riêng và viết hoa theo vị trí câu
+- Bình luận về người đua ghép danh xưng với tên cụ thể, ví dụ `Sư tỷ Linh Nhi`, `Sư huynh Thiên Phong`, hoặc `Đạo hữu [tên]` nếu không nhận diện được giới tính.
+- Đầu câu viết hoa danh xưng; giữa câu dùng chữ thường (`sư tỷ Linh Nhi`, `sư huynh Thiên Phong`, `đạo hữu [tên]`). Không dùng danh xưng riêng lẻ khi đã có tên người đua.
+- Lời bình sự kiện người dẫn đầu cũng dùng tên kèm danh xưng được nhận diện.
+- Cache: `tournament.js v17`, `data-loader.js v166`.
