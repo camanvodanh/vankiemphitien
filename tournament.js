@@ -265,7 +265,7 @@
       const name=value.slice("HẠNG 1 · ĐANG DẪN ĐẦU:".length).trim();
       const call=seniorAddress(name);
       leaderEventCount++;
-      const firstRole=["disciple","core","inner","outer","servant"][leaderEventCount%5];
+      const firstRole=["disciple","core","inner","outer","servant"][(leaderEventCount-1)%5];
       const firstLine=chooseDialogue(firstRole,name,addressedName(name,inferGender(name),true));
       if(firstLine)showBubble(firstLine,firstRole);
       window.setTimeout(()=>{
