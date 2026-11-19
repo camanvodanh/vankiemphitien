@@ -10541,3 +10541,106 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
 .arena-frame>.tournament-speech-bubble{width:max-content!important;min-width:0!important;max-width:min(94%,420px)!important;height:auto!important;max-height:none!important;padding:7px 10px!important;white-space:normal!important;overflow:visible!important;}
 .arena-frame>.tournament-speech-bubble .tournament-speech-message{display:block!important;width:auto!important;max-width:100%!important;max-height:none!important;overflow:visible!important;text-overflow:clip!important;white-space:normal!important;-webkit-line-clamp:unset!important;-webkit-box-orient:initial!important;line-clamp:unset!important;overflow-wrap:anywhere!important;word-break:normal!important;line-height:1.28!important;}
 @media(max-width:600px){.arena-frame>.tournament-speech-bubble{max-width:min(94%,330px)!important;padding:6px 8px!important}.arena-frame>.tournament-speech-bubble .tournament-speech-message{font-size:10px!important;}}
+
+
+/* REVISION 168 — bong bóng tiên hiệp gọn, chữ cố định; lời dài chỉ nới khung và xuống dòng. */
+.arena-frame>.tournament-speech-bubble{
+  box-sizing:border-box!important;
+  width:max-content!important;
+  min-width:0!important;
+  max-width:min(164px,calc(100% - 14px))!important;
+  height:auto!important;
+  max-height:none!important;
+  padding:4px 7px 5px!important;
+  border-width:1px!important;
+  border-radius:7px!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  box-shadow:0 2px 5px rgba(20,15,8,.24),inset 0 1px 0 rgba(255,255,255,.75)!important;
+}
+.arena-frame>.tournament-speech-bubble .tournament-speech-message{
+  display:block!important;
+  width:auto!important;
+  max-width:100%!important;
+  max-height:none!important;
+  margin:0!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  white-space:normal!important;
+  -webkit-line-clamp:unset!important;
+  line-clamp:unset!important;
+  overflow-wrap:anywhere!important;
+  word-break:normal!important;
+  font-size:8.5px!important;
+  line-height:1.18!important;
+  font-weight:700!important;
+  letter-spacing:0!important;
+}
+/* Môn chủ: ngự chỉ vàng, nền cổ phong trầm */
+.arena-frame>.tournament-speech-bubble.speaker-master{
+  min-width:94px!important;max-width:min(158px,calc(100% - 14px))!important;
+  padding:5px 8px 6px!important;border:1.5px solid #b58a3d!important;border-radius:8px!important;
+  background:linear-gradient(145deg,#fff7d9,#ead39a 58%,#f8edc8)!important;color:#553b17!important;
+  box-shadow:0 2px 7px rgba(66,42,8,.28),inset 0 0 0 1px rgba(255,255,255,.55)!important;
+}
+.arena-frame>.tournament-speech-bubble.speaker-master .tournament-speech-message{color:#553b17!important}
+/* Trưởng lão: tử kim, cổ kính */
+.arena-frame>.tournament-speech-bubble.speaker-elder{
+  min-width:88px!important;max-width:min(150px,calc(100% - 14px))!important;
+  border-color:#98764c!important;background:linear-gradient(145deg,#f8f0df,#e5d4b8)!important;color:#493525!important;
+}
+.arena-frame>.tournament-speech-bubble.speaker-elder .tournament-speech-message{color:#493525!important}
+/* Nòng cốt và thân truyền: thanh ngọc */
+.arena-frame>.tournament-speech-bubble.speaker-core,
+.arena-frame>.tournament-speech-bubble.speaker-disciple{
+  min-width:82px!important;max-width:min(142px,calc(100% - 14px))!important;
+  border-color:#559b91!important;background:linear-gradient(145deg,#effff5,#cce9d9)!important;color:#174d43!important;
+}
+.arena-frame>.tournament-speech-bubble.speaker-core .tournament-speech-message,
+.arena-frame>.tournament-speech-bubble.speaker-disciple .tournament-speech-message{color:#174d43!important}
+/* Nội môn: lam ngọc */
+.arena-frame>.tournament-speech-bubble.speaker-inner{
+  min-width:76px!important;max-width:min(132px,calc(100% - 14px))!important;
+  border-color:#6996b5!important;background:linear-gradient(145deg,#f0f8ff,#d1e4f2)!important;color:#244a67!important;
+}
+.arena-frame>.tournament-speech-bubble.speaker-inner .tournament-speech-message{color:#244a67!important}
+/* Ngoại môn: thanh bạch */
+.arena-frame>.tournament-speech-bubble.speaker-outer{
+  min-width:72px!important;max-width:min(126px,calc(100% - 14px))!important;
+  border-color:#9baf9b!important;background:linear-gradient(145deg,#fbfff7,#e0ead8)!important;color:#3d5638!important;
+}
+.arena-frame>.tournament-speech-bubble.speaker-outer .tournament-speech-message{color:#3d5638!important}
+/* Tạp dịch: giấy ngà, viền nâu mộc */
+.arena-frame>.tournament-speech-bubble.speaker-servant{
+  min-width:66px!important;max-width:min(116px,calc(100% - 14px))!important;
+  padding:3px 6px 4px!important;border-color:#b89b7b!important;background:linear-gradient(145deg,#fffaf0,#eadcc8)!important;color:#624b35!important;
+}
+.arena-frame>.tournament-speech-bubble.speaker-servant .tournament-speech-message{color:#624b35!important}
+/* Người đua: xanh kiếm khí */
+.arena-frame>.tournament-speech-bubble.speaker-racer{
+  min-width:82px!important;max-width:min(142px,calc(100% - 14px))!important;
+  border-color:#6c9c9c!important;background:linear-gradient(145deg,#f0ffff,#cce7e5)!important;color:#1e5152!important;
+}
+.arena-frame>.tournament-speech-bubble.speaker-racer .tournament-speech-message{color:#1e5152!important}
+.arena-frame>.tournament-speech-bubble::after{
+  width:8px!important;height:8px!important;bottom:-5px!important;
+  background:inherit!important;border-right:1px solid currentColor!important;border-bottom:1px solid currentColor!important;
+}
+.arena-frame>.tournament-speech-bubble.is-below::after{top:-5px!important;bottom:auto!important}
+@media(max-width:600px){
+  .arena-frame>.tournament-speech-bubble{
+    max-width:min(138px,calc(100% - 10px))!important;
+    padding:3px 6px 4px!important;border-radius:6px!important;
+  }
+  .arena-frame>.tournament-speech-bubble .tournament-speech-message{
+    font-size:7.5px!important;line-height:1.16!important;
+  }
+  .arena-frame>.tournament-speech-bubble.speaker-master{min-width:86px!important;max-width:min(132px,calc(100% - 10px))!important}
+  .arena-frame>.tournament-speech-bubble.speaker-elder{min-width:80px!important;max-width:min(126px,calc(100% - 10px))!important}
+  .arena-frame>.tournament-speech-bubble.speaker-core,
+  .arena-frame>.tournament-speech-bubble.speaker-disciple{min-width:74px!important;max-width:min(120px,calc(100% - 10px))!important}
+  .arena-frame>.tournament-speech-bubble.speaker-inner,
+  .arena-frame>.tournament-speech-bubble.speaker-outer{min-width:68px!important;max-width:min(112px,calc(100% - 10px))!important}
+  .arena-frame>.tournament-speech-bubble.speaker-servant{min-width:60px!important;max-width:min(102px,calc(100% - 10px))!important;padding:3px 5px!important}
+  .arena-frame>.tournament-speech-bubble.speaker-racer{min-width:74px!important;max-width:min(120px,calc(100% - 10px))!important}
+}
