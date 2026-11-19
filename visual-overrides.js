@@ -1666,7 +1666,8 @@ function drawRacingArtifact(target,kind,phase){
 
 function drawCrowd(time) {
   // Cùng áo bào đỏ, mão vàng và bát quái linh khí như chưởng môn ngự kiếm ban thưởng.
-  if(!window.__awardMasterDepartureActive)drawCeremonySeatedMaster(ctx,550,612,.82);
+  const masterSeatY=ctx.canvas.height*(612/825);
+  if(!window.__awardMasterDepartureActive)drawCeremonySeatedMaster(ctx,550,masterSeatY,.82);
   drawRoleLabel(550,493,"CHƯỞNG MÔN","#f2d17d",1.05);
 
   for(let i=0;i<10;i++){
