@@ -44,6 +44,16 @@
   // Chống lặp theo cả vai và toàn sân; đồng thời tính cả câu đang chờ trong hàng đợi.
   const recentLinesByRole=Object.create(null);
   const recentDialogueGlobal=[];
+  // Lịch sử câu thực sự đã được đưa vào bong bóng, gồm cả thoại sự kiện và thoại tự động.
+  const recentShownByRole=Object.create(null);
+  const recentShownGlobal=[];
+  function rememberShownMessage(role,message){
+    const history=recentShownByRole[role]||(recentShownByRole[role]=[]);
+    history.push(message);
+    recentShownGlobal.push(message);
+    if(history.length>18)history.shift();
+    if(recentShownGlobal.length>32)recentShownGlobal.shift();
+  }
   function chooseDialogue(role,name,call){
     const pool=lines.filter(line=>line[0]===role);
     if(!pool.length)return null;
@@ -85,6 +95,19 @@
     const px=cr.left-ar.left+sx/canvas.width*cr.width;
     const py=cr.top-ar.top+sy/canvas.height*cr.height;
     const width=item.el.offsetWidth||120,height=item.el.offsetHeight||34;
+    // Khóa vị trí tương đối sau lần bố trí đầu tiên. Khi camera zoom/pan,
+    // bong bóng vẫn bám theo điểm neo nhưng không nhảy chỗ khi bong bóng khác biến mất.
+    if(item.layout){
+      const left=Math.max(width/2+5,Math.min(ar.width-width/2-5,px+item.layout.dx));
+      const top=item.layout.below
+        ?Math.max(8,Math.min(ar.height-height-8,py+item.layout.dy))
+        :Math.max(height+8,Math.min(ar.height-8,py+item.layout.dy));
+      item.el.classList.toggle("is-below",item.layout.below);
+      item.el.style.left=left+"px";
+      item.el.style.top=top+"px";
+      item.el.style.setProperty("--speech-tail-x",Math.max(10,Math.min(width-10,px-left+width/2))+"px");
+      return;
+    }
     const side=anchor.side||1,offset=Math.min(16,width*.09)*side;
     // Chọn vị trí trái/giữa/phải và thử cả hai hướng đuôi để luôn chỉ về người nói.
     // Các bong bóng đã được sắp theo thứ tự xuất hiện nên vị trí của chúng ổn định trong mỗi khung hình.
@@ -124,7 +147,8 @@
     }
     const left=best?best.left:Math.max(width/2+5,Math.min(ar.width-width/2-5,preferredX+offset));
     const bubbleY=best?best.top:Math.max(8,Math.min(ar.height-8,py));
-    item.el.classList.toggle("is-below",best?best.below:!!anchor.below);
+    item.layout={dx:left-px,dy:bubbleY-py,below:best?best.below:!!anchor.below};
+    item.el.classList.toggle("is-below",item.layout.below);
     item.el.style.left=left+"px";
     item.el.style.top=bubbleY+"px";
     item.el.style.setProperty("--speech-tail-x",Math.max(10,Math.min(width-10,px-left+width/2))+"px");
@@ -180,12 +204,19 @@
   function showBubble(message,type){
     if(!message||stopped||isFinished())return;
     const normalized=String(message).trim();
+    const shownForRole=recentShownByRole[type]||[];
+    // Chặn cả câu sự kiện lẫn câu tự động nếu vừa được phát gần đây.
+    if(shownForRole.includes(normalized)||recentShownGlobal.includes(normalized))return;
     if(bubbles.some(item=>item.type===type&&item.message===normalized)||
        bubbleQueue.some(entry=>entry.type===type&&entry.message===normalized))return;
     if(bubbles.length>=MAX_BUBBLES||bubbles.some(item=>item.type===type)){
-      if(bubbleQueue.length<12)bubbleQueue.push({message:normalized,type});
+      if(bubbleQueue.length<12){
+        bubbleQueue.push({message:normalized,type});
+        rememberShownMessage(type,normalized);
+      }
       return;
     }
+    rememberShownMessage(type,normalized);
     createBubble(normalized,type);
   }
 
