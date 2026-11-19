@@ -22,7 +22,7 @@
     return "unknown";
   }
   const titleFor=g=>g==="female"?"sư tỷ":g==="male"?"sư huynh":"đạo hữu";
-  const addressedName=(name,g,capital=true)=>{const title=titleFor(g);const text=name?title+" "+name:title;return capital?text.charAt(0).toUpperCase()+text.slice(1):text;};
+  const addressedName=(name,g,capital=true)=>{const title=titleFor(g);const text=name?name+" "+title:title;return capital?text.charAt(0).toUpperCase()+text.slice(1):text;};
   const lines=[
     ["outer",(n,h)=>n?h+"! Cố lên! Đệ tử đang dõi theo!":"Chư vị cố lên! Đệ tử đang dõi theo!"],
     ["inner",(n,h)=>n?h+" sắp vượt thêm một người rồi!":"Nhanh quá, sắp vượt thêm một người rồi!"],
