@@ -581,3 +581,9 @@
 - Giao diện phân cấp theo người nói: môn chủ vàng ngự chỉ, trưởng lão tử kim cổ kính, nòng cốt/thân truyền thanh ngọc, nội môn lam ngọc, ngoại môn thanh bạch, tạp dịch giấy ngà nâu mộc, người đua xanh kiếm khí.
 - Desktop: chữ khoảng 8.5px, mobile: 7.5px; chiều rộng tối đa lần lượt khoảng 116–158px desktop và 102–132px mobile tùy vai trò.
 - CSS revision 168; cache style.css `responsive-arena-v221`.
+
+
+## 99. Hạ vị trí bong bóng của hàng khán giả phía trên
+- Hạ điểm neo lời bình của môn chủ, trưởng lão, nòng cốt/thân truyền, nội môn và người đua để bong bóng không bay cao vào đường đua hoặc che nhân vật thi đấu.
+- Bong bóng cùng người nói xếp lệch nhẹ xuống dưới thay vì dồn ngược lên trên; vẫn giới hạn trong khung sân và bám theo camera.
+- Cache: `tournament.js v19`, `data-loader.js v168`.
