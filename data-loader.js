@@ -17,7 +17,7 @@
   "race-logic.js?v=race-phase1-v206",
   "journey-world.js?v=journey-world-v22",
   "i18n.js?v=race-phase1-v184",
-  "tournament.js?v=tournament-v31"
+  "tournament.js?v=tournament-v32"
  ];
  for(const src of scripts){
   await new Promise((resolve,reject)=>{
