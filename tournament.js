@@ -98,8 +98,10 @@
   }
 
   const speakerAnchors={
-    master:{x:550,y:690,side:1},elder:{x:867,y:680,side:-1},disciple:{x:263,y:675,side:1},core:{x:550,y:710,side:-1},inner:{x:380,y:730,side:1},outer:{x:550,y:785,side:-1},servant:{x:550,y:845,side:1},
-    racer:{x:550,y:642,side:1}
+    // Hạ điểm neo của hàng nhân vật phía trên để bong bóng nằm thấp hơn,
+    // tránh lấn vào vùng phi kiếm và người đang thi đấu.
+    master:{x:550,y:755,side:1},elder:{x:867,y:750,side:-1},disciple:{x:263,y:745,side:1},core:{x:550,y:765,side:-1},inner:{x:380,y:775,side:1},outer:{x:550,y:795,side:-1},servant:{x:550,y:845,side:1},
+    racer:{x:550,y:690,side:1}
   };
 
   function isFinished(){return typeof finished!=="undefined"&&finished;}
@@ -119,8 +121,10 @@
     const side=anchor.side||1,offset=Math.min(22,width*.13)*side;
     const drift=(item.sequence%3-1)*Math.min(34,width*.13);
     const left=Math.max(width/2+5,Math.min(ar.width-width/2-5,px+offset+drift));
-    // CSS transform anchors bubble by its bottom edge; clamp it so long lines stay inside arena.
-    const bottom=Math.max(height+8,Math.min(ar.height-8,py-12-(item.stack||0)*(height+7)));
+    // CSS transform anchors bubble by its bottom edge. Keep it below the upper
+    // audience rows; same-speaker bubbles stagger slightly downward, never upward.
+    const stackDrop=Math.min(item.stack||0,2)*Math.min(12,height*.22);
+    const bottom=Math.max(height+8,Math.min(ar.height-8,py-10+stackDrop));
     item.el.style.left=left+"px";
     item.el.style.top=bottom+"px";
     item.el.style.setProperty("--speech-tail-x",Math.max(10,Math.min(width-10,px-left+width/2))+"px");
