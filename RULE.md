@@ -749,3 +749,11 @@
 ## 122. Thử nghiệm hạ nhãn Chưởng môn xuống Canvas Y=500
 - Chỉ thay đổi tọa độ nhãn CHƯỞNG MÔN từ Y=444 xuống Y=500 để kiểm tra vị trí mới; giữ nguyên tâm ngai và Chưởng môn tại Y=565, không thay đổi mặt, vương miện hoặc vòng Thái Cực.
 - Cache: visual-overrides.js v232, data-loader.js v191, index.html data-driven-v191.
+
+
+## 123. Điều khiển tốc độ và Slow Motion tự động
+- Bổ sung cụm điều khiển tốc độ 1x, 0.5x, 0.25x, 0.1x và chế độ TỰ ĐỘNG ngay dưới nhóm nút điều khiển cuộc đua; hiển thị rõ chế độ đang chọn, tối ưu bố cục trên màn hình nhỏ.
+- TỰ ĐỘNG mặc định bật: đổi người dẫn đầu/vượt hạng Top 3 làm chậm còn 0.5x; Top 3 về đích còn 0.25x; photo finish còn 0.1x. Thời lượng lần lượt khoảng 1.5–2.6 giây; sự kiện mạnh hơn được ưu tiên.
+- Chọn một mức tốc độ thủ công sẽ tắt TỰ ĐỘNG; bật lại TỰ ĐỘNG sẽ tiếp tục phản ứng theo sự kiện. Triệu hồi/khởi đầu lượt đua mới đặt lại 1x và TỰ ĐỘNG.
+- Chỉ delta mô phỏng cuộc đua được nhân hệ số; đồng hồ đếm ngược, hiệu ứng sân khấu, âm thanh và vòng render không bị làm chậm. Không thay đổi thuật toán phân hạng hay vận tốc cơ sở.
+- Cache: race-logic.js v210, race-events.js v2, style.css responsive-arena-v225, data-loader.js v192, index.html data-driven-v192.
