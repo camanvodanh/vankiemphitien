@@ -728,3 +728,9 @@
 - Nhãn CHƯỞNG MÔN giữ nguyên Canvas Y=570, tiếp tục nằm sát vòng Thái Cực; không di chuyển nhãn theo ngai.
 - Loại bỏ thao tác render Thiên Lý Kính mini tự đặt lại cờ ẩn ngai của sân chính. Hai luồng render không còn ghi đè trạng thái của nhau, tránh ngai/Chưởng môn chớp mất rồi xuất hiện đè lên Nòng cốt sau cảnh đại hội kết thúc.
 - Cache: visual-overrides.js v228, data-loader.js v187, index.html data-driven-v187.
+
+
+## 119. Nâng ngai và đưa nhãn Chưởng môn lên trên vòng Thái Cực
+- Tâm ngai Chưởng môn chuyển từ Canvas Y=590 lên Y=565 (tỷ lệ theo chiều cao Canvas), tạo khoảng cách rõ hơn với hàng Nòng cốt và cao hơn hàng Chân truyền/Trưởng lão tại Y=612.
+- Nhãn CHƯỞNG MÔN chuyển từ Y=570 lên Y=432, nằm sát phía trên mép vòng Thái Cực (vòng có tâm tại khoảng Y=525.6 và bán kính hiển thị khoảng 77 px), tránh che mặt nhân vật.
+- Cache: visual-overrides.js v229, data-loader.js v188, index.html data-driven-v188.
