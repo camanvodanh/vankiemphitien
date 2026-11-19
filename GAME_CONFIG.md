@@ -796,3 +796,11 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Bong bóng phân cấp kích thước theo vai trò, thu gọn thêm trên điện thoại.
 - Neo trong khu vực khán đài, tách khỏi đường đua và các thí sinh.
 - Cache: `tournament.js v13`, `style.css responsive-arena-v216`, `data-loader.js v162`.
+
+
+## 95. Bong bóng đồng thời, kết thúc lời bình và xưng hô
+- Cho phép tối đa 6 bong bóng cùng hiện; bong bóng mới luôn được tạo phía trước (z-index cao hơn), bong bóng cũ vẫn hiện đến khi hết 4,3 giây hoặc bị giới hạn số lượng.
+- Khi trạng thái `finished` bật, hủy lịch cổ vũ, xóa tất cả bong bóng đang tồn tại và ngăn các sự kiện/timer tạo lời bình mới.
+- Xưng hô với người đua dựa trên nhận diện giới tính từ tên (dấu hiệu danh xưng và một số từ/tên thường gặp). Nếu không đủ dấu hiệu, dùng “đạo hữu”/câu trung tính, không suy đoán giới tính.
+- Neo lời bình của Chưởng môn, Trưởng lão, đệ tử và các hàng khán đài được hạ xuống để bong bóng không chồng lên đường đua; vẫn theo camera zoom/pan, đuôi chỉ về speaker.
+- Cache: `tournament.js v14`, `style.css responsive-arena-v217`, `data-loader.js v163`.
