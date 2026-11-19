@@ -739,3 +739,8 @@
 - Giữ nguyên tâm ngai và vị trí Chưởng môn tại Canvas Y=565; không thay đổi kích thước hoặc vị trí ghế.
 - Chỉ hạ nhãn CHƯỞNG MÔN từ Y=432 xuống Y=438, đưa chữ gần vòng Thái Cực hơn nhưng vẫn tách khỏi mặt, vương miện và vòng sáng.
 - Cache: visual-overrides.js v230, data-loader.js v189, index.html data-driven-v189.
+
+## 121. Hạ nhãn Chưởng môn gần vòng Thái Cực thêm một nhịp
+- Giữ nguyên Chưởng môn và ghế tại Canvas Y=565.
+- Chỉ hạ nhãn CHƯỞNG MÔN từ Y=438 xuống Y=444 (thêm 6 px), không thay đổi mặt, vương miện hoặc vòng Thái Cực.
+- Cache: visual-overrides.js v231, data-loader.js v190, index.html data-driven-v190.
