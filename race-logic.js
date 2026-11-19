@@ -1654,6 +1654,7 @@ updateRace=function(dt){
  const rankBefore=new Map(sortedRacers().map((r,i)=>[r.id,i+1]));
  phase1BaseUpdateRace(dt);
  if(!started||finished)return;
+ if(window.VKPRaceEvents)window.VKPRaceEvents.trackLeader(leaderOf());
  sortedRacers().forEach((racer,i)=>{
   const oldRank=rankBefore.get(racer.id),newRank=i+1;
   if(oldRank&&newRank<oldRank&&!racer.finished){
@@ -1673,6 +1674,7 @@ processFinish=function(racer,index){
   if(gap<=.12){
    const label="PHOTO FINISH · "+previous.name+" / "+racer.name+" · cách nhau "+Math.max(1,Math.round(gap*1000))+" ms";
    finishAnnouncementQueue.push(label);
+   if(window.VKPRaceEvents)window.VKPRaceEvents.emit("race:photo-finish",{first:previous,second:racer,gapSeconds:gap},{cooldown:2500});
   }
  }
 };
