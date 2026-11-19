@@ -10733,3 +10733,50 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
     line-height:1.1!important;
   }
 }
+
+/* DISCIPLE SYSTEM v1 — session leaderboard and disciple dossier */
+.game-ranking .ranking-tabs{display:flex;gap:4px;margin:0 0 7px;padding:3px;border:1px solid #c6a15c55;border-radius:7px;background:rgba(5,20,17,.55)}
+.game-ranking .ranking-tabs button{flex:1;min-width:0;padding:6px 3px;border:1px solid transparent;border-radius:5px;background:transparent;color:#cbbd9e;font:700 9px/1.2 Arial,sans-serif;white-space:nowrap;cursor:pointer}
+.game-ranking .ranking-tabs button.is-active{border-color:#c5a05c;background:linear-gradient(135deg,#6a512b,#344b3c);color:#fff0c8;box-shadow:inset 0 0 0 1px #f0d28a33}
+.game-ranking .ranking-view[hidden]{display:none!important}
+.game-ranking .ranking-view{min-height:0}
+.game-ranking #sessionRankingView table{table-layout:fixed}
+.game-ranking #sessionRankingView th:nth-child(1),.game-ranking #sessionRankingView td:nth-child(1){width:34px;text-align:center}
+.game-ranking #sessionRankingView th:nth-child(3),.game-ranking #sessionRankingView td:nth-child(3){width:66px;text-align:center}
+.game-ranking #sessionRankingView th:nth-child(4),.game-ranking #sessionRankingView td:nth-child(4){width:36px;text-align:center}
+.game-ranking .session-profile-row{cursor:pointer}
+.game-ranking .session-profile-row:hover,.game-ranking .session-profile-row:focus{background:#d7b96b20;outline:1px solid #d7b96b55;outline-offset:-1px}
+.game-ranking .ranking-session-note{margin:6px 2px 0;color:#b9b098;font:italic 8px/1.35 Arial,sans-serif;text-align:center}
+.game-ranking .disciple-profiles-view{display:flex;flex-direction:column;gap:7px;overflow:auto;overscroll-behavior:contain}
+.game-ranking .disciple-profile-list{display:flex;gap:4px;overflow-x:auto;padding:1px 1px 5px;scrollbar-width:thin}
+.game-ranking .profile-list-item{display:flex;align-items:center;gap:5px;flex:0 0 auto;max-width:150px;padding:4px 7px;border:1px solid #c6a15c55;border-radius:6px;background:#172f28;color:#e9dfc9;text-align:left;cursor:pointer}
+.game-ranking .profile-list-item.is-selected{border-color:#e5c47b;background:#4a4932}
+.game-ranking .profile-avatar{display:grid;place-items:center;width:22px;height:22px;flex:0 0 22px;border:1px solid #c7a35d;border-radius:50%;background:#29483b;color:#f4dda7;font:700 12px/1 serif}
+.game-ranking .profile-list-copy{display:flex;flex-direction:column;min-width:0}
+.game-ranking .profile-list-copy strong{max-width:105px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:700 9px/1.2 Arial,sans-serif}
+.game-ranking .profile-list-copy small{max-width:105px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#cbb27a;font:8px/1.2 Arial,sans-serif}
+.game-ranking .disciple-profile-detail{padding:8px;border:1px solid #b9914e66;border-radius:8px;background:linear-gradient(145deg,#203b31,#142821);color:#eee4d0}
+.game-ranking .profile-hero{display:flex;align-items:center;gap:9px;padding-bottom:8px;border-bottom:1px solid #d4b66c33}
+.game-ranking .profile-emblem{display:grid;place-items:center;width:42px;height:42px;flex:0 0 42px;border:1px solid #e1c17b;border-radius:50%;background:radial-gradient(circle,var(--disciple-color),#14251f 72%);box-shadow:0 0 14px #d8bb7140;color:#fff0c5;font:24px/1 serif}
+.game-ranking .profile-identity{min-width:0}
+.game-ranking .profile-identity small{display:block;color:#c4a66b;font:700 7px/1.3 Arial,sans-serif;letter-spacing:.7px}
+.game-ranking .profile-identity h4{margin:3px 0;color:#fff0d0;font:700 15px/1.1 Georgia,serif;overflow-wrap:anywhere}
+.game-ranking .profile-identity span{color:#e2c27c;font:700 9px/1.2 Arial,sans-serif}
+.game-ranking .profile-traits{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px 0;border-bottom:1px solid #d4b66c33}
+.game-ranking .profile-traits>div,.game-ranking .profile-stat-grid>div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.game-ranking .profile-traits small,.game-ranking .profile-stat-grid small{color:#bcae91;font:8px/1.2 Arial,sans-serif}
+.game-ranking .profile-traits strong{color:#eee2c6;font:700 9px/1.25 Arial,sans-serif;overflow-wrap:anywhere}
+.game-ranking .profile-stat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 5px;padding:9px 0}
+.game-ranking .profile-stat-grid strong{color:#f1d89e;font:700 15px/1 Georgia,serif}
+.game-ranking .profile-best{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:7px 8px;border:1px solid #b9914e55;border-radius:6px;background:#0e211b}
+.game-ranking .profile-best span{color:#c7b99a;font:8px Arial,sans-serif}
+.game-ranking .profile-best strong{color:#f4d994;font:700 12px/1.2 ui-monospace,monospace}
+.game-ranking .profile-history h5{margin:8px 0 4px;color:#e8d4a4;font:700 9px Arial,sans-serif}
+.game-ranking .profile-history ul{display:flex;flex-direction:column;gap:3px;margin:0;padding:0;list-style:none}
+.game-ranking .profile-history li{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:5px;align-items:center;padding:4px 0;border-bottom:1px solid #d4b66c1a;font:8px Arial,sans-serif}
+.game-ranking .profile-history li>span{color:#e4c77e}
+.game-ranking .profile-history li strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#e8e0d0}
+.game-ranking .profile-history li time{color:#c4b38e;font:8px ui-monospace,monospace}
+.game-ranking .profile-no-record,.game-ranking .profile-empty,.game-ranking .profile-placeholder{color:#b9b098;font:italic 9px/1.5 Arial,sans-serif;text-align:center}
+.game-ranking .profile-empty,.game-ranking .profile-placeholder{padding:16px 5px}
+@media(max-width:600px){.game-ranking .ranking-tabs{gap:2px;margin-bottom:5px;padding:2px}.game-ranking .ranking-tabs button{padding:5px 2px;font-size:8px}.game-ranking .profile-stat-grid{gap:7px 3px}.game-ranking .profile-identity h4{font-size:13px}}
