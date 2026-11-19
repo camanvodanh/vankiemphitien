@@ -21,14 +21,15 @@
     if(/(thiên|hạo|minh|long|phong|kiệt|khải|vũ|quân|nguyên|cường|tuấn|đạt|bảo|俊|豪|杰|龙|天|宇|轩|辰|阳|剑|君|枫|峰|海|浩|明|伟|强|勇|文|武)/i.test(n))return "male";
     return "unknown";
   }
-  const honorific=g=>g==="female"?"sư tỷ":g==="male"?"sư huynh":"đạo hữu";
+  const titleFor=g=>g==="female"?"sư tỷ":g==="male"?"sư huynh":"đạo hữu";
+  const addressedName=(name,g,capital=true)=>{const title=titleFor(g);const text=name?title+" "+name:title;return capital?text.charAt(0).toUpperCase()+text.slice(1):text;};
   const lines=[
     ["outer",(n,h)=>n?h+"! Cố lên! Đệ tử đang dõi theo!":"Chư vị cố lên! Đệ tử đang dõi theo!"],
-    ["inner",(n,h)=>n?n+" "+h+" sắp vượt thêm một người rồi!":"Nhanh quá, sắp vượt thêm một người rồi!"],
+    ["inner",(n,h)=>n?h+" sắp vượt thêm một người rồi!":"Nhanh quá, sắp vượt thêm một người rồi!"],
     ["servant",(n,h)=>n?"Hay quá, "+h+"! Giữ vững kiếm thế nhé!":"Hay quá! Giữ vững kiếm thế nhé!"],
     ["disciple",(n,h)=>n?h+" có hy vọng đoạt vị trí cao rồi!":"Phong chúng ta có hy vọng đoạt vị trí cao rồi!"],
-    ["core",(n,h)=>n?n+" quả nhiên có bản lĩnh, đường kiếm thật đẹp!":"Đạo hữu quả nhiên có bản lĩnh, đường kiếm thật đẹp!"],
-    ["outer",(n,h)=>n?h+"! Đệ tử tin "+(h==="sư huynh"?"huynh":h==="sư tỷ"?"tỷ":"đạo hữu")+" làm được!":"Đừng để mất vị trí! Cố lên!"],
+    ["core",(n,h)=>n?h+" quả nhiên có bản lĩnh, đường kiếm thật đẹp!":"Đạo hữu quả nhiên có bản lĩnh, đường kiếm thật đẹp!"],
+    ["outer",(n,h)=>n?h+"! Đệ tử tin "+(h.toLowerCase().startsWith("sư huynh")?"huynh":h.toLowerCase().startsWith("sư tỷ")?"tỷ":"đạo hữu")+" làm được!":"Đừng để mất vị trí! Cố lên!"],
     ["inner",()=> "Đuổi kịp rồi! Chỉ còn một đoạn nữa thôi!"],
     ["servant",()=> "Đệ tử cổ vũ cho tất cả các vị! Bay nhanh lên nào!"],
     ["disciple",(n,h)=>n?h+", phía trước đang có cơ hội! Tăng tốc đi!":"Phía trước đang có cơ hội! Tăng tốc đi!"],
@@ -165,7 +166,8 @@
       const leader=typeof leaderOf==="function"?leaderOf():null;
       const target=turn%4===0&&leader?leader:list.length?list[turn%list.length]:null;
       const name=target&&target.name?String(target.name).trim():"";
-      const call=honorific(inferGender(name));
+      const gender=inferGender(name);
+      const call=addressedName(name,gender,true);
       const entry=lines[turn++%lines.length];
       showBubble(entry[1](name,call),entry[0]);
       if(!stopped&&!isFinished())chatterTimer=window.setTimeout(speak,1250+Math.floor(Math.random()*450));
@@ -183,8 +185,9 @@
       scheduleChatter();
     }else if(value.startsWith("HẠNG 1 · ĐANG DẪN ĐẦU:")){
       const name=value.slice("HẠNG 1 · ĐANG DẪN ĐẦU:".length).trim();
-      showBubble("Chưởng môn, "+name+" vừa vượt lên rồi! Kiếm thế thật khá!","elder");
-      window.setTimeout(()=>{if(!isFinished()&&!stopped)showBubble("Ta thấy rồi. "+name+" giữ thân pháp rất vững, không hề rối loạn.","master");},850);
+      const gender=inferGender(name),call=addressedName(name,gender,true),midCall=addressedName(name,gender,false);
+      showBubble("Chưởng môn, "+call+" vừa vượt lên rồi! Kiếm thế thật khá!","elder");
+      window.setTimeout(()=>{if(!isFinished()&&!stopped)showBubble("Ta thấy rồi. "+midCall+" giữ thân pháp rất vững, không hề rối loạn.","master");},850);
     }else if(value.includes("PHOTO FINISH")){
       showBubble("Chỉ chênh lệch trong gang tấc! Quả là một trận tranh phong kịch liệt!","elder");
     }
