@@ -10733,3 +10733,24 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
     line-height:1.1!important;
   }
 }
+
+
+/* AUDIO CONTROLS — icon-only buttons for music and sound effects. */
+.hero-actions .audio-toggle{
+  display:inline-flex!important;flex:0 0 36px!important;width:36px!important;min-width:36px!important;
+  max-width:36px!important;height:36px!important;min-height:36px!important;padding:0!important;
+  margin:0!important;align-items:center!important;justify-content:center!important;gap:0!important;
+  overflow:visible!important;border:1px solid #d7b76d99!important;border-radius:50%!important;
+  color:#f4dfaa!important;background:linear-gradient(145deg,#294b3d,#142b26)!important;
+  box-shadow:0 3px 12px #0003!important;cursor:pointer!important;transition:transform .16s,background .2s,border-color .2s!important;
+}
+.hero-actions .audio-toggle svg{display:block!important;width:19px!important;height:19px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.8!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+.hero-actions .audio-toggle .icon-slash{opacity:0;stroke:#efb4a0!important;stroke-width:2.5!important;transition:opacity .15s!important}
+.hero-actions .audio-toggle[aria-pressed="false"]{color:#b9b5a7!important;border-color:#8e8a7b88!important;background:linear-gradient(145deg,#29302d,#151c1a)!important}
+.hero-actions .audio-toggle[aria-pressed="false"] .icon-slash{opacity:1}
+.hero-actions .audio-toggle:active{transform:scale(.94)!important}
+@media(max-width:620px){
+ .hero-actions{gap:5px!important;max-width:52%!important}
+ .hero-actions .audio-toggle{width:34px!important;min-width:34px!important;max-width:34px!important;height:34px!important;min-height:34px!important;flex-basis:34px!important}
+ .hero-actions .audio-toggle svg{width:18px!important;height:18px!important}
+}
