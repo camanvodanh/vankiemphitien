@@ -13,7 +13,7 @@
  }
  function reset(){state.mode="leader";state.targetId=null;state.until=0;state.lastCut=0;}
  function onOvertake(racer,oldRank,newRank){
-  if(!racer||newRank>=oldRank||newRank>3)return;
+  if(!racer||newRank>=oldRank||newRank>3||now()-state.lastCut<900)return;
   setShot("overtake",racer,now()+1700,true);
  }
  function onFinish(racer,rank){
