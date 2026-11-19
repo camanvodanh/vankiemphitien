@@ -764,3 +764,12 @@
 - Gỡ bộ điều khiển Slow Motion tự động và sự kiện kích hoạt giảm tốc; mô phỏng cuộc đua tiếp tục chạy theo delta thời gian thực như trước khi bổ sung tính năng.
 - Giữ nguyên Event Engine, Camera Director, các sự kiện vượt hạng/về đích/photo finish và tốc độ hiệu ứng gameplay riêng của từng đệ tử.
 - Cache: race-logic.js v211, style.css responsive-arena-v226, data-loader.js v193, index.html data-driven-v193.
+
+
+## 125. Chuông tiên môn và âm thanh theo Thiên Lý Kính
+- Bổ sung âm chuông khai cuộc khi sự kiện `race:start` phát ra; chuông thanh báo đổi người dẫn đầu; chuông về đích cho từng tiên nhân, với âm riêng nổi bật cho người về nhất; đại chung trầm ngân khi sự kiện `race:complete` kết thúc đại hội.
+- Thêm âm thanh Web Audio tổng hợp theo nhóm hiệu ứng gameplay: độc, suy lực/choáng/ngất, hồi đan/tụ khí, va chạm/bạo bộ, lôi kích/lôi phù, cuồng phong/phong hành/đạp vân, kiếm ý/kiếm vũ/kiếm độn, trận pháp/phù hộ thân và các hiệu ứng tăng tốc.
+- Âm thanh hiệu ứng chỉ được kích hoạt khi Thiên Lý Kính đang chọn cảnh `effect`; khi camera chuyển cảnh hoặc hiệu ứng đổi, âm đang phát được dừng trước khi âm mới bắt đầu. Rời cảnh hiệu ứng sẽ dừng âm hiệu ứng.
+- Thêm hai nút icon-only độc lập: nhạc nền và âm thanh hiệu ứng/chuông. Trạng thái bật/tắt có `aria-label`, tooltip, dấu gạch trên icon khi tắt và lưu riêng trong localStorage.
+- Không thay đổi công thức tốc độ, xác suất hiệu ứng, thứ hạng, thời điểm camera chọn cảnh hoặc nội dung nhạc nền.
+- Cache: `style.css responsive-arena-v229`, `data-loader.js data-driven-v196`, `music.js v181`, `race-logic.js v214`, `audio.js v1`.
