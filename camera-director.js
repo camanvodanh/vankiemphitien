@@ -31,7 +31,7 @@
   }
   if(state.until>time&&state.targetId){
    const target=racers.find(r=>r.id===state.targetId&&(state.mode==="finish"||!r.finished));
-   if(target)return {racer:target,mode:state.mode,label:state.mode==="finish"?"VỀ ĐÍCH":"PHA VƯỢT HẠNG",scale:2.15};
+   if(target)return {racer:target,mode:state.mode,label:state.mode==="finish"?"VỀ ĐÍCH":state.mode==="duel"?"TRANH PHONG":"PHA VƯỢT HẠNG",scale:2.15};
    state.until=0;state.targetId=null;
   }
   if(active.length>=2){
