@@ -882,3 +882,11 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Giảm số tầng dịch chuyển dọc của bong bóng từ 7 xuống 3 mức (giữa, gần hơn một tầng lên hoặc xuống), tránh rơi quá thấp khi có nhiều lời thoại.
 - Vòng lặp khung hình tách delta thời gian thực khỏi delta hiệu ứng: countdown và updateRace nhận toàn bộ thời gian thực đã trôi qua; hạt, fade và hiệu ứng hình ảnh vẫn giới hạn delta để tránh nhảy hình quá mạnh. Khi thiết bị hụt FPS, đồng hồ không còn tự bỏ phần thời gian vượt 50 ms mỗi khung.
 - Cache: tournament.js v26, race-logic.js v206, data-loader.js v175.
+
+
+## 107. Chọn lọc hiệu ứng hiển thị khi nhiều nhân vật trùng hiệu ứng
+- Việc chọn lọc chỉ tác động đến lớp vẽ hiệu ứng trên đường đua; không sửa effectTimer, effectType, speedMultiplier, hiệu ứng gameplay, thứ hạng hoặc danh sách nhân vật.
+- Phân nhóm theo đúng effectType đang còn hiệu lực. Nhóm tối đa 8 nhân vật: hiển thị đầy đủ; nhóm 9–20: chọn 6 nhân vật đại diện; nhóm trên 20: chọn 4 nhân vật đại diện. Nhóm được chọn theo mã định danh ổn định để tránh đổi nhân vật liên tục giữa các khung hình.
+- Khi nhân vật hết hiệu ứng hoặc nhóm thay đổi, lựa chọn được tính lại ở khung hình kế tiếp. Nhân vật không được chọn vẫn thi đấu và được ghi nhận đầy đủ trong Tiên Bảng.
+- Thiên Lý Kính luôn vẽ đầy đủ hiệu ứng cho nhân vật đang được chiếu; khi số lượng ít, tất cả nhân vật trên đường đua tiếp tục có hiệu ứng đầy đủ.
+- Cache: visual-overrides.js v224, data-loader.js v176.
