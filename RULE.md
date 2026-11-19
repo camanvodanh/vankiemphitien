@@ -572,3 +572,11 @@
 - Đầu câu viết hoa danh xưng; giữa câu dùng chữ thường (`sư tỷ Linh Nhi`, `sư huynh Thiên Phong`, `đạo hữu [tên]`). Không dùng danh xưng riêng lẻ khi đã có tên người đua.
 - Lời bình sự kiện người dẫn đầu cũng dùng tên kèm danh xưng được nhận diện.
 - Cache: `tournament.js v17`, `data-loader.js v166`.
+
+
+## 98. Bong bóng lời bình gọn theo cấp bậc
+- Bong bóng phải nhỏ, không lấn át nhân vật và đường đua; cỡ chữ giữ cố định, không phóng to theo độ dài câu.
+- Lời thoại dài tự xuống dòng và tăng chiều cao/chiều rộng trong giới hạn của khung sân; không cắt bằng dấu ba chấm, không tăng font để chứa nội dung.
+- Giao diện phân cấp theo người nói: môn chủ vàng ngự chỉ, trưởng lão tử kim cổ kính, nòng cốt/thân truyền thanh ngọc, nội môn lam ngọc, ngoại môn thanh bạch, tạp dịch giấy ngà nâu mộc, người đua xanh kiếm khí.
+- Desktop: chữ khoảng 8.5px, mobile: 7.5px; chiều rộng tối đa lần lượt khoảng 116–158px desktop và 102–132px mobile tùy vai trò.
+- CSS revision 168; cache style.css `responsive-arena-v221`.
