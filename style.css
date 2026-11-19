@@ -10733,9 +10733,3 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
     line-height:1.1!important;
   }
 }
-
-
- .arena-controls .race-speed-controls{gap:4px;padding:5px 4px;margin-top:4px}
- .race-speed-controls button{min-width:34px;padding:6px 6px;font-size:9px}
- .race-speed-caption,.race-speed-status{font-size:8px}
-}
