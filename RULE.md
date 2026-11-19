@@ -614,3 +614,10 @@
 - Hạ điểm neo Trưởng lão và Chân truyền từ y=550 xuống y=580; người đua từ y=690 xuống y=720 để bong bóng tránh che khuất nhân vật thi đấu.
 - Các điểm neo Chưởng môn, Nòng cốt, Nội môn, Ngoại môn và Tạp dịch giữ nguyên.
 - Cache: `tournament.js v22`, `style.css responsive-arena-v223`, `data-loader.js v170`.
+
+
+## 104. Thu nhỏ thêm và đảo đuôi bong bóng hàng đầu
+- Thu gọn tiếp khung thoại: desktop tối đa 138px, chữ 7px; mobile tối đa 118px, chữ 6.4px; giảm padding và giữ nguyên bảng màu theo cấp bậc.
+- Trưởng lão và Chân truyền dùng kiểu đặt bong bóng phía dưới điểm neo ở hàng đầu; mũi tên được đảo lên trên để chỉ về nhân vật đang thoại, tránh phủ lên người thi đấu. Các vai khác giữ cách đặt hiện tại.
+- Vị trí được giới hạn trong khung sân, tiếp tục bám theo zoom/pan và cập nhật theo camera.
+- Cache: `tournament.js v23`, `style.css responsive-arena-v224`, `data-loader.js v171`.
