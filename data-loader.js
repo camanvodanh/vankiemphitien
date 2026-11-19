@@ -14,9 +14,9 @@
   "race-render.js?v=race-phase1-v185",
   "visual-overrides.js?v=race-phase1-v232",
   "music.js?v=race-phase1-v180",
-  "race-logic.js?v=race-phase1-v209",
+  "race-logic.js?v=race-phase1-v210",
   "camera-director.js?v=camera-director-v2",
-  "race-events.js?v=race-events-v1",
+  "race-events.js?v=race-events-v2",
   "journey-world.js?v=journey-world-v22",
   "i18n.js?v=race-phase1-v184",
   "tournament.js?v=tournament-v34"
