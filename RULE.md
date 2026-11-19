@@ -689,3 +689,12 @@
 - Mỗi bong bóng khóa độ lệch ngang/dọc và hướng đuôi ngay lần bố trí đầu tiên. Trong thời gian hiển thị, bong bóng chỉ cập nhật theo thay đổi zoom/pan của Canvas; không tính lại vị trí khi bong bóng khác biến mất, tránh nhảy sang chỗ khác.
 - Không thay đổi kho 191 câu trong `data/dialogues.json`, giới hạn 2 bong bóng, thời lượng 4,3 giây, phân vai hoặc logic cuộc đua.
 - Cache: `tournament.js v32`, `data-loader.js v182`, `index.html data-driven-v182`.
+
+
+## 114. Update 1 — Camera Director truyền hình
+- Bổ sung module độc lập `camera-director.js`, không thay đổi mô phỏng tốc độ, tiến độ, thứ hạng hoặc hiệu ứng gameplay.
+- Thiên Lý Kính tự chọn cảnh: Dẫn đầu (Leader), Pha vượt hạng (Overtake), Tranh phong (Duel), Hiệu ứng (Effect) và Về đích (Finish).
+- Camera giữ cảnh vượt hạng Top 3 khoảng 1,7 giây; cảnh về đích Top 3 khoảng 2,3 giây; cảnh tranh phong khi khoảng cách hai người đầu nhỏ hơn hoặc bằng 2,2% quãng đua, tối đa 1,4 giây.
+- Hiệu ứng đang có camera focus vẫn ưu tiên; cảnh mặc định theo người dẫn đầu. Camera mini hiển thị nhãn chế độ và phóng đại nhẹ cho các cảnh nổi bật.
+- Khởi tạo lại Camera Director khi triệu hồi, bắt đầu đua và reset; các tính năng zoom/pan thủ công trên Canvas chính không đổi.
+- Cache: `camera-director.js v1`, `race-logic.js v207`, `data-loader.js v183`, `index.html data-driven-v183`.
