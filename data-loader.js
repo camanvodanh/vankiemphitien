@@ -14,13 +14,12 @@
   "race-render.js?v=race-phase1-v185",
   "visual-overrides.js?v=race-phase1-v232",
   "music.js?v=race-phase1-v180",
-  "race-logic.js?v=race-phase1-v212",
+  "race-logic.js?v=race-phase1-v213",
   "camera-director.js?v=camera-director-v2",
   "race-events.js?v=race-events-v2",
   "journey-world.js?v=journey-world-v22",
   "i18n.js?v=race-phase1-v184",
   "tournament.js?v=tournament-v34",
-  "disciple-system.js?v=disciple-system-v1"
  ];
  for(const src of scripts){
   await new Promise((resolve,reject)=>{
