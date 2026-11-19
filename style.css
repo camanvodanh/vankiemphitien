@@ -10644,3 +10644,58 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
   .arena-frame>.tournament-speech-bubble.speaker-servant{min-width:60px!important;max-width:min(102px,calc(100% - 10px))!important;padding:3px 5px!important}
   .arena-frame>.tournament-speech-bubble.speaker-racer{min-width:74px!important;max-width:min(120px,calc(100% - 10px))!important}
 }
+
+
+/* REVISION 169 — màu bong bóng đồng bộ đạo bào và sắc chữ chức danh; phong cách tiên môn. */
+.arena-frame>.tournament-speech-bubble{
+  position:absolute!important;
+  border-style:solid!important;
+  border-width:1.25px!important;
+  border-radius:8px 8px 7px 7px!important;
+  background-image:linear-gradient(145deg,rgba(255,255,255,.78),rgba(255,255,255,0) 38%),linear-gradient(180deg,var(--bubble-light),var(--bubble-deep))!important;
+  border-color:var(--bubble-edge)!important;
+  color:var(--bubble-ink)!important;
+  box-shadow:0 2px 7px rgba(18,20,28,.25),inset 0 0 0 1px rgba(255,255,255,.38),inset 0 -2px 4px rgba(40,30,20,.08)!important;
+}
+.arena-frame>.tournament-speech-bubble .tournament-speech-message{color:var(--bubble-ink)!important;text-shadow:0 1px 0 rgba(255,255,255,.35)}
+.arena-frame>.tournament-speech-bubble::after{
+  background:linear-gradient(135deg,var(--bubble-light),var(--bubble-deep))!important;
+  border-right:1.25px solid var(--bubble-edge)!important;
+  border-bottom:1.25px solid var(--bubble-edge)!important;
+}
+/* Chưởng môn: đạo bào chu sa, kim quan và sắc chữ vàng. */
+.arena-frame>.tournament-speech-bubble.speaker-master{
+  --bubble-light:#fff0cf;--bubble-deep:#d9a77c;--bubble-edge:#a84b36;--bubble-ink:#702d25;
+  border-color:#a84b36!important;
+}
+/* Trưởng lão: tử bào, tử kim linh quang, đồng sắc với danh hiệu. */
+.arena-frame>.tournament-speech-bubble.speaker-elder{
+  --bubble-light:#f4eaff;--bubble-deep:#c8b1e8;--bubble-edge:#9870c4;--bubble-ink:#50366f;
+}
+/* Chân truyền: đạo bào lam ngọc, đồng sắc chữ danh vị. */
+.arena-frame>.tournament-speech-bubble.speaker-disciple{
+  --bubble-light:#edf6ff;--bubble-deep:#b7d0ef;--bubble-edge:#789fce;--bubble-ink:#294d78;
+}
+/* Nòng cốt: thanh ngọc. */
+.arena-frame>.tournament-speech-bubble.speaker-core{
+  --bubble-light:#eafff4;--bubble-deep:#afd9c7;--bubble-edge:#559b83;--bubble-ink:#174d3d;
+}
+/* Nội môn: lam thanh linh bào. */
+.arena-frame>.tournament-speech-bubble.speaker-inner{
+  --bubble-light:#eff8ff;--bubble-deep:#c0d9ee;--bubble-edge:#729fc3;--bubble-ink:#244c70;
+}
+/* Ngoại môn: thanh bạch. */
+.arena-frame>.tournament-speech-bubble.speaker-outer{
+  --bubble-light:#f5ffef;--bubble-deep:#d0e1c5;--bubble-edge:#91ad7d;--bubble-ink:#3d5935;
+}
+/* Tạp dịch: vải thô màu ngà và nâu gỗ. */
+.arena-frame>.tournament-speech-bubble.speaker-servant{
+  --bubble-light:#fff9eb;--bubble-deep:#e5d1b4;--bubble-edge:#b18b61;--bubble-ink:#62482e;
+}
+/* Người đua: kiếm khí xanh biếc. */
+.arena-frame>.tournament-speech-bubble.speaker-racer{
+  --bubble-light:#eaffff;--bubble-deep:#b1dfdc;--bubble-edge:#579d9a;--bubble-ink:#205653;
+}
+@media(max-width:600px){
+  .arena-frame>.tournament-speech-bubble{border-radius:6px!important}
+}
