@@ -468,7 +468,7 @@ function summon(){
   if(finalNames.length<2){$("lockNotice").textContent="Đại hội cần tối thiểu 2 tiên nhân mới có thể khởi tạo.";return;}
   if(finalNames.length>VKP_DATA.summoning.maximumRacers){$("lockNotice").textContent="Tối đa 100 tiên nhân. Hãy rút gọn danh sách rồi triệu hồi lại.";return;}
   racers=finalNames.map((name,index)=>createRacer(name,index));if(window.CultivationMusic)window.CultivationMusic.setPhase("setup");window.__awardMasterDepartureActive=false;raceStopped=false;
-  racers.forEach(r=>{r.swordStyle=randInt(0,11);r.swordColor=randInt(0,9);if(r.gender==="female")r.swordColor=randInt(0,3);else r.swordColor=randInt(4,7);});if(window.VKPDiscipleSystem)window.VKPDiscipleSystem.onRoster(racers);
+  racers.forEach(r=>{r.swordStyle=randInt(0,11);r.swordColor=randInt(0,9);if(r.gender==="female")r.swordColor=randInt(0,3);else r.swordColor=randInt(4,7);});
   duration=Number($("speed").value);elapsed=0;running=false;paused=false;started=false;finished=false;countdown=0;countdownAccumulator=0;eventClock=0;nextEvent=rand(getRaceEffectTimingProfile(duration).eventIntervalSeconds[0],getRaceEffectTimingProfile(duration).eventIntervalSeconds[1]);
   eventText="";eventTextLife=0;finishQueue=[];cameraFocusId=null;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;finishMessage="";finishMessageLife=0;particles=[];assignFinishTimes();
   $("status").textContent="Đã triệu hồi";$("lockNotice").textContent="Tiếp theo: Nhấn Chạy để khai mở cuộc đua.";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="--";setSettingsLocked(false);$("leaderSpeed").innerHTML="";$("leaderTalent").textContent="";$("leaderEffect").textContent="";collapseSetupPanel();syncButtons();
@@ -493,7 +493,6 @@ function startRace(){
  if(window.VKPRaceEvents)window.VKPRaceEvents.emit("race:countdown",{seconds:3},{cooldown:0});
  if(window.VKPCameraDirector)window.VKPCameraDirector.reset();
   if(!summonVisualReady||!racers.length||running||paused)return;
-  if(window.VKPDiscipleSystem)window.VKPDiscipleSystem.beginRace(racers);
   duration=Number($("speed").value);
   raceStopped=false;
   elapsed=0;countdown=3;countdownAccumulator=0;eventClock=0;nextEvent=rand(getRaceEffectTimingProfile(duration).eventIntervalSeconds[0],getRaceEffectTimingProfile(duration).eventIntervalSeconds[1]);
@@ -542,7 +541,7 @@ function resetGame(){
   if(window.CultivationMusic)window.CultivationMusic.setPhase("setup");
   window.__awardMasterDepartureActive=false;
   window.__vkSummonRevealActive=false;
-  racers=[];if(window.VKPDiscipleSystem)window.VKPDiscipleSystem.onReset();raceStopped=false;particles=[];running=false;paused=false;started=false;finished=false;
+  racers=[];raceStopped=false;particles=[];running=false;paused=false;started=false;finished=false;
   countdown=0;countdownAccumulator=0;elapsed=0;eventClock=0;eventText="";eventTextLife=0;
   finishQueue=[];cameraFocusId=null;finishMessage="";finishMessageLife=0;finishEndAnnouncementPending=false;finishEndAnnouncementShown=false;
   $("status").textContent="Chờ triệu hồi";$("leaderName").textContent="Đang chờ cuộc đua";$("leaderProgress").textContent="Chưa khai mở";$("leaderSpeed").innerHTML="";$("leaderTalent").textContent="";$("leaderEffect").textContent="";$("lockNotice").textContent="Bước 1: Nhập danh sách hoặc chọn số lượng, sau đó nhấn Tạo.";
