@@ -656,3 +656,11 @@
 - Tăng nhịp chọn lời thoại tự động lên khoảng 0,9–1,3 giây/lượt; vẫn tuân thủ giới hạn tối đa 2 bong bóng cùng lúc và không hiện trùng vai đồng thời.
 - Bổ sung nhiều câu hài hước theo bối cảnh tu tiên, ngự kiếm, linh thạch, pháp bảo, môn quy và sinh hoạt tông môn.
 - Cache: `tournament.js v28`, `data-loader.js v178`.
+
+
+## 110. Xưng hô đúng vai vế và bảo vệ vùng mặt Trưởng lão/Chưởng môn
+- Racer hiện chưa có trường cấp bậc tu luyện riêng; khi Trưởng lão/Chưởng môn gọi đích danh, dùng cách xưng hô an toàn “đệ tử [tên]” thay vì suy đoán “sư huynh/sư tỷ” theo giới tính. Nếu tên có nhãn vai trò Tạp dịch/Ngoại môn/Nội môn/Nòng cốt/Thân truyền thì giữ đúng nhãn vai trò; loại bỏ hậu tố xưng hô trùng trước khi ghép.
+- Lời thoại tự động của Trưởng lão và đối đáp sự kiện của Chưởng môn dùng chung quy tắc xưng hô bậc trưởng bối; các vai khán giả khác giữ nguyên cách gọi hiện tại.
+- Bong bóng Trưởng lão và Chưởng môn luôn bố trí phía trên điểm neo đầu/mão, mũi tên hướng xuống người nói; thuật toán không thử đảo bong bóng xuống dưới hoặc chọn tầng thấp có thể che mặt. Điểm neo Trưởng lão điều chỉnh lên y=570; Chưởng môn giữ y=515.
+- Giữ nguyên giới hạn 2 bong bóng, hàng đợi, chống lặp lời thoại và logic cuộc đua.
+- Cache: `tournament.js v29`, `data-loader.js v179`.
