@@ -853,3 +853,10 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Tăng tần suất Trưởng lão và Chân truyền đệ tử bằng chu kỳ phát ngôn có trọng số; các vai khác vẫn luân phiên bình luận.
 - Hạ điểm neo bong bóng của Trưởng lão và Chân truyền từ y=750/745 xuống y=550, đưa lời thoại lên gần bảng danh vị và đầu nhân vật, không thay đổi các hàng khán giả khác.
 - Cache: `tournament.js v21`, `style.css responsive-arena-v222`, `data-loader.js v169`.
+
+
+## 103. Thu gọn bong bóng và hạ điểm neo vùng đầu
+- Thu nhỏ nhẹ khung thoại: giới hạn rộng desktop 150px, mobile 128px; giảm padding và cỡ chữ còn 7.5px desktop, 6.8px mobile, giữ nguyên màu sắc tiên hiệp theo cấp bậc.
+- Hạ điểm neo Trưởng lão và Chân truyền từ y=550 xuống y=580; người đua từ y=690 xuống y=720 để bong bóng tránh che khuất nhân vật thi đấu.
+- Các điểm neo Chưởng môn, Nòng cốt, Nội môn, Ngoại môn và Tạp dịch giữ nguyên.
+- Cache: `tournament.js v22`, `style.css responsive-arena-v223`, `data-loader.js v170`.
