@@ -1666,9 +1666,9 @@ function drawRacingArtifact(target,kind,phase){
 
 function drawCrowd(time) {
   // Ngai Chưởng môn ở chính giữa hai khối danh vị, nâng cao hơn một tầng để tôn vị tối cao.
-  const masterSeatY=ctx.canvas.height*(565/825);
+  const masterSeatY=ctx.canvas.height*(620/825);
   if(!window.__awardMasterDepartureActive)drawCeremonySeatedMaster(ctx,550,masterSeatY,.82);
-  drawRoleLabel(550,450,"CHƯỞNG MÔN","#f2d17d",1.05);
+  drawRoleLabel(550,570,"CHƯỞNG MÔN","#f2d17d",1.05);
 
   for(let i=0;i<10;i++){
     const x=78+i*41,y=612;
