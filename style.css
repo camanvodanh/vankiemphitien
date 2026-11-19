@@ -10780,3 +10780,5 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
 .game-ranking .profile-no-record,.game-ranking .profile-empty,.game-ranking .profile-placeholder{color:#b9b098;font:italic 9px/1.5 Arial,sans-serif;text-align:center}
 .game-ranking .profile-empty,.game-ranking .profile-placeholder{padding:16px 5px}
 @media(max-width:600px){.game-ranking .ranking-tabs{gap:2px;margin-bottom:5px;padding:2px}.game-ranking .ranking-tabs button{padding:5px 2px;font-size:8px}.game-ranking .profile-stat-grid{gap:7px 3px}.game-ranking .profile-identity h4{font-size:13px}}
+
+.game-ranking .session-best-time{display:block;margin-top:2px;color:#c7b68e;font:7px/1.1 ui-monospace,monospace}
