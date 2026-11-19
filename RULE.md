@@ -649,3 +649,10 @@
 - Khi khán đài trở lại sau nghi thức kết thúc đại hội, tọa độ ngai Chưởng môn dùng cùng tỷ lệ chiều cao Canvas `612/825` như cảnh trao thưởng; không dùng tọa độ Y cố định, tránh ghế/ngai tụt xuống và che hàng Nòng cốt.
 - Điểm neo bong bóng Chưởng môn chuyển về gần đỉnh mão (tọa độ Canvas x=550, y=515); giữ cơ chế tự chọn phía trên/phía dưới và mũi tên hướng về người thoại.
 - Cache: `visual-overrides.js v225`, `tournament.js v27`, `data-loader.js v177`.
+
+## 109. Đa dạng lời thoại và chống lặp
+- Mở rộng kho lời thoại của các vai Trưởng lão, Chân truyền đệ tử, Nòng cốt, Nội môn, Ngoại môn và Tạp dịch; Chưởng môn có thêm câu thoại chỉ dùng khi đối đáp sự kiện.
+- Mỗi vai ghi nhớ 8 câu vừa phát để tránh lặp lại trong các lượt gần nhau; khi hết câu mới mới quay lại kho cũ.
+- Tăng nhịp chọn lời thoại tự động lên khoảng 0,9–1,3 giây/lượt; vẫn tuân thủ giới hạn tối đa 2 bong bóng cùng lúc và không hiện trùng vai đồng thời.
+- Bổ sung nhiều câu hài hước theo bối cảnh tu tiên, ngự kiếm, linh thạch, pháp bảo, môn quy và sinh hoạt tông môn.
+- Cache: `tournament.js v28`, `data-loader.js v178`.
