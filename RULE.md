@@ -557,4 +557,4 @@
 - Khi trạng thái `finished` bật, hủy lịch cổ vũ, xóa tất cả bong bóng đang tồn tại và ngăn các sự kiện/timer tạo lời bình mới.
 - Xưng hô với người đua dựa trên nhận diện giới tính từ tên (dấu hiệu danh xưng và một số từ/tên thường gặp). Nếu không đủ dấu hiệu, dùng “đạo hữu”/câu trung tính, không suy đoán giới tính.
 - Neo lời bình của Chưởng môn, Trưởng lão, đệ tử và các hàng khán đài được hạ xuống để bong bóng không chồng lên đường đua; vẫn theo camera zoom/pan, đuôi chỉ về speaker.
-- Cache: `tournament.js v14`, `style.css responsive-arena-v217`, `data-loader.js v163`.
+- Cache: `tournament.js v14`, `style.css responsive-arena-v218`, `data-loader.js v163`.
