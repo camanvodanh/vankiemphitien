@@ -3,7 +3,7 @@
 // RACE EVENT ENGINE — chuẩn hóa sự kiện cuộc đua cho camera, bình luận và khán giả.
 (function(){
  const listeners=new Map(),cooldowns=new Map(),recent=new Map();
- const defaults={"racer:overtake":700,"leader:change":1100,"racer:finish":0,"race:photo-finish":2500,"race:start":0,"race:complete":0};
+ const defaults={"racer:overtake":700,"leader:change":1100,"racer:finish":0,"race:photo-finish":2500,"race:start":0,"race:countdown":0,"race:complete":0};
  let serial=0,leaderId=null;
  function subscribe(type,callback){
   if(typeof callback!=="function")return()=>{};
