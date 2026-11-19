@@ -10533,6 +10533,6 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
 }
 
 /* REVISION 95 — nhiều bong bóng lời bình, lớp mới nổi lên trước; neo thấp để tránh vùng đua. */
-.arena-frame>.tournament-speech-bubble{z-index:1150!important;max-width:min(225px,calc(100% - 20px));min-width:108px;padding:6px 9px 7px;border-radius:9px;}
+.arena-frame>.tournament-speech-bubble{z-index:1150;max-width:min(225px,calc(100% - 20px));min-width:108px;padding:6px 9px 7px;border-radius:9px;}
 .arena-frame>.tournament-speech-bubble .tournament-speech-message{font-size:clamp(10px,1.15vw,12px);line-height:1.22;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;max-height:2.44em;}
 @media(max-width:600px){.arena-frame>.tournament-speech-bubble{max-width:min(180px,calc(100% - 14px));min-width:90px;padding:5px 7px 6px}.arena-frame>.tournament-speech-bubble .tournament-speech-message{font-size:10px;}}
