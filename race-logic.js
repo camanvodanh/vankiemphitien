@@ -485,6 +485,8 @@ function toggleRaceControl(){
   startRace();
 }
 function startRace(){
+ if(window.VKPRaceEvents)window.VKPRaceEvents.reset();
+ if(window.VKPRaceEvents)window.VKPRaceEvents.emit("race:countdown",{seconds:3},{cooldown:0});
  if(window.VKPCameraDirector)window.VKPCameraDirector.reset();
   if(!summonVisualReady||!racers.length||running||paused)return;
   duration=Number($("speed").value);
