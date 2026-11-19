@@ -24,6 +24,13 @@
   }
   const titleFor=g=>g==="female"?"sư tỷ":g==="male"?"sư huynh":"đạo hữu";
   const addressedName=(name,g,capital=true)=>{const title=titleFor(g);const text=name?name+" "+title:title;return capital?text.charAt(0).toUpperCase()+text.slice(1):text;};
+  function seniorAddress(name){
+    const clean=String(name||"").trim().replace(/\s+(?:sư huynh|sư tỷ|đạo hữu|tiểu hữu|hậu bối)$/i,"").trim();
+    if(!clean)return "chư vị đệ tử";
+    const role=clean.match(/^(tạp dịch|ngoại môn|nội môn|nòng cốt|thân truyền)(?:\s+đệ tử)?\s+(.+)$/i);
+    if(role)return role[1].toLowerCase()+" đệ tử "+role[2];
+    return "đệ tử "+clean;
+  }
   const lines=[
     ["outer",(n,h)=>n?h+"! Cố lên! Đệ tử đang dõi theo!":"Chư vị cố lên! Đệ tử đang dõi theo!"],
     ["inner",(n,h)=>n?h+" sắp vượt thêm một người rồi!":"Nhanh quá, sắp vượt thêm một người rồi!"],
@@ -41,7 +48,7 @@
     ["disciple",()=> "Đừng chậm lại! Cơ hội đổi thứ hạng ngay trước mắt!"],
     ["inner",(n,h)=>n?h+", cố giữ nhịp thở và kiếm thế!":"Đạo hữu, cố giữ nhịp thở và kiếm thế!"],
     ["outer",()=> "Kiếm quang thật đẹp! Tranh phong càng lúc càng kịch liệt!"],
-    ["elder",()=> "Lão phu sống ba ngàn năm, lần đầu thấy có người bay mà phong thái còn đẹp hơn lúc đi bộ!"],
+    ["elder",(n,h)=>n?h+" này thân pháp vững vàng, kiếm thế cũng có vài phần khí tượng!":"Lão phu sống ba ngàn năm, lần đầu thấy có người bay mà phong thái còn đẹp hơn lúc đi bộ!"],
     ["master",()=> "Đại hội hôm nay, ai đoạt khôi thủ sẽ được bổn môn trọng thưởng… một lời khen thật dài!"],
     ["servant",()=> "Sư huynh bay nhanh quá! Đệ tử nhìn theo mà quên cả quét sân!"],
     ["inner",()=> "Đạo hữu vừa thi triển thân pháp gì vậy? Ta chỉ chớp mắt mà đã mất dấu!"],
@@ -94,9 +101,9 @@
     ["master",()=> "Các vị đã khiến tông môn rạng danh! Dù thắng hay thua, đừng quên trả phi kiếm!"],
     ["elder",()=> "Lão phu vừa định dùng thần thức dò thứ hạng, ai ngờ bảng xếp hạng chạy còn nhanh hơn thần thức!"],
     ["elder",()=> "Kiếm tâm bất động, thân pháp như phong… riêng túi linh thạch của lão phu đang run!"],
-    ["elder",()=> "Hậu sinh này có căn cốt tốt! Nếu không về nhất, nhất định là do phi kiếm chưa được bảo dưỡng!"],
+    ["elder",(n,h)=>n?h+" có căn cốt không tệ! Nếu chưa về nhất, e rằng phi kiếm còn chưa được bảo dưỡng!":"Hậu sinh này có căn cốt tốt! Nếu không về nhất, nhất định là do phi kiếm chưa được bảo dưỡng!"],
     ["elder",()=> "Lão phu tu luyện ba nghìn năm, vẫn chưa học được cách cổ vũ mà không khản giọng!"],
-    ["elder",()=> "Đừng chỉ nhìn tốc độ! Hãy nhìn cả phong thái… dù lão phu cũng chẳng nhìn kịp!"],
+    ["elder",(n,h)=>n?"Lão phu thấy "+h+" tiến cảnh khá nhanh, hãy giữ vững đạo tâm!":"Đừng chỉ nhìn tốc độ! Hãy nhìn cả phong thái… dù lão phu cũng chẳng nhìn kịp!"],
     ["elder",()=> "Người thắng lĩnh thưởng, người thua lĩnh ngộ. Còn lão phu lĩnh… hóa đơn trà!"],
     ["elder",()=> "Thiên cơ biến đổi, thứ hạng đảo chiều. Xem ra hôm nay bói toán cũng phải cập nhật!"],
     ["elder",()=> "Một thân kiếm khí kinh người! Chỉ tiếc lão phu vừa chớp mắt đã bỏ lỡ ba lần vượt mặt!"],
@@ -182,7 +189,7 @@
   const speakerAnchors={
     // Hai vị trí hàng đầu dùng bong bóng nằm dưới điểm neo; đuôi hướng ngược lên
     // để chỉ đúng người đang thoại mà không phủ lên nhân vật thi đấu.
-    master:{x:550,y:515,side:1,below:true},elder:{x:867,y:600,side:-1,below:true},disciple:{x:263,y:600,side:1,below:true},core:{x:550,y:765,side:-1},inner:{x:380,y:775,side:1},outer:{x:550,y:795,side:-1},servant:{x:550,y:845,side:1},
+    master:{x:550,y:515,side:1,below:false},elder:{x:867,y:570,side:-1,below:false},disciple:{x:263,y:600,side:1,below:true},core:{x:550,y:765,side:-1},inner:{x:380,y:775,side:1},outer:{x:550,y:795,side:-1},servant:{x:550,y:845,side:1},
     racer:{x:550,y:720,side:1}
   };
 
@@ -204,11 +211,13 @@
     // Chọn vị trí trái/giữa/phải và thử cả hai hướng đuôi để luôn chỉ về người nói.
     // Các bong bóng đã được sắp theo thứ tự xuất hiện nên vị trí của chúng ổn định trong mỗi khung hình.
     const xSlots=[.16,.84,.34,.66,.50,.24,.76];
-    const yLevels=[0,-1,1];
+    const protectedSpeaker=item.type==="master"||item.type==="elder";
+    const yLevels=protectedSpeaker?[0,-1,-2]:[0,-1,1];
     const preferredX=px*.34+ar.width*.66;
     const others=bubbles.filter(other=>other!==item&&other.el.isConnected&&other.el.style.left&&other.el.style.top);
     let best=null;
-    for(const below of [!!anchor.below,!anchor.below]){
+    const directions=protectedSpeaker?[false]:[!!anchor.below,!anchor.below];
+    for(const below of directions){
       const baseY=below?py+8:py-10;
       for(const slot of xSlots){
         const center=preferredX*.38+(ar.width*slot)*.62+offset;
@@ -312,6 +321,7 @@
       const name=target&&target.name?String(target.name).trim():"";
       const gender=inferGender(name);
       const call=addressedName(name,gender,true);
+      const elderCall=seniorAddress(name);
       // Luân phiên có trọng số để Trưởng lão và Chân truyền đệ tử thường xuyên tham gia bình luận.
       // Chưởng môn không nằm trong vòng cổ vũ tự phát; chỉ đáp lời khi có đối thoại sự kiện.
       const speakerCycle=["elder","disciple","core","inner","outer","servant","disciple","elder","inner","outer","core","servant"];
@@ -322,7 +332,7 @@
         return;
       }
       const cycleIndex=turn++;
-      const message=chooseDialogue(speaker,name,call);
+      const message=chooseDialogue(speaker,name,speaker==="elder"?elderCall:call);
       if(message)showBubble(message,speaker);
       if(!stopped&&!isFinished())chatterTimer=window.setTimeout(speak,900+Math.floor(Math.random()*400));
     };
@@ -339,9 +349,9 @@
       scheduleChatter();
     }else if(value.startsWith("HẠNG 1 · ĐANG DẪN ĐẦU:")){
       const name=value.slice("HẠNG 1 · ĐANG DẪN ĐẦU:".length).trim();
-      const gender=inferGender(name),call=addressedName(name,gender,true),midCall=addressedName(name,gender,false);
+      const call=seniorAddress(name);
       showBubble("Chưởng môn, "+call+" vừa vượt lên rồi! Kiếm thế thật khá!","elder");
-      window.setTimeout(()=>{if(!isFinished()&&!stopped)showBubble("Ta thấy rồi. "+midCall+" giữ thân pháp rất vững, không hề rối loạn.","master");},850);
+      window.setTimeout(()=>{if(!isFinished()&&!stopped)showBubble("Ta thấy rồi. "+call+" giữ thân pháp rất vững, không hề rối loạn.","master");},850);
     }else if(value.includes("PHOTO FINISH")){
       showBubble("Chỉ chênh lệch trong gang tấc! Quả là một trận tranh phong kịch liệt!","elder");
     }
