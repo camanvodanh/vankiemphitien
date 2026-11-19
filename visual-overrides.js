@@ -2228,11 +2228,28 @@ function drawAwardMaster(target,x,y,scale,time){
 // =====================================================
 const __thanSauSpriteSheet = new Image();
 let __thanSauSpriteReady = false;
-let __thanSauSpriteRequested = false;
+__thanSauSpriteRequested = true;
 __thanSauSpriteSheet.onload = () => { __thanSauSpriteReady = true; };
 __thanSauSpriteSheet.onerror = () => {
+  __thanSauSpriteReady = false;
   console.warn("Không tải được sprite sheet Thần Sầu.");
 };
+// Nạp sprite ngay khi file renderer khởi chạy, trước khi người dùng triệu hồi.
+__thanSauSpriteSheet.src = "assets/characters/than-sau/than-sau-spritesheet.png?v=2";
+
+function drawThanSauSummonPlaceholder(target,x,y,scale,time){
+  // Không vẽ nhân vật thường làm fallback: chỉ hiển thị bóng linh thể tạm thời chờ sprite.
+  target.save();target.translate(x,y+Math.sin(time*.006)*1.5);target.scale(scale,scale);
+  target.globalAlpha=.82;target.shadowColor="#b8ffe9";target.shadowBlur=18;
+  target.fillStyle="rgba(180,255,235,.18)";target.beginPath();target.ellipse(0,5,40,25,0,0,Math.PI*2);target.fill();
+  target.strokeStyle="#e9fff3";target.lineWidth=2;target.beginPath();target.arc(0,0,31,time*.001,time*.001+Math.PI*1.65);target.stroke();
+  target.fillStyle="#d8fff2";target.beginPath();target.moveTo(-9,-31);target.lineTo(0,-44);target.lineTo(9,-31);target.lineTo(6,-21);target.lineTo(-6,-21);target.closePath();target.fill();
+  target.fillStyle="#365b59";target.beginPath();target.moveTo(-14,-20);target.lineTo(-19,-4);target.lineTo(-13,13);target.lineTo(0,21);target.lineTo(13,13);target.lineTo(19,-4);target.lineTo(14,-20);target.closePath();target.fill();
+  target.strokeStyle="#d4fff0";target.lineWidth=1.6;target.beginPath();target.moveTo(-16,3);target.lineTo(-25,20);target.lineTo(-9,18);target.moveTo(16,3);target.lineTo(25,20);target.lineTo(9,18);target.stroke();
+  target.strokeStyle="#fff0bd";target.lineWidth=3;target.beginPath();target.moveTo(-42,24);target.lineTo(42,16);target.stroke();
+  target.fillStyle="#fff0bd";target.beginPath();target.arc(0,-4,3,0,Math.PI*2);target.fill();
+  target.restore();
+}
 
 function drawThanSauEffect(target,racer,time,scale=1){
   if(!(racer&&racer.effectTimer>0))return;
@@ -2581,13 +2598,12 @@ if(activeEffect==="talisman"||activeEffect==="talisman_guard"||activeEffect==="t
   }
 }
 function drawRacer(target, racer, x, y, scale, time) {
-  if (racer && racer.isLegendaryThanSau && !__thanSauSpriteRequested) {
-    __thanSauSpriteRequested = true;
-    __thanSauSpriteSheet.src = "assets/characters/than-sau/than-sau-spritesheet.png?v=1";
-  }
-  if (!racer || !racer.isLegendaryThanSau || !__thanSauSpriteReady ||
-      !__thanSauSpriteSheet.naturalWidth || !__thanSauSpriteSheet.naturalHeight) {
+  if (!racer || !racer.isLegendaryThanSau) {
     return __drawRacerBaseThanSau(target, racer, x, y, scale, time);
+  }
+  if (!__thanSauSpriteReady || !__thanSauSpriteSheet.naturalWidth || !__thanSauSpriteSheet.naturalHeight) {
+    drawThanSauSummonPlaceholder(target,x,y,scale,time);
+    return;
   }
   const columns=5,rows=2,frameCount=10;
   const frameWidth=__thanSauSpriteSheet.naturalWidth/columns,frameHeight=__thanSauSpriteSheet.naturalHeight/rows;
