@@ -2228,14 +2228,13 @@ function drawAwardMaster(target,x,y,scale,time){
 // =====================================================
 const __thanSauSpriteSheet = new Image();
 let __thanSauSpriteReady = false;
-__thanSauSpriteRequested = true;
 __thanSauSpriteSheet.onload = () => { __thanSauSpriteReady = true; };
 __thanSauSpriteSheet.onerror = () => {
   __thanSauSpriteReady = false;
   console.warn("Không tải được sprite sheet Thần Sầu.");
 };
 // Nạp sprite ngay khi file renderer khởi chạy, trước khi người dùng triệu hồi.
-__thanSauSpriteSheet.src = "assets/characters/than-sau/than-sau-spritesheet.png?v=2";
+__thanSauSpriteSheet.src = "assets/characters/than-sau/than-sau-spritesheet.png?v=3";
 
 function drawThanSauSummonPlaceholder(target,x,y,scale,time){
   // Không vẽ nhân vật thường làm fallback: chỉ hiển thị bóng linh thể tạm thời chờ sprite.
@@ -2637,10 +2636,13 @@ function drawRacer(target, racer, x, y, scale, time) {
   target.save();// Sprite pixel luôn thẳng đứng; hiệu ứng chỉ dịch chuyển thân, không xoay cả khung ảnh.
   target.translate(x+actionX,y+bob+actionY);
   target.scale(scale*1.08,scale*1.08);target.imageSmoothingEnabled=false;
-  const glow=target.createRadialGradient(0,0,5,0,0,58);
+  // Giữ nguyên tỷ lệ khung ảnh pixel gốc (không ép frame dọc thành hình vuông).
+  const drawHeight=108,drawWidth=drawHeight*(frameWidth/frameHeight);
+  const drawLeft=-drawWidth/2,drawTop=-drawHeight/2;
+  const glow=target.createRadialGradient(0,0,5,0,0,Math.max(58,drawHeight*.58));
   glow.addColorStop(0,active?"rgba(255,224,145,.38)":"rgba(255,220,145,.28)");glow.addColorStop(1,"rgba(255,220,145,0)");
-  target.fillStyle=glow;target.fillRect(-60,-58,120,116);
-  target.drawImage(__thanSauSpriteSheet,sx,sy,frameWidth,frameHeight,-54,-54,108,108);
+  target.fillStyle=glow;target.fillRect(drawLeft-9,drawTop-4,drawWidth+18,drawHeight+8);
+  target.drawImage(__thanSauSpriteSheet,sx,sy,frameWidth,frameHeight,drawLeft,drawTop,drawWidth,drawHeight);
   const eatingBun=!!(racer.isLegendaryThanSau&&racer.thanSauEatingTimer>0&&active&&activeEffect==="boost");
   const eatProgress=eatingBun?clamp(1-racer.thanSauEatingTimer/.9,0,1):0;
   const bowlX=eatingBun?29-17*Math.sin(eatProgress*Math.PI/2):29;
