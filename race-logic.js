@@ -183,7 +183,6 @@ let lastCanvasRenderAt = 0;
 let canvasRenderDisabled = false; // Giữ biến tương thích; không tự khóa khi gặp lỗi render.
 
 function frame(time) {
-  const raceSpeedScale=window.VKPSlowMotion?window.VKPSlowMotion.getScale():1;
   const realDt = lastTime ? Math.max(0,(time-lastTime)/1000) : 0;
   // Đồng hồ và mô phỏng cuộc đua nhận đủ thời gian thực đã trôi qua.
   // Chỉ các hiệu ứng hình ảnh dùng dt giới hạn để tránh nhảy khung hình quá mạnh.
@@ -225,7 +224,7 @@ function frame(time) {
       }
     }
 
-    if (started && countdown === 0 && !finished && raceDt>0) updateRace(raceDt*raceSpeedScale);
+    if (started && countdown === 0 && !finished && raceDt>0) updateRace(raceDt);
   }
 
   updateParticles(dt);
