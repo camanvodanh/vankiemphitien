@@ -34,7 +34,7 @@
    state.mode="effect";state.targetId=effectTarget.id;state.until=time+250;return {racer:effectTarget,mode:"effect",label:"HIỆU ỨNG",scale:2.12};
   }
   if(state.until>time&&state.targetId){
-   const target=racers.find(r=>r.id===state.targetId&&(state.mode==="finish"||!r.finished));
+   const target=racers.find(r=>r.id===state.targetId&&(state.mode==="finish"||state.mode==="photo"||!r.finished));
    if(target)return {racer:target,mode:state.mode,label:state.mode==="finish"?"VỀ ĐÍCH":state.mode==="photo"?"PHOTO FINISH":state.mode==="duel"?"TRANH PHONG":"PHA VƯỢT HẠNG",scale:2.15};
    state.until=0;state.targetId=null;
   }
