@@ -120,39 +120,43 @@
     const py=cr.top-ar.top+sy/canvas.height*cr.height;
     const width=item.el.offsetWidth||120,height=item.el.offsetHeight||34;
     const side=anchor.side||1,offset=Math.min(16,width*.09)*side;
-    item.el.classList.toggle("is-below",!!anchor.below);
-    // Chọn vị trí trái/giữa/phải và các tầng dọc theo mức độ va chạm thực tế.
+    // Chọn vị trí trái/giữa/phải và thử cả hai hướng đuôi để luôn chỉ về người nói.
     // Các bong bóng đã được sắp theo thứ tự xuất hiện nên vị trí của chúng ổn định trong mỗi khung hình.
     const xSlots=[.16,.84,.34,.66,.50,.24,.76];
     const yLevels=[0,-1,1];
     const preferredX=px*.34+ar.width*.66;
-    const baseY=anchor.below?py+8:py-10;
     const others=bubbles.filter(other=>other!==item&&other.el.isConnected&&other.el.style.left&&other.el.style.top);
     let best=null;
-    for(const slot of xSlots){
-      const center=preferredX*.38+(ar.width*slot)*.62+offset;
-      const left=Math.max(width/2+5,Math.min(ar.width-width/2-5,center));
-      for(const level of yLevels){
-        const top=Math.max(anchor.below?8:height+8,Math.min(ar.height-(anchor.below?height+8:8),baseY+level*(height+7)));
-        const visualTop=anchor.below?top+8:top-height;
-        const rect={left:left-width/2,right:left+width/2,top:visualTop,bottom:visualTop+height};
-        let overlap=0;
-        for(const other of others){
-          const ow=other.el.offsetWidth||120,oh=other.el.offsetHeight||34;
-          const ol=parseFloat(other.el.style.left)||0,ot=parseFloat(other.el.style.top)||0;
-          const obelow=other.el.classList.contains("is-below");
-          const oy=obelow?ot+8:ot-oh;
-          const ix=Math.max(0,Math.min(rect.right,ol+ow/2)-Math.max(rect.left,ol-ow/2));
-          const iy=Math.max(0,Math.min(rect.bottom,oy+oh)-Math.max(rect.top,oy));
-          overlap+=ix*iy;
+    for(const below of [!!anchor.below,!anchor.below]){
+      const baseY=below?py+8:py-10;
+      for(const slot of xSlots){
+        const center=preferredX*.38+(ar.width*slot)*.62+offset;
+        const left=Math.max(width/2+5,Math.min(ar.width-width/2-5,center));
+        for(const level of yLevels){
+          const top=below
+            ?Math.max(8,Math.min(ar.height-height-8,baseY+level*(height+7)))
+            :Math.max(height+8,Math.min(ar.height-8,baseY+level*(height+7)));
+          const visualTop=below?top+8:top-height;
+          const rect={left:left-width/2,right:left+width/2,top:visualTop,bottom:visualTop+height};
+          let overlap=0;
+          for(const other of others){
+            const ow=other.el.offsetWidth||120,oh=other.el.offsetHeight||34;
+            const ol=parseFloat(other.el.style.left)||0,ot=parseFloat(other.el.style.top)||0;
+            const obelow=other.el.classList.contains("is-below");
+            const oy=obelow?ot+8:ot-oh;
+            const ix=Math.max(0,Math.min(rect.right,ol+ow/2)-Math.max(rect.left,ol-ow/2));
+            const iy=Math.max(0,Math.min(rect.bottom,oy+oh)-Math.max(rect.top,oy));
+            overlap+=ix*iy;
+          }
+          const displacement=Math.abs(left-px)*.12+Math.abs(top-baseY)*.42+(below===!!anchor.below?0:18);
+          const score=overlap*30+displacement;
+          if(!best||score<best.score)best={score,left,top,below};
         }
-        const displacement=Math.abs(left-px)*.12+Math.abs(top-baseY)*.42;
-        const score=overlap*30+displacement;
-        if(!best||score<best.score)best={score,left,top};
       }
     }
     const left=best?best.left:Math.max(width/2+5,Math.min(ar.width-width/2-5,preferredX+offset));
-    const bubbleY=best?best.top:Math.max(anchor.below?8:height+8,Math.min(ar.height-8,baseY));
+    const bubbleY=best?best.top:Math.max(8,Math.min(ar.height-8,py));
+    item.el.classList.toggle("is-below",best?best.below:!!anchor.below);
     item.el.style.left=left+"px";
     item.el.style.top=bubbleY+"px";
     item.el.style.setProperty("--speech-tail-x",Math.max(10,Math.min(width-10,px-left+width/2))+"px");
