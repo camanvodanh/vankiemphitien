@@ -10782,3 +10782,6 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
 @media(max-width:600px){.game-ranking .ranking-tabs{gap:2px;margin-bottom:5px;padding:2px}.game-ranking .ranking-tabs button{padding:5px 2px;font-size:8px}.game-ranking .profile-stat-grid{gap:7px 3px}.game-ranking .profile-identity h4{font-size:13px}}
 
 .game-ranking .session-best-time{display:block;margin-top:2px;color:#c7b68e;font:7px/1.1 ui-monospace,monospace}
+
+.game-ranking #rankBody tr[data-racer-id]{cursor:pointer}
+.game-ranking #rankBody tr[data-racer-id]:hover{background:#d7b96b18}
