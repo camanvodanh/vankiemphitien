@@ -100,7 +100,7 @@
   const speakerAnchors={
     // Hạ điểm neo của hàng nhân vật phía trên để bong bóng nằm thấp hơn,
     // tránh lấn vào vùng phi kiếm và người đang thi đấu.
-    master:{x:550,y:755,side:1},elder:{x:867,y:750,side:-1},disciple:{x:263,y:745,side:1},core:{x:550,y:765,side:-1},inner:{x:380,y:775,side:1},outer:{x:550,y:795,side:-1},servant:{x:550,y:845,side:1},
+    master:{x:550,y:755,side:1},elder:{x:867,y:550,side:-1},disciple:{x:263,y:550,side:1},core:{x:550,y:765,side:-1},inner:{x:380,y:775,side:1},outer:{x:550,y:795,side:-1},servant:{x:550,y:845,side:1},
     racer:{x:550,y:690,side:1}
   };
 
@@ -176,7 +176,12 @@
       const name=target&&target.name?String(target.name).trim():"";
       const gender=inferGender(name);
       const call=addressedName(name,gender,true);
-      const entry=lines[turn++%lines.length];
+      // Luân phiên có trọng số để Trưởng lão và Chân truyền đệ tử thường xuyên tham gia bình luận.
+      const speakerCycle=["elder","disciple","core","inner","outer","servant","disciple","elder","inner","outer","core","master","servant"];
+      const cycleIndex=turn++;
+      const speaker=speakerCycle[cycleIndex%speakerCycle.length];
+      const choices=lines.filter(line=>line[0]===speaker);
+      const entry=choices.length?choices[Math.floor(Math.random()*choices.length)]:lines[cycleIndex%lines.length];
       showBubble(entry[1](name,call),entry[0]);
       if(!stopped&&!isFinished())chatterTimer=window.setTimeout(speak,1250+Math.floor(Math.random()*450));
     };
