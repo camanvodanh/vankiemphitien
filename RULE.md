@@ -757,3 +757,10 @@
 - Chọn một mức tốc độ thủ công sẽ tắt TỰ ĐỘNG; bật lại TỰ ĐỘNG sẽ tiếp tục phản ứng theo sự kiện. Triệu hồi/khởi đầu lượt đua mới đặt lại 1x và TỰ ĐỘNG.
 - Chỉ delta mô phỏng cuộc đua được nhân hệ số; đồng hồ đếm ngược, hiệu ứng sân khấu, âm thanh và vòng render không bị làm chậm. Không thay đổi thuật toán phân hạng hay vận tốc cơ sở.
 - Cache: race-logic.js v210, race-events.js v2, style.css responsive-arena-v225, data-loader.js v192, index.html data-driven-v192.
+
+
+## 124. Gỡ bỏ điều khiển tốc độ và Slow Motion
+- Gỡ toàn bộ hàng chọn tốc độ 1x/0.5x/0.25x/0.1x/TỰ ĐỘNG khỏi giao diện.
+- Gỡ bộ điều khiển Slow Motion tự động và sự kiện kích hoạt giảm tốc; mô phỏng cuộc đua tiếp tục chạy theo delta thời gian thực như trước khi bổ sung tính năng.
+- Giữ nguyên Event Engine, Camera Director, các sự kiện vượt hạng/về đích/photo finish và tốc độ hiệu ứng gameplay riêng của từng đệ tử.
+- Cache: race-logic.js v211, style.css responsive-arena-v226, data-loader.js v193, index.html data-driven-v193.
