@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#102b27">
   <title>Vạn Kiếm Phi Tiên</title>
-  <link rel="stylesheet" href="style.css?v=responsive-arena-v228">
+  <link rel="stylesheet" href="style.css?v=responsive-arena-v229">
 </head>
 <body class="game-page">
   <main class="page game-app">
@@ -17,7 +17,12 @@
         <p class="subtitle">NHẤT KIẾM PHÁ THIÊN · VẠN ĐẠO QUY TÔNG</p>
       </div>
       <div class="hero-actions" aria-label="Điều khiển âm thanh và ngôn ngữ">
-        <button id="musicToggle" class="music-toggle" type="button" aria-pressed="true">♫ Bật nhạc</button>
+        <button id="musicToggle" class="music-toggle audio-toggle" type="button" aria-label="Tắt nhạc nền" title="Tắt nhạc nền" aria-pressed="true">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 18V5l11-2v13M9 18c0 1.3-1.4 2.3-3.2 2.3S2.5 19.5 2.5 18.2 3.9 16 5.8 16 9 16.7 9 18Zm11-2c0 1.3-1.4 2.3-3.2 2.3s-3.3-.8-3.3-2.1 1.4-2.2 3.3-2.2 3.2.7 3.2 2Z"/><path class="icon-slash" d="M3 3 21 21"/></svg>
+        </button>
+        <button id="soundToggle" class="sound-toggle audio-toggle" type="button" aria-label="Tắt âm thanh hiệu ứng và chuông" title="Tắt âm thanh hiệu ứng và chuông" aria-pressed="true">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"/><path class="icon-slash" d="M3 3 21 21"/></svg>
+        </button>
         <div class="language-picker">
           <button id="languageButton" class="language-select" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="languageMenu">VN <span aria-hidden="true">▾</span></button>
           <div id="languageMenu" class="language-menu" role="menu" hidden></div>
@@ -173,6 +178,6 @@
     <span id="status" class="sr-only" aria-live="polite">Chờ triệu hồi</span>
     <div id="event" class="sr-only" aria-live="polite"></div>
   </main>
-  <script src="data-loader.js?v=data-driven-v195"></script>
+  <script src="data-loader.js?v=data-driven-v196"></script>
 </body>
 </html>
