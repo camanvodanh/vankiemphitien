@@ -621,3 +621,10 @@
 - Trưởng lão và Chân truyền dùng kiểu đặt bong bóng phía dưới điểm neo ở hàng đầu; mũi tên được đảo lên trên để chỉ về nhân vật đang thoại, tránh phủ lên người thi đấu. Các vai khác giữ cách đặt hiện tại.
 - Vị trí được giới hạn trong khung sân, tiếp tục bám theo zoom/pan và cập nhật theo camera.
 - Cache: `tournament.js v23`, `style.css responsive-arena-v224`, `data-loader.js v171`.
+
+
+## 105. Tự động phân bố bong bóng trái - giữa - phải
+- Mỗi bong bóng tự chọn vị trí trong các vùng trái, giữa, phải và các tầng cao/thấp dựa trên khoảng trống hiện có; thuật toán ưu tiên vị trí ít chồng lấn với các bong bóng đang hiển thị.
+- Bong bóng cũ được bố trí trước, bong bóng mới tìm vị trí còn trống; vị trí được tính lại theo camera/zoom để vẫn bám theo sân đua.
+- Mũi tên tiếp tục hướng về điểm neo người nói; giữ nguyên quy tắc đảo mũi tên cho Trưởng lão và Chân truyền.
+- Cache: `tournament.js v24`, `data-loader.js v172`.
