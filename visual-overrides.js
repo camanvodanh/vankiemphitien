@@ -1669,8 +1669,8 @@ function drawCrowd(time) {
   // nhỉnh cao hơn hai hàng bên nhưng không lấn xuống khu Nòng cốt.
   const masterSeatY=ctx.canvas.height*(565/825);
   if(!window.__awardMasterDepartureActive)drawCeremonySeatedMaster(ctx,550,masterSeatY,.82);
-  // Tên đặt ngay phía trên mép trên vòng Thái Cực, không che mặt Chưởng môn.
-  drawRoleLabel(550,432,"CHƯỞNG MÔN","#f2d17d",1.05);
+  // Hạ nhãn sát phía trên vòng Thái Cực; giữ khoảng trống với mặt và vương miện.
+  drawRoleLabel(550,438,"CHƯỞNG MÔN","#f2d17d",1.05);
 
   for(let i=0;i<10;i++){
     const x=78+i*41,y=612;
