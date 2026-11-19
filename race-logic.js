@@ -61,6 +61,7 @@ function processFinish(racer,index){
  leaderAnnouncementQueued = true;
  showFinishAnnouncement(racer,finishQueue.length);
  addParticles(TRACK.right-35,laneY(index),28);
+ if(window.VKPCameraDirector)window.VKPCameraDirector.onFinish(racer,finishQueue.length);
 }
 
 // =====================================================
@@ -142,6 +143,7 @@ function updateRace(dt){
  for(let i=0;i<rankedNow.length;i++){
   const racer=rankedNow[i],oldRank=rankBefore.get(racer.id),newRank=i+1;
   if(oldRank&&oldRank!==newRank){
+   if(newRank<oldRank&&window.VKPCameraDirector)window.VKPCameraDirector.onOvertake(racer,oldRank,newRank);
    racer.rankMovement=newRank<oldRank?"up":"down";
    racer.rankMovementTimer=3.5;
   }
@@ -445,6 +447,7 @@ function generateCultivationNames(amount) {
 }
 function getInputNames(){return uniqueNames($("names").value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean));}
 function summon(){
+ if(window.VKPCameraDirector)window.VKPCameraDirector.reset();
   if(running||paused)return;
   // Vô hiệu hóa timer và trạng thái nghi thức của lượt triệu hồi trước.
   summonCycleId++;
@@ -482,6 +485,7 @@ function toggleRaceControl(){
   startRace();
 }
 function startRace(){
+ if(window.VKPCameraDirector)window.VKPCameraDirector.reset();
   if(!summonVisualReady||!racers.length||running||paused)return;
   duration=Number($("speed").value);
   raceStopped=false;
@@ -518,6 +522,7 @@ function finishRace(){
  syncButtons();updateRanking();
 }
 function resetGame(){
+ if(window.VKPCameraDirector)window.VKPCameraDirector.reset();
   summonCycleId++;
   if(typeof summonUnlockTimer!=="undefined"&&summonUnlockTimer){clearTimeout(summonUnlockTimer);summonUnlockTimer=0;}
   if(typeof summonVisualReady!=="undefined")summonVisualReady=true;
@@ -596,14 +601,15 @@ function drawCamera(time){
   cameraCtx.fillText("Chờ khai mở tiên hội",210,96);
   return;
  }
- let racer=cameraFocusId?racers.find(item=>item.id===cameraFocusId):null;
- if(!racer||racer.finished||racer.effectTimer<=0)racer=leaderOf();
+ const shot=window.VKPCameraDirector&&window.VKPCameraDirector.select();
+ let racer=shot&&shot.racer;
+ if(!racer)racer=leaderOf();
  if(!racer)return;
  // Không vẽ tên hiệu ứng đè lên nhân vật trong khung camera; hiển thị tên thật ở dòng thông tin.
  const cameraRacer=racer.effectName?{...racer,effectName:""}:racer;
  cameraCtx.save();
   try {
-    drawRacer(cameraCtx,cameraRacer,210,108,2.0,time);
+    drawRacer(cameraCtx,cameraRacer,210,108,shot?shot.scale:2.0,time);
   } catch (error) {
     if (!window.__vkCameraRacerRenderError) {
       window.__vkCameraRacerRenderError = true;
@@ -613,6 +619,9 @@ function drawCamera(time){
     cameraCtx.restore();
   }
  const rank=sortedRacers().findIndex(item=>item.id===racer.id)+1;
+ cameraCtx.save();cameraCtx.fillStyle="rgba(10,27,23,.84)";cameraCtx.fillRect(8,205,404,27);cameraCtx.strokeStyle="rgba(221,190,120,.75)";cameraCtx.strokeRect(8.5,205.5,403,26);
+ cameraCtx.font="bold 12px Arial,sans-serif";cameraCtx.textAlign="left";cameraCtx.textBaseline="middle";cameraCtx.fillStyle="#f5dfa6";cameraCtx.fillText(shot&&shot.label?shot.label:"DẪN ĐẦU",18,219);
+ cameraCtx.textAlign="right";cameraCtx.fillStyle="#fff3d4";cameraCtx.fillText("CAM "+(shot&&shot.mode?shot.mode.toUpperCase():"LEADER"),402,219);cameraCtx.restore();
   fitCameraInfoText("leaderTalent",racer.talent&&racer.talent.name?racer.talent.name:"");
   fitCameraInfoText("leaderEffect",racer.effectTimer>0?(racer.effectName||""):"");
   $("leaderName").textContent=racer.name;
