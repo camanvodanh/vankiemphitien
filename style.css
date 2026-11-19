@@ -10699,3 +10699,26 @@ html[lang="zh-CN"] input,html[lang="zh-CN"] textarea,html[lang="zh-CN"] select{
 @media(max-width:600px){
   .arena-frame>.tournament-speech-bubble{border-radius:6px!important}
 }
+
+
+/* REVISION 170 — thu gọn nhẹ bong bóng và chữ; tăng khoảng trống vùng đua. */
+.arena-frame>.tournament-speech-bubble{
+  max-width:min(150px,calc(100% - 14px))!important;
+  padding:3px 6px 4px!important;
+  border-radius:7px!important;
+}
+.arena-frame>.tournament-speech-bubble .tournament-speech-message{
+  font-size:7.5px!important;
+  line-height:1.14!important;
+}
+@media(max-width:600px){
+  .arena-frame>.tournament-speech-bubble{
+    max-width:min(128px,calc(100% - 10px))!important;
+    padding:3px 5px 3px!important;
+    border-radius:6px!important;
+  }
+  .arena-frame>.tournament-speech-bubble .tournament-speech-message{
+    font-size:6.8px!important;
+    line-height:1.12!important;
+  }
+}
