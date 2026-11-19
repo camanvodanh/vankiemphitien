@@ -635,4 +635,4 @@
 - Chưởng môn được loại khỏi chu kỳ phát biểu tự động. Chưởng môn chỉ đáp lời trong đối thoại sự kiện khi trưởng lão gọi/đề cập trực tiếp; vị trí neo được nâng lên và dùng chung cơ chế đảo đuôi lên/xuống như các vai khác.
 - Giảm số tầng dịch chuyển dọc của bong bóng từ 7 xuống 3 mức (giữa, gần hơn một tầng lên hoặc xuống), tránh rơi quá thấp khi có nhiều lời thoại.
 - Vòng lặp khung hình tách delta thời gian thực khỏi delta hiệu ứng: countdown và updateRace nhận toàn bộ thời gian thực đã trôi qua; hạt, fade và hiệu ứng hình ảnh vẫn giới hạn delta để tránh nhảy hình quá mạnh. Khi thiết bị hụt FPS, đồng hồ không còn tự bỏ phần thời gian vượt 50 ms mỗi khung.
-- Cache: tournament.js v25, race-logic.js v205, data-loader.js v173.
+- Cache: tournament.js v25, race-logic.js v206, data-loader.js v174.
