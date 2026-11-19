@@ -20,6 +20,10 @@
   if(!racer||rank>3)return;
   setShot("finish",racer,now()+2300,true);
  }
+ function onPhotoFinish(first,second){
+  const target=first||second;if(!target)return;
+  setShot("photo",target,now()+2200,true);
+ }
  function select(){
   const time=now();
   const active=Array.isArray(racers)?racers.filter(r=>!r.finished):[];
@@ -31,7 +35,7 @@
   }
   if(state.until>time&&state.targetId){
    const target=racers.find(r=>r.id===state.targetId&&(state.mode==="finish"||!r.finished));
-   if(target)return {racer:target,mode:state.mode,label:state.mode==="finish"?"VỀ ĐÍCH":state.mode==="duel"?"TRANH PHONG":"PHA VƯỢT HẠNG",scale:2.15};
+   if(target)return {racer:target,mode:state.mode,label:state.mode==="finish"?"VỀ ĐÍCH":state.mode==="photo"?"PHOTO FINISH":state.mode==="duel"?"TRANH PHONG":"PHA VƯỢT HẠNG",scale:2.15};
    state.until=0;state.targetId=null;
   }
   if(active.length>=2){
@@ -45,5 +49,5 @@
   if(leader){state.mode="leader";state.targetId=leader.id;return {racer:leader,mode:"leader",label:"DẪN ĐẦU",scale:2.0};}
   return null;
  }
- window.VKPCameraDirector={reset,onOvertake,onFinish,select};
+ window.VKPCameraDirector={reset,onOvertake,onFinish,onPhotoFinish,select};
 })();
