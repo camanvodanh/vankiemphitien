@@ -707,3 +707,10 @@
 - Thiên Lý Kính bỏ banner/dòng nhãn mode như PHA VƯỢT HẠNG, HIỆU ỨNG, CAM LEADER; giữ thông tin tên tuyển thủ, hạng, tốc độ, thiên phú và hiệu ứng theo giao diện hiện tại.
 - Camera vẫn tự theo leader, tranh phong, effect focus, vượt hạng, finish và photo finish; không thay đổi logic tiến độ, tốc độ, thứ hạng hay gameplay.
 - Cache: `race-logic.js v208`, `camera-director.js v2`, `race-events.js v1`, `data-loader.js v184`, `index.html data-driven-v184`.
+
+
+## 116. Nâng ngai Chưởng môn và tách khỏi hàng Nòng cốt
+- Ngai và bản thể Chưởng môn chuyển từ Canvas Y=612 lên Y=565; nhãn CHƯỞNG MÔN chuyển từ Y=493 lên Y=450. Vị trí chính giữa, ở tầng cao hơn khu vực Chân truyền và Trưởng lão hai bên, nhấn mạnh địa vị tối cao.
+- Giữ nguyên tọa độ các hàng Chân truyền, Trưởng lão, Nòng cốt và các tầng đệ tử khác; không dịch/chồng lại khán đài. Ngai được nâng để tách khỏi vùng Nòng cốt đang tập trung bên dưới.
+- Pháp trận triệu hồi và điểm niệm chú trung tâm được nâng tương ứng 45px (Y=674→629, Y=642→597) để khớp vị trí mới; không thay đổi thời lượng hay logic nghi thức.
+- Cache: `visual-overrides.js v226`, `race-logic.js v209`, `data-loader.js v185`, `index.html data-driven-v185`.
