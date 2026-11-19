@@ -681,3 +681,11 @@
 - Khôi phục bộ lời bình khi có trạng thái triệu hồi, bắt đầu đếm ngược hoặc bắt đầu vòng đua mới. Nút Chạy cũng mở lại cờ lời bình nếu vòng đua trước đã kết thúc; bộ lập lịch tiếp tục chờ đến khi đua thực sự chạy.
 - Khi trao thưởng/kết thúc, lời bình vẫn dừng và xóa bong bóng như trước; không để timer của vòng cũ chạy sang vòng mới.
 - Cache: `tournament.js v31`, `data-loader.js v181`, `index.html data-driven-v181`.
+
+
+## 113. Chống lặp câu đã hiển thị và khóa vị trí bong bóng
+- Bổ sung lịch sử câu thoại thực sự đã đưa lên bong bóng, áp dụng cho cả lời bình tự động lẫn lời thoại sự kiện (khai cuộc, vượt dẫn đầu, photo finish và đối đáp Chưởng môn).
+- Chặn câu đã xuất hiện trong 18 lượt gần nhất của cùng vai hoặc 32 câu gần nhất trên toàn sân; kiểm tra trước khi thêm vào hàng đợi hoặc tạo bong bóng. Giữ nguyên lịch sử chọn câu tự động hiện có.
+- Mỗi bong bóng khóa độ lệch ngang/dọc và hướng đuôi ngay lần bố trí đầu tiên. Trong thời gian hiển thị, bong bóng chỉ cập nhật theo thay đổi zoom/pan của Canvas; không tính lại vị trí khi bong bóng khác biến mất, tránh nhảy sang chỗ khác.
+- Không thay đổi kho 191 câu trong `data/dialogues.json`, giới hạn 2 bong bóng, thời lượng 4,3 giây, phân vai hoặc logic cuộc đua.
+- Cache: `tournament.js v32`, `data-loader.js v182`, `index.html data-driven-v182`.
