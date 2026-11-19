@@ -67,7 +67,7 @@
   const speakerAnchors={
     // Hai vị trí hàng đầu dùng bong bóng nằm dưới điểm neo; đuôi hướng ngược lên
     // để chỉ đúng người đang thoại mà không phủ lên nhân vật thi đấu.
-    master:{x:550,y:560,side:1,below:true},elder:{x:867,y:570,side:-1,below:false},disciple:{x:263,y:600,side:1,below:true},core:{x:550,y:765,side:-1},inner:{x:380,y:775,side:1},outer:{x:550,y:795,side:-1},servant:{x:550,y:845,side:1},
+    master:{x:550,y:560,side:1,below:true},elder:{x:867,y:620,side:-1,below:true},disciple:{x:263,y:600,side:1,below:true},core:{x:550,y:765,side:-1},inner:{x:380,y:775,side:1},outer:{x:550,y:795,side:-1},servant:{x:550,y:845,side:1},
     racer:{x:550,y:720,side:1}
   };
 
@@ -90,11 +90,11 @@
     // Các bong bóng đã được sắp theo thứ tự xuất hiện nên vị trí của chúng ổn định trong mỗi khung hình.
     const xSlots=[.16,.84,.34,.66,.50,.24,.76];
     const protectedSpeaker=item.type==="master"||item.type==="elder";
-    const yLevels=item.type==="master"?[0,1]:protectedSpeaker?[0,-1,-2]:[0,-1,1];
+    const yLevels=protectedSpeaker?[0,1]:[0,-1,1];
     const preferredX=px*.34+ar.width*.66;
     const others=bubbles.filter(other=>other!==item&&other.el.isConnected&&other.el.style.left&&other.el.style.top);
     let best=null;
-    const directions=item.type==="master"?[true]:protectedSpeaker?[false]:[!!anchor.below,!anchor.below];
+    const directions=protectedSpeaker?[true]:[!!anchor.below,!anchor.below];
     for(const below of directions){
       const baseY=below?py+8:py-10;
       for(const slot of xSlots){
@@ -243,9 +243,20 @@
     }
   }
 
-  startButton.addEventListener("click",scheduleChatter);
+  startButton.addEventListener("click",()=>{
+    // Listener của bộ điều khiển đua chạy trước; nếu nút vừa khởi động vòng đua mới,
+    // mở lại lời bình ngay cả khi vòng trước đã kết thúc và đặt stopped=true.
+    if(typeof running!=="undefined"&&running&&!isFinished())stopped=false;
+    scheduleChatter();
+  });
   if(eventNode)new MutationObserver(handleEvent).observe(eventNode,{childList:true,characterData:true,subtree:true});
-  if(statusNode)new MutationObserver(()=>{if(isFinished())stopChatter();else if(statusNode.textContent.includes("Đã triệu hồi"))stopped=false;else if(typeof running!=="undefined"&&running&&typeof started!=="undefined"&&started&&!(typeof paused!=="undefined"&&paused))scheduleChatter();}).observe(statusNode,{childList:true,characterData:true,subtree:true});
+  if(statusNode)new MutationObserver(()=>{
+    if(isFinished()){stopChatter();return;}
+    const statusText=statusNode.textContent.trim();
+    // Mỗi lần triệu hồi hoặc bắt đầu đếm ngược đều là một vòng đời mới của lời bình.
+    if(statusText.includes("Đã triệu hồi")||statusText.startsWith("Bắt đầu sau")||statusText.includes("Toàn bộ tiên nhân đã hiện thân"))stopped=false;
+    if(typeof running!=="undefined"&&running&&typeof paused!=="undefined"&&!paused)scheduleChatter();
+  }).observe(statusNode,{childList:true,characterData:true,subtree:true});
 
   const originalDraw=window.drawAnnouncement;
   if(typeof originalDraw==="function"){
