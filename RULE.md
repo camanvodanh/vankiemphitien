@@ -558,3 +558,10 @@
 - Xưng hô với người đua dựa trên nhận diện giới tính từ tên (dấu hiệu danh xưng và một số từ/tên thường gặp). Nếu không đủ dấu hiệu, dùng “đạo hữu”/câu trung tính, không suy đoán giới tính.
 - Neo lời bình của Chưởng môn, Trưởng lão, đệ tử và các hàng khán đài được hạ xuống để bong bóng không chồng lên đường đua; vẫn theo camera zoom/pan, đuôi chỉ về speaker.
 - Cache: `tournament.js v15`, `style.css responsive-arena-v219`, `data-loader.js v164`.
+
+
+## 96. Lời bình phong phú, bong bóng tự co giãn và triệu hồi huyền thoại
+- Lời bình trực tiếp mở rộng kho câu thoại phong cách tu tiên, đấu pháp, thiên kiêu, linh khí, kiếm ý và hài hước; luân phiên theo cấp bậc phát ngôn.
+- Bong bóng thoại tự mở rộng chiều rộng/chiều cao, tự xuống dòng, không giới hạn 2 dòng và không cắt thành dấu ba chấm; giới hạn bề ngang theo khung sân, vị trí theo kích thước thực để không tràn khung.
+- Sprite nhân vật huyền thoại Thần Sầu được preload ngay khi renderer tải. Khi sprite chưa sẵn sàng, dùng bóng linh thể tạm thời thay vì vẽ nhân vật thường làm fallback rồi đổi sprite, tránh cảm giác nhân vật bị đè/thay thế sau triệu hồi.
+- Cache: `tournament.js v16`, `visual-overrides.js v222`, `style.css responsive-arena-v220`, `data-loader.js v165`.
