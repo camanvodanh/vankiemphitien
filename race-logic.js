@@ -58,6 +58,7 @@ function processFinish(racer,index){
  racer.personalEffectType="";racer.personalEffectName="";racer.personalEffectPolarity="";racer.personalEffectMultiplier=1;
  if(cameraFocusId===racer.id)cameraFocusId=null;
  finishQueue.push(racer);
+ if(window.VKPRaceEvents)window.VKPRaceEvents.emit("racer:finish",{racer,rank:finishQueue.length},{key:"finish-"+racer.id,cooldown:0});
  leaderAnnouncementQueued = true;
  showFinishAnnouncement(racer,finishQueue.length);
  addParticles(TRACK.right-35,laneY(index),28);
@@ -143,7 +144,8 @@ function updateRace(dt){
  for(let i=0;i<rankedNow.length;i++){
   const racer=rankedNow[i],oldRank=rankBefore.get(racer.id),newRank=i+1;
   if(oldRank&&oldRank!==newRank){
-   if(newRank<oldRank&&window.VKPCameraDirector)window.VKPCameraDirector.onOvertake(racer,oldRank,newRank);
+   if(newRank<oldRank&&window.VKPRaceEvents)window.VKPRaceEvents.emit("racer:overtake",{racer,oldRank,newRank});
+
    racer.rankMovement=newRank<oldRank?"up":"down";
    racer.rankMovementTimer=3.5;
   }
@@ -621,9 +623,7 @@ function drawCamera(time){
     cameraCtx.restore();
   }
  const rank=sortedRacers().findIndex(item=>item.id===racer.id)+1;
- cameraCtx.save();cameraCtx.fillStyle="rgba(10,27,23,.84)";cameraCtx.fillRect(8,205,404,27);cameraCtx.strokeStyle="rgba(221,190,120,.75)";cameraCtx.strokeRect(8.5,205.5,403,26);
- cameraCtx.font="bold 12px Arial,sans-serif";cameraCtx.textAlign="left";cameraCtx.textBaseline="middle";cameraCtx.fillStyle="#f5dfa6";cameraCtx.fillText(shot&&shot.label?shot.label:"DẪN ĐẦU",18,219);
- cameraCtx.textAlign="right";cameraCtx.fillStyle="#fff3d4";cameraCtx.fillText("CAM "+(shot&&shot.mode?shot.mode.toUpperCase():"LEADER"),402,219);cameraCtx.restore();
+
   fitCameraInfoText("leaderTalent",racer.talent&&racer.talent.name?racer.talent.name:"");
   fitCameraInfoText("leaderEffect",racer.effectTimer>0?(racer.effectName||""):"");
   $("leaderName").textContent=racer.name;
