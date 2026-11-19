@@ -114,17 +114,16 @@
     const sy=canvas.height*.5+panY+(anchor.y-canvas.height*.5)*zoom;
     const px=cr.left-ar.left+sx/canvas.width*cr.width;
     const py=cr.top-ar.top+sy/canvas.height*cr.height;
-    const width=item.el.offsetWidth||120;
-    const height=item.el.offsetHeight||34;
-    const side=anchor.side||1;
-    const offset=Math.min(22,width*.13)*side;
+    const width=item.el.offsetWidth||120,height=item.el.offsetHeight||34;
+    const side=anchor.side||1,offset=Math.min(22,width*.13)*side;
     const drift=(item.sequence%3-1)*Math.min(34,width*.13);
     const left=Math.max(width/2+5,Math.min(ar.width-width/2-5,px+offset+drift));
+    // CSS transform anchors bubble by its bottom edge; clamp it so long lines stay inside arena.
+    const bottom=Math.max(height+8,Math.min(ar.height-8,py-12-(item.stack||0)*(height+7)));
     item.el.style.left=left+"px";
-    item.el.style.top=(py-12-(Math.floor(item.sequence/3)%2)*15)+"px";
+    item.el.style.top=bottom+"px";
     item.el.style.setProperty("--speech-tail-x",Math.max(10,Math.min(width-10,px-left+width/2))+"px");
   }
-
   function followBubbles(){
     bubbles.forEach(positionBubble);
     if(bubbles.length)frameRequest=requestAnimationFrame(followBubbles);
@@ -148,7 +147,7 @@
     el.appendChild(text);
     el.style.zIndex=String(1150+seq);
     arena.appendChild(el);
-    const item={el,type,sequence:seq,timer:0};
+    const item={el,type,sequence:seq,stack:bubbles.filter(b=>b.type===type).length,timer:0};
     bubbles.push(item);
     positionBubble(item);
     if(!frameRequest)frameRequest=requestAnimationFrame(followBubbles);
