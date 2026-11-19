@@ -192,7 +192,10 @@ function frame(time) {
   }
 
   if (running && !paused && !finished) {
+    let raceDt=realDt;
     if (countdown > 0) {
+      const countdownRemaining=Math.max(0,countdown-countdownAccumulator);
+      raceDt=Math.max(0,realDt-countdownRemaining);
       countdownAccumulator += realDt;
 
       while (countdown > 0 && countdownAccumulator >= 1) {
@@ -216,7 +219,7 @@ function frame(time) {
       }
     }
 
-    if (started && countdown === 0 && !finished) updateRace(realDt);
+    if (started && countdown === 0 && !finished && raceDt>0) updateRace(raceDt);
   }
 
   updateParticles(dt);
