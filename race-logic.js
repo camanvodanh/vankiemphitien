@@ -590,6 +590,7 @@ function leaderOf(){
 function drawCamera(time){
  drawCameraBackground(time);
  if(finished){
+  if(window.VKPAudio)window.VKPAudio.setCameraEffect(null);
   drawPodiumScene(cameraCtx,time,true);
   const total=Math.min(3,racers.length);
   $("leaderName").textContent="Ban thưởng Top "+total+" Tiên Hội";
