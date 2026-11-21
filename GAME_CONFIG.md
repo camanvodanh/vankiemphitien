@@ -1019,3 +1019,10 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Thêm hai nút icon-only độc lập: nhạc nền và âm thanh hiệu ứng/chuông. Trạng thái bật/tắt có `aria-label`, tooltip, dấu gạch trên icon khi tắt và lưu riêng trong localStorage.
 - Không thay đổi công thức tốc độ, xác suất hiệu ứng, thứ hạng, thời điểm camera chọn cảnh hoặc nội dung nhạc nền.
 - Cache: `style.css responsive-arena-v229`, `data-loader.js data-driven-v196`, `music.js v181`, `race-logic.js v214`, `audio.js v1`.
+
+
+## 126. Khắc phục Thiên Lý Kính bị đứng hình
+- Tách lỗi dựng Thiên Lý Kính khỏi khung render chính: nếu vẽ camera lỗi, đại cảnh và mô phỏng tiếp tục; camera reset Canvas state, hiển thị thông báo phục hồi và tự thử render lại ở khung tiếp theo.
+- Bảo vệ cả camera thường và cảnh mini trao giải sau khi cuộc đua hoàn tất; không thay đổi trình tự/cảnh trao thưởng chính.
+- Khi render camera thất bại, ngắt âm hiệu ứng đang bám cảnh để tránh âm không còn hình.
+- Cache: `race-logic.js race-phase1-v215`, `race-render.js race-phase1-v186`.
