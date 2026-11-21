@@ -796,3 +796,9 @@
 - Thêm hai tu sĩ ngự kiếm lướt ngang tầng mái xa, có vệt kiếm quang ngắn.
 - Vẽ bằng Canvas trong frame phong cảnh hiện tại; số NPC cố định, không particle/random hoặc vòng animation riêng; không đổi bố cục, gameplay, camera hay biển hiệu.
 - Cache: `visual-overrides.js` `race-phase1-v234`.
+
+
+## 129. Sửa hiển thị NPC Giai đoạn 2 và vô hiệu cache cũ
+- Điều chỉnh NPC đứng đúng mép mái/ban công, tăng kích thước hiển thị độc lập với tỉ lệ công trình để không bị quá nhỏ ở các lầu xa.
+- Đưa hai tu sĩ ngự kiếm lên lớp vẽ sau kiến trúc để không bị mái nhà che.
+- Tăng cache `visual-overrides.js` lên `race-phase1-v235`, `data-loader.js` lên `data-driven-v197` và cập nhật query trong `index.html` để trình duyệt tải lại bộ nạp mới.
