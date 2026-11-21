@@ -389,7 +389,7 @@ function drawImmortalFinishGate(){
 
 
 // REVISION 15 — 14 công trình tiên môn, mỗi nơi có kiến trúc và pháp khí nhận diện riêng.
-function drawSectPavilion(x,y,scale,title,type,accent){
+function drawSectPavilion(x,y,scale,title,type,accent,time=0){
  ctx.save();ctx.translate(x,y);ctx.scale(scale,scale);
  const gold="#e7c77c",rg=ctx.createLinearGradient(-65,-125,65,-55);
  rg.addColorStop(0,accent);rg.addColorStop(.5,"#29433e");rg.addColorStop(1,"#182b2b");
@@ -406,6 +406,8 @@ function drawSectPavilion(x,y,scale,title,type,accent){
  }
  const lamp=ctx.createRadialGradient(0,-35,1,0,-35,34);lamp.addColorStop(0,"rgba(255,224,143,.48)");lamp.addColorStop(1,"rgba(255,224,143,0)");
  ctx.fillStyle=lamp;ctx.fillRect(-36,-72,72,65);ctx.fillStyle="#201c19";ctx.fillRect(-13,-47,26,38);ctx.fillStyle=gold;ctx.fillRect(-15,-49,30,3);
+ // Tu sĩ ở sâu bên trong, chỉ nhìn thấy qua ô cửa; không đứng ngoài mặt tiền.
+ drawSectInteriorNpc(time,type);
  function roof(yy,w,h,upper){
   ctx.fillStyle="#493329";ctx.beginPath();ctx.moveTo(-w*.68,yy+3);ctx.quadraticCurveTo(-w*.43,yy-h*.72,-w*.12,yy-h*.88);ctx.quadraticCurveTo(0,yy-h*1.08,w*.12,yy-h*.88);ctx.quadraticCurveTo(w*.43,yy-h*.72,w*.68,yy+3);ctx.lineTo(w*.49,yy-2);ctx.quadraticCurveTo(0,yy-h*.73,-w*.49,yy-2);ctx.closePath();ctx.fill();
   ctx.fillStyle=rg;ctx.beginPath();ctx.moveTo(-w*.72,yy);ctx.quadraticCurveTo(-w*.43,yy-h*.83,-w*.12,yy-h*.94);ctx.quadraticCurveTo(0,yy-h*1.14,w*.12,yy-h*.94);ctx.quadraticCurveTo(w*.43,yy-h*.83,w*.72,yy);ctx.quadraticCurveTo(w*.5,yy-5,0,yy-h*.8);ctx.quadraticCurveTo(-w*.5,yy-5,-w*.72,yy);ctx.closePath();ctx.fill();ctx.strokeStyle=gold;ctx.lineWidth=2.4;ctx.stroke();
@@ -2865,92 +2867,36 @@ function drawSectNpc(time,x,footY,scale,role,phase,activity="idle"){
  ctx.restore();
 }
 
-function drawSectNpcLife(time,b,originX,originY){
- const layouts={
-  main:[[-24,"elder","idle"],[24,"core","idle"]],
-  tower:[[0,"inner","guard"]],
-  scripture:[[-22,"scholar","read"],[22,"disciple","read"]],
-  treasure:[[0,"guard","guard"]],
-  herb:[[-22,"herb","work"],[22,"herb","work"]],
-  lecture:[[-27,"scholar","read"],[0,"disciple","read"],[27,"scholar","read"]],
-  alchemy:[[-12,"alchemy","work"],[22,"disciple","work"]],
-  forge:[[-20,"forge","practice"],[20,"forge","work"]],
-  observatory:[[0,"scholar","read"]],
-  cave:[[0,"disciple","idle"]],
-  academy:[[-27,"servant","walk"],[0,"outer","idle"],[27,"inner","walk"]],
-  array:[[0,"guard","guard"]],
-  guardian:[[0,"elder","guard"]],
-  foreign:[[0,"outer","walk"]]
+/* NPC chỉ xuất hiện BÊN TRONG kiến trúc, nhìn thấy qua cửa chính.
+ * Không còn NPC đứng trên mái/ban công hoặc bay lơ lửng bên ngoài.
+ */
+function drawSectInteriorNpc(time,type){
+ const roles={
+  main:["elder","core"],tower:["inner"],scripture:["scholar"],treasure:["guard"],
+  herb:["herb"],lecture:["scholar"],alchemy:["alchemy"],forge:["forge"],
+  observatory:["scholar"],cave:["disciple"],academy:["outer"],array:["guard"],
+  guardian:["elder"],foreign:["servant"]
  };
- const people=layouts[b.type]||[];
- // Sàn hiên là dầm ngang tại local Y=-7. Tính cả drift/bob của công trình.
- const floorY=originY-8*b.s;
- people.forEach((p,i)=>{
-  const depthScale=b.s>.65?.91:b.s>.46?.84:.78;
-  drawSectNpc(time,originX+p[0]*b.s,floorY,depthScale,p[1],b.phase+i*1.71,p[2]);
- });
- // Lan can hai bên hiên, chừa lối đi và không che thân người.
- ctx.save();ctx.translate(originX,originY);ctx.scale(b.s,b.s);
- ctx.strokeStyle="#d8b775";ctx.lineWidth=2.1;ctx.beginPath();ctx.moveTo(-48,-8);ctx.lineTo(-37,-5);ctx.moveTo(37,-5);ctx.lineTo(48,-8);ctx.stroke();
- ctx.fillStyle="#765236";
- for(const x of [-48,-37,37,48]){ctx.fillRect(x-1.3,-13,2.6,9);ctx.fillStyle="#e6c77f";ctx.fillRect(x-2,-14,4,2);ctx.fillStyle="#765236";}
+ const role=(roles[type]||["disciple"])[0];
+ const action=type==="scripture"||type==="lecture"||type==="observatory"?"read":
+  type==="alchemy"||type==="forge"||type==="herb"?"work":
+  type==="guardian"||type==="treasure"||type==="tower"?"guard":"idle";
+ // Cửa là vùng tối ở giữa mặt tiền. Clip đảm bảo NPC luôn nằm sau khung cửa,
+ // không thể vẽ tràn lên cột, tường hoặc mái.
+ ctx.save();
+ ctx.beginPath();ctx.rect(-12.5,-47,25,37);ctx.clip();
+ ctx.fillStyle="rgba(255,210,125,.12)";ctx.fillRect(-12,-46,24,35);
+ const interiorScale=type==="main"?.53:.48;
+ drawSectNpc(time,0,-10,interiorScale,role,type.length*.73,action);
+ // Ánh đèn ấm phía trong tạo chiều sâu.
+ const glow=ctx.createRadialGradient(0,-28,1,0,-28,17);
+ glow.addColorStop(0,"rgba(255,211,132,.17)");glow.addColorStop(1,"rgba(255,211,132,0)");
+ ctx.fillStyle=glow;ctx.fillRect(-17,-48,34,40);
  ctx.restore();
 }
 
 function drawSectFlyingNpc(time,x,y,phase){
- const t=time*.001+phase,dx=Math.sin(t*.48)*10,dy=Math.sin(t*.82)*3;
- ctx.save();ctx.translate(x+dx,y+dy);ctx.rotate(-.22+Math.sin(t*.65)*.035);
- const trail=ctx.createLinearGradient(-34,0,5,0);trail.addColorStop(0,"rgba(132,220,246,0)");trail.addColorStop(1,"rgba(132,220,246,.58)");
- ctx.strokeStyle=trail;ctx.lineWidth=2.2;ctx.beginPath();ctx.moveTo(-35,7);ctx.quadraticCurveTo(-18,2,-5,3);ctx.stroke();
- // Phi kiếm nằm ngay dưới chân, thân nghiêng theo hướng bay.
- ctx.fillStyle="#9bdff0";ctx.beginPath();ctx.moveTo(-16,8);ctx.lineTo(0,4);ctx.lineTo(20,6);ctx.lineTo(3,10);ctx.closePath();ctx.fill();
- ctx.strokeStyle="#fff1b5";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(-16,8);ctx.lineTo(20,6);ctx.stroke();
- ctx.fillStyle="#315c70";ctx.beginPath();ctx.moveTo(-7,-7);ctx.lineTo(-24,-14);ctx.lineTo(-17,-2);ctx.lineTo(-26,3);ctx.lineTo(-7,1);ctx.closePath();ctx.fill();
- ctx.fillStyle="#d9e6df";ctx.beginPath();ctx.moveTo(-7,-10);ctx.lineTo(7,-9);ctx.lineTo(10,1);ctx.lineTo(-5,3);ctx.closePath();ctx.fill();
- ctx.fillStyle="#e9c4a2";ctx.beginPath();ctx.arc(9,-14,5.2,0,Math.PI*2);ctx.fill();
- ctx.fillStyle="#29262b";ctx.beginPath();ctx.arc(9,-17,5,Math.PI,Math.PI*2);ctx.fill();ctx.fillRect(11,-19,3,7);
- ctx.fillStyle="#302a2a";ctx.beginPath();ctx.arc(11,-14,.8,0,Math.PI*2);ctx.fill();
- ctx.strokeStyle="#d8bd80";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(1,-7);ctx.lineTo(8,-1);ctx.stroke();
- ctx.restore();
-}
-
-function drawSectArchitecture(time){
- const buildings=[
-  {x:250,y:190,s:.43,title:"TỤ LINH THÁP",type:"tower",accent:"#39766e",phase:.2},
-  {x:380,y:190,s:.45,title:"TÀNG KINH CÁC",type:"scripture",accent:"#8c6043",phase:1.1},
-  {x:550,y:190,s:.76,title:"LĂNG TIÊU CHÍNH ĐIỆN",type:"main",accent:"#9d4939",phase:2.2},
-  {x:720,y:190,s:.45,title:"TÀNG BẢO CÁC",type:"treasure",accent:"#b68a43",phase:3.3},
-  {x:850,y:190,s:.43,title:"BÁCH THẢO CÁC",type:"herb",accent:"#648653",phase:4.4},
-  {x:220,y:326,s:.48,title:"GIẢNG ĐẠO CÁC",type:"lecture",accent:"#577d83",phase:.7},
-  {x:420,y:326,s:.49,title:"ĐAN CÁC",type:"alchemy",accent:"#9e543b",phase:1.8},
-  {x:680,y:326,s:.49,title:"LUYỆN KHÍ ĐIỆN",type:"forge",accent:"#82604a",phase:2.9},
-  {x:880,y:326,s:.48,title:"QUAN TINH LÂU",type:"observatory",accent:"#536c91",phase:4},
-  {x:250,y:444,s:.36,title:"BẾ QUAN ĐỘNG PHỦ",type:"cave",accent:"#536b62",phase:1.4},
-  {x:400,y:444,s:.37,title:"ĐỆ TỬ VIỆN",type:"academy",accent:"#66817a",phase:2.5},
-  {x:550,y:444,s:.39,title:"TRẬN PHÁP CÁC",type:"array",accent:"#4f7b83",phase:3.6},
-  {x:700,y:444,s:.37,title:"HỘ SƠN TRẬN CÁC",type:"guardian",accent:"#527e88",phase:4.7},
-  {x:850,y:444,s:.36,title:"NGOẠI VỤ ĐIỆN",type:"foreign",accent:"#916c48",phase:5.8}
- ];
- buildings.forEach((b,index)=>{
-  const bob=Math.sin(time*.00072+b.phase)*1.65,drift=Math.sin(time*.00042+b.phase)*.65;
-  const originX=b.x+drift,originY=b.y-5+bob;
-  drawSectMountainLedge(b.x,b.y,b.s);
-  drawSectPavilion(originX,originY,b.s,"",b.type,b.accent);
-  drawSectBuildingLifeFx(time,{...b,x:originX,y:b.y});
-  drawSectNpcLife(time,b,originX,originY);
-  const labelY=b.y-5-156*b.s;
-  ctx.save();ctx.textAlign="center";ctx.textBaseline="middle";ctx.lineJoin="round";
-  ctx.font="bold "+(index===2?18.5:15.5)+"px Arial, sans-serif";
-  ctx.globalAlpha=1;ctx.globalCompositeOperation="source-over";ctx.shadowColor="transparent";ctx.shadowBlur=0;
-  ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;ctx.filter="none";
-  const labelMaxWidth=Math.min(210,250*b.s+38);
-  ctx.miterLimit=2;ctx.lineWidth=index===2?2.8:2.2;ctx.strokeStyle="#17251f";
-  ctx.strokeText(b.title,b.x,labelY,labelMaxWidth);
-  ctx.fillStyle=index===2?"#ffe8ad":"#fff3d0";ctx.fillText(b.title,b.x,labelY,labelMaxWidth);
-  ctx.restore();
- });
- // Chỉ hai kiếm tu có thể lơ lửng; thân nghiêng, phi kiếm và vệt bay rõ.
- drawSectFlyingNpc(time,315,268,1.3);drawSectFlyingNpc(time,785,286,4.2);
+ // Giữ hàm tương thích nội bộ nhưng không còn gọi: NPC đều ở trong kiến trúc.
 }
 
 /* Nước trôi chậm, đều: giữ nguyên hình lòng sông và chỉ giảm tốc vân mặt nước. */
