@@ -1065,3 +1065,10 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Chọn vai trò theo công năng: trưởng lão ở chính điện/hộ sơn, học sĩ ở tàng kinh/giảng đạo/quan tinh, đan sư ở đan các, luyện khí ở luyện khí điện, linh thảo ở bách thảo các, hộ vệ ở tàng bảo/trận pháp.
 - Giữ ánh sáng nội thất ấm và nhẹ; không thay đổi bố cục 14 công trình, gameplay, camera, âm thanh hoặc các hệ thống khác.
 - Cache: `visual-overrides.js` `race-phase1-v237`, `data-loader.js` `data-driven-v199`, `index.html` `data-driven-v199`.
+
+
+## 132. Hoạt động NPC nội thất — Giai đoạn 3
+- Hành vi cố định theo công năng 14 công trình; dùng timestamp của game loop hiện tại để tạo nhịp chuyển động nhẹ.
+- Các hoạt động hỗ trợ: đọc sách, luyện kiếm, truyền pháp, thao tác/làm việc, tĩnh tọa, quan sát thiên tượng, hộ vệ và đi lại.
+- NPC luôn bị clip trong cửa chính, không được xuất hiện trên mái, ban công hoặc ngoài trời. Không thay đổi bố cục, gameplay hay camera.
+- Cache: visual-overrides.js race-phase1-v239, data-loader.js data-driven-v201, index.html data-driven-v201.
