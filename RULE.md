@@ -802,3 +802,10 @@
 - Điều chỉnh NPC đứng đúng mép mái/ban công, tăng kích thước hiển thị độc lập với tỉ lệ công trình để không bị quá nhỏ ở các lầu xa.
 - Đưa hai tu sĩ ngự kiếm lên lớp vẽ sau kiến trúc để không bị mái nhà che.
 - Tăng cache `visual-overrides.js` lên `race-phase1-v235`, `data-loader.js` lên `data-driven-v197` và cập nhật query trong `index.html` để trình duyệt tải lại bộ nạp mới.
+
+
+## 3. Quy chuẩn NPC tiên môn
+- NPC phải có khuôn mặt, tóc, đạo bào nhiều lớp, tay chân, giày và phụ kiện nhận diện; không dùng hình người tối giản hoặc silhouette không có ngũ quan.
+- NPC đứng trên mặt sàn ban công/mái có thật; tọa độ chân phải dùng cùng gốc dịch chuyển/bập bềnh với công trình. Có bóng tiếp xúc và lan can hợp lý.
+- Chỉ tu sĩ ngự kiếm mới được lơ lửng; phải có tư thế nghiêng theo hướng bay, phi kiếm và vệt kiếm quang rõ.
+- Hoạt ảnh NPC dùng timestamp của game loop hiện có; không tạo vòng lặp/particle riêng và không ảnh hưởng gameplay.
