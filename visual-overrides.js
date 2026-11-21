@@ -2803,115 +2803,155 @@ function drawSectBuildingLifeFx(time,b){
   ctx.restore();
 }
 
-/* GIAI ĐOẠN 2: NPC tiên môn trên mái/ban công; vẽ bằng Canvas, không loop riêng. */
-function drawSectNpc(time,x,y,scale,role,phase){
-  const t=time*.001+phase, sway=Math.sin(t*.85)*1.5, gesture=Math.sin(t*1.25)*3;
-  ctx.save();ctx.translate(x+sway,y);ctx.scale(scale,scale);
-  const robes=role==="elder"?"#d7c6a0":role==="alchemy"?"#a94c36":role==="forge"?"#7e5340":role==="herb"?"#668b55":role==="guard"?"#506b91":role==="disciple"?"#3f8179":role==="scholar"?"#7867a0":"#6d8c9a";
-  const trim=role==="elder"?"#e8cc83":"#d7b76e";
-  // Bóng chân và thân đạo bào.
-  ctx.globalAlpha=.75;ctx.fillStyle="#15221e";ctx.beginPath();ctx.ellipse(0,1,9,2.5,0,0,Math.PI*2);ctx.fill();
-  ctx.globalAlpha=1;ctx.fillStyle=robes;ctx.beginPath();ctx.moveTo(-5,-19);ctx.lineTo(-8,-8);ctx.lineTo(-10,0);ctx.lineTo(10,0);ctx.lineTo(8,-8);ctx.lineTo(5,-19);ctx.closePath();ctx.fill();
-  ctx.strokeStyle=trim;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(0,-18);ctx.lineTo(0,-2);ctx.moveTo(-6,-8);ctx.lineTo(6,-8);ctx.stroke();
-  // Tay áo; động tác nhỏ khác nhau theo vị trí.
-  ctx.strokeStyle=robes;ctx.lineWidth=4;ctx.lineCap="round";
-  ctx.beginPath();ctx.moveTo(-4,-16);ctx.lineTo(-10,-12+gesture*.25);ctx.moveTo(4,-16);ctx.lineTo(9,-12-gesture*.25);ctx.stroke();
-  ctx.fillStyle="#e6c5a0";ctx.beginPath();ctx.arc(0,-23,5.5,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle="#30251f";ctx.beginPath();ctx.arc(0,-25,5.6,Math.PI,Math.PI*2);ctx.fill();ctx.fillRect(-5,-25,10,2);
-  ctx.fillStyle=trim;ctx.fillRect(-1,-30,2,5);ctx.fillRect(-3,-31,6,2);
-  if(role==="elder"){ctx.fillStyle="#ddd4c3";ctx.fillRect(-4,-22,8,2);ctx.fillRect(-2,-20,4,3);}
-  if(role==="scholar"){ctx.fillStyle="#e8d9aa";ctx.fillRect(-8,-12,6,5);ctx.fillRect(2,-12,6,5);}
-  if(role==="alchemy"){ctx.fillStyle="#f2a25c";ctx.fillRect(-2,-3,4,2);}
-  ctx.restore();
+/* GIAI ĐOẠN 2 — NPC CÓ DIỆN MẠO, ĐỨNG TRÊN BAN CÔNG THỰC.
+ * Cùng gốc chuyển động với công trình; chân đặt trên sàn hiên.
+ */
+const SECT_NPC_STYLE={
+ elder:{robe:"#d8c6a1",dark:"#79634a",trim:"#f0d58e",hair:"#d9d1c2",skin:"#e8c6a5"},
+ alchemy:{robe:"#a94c36",dark:"#63352d",trim:"#efbd70",hair:"#30251f",skin:"#edc5a2"},
+ forge:{robe:"#87604a",dark:"#49372f",trim:"#d9ad69",hair:"#30251f",skin:"#e8bd98"},
+ herb:{robe:"#668b55",dark:"#385b42",trim:"#d4c77c",hair:"#30251f",skin:"#edc8a7"},
+ guard:{robe:"#506b91",dark:"#2c405e",trim:"#d9c17d",hair:"#27252a",skin:"#e6bd9b"},
+ disciple:{robe:"#43877f",dark:"#28564f",trim:"#e3c77e",hair:"#29252a",skin:"#efc9a7"},
+ scholar:{robe:"#7867a0",dark:"#493e70",trim:"#e8d59b",hair:"#30252d",skin:"#edc5a4"},
+ servant:{robe:"#92928a",dark:"#5d625d",trim:"#c9b98c",hair:"#302a26",skin:"#e8c09e"},
+ outer:{robe:"#5d8da0",dark:"#34596a",trim:"#d9c27e",hair:"#29252a",skin:"#edc5a4"},
+ inner:{robe:"#e8e2d4",dark:"#536b80",trim:"#e9c879",hair:"#29252a",skin:"#edc5a4"},
+ core:{robe:"#e7e1ce",dark:"#7a6044",trim:"#f6d77e",hair:"#28242a",skin:"#f0c9a7"}
+};
+
+function drawSectNpc(time,x,footY,scale,role,phase,activity="idle"){
+ const st=SECT_NPC_STYLE[role]||SECT_NPC_STYLE.disciple,t=time*.001+phase;
+ const sway=Math.sin(t*.8)*.65,arm=Math.sin(t*1.25)*2.2;
+ ctx.save();
+ ctx.translate(x+sway+(activity==="walk"?Math.sin(t*.65)*4:0),footY);
+ ctx.scale(scale,scale);
+ // Bóng tiếp xúc, giày và ống quần.
+ ctx.fillStyle="rgba(13,23,20,.48)";ctx.beginPath();ctx.ellipse(0,1.5,10.5,2.5,0,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle=st.dark;ctx.fillRect(-5,-10,4,9);ctx.fillRect(2,-10,4,9);
+ ctx.fillStyle="#332a27";ctx.fillRect(-6,-2,6,2.2);ctx.fillRect(1,-2,6,2.2);
+ // Đạo bào có tà áo, lớp trong và viền thêu.
+ ctx.fillStyle=st.dark;ctx.beginPath();ctx.moveTo(-5,-32);ctx.lineTo(-10,-17);ctx.lineTo(-12,-2);ctx.quadraticCurveTo(0,1,12,-2);ctx.lineTo(10,-17);ctx.lineTo(5,-32);ctx.closePath();ctx.fill();
+ ctx.fillStyle=st.robe;ctx.beginPath();ctx.moveTo(-4,-33);ctx.lineTo(-7,-18);ctx.lineTo(-9,-3);ctx.lineTo(-1,-4);ctx.lineTo(0,-18);ctx.lineTo(2,-4);ctx.lineTo(9,-3);ctx.lineTo(7,-18);ctx.lineTo(4,-33);ctx.closePath();ctx.fill();
+ ctx.strokeStyle=st.trim;ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(-8,-4);ctx.lineTo(-4,-29);ctx.lineTo(0,-20);ctx.lineTo(4,-29);ctx.lineTo(8,-4);ctx.moveTo(0,-27);ctx.lineTo(0,-6);ctx.stroke();
+ // Đai lưng và ngọc bội.
+ ctx.fillStyle=st.dark;ctx.fillRect(-7,-20,14,3.2);ctx.fillStyle=st.trim;ctx.fillRect(-1.6,-21,3.2,5);
+ ctx.fillStyle="#8bd7cf";ctx.beginPath();ctx.moveTo(5,-17);ctx.lineTo(8,-15);ctx.lineTo(5,-11);ctx.lineTo(3,-15);ctx.closePath();ctx.fill();
+ // Tay áo theo hành động.
+ ctx.strokeStyle=st.robe;ctx.lineWidth=5.2;ctx.lineCap="round";ctx.beginPath();
+ if(activity==="read"){ctx.moveTo(-4,-29);ctx.lineTo(-10,-24);ctx.lineTo(-5,-19);ctx.moveTo(4,-29);ctx.lineTo(9,-24);ctx.lineTo(5,-19);}
+ else if(activity==="practice"){ctx.moveTo(-4,-29);ctx.lineTo(-11,-25+arm*.3);ctx.lineTo(-8,-18);ctx.moveTo(4,-29);ctx.lineTo(12,-35-arm*.35);ctx.lineTo(15,-39);}
+ else if(activity==="guard"){ctx.moveTo(-4,-29);ctx.lineTo(-10,-24);ctx.lineTo(-9,-17);ctx.moveTo(4,-29);ctx.lineTo(9,-24);ctx.lineTo(9,-15);}
+ else{ctx.moveTo(-4,-29);ctx.lineTo(-10,-24+arm*.2);ctx.lineTo(-8,-20);ctx.moveTo(4,-29);ctx.lineTo(10,-24-arm*.2);ctx.lineTo(8,-20);}
+ ctx.stroke();ctx.fillStyle=st.skin;ctx.beginPath();ctx.arc(-7,-19,2.2,0,Math.PI*2);ctx.arc(7,-19,2.2,0,Math.PI*2);ctx.fill();
+ // Cổ áo giao lĩnh.
+ ctx.fillStyle="#f0dfbd";ctx.beginPath();ctx.moveTo(-4,-33);ctx.lineTo(0,-25);ctx.lineTo(4,-33);ctx.closePath();ctx.fill();
+ // Khuôn mặt: tai, mắt, lông mày, mũi, miệng.
+ ctx.fillStyle=st.skin;ctx.beginPath();ctx.ellipse(0,-41,6.2,7.2,0,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle=st.hair;ctx.beginPath();ctx.moveTo(-6,-42);ctx.quadraticCurveTo(-8,-52,0,-52);ctx.quadraticCurveTo(8,-52,6,-42);ctx.lineTo(3,-45);ctx.lineTo(0,-47);ctx.lineTo(-3,-45);ctx.closePath();ctx.fill();
+ ctx.fillRect(-6,-43,2,5);ctx.fillRect(4,-43,2,5);
+ ctx.strokeStyle="#382b27";ctx.lineWidth=.85;ctx.beginPath();ctx.moveTo(-4.2,-42.2);ctx.lineTo(-1.7,-42.5);ctx.moveTo(1.7,-42.5);ctx.lineTo(4.2,-42.2);ctx.stroke();
+ ctx.fillStyle="#292522";ctx.beginPath();ctx.arc(-2.8,-40.7,.85,0,Math.PI*2);ctx.arc(2.8,-40.7,.85,0,Math.PI*2);ctx.fill();
+ ctx.strokeStyle="#a96e5b";ctx.lineWidth=.65;ctx.beginPath();ctx.moveTo(0,-40);ctx.lineTo(-.5,-38.4);ctx.moveTo(-1.6,-36.5);ctx.quadraticCurveTo(0,-35.6,1.6,-36.5);ctx.stroke();
+ // Búi tóc, trâm; râu trưởng lão và mũ hộ vệ.
+ ctx.fillStyle=st.hair;ctx.beginPath();ctx.arc(0,-50,3.2,0,Math.PI*2);ctx.fill();ctx.fillRect(-1.2,-55,2.4,5);
+ ctx.fillStyle=st.trim;ctx.fillRect(-3,-54,6,1.5);ctx.fillRect(1,-56,1.2,4);
+ if(role==="elder"){ctx.fillStyle="#ddd5c6";ctx.beginPath();ctx.moveTo(-3,-35);ctx.lineTo(0,-30);ctx.lineTo(3,-35);ctx.closePath();ctx.fill();ctx.fillRect(-1.3,-31,2.6,4);}
+ if(role==="guard"){ctx.fillStyle="#354b6b";ctx.beginPath();ctx.moveTo(-8,-46);ctx.lineTo(-6,-52);ctx.lineTo(6,-52);ctx.lineTo(8,-46);ctx.closePath();ctx.fill();ctx.strokeStyle=st.trim;ctx.lineWidth=1;ctx.stroke();}
+ if(role==="scholar"||activity==="read"){ctx.fillStyle="#f1dfb2";ctx.fillRect(-7,-17,14,7);ctx.strokeStyle="#9c7449";ctx.lineWidth=.8;ctx.strokeRect(-7,-17,14,7);ctx.beginPath();ctx.moveTo(-4,-15);ctx.lineTo(4,-15);ctx.stroke();}
+ if(activity==="practice"){ctx.strokeStyle="#dcebf0";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(13,-38);ctx.lineTo(23,-51);ctx.stroke();ctx.strokeStyle="#e8c77c";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(11,-37);ctx.lineTo(15,-34);ctx.stroke();}
+ if(role==="alchemy"||role==="forge"){ctx.fillStyle="#ffcf79";ctx.beginPath();ctx.arc(0,-6,1.5,0,Math.PI*2);ctx.fill();}
+ if(role==="herb"){ctx.fillStyle="#8dcf79";ctx.beginPath();ctx.ellipse(9,-16,2,5,.65,0,Math.PI*2);ctx.fill();}
+ ctx.restore();
 }
-function drawSectNpcLife(time,b){
-  // Đặt chân NPC đúng trên mép ban công/mái; kích thước cố định để nhìn rõ ở cả công trình xa.
-  const spots={
-    main:[[-23,-78,"elder"],[23,-78,"disciple"]],
-    tower:[[0,-79,"disciple"]],
-    scripture:[[-20,-77,"scholar"],[21,-70,"disciple"]],
-    treasure:[[0,-77,"guard"]],
-    herb:[[-22,-70,"herb"],[22,-70,"herb"]],
-    lecture:[[-28,-72,"scholar"],[0,-72,"disciple"],[28,-72,"scholar"]],
-    alchemy:[[0,-72,"alchemy"],[23,-62,"disciple"]],
-    forge:[[0,-72,"forge"],[-24,-62,"forge"]],
-    observatory:[[0,-78,"scholar"]],
-    cave:[[0,-64,"disciple"]],
-    academy:[[-26,-66,"disciple"],[0,-66,"disciple"],[26,-66,"disciple"]],
-    array:[[0,-68,"guard"]],
-    guardian:[[0,-68,"elder"]],
-    foreign:[[0,-66,"disciple"]]
-  };
-  const list=spots[b.type]||[];
-  list.forEach((p,i)=>drawSectNpc(time,b.x+p[0]*b.s,b.y-5+p[1]*b.s,.76,p[2],b.phase+i*1.7));
+
+function drawSectNpcLife(time,b,originX,originY){
+ const layouts={
+  main:[[-24,"elder","idle"],[24,"core","idle"]],
+  tower:[[0,"inner","guard"]],
+  scripture:[[-22,"scholar","read"],[22,"disciple","read"]],
+  treasure:[[0,"guard","guard"]],
+  herb:[[-22,"herb","work"],[22,"herb","work"]],
+  lecture:[[-27,"scholar","read"],[0,"disciple","read"],[27,"scholar","read"]],
+  alchemy:[[-12,"alchemy","work"],[22,"disciple","work"]],
+  forge:[[-20,"forge","practice"],[20,"forge","work"]],
+  observatory:[[0,"scholar","read"]],
+  cave:[[0,"disciple","idle"]],
+  academy:[[-27,"servant","walk"],[0,"outer","idle"],[27,"inner","walk"]],
+  array:[[0,"guard","guard"]],
+  guardian:[[0,"elder","guard"]],
+  foreign:[[0,"outer","walk"]]
+ };
+ const people=layouts[b.type]||[];
+ // Sàn hiên là dầm ngang tại local Y=-7. Tính cả drift/bob của công trình.
+ const floorY=originY-8*b.s;
+ people.forEach((p,i)=>{
+  const depthScale=b.s>.65?.91:b.s>.46?.84:.78;
+  drawSectNpc(time,originX+p[0]*b.s,floorY,depthScale,p[1],b.phase+i*1.71,p[2]);
+ });
+ // Lan can hai bên hiên, chừa lối đi và không che thân người.
+ ctx.save();ctx.translate(originX,originY);ctx.scale(b.s,b.s);
+ ctx.strokeStyle="#d8b775";ctx.lineWidth=2.1;ctx.beginPath();ctx.moveTo(-48,-8);ctx.lineTo(-37,-5);ctx.moveTo(37,-5);ctx.lineTo(48,-8);ctx.stroke();
+ ctx.fillStyle="#765236";
+ for(const x of [-48,-37,37,48]){ctx.fillRect(x-1.3,-13,2.6,9);ctx.fillStyle="#e6c77f";ctx.fillRect(x-2,-14,4,2);ctx.fillStyle="#765236";}
+ ctx.restore();
 }
+
 function drawSectFlyingNpc(time,x,y,phase){
-  const t=time*.001+phase,dx=Math.sin(t*.55)*8,dy=Math.sin(t*.9)*3;
-  ctx.save();ctx.translate(x+dx,y+dy);ctx.globalCompositeOperation="lighter";
-  ctx.strokeStyle="rgba(147,224,241,.42)";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(-12,5);ctx.lineTo(-3,2);ctx.lineTo(12,0);ctx.stroke();
-  ctx.restore();
-  drawSectNpc(time,x+dx,y+dy,1.0,"disciple",phase);
-  ctx.save();ctx.translate(x+dx,y+dy+8);ctx.rotate(Math.sin(t*.7)*.12);ctx.fillStyle="#9bd9f2";ctx.beginPath();ctx.moveTo(-12,0);ctx.lineTo(0,-2);ctx.lineTo(14,0);ctx.lineTo(0,2);ctx.closePath();ctx.fill();ctx.restore();
+ const t=time*.001+phase,dx=Math.sin(t*.48)*10,dy=Math.sin(t*.82)*3;
+ ctx.save();ctx.translate(x+dx,y+dy);ctx.rotate(-.22+Math.sin(t*.65)*.035);
+ const trail=ctx.createLinearGradient(-34,0,5,0);trail.addColorStop(0,"rgba(132,220,246,0)");trail.addColorStop(1,"rgba(132,220,246,.58)");
+ ctx.strokeStyle=trail;ctx.lineWidth=2.2;ctx.beginPath();ctx.moveTo(-35,7);ctx.quadraticCurveTo(-18,2,-5,3);ctx.stroke();
+ // Phi kiếm nằm ngay dưới chân, thân nghiêng theo hướng bay.
+ ctx.fillStyle="#9bdff0";ctx.beginPath();ctx.moveTo(-16,8);ctx.lineTo(0,4);ctx.lineTo(20,6);ctx.lineTo(3,10);ctx.closePath();ctx.fill();
+ ctx.strokeStyle="#fff1b5";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(-16,8);ctx.lineTo(20,6);ctx.stroke();
+ ctx.fillStyle="#315c70";ctx.beginPath();ctx.moveTo(-7,-7);ctx.lineTo(-24,-14);ctx.lineTo(-17,-2);ctx.lineTo(-26,3);ctx.lineTo(-7,1);ctx.closePath();ctx.fill();
+ ctx.fillStyle="#d9e6df";ctx.beginPath();ctx.moveTo(-7,-10);ctx.lineTo(7,-9);ctx.lineTo(10,1);ctx.lineTo(-5,3);ctx.closePath();ctx.fill();
+ ctx.fillStyle="#e9c4a2";ctx.beginPath();ctx.arc(9,-14,5.2,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle="#29262b";ctx.beginPath();ctx.arc(9,-17,5,Math.PI,Math.PI*2);ctx.fill();ctx.fillRect(11,-19,3,7);
+ ctx.fillStyle="#302a2a";ctx.beginPath();ctx.arc(11,-14,.8,0,Math.PI*2);ctx.fill();
+ ctx.strokeStyle="#d8bd80";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(1,-7);ctx.lineTo(8,-1);ctx.stroke();
+ ctx.restore();
 }
 
 function drawSectArchitecture(time){
-  const buildings=[
-    // Hậu cảnh: năm công trình cân xứng qua trục chính điện, giữ nhịp xen kẽ.
-    {x:250,y:190,s:.43,title:"TỤ LINH THÁP",type:"tower",accent:"#39766e",phase:.2},
-    {x:380,y:190,s:.45,title:"TÀNG KINH CÁC",type:"scripture",accent:"#8c6043",phase:1.1},
-    {x:550,y:190,s:.76,title:"LĂNG TIÊU CHÍNH ĐIỆN",type:"main",accent:"#9d4939",phase:2.2},
-    {x:720,y:190,s:.45,title:"TÀNG BẢO CÁC",type:"treasure",accent:"#b68a43",phase:3.3},
-    {x:850,y:190,s:.43,title:"BÁCH THẢO CÁC",type:"herb",accent:"#648653",phase:4.4},
-
-    // Trung cảnh: hai cặp điện đối xứng, chừa hành lang thoáng quanh trục giữa.
-    {x:220,y:326,s:.48,title:"GIẢNG ĐẠO CÁC",type:"lecture",accent:"#577d83",phase:.7},
-    {x:420,y:326,s:.49,title:"ĐAN CÁC",type:"alchemy",accent:"#9e543b",phase:1.8},
-    {x:680,y:326,s:.49,title:"LUYỆN KHÍ ĐIỆN",type:"forge",accent:"#82604a",phase:2.9},
-    {x:880,y:326,s:.48,title:"QUAN TINH LÂU",type:"observatory",accent:"#536c91",phase:4},
-
-    // Tiền cảnh: giữ năm vị trí so le; toàn bộ mái và biển hiệu tránh vùng cổng đích.
-    {x:250,y:444,s:.36,title:"BẾ QUAN ĐỘNG PHỦ",type:"cave",accent:"#536b62",phase:1.4},
-    {x:400,y:444,s:.37,title:"ĐỆ TỬ VIỆN",type:"academy",accent:"#66817a",phase:2.5},
-    {x:550,y:444,s:.39,title:"TRẬN PHÁP CÁC",type:"array",accent:"#4f7b83",phase:3.6},
-    {x:700,y:444,s:.37,title:"HỘ SƠN TRẬN CÁC",type:"guardian",accent:"#527e88",phase:4.7},
-    {x:850,y:444,s:.36,title:"NGOẠI VỤ ĐIỆN",type:"foreign",accent:"#916c48",phase:5.8}
-  ];
-
-  // Hai kiếm tu lướt qua tầng mái xa, tạo chiều sâu nhưng không che biển hiệu.
-
-
-  buildings.forEach((b,index)=>{
-    const bob=Math.sin(time*.00072+b.phase)*1.65;
-    const drift=Math.sin(time*.00042+b.phase)*.65;
-    drawSectMountainLedge(b.x,b.y,b.s);
-    drawSectPavilion(b.x+drift,b.y-5+bob,b.s,"",b.type,b.accent);
-    drawSectBuildingLifeFx(time,b);
-    drawSectNpcLife(time,b);
-
-    // Hạ biển hiệu sát mái hơn; vùng an toàn trước trụ cổng đích xấp xỉ 964.
-    const labelY=b.y-5-156*b.s;
-    ctx.save();
-    ctx.textAlign="center";ctx.textBaseline="middle";ctx.lineJoin="round";
-    ctx.font="bold "+(index===2?18.5:15.5)+"px Arial, sans-serif";
-    // Reset toàn bộ trạng thái đổ bóng/lọc kế thừa trước khi vẽ chữ biển hiệu.
-    ctx.globalAlpha=1;ctx.globalCompositeOperation="source-over";
-    ctx.shadowColor="transparent";ctx.shadowBlur=0;
-    ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;ctx.filter="none";
-    // Viền tối ôm sát chữ để giữ tương phản khi biển hiệu trùng màu nền.
-    ctx.lineJoin="round";
-    // Một nét viền xanh đen mảnh, sắc; giữ lòng chữ sáng và không tạo quầng mờ.
-    const labelMaxWidth=Math.min(210,250*b.s+38);
-    ctx.lineJoin="round";ctx.miterLimit=2;
-    ctx.lineWidth=index===2?2.8:2.2;
-    ctx.strokeStyle="#17251f";
-    ctx.strokeText(b.title,b.x,labelY,labelMaxWidth);
-    ctx.fillStyle=index===2?"#ffe8ad":"#fff3d0";
-    ctx.fillText(b.title,b.x,labelY,labelMaxWidth);
-    ctx.restore();
-  });
+ const buildings=[
+  {x:250,y:190,s:.43,title:"TỤ LINH THÁP",type:"tower",accent:"#39766e",phase:.2},
+  {x:380,y:190,s:.45,title:"TÀNG KINH CÁC",type:"scripture",accent:"#8c6043",phase:1.1},
+  {x:550,y:190,s:.76,title:"LĂNG TIÊU CHÍNH ĐIỆN",type:"main",accent:"#9d4939",phase:2.2},
+  {x:720,y:190,s:.45,title:"TÀNG BẢO CÁC",type:"treasure",accent:"#b68a43",phase:3.3},
+  {x:850,y:190,s:.43,title:"BÁCH THẢO CÁC",type:"herb",accent:"#648653",phase:4.4},
+  {x:220,y:326,s:.48,title:"GIẢNG ĐẠO CÁC",type:"lecture",accent:"#577d83",phase:.7},
+  {x:420,y:326,s:.49,title:"ĐAN CÁC",type:"alchemy",accent:"#9e543b",phase:1.8},
+  {x:680,y:326,s:.49,title:"LUYỆN KHÍ ĐIỆN",type:"forge",accent:"#82604a",phase:2.9},
+  {x:880,y:326,s:.48,title:"QUAN TINH LÂU",type:"observatory",accent:"#536c91",phase:4},
+  {x:250,y:444,s:.36,title:"BẾ QUAN ĐỘNG PHỦ",type:"cave",accent:"#536b62",phase:1.4},
+  {x:400,y:444,s:.37,title:"ĐỆ TỬ VIỆN",type:"academy",accent:"#66817a",phase:2.5},
+  {x:550,y:444,s:.39,title:"TRẬN PHÁP CÁC",type:"array",accent:"#4f7b83",phase:3.6},
+  {x:700,y:444,s:.37,title:"HỘ SƠN TRẬN CÁC",type:"guardian",accent:"#527e88",phase:4.7},
+  {x:850,y:444,s:.36,title:"NGOẠI VỤ ĐIỆN",type:"foreign",accent:"#916c48",phase:5.8}
+ ];
+ buildings.forEach((b,index)=>{
+  const bob=Math.sin(time*.00072+b.phase)*1.65,drift=Math.sin(time*.00042+b.phase)*.65;
+  const originX=b.x+drift,originY=b.y-5+bob;
+  drawSectMountainLedge(b.x,b.y,b.s);
+  drawSectPavilion(originX,originY,b.s,"",b.type,b.accent);
+  drawSectBuildingLifeFx(time,{...b,x:originX,y:b.y});
+  drawSectNpcLife(time,b,originX,originY);
+  const labelY=b.y-5-156*b.s;
+  ctx.save();ctx.textAlign="center";ctx.textBaseline="middle";ctx.lineJoin="round";
+  ctx.font="bold "+(index===2?18.5:15.5)+"px Arial, sans-serif";
+  ctx.globalAlpha=1;ctx.globalCompositeOperation="source-over";ctx.shadowColor="transparent";ctx.shadowBlur=0;
+  ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;ctx.filter="none";
+  const labelMaxWidth=Math.min(210,250*b.s+38);
+  ctx.miterLimit=2;ctx.lineWidth=index===2?2.8:2.2;ctx.strokeStyle="#17251f";
+  ctx.strokeText(b.title,b.x,labelY,labelMaxWidth);
+  ctx.fillStyle=index===2?"#ffe8ad":"#fff3d0";ctx.fillText(b.title,b.x,labelY,labelMaxWidth);
+  ctx.restore();
+ });
+ // Chỉ hai kiếm tu có thể lơ lửng; thân nghiêng, phi kiếm và vệt bay rõ.
+ drawSectFlyingNpc(time,315,268,1.3);drawSectFlyingNpc(time,785,286,4.2);
 }
-  // Vẽ kiếm tu sau kiến trúc để không bị các mái nhà che khuất.
-  drawSectFlyingNpc(time,315,268,1.3);drawSectFlyingNpc(time,785,286,4.2);
 
 /* Nước trôi chậm, đều: giữ nguyên hình lòng sông và chỉ giảm tốc vân mặt nước. */
 function drawRiverCurrent(time){
