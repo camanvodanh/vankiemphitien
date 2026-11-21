@@ -780,3 +780,11 @@
 - Bảo vệ cả camera thường và cảnh mini trao giải sau khi cuộc đua hoàn tất; không thay đổi trình tự/cảnh trao thưởng chính.
 - Khi render camera thất bại, ngắt âm hiệu ứng đang bám cảnh để tránh âm không còn hình.
 - Cache: `race-logic.js race-phase1-v215`, `race-render.js race-phase1-v186`.
+
+
+## 127. Hoạt ảnh sinh động cho kiến trúc tiên môn (Giai đoạn 1)
+- Giữ nguyên bố cục, vị trí, kích thước và thiết kế của 14 tòa hiện tại.
+- `drawSectBuildingLifeFx(time,b)` gọi trong frame phong cảnh, không tạo loop riêng.
+- Tàng Kinh Các: sách linh lực; Tụ Linh Tháp/Tàng Bảo Các: kiếm linh quang; Bách Thảo Các: linh diệp; Đan Các/Luyện Khí Điện: khói lò, tia lửa thưa; Quan Tinh Lâu: vòng thiên cơ và tinh điểm; Trận Pháp/Hộ Sơn Trận: phù văn chuyển động; các lầu khác: linh quang dịu.
+- Dùng time/phase, hoạt ảnh nhẹ, chi tiết giới hạn, không particle random, không tác động gameplay/camera.
+- Cache `visual-overrides.js` `race-phase1-v233`.
