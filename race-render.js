@@ -623,7 +623,7 @@ function render(time){
     if(finished){
       drawPodiumScene(ctx,time,false);
       drawParticles();
-      drawCamera(time);
+      drawCameraSafely(time);
       updateRanking();
       return;
     }
@@ -640,7 +640,7 @@ function render(time){
     drawRacers(time);
     drawAnnouncement();
     drawParticles();
-    drawCamera(time);
+    drawCameraSafely(time);
     updateRanking();
   } finally {
     ctx.restore();
