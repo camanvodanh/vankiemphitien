@@ -816,3 +816,11 @@
 - NPC được đặt sâu bên trong nội thất và chỉ nhìn thấy qua cửa/khung cửa; phải clip trong vùng cửa để không xuyên cột, tường hoặc mái.
 - Mỗi công trình chỉ hiển thị nhân vật phù hợp công năng, có ánh sáng nội thất nhẹ tạo chiều sâu.
 - Không gọi các hàm vẽ NPC ngoài trời/ngự kiếm trong cảnh kiến trúc; hoạt ảnh nội thất dùng timestamp game loop hiện có.
+
+
+## 132. Tiên Môn Sinh Động — Giai đoạn 3: NPC sinh hoạt theo công năng
+- Giữ nguyên bố cục và 14 công trình; NPC chỉ xuất hiện sâu bên trong cửa, được clip trong khung cửa, không đứng mái/ban công hoặc bay ngoài trời.
+- Mỗi công trình có hành vi riêng theo vai trò: chính điện/giảng đạo truyền pháp, tụ linh/bế quan tĩnh tọa, tàng kinh đọc sách, tàng bảo/hộ sơn/trận pháp tuần thủ, bách thảo/đan các/luyện khí thao tác, quan tinh quan sát thiên tượng, đệ tử viện luyện kiếm và ngoại vụ đi lại.
+- Bổ sung chuyển động tay, đạo cụ và linh quang tương ứng cho truyền pháp, làm việc, tĩnh tọa, quan sát; tăng kích thước NPC trong cửa để dễ nhận diện nhưng vẫn nằm trong vùng clip.
+- Dùng timestamp game loop hiện tại; không tạo timer/loop riêng, không random mỗi frame, không thay đổi gameplay/camera/âm thanh.
+- Cache: visual-overrides.js race-phase1-v239, data-loader.js data-driven-v201, index.html data-driven-v201.
