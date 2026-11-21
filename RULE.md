@@ -809,3 +809,10 @@
 - NPC đứng trên mặt sàn ban công/mái có thật; tọa độ chân phải dùng cùng gốc dịch chuyển/bập bềnh với công trình. Có bóng tiếp xúc và lan can hợp lý.
 - Chỉ tu sĩ ngự kiếm mới được lơ lửng; phải có tư thế nghiêng theo hướng bay, phi kiếm và vệt kiếm quang rõ.
 - Hoạt ảnh NPC dùng timestamp của game loop hiện có; không tạo vòng lặp/particle riêng và không ảnh hưởng gameplay.
+
+
+## 4. Quy chuẩn vị trí NPC — chỉ ở bên trong công trình
+- Không vẽ NPC đứng trên mái, ban công, trước mặt tiền hoặc lơ lửng ngoài các tòa lầu.
+- NPC được đặt sâu bên trong nội thất và chỉ nhìn thấy qua cửa/khung cửa; phải clip trong vùng cửa để không xuyên cột, tường hoặc mái.
+- Mỗi công trình chỉ hiển thị nhân vật phù hợp công năng, có ánh sáng nội thất nhẹ tạo chiều sâu.
+- Không gọi các hàm vẽ NPC ngoài trời/ngự kiếm trong cảnh kiến trúc; hoạt ảnh nội thất dùng timestamp game loop hiện có.
