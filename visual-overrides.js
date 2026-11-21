@@ -2788,6 +2788,21 @@ function drawAnnouncement(){
 /* PHASE 2 — TIÊN MÔN: QUẦN THỂ KIẾN TRÚC, DÒNG SÔNG VÀ NHẬN DIỆN CẤP BẬC.
  * Chỉ thay lớp trình bày; không đụng tới gameplay hoặc thứ tự cảnh giới.
  */
+/* GIAI ĐOẠN 1: hoạt ảnh lầu, dùng chung frame game. */
+function drawSectBuildingLifeFx(time,b){
+  const t=time*.001,phase=b.phase||0,pulse=.5+.5*Math.sin(t*1.35+phase);
+  ctx.save();ctx.translate(b.x,b.y-5+Math.sin(time*.00072+phase)*1.65);ctx.scale(b.s,b.s);ctx.globalCompositeOperation="lighter";
+  ctx.fillStyle="rgba(255,218,133,"+(.12+.16*pulse)+")";for(const x of [-34,-18,18,34]){ctx.fillRect(x-2,-62,4,8);ctx.fillRect(x-2,-34,4,8);}
+  if(b.type==="scripture"){for(let i=0;i<2;i++){const x=(i?25:-25)+Math.sin(t*.65+phase+i)*5,y=-83+Math.sin(t*1.1+phase+i*2)*7;ctx.save();ctx.translate(x,y);ctx.rotate(Math.sin(t*.7+phase+i)*.12);ctx.fillStyle=i?"#75d9e6":"#e7c875";ctx.fillRect(-7,-4,14,8);ctx.fillStyle="#fff2c0";ctx.fillRect(-5,-2,10,1.5);ctx.restore();}}
+  else if(b.type==="tower"||b.type==="treasure"){for(let i=0;i<2;i++){const a=t*.42+phase+i*Math.PI,x=Math.cos(a)*43,y=-53+Math.sin(a)*17;ctx.save();ctx.translate(x,y);ctx.rotate(a+.9);ctx.fillStyle="rgba(180,230,255,"+(.35+.3*pulse)+")";ctx.beginPath();ctx.moveTo(0,-10);ctx.lineTo(2.5,2);ctx.lineTo(0,7);ctx.lineTo(-2.5,2);ctx.closePath();ctx.fill();ctx.restore();}}
+  else if(b.type==="herb"){for(let i=0;i<4;i++){const x=-30+i*20,y=-35-(i%2)*9;ctx.save();ctx.translate(x,y);ctx.rotate(Math.sin(t*.8+phase+i)*.22);ctx.fillStyle="rgba(165,228,156,.6)";ctx.beginPath();ctx.ellipse(0,0,4,8,0,0,Math.PI*2);ctx.fill();ctx.restore();}}
+  else if(b.type==="alchemy"||b.type==="forge"){for(let i=0;i<3;i++){const rise=(t*.18+i*.34)%1,x=Math.sin(t*.5+phase+i)*7,y=-78-rise*33,r=4+rise*5;ctx.globalAlpha=(1-rise)*.16;ctx.fillStyle="#d9d5c5";ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.arc(x+r*.65,y-r*.3,r*.75,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=.35+.35*pulse;ctx.fillStyle="#ffd58b";for(let i=0;i<2;i++){const x=Math.sin(t*1.7+phase+i*3)*20,y=-12-((t*.65+i*.47)%1)*34;ctx.fillRect(x,y,2,3);}}
+  else if(b.type==="observatory"){ctx.strokeStyle="rgba(155,203,255,"+(.18+.22*pulse)+")";ctx.lineWidth=1.6;ctx.beginPath();ctx.ellipse(0,-91,29,8,t*.22,0,Math.PI*2);ctx.stroke();for(let i=0;i<4;i++){const a=t*.32+i*Math.PI/2,x=Math.cos(a)*28,y=-91+Math.sin(a)*8;ctx.fillStyle="#d9edff";ctx.beginPath();ctx.arc(x,y,1.8,0,Math.PI*2);ctx.fill();}}
+  else if(b.type==="array"||b.type==="guardian"){ctx.strokeStyle="rgba(157,225,232,"+(.18+.24*pulse)+")";ctx.lineWidth=1.4;ctx.beginPath();ctx.arc(0,-42,25,t*.14+phase,t*.14+phase+Math.PI*1.6);ctx.stroke();for(let i=0;i<4;i++){const a=t*.24+phase+i*Math.PI/2,x=Math.cos(a)*25,y=-42+Math.sin(a)*25;ctx.fillStyle="#bcecff";ctx.fillRect(x-1.5,y-1.5,3,3);}}
+  else{const x=Math.sin(t*.55+phase)*23,y=-116-Math.sin(t*.8+phase)*3;ctx.fillStyle="rgba(255,232,173,"+(.18+.25*pulse)+")";ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);ctx.fill();}
+  ctx.restore();
+}
+
 function drawSectArchitecture(time){
   const buildings=[
     // Hậu cảnh: năm công trình cân xứng qua trục chính điện, giữ nhịp xen kẽ.
@@ -2816,6 +2831,7 @@ function drawSectArchitecture(time){
     const drift=Math.sin(time*.00042+b.phase)*.65;
     drawSectMountainLedge(b.x,b.y,b.s);
     drawSectPavilion(b.x+drift,b.y-5+bob,b.s,"",b.type,b.accent);
+    drawSectBuildingLifeFx(time,b);
 
     // Hạ biển hiệu sát mái hơn; vùng an toàn trước trụ cổng đích xấp xỉ 964.
     const labelY=b.y-5-156*b.s;
