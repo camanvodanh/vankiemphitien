@@ -788,3 +788,11 @@
 - Tàng Kinh Các: sách linh lực; Tụ Linh Tháp/Tàng Bảo Các: kiếm linh quang; Bách Thảo Các: linh diệp; Đan Các/Luyện Khí Điện: khói lò, tia lửa thưa; Quan Tinh Lâu: vòng thiên cơ và tinh điểm; Trận Pháp/Hộ Sơn Trận: phù văn chuyển động; các lầu khác: linh quang dịu.
 - Dùng time/phase, hoạt ảnh nhẹ, chi tiết giới hạn, không particle random, không tác động gameplay/camera.
 - Cache `visual-overrides.js` `race-phase1-v233`.
+
+
+## 128. Tiên Môn Sinh Động — Giai đoạn 2: NPC mái/ban công
+- Bổ sung các tu sĩ/đệ tử/ trưởng lão/nhân vật theo chức năng đứng trên mái và ban công 14 công trình: học đạo, đọc sách, luyện đan, luyện khí, chăm linh thảo, hộ vệ, quan tinh và đệ tử sinh hoạt.
+- Đạo bào, màu viền, búi tóc/phụ kiện và tư thế phân biệt vai trò; chuyển động tay, thân và nhịp đứng nhẹ theo thời gian.
+- Thêm hai tu sĩ ngự kiếm lướt ngang tầng mái xa, có vệt kiếm quang ngắn.
+- Vẽ bằng Canvas trong frame phong cảnh hiện tại; số NPC cố định, không particle/random hoặc vòng animation riêng; không đổi bố cục, gameplay, camera hay biển hiệu.
+- Cache: `visual-overrides.js` `race-phase1-v234`.
