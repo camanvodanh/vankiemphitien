@@ -2825,24 +2825,25 @@ function drawSectNpc(time,x,y,scale,role,phase){
   ctx.restore();
 }
 function drawSectNpcLife(time,b){
+  // Đặt chân NPC đúng trên mép ban công/mái; kích thước cố định để nhìn rõ ở cả công trình xa.
   const spots={
-    main:[[-24,-108,"elder"],[24,-108,"disciple"]],
-    tower:[[0,-118,"disciple"]],
-    scripture:[[-22,-92,"scholar"],[24,-70,"disciple"]],
-    treasure:[[0,-92,"guard"]],
-    herb:[[-24,-73,"herb"],[24,-73,"herb"]],
-    lecture:[[-28,-77,"scholar"],[0,-77,"disciple"],[28,-77,"scholar"]],
-    alchemy:[[0,-79,"alchemy"],[24,-57,"disciple"]],
-    forge:[[0,-79,"forge"],[-25,-57,"forge"]],
-    observatory:[[0,-105,"scholar"]],
-    cave:[[0,-72,"disciple"]],
-    academy:[[-26,-70,"disciple"],[0,-70,"disciple"],[26,-70,"disciple"]],
-    array:[[0,-78,"guard"]],
-    guardian:[[0,-78,"elder"]],
-    foreign:[[0,-76,"disciple"]]
+    main:[[-23,-78,"elder"],[23,-78,"disciple"]],
+    tower:[[0,-79,"disciple"]],
+    scripture:[[-20,-77,"scholar"],[21,-70,"disciple"]],
+    treasure:[[0,-77,"guard"]],
+    herb:[[-22,-70,"herb"],[22,-70,"herb"]],
+    lecture:[[-28,-72,"scholar"],[0,-72,"disciple"],[28,-72,"scholar"]],
+    alchemy:[[0,-72,"alchemy"],[23,-62,"disciple"]],
+    forge:[[0,-72,"forge"],[-24,-62,"forge"]],
+    observatory:[[0,-78,"scholar"]],
+    cave:[[0,-64,"disciple"]],
+    academy:[[-26,-66,"disciple"],[0,-66,"disciple"],[26,-66,"disciple"]],
+    array:[[0,-68,"guard"]],
+    guardian:[[0,-68,"elder"]],
+    foreign:[[0,-66,"disciple"]]
   };
   const list=spots[b.type]||[];
-  list.forEach((p,i)=>drawSectNpc(time,b.x+p[0]*b.s,b.y-5+p[1]*b.s,b.s*1.12,p[2],b.phase+i*1.7));
+  list.forEach((p,i)=>drawSectNpc(time,b.x+p[0]*b.s,b.y-5+p[1]*b.s,.76,p[2],b.phase+i*1.7));
 }
 function drawSectFlyingNpc(time,x,y,phase){
   const t=time*.001+phase,dx=Math.sin(t*.55)*8,dy=Math.sin(t*.9)*3;
@@ -2877,7 +2878,7 @@ function drawSectArchitecture(time){
   ];
 
   // Hai kiếm tu lướt qua tầng mái xa, tạo chiều sâu nhưng không che biển hiệu.
-  drawSectFlyingNpc(time,315,268,1.3);drawSectFlyingNpc(time,785,286,4.2);
+
 
   buildings.forEach((b,index)=>{
     const bob=Math.sin(time*.00072+b.phase)*1.65;
@@ -2909,6 +2910,8 @@ function drawSectArchitecture(time){
     ctx.restore();
   });
 }
+  // Vẽ kiếm tu sau kiến trúc để không bị các mái nhà che khuất.
+  drawSectFlyingNpc(time,315,268,1.3);drawSectFlyingNpc(time,785,286,4.2);
 
 /* Nước trôi chậm, đều: giữ nguyên hình lòng sông và chỉ giảm tốc vân mặt nước. */
 function drawRiverCurrent(time){
