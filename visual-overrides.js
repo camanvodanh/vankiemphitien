@@ -2803,6 +2803,56 @@ function drawSectBuildingLifeFx(time,b){
   ctx.restore();
 }
 
+/* GIAI ĐOẠN 2: NPC tiên môn trên mái/ban công; vẽ bằng Canvas, không loop riêng. */
+function drawSectNpc(time,x,y,scale,role,phase){
+  const t=time*.001+phase, sway=Math.sin(t*.85)*1.5, gesture=Math.sin(t*1.25)*3;
+  ctx.save();ctx.translate(x+sway,y);ctx.scale(scale,scale);
+  const robes=role==="elder"?"#d7c6a0":role==="alchemy"?"#a94c36":role==="forge"?"#7e5340":role==="herb"?"#668b55":role==="guard"?"#506b91":role==="disciple"?"#3f8179":role==="scholar"?"#7867a0":"#6d8c9a";
+  const trim=role==="elder"?"#e8cc83":"#d7b76e";
+  // Bóng chân và thân đạo bào.
+  ctx.globalAlpha=.75;ctx.fillStyle="#15221e";ctx.beginPath();ctx.ellipse(0,1,9,2.5,0,0,Math.PI*2);ctx.fill();
+  ctx.globalAlpha=1;ctx.fillStyle=robes;ctx.beginPath();ctx.moveTo(-5,-19);ctx.lineTo(-8,-8);ctx.lineTo(-10,0);ctx.lineTo(10,0);ctx.lineTo(8,-8);ctx.lineTo(5,-19);ctx.closePath();ctx.fill();
+  ctx.strokeStyle=trim;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(0,-18);ctx.lineTo(0,-2);ctx.moveTo(-6,-8);ctx.lineTo(6,-8);ctx.stroke();
+  // Tay áo; động tác nhỏ khác nhau theo vị trí.
+  ctx.strokeStyle=robes;ctx.lineWidth=4;ctx.lineCap="round";
+  ctx.beginPath();ctx.moveTo(-4,-16);ctx.lineTo(-10,-12+gesture*.25);ctx.moveTo(4,-16);ctx.lineTo(9,-12-gesture*.25);ctx.stroke();
+  ctx.fillStyle="#e6c5a0";ctx.beginPath();ctx.arc(0,-23,5.5,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#30251f";ctx.beginPath();ctx.arc(0,-25,5.6,Math.PI,Math.PI*2);ctx.fill();ctx.fillRect(-5,-25,10,2);
+  ctx.fillStyle=trim;ctx.fillRect(-1,-30,2,5);ctx.fillRect(-3,-31,6,2);
+  if(role==="elder"){ctx.fillStyle="#ddd4c3";ctx.fillRect(-4,-22,8,2);ctx.fillRect(-2,-20,4,3);}
+  if(role==="scholar"){ctx.fillStyle="#e8d9aa";ctx.fillRect(-8,-12,6,5);ctx.fillRect(2,-12,6,5);}
+  if(role==="alchemy"){ctx.fillStyle="#f2a25c";ctx.fillRect(-2,-3,4,2);}
+  ctx.restore();
+}
+function drawSectNpcLife(time,b){
+  const spots={
+    main:[[-24,-108,"elder"],[24,-108,"disciple"]],
+    tower:[[0,-118,"disciple"]],
+    scripture:[[-22,-92,"scholar"],[24,-70,"disciple"]],
+    treasure:[[0,-92,"guard"]],
+    herb:[[-24,-73,"herb"],[24,-73,"herb"]],
+    lecture:[[-28,-77,"scholar"],[0,-77,"disciple"],[28,-77,"scholar"]],
+    alchemy:[[0,-79,"alchemy"],[24,-57,"disciple"]],
+    forge:[[0,-79,"forge"],[-25,-57,"forge"]],
+    observatory:[[0,-105,"scholar"]],
+    cave:[[0,-72,"disciple"]],
+    academy:[[-26,-70,"disciple"],[0,-70,"disciple"],[26,-70,"disciple"]],
+    array:[[0,-78,"guard"]],
+    guardian:[[0,-78,"elder"]],
+    foreign:[[0,-76,"disciple"]]
+  };
+  const list=spots[b.type]||[];
+  list.forEach((p,i)=>drawSectNpc(time,b.x+p[0]*b.s,b.y-5+p[1]*b.s,b.s*1.12,p[2],b.phase+i*1.7));
+}
+function drawSectFlyingNpc(time,x,y,phase){
+  const t=time*.001+phase,dx=Math.sin(t*.55)*8,dy=Math.sin(t*.9)*3;
+  ctx.save();ctx.translate(x+dx,y+dy);ctx.globalCompositeOperation="lighter";
+  ctx.strokeStyle="rgba(147,224,241,.42)";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(-12,5);ctx.lineTo(-3,2);ctx.lineTo(12,0);ctx.stroke();
+  ctx.restore();
+  drawSectNpc(time,x+dx,y+dy,1.0,"disciple",phase);
+  ctx.save();ctx.translate(x+dx,y+dy+8);ctx.rotate(Math.sin(t*.7)*.12);ctx.fillStyle="#9bd9f2";ctx.beginPath();ctx.moveTo(-12,0);ctx.lineTo(0,-2);ctx.lineTo(14,0);ctx.lineTo(0,2);ctx.closePath();ctx.fill();ctx.restore();
+}
+
 function drawSectArchitecture(time){
   const buildings=[
     // Hậu cảnh: năm công trình cân xứng qua trục chính điện, giữ nhịp xen kẽ.
@@ -2826,12 +2876,16 @@ function drawSectArchitecture(time){
     {x:850,y:444,s:.36,title:"NGOẠI VỤ ĐIỆN",type:"foreign",accent:"#916c48",phase:5.8}
   ];
 
+  // Hai kiếm tu lướt qua tầng mái xa, tạo chiều sâu nhưng không che biển hiệu.
+  drawSectFlyingNpc(time,315,268,1.3);drawSectFlyingNpc(time,785,286,4.2);
+
   buildings.forEach((b,index)=>{
     const bob=Math.sin(time*.00072+b.phase)*1.65;
     const drift=Math.sin(time*.00042+b.phase)*.65;
     drawSectMountainLedge(b.x,b.y,b.s);
     drawSectPavilion(b.x+drift,b.y-5+bob,b.s,"",b.type,b.accent);
     drawSectBuildingLifeFx(time,b);
+    drawSectNpcLife(time,b);
 
     // Hạ biển hiệu sát mái hơn; vùng an toàn trước trụ cổng đích xấp xỉ 964.
     const labelY=b.y-5-156*b.s;
