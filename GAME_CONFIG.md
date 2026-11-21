@@ -1048,3 +1048,12 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Điều chỉnh NPC đứng đúng mép mái/ban công, tăng kích thước hiển thị độc lập với tỉ lệ công trình để không bị quá nhỏ ở các lầu xa.
 - Đưa hai tu sĩ ngự kiếm lên lớp vẽ sau kiến trúc để không bị mái nhà che.
 - Tăng cache `visual-overrides.js` lên `race-phase1-v235`, `data-loader.js` lên `data-driven-v197` và cập nhật query trong `index.html` để trình duyệt tải lại bộ nạp mới.
+
+
+## 130. Hoàn thiện NPC tiên môn — tạo hình, vị trí và hoạt động
+- Thay NPC hình người tối giản bằng nhân vật Canvas có khuôn mặt (mắt, chân mày, mũi, miệng), tóc búi/trâm, cổ áo giao lĩnh, đạo bào nhiều lớp, đai lưng, tay, chân, giày và phụ kiện. Màu sắc phân biệt trưởng lão, đan sư, luyện khí, linh thảo, hộ vệ, học sĩ, tạp dịch, ngoại môn, nội môn và nòng cốt.
+- Đặt chân NPC trực tiếp lên sàn hiên; dùng cùng originX/originY với mái đã chuyển động để không lệch khỏi kiến trúc. Bổ sung bóng tiếp xúc và lan can hai bên.
+- Bố trí hoạt động theo công trình: đọc sách, chăm linh thảo, luyện đan/luyện khí, hộ vệ, đi lại và luyện kiếm. Hoạt ảnh dùng game loop hiện tại, số lượng cố định, không tạo timer/loop riêng.
+- Hai NPC bay được vẽ riêng với thân nghiêng, áo choàng, phi kiếm và vệt bay; không dùng tư thế đứng thẳng lơ lửng.
+- Không đổi bố cục 14 công trình, gameplay, camera, bảng xếp hạng hoặc âm thanh.
+- Cache: `visual-overrides.js` `race-phase1-v236`, `data-loader.js` `data-driven-v198`, `index.html` `data-driven-v198`.
