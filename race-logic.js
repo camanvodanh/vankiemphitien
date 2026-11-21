@@ -649,6 +649,39 @@ function drawCamera(time){
 }
 
 
+// CAMERA FAIL-SAFE — lỗi cảnh camera không được làm ngưng render game.
+// Khung camera được phục hồi trạng thái Canvas và tự thử dựng lại ở frame kế.
+function drawCameraSafely(time){
+ try{
+  drawCamera(time);
+  window.__vkCameraRenderFailures=0;
+ }catch(error){
+  window.__vkCameraRenderFailures=(window.__vkCameraRenderFailures||0)+1;
+  try{
+   cameraCtx.setTransform(1,0,0,1,0,0);
+   cameraCtx.globalAlpha=1;
+   cameraCtx.globalCompositeOperation="source-over";
+   cameraCtx.filter="none";
+   cameraCtx.clearRect(0,0,cameraCanvas.width,cameraCanvas.height);
+   const w=cameraCanvas.width,h=cameraCanvas.height;
+   const gradient=cameraCtx.createLinearGradient(0,0,0,h);
+   gradient.addColorStop(0,"#294d68");gradient.addColorStop(1,"#17362e");
+   cameraCtx.fillStyle=gradient;cameraCtx.fillRect(0,0,w,h);
+   cameraCtx.textAlign="center";cameraCtx.textBaseline="middle";
+   cameraCtx.fillStyle="#f5dfaa";cameraCtx.font="bold 17px Georgia";
+   cameraCtx.fillText("THIÊN LÝ KÍNH",w/2,h/2-12);
+   cameraCtx.font="12px Arial";cameraCtx.fillStyle="#d9e5d7";
+   cameraCtx.fillText("Đang khôi phục hình ảnh…",w/2,h/2+16);
+  }catch(fallbackError){}
+  if(window.VKPAudio)window.VKPAudio.setCameraEffect(null);
+  if(!window.__vkCameraRenderErrorLogged){
+   window.__vkCameraRenderErrorLogged=true;
+   console.error("Thiên Lý Kính gặp lỗi render; đã phục hồi Canvas và tự thử lại:",error);
+  }
+ }
+}
+
+
 function formatRankingTime(seconds){
  const totalMilliseconds=Math.max(0,Math.round(Number(seconds||0)*1000));
  const minutes=Math.floor(totalMilliseconds/60000);
