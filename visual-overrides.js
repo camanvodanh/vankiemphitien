@@ -2805,7 +2805,7 @@ function drawSectBuildingLifeFx(time,b){
   ctx.restore();
 }
 
-/* GIAI ĐOẠN 2 — NPC CÓ DIỆN MẠO, ĐỨNG TRÊN BAN CÔNG THỰC.
+/* GIAI ĐOẠN 2 — TẠO HÌNH NPC PHÂN CẤP, DÙNG LẠI CHO NỘI THẤT.
  * Cùng gốc chuyển động với công trình; chân đặt trên sàn hiên.
  */
 const SECT_NPC_STYLE={
@@ -2843,6 +2843,10 @@ function drawSectNpc(time,x,footY,scale,role,phase,activity="idle"){
  ctx.strokeStyle=st.robe;ctx.lineWidth=5.2;ctx.lineCap="round";ctx.beginPath();
  if(activity==="read"){ctx.moveTo(-4,-29);ctx.lineTo(-10,-24);ctx.lineTo(-5,-19);ctx.moveTo(4,-29);ctx.lineTo(9,-24);ctx.lineTo(5,-19);}
  else if(activity==="practice"){ctx.moveTo(-4,-29);ctx.lineTo(-11,-25+arm*.3);ctx.lineTo(-8,-18);ctx.moveTo(4,-29);ctx.lineTo(12,-35-arm*.35);ctx.lineTo(15,-39);}
+ else if(activity==="teach"){ctx.moveTo(-4,-29);ctx.lineTo(-10,-24);ctx.lineTo(-8,-19);ctx.moveTo(4,-29);ctx.lineTo(11,-35+arm*.25);ctx.lineTo(13,-43+arm*.25);}
+ else if(activity==="work"){ctx.moveTo(-4,-29);ctx.lineTo(-11,-24+arm*.35);ctx.lineTo(-7,-16);ctx.moveTo(4,-29);ctx.lineTo(10,-23-arm*.35);ctx.lineTo(7,-15);}
+ else if(activity==="meditate"){ctx.moveTo(-4,-29);ctx.lineTo(-7,-23);ctx.lineTo(0,-19);ctx.moveTo(4,-29);ctx.lineTo(7,-23);ctx.lineTo(0,-19);}
+ else if(activity==="observe"){ctx.moveTo(-4,-29);ctx.lineTo(-10,-24);ctx.lineTo(-7,-19);ctx.moveTo(4,-29);ctx.lineTo(10,-34-arm*.25);ctx.lineTo(12,-39-arm*.25);}
  else if(activity==="guard"){ctx.moveTo(-4,-29);ctx.lineTo(-10,-24);ctx.lineTo(-9,-17);ctx.moveTo(4,-29);ctx.lineTo(9,-24);ctx.lineTo(9,-15);}
  else{ctx.moveTo(-4,-29);ctx.lineTo(-10,-24+arm*.2);ctx.lineTo(-8,-20);ctx.moveTo(4,-29);ctx.lineTo(10,-24-arm*.2);ctx.lineTo(8,-20);}
  ctx.stroke();ctx.fillStyle=st.skin;ctx.beginPath();ctx.arc(-7,-19,2.2,0,Math.PI*2);ctx.arc(7,-19,2.2,0,Math.PI*2);ctx.fill();
@@ -2862,12 +2866,17 @@ function drawSectNpc(time,x,footY,scale,role,phase,activity="idle"){
  if(role==="guard"){ctx.fillStyle="#354b6b";ctx.beginPath();ctx.moveTo(-8,-46);ctx.lineTo(-6,-52);ctx.lineTo(6,-52);ctx.lineTo(8,-46);ctx.closePath();ctx.fill();ctx.strokeStyle=st.trim;ctx.lineWidth=1;ctx.stroke();}
  if(role==="scholar"||activity==="read"){ctx.fillStyle="#f1dfb2";ctx.fillRect(-7,-17,14,7);ctx.strokeStyle="#9c7449";ctx.lineWidth=.8;ctx.strokeRect(-7,-17,14,7);ctx.beginPath();ctx.moveTo(-4,-15);ctx.lineTo(4,-15);ctx.stroke();}
  if(activity==="practice"){ctx.strokeStyle="#dcebf0";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(13,-38);ctx.lineTo(23,-51);ctx.stroke();ctx.strokeStyle="#e8c77c";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(11,-37);ctx.lineTo(15,-34);ctx.stroke();}
+ if(activity==="teach"){ctx.strokeStyle=st.trim;ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(14,-44);ctx.lineTo(19,-50);ctx.stroke();ctx.fillStyle="#fff0bd";ctx.beginPath();ctx.arc(20,-51,1.6,0,Math.PI*2);ctx.fill();}
+ if(activity==="work"){ctx.strokeStyle=st.trim;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(-9,-17);ctx.lineTo(-14,-12);ctx.stroke();ctx.fillStyle="#ffd58b";ctx.beginPath();ctx.arc(-15,-12,2,0,Math.PI*2);ctx.fill();}
+ if(activity==="meditate"){ctx.strokeStyle="#9be7df";ctx.lineWidth=1;ctx.beginPath();ctx.arc(0,-25,11+Math.sin(t*1.4)*1.2,Math.PI*1.08,Math.PI*1.92);ctx.stroke();}
+ if(activity==="observe"){ctx.strokeStyle="#c8e8ff";ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(13,-42);ctx.lineTo(19,-49);ctx.stroke();ctx.fillStyle="#eaf7ff";ctx.fillRect(18,-51,2,2);}
  if(role==="alchemy"||role==="forge"){ctx.fillStyle="#ffcf79";ctx.beginPath();ctx.arc(0,-6,1.5,0,Math.PI*2);ctx.fill();}
  if(role==="herb"){ctx.fillStyle="#8dcf79";ctx.beginPath();ctx.ellipse(9,-16,2,5,.65,0,Math.PI*2);ctx.fill();}
  ctx.restore();
 }
 
-/* NPC chỉ xuất hiện BÊN TRONG kiến trúc, nhìn thấy qua cửa chính.
+/* GIAI ĐOẠN 3 — NPC SINH HOẠT THEO CÔNG NĂNG TỪNG ĐIỆN.
+ * NPC chỉ xuất hiện BÊN TRONG kiến trúc, nhìn thấy qua cửa chính.
  * Không còn NPC đứng trên mái/ban công hoặc bay lơ lửng bên ngoài.
  */
 function drawSectInteriorNpc(time,type){
@@ -2878,15 +2887,14 @@ function drawSectInteriorNpc(time,type){
   guardian:["elder"],foreign:["servant"]
  };
  const role=(roles[type]||["disciple"])[0];
- const action=type==="scripture"||type==="lecture"||type==="observatory"?"read":
-  type==="alchemy"||type==="forge"||type==="herb"?"work":
-  type==="guardian"||type==="treasure"||type==="tower"?"guard":"idle";
+ const actions={main:"teach",tower:"meditate",scripture:"read",treasure:"guard",herb:"work",lecture:"teach",alchemy:"work",forge:"work",observatory:"observe",cave:"meditate",academy:"practice",array:"guard",guardian:"guard",foreign:"walk"};
+ const action=actions[type]||"idle";
  // Cửa là vùng tối ở giữa mặt tiền. Clip đảm bảo NPC luôn nằm sau khung cửa,
  // không thể vẽ tràn lên cột, tường hoặc mái.
  ctx.save();
  ctx.beginPath();ctx.rect(-12.5,-47,25,37);ctx.clip();
  ctx.fillStyle="rgba(255,210,125,.12)";ctx.fillRect(-12,-46,24,35);
- const interiorScale=type==="main"?.53:.48;
+ const interiorScale=type==="main"?.62:.58;
  drawSectNpc(time,0,-10,interiorScale,role,type.length*.73,action);
  // Ánh đèn ấm phía trong tạo chiều sâu.
  const glow=ctx.createRadialGradient(0,-28,1,0,-28,17);
