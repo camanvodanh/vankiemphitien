@@ -1057,3 +1057,11 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Hai NPC bay được vẽ riêng với thân nghiêng, áo choàng, phi kiếm và vệt bay; không dùng tư thế đứng thẳng lơ lửng.
 - Không đổi bố cục 14 công trình, gameplay, camera, bảng xếp hạng hoặc âm thanh.
 - Cache: `visual-overrides.js` `race-phase1-v236`, `data-loader.js` `data-driven-v198`, `index.html` `data-driven-v198`.
+
+
+## 131. NPC chuyển hoàn toàn vào bên trong lầu các
+- Xóa NPC khỏi mái, ban công, mặt tiền và bầu trời; không còn tu sĩ bay trong lớp kiến trúc.
+- Vẽ NPC ở sâu trong cửa chính từng công trình, clip chính xác trong vùng cửa (local x=-12.5..12.5, y=-47..-10), đứng sau khung/cột mặt tiền.
+- Chọn vai trò theo công năng: trưởng lão ở chính điện/hộ sơn, học sĩ ở tàng kinh/giảng đạo/quan tinh, đan sư ở đan các, luyện khí ở luyện khí điện, linh thảo ở bách thảo các, hộ vệ ở tàng bảo/trận pháp.
+- Giữ ánh sáng nội thất ấm và nhẹ; không thay đổi bố cục 14 công trình, gameplay, camera, âm thanh hoặc các hệ thống khác.
+- Cache: `visual-overrides.js` `race-phase1-v237`, `data-loader.js` `data-driven-v199`, `index.html` `data-driven-v199`.
