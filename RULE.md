@@ -824,3 +824,12 @@
 - Bổ sung chuyển động tay, đạo cụ và linh quang tương ứng cho truyền pháp, làm việc, tĩnh tọa, quan sát; tăng kích thước NPC trong cửa để dễ nhận diện nhưng vẫn nằm trong vùng clip.
 - Dùng timestamp game loop hiện tại; không tạo timer/loop riêng, không random mỗi frame, không thay đổi gameplay/camera/âm thanh.
 - Cache: visual-overrides.js race-phase1-v239, data-loader.js data-driven-v201, index.html data-driven-v201.
+
+
+## 133. Tiên Môn Sinh Động — Giai đoạn 4: Hoạt động đặc trưng
+- Tụ Linh Tháp: thêm các dải khí linh lực chảy/tuần hoàn dọc tháp, chuyển động chậm, mờ nhẹ.
+- Đan Các: viên đan/điểm linh quang xoay quanh vòng luyện đan trên lò, ánh sáng nhịp theo khí lò.
+- Luyện Khí Điện: thêm lóe sáng đường kiếm/kim loại khi rèn, giữ tia lửa thưa và ngắn.
+- Đệ Tử Viện: thêm vệt kiếm khí ngắn cho động tác luyện kiếm, hai nhịp lệch pha, không dày đặc.
+- Hiệu ứng dùng timestamp game loop, số lượng cố định, không random, không loop/timer riêng; giữ nguyên vị trí/tỉ lệ 14 công trình và NPC trong cửa, không đổi gameplay/camera/âm thanh.
+- Cache: visual-overrides.js race-phase1-v240, data-loader.js data-driven-v202, index.html data-driven-v202.
