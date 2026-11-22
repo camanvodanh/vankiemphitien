@@ -1072,3 +1072,12 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Các hoạt động hỗ trợ: đọc sách, luyện kiếm, truyền pháp, thao tác/làm việc, tĩnh tọa, quan sát thiên tượng, hộ vệ và đi lại.
 - NPC luôn bị clip trong cửa chính, không được xuất hiện trên mái, ban công hoặc ngoài trời. Không thay đổi bố cục, gameplay hay camera.
 - Cache: visual-overrides.js race-phase1-v239, data-loader.js data-driven-v201, index.html data-driven-v201.
+
+
+## 133. Tiên Môn Sinh Động — Giai đoạn 4: Hoạt động đặc trưng
+- Tụ Linh Tháp: thêm các dải khí linh lực chảy/tuần hoàn dọc tháp, chuyển động chậm, mờ nhẹ.
+- Đan Các: viên đan/điểm linh quang xoay quanh vòng luyện đan trên lò, ánh sáng nhịp theo khí lò.
+- Luyện Khí Điện: thêm lóe sáng đường kiếm/kim loại khi rèn, giữ tia lửa thưa và ngắn.
+- Đệ Tử Viện: thêm vệt kiếm khí ngắn cho động tác luyện kiếm, hai nhịp lệch pha, không dày đặc.
+- Hiệu ứng dùng timestamp game loop, số lượng cố định, không random, không loop/timer riêng; giữ nguyên vị trí/tỉ lệ 14 công trình và NPC trong cửa, không đổi gameplay/camera/âm thanh.
+- Cache: visual-overrides.js race-phase1-v240, data-loader.js data-driven-v202, index.html data-driven-v202.
