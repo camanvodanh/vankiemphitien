@@ -2257,24 +2257,34 @@ function drawSectGuardianArray(time){
   ctx.restore();
  };
 
- // Tám phù ấn Bát Quái phân bố quanh kết giới, mỗi ấn có vòng cánh sen.
- const seals=[];
+ // Tám phù ấn được đặt trực tiếp trên đường cong kết giới.
+ // Tọa độ lấy từ chính hai đường Bezier của vòm, không dùng ellipse ước lượng.
+ const bezier=(a,b,c,d,u)=>({
+  x:(1-u)**3*a.x+3*(1-u)**2*u*b.x+3*(1-u)*u*u*c.x+u**3*d.x,
+  y:(1-u)**3*a.y+3*(1-u)**2*u*b.y+3*(1-u)*u*u*c.y+u**3*d.y
+ });
+ const bezierTangent=(a,b,c,d,u)=>({
+  x:3*(1-u)**2*(b.x-a.x)+6*(1-u)*u*(c.x-b.x)+3*u*u*(d.x-c.x),
+  y:3*(1-u)**2*(b.y-a.y)+6*(1-u)*u*(c.y-b.y)+3*u*u*(d.y-c.y)
+ });
+ const left=[{x:8,y:570},{x:8,y:235},{x:205,y:12},{x:550,y:10}];
+ const right=[{x:550,y:10},{x:895,y:12},{x:1092,y:235},{x:1092,y:570}];
  for(let i=0;i<8;i++){
-  const a=-Math.PI*.82+i*(Math.PI*1.64/7);
-  seals.push({x:550+Math.cos(a)*500,y:290+Math.sin(a)*265,a});
- }
- seals.forEach((p,i)=>{
-  ctx.save();ctx.translate(p.x,p.y);ctx.rotate(-p.a*.18+t*.025*(i%2?1:-1));
+  const u=(i+1)/9,curve=u<.5?left:right,local=u<.5?u*2:(u-.5)*2;
+  const p=bezier(...curve,local),tan=bezierTangent(...curve,local);
+  const angle=Math.atan2(tan.y,tan.x);
+  ctx.save();ctx.translate(p.x,p.y);ctx.rotate(angle+t*.012*(i%2?1:-1));
   ctx.shadowColor="#9fffee";ctx.shadowBlur=8;
-  ctx.strokeStyle="rgba(255,225,159,"+(.48+.2*pulse)+")";ctx.lineWidth=1.5;
-  ctx.beginPath();ctx.arc(0,0,17,0,Math.PI*2);ctx.stroke();
-  ctx.strokeStyle="rgba(132,237,225,.55)";ctx.beginPath();ctx.arc(0,0,22,0,Math.PI*2);ctx.stroke();
+  ctx.strokeStyle="rgba(255,225,159,"+(.52+.2*pulse)+")";ctx.lineWidth=1.6;
+  ctx.beginPath();ctx.arc(0,0,15,0,Math.PI*2);ctx.stroke();
+  ctx.strokeStyle="rgba(132,237,225,.65)";ctx.beginPath();ctx.arc(0,0,19,0,Math.PI*2);ctx.stroke();
   for(let j=0;j<8;j++){
-   const a=j*Math.PI/4;ctx.save();ctx.rotate(a);ctx.beginPath();ctx.ellipse(0,-26,3,7,0,0,Math.PI*2);ctx.stroke();ctx.restore();
+   ctx.save();ctx.rotate(j*Math.PI/4);ctx.beginPath();ctx.ellipse(0,-22,2.5,6,0,0,Math.PI*2);ctx.stroke();ctx.restore();
   }
   ctx.restore();
-  drawRune(p.x,p.y,0.72,t*.08+i*.7,.78);
- });
+  // Phù văn nằm ngay trên đường viền, cùng phương tiếp tuyến của kết giới.
+  drawRune(p.x,p.y,.58,angle+t*.018,.9);
+ }
 
  // Trận nhãn dựng trụ linh quang, phù lục và vòng phong ấn xoay chậm.
  nodes.forEach((p,i)=>{
@@ -2296,11 +2306,11 @@ function drawSectGuardianArray(time){
   ctx.strokeStyle="rgba(255,232,177,.9)";ctx.lineWidth=1.8;
   ctx.beginPath();ctx.moveTo(0,-13);ctx.lineTo(9,0);ctx.lineTo(0,13);ctx.lineTo(-9,0);ctx.closePath();ctx.stroke();
   ctx.beginPath();ctx.arc(0,0,4,0,Math.PI*2);ctx.stroke();ctx.restore();
-  // Phù lục nhỏ treo dưới mỗi trận nhãn.
-  ctx.save();ctx.translate(p.x+13,p.y+26);ctx.rotate(Math.sin(t*.7+i)*.07);
-  ctx.fillStyle="rgba(48,73,77,.62)";ctx.fillRect(-5,-10,10,22);
-  ctx.strokeStyle="rgba(255,220,145,.8)";ctx.lineWidth=.8;ctx.strokeRect(-5,-10,10,22);
-  ctx.restore();drawRune(p.x+13,p.y+26,.35,t*.12+i,.9);
+  // Phù lục gắn ngay trên trận nhãn, không treo lơ lửng ngoài kết giới.
+  ctx.save();ctx.translate(p.x,p.y);ctx.rotate(Math.atan2(p.y-center.y,p.x-center.x)+Math.PI/2);
+  ctx.fillStyle="rgba(48,73,77,.78)";ctx.fillRect(-4,-9,8,18);
+  ctx.strokeStyle="rgba(255,220,145,.9)";ctx.lineWidth=.9;ctx.strokeRect(-4,-9,8,18);
+  ctx.restore();drawRune(p.x,p.y,.30,t*.12+i,.95);
  });
 
  // Trận tâm: nhiều vòng pháp luân xoay ngược chiều, Bát Quái và phù văn trung tâm.
