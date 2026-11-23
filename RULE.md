@@ -875,3 +875,9 @@
 - Loại bỏ quầng mặt trời cố định cũ khỏi nền trời để tránh vòng sáng chói chiếu xuống khu vực Tàng Bảo Các.
 - Mặt trời và mặt trăng dùng quỹ đạo riêng theo chu kỳ ngày–đêm; mặt trăng mọc phía phải, lên cao giữa đêm và lặn phía trái lúc bình minh.
 - Thiên thể được vẽ ngay sau nền trời, trước núi, toàn bộ lầu các và biển tên; các hiệu ứng đèn lồng/thời tiết vẫn ở lớp phù hợp phía trước.
+
+
+## Quỹ đạo mặt trời và mặt trăng
+- Mặt trời mọc phía trái, đi theo cung cong lên cao giữa ban ngày rồi lặn phía phải.
+- Mặt trăng mọc phía phải lúc hoàng hôn, lên cao giữa đêm và lặn phía trái gần bình minh; hình đĩa có sắc độ và chi tiết bề mặt.
+- Thiên thể được vẽ sau núi/mây để không bị địa hình che mất, nhưng trước sông, lầu các và biển tên để luôn nằm sau kiến trúc.
