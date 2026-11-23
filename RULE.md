@@ -858,4 +858,4 @@
 - Đèn lồng tại hiên 14 công trình tự phát sáng khi trời tối và tăng ánh sáng ấm vào lúc chạng vạng.
 - Thời tiết luân phiên theo các đợt dài: trời quang, sương mỏng, mưa nhẹ và tuyết thưa; gió thể hiện bằng các vệt lướt nhẹ. Không dùng hạt ngẫu nhiên.
 - Renderer `drawSectTimeWeather(time)` chạy trong frame phong cảnh hiện tại, không tạo timer/loop riêng; không thay đổi gameplay, thứ hạng hoặc camera.
-- Cache: `visual-overrides.js?v=race-phase1-v244`.
+- Cache: `visual-overrides.js?v=race-phase1-v245`.
