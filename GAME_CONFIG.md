@@ -1104,3 +1104,13 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Thời tiết luân phiên theo các đợt dài: trời quang, sương mỏng, mưa nhẹ và tuyết thưa; gió thể hiện bằng các vệt lướt nhẹ. Không dùng hạt ngẫu nhiên.
 - Renderer `drawSectTimeWeather(time)` chạy trong frame phong cảnh hiện tại, không tạo timer/loop riêng; không thay đổi gameplay, thứ hạng hoặc camera.
 - Cache: `visual-overrides.js?v=race-phase1-v245`.
+
+
+## Giai đoạn 10 — Linh khí và ánh sáng tương tác môi trường
+- Loại bỏ họa tiết vòng tròn phát sáng giống mặt trời ở mặt trước Tàng Bảo Các; không tạo thêm mặt trời vì chu kỳ thiên thể đã thuộc Giai đoạn 9.
+- Thêm vệt bắt sáng mảnh trên diềm mái 14 công trình, thay đổi sắc độ theo hướng và thời điểm mặt trời trong chu kỳ Giai đoạn 9.
+- Ánh sáng nội thất hắt nhẹ qua cửa, tăng sắc vàng ấm khi trời tối.
+- Bổ sung các vệt phản chiếu linh quang ngắn trên mặt sông, chuyển động chậm và có cường độ theo ngày/đêm.
+- Ánh sáng đại trận hộ sơn hòa vào môi trường bằng viền vòm và quầng trận tâm mờ; không vẽ lại mặt trời hoặc kết cấu trận.
+- Renderer `drawSectAmbientLight(time)` dùng timestamp game loop, không timer/particle riêng; không thay đổi gameplay, camera hoặc bố cục.
+- Cache: `visual-overrides.js?v=race-phase1-v246`.
