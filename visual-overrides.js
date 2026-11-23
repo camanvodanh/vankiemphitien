@@ -792,16 +792,72 @@ function drawRiver(time) {
 
 // Rừng tầng tầng trên sườn núi và hai mép cảnh; tuyệt đối tránh dải sông.
 function drawDenseForest(time){
-  // Chỉ giữ vài cụm thông nhỏ sát mép khung; không trồng cây/bụi cỏ
-  // trên quảng trường hoặc phía trước hàng đệ tử.
-  const clusters=[
-    {x:8,y:438,s:.58},{x:48,y:452,s:.46},
-    {x:1092,y:438,s:.58},{x:1052,y:452,s:.46}
+  // Bóng cây đổ mềm trên sườn cỏ, nằm dưới thân cây và không tràn vào sân đua.
+  const trees=[
+    {x:8,y:438,s:.58,phase:.2},{x:48,y:452,s:.46,phase:1.8},
+    {x:1092,y:438,s:.58,phase:3.4},{x:1052,y:452,s:.46,phase:5.1}
   ];
-  clusters.forEach((p,i)=>{
-    const sway=Math.sin(time*.00055+i*1.8)*1.1;
-    drawPine(p.x+sway,p.y,p.s);
-  });
+  ctx.save();
+  for(let i=0;i<trees.length;i++){
+    const p=trees[i],wind=Math.sin(time*.00055+p.phase);
+    ctx.fillStyle="rgba(20,35,27,.22)";
+    ctx.beginPath();
+    ctx.ellipse(p.x+18*p.s, p.y+31*p.s, 43*p.s, 8*p.s, -.08, 0, Math.PI*2);
+    ctx.fill();
+    // Thân cây nghiêng rất nhẹ quanh gốc; biên độ thấp để không rung cảnh.
+    ctx.save();
+    ctx.translate(p.x,p.y);
+    ctx.rotate(wind*.012);
+    drawPine(0,0,p.s, i%2?"#355f49":"#315b45");
+    ctx.restore();
+  }
+  ctx.restore();
+}
+
+// Giai đoạn 11: sinh khí sơn môn — cỏ, lá và cánh hoa theo gió.
+// Số lượng cố định, chuyển động xác định từ timestamp game loop.
+function drawSectLivingLandscape(time){
+  const t=Number.isFinite(time)?time:0;
+  const wind=Math.sin(t*.00032)*.55+Math.sin(t*.00013)*.35;
+  ctx.save();
+  ctx.lineCap="round";
+
+  // Cỏ thấp mọc ở hai rìa địa hình; không đặt lên quảng trường/đường đua.
+  for(let side=0;side<2;side++){
+    const start=side===0?0:970;
+    for(let i=0;i<26;i++){
+      const x=start+i*5.7+(side?0:0);
+      const baseY=470+(i%4)*4;
+      const sway=wind*(2.2+(i%3)*.8)+Math.sin(t*.0011+i*1.7)*1.1;
+      const h=5+(i%5)*1.7;
+      ctx.strokeStyle=i%3===0?"rgba(151,190,119,.78)":"rgba(76,132,91,.76)";
+      ctx.lineWidth=i%4===0?1.5:1;
+      ctx.beginPath();ctx.moveTo(x,baseY);ctx.quadraticCurveTo(x+sway*.45,baseY-h*.65,x+sway,baseY-h);ctx.stroke();
+    }
+  }
+
+  // Lá tùng rời và cánh hoa đào bay lượn chậm theo các luồng gió.
+  for(let i=0;i<18;i++){
+    const progress=(t*.000035+i/18)%1;
+    const x=-25+progress*(W+50);
+    const band=i%3;
+    const y=355+band*43+Math.sin(t*.00075+i*2.1)*12+Math.sin(progress*Math.PI*2+i)*5;
+    const rot=t*.0008+i*1.37;
+    ctx.save();ctx.translate(x,y);ctx.rotate(rot);
+    if(i%3===0){
+      // Lá xanh hình thoi nhỏ, có gân mảnh.
+      ctx.fillStyle="rgba(112,166,105,.78)";
+      ctx.beginPath();ctx.moveTo(0,-5);ctx.quadraticCurveTo(6,-2,4,2);ctx.quadraticCurveTo(0,6,-4,2);ctx.quadraticCurveTo(-6,-2,0,-5);ctx.fill();
+      ctx.strokeStyle="rgba(213,230,174,.62)";ctx.lineWidth=.65;ctx.beginPath();ctx.moveTo(0,-4);ctx.lineTo(0,4);ctx.stroke();
+    }else{
+      // Cánh hoa đào hồng nhạt, dáng cánh thuôn thay vì hạt tròn.
+      ctx.fillStyle=i%2?"rgba(255,190,202,.82)":"rgba(244,151,177,.78)";
+      ctx.beginPath();ctx.moveTo(0,-5);ctx.bezierCurveTo(5,-4,5,2,0,5);ctx.bezierCurveTo(-5,2,-5,-4,0,-5);ctx.fill();
+      ctx.fillStyle="rgba(255,239,225,.7)";ctx.beginPath();ctx.arc(0,-1,1.1,0,Math.PI*2);ctx.fill();
+    }
+    ctx.restore();
+  }
+  ctx.restore();
 }
 
 // Chim chỉ lượn trên sườn núi ở hai hành lang ngoài đường đua.
@@ -2407,6 +2463,7 @@ function drawScenery(time){
   drawSectCelestial(time); // Hiện rõ trên nền núi/mây nhưng luôn trước kiến trúc và biển tên.
   drawRiver(time);
   drawDenseForest(time);
+  drawSectLivingLandscape(time);
   // Đại trận hộ sơn nằm sau quần thể lầu các, không che kiến trúc.
   drawSectGuardianArray(time);
   // Lầu các nằm nguyên vẹn ở lớp sau; pháp bảo được đặt sát mép trái ngoài cụm điện.
