@@ -833,3 +833,11 @@
 - Đệ Tử Viện: thêm vệt kiếm khí ngắn cho động tác luyện kiếm, hai nhịp lệch pha, không dày đặc.
 - Hiệu ứng dùng timestamp game loop, số lượng cố định, không random, không loop/timer riêng; giữ nguyên vị trí/tỉ lệ 14 công trình và NPC trong cửa, không đổi gameplay/camera/âm thanh.
 - Cache: visual-overrides.js race-phase1-v240, data-loader.js data-driven-v202, index.html data-driven-v202.
+
+
+## 134. Tiên Sơn có chiều sâu — Giai đoạn 5
+- Bổ sung lớp vân vụ mỏng chuyển động chậm ngang các tầng núi, độ tương phản thấp để không che kiến trúc/đệ tử.
+- Bổ sung hai thác nước nhỏ ở rìa cảnh, có dải nước nhiều lớp, vệt chảy nhẹ và sương chân thác; không đi xuyên các công trình.
+- Thêm đường vân sống núi mảnh ở các sườn, giữ bố cục núi và 14 công trình hiện tại.
+- Hiệu ứng lấy timestamp game loop, số dải/đường cố định; không tạo timer, vòng lặp riêng, random mỗi frame hoặc thay đổi gameplay/camera/âm thanh.
+- Cache: visual-overrides.js race-phase1-v241, data-loader.js data-driven-v203, index.html data-driven-v203.
