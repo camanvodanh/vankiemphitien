@@ -2078,10 +2078,84 @@ function drawMountainRange(){
   ctx.restore();
 }
 
+// =====================================================
+// GIAI ĐOẠN 5 — TIÊN SƠN CÓ CHIỀU SÂU: THẠC, VÂN, VÂN VỤ, VÂN LĨNH
+// =====================================================
+function drawLandscapeDepth(time){
+  ctx.save();
+  // Vân vụ mỏng lướt ngang các tầng núi xa, chuyển động chậm và ít tương phản.
+  const mistShift=(time*.008)%260;
+  for(let band=0;band<3;band++){
+    const y=354+band*54;
+    const x=-260+mistShift+band*95;
+    const mist=ctx.createLinearGradient(x,y,x+420,y);
+    mist.addColorStop(0,"rgba(224,241,226,0)");
+    mist.addColorStop(.35,"rgba(225,242,229,.13)");
+    mist.addColorStop(.7,"rgba(234,245,231,.10)");
+    mist.addColorStop(1,"rgba(224,241,226,0)");
+    ctx.fillStyle=mist;
+    ctx.beginPath();
+    ctx.moveTo(x,y);ctx.bezierCurveTo(x+95,y-13,x+145,y+9,x+235,y-3);
+    ctx.bezierCurveTo(x+305,y-15,x+350,y+10,x+420,y);
+    ctx.lineTo(x+420,y+15);ctx.bezierCurveTo(x+320,y+23,x+285,y+5,x+205,y+18);
+    ctx.bezierCurveTo(x+110,y+25,x+65,y+5,x,y+15);ctx.closePath();ctx.fill();
+  }
+
+  // Vân thác nằm sát vách núi ở hai mép cảnh, không cắt qua kiến trúc.
+  const waterfalls=[
+    {x:128,top:330,bottom:516,w:15,phase:0},
+    {x:1032,top:342,bottom:516,w:13,phase:2.2}
+  ];
+  waterfalls.forEach((f,index)=>{
+    const mid=f.x+(index===0?9:-8);
+    const flow=(time*.045+f.phase*19)%54;
+    // Màn nước xanh ngọc nhạt, có lớp bóng và viền sáng.
+    ctx.globalAlpha=.76;
+    const water=ctx.createLinearGradient(f.x-f.w,0,f.x+f.w,0);
+    water.addColorStop(0,"rgba(108,174,174,.08)");
+    water.addColorStop(.25,"rgba(177,233,228,.65)");
+    water.addColorStop(.58,"rgba(226,251,244,.78)");
+    water.addColorStop(1,"rgba(91,159,162,.12)");
+    ctx.fillStyle=water;
+    ctx.beginPath();ctx.moveTo(f.x-f.w*.55,f.top);
+    ctx.bezierCurveTo(f.x-f.w,f.top+45,mid-f.w*.65,f.top+80,mid,f.bottom);
+    ctx.bezierCurveTo(mid+f.w*.65,f.bottom-46,f.x+f.w,f.top+45,f.x+f.w*.55,f.top);
+    ctx.closePath();ctx.fill();
+    ctx.globalAlpha=.72;
+    ctx.strokeStyle="rgba(241,255,249,.72)";ctx.lineWidth=1.5;
+    for(let s=0;s<4;s++){
+      const sx=f.x-f.w*.45+s*f.w*.3;
+      const offset=(flow+s*17)%50;
+      ctx.beginPath();ctx.moveTo(sx,f.top+offset);
+      ctx.bezierCurveTo(sx-2,f.top+offset+22,sx+2,f.top+offset+42,sx+(s-1.5)*1.5,f.top+offset+61);
+      ctx.stroke();
+    }
+    ctx.globalAlpha=1;
+    // Sương chân thác, khuếch tán nhẹ trên nền vách.
+    const fog=ctx.createRadialGradient(mid,f.bottom-2,2,mid,f.bottom-2,42);
+    fog.addColorStop(0,"rgba(222,248,239,.30)");
+    fog.addColorStop(1,"rgba(222,248,239,0)");
+    ctx.fillStyle=fog;ctx.fillRect(mid-44,f.bottom-35,88,70);
+  });
+
+  // Vân đá và đường sống núi; giữ nét mảnh để không làm rối cảnh.
+  ctx.globalAlpha=.18;
+  ctx.strokeStyle="#e8eddb";ctx.lineWidth=2;
+  const ridges=[
+    [82,408,120,450,145,474],[178,392,202,432,238,454],
+    [925,405,954,445,986,470],[1054,396,1080,436,1112,460],
+    [302,367,330,405,356,424],[820,368,850,408,878,426]
+  ];
+  ridges.forEach(r=>{ctx.beginPath();ctx.moveTo(r[0],r[1]);ctx.quadraticCurveTo(r[2],r[3],r[4],r[5]);ctx.stroke();});
+  ctx.restore();
+}
+
+// =====================================================
 function drawScenery(time){
   ctx.save();ctx.globalAlpha=1;ctx.shadowBlur=0;
   drawSky(time);
   drawMountainRange();
+  drawLandscapeDepth(time);
   drawMovingClouds(time);
   drawRiver(time);
   drawDenseForest(time);
