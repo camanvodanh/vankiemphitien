@@ -2279,15 +2279,27 @@ function drawSectGuardianArray(time){
  });
  const left=[{x:8,y:570},{x:8,y:235},{x:205,y:12},{x:550,y:10}];
  const right=[{x:550,y:10},{x:895,y:12},{x:1092,y:235},{x:1092,y:570}];
- // Mười sáu cụm chữ triện chạy sát đường viền, cùng phương với nét kết giới.
- for(let i=0;i<16;i++){
-  const u=(i+1)/17,curve=u<.5?left:right,local=u<.5?u*2:(u-.5)*2;
-  const p=bezier(...curve,local),tan=bezierTangent(...curve,local),angle=Math.atan2(tan.y,tan.x);
-  drawInscription(p.x,p.y,.52,angle,.62+.18*pulse,i);
-  ctx.save();ctx.translate(p.x,p.y);ctx.rotate(angle);
-  ctx.strokeStyle="rgba(255,225,159,.32)";ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(-12,0);ctx.lineTo(-9,0);ctx.moveTo(9,0);ctx.lineTo(12,0);ctx.stroke();ctx.restore();
- }
+ // Mười cụm chữ triện được chuyển khỏi các góc viền,
+ // đính chìm vào mặt trong của vòm kết giới, dọc theo thân đại trận.
+ const inscriptionSlots=[
+  {side:0,u:.18},{side:0,u:.36},{side:0,u:.56},{side:0,u:.76},{side:0,u:.91},
+  {side:1,u:.09},{side:1,u:.24},{side:1,u:.44},{side:1,u:.64},{side:1,u:.82}
+ ];
+ inscriptionSlots.forEach((slot,i)=>{
+  const curve=slot.side===0?left:right;
+  const p=bezier(...curve,slot.u),tan=bezierTangent(...curve,slot.u);
+  const length=Math.hypot(tan.x,tan.y)||1;
+  // Pháp văn nằm phía trong mái vòm, không tràn ra ngoài mép khung.
+  const x=p.x-(tan.y/length)*19;
+  const y=p.y+(tan.x/length)*19;
+  const angle=Math.atan2(tan.y,tan.x);
+  drawInscription(x,y,.56,angle,.68+.16*pulse,i);
+  // Hai nét nối ngắn khiến chữ trông như được khắc liền trên mạch kết giới.
+  ctx.save();ctx.translate(x,y);ctx.rotate(angle);
+  ctx.strokeStyle="rgba(255,225,159,.38)";ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(-13,0);ctx.lineTo(-9,0);ctx.moveTo(9,0);ctx.lineTo(13,0);ctx.stroke();
+  ctx.restore();
+ });
  // Chữ phù nhỏ được khắc dọc bảy kinh mạch nối trận nhãn với trận tâm.
  nodes.forEach((p,i)=>{
   const u=.48,control={x:(p.x+center.x)*.5+(i%2?22:-22),y:(p.y+center.y)*.5-18};
