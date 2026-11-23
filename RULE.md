@@ -850,3 +850,12 @@
 - Gọi trực tiếp trong `drawScenery(time)`, trước `drawSectArchitecture(time)`; không tạo timer, particle ngẫu nhiên hoặc vòng lặp độc lập.
 - Chỉ thay đổi lớp trình bày Canvas; không tác động gameplay, camera, thứ hạng hay thông số đua.
 - Cache `visual-overrides.js`: `race-phase1-v243`.
+
+
+## Giai đoạn 9 — Hệ thống thời gian và thời tiết
+- Thêm chu kỳ cảnh theo thời gian: bình minh, ban ngày, hoàng hôn và ban đêm; ánh sáng phủ nhẹ thay đổi trên toàn cảnh, giúp núi và mái ngói đổi sắc theo thời điểm.
+- Mặt trời di chuyển theo chu kỳ; ban đêm có trăng, sao nhấp nháy và đom đóm với số lượng cố định.
+- Đèn lồng tại hiên 14 công trình tự phát sáng khi trời tối và tăng ánh sáng ấm vào lúc chạng vạng.
+- Thời tiết luân phiên theo các đợt dài: trời quang, sương mỏng, mưa nhẹ và tuyết thưa; gió thể hiện bằng các vệt lướt nhẹ. Không dùng hạt ngẫu nhiên.
+- Renderer `drawSectTimeWeather(time)` chạy trong frame phong cảnh hiện tại, không tạo timer/loop riêng; không thay đổi gameplay, thứ hạng hoặc camera.
+- Cache: `visual-overrides.js?v=race-phase1-v244`.
