@@ -889,3 +889,11 @@
 - Tất cả chuyển động dùng timestamp game loop, số lượng phần tử cố định, không random mỗi frame, không tạo timer/loop riêng.
 - Hiệu ứng được vẽ trong lớp cảnh quan phía sau kiến trúc và biển tên; giữ nguyên bố cục, gameplay, camera và NPC.
 - Cache: visual-overrides.js race-phase1-v249.
+
+
+## Điều chỉnh chu kỳ ngày đêm và mở rộng hộ sơn đại trận
+- Một vòng ngày–đêm kéo dài 4 phút: ban ngày đúng 2 phút và ban đêm đúng 2 phút; bình minh/hoàng hôn là các đoạn chuyển tiếp ngắn nằm trong từng nửa chu kỳ.
+- Mặt trời chuyển động trong nửa ban ngày; mặt trăng chuyển động ngược chiều trong nửa ban đêm. Ánh sáng môi trường, đèn lồng và sắc độ cảnh đồng bộ với cùng chu kỳ.
+- Mở rộng vòm hộ sơn đại trận gần sát bốn mép khung game, điều chỉnh trận nhãn, kinh tuyến/vĩ tuyến và đường viền ánh sáng theo phạm vi mới.
+- Không thay đổi gameplay, camera, kích thước Canvas hoặc vị trí 14 công trình.
+- Cache: visual-overrides.js race-phase1-v250.
