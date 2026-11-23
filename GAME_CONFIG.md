@@ -1126,3 +1126,10 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Mặt trời mọc phía trái, đi theo cung cong lên cao giữa ban ngày rồi lặn phía phải.
 - Mặt trăng mọc phía phải lúc hoàng hôn, lên cao giữa đêm và lặn phía trái gần bình minh; hình đĩa có sắc độ và chi tiết bề mặt.
 - Thiên thể được vẽ sau núi/mây để không bị địa hình che mất, nhưng trước sông, lầu các và biển tên để luôn nằm sau kiến trúc.
+
+
+## Giai đoạn 11 — Sinh khí cảnh quan tiên môn
+- Cây tùng ở hai rìa địa hình có bóng đổ tiếp xúc và thân/tán nghiêng nhẹ theo gió.
+- Cỏ thấp, lá xanh và cánh hoa đào chuyển động chậm theo luồng gió; số lượng cố định, tính vị trí từ timestamp game loop, không tạo timer hoặc particle ngẫu nhiên.
+- Hiệu ứng chỉ bổ sung lớp cảnh quan, không thay đổi gameplay, camera, kiến trúc, biển tên hoặc khu vực đệ tử.
+- Cache: visual-overrides.js race-phase1-v249.
