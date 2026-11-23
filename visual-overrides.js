@@ -2101,42 +2101,7 @@ function drawLandscapeDepth(time){
     ctx.bezierCurveTo(x+110,y+25,x+65,y+5,x,y+15);ctx.closePath();ctx.fill();
   }
 
-  // Vân thác nằm sát vách núi ở hai mép cảnh, không cắt qua kiến trúc.
-  const waterfalls=[
-    {x:128,top:330,bottom:516,w:15,phase:0},
-    {x:1032,top:342,bottom:516,w:13,phase:2.2}
-  ];
-  waterfalls.forEach((f,index)=>{
-    const mid=f.x+(index===0?9:-8);
-    const flow=(time*.045+f.phase*19)%54;
-    // Màn nước xanh ngọc nhạt, có lớp bóng và viền sáng.
-    ctx.globalAlpha=.76;
-    const water=ctx.createLinearGradient(f.x-f.w,0,f.x+f.w,0);
-    water.addColorStop(0,"rgba(108,174,174,.08)");
-    water.addColorStop(.25,"rgba(177,233,228,.65)");
-    water.addColorStop(.58,"rgba(226,251,244,.78)");
-    water.addColorStop(1,"rgba(91,159,162,.12)");
-    ctx.fillStyle=water;
-    ctx.beginPath();ctx.moveTo(f.x-f.w*.55,f.top);
-    ctx.bezierCurveTo(f.x-f.w,f.top+45,mid-f.w*.65,f.top+80,mid,f.bottom);
-    ctx.bezierCurveTo(mid+f.w*.65,f.bottom-46,f.x+f.w,f.top+45,f.x+f.w*.55,f.top);
-    ctx.closePath();ctx.fill();
-    ctx.globalAlpha=.72;
-    ctx.strokeStyle="rgba(241,255,249,.72)";ctx.lineWidth=1.5;
-    for(let s=0;s<4;s++){
-      const sx=f.x-f.w*.45+s*f.w*.3;
-      const offset=(flow+s*17)%50;
-      ctx.beginPath();ctx.moveTo(sx,f.top+offset);
-      ctx.bezierCurveTo(sx-2,f.top+offset+22,sx+2,f.top+offset+42,sx+(s-1.5)*1.5,f.top+offset+61);
-      ctx.stroke();
-    }
-    ctx.globalAlpha=1;
-    // Sương chân thác, khuếch tán nhẹ trên nền vách.
-    const fog=ctx.createRadialGradient(mid,f.bottom-2,2,mid,f.bottom-2,42);
-    fog.addColorStop(0,"rgba(222,248,239,.30)");
-    fog.addColorStop(1,"rgba(222,248,239,0)");
-    ctx.fillStyle=fog;ctx.fillRect(mid-44,f.bottom-35,88,70);
-  });
+  // Thác nước đã được loại bỏ theo yêu cầu; giữ cảnh núi và vân vụ.
 
   // Vân đá và đường sống núi; giữ nét mảnh để không làm rối cảnh.
   ctx.globalAlpha=.18;
