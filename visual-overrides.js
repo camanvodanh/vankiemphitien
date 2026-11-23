@@ -417,7 +417,7 @@ function drawSectPavilion(x,y,scale,title,type,accent,time=0){
  }
  roof(-72,120,39,false);roof(-108,94,30,true);
  // Tên lầu được vẽ riêng ở tọa độ cố định trong drawSectArchitecture().
- if(type==="treasure"){ctx.strokeStyle="#f5d46f";ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,-25,30,0,Math.PI*2);ctx.stroke();for(const xx of [-22,5]){ctx.fillStyle="#a87932";ctx.fillRect(xx,-25,18,13);ctx.fillStyle="#f4d77d";ctx.fillRect(xx,-29,18,4);}for(const [xx,yy] of [[-13,-42],[12,-44],[0,-54]]){ctx.fillStyle="#8ce9ed";ctx.beginPath();ctx.moveTo(xx,yy-6);ctx.lineTo(xx+4,yy);ctx.lineTo(xx,yy+6);ctx.lineTo(xx-4,yy);ctx.closePath();ctx.fill();}}
+ if(type==="treasure"){for(const xx of [-22,5]){ctx.fillStyle="#a87932";ctx.fillRect(xx,-25,18,13);ctx.fillStyle="#f4d77d";ctx.fillRect(xx,-29,18,4);}for(const [xx,yy] of [[-13,-42],[12,-44],[0,-54]]){ctx.fillStyle="#8ce9ed";ctx.beginPath();ctx.moveTo(xx,yy-6);ctx.lineTo(xx+4,yy);ctx.lineTo(xx,yy+6);ctx.lineTo(xx-4,yy);ctx.closePath();ctx.fill();}}
  else if(type==="scripture"){for(let i=0;i<4;i++){ctx.fillStyle=["#a64b3e","#557d70","#d5b66f","#536e94"][i];ctx.fillRect(-35+i*18,-54,14,36);ctx.fillStyle="#e7d39a";ctx.fillRect(-33+i*18,-50,10,2);ctx.fillRect(-33+i*18,-42,10,1);}ctx.strokeStyle=gold;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-41,-58);ctx.lineTo(41,-58);ctx.moveTo(-41,-15);ctx.lineTo(41,-15);ctx.stroke();ctx.fillStyle="#f1dfae";ctx.fillRect(-7,-38,14,21);ctx.strokeRect(-7,-38,14,21);}
  else if(type==="herb"){for(let i=0;i<5;i++){const xx=-39+i*19;ctx.strokeStyle="#7c5d35";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(xx,-8);ctx.lineTo(xx,-43-(i%2)*7);ctx.stroke();ctx.fillStyle=i%2?"#77a66c":"#b3c47a";ctx.beginPath();ctx.ellipse(xx-4,-35-(i%2)*7,5,3,-.5,0,Math.PI*2);ctx.ellipse(xx+4,-29-(i%2)*7,5,3,.5,0,Math.PI*2);ctx.fill();}ctx.fillStyle="#74b9a0";ctx.fillRect(-46,-18,12,13);ctx.fillRect(34,-18,12,13);}
  else if(type==="main"){for(let i=0;i<5;i++){ctx.fillStyle="#d5b36d";ctx.fillRect(-31+i*15,-5,12,4);}ctx.fillStyle="#fff0b7";ctx.beginPath();ctx.arc(0,-120,4,0,Math.PI*2);ctx.fill();}
@@ -2297,6 +2297,79 @@ function drawSectTimeWeather(time){
  ctx.restore();
 }
 
+
+/* GIAI ĐOẠN 10 — linh khí và ánh sáng tương tác môi trường.
+ * Không vẽ thêm mặt trời; dùng chu kỳ thời gian Giai đoạn 9 để tính hướng/sắc sáng.
+ */
+function drawSectAmbientLight(time){
+ const t=Math.max(0,Number.isFinite(time)?time:0),cycle=(t%240000)/240000;
+ const dayLevel=.5+.5*Math.cos(cycle*Math.PI*2);
+ const nightLevel=Math.max(1-Math.min(1,cycle/.16),Math.max(0,Math.min(1,(cycle-.72)/.18)));
+ const sunAngle=cycle*Math.PI*2-Math.PI*.5;
+ const lightX=Math.cos(sunAngle),lightY=Math.sin(sunAngle);
+ const warm=Math.max(0,Math.sin(sunAngle));
+ const buildings=[
+  [250,190,.43],[380,190,.45],[550,190,.76],[720,190,.45],[850,190,.43],
+  [220,326,.48],[420,326,.49],[680,326,.49],[880,326,.48],
+  [250,444,.36],[400,444,.37],[550,444,.39],[700,444,.37],[850,444,.36]
+ ];
+ ctx.save();ctx.lineCap="round";ctx.lineJoin="round";
+
+ // Viền mái bắt sáng theo hướng mặt trời; vệt mảnh, không tạo thêm nguồn sáng.
+ const roofAlpha=.045+.13*dayLevel+.07*warm;
+ for(let i=0;i<buildings.length;i++){
+  const b=buildings[i],x=b[0],y=b[1]-5,s=b[2];
+  ctx.globalAlpha=roofAlpha;
+  ctx.strokeStyle=warm>.25?"#ffe1a0":"#d8f0e4";
+  ctx.lineWidth=Math.max(.7,1.25*s);
+  ctx.beginPath();
+  const side=lightX>=0?1:-1;
+  ctx.moveTo(x-side*43*s,y-108*s);
+  ctx.quadraticCurveTo(x-side*20*s,y-137*s,x,y-141*s);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x-side*53*s,y-72*s);
+  ctx.quadraticCurveTo(x-side*22*s,y-111*s,x,y-116*s);
+  ctx.stroke();
+
+  // Ánh sáng nội thất phản ra cửa sổ, mạnh hơn khi trời tối.
+  const interior=.035+nightLevel*.18;
+  const wx=x+lightX*8*s,wy=y-38*s;
+  const glow=ctx.createRadialGradient(wx,wy,1,wx,wy,24*s+4);
+  glow.addColorStop(0,"rgba(255,222,151,"+interior+")");
+  glow.addColorStop(1,"rgba(255,194,112,0)");
+  ctx.globalAlpha=1;ctx.fillStyle=glow;
+  ctx.fillRect(wx-26*s,wy-26*s,52*s,52*s);
+ }
+ ctx.globalAlpha=1;
+
+ // Phản chiếu linh quang trên mặt sông: các vệt ngang ngắn, chuyển động chậm.
+ const reflection=.08+.11*dayLevel+.16*nightLevel;
+ for(let i=0;i<18;i++){
+  const x=((i*67+t*.018)%1160)-30;
+  const y=510+(i%5)*7+Math.sin(t*.001+i*1.7)*1.8;
+  const len=8+(i%4)*5;
+  ctx.globalAlpha=reflection*(.45+.35*Math.sin(t*.0015+i));
+  ctx.strokeStyle=i%3===0?"#ffe4a6":"#b8f2e8";
+  ctx.lineWidth=i%4===0?1.6:1;
+  ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+len,y-1);ctx.stroke();
+ }
+ ctx.globalAlpha=1;
+
+ // Ánh sáng đại trận hòa vào môi trường: chỉ nhấn đường vòm và trận tâm,
+ // không vẽ lại kết cấu hay tạo thêm mặt trời.
+ const shieldAlpha=.08+.12*nightLevel+.035*dayLevel;
+ ctx.globalCompositeOperation="screen";
+ ctx.strokeStyle="rgba(147,231,220,"+shieldAlpha+")";ctx.lineWidth=2.4;
+ ctx.beginPath();ctx.moveTo(62,478);ctx.bezierCurveTo(74,210,275,55,550,54);
+ ctx.bezierCurveTo(825,55,1026,210,1038,478);ctx.stroke();
+ const coreGlow=ctx.createRadialGradient(550,294,1,550,294,42);
+ coreGlow.addColorStop(0,"rgba(181,255,226,"+(.12+.16*nightLevel)+")");
+ coreGlow.addColorStop(1,"rgba(111,224,211,0)");
+ ctx.fillStyle=coreGlow;ctx.fillRect(508,252,84,84);
+ ctx.restore();
+}
+
 function drawScenery(time){
   ctx.save();ctx.globalAlpha=1;ctx.shadowBlur=0;
   drawSky(time);
@@ -2315,6 +2388,7 @@ function drawScenery(time){
   // Pháp bảo Long Tuyền và dòng linh thủy không thuộc nền chung; tránh xuất hiện sai cảnh giới.
   drawCrowd(time);
   drawSectTimeWeather(time);
+  drawSectAmbientLight(time);
   ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.restore();
 }
 
