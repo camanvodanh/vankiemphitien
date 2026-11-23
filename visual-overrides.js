@@ -2184,7 +2184,7 @@ function drawSectTimeWeather(time){
  const smooth=(a,b,x)=>{const q=Math.max(0,Math.min(1,(x-a)/(b-a)));return q*q*(3-2*q);};
  const dawn=smooth(0,.18,cycle)*(1-smooth(.22,.31,cycle));
  const dusk=smooth(.48,.62,cycle)*(1-smooth(.70,.82,cycle));
- const night=Math.max(smooth(.67,.86,cycle),1-smooth(.94,1,cycle));
+ const night=Math.max(1-smooth(0,.16,cycle),smooth(.72,.9,cycle));
  const day=Math.max(0,1-Math.max(dawn,dusk,night));
  const weather=Math.floor(t/360000)%4; // clear, mist, light rain, snow
  const wind=t*.00022;
