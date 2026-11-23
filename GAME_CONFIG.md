@@ -1133,3 +1133,10 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Cỏ thấp, lá xanh và cánh hoa đào chuyển động chậm theo luồng gió; số lượng cố định, tính vị trí từ timestamp game loop, không tạo timer hoặc particle ngẫu nhiên.
 - Hiệu ứng chỉ bổ sung lớp cảnh quan, không thay đổi gameplay, camera, kiến trúc, biển tên hoặc khu vực đệ tử.
 - Cache: visual-overrides.js race-phase1-v249.
+
+
+## Chu kỳ ngày đêm và phạm vi hộ sơn đại trận
+- Chu kỳ hoàn chỉnh: 240.000 ms (4 phút), gồm 120.000 ms ban ngày và 120.000 ms ban đêm.
+- Mặt trời chạy quỹ đạo trong nửa ngày; mặt trăng chạy quỹ đạo trong nửa đêm. Bình minh và hoàng hôn là chuyển tiếp ngắn, không kéo dài quá thời lượng mỗi nửa chu kỳ.
+- Vòm đại trận mở rộng từ sát mép trái/phải, đỉnh gần mép trên và chân vòm xuống gần mép dưới khung Canvas; các trận nhãn và mạch trận được phân bố theo vòm mới.
+- Cache: visual-overrides.js race-phase1-v250.
