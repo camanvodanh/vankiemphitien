@@ -2244,21 +2244,31 @@ function drawSectGuardianArray(time){
   ctx.strokeStyle="rgba(121,239,226,"+(.16+.08*pulse)+")";ctx.lineWidth=1.4;ctx.stroke();
  });
 
- // Phù văn hình học vẽ bằng nét, không phụ thuộc font chữ hoặc tải ảnh.
- const drawRune=(x,y,size,angle,alpha)=>{
+ // Chữ phù được khắc chìm trực tiếp vào đường kết giới và kinh mạch.
+ // Không còn phù lục, vòng phù ấn hay ký hiệu rời nổi khỏi thân đại trận.
+ const drawInscription=(x,y,size,angle,alpha,variant=0)=>{
   ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.scale(size,size);
-  ctx.globalAlpha=alpha;ctx.strokeStyle="#e8d69b";ctx.lineWidth=1.35;ctx.shadowColor="#a8fff0";ctx.shadowBlur=5;
+  ctx.globalAlpha=alpha;ctx.strokeStyle="rgba(255,226,165,.92)";
+  ctx.lineWidth=1.45;ctx.lineCap="square";ctx.shadowColor="#a8fff0";ctx.shadowBlur=3;
   ctx.beginPath();
-  ctx.moveTo(0,-10);ctx.lineTo(0,10);ctx.moveTo(-7,-5);ctx.lineTo(7,-5);
-  ctx.moveTo(-8,1);ctx.lineTo(8,1);ctx.moveTo(-5,7);ctx.lineTo(5,7);
-  ctx.moveTo(-5,-9);ctx.lineTo(5,-9);ctx.moveTo(-8,-5);ctx.lineTo(-5,-9);
-  ctx.moveTo(8,-5);ctx.lineTo(5,-9);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(-3,-2);ctx.lineTo(3,4);ctx.lineTo(-3,8);ctx.moveTo(3,-2);ctx.lineTo(-3,4);ctx.stroke();
+  if(variant%4===0){
+   ctx.moveTo(-8,-9);ctx.lineTo(0,0);ctx.lineTo(8,-9);ctx.moveTo(0,0);ctx.lineTo(0,11);
+   ctx.moveTo(-7,5);ctx.lineTo(7,5);ctx.moveTo(-5,10);ctx.lineTo(5,10);
+  }else if(variant%4===1){
+   ctx.moveTo(-8,-9);ctx.lineTo(7,-9);ctx.lineTo(-5,0);ctx.lineTo(8,0);
+   ctx.moveTo(0,-9);ctx.lineTo(0,10);ctx.moveTo(-7,10);ctx.lineTo(7,10);
+  }else if(variant%4===2){
+   ctx.moveTo(-7,-10);ctx.lineTo(7,-10);ctx.lineTo(0,-1);ctx.lineTo(-7,8);ctx.lineTo(7,8);
+   ctx.moveTo(0,-1);ctx.lineTo(0,11);
+  }else{
+   ctx.moveTo(-8,-8);ctx.lineTo(0,-8);ctx.lineTo(8,0);ctx.lineTo(0,8);ctx.lineTo(-8,8);
+   ctx.moveTo(0,-8);ctx.lineTo(0,11);ctx.moveTo(-5,1);ctx.lineTo(5,1);
+  }
+  ctx.stroke();ctx.beginPath();ctx.moveTo(-4,-3);ctx.lineTo(2,2);ctx.lineTo(-2,7);ctx.stroke();
   ctx.restore();
  };
 
- // Tám phù ấn được đặt trực tiếp trên đường cong kết giới.
- // Tọa độ lấy từ chính hai đường Bezier của vòm, không dùng ellipse ước lượng.
+ // Tọa độ và hướng chữ được tính theo đúng đường Bezier của kết giới.
  const bezier=(a,b,c,d,u)=>({
   x:(1-u)**3*a.x+3*(1-u)**2*u*b.x+3*(1-u)*u*u*c.x+u**3*d.x,
   y:(1-u)**3*a.y+3*(1-u)**2*u*b.y+3*(1-u)*u*u*c.y+u**3*d.y
@@ -2269,50 +2279,24 @@ function drawSectGuardianArray(time){
  });
  const left=[{x:8,y:570},{x:8,y:235},{x:205,y:12},{x:550,y:10}];
  const right=[{x:550,y:10},{x:895,y:12},{x:1092,y:235},{x:1092,y:570}];
- for(let i=0;i<8;i++){
-  const u=(i+1)/9,curve=u<.5?left:right,local=u<.5?u*2:(u-.5)*2;
-  const p=bezier(...curve,local),tan=bezierTangent(...curve,local);
-  const angle=Math.atan2(tan.y,tan.x);
-  ctx.save();ctx.translate(p.x,p.y);ctx.rotate(angle+t*.012*(i%2?1:-1));
-  ctx.shadowColor="#9fffee";ctx.shadowBlur=8;
-  ctx.strokeStyle="rgba(255,225,159,"+(.52+.2*pulse)+")";ctx.lineWidth=1.6;
-  ctx.beginPath();ctx.arc(0,0,15,0,Math.PI*2);ctx.stroke();
-  ctx.strokeStyle="rgba(132,237,225,.65)";ctx.beginPath();ctx.arc(0,0,19,0,Math.PI*2);ctx.stroke();
-  for(let j=0;j<8;j++){
-   ctx.save();ctx.rotate(j*Math.PI/4);ctx.beginPath();ctx.ellipse(0,-22,2.5,6,0,0,Math.PI*2);ctx.stroke();ctx.restore();
-  }
-  ctx.restore();
-  // Phù văn nằm ngay trên đường viền, cùng phương tiếp tuyến của kết giới.
-  drawRune(p.x,p.y,.58,angle+t*.018,.9);
+ // Mười sáu cụm chữ triện chạy sát đường viền, cùng phương với nét kết giới.
+ for(let i=0;i<16;i++){
+  const u=(i+1)/17,curve=u<.5?left:right,local=u<.5?u*2:(u-.5)*2;
+  const p=bezier(...curve,local),tan=bezierTangent(...curve,local),angle=Math.atan2(tan.y,tan.x);
+  drawInscription(p.x,p.y,.52,angle,.62+.18*pulse,i);
+  ctx.save();ctx.translate(p.x,p.y);ctx.rotate(angle);
+  ctx.strokeStyle="rgba(255,225,159,.32)";ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(-12,0);ctx.lineTo(-9,0);ctx.moveTo(9,0);ctx.lineTo(12,0);ctx.stroke();ctx.restore();
  }
-
- // Trận nhãn dựng trụ linh quang, phù lục và vòng phong ấn xoay chậm.
+ // Chữ phù nhỏ được khắc dọc bảy kinh mạch nối trận nhãn với trận tâm.
  nodes.forEach((p,i)=>{
-  const ground=Math.min(585,p.y+92+(i===0||i===6?5:0));
-  const beam=ctx.createLinearGradient(p.x,p.y,p.x,ground);
-  beam.addColorStop(0,"rgba(194,255,239,0)");
-  beam.addColorStop(.2,"rgba(140,242,224,"+(.18+.10*pulse)+")");
-  beam.addColorStop(1,"rgba(111,211,206,.025)");
-  ctx.fillStyle=beam;ctx.fillRect(p.x-7,p.y,14,ground-p.y);
-  ctx.strokeStyle="rgba(185,248,229,"+(.38+.15*pulse)+")";ctx.lineWidth=1.2;
-  ctx.beginPath();ctx.moveTo(p.x,p.y+5);ctx.lineTo(p.x,ground);ctx.stroke();
-  ctx.save();ctx.translate(p.x,ground-2);ctx.rotate(t*.14+i*.31);
-  ctx.strokeStyle="rgba(255,226,158,.7)";ctx.lineWidth=1.5;
-  ctx.beginPath();ctx.ellipse(0,0,22,7,0,0,Math.PI*2);ctx.stroke();
-  ctx.rotate(-t*.28-i*.31);ctx.strokeStyle="rgba(124,226,220,.55)";
-  ctx.beginPath();ctx.ellipse(0,0,13,4,0,0,Math.PI*2);ctx.stroke();ctx.restore();
-  ctx.save();ctx.translate(p.x,p.y);ctx.rotate(t*.16+i*.47);
-  ctx.shadowColor="#9af4e4";ctx.shadowBlur=8+5*pulse;
-  ctx.strokeStyle="rgba(255,232,177,.9)";ctx.lineWidth=1.8;
-  ctx.beginPath();ctx.moveTo(0,-13);ctx.lineTo(9,0);ctx.lineTo(0,13);ctx.lineTo(-9,0);ctx.closePath();ctx.stroke();
-  ctx.beginPath();ctx.arc(0,0,4,0,Math.PI*2);ctx.stroke();ctx.restore();
-  // Phù lục gắn ngay trên trận nhãn, không treo lơ lửng ngoài kết giới.
-  ctx.save();ctx.translate(p.x,p.y);ctx.rotate(Math.atan2(p.y-center.y,p.x-center.x)+Math.PI/2);
-  ctx.fillStyle="rgba(48,73,77,.78)";ctx.fillRect(-4,-9,8,18);
-  ctx.strokeStyle="rgba(255,220,145,.9)";ctx.lineWidth=.9;ctx.strokeRect(-4,-9,8,18);
-  ctx.restore();drawRune(p.x,p.y,.30,t*.12+i,.95);
+  const u=.48,control={x:(p.x+center.x)*.5+(i%2?22:-22),y:(p.y+center.y)*.5-18};
+  const q={x:(1-u)*(1-u)*p.x+2*(1-u)*u*control.x+u*u*center.x,
+           y:(1-u)*(1-u)*p.y+2*(1-u)*u*control.y+u*u*center.y};
+  const tangent={x:2*(1-u)*(control.x-p.x)+2*u*(center.x-control.x),
+                y:2*(1-u)*(control.y-p.y)+2*u*(center.y-control.y)};
+  drawInscription(q.x,q.y,.34,Math.atan2(tangent.y,tangent.x),.48+.14*pulse,i+2);
  });
-
  // Trận tâm: nhiều vòng pháp luân xoay ngược chiều, Bát Quái và phù văn trung tâm.
  ctx.save();ctx.translate(center.x,center.y);
  for(let ring=0;ring<4;ring++){
