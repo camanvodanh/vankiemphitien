@@ -1083,8 +1083,6 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Cache: visual-overrides.js race-phase1-v240, data-loader.js data-driven-v202, index.html data-driven-v202.
 
 
-## 134. Giai đoạn 5 — Tiên Sơn có chiều sâu
-- Vân vụ mỏng, chuyển động chậm trên các tầng núi; hai thác nước nhỏ ở rìa cảnh với dòng nước và sương chân thác; chi tiết sống núi nhẹ.
-- Tránh che 14 công trình, đường đua, khu đệ tử và cảnh nền hiện có.
-- Dùng timestamp hiện tại, hiệu ứng có số lượng cố định, không loop/timer riêng hoặc random mỗi frame.
-- Cache: visual-overrides.js race-phase1-v241; data-loader.js và index.html data-driven-v203.
+## 134. Giai đoạn 5 — Tiên Sơn có chiều sâu (điều chỉnh)
+- Giữ lớp vân vụ nhẹ và chi tiết sống núi; đã bỏ hiệu ứng thác nước.
+- Giai đoạn 6 bổ sung chi tiết kiến trúc; cache visual-overrides.js race-phase1-v242, loader/index data-driven-v204.
