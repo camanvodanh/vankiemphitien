@@ -44,31 +44,7 @@ function drawSky(time) {
   });
   ctx.globalAlpha = 1;
 
-  // Tâm quầng sáng và các tia nắng luôn lấy chung tọa độ từ cấu hình mặt trời.
-  const sunConfig = VKP_DATA.scenery.sky.sun;
-  const sunGradient = ctx.createRadialGradient(
-    sunConfig.x, sunConfig.y, sunConfig.innerRadius,
-    sunConfig.x, sunConfig.y, sunConfig.outerRadius
-  );
-  sunConfig.stops.forEach(([stop,color])=>sunGradient.addColorStop(stop,color));
-  ctx.fillStyle = sunGradient;
-  ctx.fillRect(...sunConfig.rect);
-
-  ctx.save();
-  ctx.globalAlpha = .1;
-  ctx.fillStyle = "#fff3c3";
-  const rayX = sunConfig.x;
-  const rayY = sunConfig.y + 10;
-  for (let i = 0; i < 5; i++) {
-    const left = rayX - 185 + i * 82;
-    ctx.beginPath();
-    ctx.moveTo(rayX, rayY);
-    ctx.lineTo(left, 400);
-    ctx.lineTo(left + 62, 400);
-    ctx.closePath();
-    ctx.fill();
-  }
-  ctx.restore();
+  // Mặt trời động được vẽ ở lớp trời bởi drawSectCelestial(time).
 }
 
 // =====================================================
