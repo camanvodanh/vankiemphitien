@@ -881,3 +881,11 @@
 - Mặt trời mọc phía trái, đi theo cung cong lên cao giữa ban ngày rồi lặn phía phải.
 - Mặt trăng mọc phía phải lúc hoàng hôn, lên cao giữa đêm và lặn phía trái gần bình minh; hình đĩa có sắc độ và chi tiết bề mặt.
 - Thiên thể được vẽ sau núi/mây để không bị địa hình che mất, nhưng trước sông, lầu các và biển tên để luôn nằm sau kiến trúc.
+
+
+## Giai đoạn 11 — Hoàn thiện cảnh quan tiên môn
+- Bóng cây mềm đổ sát gốc thông ở hai rìa địa hình; thân cây và tán thông nghiêng nhẹ theo gió, không ảnh hưởng sân đua hoặc khu đệ tử.
+- Bổ sung cỏ thấp lay theo gió tại hai mép cảnh; lá xanh và cánh hoa đào bay theo quỹ đạo chậm, có độ xoay và dao động tự nhiên.
+- Tất cả chuyển động dùng timestamp game loop, số lượng phần tử cố định, không random mỗi frame, không tạo timer/loop riêng.
+- Hiệu ứng được vẽ trong lớp cảnh quan phía sau kiến trúc và biển tên; giữ nguyên bố cục, gameplay, camera và NPC.
+- Cache: visual-overrides.js race-phase1-v249.
