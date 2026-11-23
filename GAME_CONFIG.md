@@ -1086,3 +1086,12 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 ## 134. Giai đoạn 5 — Tiên Sơn có chiều sâu (điều chỉnh)
 - Giữ lớp vân vụ nhẹ và chi tiết sống núi; đã bỏ hiệu ứng thác nước.
 - Giai đoạn 6 bổ sung chi tiết kiến trúc; cache visual-overrides.js race-phase1-v242, loader/index data-driven-v204.
+
+
+## Giai đoạn 8 — Đại trận hộ sơn
+- File triển khai: `visual-overrides.js`, hàm `drawSectGuardianArray(time)`.
+- Màn chắn vòm bán trong suốt bao phủ quần thể tiên môn; các đường kinh tuyến/vĩ tuyến và mạch linh lực chuyển động theo thời gian frame.
+- Bảy trận nhãn có trụ sáng, vòng trận và phù văn xoay chậm; mạch linh lực khép kín và liên kết về trận tâm.
+- Vị trí render: sau `drawDenseForest(time)`, trước `drawSectArchitecture(time)`, để hiệu ứng nằm phía sau lầu các.
+- Hoạt ảnh dùng tham số `time` của frame hiện tại, không tạo timer/particle riêng và không thay đổi gameplay.
+- Cache: `visual-overrides.js?v=race-phase1-v243`.
