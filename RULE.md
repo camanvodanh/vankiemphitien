@@ -897,3 +897,11 @@
 - Mở rộng vòm hộ sơn đại trận gần sát bốn mép khung game, điều chỉnh trận nhãn, kinh tuyến/vĩ tuyến và đường viền ánh sáng theo phạm vi mới.
 - Không thay đổi gameplay, camera, kích thước Canvas hoặc vị trí 14 công trình.
 - Cache: visual-overrides.js race-phase1-v250.
+
+
+## Nâng cấp mỹ thuật Đại trận Hộ Sơn
+- Đại trận có kết giới nhiều tầng, đường kinh mạch, vòng pháp luân và mạch trận nối các trận nhãn với trận tâm.
+- Bổ sung tám phù ấn Bát Quái quanh vòm, phù văn hình học vẽ trực tiếp bằng Canvas, phù lục treo tại trận nhãn và hiệu ứng linh quang tuần hoàn.
+- Trận tâm có các vòng pháp luân xoay ngược chiều; các phù ấn và trận nhãn phát sáng theo nhịp linh lực.
+- Giữ phạm vi vòm đã mở rộng gần sát mép khung game; không che kiến trúc và tên công trình bằng mảng tô đặc.
+- Cache: visual-overrides.js race-phase1-v251.
