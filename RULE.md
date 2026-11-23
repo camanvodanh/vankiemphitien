@@ -869,3 +869,9 @@
 - Ánh sáng đại trận hộ sơn hòa vào môi trường bằng viền vòm và quầng trận tâm mờ; không vẽ lại mặt trời hoặc kết cấu trận.
 - Renderer `drawSectAmbientLight(time)` dùng timestamp game loop, không timer/particle riêng; không thay đổi gameplay, camera hoặc bố cục.
 - Cache: `visual-overrides.js?v=race-phase1-v246`.
+
+
+## Điều chỉnh thiên thể và phân lớp hậu cảnh
+- Loại bỏ quầng mặt trời cố định cũ khỏi nền trời để tránh vòng sáng chói chiếu xuống khu vực Tàng Bảo Các.
+- Mặt trời và mặt trăng dùng quỹ đạo riêng theo chu kỳ ngày–đêm; mặt trăng mọc phía phải, lên cao giữa đêm và lặn phía trái lúc bình minh.
+- Thiên thể được vẽ ngay sau nền trời, trước núi, toàn bộ lầu các và biển tên; các hiệu ứng đèn lồng/thời tiết vẫn ở lớp phù hợp phía trước.
