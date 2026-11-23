@@ -2174,6 +2174,129 @@ function drawSectGuardianArray(time){
  ctx.restore();
 }
 
+
+/* GIAI ĐOẠN 9 — chu kỳ thời gian, ánh sáng và thời tiết.
+ * Dùng timestamp của game loop; mọi vị trí/nhịp đều xác định, không timer riêng.
+ */
+function drawSectTimeWeather(time){
+ const t=Math.max(0,Number.isFinite(time)?time:0);
+ const cycle=(t%240000)/240000;
+ const smooth=(a,b,x)=>{const q=Math.max(0,Math.min(1,(x-a)/(b-a)));return q*q*(3-2*q);};
+ const dawn=smooth(0,.18,cycle)*(1-smooth(.22,.31,cycle));
+ const dusk=smooth(.48,.62,cycle)*(1-smooth(.70,.82,cycle));
+ const night=Math.max(smooth(.67,.86,cycle),1-smooth(.94,1,cycle));
+ const day=Math.max(0,1-Math.max(dawn,dusk,night));
+ const weather=Math.floor(t/360000)%4; // clear, mist, light rain, snow
+ const wind=t*.00022;
+
+ // Ánh sáng môi trường phủ nhẹ lên núi, mái ngói và sân tiên môn.
+ ctx.save();
+ ctx.globalCompositeOperation="source-over";
+ if(dawn>0.01){ctx.fillStyle="rgba(255,170,104,"+(dawn*.13)+")";ctx.fillRect(0,0,W,H);}
+ if(dusk>0.01){ctx.fillStyle="rgba(221,112,83,"+(dusk*.17)+")";ctx.fillRect(0,0,W,H);}
+ if(night>0.01){ctx.fillStyle="rgba(13,24,57,"+(night*.48)+")";ctx.fillRect(0,0,W,H);}
+ if(day>0.01){ctx.fillStyle="rgba(255,244,207,"+(day*.025)+")";ctx.fillRect(0,0,W,H);}
+
+ // Mặt trời đi qua đường chân trời; trăng xuất hiện ở nửa chu kỳ tối.
+ const sunX=-90+cycle*1280,sunY=205-Math.sin(cycle*Math.PI)*128;
+ const sunAlpha=Math.max(dawn,dusk,day);
+ if(sunAlpha>.015){
+  const halo=ctx.createRadialGradient(sunX,sunY,3,sunX,sunY,104);
+  halo.addColorStop(0,"rgba(255,235,170,"+(.42*sunAlpha)+")");
+  halo.addColorStop(1,"rgba(255,194,119,0)");
+  ctx.fillStyle=halo;ctx.fillRect(sunX-110,sunY-110,220,220);
+  ctx.fillStyle="rgba(255,231,169,"+(.72*sunAlpha)+")";
+  ctx.beginPath();ctx.arc(sunX,sunY,17,0,Math.PI*2);ctx.fill();
+ }
+ if(night>.02){
+  const moonX=850-cycle*500,moonY=112+Math.sin(cycle*6.283)*13;
+  ctx.globalAlpha=night;
+  ctx.fillStyle="#e7eddf";ctx.beginPath();ctx.arc(moonX,moonY,19,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#aebbd0";ctx.beginPath();ctx.arc(moonX+7,moonY-5,17,0,Math.PI*2);ctx.fill();
+  for(let i=0;i<42;i++){
+   const sx=(i*197+37)%1100,sy=22+(i*83)%235;
+   const twinkle=.45+.55*(.5+.5*Math.sin(t*.002+i*2.17));
+   ctx.globalAlpha=night*twinkle;
+   ctx.fillStyle=i%5===0?"#ffe9b0":"#e5f1ff";
+   ctx.fillRect(sx,sy,i%7===0?2.2:1.25,i%7===0?2.2:1.25);
+  }
+  ctx.globalAlpha=1;
+ }
+
+ // Đèn lồng ở hiên 14 công trình tự sáng khi trời tối.
+ const buildings=[
+  [250,190,.43],[380,190,.45],[550,190,.76],[720,190,.45],[850,190,.43],
+  [220,326,.48],[420,326,.49],[680,326,.49],[880,326,.48],
+  [250,444,.36],[400,444,.37],[550,444,.39],[700,444,.37],[850,444,.36]
+ ];
+ const lampPower=Math.max(0,Math.min(1,night*1.05+dusk*.38));
+ if(lampPower>.015){
+  for(let i=0;i<buildings.length;i++){
+   const b=buildings[i],x=b[0],y=b[1]-5,s=b[2];
+   for(let side=-1;side<=1;side+=2){
+    const lx=x+side*31*s,ly=y-38*s;
+    const glow=ctx.createRadialGradient(lx,ly,1,lx,ly,27*s+8);
+    glow.addColorStop(0,"rgba(255,207,111,"+(.34*lampPower)+")");
+    glow.addColorStop(1,"rgba(255,167,70,0)");
+    ctx.fillStyle=glow;ctx.fillRect(lx-34*s,ly-34*s,68*s,68*s);
+    ctx.globalAlpha=lampPower;
+    ctx.fillStyle="#6c4b32";ctx.fillRect(lx-2.2*s,ly-7*s,4.4*s,13*s);
+    ctx.fillStyle="#ffcf78";ctx.beginPath();ctx.ellipse(lx,ly,3.2*s,5*s,0,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle="rgba(255,229,166,.85)";ctx.lineWidth=.8;ctx.strokeRect(lx-3*s,ly-7*s,6*s,13*s);
+    ctx.globalAlpha=1;
+   }
+  }
+ }
+
+ // Đom đóm: số lượng cố định, bay theo quỹ đạo sin/cos.
+ if(night>.05){
+  for(let i=0;i<24;i++){
+   const x=28+((i*89+t*(.006+(i%4)*.001))%1040);
+   const y=300+(i*47)%245+Math.sin(t*.0012+i*1.9)*9;
+   const blink=.2+.8*(.5+.5*Math.sin(t*.003+i*2.4));
+   ctx.globalAlpha=night*blink*.85;
+   ctx.shadowColor="#b8f5a0";ctx.shadowBlur=7;
+   ctx.fillStyle="#d9ff9b";ctx.beginPath();ctx.arc(x,y,1.25+(i%3)*.25,0,Math.PI*2);ctx.fill();
+  }
+  ctx.shadowBlur=0;ctx.globalAlpha=1;
+ }
+
+ // Sương mỏng ở bình minh/đêm và các đợt gió lướt ngang tầng núi.
+ const mistPower=Math.max(dawn*.55,night*.22,weather===1?.58:0);
+ if(mistPower>.01){
+  for(let i=0;i<3;i++){
+   const mx=((t*.012+i*390)%1450)-170,my=215+i*112;
+   ctx.globalAlpha=mistPower*(.10+i*.025);
+   ctx.fillStyle="#d8e5df";ctx.beginPath();
+   ctx.ellipse(mx,my,170+i*32,12+i*3,0,0,Math.PI*2);ctx.fill();
+  }
+ }
+ ctx.globalAlpha=1;
+ ctx.strokeStyle="rgba(218,235,225,"+(weather===0?.045:.075)+")";
+ ctx.lineWidth=1;
+ for(let i=0;i<7;i++){
+  const x=((i*181+t*.035)%1250)-80,y=170+i*53;
+  ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+34+Math.sin(wind+i)*9,y-3);ctx.stroke();
+ }
+
+ // Mưa nhẹ hoặc tuyết theo từng đợt dài; không sinh hạt ngẫu nhiên.
+ if(weather===2){
+  ctx.strokeStyle="rgba(190,220,235,.32)";ctx.lineWidth=1;
+  for(let i=0;i<52;i++){
+   const x=(i*53+t*.22)%1120,y=(i*97+t*.48)%850;
+   ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-4,y+11);ctx.stroke();
+  }
+ }else if(weather===3){
+  ctx.fillStyle="rgba(245,249,255,.72)";
+  for(let i=0;i<28;i++){
+   const x=(i*79+t*(.012+(i%3)*.004))%1120;
+   const y=(i*61+t*.045)%820;
+   ctx.beginPath();ctx.arc(x,y,1.2+(i%3)*.45,0,Math.PI*2);ctx.fill();
+  }
+ }
+ ctx.restore();
+}
+
 function drawScenery(time){
   ctx.save();ctx.globalAlpha=1;ctx.shadowBlur=0;
   drawSky(time);
@@ -2191,6 +2314,7 @@ function drawScenery(time){
   drawRiverCurrent(time);
   // Pháp bảo Long Tuyền và dòng linh thủy không thuộc nền chung; tránh xuất hiện sai cảnh giới.
   drawCrowd(time);
+  drawSectTimeWeather(time);
   ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.restore();
 }
 
