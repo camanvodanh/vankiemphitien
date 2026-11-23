@@ -1140,3 +1140,10 @@ Tổng thời lượng tự động của nghi thức là 7,5 giây; người xe
 - Mặt trời chạy quỹ đạo trong nửa ngày; mặt trăng chạy quỹ đạo trong nửa đêm. Bình minh và hoàng hôn là chuyển tiếp ngắn, không kéo dài quá thời lượng mỗi nửa chu kỳ.
 - Vòm đại trận mở rộng từ sát mép trái/phải, đỉnh gần mép trên và chân vòm xuống gần mép dưới khung Canvas; các trận nhãn và mạch trận được phân bố theo vòm mới.
 - Cache: visual-overrides.js race-phase1-v250.
+
+
+## Mỹ thuật Đại trận Hộ Sơn — bản phù văn
+- Kết giới nhiều lớp với kinh tuyến/vĩ tuyến, đường mạch trận, tám phù ấn Bát Quái, phù văn hình học và phù lục tại bảy trận nhãn.
+- Trận tâm dùng bốn vòng pháp luân xoay luân phiên hai chiều; linh quang di chuyển theo vòm bằng timestamp game loop.
+- Hiệu ứng Canvas 2D, số lượng phần tử cố định, không tải ảnh/font ngoài và không tạo timer riêng.
+- Cache: visual-overrides.js race-phase1-v251.
