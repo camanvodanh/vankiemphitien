@@ -2208,19 +2208,20 @@ function drawLandscapeDepth(time){
  */
 function drawSectGuardianArray(time){
  const t=(Number.isFinite(time)?time:0)*.001,pulse=.5+.5*Math.sin(t*1.05);
- const nodes=[{x:92,y:394},{x:222,y:228},{x:390,y:126},{x:550,y:78},{x:710,y:126},{x:878,y:228},{x:1008,y:394}];
+ const nodes=[{x:18,y:468},{x:190,y:260},{x:365,y:112},{x:550,y:22},{x:735,y:112},{x:910,y:260},{x:1082,y:468}];
  ctx.save();ctx.lineCap="round";ctx.lineJoin="round";ctx.globalCompositeOperation="screen";
- const dome=()=>{ctx.beginPath();ctx.moveTo(62,478);ctx.bezierCurveTo(74,210,275,55,550,54);ctx.bezierCurveTo(825,55,1026,210,1038,478);};
+ // Vòm mở rộng sát bốn phía khung game, ôm trọn quần thể tiên môn.
+ const dome=()=>{ctx.beginPath();ctx.moveTo(8,570);ctx.bezierCurveTo(8,235,205,12,550,10);ctx.bezierCurveTo(895,12,1092,235,1092,570);};
  dome();ctx.strokeStyle="rgba(104,218,220,"+(.13+.045*pulse)+")";ctx.lineWidth=13;ctx.stroke();
  dome();ctx.strokeStyle="rgba(151,238,226,"+(.27+.08*pulse)+")";ctx.lineWidth=2.2;ctx.stroke();
- for(let i=-2;i<=2;i++){ctx.beginPath();ctx.moveTo(550+i*8,58);ctx.quadraticCurveTo(550+i*215,225,550+i*230,478);ctx.strokeStyle=i===0?"rgba(244,220,151,.34)":"rgba(126,218,220,.19)";ctx.lineWidth=i===0?1.8:1.15;ctx.stroke();}
- for(const y of [174,282,382]){const w=(y-45)*1.28;ctx.beginPath();ctx.ellipse(550,y+18,w,Math.max(20,(y-45)*.24),0,Math.PI,Math.PI*2);ctx.strokeStyle="rgba(135,224,218,.17)";ctx.lineWidth=1.2;ctx.stroke();}
+ for(let i=-2;i<=2;i++){ctx.beginPath();ctx.moveTo(550+i*8,16);ctx.quadraticCurveTo(550+i*225,270,550+i*245,568);ctx.strokeStyle=i===0?"rgba(244,220,151,.34)":"rgba(126,218,220,.19)";ctx.lineWidth=i===0?1.8:1.15;ctx.stroke();}
+ for(const y of [174,282,382]){const w=(y-15)*1.28;ctx.beginPath();ctx.ellipse(550,y+18,w,Math.max(20,(y-45)*.24),0,Math.PI,Math.PI*2);ctx.strokeStyle="rgba(135,224,218,.17)";ctx.lineWidth=1.2;ctx.stroke();}
  ctx.setLineDash([7,9]);ctx.lineDashOffset=-(t*9)%16;ctx.strokeStyle="rgba(135,239,222,"+(.2+.09*pulse)+")";ctx.lineWidth=1.7;
  ctx.beginPath();nodes.forEach((p,i)=>{if(!i)ctx.moveTo(p.x,p.y);else ctx.lineTo(p.x,p.y);});ctx.closePath();ctx.stroke();ctx.setLineDash([]);
  const center={x:550,y:294};
  nodes.forEach((p,i)=>{ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.quadraticCurveTo((p.x+center.x)*.5+(i%2?18:-18),(p.y+center.y)*.5-12,center.x,center.y);ctx.strokeStyle="rgba(118,224,218,"+(.10+.055*pulse)+")";ctx.lineWidth=1.15;ctx.stroke();});
  nodes.forEach((p,i)=>{
-  const ground=Math.min(505,p.y+92+(i===0||i===6?5:0)),beam=ctx.createLinearGradient(p.x,p.y,p.x,ground);
+  const ground=Math.min(585,p.y+92+(i===0||i===6?5:0)),beam=ctx.createLinearGradient(p.x,p.y,p.x,ground);
   beam.addColorStop(0,"rgba(194,255,239,0)");beam.addColorStop(.22,"rgba(140,242,224,"+(.12+.08*pulse)+")");beam.addColorStop(1,"rgba(111,211,206,.025)");
   ctx.fillStyle=beam;ctx.fillRect(p.x-5,p.y,10,ground-p.y);ctx.strokeStyle="rgba(185,248,229,"+(.3+.12*pulse)+")";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(p.x,p.y+5);ctx.lineTo(p.x,ground);ctx.stroke();
   ctx.save();ctx.translate(p.x,ground-2);ctx.rotate(t*.12+i*.31);ctx.strokeStyle="rgba(222,245,190,"+(.42+.18*pulse)+")";ctx.lineWidth=1.5;ctx.beginPath();ctx.ellipse(0,0,15,5,0,0,Math.PI*2);ctx.stroke();ctx.rotate(-t*.24-i*.31);ctx.strokeStyle="rgba(124,226,220,.42)";ctx.beginPath();ctx.ellipse(0,0,9,3,0,0,Math.PI*2);ctx.stroke();ctx.restore();
@@ -2240,46 +2241,42 @@ function drawSectGuardianArray(time){
 function drawSectCelestial(time){
  const t=Math.max(0,Number.isFinite(time)?time:0),cycle=(t%240000)/240000;
  const smooth=(a,b,x)=>{const q=Math.max(0,Math.min(1,(x-a)/(b-a)));return q*q*(3-2*q);};
+ // 4 phút/vòng: ban ngày 120 giây, ban đêm 120 giây.
+ const dawn=smooth(0,.08,cycle)*(1-smooth(.08,.13,cycle));
+ const dusk=smooth(.42,.48,cycle)*(1-smooth(.48,.50,cycle));
+ const night=smooth(.47,.53,cycle);
+ const day=1-night;
 
- // Chu kỳ: đêm 0.72→0.16 (qua mốc 1.0); ban ngày 0.16→0.72.
- const dawn=smooth(.12,.22,cycle)*(1-smooth(.25,.32,cycle));
- const dusk=smooth(.56,.66,cycle)*(1-smooth(.70,.78,cycle));
- const night=Math.max(1-smooth(.08,.20,cycle),smooth(.70,.82,cycle));
- const day=Math.max(0,1-Math.max(dawn,dusk,night));
-
- // Mặt trời mọc ở trái, lên cao giữa trưa, rồi lặn ở phải.
- const sunProgress=Math.max(0,Math.min(1,(cycle-.16)/.56));
- const sunX=-80+sunProgress*(W+160);
- const sunY=188-Math.sin(sunProgress*Math.PI)*132;
+ // Mặt trời đi từ trái sang phải trong nửa chu kỳ ban ngày.
+ const sunProgress=Math.max(0,Math.min(1,cycle/.5));
+ const sunX=-45+sunProgress*(W+90);
+ const sunY=205-Math.sin(sunProgress*Math.PI)*145;
  const sunAlpha=Math.max(day,dawn*.9,dusk*.9);
  if(sunAlpha>.012){
   ctx.save();ctx.globalAlpha=sunAlpha;
-  const corona=ctx.createRadialGradient(sunX,sunY,5,sunX,sunY,48);
-  corona.addColorStop(0,"rgba(255,244,198,.34)");
-  corona.addColorStop(.42,"rgba(255,218,139,.17)");
+  const corona=ctx.createRadialGradient(sunX,sunY,4,sunX,sunY,39);
+  corona.addColorStop(0,"rgba(255,244,198,.30)");
+  corona.addColorStop(.48,"rgba(255,218,139,.14)");
   corona.addColorStop(1,"rgba(255,191,111,0)");
-  ctx.fillStyle=corona;ctx.fillRect(sunX-50,sunY-50,100,100);
+  ctx.fillStyle=corona;ctx.fillRect(sunX-42,sunY-42,84,84);
   const disk=ctx.createRadialGradient(sunX-4,sunY-5,1,sunX,sunY,14);
   disk.addColorStop(0,"#fff9d9");disk.addColorStop(.62,"#ffe9a6");disk.addColorStop(1,"#f7b95f");
   ctx.fillStyle=disk;ctx.beginPath();ctx.arc(sunX,sunY,14,0,Math.PI*2);ctx.fill();
   ctx.restore();
  }
 
- // Mặt trăng đi ngược chiều biểu kiến: mọc bên phải lúc hoàng hôn,
- // lên cao giữa đêm, lặn bên trái lúc gần bình minh.
+ // Mặt trăng đi ngược chiều trong nửa chu kỳ ban đêm.
  if(night>.012){
-  const moonProgress=cycle>=.72?(cycle-.72)/.44:(cycle+.28)/.44;
-  const moonX=W+80-moonProgress*(W+160);
-  const moonY=188-Math.sin(moonProgress*Math.PI)*132;
+  const moonProgress=Math.max(0,Math.min(1,(cycle-.5)/.5));
+  const moonX=W+45-moonProgress*(W+90);
+  const moonY=205-Math.sin(moonProgress*Math.PI)*145;
   ctx.save();ctx.globalAlpha=night;
-  const glow=ctx.createRadialGradient(moonX,moonY,2,moonX,moonY,43);
-  glow.addColorStop(0,"rgba(220,235,255,.23)");
-  glow.addColorStop(1,"rgba(190,215,255,0)");
-  ctx.fillStyle=glow;ctx.fillRect(moonX-45,moonY-45,90,90);
+  const glow=ctx.createRadialGradient(moonX,moonY,2,moonX,moonY,39);
+  glow.addColorStop(0,"rgba(220,235,255,.20)");glow.addColorStop(1,"rgba(190,215,255,0)");
+  ctx.fillStyle=glow;ctx.fillRect(moonX-41,moonY-41,82,82);
   const disc=ctx.createRadialGradient(moonX-5,moonY-6,1,moonX,moonY,15);
   disc.addColorStop(0,"#ffffff");disc.addColorStop(.72,"#e8edf0");disc.addColorStop(1,"#b9c6d4");
   ctx.fillStyle=disc;ctx.beginPath();ctx.arc(moonX,moonY,15,0,Math.PI*2);ctx.fill();
-  // Vết tối và miệng hố nhỏ tạo bề mặt trăng, không dùng hình tròn che khuất giả.
   ctx.fillStyle="rgba(139,155,174,.30)";
   ctx.beginPath();ctx.arc(moonX-5,moonY-3,3.2,0,Math.PI*2);ctx.fill();
   ctx.beginPath();ctx.arc(moonX+4,moonY+5,2.1,0,Math.PI*2);ctx.fill();
@@ -2292,10 +2289,11 @@ function drawSectTimeWeather(time){
  const t=Math.max(0,Number.isFinite(time)?time:0);
  const cycle=(t%240000)/240000;
  const smooth=(a,b,x)=>{const q=Math.max(0,Math.min(1,(x-a)/(b-a)));return q*q*(3-2*q);};
- const dawn=smooth(0,.18,cycle)*(1-smooth(.22,.31,cycle));
- const dusk=smooth(.48,.62,cycle)*(1-smooth(.70,.82,cycle));
- const night=Math.max(1-smooth(0,.16,cycle),smooth(.72,.9,cycle));
- const day=Math.max(0,1-Math.max(dawn,dusk,night));
+ // Nửa vòng đầu là ban ngày (2 phút), nửa vòng sau là ban đêm (2 phút).
+ const dawn=smooth(0,.08,cycle)*(1-smooth(.08,.13,cycle));
+ const dusk=smooth(.42,.48,cycle)*(1-smooth(.48,.50,cycle));
+ const night=smooth(.47,.53,cycle);
+ const day=1-night;
  const weather=Math.floor(t/360000)%4; // clear, mist, light rain, snow
  const wind=t*.00022;
 
@@ -2387,8 +2385,8 @@ function drawSectTimeWeather(time){
  */
 function drawSectAmbientLight(time){
  const t=Math.max(0,Number.isFinite(time)?time:0),cycle=(t%240000)/240000;
- const dayLevel=.5+.5*Math.cos(cycle*Math.PI*2);
- const nightLevel=Math.max(1-Math.min(1,cycle/.16),Math.max(0,Math.min(1,(cycle-.72)/.18)));
+ const nightLevel=Math.max(0,Math.min(1,(cycle-.47)/.06),1-Math.max(0,Math.min(1,(cycle-.97)/.03)));
+ const dayLevel=1-nightLevel;
  const sunAngle=cycle*Math.PI*2-Math.PI*.5;
  const lightX=Math.cos(sunAngle),lightY=Math.sin(sunAngle);
  const warm=Math.max(0,Math.sin(sunAngle));
