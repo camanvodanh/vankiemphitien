@@ -2184,36 +2184,50 @@ function drawSectGuardianArray(time){
 function drawSectCelestial(time){
  const t=Math.max(0,Number.isFinite(time)?time:0),cycle=(t%240000)/240000;
  const smooth=(a,b,x)=>{const q=Math.max(0,Math.min(1,(x-a)/(b-a)));return q*q*(3-2*q);};
- const dawn=smooth(0,.18,cycle)*(1-smooth(.22,.31,cycle));
- const dusk=smooth(.48,.62,cycle)*(1-smooth(.70,.82,cycle));
- const night=Math.max(1-smooth(0,.16,cycle),smooth(.72,.9,cycle));
+
+ // Chu kỳ: đêm 0.72→0.16 (qua mốc 1.0); ban ngày 0.16→0.72.
+ const dawn=smooth(.12,.22,cycle)*(1-smooth(.25,.32,cycle));
+ const dusk=smooth(.56,.66,cycle)*(1-smooth(.70,.78,cycle));
+ const night=Math.max(1-smooth(.08,.20,cycle),smooth(.70,.82,cycle));
  const day=Math.max(0,1-Math.max(dawn,dusk,night));
+
+ // Mặt trời mọc ở trái, lên cao giữa trưa, rồi lặn ở phải.
  const sunProgress=Math.max(0,Math.min(1,(cycle-.16)/.56));
- const sunX=-75+sunProgress*1230;
- const sunY=245-Math.sin(sunProgress*Math.PI)*145;
- const sunAlpha=Math.max(day,dawn*.8,dusk*.9);
+ const sunX=-80+sunProgress*(W+160);
+ const sunY=188-Math.sin(sunProgress*Math.PI)*132;
+ const sunAlpha=Math.max(day,dawn*.9,dusk*.9);
  if(sunAlpha>.012){
   ctx.save();ctx.globalAlpha=sunAlpha;
-  const halo=ctx.createRadialGradient(sunX,sunY,5,sunX,sunY,66);
-  halo.addColorStop(0,"rgba(255,235,177,.30)");
-  halo.addColorStop(.42,"rgba(255,213,145,.13)");
-  halo.addColorStop(1,"rgba(255,194,119,0)");
-  ctx.fillStyle=halo;ctx.fillRect(sunX-70,sunY-70,140,140);
-  ctx.fillStyle="#ffe8b0";ctx.beginPath();ctx.arc(sunX,sunY,13,0,Math.PI*2);ctx.fill();
+  const corona=ctx.createRadialGradient(sunX,sunY,5,sunX,sunY,48);
+  corona.addColorStop(0,"rgba(255,244,198,.34)");
+  corona.addColorStop(.42,"rgba(255,218,139,.17)");
+  corona.addColorStop(1,"rgba(255,191,111,0)");
+  ctx.fillStyle=corona;ctx.fillRect(sunX-50,sunY-50,100,100);
+  const disk=ctx.createRadialGradient(sunX-4,sunY-5,1,sunX,sunY,14);
+  disk.addColorStop(0,"#fff9d9");disk.addColorStop(.62,"#ffe9a6");disk.addColorStop(1,"#f7b95f");
+  ctx.fillStyle=disk;ctx.beginPath();ctx.arc(sunX,sunY,14,0,Math.PI*2);ctx.fill();
   ctx.restore();
  }
+
+ // Mặt trăng đi ngược chiều biểu kiến: mọc bên phải lúc hoàng hôn,
+ // lên cao giữa đêm, lặn bên trái lúc gần bình minh.
  if(night>.012){
-  // Trăng mọc phía phải lúc chạng vạng, lên cao giữa đêm rồi lặn bên trái lúc bình minh.
   const moonProgress=cycle>=.72?(cycle-.72)/.44:(cycle+.28)/.44;
-  const moonX=1110-moonProgress*1260;
-  const moonY=246-Math.sin(moonProgress*Math.PI)*158;
+  const moonX=W+80-moonProgress*(W+160);
+  const moonY=188-Math.sin(moonProgress*Math.PI)*132;
   ctx.save();ctx.globalAlpha=night;
-  const moonGlow=ctx.createRadialGradient(moonX,moonY,3,moonX,moonY,55);
-  moonGlow.addColorStop(0,"rgba(218,235,255,.22)");
-  moonGlow.addColorStop(1,"rgba(195,218,255,0)");
-  ctx.fillStyle=moonGlow;ctx.fillRect(moonX-58,moonY-58,116,116);
-  ctx.fillStyle="#e7eddf";ctx.beginPath();ctx.arc(moonX,moonY,16,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle="#aebbd0";ctx.beginPath();ctx.arc(moonX+7,moonY-5,14,0,Math.PI*2);ctx.fill();
+  const glow=ctx.createRadialGradient(moonX,moonY,2,moonX,moonY,43);
+  glow.addColorStop(0,"rgba(220,235,255,.23)");
+  glow.addColorStop(1,"rgba(190,215,255,0)");
+  ctx.fillStyle=glow;ctx.fillRect(moonX-45,moonY-45,90,90);
+  const disc=ctx.createRadialGradient(moonX-5,moonY-6,1,moonX,moonY,15);
+  disc.addColorStop(0,"#ffffff");disc.addColorStop(.72,"#e8edf0");disc.addColorStop(1,"#b9c6d4");
+  ctx.fillStyle=disc;ctx.beginPath();ctx.arc(moonX,moonY,15,0,Math.PI*2);ctx.fill();
+  // Vết tối và miệng hố nhỏ tạo bề mặt trăng, không dùng hình tròn che khuất giả.
+  ctx.fillStyle="rgba(139,155,174,.30)";
+  ctx.beginPath();ctx.arc(moonX-5,moonY-3,3.2,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(moonX+4,moonY+5,2.1,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(moonX+5,moonY-6,1.4,0,Math.PI*2);ctx.fill();
   ctx.restore();
  }
 }
@@ -2387,10 +2401,10 @@ function drawSectAmbientLight(time){
 function drawScenery(time){
   ctx.save();ctx.globalAlpha=1;ctx.shadowBlur=0;
   drawSky(time);
-  drawSectCelestial(time); // Thiên thể luôn ở sau núi, kiến trúc và biển tên.
   drawMountainRange();
   drawLandscapeDepth(time);
   drawMovingClouds(time);
+  drawSectCelestial(time); // Hiện rõ trên nền núi/mây nhưng luôn trước kiến trúc và biển tên.
   drawRiver(time);
   drawDenseForest(time);
   // Đại trận hộ sơn nằm sau quần thể lầu các, không che kiến trúc.
