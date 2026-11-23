@@ -432,6 +432,37 @@ function drawSectPavilion(x,y,scale,title,type,accent,time=0){
  else if(type==="observatory"){ctx.strokeStyle="#d9c17f";ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(0,-36,34,13,.2,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.ellipse(0,-36,13,34,.2,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.moveTo(-32,-36);ctx.lineTo(32,-36);ctx.moveTo(0,-69);ctx.lineTo(0,-3);ctx.stroke();ctx.fillStyle="#9be7f2";ctx.beginPath();ctx.arc(0,-36,6,0,Math.PI*2);ctx.fill();for(let i=0;i<8;i++){const q=i*Math.PI/4;ctx.fillStyle="#fff0b2";ctx.beginPath();ctx.arc(Math.cos(q)*44,-36+Math.sin(q)*22,2,0,Math.PI*2);ctx.fill();}}
  else if(type==="guardian"){ctx.strokeStyle="#8bd9ec";ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(0,-20,55,15,0,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.ellipse(0,-20,39,10,0,0,Math.PI*2);ctx.stroke();ctx.fillStyle="#5a766e";ctx.fillRect(-8,-82,16,68);ctx.fillStyle="#a8e6e6";ctx.beginPath();ctx.moveTo(0,-105);ctx.lineTo(9,-83);ctx.lineTo(0,-65);ctx.lineTo(-9,-83);ctx.closePath();ctx.fill();for(let i=0;i<6;i++){ctx.save();ctx.rotate(i*Math.PI/3);ctx.strokeStyle="#e8d28e";ctx.beginPath();ctx.moveTo(0,-22);ctx.lineTo(0,-53);ctx.stroke();ctx.restore();}}
  ctx.restore();
+ // GIAI ĐOẠN 6: chi tiết kiến trúc — bậc thềm, đấu củng, gờ ngói, đỉnh mái.
+ ctx.save();
+ const stair=ctx.createLinearGradient(0,-3,0,12);
+ stair.addColorStop(0,"#c5ad78");stair.addColorStop(.5,"#82765a");stair.addColorStop(1,"#4b4c40");
+ for(let k=0;k<3;k++){
+  const ww=48-k*9,yy=-5+k*5;
+  ctx.fillStyle=stair;ctx.beginPath();ctx.moveTo(-ww,yy);ctx.lineTo(ww,yy);ctx.lineTo(ww+5,yy+4);ctx.lineTo(-ww-5,yy+4);ctx.closePath();ctx.fill();
+  ctx.strokeStyle="rgba(241,220,163,.48)";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(-ww,yy);ctx.lineTo(ww,yy);ctx.stroke();
+ }
+ for(const side of [-1,1]){
+  for(let tier=0;tier<2;tier++){
+   const yy=-72-tier*36,xx=side*(40-tier*8);
+   ctx.fillStyle="#6b4b36";ctx.fillRect(xx-5,yy,10,8);
+   ctx.fillStyle="#d8b76f";ctx.fillRect(xx-7,yy-2,14,2);
+   ctx.fillStyle="#e4c77f";ctx.beginPath();ctx.moveTo(xx,yy-6);ctx.lineTo(xx+side*7,yy-1);ctx.lineTo(xx,yy+2);ctx.lineTo(xx-side*7,yy-1);ctx.closePath();ctx.fill();
+  }
+ }
+ for(const yy of [-72,-108]){
+  ctx.strokeStyle="rgba(247,218,153,.42)";ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(-55,yy+2);ctx.quadraticCurveTo(0,yy-30,55,yy+2);ctx.stroke();
+  for(let i=-4;i<=4;i++){const xx=i*11;ctx.fillStyle="#e6c77d";ctx.beginPath();ctx.arc(xx,yy-8+Math.abs(i)*2.2,1.4,0,Math.PI*2);ctx.fill();}
+ }
+ ctx.fillStyle="#f0d28a";
+ for(const side of [-1,1]){
+  ctx.beginPath();ctx.moveTo(side*66,-74);ctx.lineTo(side*77,-81);ctx.lineTo(side*73,-68);ctx.lineTo(side*62,-68);ctx.closePath();ctx.fill();
+  ctx.beginPath();ctx.moveTo(side*52,-110);ctx.lineTo(side*62,-116);ctx.lineTo(side*59,-105);ctx.lineTo(side*49,-104);ctx.closePath();ctx.fill();
+ }
+ ctx.fillStyle="#533c2a";ctx.fillRect(-18,-66,36,12);
+ ctx.strokeStyle="#e0c17b";ctx.lineWidth=1.5;ctx.strokeRect(-18,-66,36,12);
+ ctx.fillStyle="rgba(255,236,181,.45)";ctx.fillRect(-14,-63,28,1);
+ ctx.restore();
 }
 
 
