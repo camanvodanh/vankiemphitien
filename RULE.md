@@ -841,3 +841,12 @@
 - Không che 14 công trình, đường đua hoặc khu đệ tử.
 - Hiệu ứng dùng timestamp game loop, số lượng cố định; không timer/loop riêng, không random mỗi frame.
 - Cache visual-overrides.js race-phase1-v241 (được nâng tiếp ở Giai đoạn 6 thành v242); data-loader.js data-driven-v204; index.html data-driven-v204.
+
+
+## Giai đoạn 8 — Đại trận hộ sơn
+- Renderer `drawSectGuardianArray(time)` vẽ màn chắn dạng vòm bao phủ quần thể tiên môn, gồm đường viền và các kinh/vĩ tuyến linh lực mảnh.
+- Bảy trận nhãn bố trí dọc vòm; mỗi trận nhãn có trụ sáng hướng xuống, vòng trận dưới chân và phù văn hình thoi chuyển động chậm.
+- Các mạch linh lực nối tuần hoàn giữa trận nhãn và hội tụ về trận tâm; hai vòng ngọc tại trận tâm xoay ngược chiều.
+- Gọi trực tiếp trong `drawScenery(time)`, trước `drawSectArchitecture(time)`; không tạo timer, particle ngẫu nhiên hoặc vòng lặp độc lập.
+- Chỉ thay đổi lớp trình bày Canvas; không tác động gameplay, camera, thứ hạng hay thông số đua.
+- Cache `visual-overrides.js`: `race-phase1-v243`.
