@@ -835,9 +835,9 @@
 - Cache: visual-overrides.js race-phase1-v240, data-loader.js data-driven-v202, index.html data-driven-v202.
 
 
-## 134. Tiên Sơn có chiều sâu — Giai đoạn 5
-- Bổ sung lớp vân vụ mỏng chuyển động chậm ngang các tầng núi, độ tương phản thấp để không che kiến trúc/đệ tử.
-- Bổ sung hai thác nước nhỏ ở rìa cảnh, có dải nước nhiều lớp, vệt chảy nhẹ và sương chân thác; không đi xuyên các công trình.
-- Thêm đường vân sống núi mảnh ở các sườn, giữ bố cục núi và 14 công trình hiện tại.
-- Hiệu ứng lấy timestamp game loop, số dải/đường cố định; không tạo timer, vòng lặp riêng, random mỗi frame hoặc thay đổi gameplay/camera/âm thanh.
-- Cache: visual-overrides.js race-phase1-v241, data-loader.js data-driven-v203, index.html data-driven-v203.
+## 134. Tiên Sơn có chiều sâu — Giai đoạn 5 (điều chỉnh)
+- Giữ vân vụ mỏng chuyển động chậm ngang các tầng núi và chi tiết sống núi nhẹ.
+- Đã loại bỏ hoàn toàn hiệu ứng thác nước theo yêu cầu; không vẽ thác hoặc sương chân thác.
+- Không che 14 công trình, đường đua hoặc khu đệ tử.
+- Hiệu ứng dùng timestamp game loop, số lượng cố định; không timer/loop riêng, không random mỗi frame.
+- Cache visual-overrides.js race-phase1-v241 (được nâng tiếp ở Giai đoạn 6 thành v242); data-loader.js data-driven-v204; index.html data-driven-v204.
