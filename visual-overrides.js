@@ -2178,6 +2178,46 @@ function drawSectGuardianArray(time){
 /* GIAI ĐOẠN 9 — chu kỳ thời gian, ánh sáng và thời tiết.
  * Dùng timestamp của game loop; mọi vị trí/nhịp đều xác định, không timer riêng.
  */
+/* Mặt trời và mặt trăng dùng chung chu kỳ 4 phút.
+ * Vẽ ngay sau nền trời, trước núi/lầu các/biển tên để luôn nằm ở hậu cảnh.
+ */
+function drawSectCelestial(time){
+ const t=Math.max(0,Number.isFinite(time)?time:0),cycle=(t%240000)/240000;
+ const smooth=(a,b,x)=>{const q=Math.max(0,Math.min(1,(x-a)/(b-a)));return q*q*(3-2*q);};
+ const dawn=smooth(0,.18,cycle)*(1-smooth(.22,.31,cycle));
+ const dusk=smooth(.48,.62,cycle)*(1-smooth(.70,.82,cycle));
+ const night=Math.max(1-smooth(0,.16,cycle),smooth(.72,.9,cycle));
+ const day=Math.max(0,1-Math.max(dawn,dusk,night));
+ const sunProgress=Math.max(0,Math.min(1,(cycle-.16)/.56));
+ const sunX=-75+sunProgress*1230;
+ const sunY=245-Math.sin(sunProgress*Math.PI)*145;
+ const sunAlpha=Math.max(day,dawn*.8,dusk*.9);
+ if(sunAlpha>.012){
+  ctx.save();ctx.globalAlpha=sunAlpha;
+  const halo=ctx.createRadialGradient(sunX,sunY,5,sunX,sunY,66);
+  halo.addColorStop(0,"rgba(255,235,177,.30)");
+  halo.addColorStop(.42,"rgba(255,213,145,.13)");
+  halo.addColorStop(1,"rgba(255,194,119,0)");
+  ctx.fillStyle=halo;ctx.fillRect(sunX-70,sunY-70,140,140);
+  ctx.fillStyle="#ffe8b0";ctx.beginPath();ctx.arc(sunX,sunY,13,0,Math.PI*2);ctx.fill();
+  ctx.restore();
+ }
+ if(night>.012){
+  // Trăng mọc phía phải lúc chạng vạng, lên cao giữa đêm rồi lặn bên trái lúc bình minh.
+  const moonProgress=cycle>=.72?(cycle-.72)/.44:(cycle+.28)/.44;
+  const moonX=1110-moonProgress*1260;
+  const moonY=246-Math.sin(moonProgress*Math.PI)*158;
+  ctx.save();ctx.globalAlpha=night;
+  const moonGlow=ctx.createRadialGradient(moonX,moonY,3,moonX,moonY,55);
+  moonGlow.addColorStop(0,"rgba(218,235,255,.22)");
+  moonGlow.addColorStop(1,"rgba(195,218,255,0)");
+  ctx.fillStyle=moonGlow;ctx.fillRect(moonX-58,moonY-58,116,116);
+  ctx.fillStyle="#e7eddf";ctx.beginPath();ctx.arc(moonX,moonY,16,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#aebbd0";ctx.beginPath();ctx.arc(moonX+7,moonY-5,14,0,Math.PI*2);ctx.fill();
+  ctx.restore();
+ }
+}
+
 function drawSectTimeWeather(time){
  const t=Math.max(0,Number.isFinite(time)?time:0);
  const cycle=(t%240000)/240000;
@@ -2196,32 +2236,6 @@ function drawSectTimeWeather(time){
  if(dusk>0.01){ctx.fillStyle="rgba(221,112,83,"+(dusk*.17)+")";ctx.fillRect(0,0,W,H);}
  if(night>0.01){ctx.fillStyle="rgba(13,24,57,"+(night*.48)+")";ctx.fillRect(0,0,W,H);}
  if(day>0.01){ctx.fillStyle="rgba(255,244,207,"+(day*.025)+")";ctx.fillRect(0,0,W,H);}
-
- // Mặt trời đi qua đường chân trời; trăng xuất hiện ở nửa chu kỳ tối.
- const sunX=-90+cycle*1280,sunY=205-Math.sin(cycle*Math.PI)*128;
- const sunAlpha=Math.max(dawn,dusk,day);
- if(sunAlpha>.015){
-  const halo=ctx.createRadialGradient(sunX,sunY,3,sunX,sunY,104);
-  halo.addColorStop(0,"rgba(255,235,170,"+(.42*sunAlpha)+")");
-  halo.addColorStop(1,"rgba(255,194,119,0)");
-  ctx.fillStyle=halo;ctx.fillRect(sunX-110,sunY-110,220,220);
-  ctx.fillStyle="rgba(255,231,169,"+(.72*sunAlpha)+")";
-  ctx.beginPath();ctx.arc(sunX,sunY,17,0,Math.PI*2);ctx.fill();
- }
- if(night>.02){
-  const moonX=850-cycle*500,moonY=112+Math.sin(cycle*6.283)*13;
-  ctx.globalAlpha=night;
-  ctx.fillStyle="#e7eddf";ctx.beginPath();ctx.arc(moonX,moonY,19,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle="#aebbd0";ctx.beginPath();ctx.arc(moonX+7,moonY-5,17,0,Math.PI*2);ctx.fill();
-  for(let i=0;i<42;i++){
-   const sx=(i*197+37)%1100,sy=22+(i*83)%235;
-   const twinkle=.45+.55*(.5+.5*Math.sin(t*.002+i*2.17));
-   ctx.globalAlpha=night*twinkle;
-   ctx.fillStyle=i%5===0?"#ffe9b0":"#e5f1ff";
-   ctx.fillRect(sx,sy,i%7===0?2.2:1.25,i%7===0?2.2:1.25);
-  }
-  ctx.globalAlpha=1;
- }
 
  // Đèn lồng ở hiên 14 công trình tự sáng khi trời tối.
  const buildings=[
@@ -2373,6 +2387,7 @@ function drawSectAmbientLight(time){
 function drawScenery(time){
   ctx.save();ctx.globalAlpha=1;ctx.shadowBlur=0;
   drawSky(time);
+  drawSectCelestial(time); // Thiên thể luôn ở sau núi, kiến trúc và biển tên.
   drawMountainRange();
   drawLandscapeDepth(time);
   drawMovingClouds(time);
