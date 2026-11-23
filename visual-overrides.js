@@ -2147,6 +2147,33 @@ function drawLandscapeDepth(time){
 }
 
 // =====================================================
+/* GIAI ĐOẠN 8 — ĐẠI TRẬN HỘ SƠN: màn chắn, trận nhãn và mạch linh lực.
+ * Vẽ trong frame cảnh; không tạo timer, particle hay loop riêng.
+ */
+function drawSectGuardianArray(time){
+ const t=(Number.isFinite(time)?time:0)*.001,pulse=.5+.5*Math.sin(t*1.05);
+ const nodes=[{x:92,y:394},{x:222,y:228},{x:390,y:126},{x:550,y:78},{x:710,y:126},{x:878,y:228},{x:1008,y:394}];
+ ctx.save();ctx.lineCap="round";ctx.lineJoin="round";ctx.globalCompositeOperation="screen";
+ const dome=()=>{ctx.beginPath();ctx.moveTo(62,478);ctx.bezierCurveTo(74,210,275,55,550,54);ctx.bezierCurveTo(825,55,1026,210,1038,478);};
+ dome();ctx.strokeStyle="rgba(104,218,220,"+(.13+.045*pulse)+")";ctx.lineWidth=13;ctx.stroke();
+ dome();ctx.strokeStyle="rgba(151,238,226,"+(.27+.08*pulse)+")";ctx.lineWidth=2.2;ctx.stroke();
+ for(let i=-2;i<=2;i++){ctx.beginPath();ctx.moveTo(550+i*8,58);ctx.quadraticCurveTo(550+i*215,225,550+i*230,478);ctx.strokeStyle=i===0?"rgba(244,220,151,.34)":"rgba(126,218,220,.19)";ctx.lineWidth=i===0?1.8:1.15;ctx.stroke();}
+ for(const y of [174,282,382]){const w=(y-45)*1.28;ctx.beginPath();ctx.ellipse(550,y+18,w,Math.max(20,(y-45)*.24),0,Math.PI,Math.PI*2);ctx.strokeStyle="rgba(135,224,218,.17)";ctx.lineWidth=1.2;ctx.stroke();}
+ ctx.setLineDash([7,9]);ctx.lineDashOffset=-(t*9)%16;ctx.strokeStyle="rgba(135,239,222,"+(.2+.09*pulse)+")";ctx.lineWidth=1.7;
+ ctx.beginPath();nodes.forEach((p,i)=>{if(!i)ctx.moveTo(p.x,p.y);else ctx.lineTo(p.x,p.y);});ctx.closePath();ctx.stroke();ctx.setLineDash([]);
+ const center={x:550,y:294};
+ nodes.forEach((p,i)=>{ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.quadraticCurveTo((p.x+center.x)*.5+(i%2?18:-18),(p.y+center.y)*.5-12,center.x,center.y);ctx.strokeStyle="rgba(118,224,218,"+(.10+.055*pulse)+")";ctx.lineWidth=1.15;ctx.stroke();});
+ nodes.forEach((p,i)=>{
+  const ground=Math.min(505,p.y+92+(i===0||i===6?5:0)),beam=ctx.createLinearGradient(p.x,p.y,p.x,ground);
+  beam.addColorStop(0,"rgba(194,255,239,0)");beam.addColorStop(.22,"rgba(140,242,224,"+(.12+.08*pulse)+")");beam.addColorStop(1,"rgba(111,211,206,.025)");
+  ctx.fillStyle=beam;ctx.fillRect(p.x-5,p.y,10,ground-p.y);ctx.strokeStyle="rgba(185,248,229,"+(.3+.12*pulse)+")";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(p.x,p.y+5);ctx.lineTo(p.x,ground);ctx.stroke();
+  ctx.save();ctx.translate(p.x,ground-2);ctx.rotate(t*.12+i*.31);ctx.strokeStyle="rgba(222,245,190,"+(.42+.18*pulse)+")";ctx.lineWidth=1.5;ctx.beginPath();ctx.ellipse(0,0,15,5,0,0,Math.PI*2);ctx.stroke();ctx.rotate(-t*.24-i*.31);ctx.strokeStyle="rgba(124,226,220,.42)";ctx.beginPath();ctx.ellipse(0,0,9,3,0,0,Math.PI*2);ctx.stroke();ctx.restore();
+  ctx.save();ctx.translate(p.x,p.y);ctx.rotate(t*.16+i*.47);ctx.shadowColor="#9af4e4";ctx.shadowBlur=5+4*pulse;ctx.strokeStyle="rgba(224,250,210,"+(.58+.2*pulse)+")";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(0,-9);ctx.lineTo(7,0);ctx.lineTo(0,9);ctx.lineTo(-7,0);ctx.closePath();ctx.stroke();ctx.beginPath();ctx.arc(0,0,3,0,Math.PI*2);ctx.stroke();ctx.restore();
+ });
+ ctx.save();ctx.translate(center.x,center.y);ctx.rotate(t*.075);ctx.strokeStyle="rgba(174,244,220,.28)";ctx.lineWidth=1.5;ctx.beginPath();ctx.ellipse(0,0,31,11,0,0,Math.PI*2);ctx.stroke();ctx.rotate(-t*.15);ctx.strokeStyle="rgba(244,219,151,.32)";ctx.beginPath();ctx.ellipse(0,0,21,7,0,0,Math.PI*2);ctx.stroke();ctx.fillStyle="rgba(216,255,230,"+(.35+.2*pulse)+")";ctx.beginPath();ctx.arc(0,0,2.5,0,Math.PI*2);ctx.fill();ctx.restore();
+ ctx.restore();
+}
+
 function drawScenery(time){
   ctx.save();ctx.globalAlpha=1;ctx.shadowBlur=0;
   drawSky(time);
@@ -2155,6 +2182,8 @@ function drawScenery(time){
   drawMovingClouds(time);
   drawRiver(time);
   drawDenseForest(time);
+  // Đại trận hộ sơn nằm sau quần thể lầu các, không che kiến trúc.
+  drawSectGuardianArray(time);
   // Lầu các nằm nguyên vẹn ở lớp sau; pháp bảo được đặt sát mép trái ngoài cụm điện.
   drawSectArchitecture(time);
   drawAmbientEnergy(time);
