@@ -37,7 +37,8 @@ function drawSky(time) {
 
   stars.forEach(s => {
     const twinkle = .7 + Math.sin(time * .0015 + s.phase) * .3;
-    ctx.globalAlpha = s.alpha * twinkle;
+    const nightLevel = Math.max(0, Math.min(1, .5 - .5 * Math.cos(((time % 240000) / 240000) * Math.PI * 2)));
+    ctx.globalAlpha = s.alpha * twinkle * nightLevel;
     ctx.fillStyle = "#fff3c6";
     ctx.fillRect(s.x, s.y, s.size, s.size);
   });
