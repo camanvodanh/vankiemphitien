@@ -109,15 +109,17 @@
     const ranked=[...npcs].map(n=>({n,s:scoreNpc(n)})).sort((a,b)=>b.s.total-a.s.total);
     const board=document.getElementById("alchemyBoard");
     if(board)board.innerHTML=ranked.map((item,i)=>{const n=item.n,s=item.s;const medal=i===0?"👑":i===1?"🥈":i===2?"🥉":String(i+1).padStart(2,"0");return '<button class="rank-row '+(n.id-1===selectedNpc?'is-selected':'')+'" data-npc="'+(n.id-1)+'"><b>'+medal+'</b><span class="rank-name">'+n.name+'<small>'+ (n.done?(n.success?pillRank(n.quality):"Luyện đan thất bại"):n.status)+'</small></span><span class="rank-score">'+s.total.toFixed(1)+'<small>điểm</small></span></button>'}).join("");
-    board?.querySelectorAll("[data-npc]").forEach(el=>el.addEventListener("click",()=>{selectedNpc=Number(el.dataset.npc);renderSelected()}));
-    const finished=npcs.every(n=>n.done);
+    board?.querySelectorAll("[data-npc]").forEach(el=>el.addEventListener("click",()=>{selectedNpc=Number(el.dataset.npc);cameraFocusUntil=performance.now()+7000;renderSelected();renderTournament(performance.now()+500);}));
+    const finished=simFinished;
     const champion=ranked[0].n;
     const title=document.getElementById("tournamentState");
     if(title)title.textContent=finished?"ĐÃ KẾT THÚC · CÔNG BỐ BẢNG VÀNG":"ĐẠI HỘI ĐAN ĐẠO · ĐANG TRANH TÀI";
+    const count=document.getElementById("alchemyBoardCount");if(count)count.textContent=npcs.length+" ĐỆ TỬ";
+    const boardStatus=document.getElementById("alchemyBoardStatus");if(boardStatus)boardStatus.textContent=finished?"ĐÃ KẾT THÚC":simStarted?(simPaused?"TẠM NGƯNG":"ĐANG THI ĐẤU"):"CHƯA KHAI LÒ";
     const champ=document.getElementById("alchemyChampion");
     if(champ)champ.textContent=finished?"ĐAN VƯƠNG: "+champion.name+" · "+pillRank(champion.quality)+" · "+ranked[0].s.total.toFixed(1)+" điểm":"TẠM DẪN ĐẦU: "+champion.name+" · "+ranked[0].s.total.toFixed(1)+" điểm";
     const appraisal=document.getElementById("alchemyAppraisal");
-    if(appraisal)appraisal.textContent=finished?"Trưởng lão đã giám định toàn bộ đan dược. Người đứng đầu được tôn xưng Đan Vương.":npcs.filter(n=>n.done).length+" / 16 đan lô đã đưa đan dược vào Giám Đan Các.";
+    if(appraisal)appraisal.textContent=finished?"Trưởng lão đã giám định toàn bộ đan dược. Người đứng đầu được tôn xưng Đan Vương.":npcs.filter(n=>n.done).length+" / "+npcs.length+" đan lô đã hoàn tất.";
     renderSelected();
     if(finished&&!finalAnnounced){finalAnnounced=true;eventText="Đại hội kết thúc · "+champion.name+" đoạt Đan Vương";const ev=document.getElementById("alchemyEvent");if(ev)ev.textContent=eventText}
   }
@@ -127,20 +129,58 @@
     el.innerHTML='<strong>LÒ '+String(n.id).padStart(2,"0")+' · '+n.name+'</strong><span>'+n.status+' · '+n.strategy+'</span><span>Đan thuật '+n.stats.alchemy+' · Khống hỏa '+n.stats.fire+' · Thần thức '+n.stats.sense+'</span><span>Linh lực '+n.stats.spirit+' · Tốc độ '+n.stats.speed+' · Tâm cảnh '+n.stats.calm+'</span><span>Điểm tốc độ '+s.speed.toFixed(1)+' · Kỹ thuật '+s.technique.toFixed(1)+' · Chất lượng '+s.quality.toFixed(1)+'</span><em>'+(n.done?(n.success?"Thành phẩm: "+pillRank(n.quality)+" · "+n.event:"Đan lô thất bại · "+n.event):"Tiến độ luyện đan: "+Math.floor(n.progress*100)+"%")+'</em>';
   }
   function resetTournament(){
-    seed=20261126;
-    npcs.forEach((n,i)=>{n.progress=0;n.phase=0;n.status="Đang chuẩn bị";n.done=false;n.success=false;n.quality=0;n.event="";n.elapsed=0;});
-    flames.forEach((f,i)=>f.heat=.72+(i%4)*.055);
-    simElapsed=0;lastSim=performance.now();simStarted=true;eventText="Đại hội Đan Đạo khai lò · 16 vị đệ tử vào cuộc";finalAnnounced=false;lastBoardUpdate=0;
-    const ev=document.getElementById("alchemyEvent");if(ev)ev.textContent=eventText;
-    renderTournament(lastBoardUpdate+1000);
+    buildRoster(npcs.length,npcs.map(n=>n.name));
+    const time=document.getElementById("alchemyTime");if(time)time.textContent="CHƯA KHAI LÒ";
+    const phase=document.getElementById("alchemyPhase");if(phase)phase.textContent="CHỜ KHAI LÒ";
+    const event=document.getElementById("alchemyEvent");if(event)event.textContent=eventText;
+  }
+  function bindAlchemyControls(){
+    const quantity=document.getElementById("alchemyQuantity"),names=document.getElementById("alchemyNames"),duration=document.getElementById("alchemyDuration");
+    document.getElementById("summonAlchemy")?.addEventListener("click",()=>{
+      const count=clamp(Math.floor(Number(quantity?.value)||16),2,16);
+      const typed=(names?.value||"").split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+      if(typed.length===1){const notice=document.getElementById("alchemyNotice");if(notice)notice.textContent="Hãy nhập ít nhất hai đạo danh hoặc để trống để triệu hồi ngẫu nhiên.";return;}
+      buildRoster(count,typed.length?typed.slice(0,count):DEFAULT_NAMES.slice(0,count));
+      simDuration=(Number(duration?.value)||180)*1000;
+      const notice=document.getElementById("alchemyNotice");if(notice)notice.textContent="Đã triệu hồi "+count+" đệ tử. Nhấn Khai lò để bắt đầu đại hội.";
+      if(names)names.value=typed.length?typed.slice(0,count).join("\n"):"";
+    });
+    document.getElementById("startAlchemy")?.addEventListener("click",()=>{if(!simFinished)beginSimulation();});
+    document.getElementById("pauseAlchemy")?.addEventListener("click",()=>{
+      if(!simStarted||simPaused||simFinished)return;
+      simPaused=true;eventText="Đại hội tạm ngưng · chờ hiệu lệnh tiếp tục";
+      const event=document.getElementById("alchemyEvent");if(event)event.textContent=eventText;
+      setAlchemyControls();
+    });
+    document.getElementById("stopAlchemy")?.addEventListener("click",()=>{
+      if(!simStarted&&!simPaused)return;
+      simPaused=true;simStarted=false;eventText="Đại hội đã dừng · có thể triệu hồi lại";
+      const event=document.getElementById("alchemyEvent");if(event)event.textContent=eventText;
+      setAlchemyControls();
+    });
+    document.querySelector(".dan-summon-panel .window-minimize")?.addEventListener("click",e=>{
+      const panel=document.querySelector(".dan-summon-panel");if(!panel)return;
+      const minimized=panel.classList.toggle("is-minimized");
+      e.currentTarget.setAttribute("aria-expanded",String(!minimized));e.currentTarget.textContent=minimized?"+":"−";
+    });
+    document.querySelector(".dan-summon-launcher")?.addEventListener("click",()=>{
+      const panel=document.querySelector(".dan-summon-panel");if(!panel)return;
+      panel.classList.remove("is-minimized");
+      const button=panel.querySelector(".window-minimize");if(button){button.textContent="−";button.setAttribute("aria-expanded","true");}
+    });
+    document.querySelectorAll(".dan-game-camera .window-minimize,.dan-game-ranking .window-minimize").forEach(button=>button.addEventListener("click",()=>{
+      const panel=button.closest(".game-camera,.game-ranking");if(!panel)return;
+      const minimized=panel.classList.toggle("is-minimized");
+      button.textContent=minimized?"+":"−";button.setAttribute("aria-expanded",String(!minimized));
+    }));
   }
   canvas.addEventListener("click",e=>{
-    const r=canvas.getBoundingClientRect();const x=(e.clientX-r.left)/r.width*W,y=(e.clientY-r.top)/r.height*H;
+    const r=canvas.getBoundingClientRect();if(!r.width||!r.height)return;
+    const x=(e.clientX-r.left)/r.width*W,y=(e.clientY-r.top)/r.height*H;
     let best=-1,dist=1e9;
-    for(let i=0;i<16;i++){const row=Math.floor(i/4),col=i%4,s=.68+row*.12,px=300+col*335+(row%2?18:-18),py=590+row*111,d=Math.hypot((x-px)/s,(y-py)/s);if(d<dist){dist=d;best=i}}
-    if(best>=0&&dist<95){selectedNpc=best;renderSelected();renderTournament(performance.now()+1000)}
+    for(let i=0;i<npcs.length;i++){const p=stationPosition(i),d=Math.hypot((x-p.x)/p.s,(y-p.y)/p.s);if(d<dist){dist=d;best=i;}}
+    if(best>=0&&dist<95){selectedNpc=best;cameraFocusUntil=performance.now()+7000;renderSelected();renderTournament(performance.now()+1000);}
   });
-  document.getElementById("restartAlchemy")?.addEventListener("click",resetTournament);
 
   function path(points,fill,stroke=null,lw=1){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lw;ctx.stroke()}}
   function roof(cx,y,w,h,color="#283b35"){
@@ -361,7 +401,7 @@
     drawMainFurnace(t);
     drawElder(t);
     // 16 independent stations
-    for(let i=0;i<16;i++)drawStation(i,t);
+    for(let i=0;i<npcs.length;i++)drawStation(i,t);
     // gold floor seal in foreground
     ctx.save();ctx.globalAlpha=.35;ctx.strokeStyle="#e3c579";ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(800,925,240,42,0,0,TAU);ctx.stroke();ctx.beginPath();ctx.ellipse(800,925,205,30,0,0,TAU);ctx.stroke();for(let i=0;i<8;i++){const a=i*TAU/8;ctx.beginPath();ctx.moveTo(800+Math.cos(a)*205,925+Math.sin(a)*30);ctx.lineTo(800+Math.cos(a)*240,925+Math.sin(a)*42);ctx.stroke()}ctx.restore();
   }
@@ -408,5 +448,6 @@
   }
   document.addEventListener("visibilitychange",()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0}else if(!raf){last=0;raf=requestAnimationFrame(frame)}});
   window.addEventListener("pagehide",()=>cancelAnimationFrame(raf),{once:true});
+  bindAlchemyControls();buildRoster(16,DEFAULT_NAMES);simDuration=180000;
   raf=requestAnimationFrame(frame);
 })();
