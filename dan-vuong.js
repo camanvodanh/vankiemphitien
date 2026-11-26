@@ -343,7 +343,7 @@
   }
   function drawAlchemyCamera(now){
     if(!cameraCtx||!cameraCanvas||!npcs.length)return;
-    const focus=now<cameraFocusUntil?npcs[selectedNpc]:[...npcs].sort((a,b)=>b.progress-a.progress)[0];
+    const focus=now<cameraFocusUntil?npcs[selectedNpc]:[...npcs].sort((a,b)=>scoreNpc(b).total-scoreNpc(a).total)[0];
     if(!focus)return;
     const p=stationPosition(focus.id-1),sw=500,sh=290,sx=clamp(p.x-sw/2,0,W-sw),sy=clamp(p.y-sh/2,0,H-sh);
     cameraCtx.setTransform(1,0,0,1,0,0);cameraCtx.clearRect(0,0,cameraCanvas.width,cameraCanvas.height);
