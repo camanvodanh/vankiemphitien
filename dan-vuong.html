@@ -77,5 +77,18 @@
     </section>
   </main>
   <script src="dan-vuong.js?v=ingame-v6"></script>
+  <script src="i18n.js?v=dan-alchemy-v1"></script>
+  <script>
+    (() => {
+      const syncLanguage = () => {
+        try {
+          const language = window.parent.VKP_I18N && window.parent.VKP_I18N.language;
+          if (language && window.VKP_I18N) window.VKP_I18N.setLanguage(language);
+        } catch (_) {}
+      };
+      syncLanguage();
+      try { window.parent.addEventListener("vkp-language-change", syncLanguage); } catch (_) {}
+    })();
+  </script>
 </body>
 </html>
