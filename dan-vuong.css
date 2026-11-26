@@ -286,3 +286,7 @@ body.dan-page{background:radial-gradient(ellipse at 50% 0%,#25483a 0,#142b25 48%
  .dan-stage-event{bottom:39px}
  .dan-selected-info{bottom:39px}
 }
+
+/* Keep the summon shortcut hidden until the panel is collapsed. */
+.dan-arena-frame>.dan-summon-launcher{display:none!important}
+.dan-arena-frame>.dan-summon-panel.is-minimized~.dan-summon-launcher{display:grid!important;place-items:center!important}
