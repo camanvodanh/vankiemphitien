@@ -251,6 +251,52 @@ Object.assign(DICT.cn,{
 
 Object.assign(DICT.en,{"ĐỆ TỬ":"DISCIPLES","CÔNG ĐOẠN":"STAGE","HOÀN TẤT":"COMPLETED","HẠNG ":"RANK ","DẪN ĐẦU":"IN THE LEAD","ĐIỂM":"POINTS","THÀNH PHẨM":"PILL RESULT","Đan thuật":"Alchemy","Khống hỏa":"Flame control","Thần thức":"Spiritual sense","Linh lực":"Spiritual power","Tâm cảnh":"Composure"});
 Object.assign(DICT.cn,{"ĐỆ TỬ":"弟子","CÔNG ĐOẠN":"阶段","HOÀN TẤT":"完成","HẠNG ":"排名","DẪN ĐẦU":"领先","ĐIỂM":"分","THÀNH PHẨM":"丹药成果","Đan thuật":"丹术","Khống hỏa":"控火","Thần thức":"神识","Linh lực":"灵力","Tâm cảnh":"心境"});
+
+Object.assign(DICT.en,{
+  "THIÊN ĐỊA CHÍ TÔN · VẠN ĐAN TRANH HÙNG":"SUPREME HEAVEN & EARTH · MYRIAD PILLS COMPETE",
+  "ĐAN VƯƠNG CÁC":"PILL KING PAVILION",
+  "NHẤT LÒ THÀNH ĐAN · VẠN ĐẠO QUY TÔNG":"ONE FURNACE FORGES IMMORTAL PILLS · ALL PATHS RETURN TO THE SOURCE",
+  "丹 · ĐAN VƯƠNG CÁC":"丹 · PILL KING PAVILION",
+  "BÁCH LUYỆN ĐÀI · VẠN LÒ TRANH PHONG":"HUNDRED FURNACE ARENA · MYRIAD CAULDRONS COMPETE",
+  "ĐAN ĐẠO CHÍ TÔN · VẠN LÒ TRANH PHONG":"SUPREME PILL DAO · MYRIAD FURNACES COMPETE",
+  "BÁCH LUYỆN ĐÀI · THIÊN KIÊU TRANH ĐAN":"HUNDRED FURNACE ARENA · PILL REFINERS COMPETE",
+  "ĐẠI HỘI ĐAN ĐẠO":"PILL REFINING TOURNAMENT",
+  "Đan Môn · Triệu Hồi":"Alchemy Sect · Summoning",
+  "SỐ ĐỆ TỬ THAM DỰ":"ALCHEMISTS",
+  "ĐẠO DANH · MỖI DÒNG MỘT TÊN":"NAMES · ONE PER LINE",
+  "Để trống để triệu hồi ngẫu nhiên…":"Leave blank for random alchemists…",
+  "THỜI GIAN THI ĐẤU":"TOURNAMENT DURATION",
+  "2 phút":"2 minutes","3 phút":"3 minutes","5 phút":"5 minutes",
+  "✦ TRIỆU HỒI ĐỆ TỬ":"✦ SUMMON ALCHEMISTS",
+  "Chọn số lượng, sau đó triệu hồi các đệ tử vào Bách Luyện Đài.":"Choose the number, then summon alchemists to the Hundred Furnace Arena.",
+  "Khai lò":"Start furnace","Tạm ngưng":"Pause","Dừng":"Stop",
+  "ĐAN HỎA NGƯNG TỤ":"PILL FLAMES CONVERGE",
+  "Đang chờ khai lò":"Waiting for the furnace",
+  "Chạm vào một đệ tử để xem công đoạn luyện đan.":"Tap an alchemist to inspect their refinement stage."
+});
+Object.assign(DICT.cn,{
+  "THIÊN ĐỊA CHÍ TÔN · VẠN ĐAN TRANH HÙNG":"天地至尊 · 万丹争锋",
+  "ĐAN VƯƠNG CÁC":"丹王阁",
+  "NHẤT LÒ THÀNH ĐAN · VẠN ĐẠO QUY TÔNG":"一炉成丹 · 万道归宗",
+  "丹 · ĐAN VƯƠNG CÁC":"丹 · 丹王阁",
+  "BÁCH LUYỆN ĐÀI · VẠN LÒ TRANH PHONG":"百炼台 · 万炉争锋",
+  "ĐAN ĐẠO CHÍ TÔN · VẠN LÒ TRANH PHONG":"丹道至尊 · 万炉争锋",
+  "BÁCH LUYỆN ĐÀI · THIÊN KIÊU TRANH ĐAN":"百炼台 · 天骄炼丹",
+  "ĐẠI HỘI ĐAN ĐẠO":"丹道大会",
+  "Đan Môn · Triệu Hồi":"丹门 · 召集弟子",
+  "SỐ ĐỆ TỬ THAM DỰ":"参赛弟子数量",
+  "ĐẠO DANH · MỖI DÒNG MỘT TÊN":"道号 · 每行一个名字",
+  "Để trống để triệu hồi ngẫu nhiên…":"留空则随机召集弟子…",
+  "THỜI GIAN THI ĐẤU":"比赛时长",
+  "2 phút":"2分钟","3 phút":"3分钟","5 phút":"5分钟",
+  "✦ TRIỆU HỒI ĐỆ TỬ":"✦ 召集弟子",
+  "Chọn số lượng, sau đó triệu hồi các đệ tử vào Bách Luyện Đài.":"选择人数，然后召集弟子进入百炼台。",
+  "Khai lò":"开炉","Tạm ngưng":"暂停","Dừng":"停止",
+  "ĐAN HỎA NGƯNG TỤ":"丹火凝聚",
+  "Đang chờ khai lò":"等待开炉",
+  "Chạm vào một đệ tử để xem công đoạn luyện đan.":"点击弟子查看炼丹阶段。"
+});
+
 const LANGS={vi:"VN",en:"EN",cn:"CN"};
 const STORAGE_KEY="vankiemphitien-language";
 let language="vi";
@@ -378,6 +424,11 @@ if(typeof CanvasRenderingContext2D!=="undefined"){
     };
   });
 }
+window.addEventListener("storage",event=>{
+  if(event.key!==STORAGE_KEY||!["vi","en","cn"].includes(event.newValue)||event.newValue===language)return;
+  language=event.newValue;refreshDocument();
+  window.dispatchEvent(new CustomEvent("vkp-language-change",{detail:{language}}));
+});
 window.VKP_I18N={get language(){return language;},setLanguage,translate:translateText};
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init,{once:true});else init();
 })();
