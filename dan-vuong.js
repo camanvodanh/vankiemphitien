@@ -146,7 +146,7 @@
       const count=clamp(Math.floor(Number(quantity?.value)||16),2,16);
       const typed=(names?.value||"").split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
       if(typed.length===1){const notice=document.getElementById("alchemyNotice");if(notice)notice.textContent="Hãy nhập ít nhất hai đạo danh hoặc để trống để triệu hồi ngẫu nhiên.";return;}
-      buildRoster(count,typed.length?typed.slice(0,count):DEFAULT_NAMES.slice(0,count));
+      buildRoster(count,typed.length?typed.slice(0,count):[]);
       simDuration=(Number(duration?.value)||180)*1000;
       const notice=document.getElementById("alchemyNotice");if(notice)notice.textContent="Đã triệu hồi "+count+" đệ tử. Nhấn Khai lò để bắt đầu đại hội.";
       if(names)names.value=typed.length?typed.slice(0,count).join("\n"):"";
