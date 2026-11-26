@@ -347,6 +347,17 @@
       ctx.beginPath();ctx.moveTo(hx,handY+10);ctx.quadraticCurveTo(side*32,handY-8,side*(23+Math.sin(t*.004+index)*5),-72);ctx.stroke();
       ctx.fillStyle=glow;ctx.beginPath();ctx.arc(hx,handY+8,2.8,0,TAU);ctx.fill();
     }
+    // Tay áo và bàn tay được đưa lên theo từng công đoạn, giữ cùng sắc da và màu áo của nhân vật đua.
+    const skinTones=window.parent?.VKP_DATA?.characters?.appearance?.skinTones||["#f0c29e"];
+    const skin=skinTones[(n.raceLook.appearanceSeed||0)%skinTones.length];
+    ctx.shadowBlur=0;ctx.lineCap="round";ctx.strokeStyle=n.raceLook.color;ctx.lineWidth=7;
+    for(const side of [-1,1]){
+      const wristX=side*(17+beat*2),wristY=handY+9;
+      ctx.beginPath();ctx.moveTo(side*8,-5);ctx.quadraticCurveTo(side*18,-17,wristX,wristY);ctx.stroke();
+      ctx.strokeStyle=skin;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(wristX,wristY);ctx.lineTo(wristX+side*2,wristY-4);ctx.stroke();
+      ctx.fillStyle=skin;ctx.beginPath();ctx.arc(wristX+side*2,wristY-5,3.4,0,TAU);ctx.fill();
+      ctx.strokeStyle=n.raceLook.color;ctx.lineWidth=7;
+    }
     if(phase===1){
       for(let k=0;k<3;k++){const ang=t*.0025+index+k*TAU/3,rx=Math.cos(ang)*18,ry=-84+Math.sin(ang)*7;ctx.fillStyle="#b6e5a5";ctx.beginPath();ctx.ellipse(rx,ry,3,6,ang,0,TAU);ctx.fill();}
     }else{
@@ -366,9 +377,9 @@
     // Bàn đá phía trước che thanh phi kiếm của bộ nhân vật gốc, giữ nguyên gương mặt và trường bào.
     ctx.fillStyle="#30261f99";ctx.beginPath();ctx.ellipse(x,y+69,74*s,10*s,0,0,TAU);ctx.fill();
     const bench=ctx.createLinearGradient(0,y+51,0,y+72);bench.addColorStop(0,"#d2b276");bench.addColorStop(.22,"#8d6840");bench.addColorStop(1,"#4a3528");
-    ctx.fillStyle=bench;ctx.beginPath();ctx.moveTo(x-65*s,y+52);ctx.quadraticCurveTo(x,y+59,x+65*s,y+52);ctx.lineTo(x+60*s,y+70);ctx.quadraticCurveTo(x,y+76,x-60*s,y+70);ctx.closePath();ctx.fill();
-    ctx.strokeStyle="#f2d796";ctx.lineWidth=2*s;ctx.beginPath();ctx.moveTo(x-65*s,y+52);ctx.quadraticCurveTo(x,y+59,x+65*s,y+52);ctx.stroke();
-    ctx.fillStyle="#e4c783";ctx.fillRect(x-48*s,y+66,96*s,2*s);
+    ctx.fillStyle=bench;ctx.beginPath();ctx.moveTo(x-65*s,y+47);ctx.quadraticCurveTo(x,y+54,x+65*s,y+47);ctx.lineTo(x+60*s,y+68);ctx.quadraticCurveTo(x,y+74,x-60*s,y+68);ctx.closePath();ctx.fill();
+    ctx.strokeStyle="#f2d796";ctx.lineWidth=2*s;ctx.beginPath();ctx.moveTo(x-65*s,y+47);ctx.quadraticCurveTo(x,y+54,x+65*s,y+47);ctx.stroke();
+    ctx.fillStyle="#e4c783";ctx.fillRect(x-48*s,y+64,96*s,2*s);
     ctx.textAlign="center";ctx.font="bold 12px Arial";ctx.fillStyle=n.done?(n.success?"#ffe49b":"#e39b8c"):"#fff0c8";ctx.fillText(n.name,x,y+82);
     ctx.font="9px Arial";ctx.fillStyle="#d9d0b8";ctx.fillText(n.done?(n.success?"THÀNH ĐAN · "+pillRank(n.quality):"LÒ ĐAN THẤT BẠI"):n.status.toUpperCase()+" · "+Math.floor(n.progress*100)+"%",x,y+93);
     ctx.fillStyle="#30291f";ctx.fillRect(x-42,y+99,84,4);ctx.fillStyle=n.done?(n.success?"#e8c36d":"#9c5d50"):"#9bc6a8";ctx.fillRect(x-42,y+99,84*n.progress,4);
