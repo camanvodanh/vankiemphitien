@@ -59,7 +59,7 @@
 
     const frame = document.createElement("iframe");
     frame.title = "Đan Vương Điện";
-    frame.src = new URL("dan-vuong.html?embedded=1&v=ingame-v3", document.baseURI).href;
+    frame.src = new URL("dan-vuong.html?embedded=1&v=ingame-v4", document.baseURI).href;
     frame.setAttribute("allow", "fullscreen");
     Object.assign(frame.style, {
       display: "block", width: "100%", height: "100%",
