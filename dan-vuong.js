@@ -42,7 +42,7 @@
   function stationPosition(index){
     const count=npcs.length,cols=Math.min(4,Math.max(2,Math.ceil(Math.sqrt(count*1.15)))),rows=Math.ceil(count/cols);
     const col=index%cols,row=Math.floor(index/cols),spacing=cols===1?0:Math.min(330,1120/(cols-1));
-    const x=800-(cols-1)*spacing/2+col*spacing,rowGap=rows<=1?0:Math.min(112,330/(rows-1)),y=rows===1?735:590+row*rowGap;
+    const x=800-(cols-1)*spacing/2+col*spacing,rowGap=rows<=1?0:Math.min(98,300/(rows-1)),y=rows===1?735:565+row*rowGap;
     return {x,y,s:clamp(.78-(rows-4)*.035,.62,.82)};
   }
   function setAlchemyControls(){
