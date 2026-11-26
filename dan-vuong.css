@@ -264,3 +264,15 @@ body.dan-page{background:radial-gradient(ellipse at 50% 0%,#25483a 0,#142b25 48%
  .dan-summon-panel{width:38%;max-height:40%}
  .dan-stage-event{display:none}
 }
+
+/* Thu gọn các khung nổi theo đúng hành vi cửa sổ của trường đua */
+.dan-game-camera.is-minimized{width:auto;min-width:140px;padding:6px 8px}
+.dan-game-camera.is-minimized .camera-info,.dan-game-camera.is-minimized .camera-screen{display:none!important}
+.dan-game-ranking.is-minimized{width:auto;min-width:125px;max-height:none;padding:6px 8px}
+.dan-game-ranking.is-minimized .ranking-meta,.dan-game-ranking.is-minimized .table-wrap{display:none!important}
+@media(max-width:760px){
+ .dan-game-camera.is-minimized{min-width:0;width:auto}
+ .dan-game-ranking.is-minimized{min-width:0;width:auto}
+ .vkp-dan-mode-topline{min-height:25px!important;font-size:7px!important}
+ .vkp-dan-mode-bottomline{font-size:6px!important}
+}
