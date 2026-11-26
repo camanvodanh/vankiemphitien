@@ -443,24 +443,11 @@
     ctx.setTransform(w/W,0,0,h/H,0,0);
   }
   canvas.addEventListener("click",event=>{
-    const rect=canvas.getBoundingClientRect();
-    if(!rect.width||!rect.height)return;
-    const x=(event.clientX-rect.left)*W/rect.width;
-    const y=(event.clientY-rect.top)*H/rect.height;
+    const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
+    const x=(event.clientX-rect.left)*W/rect.width,y=(event.clientY-rect.top)*H/rect.height;
     let nearest=-1,best=Infinity;
-    for(let i=0;i<16;i++){
-      const row=Math.floor(i/4),col=i%4;
-      const sx=300+col*335+(row%2?18:-18),sy=590+row*111;
-      const d=Math.hypot((x-sx)*.8,y-sy);
-      if(d<best){best=d;nearest=i;}
-    }
-    if(nearest>=0&&best<105){
-      selectedNpc=nearest;cameraFocusUntil=performance.now()+7000;
-      renderSelected();
-      renderTournament(performance.now());
-      const tab=document.querySelector('.dan-tab[data-panel="appraisal-panel"]');
-      if(tab)tab.setAttribute("aria-label","Giám định · Lò "+String(nearest+1).padStart(2,"0"));
-    }
+    for(let i=0;i<npcs.length;i++){const p=stationPosition(i),d=Math.hypot((x-p.x)*.8,y-p.y);if(d<best){best=d;nearest=i;}}
+    if(nearest>=0&&best<110){selectedNpc=nearest;cameraFocusUntil=performance.now()+7000;renderSelected();renderTournament(performance.now()+500);}
   });
   function frame(now){
     raf=requestAnimationFrame(frame);
