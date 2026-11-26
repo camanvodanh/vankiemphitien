@@ -151,7 +151,7 @@
     for(let i=0;i<36;i++){const x=(i*173+t*(.006+(i%3)*.002))%W;const y=220+(i*97+t*(.003+(i%4)*.001))%650;const a=.18+.22*(.5+.5*Math.sin(t*.001+i));ctx.fillStyle="rgba(255,224,151,"+a+")";ctx.beginPath();ctx.arc(x,y,1.2+(i%3)*.45,0,TAU);ctx.fill()}
   }
   function render(t){
-    ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,W,H);
+    ctx.setTransform(canvas.width/W,0,0,canvas.height/H,0,0);ctx.clearRect(0,0,W,H);
     drawBackground(t);drawPalace(t);drawCourtyard(t);drawAtmosphere(t);
   }
   function resize(){
