@@ -11,6 +11,43 @@
   const robes=["#807b69","#4d83a1","#d8dfd0","#d2ad5b","#c7d5e6","#755b91"];
   const darks=["#4d493f","#294f6c","#668d88","#805b2c","#526d91","#443451"];
   const flames=Array.from({length:16},(_,i)=>({phase:i*.83,heat:.72+(i%4)*.055}));
+  // Phase 2: autonomous alchemy simulation (observer mode)
+  const PHASES=[{name:"Khống hỏa",end:.22},{name:"Tinh luyện",end:.47},{name:"Dung hợp",end:.72},{name:"Ngưng đan",end:1}];
+  const STRATEGIES=["Tốc độ","Chất lượng","Cân bằng","Mạo hiểm"];
+  let seed=20261126;const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296};
+  const npcs=Array.from({length:16},(_,i)=>({id:i+1,name:["Lăng Vân","Mặc Trần","Tử Yên","Thanh Huyền","Bạch Ly","Cố Minh","Diệp Khanh","Hàn Phong","Vân Chi","Tạ Nguyệt","Lục Dương","Thẩm Dao","Kỷ Ninh","Tô Mặc","Ninh Tuyết","Phong Dật"][i],
+    stats:{alchemy:58+Math.floor(rand()*39),fire:55+Math.floor(rand()*42),sense:54+Math.floor(rand()*43),spirit:55+Math.floor(rand()*42),speed:55+Math.floor(rand()*42),calm:52+Math.floor(rand()*46)},
+    strategy:STRATEGIES[i%4],progress:0,phase:0,status:"Đang chuẩn bị",done:false,success:false,quality:0,event:"",elapsed:0}));
+  let simElapsed=0,lastSim=0,simStarted=false,eventText="Mười sáu đệ tử chuẩn bị khai lò";
+  function beginSimulation(){if(simStarted)return;simStarted=true;lastSim=performance.now()}
+  function updateSimulation(now){
+    if(!simStarted)beginSimulation();const dt=Math.min(100,Math.max(0,now-lastSim));lastSim=now;simElapsed+=dt;
+    for(let i=0;i<npcs.length;i++){const n=npcs[i];if(n.done)continue;
+      const avg=(n.stats.alchemy+n.stats.fire+n.stats.sense+n.stats.spirit+n.stats.speed+n.stats.calm)/6;
+      const strategyBoost=n.strategy==="Tốc độ"?1.2:n.strategy==="Chất lượng"?.91:n.strategy==="Mạo hiểm"?1.08:1;
+      const target=210000*(1.12-avg/500)/strategyBoost;
+      n.progress=clamp(n.progress+dt/target,0,1);n.elapsed+=dt;
+      const phase=PHASES.findIndex(p=>n.progress<=p.end);n.phase=phase<0?3:phase;
+      n.status=PHASES[n.phase].name;
+      flames[i].heat=clamp(.58+n.stats.fire/220+(n.phase===0?.13:n.phase===3?.08:0)+Math.sin(now*.002+i)*.035,.55,1.15);
+      if(n.progress>=1){n.done=true;n.success=rand()<(0.68+n.stats.alchemy/500+n.stats.calm/900-(n.strategy==="Mạo hiểm"?.16:0));
+        n.quality=clamp(Math.round((n.stats.alchemy*.34+n.stats.sense*.24+n.stats.spirit*.18+n.stats.fire*.14+n.stats.calm*.1)+(n.strategy==="Chất lượng"?7:0)+(n.strategy==="Mạo hiểm"?rand()*18-8:0)),1,100);
+        const events=["Đan văn hiện thế","Đan khí ngưng tụ","Một lò thành song đan","Đan lô chấn động","Hỏa thế nghịch chuyển"];
+        if(n.success&&n.quality>88&&rand()>.45){n.event=events[Math.floor(rand()*events.length)];eventText="Lò "+String(n.id).padStart(2,"0")+": "+n.event}
+        else if(!n.success){n.event="Luyện đan thất bại";eventText="Lò "+String(n.id).padStart(2,"0")+": đan lô tắt lửa"}
+        n.status=n.success?"Đã thành đan":"Thất bại";
+      }
+    }
+    const done=npcs.filter(n=>n.done).length;const running=npcs.filter(n=>!n.done);
+    const leader=[...npcs].sort((a,b)=>b.progress-a.progress)[0];
+    const phase=running.length?PHASES[running.reduce((a,n)=>a+n.phase,0)/running.length|0].name:"Hoàn tất";
+    const time=document.getElementById("alchemyTime");if(time)time.textContent="TIẾN TRÌNH "+Math.floor(simElapsed/1000)+"s · "+done+"/16 lò hoàn tất";
+    const phaseEl=document.getElementById("alchemyPhase");if(phaseEl)phaseEl.textContent="CÔNG ĐOẠN CHỦ ĐẠO: "+phase;
+    const eventEl=document.getElementById("alchemyEvent");if(eventEl)eventEl.textContent=eventText;
+    const leadEl=document.getElementById("alchemyLeader");if(leadEl)leadEl.textContent="DẪN ĐẦU: "+leader.name+" · "+Math.floor(leader.progress*100)+"%";
+    const countEl=document.getElementById("alchemyCount");if(countEl)countEl.textContent=npcs.filter(n=>n.success).length+" thành đan · "+npcs.filter(n=>n.done&&!n.success).length+" thất bại";
+  }
+
   function path(points,fill,stroke=null,lw=1){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lw;ctx.stroke()}}
   function roof(cx,y,w,h,color="#283b35"){
     path([[cx-w/2,y],[cx-w*.39,y-h*.52],[cx-w*.18,y-h*.78],[cx,y-h],[cx+w*.18,y-h*.78],[cx+w*.39,y-h*.52],[cx+w/2,y]],color,"#c8a75e",3);
@@ -85,7 +122,7 @@
     ctx.restore();
   }
   function drawCauldron(x,y,s,t,index){
-    const f=flames[index];const pulse=Math.sin(t*.004+f.phase);
+    const f=flames[index];const pulse=Math.sin(t*.004+f.phase)*f.heat;
     ctx.save();ctx.translate(x,y);ctx.scale(s,s);
     // fire bowl and flame
     const fire=ctx.createRadialGradient(0,-18,2,0,-18,42);fire.addColorStop(0,"#fff0a8bb");fire.addColorStop(.35,"#f5a44c88");fire.addColorStop(1,"#e76c2a00");ctx.fillStyle=fire;ctx.fillRect(-48,-65,96,90);
@@ -128,7 +165,7 @@
     drawPavilion(x,y,s);
     drawCauldron(x,y-26,s,t,index);
     drawDisciple(x,y+38,s*.94,index,t);
-    ctx.fillStyle="#d9c99f";ctx.font="11px Arial";ctx.textAlign="center";ctx.fillText("ĐAN LÔ "+String(index+1).padStart(2,"0"),x,y+62);
+    ctx.fillStyle="#d9c99f";ctx.font="11px Arial";ctx.textAlign="center";const n=npcs[index];ctx.fillStyle=n.done?(n.success?"#ffe49b":"#d58d7c"):"#d9c99f";ctx.font="bold 11px Arial";ctx.textAlign="center";ctx.fillText("LÔ "+String(index+1).padStart(2,"0")+" · "+n.status,x,y+62);ctx.fillStyle="#30291f";ctx.fillRect(x-34,y+68,68,4);ctx.fillStyle=n.done?(n.success?"#e8c36d":"#9c5d50"):"#9bc6a8";ctx.fillRect(x-34,y+68,68*n.progress,4);
   }
   function drawCourtyard(t){
     // floor perspective lines
@@ -165,7 +202,7 @@
   function frame(now){
     raf=requestAnimationFrame(frame);
     if(now-last<30)return;
-    last=now;resize();render(now);
+    last=now;resize();updateSimulation(now);render(now);
   }
   document.addEventListener("visibilitychange",()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0}else if(!raf){last=0;raf=requestAnimationFrame(frame)}});
   window.addEventListener("pagehide",()=>cancelAnimationFrame(raf),{once:true});
