@@ -3,94 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#14251f">
-  <title>Đan Vương Điện · Vạn Kiếm Phi Tiên</title>
-  <link rel="stylesheet" href="dan-vuong.css?v=ingame-v4">
+  <meta name="theme-color" content="#102b27">
+  <title>Đan Vương Các · Vạn Kiếm Phi Tiên</title>
+  <link rel="stylesheet" href="style.css?v=responsive-arena-v229">
+  <link rel="stylesheet" href="dan-vuong.css?v=ingame-v5">
 </head>
-<body class="dan-page">
-  <main class="dan-app">
-    <header class="dan-topbar">
-      <div class="dan-brand"><span class="dan-seal">丹</span><div><strong>ĐAN VƯƠNG ĐIỆN</strong><small>BÁCH LUYỆN ĐÀI · ĐẠI HỘI ĐAN ĐẠO</small></div></div>
-      <div class="dan-live"><i></i> THI ĐẤU TRỰC TIẾP</div>
-    </header>
+<body class="game-page dan-page">
+  <main class="page game-app dan-game-app">
+    <section class="game-stage dan-game-stage" aria-label="Đan Vương Các · Bách Luyện Đài">
+      <div class="stage-topline">
+        <div class="stage-title"><span class="stage-emblem">丹</span><div><strong>ĐAN VƯƠNG CÁC</strong><small>BÁCH LUYỆN ĐÀI · VẠN LÒ TRANH PHONG</small></div></div>
+        <div class="stage-live"><i></i><span>ĐẠI HỘI ĐAN ĐẠO</span></div>
+      </div>
+      <div class="arena-frame dan-arena-frame">
+        <canvas id="danScene" width="1600" height="1000" aria-label="Sân thi đấu luyện đan với các đệ tử và lò luyện"></canvas>
+        <div class="arena-overlay-top">
+          <span class="arena-chip" id="alchemyPhase">KHỐNG HỎA</span>
+          <span class="arena-chip" id="alchemyTime">CHƯA KHAI LÒ</span>
+        </div>
 
-    <section class="dan-stage" aria-label="Bản đồ thi đấu Đan Các">
-      <canvas id="danScene" width="1600" height="1000" aria-label="Bách Luyện Đài với mười sáu đệ tử và lò luyện đan"></canvas>
-      <div class="stage-shade"></div>
-      <div class="stage-title"><span>TIÊN MÔN · ĐAN ĐẠO</span><strong>BÁCH LUYỆN ĐÀI</strong></div>
-      <div class="alchemy-hud" aria-live="polite">
-        <div><small>THỜI GIAN LUYỆN ĐAN</small><strong id="alchemyTime">TIẾN TRÌNH 0s · 0/16 lò hoàn tất</strong></div>
-        <div><small>CÔNG ĐOẠN</small><strong id="alchemyPhase">KHỐNG HỎA</strong></div>
-        <div><small>ĐANG DẪN ĐẦU</small><strong id="alchemyLeader">LĂNG VÂN · 0%</strong></div>
-        <div class="hud-event"><small>BIẾN CỐ</small><strong id="alchemyEvent">Mười sáu đệ tử chuẩn bị khai lò</strong></div>
+        <section class="panel summon-panel game-setup dan-summon-panel" aria-label="Triệu hồi đệ tử luyện đan">
+          <div class="setup-heading window-heading">
+            <div class="setup-title-wrap"><span class="summon-title-mark">✦</span><h2><span class="setup-title-full">Đan Môn · Triệu Hồi</span><span class="setup-title-short">Triệu Hồi</span></h2></div>
+            <button class="window-minimize" type="button" aria-label="Thu nhỏ bảng triệu hồi" aria-expanded="true" title="Thu nhỏ">−</button>
+          </div>
+          <div class="dan-summon-fields">
+            <label for="alchemyQuantity">SỐ ĐỆ TỬ THAM DỰ</label>
+            <div class="dan-quantity-row"><input id="alchemyQuantity" type="number" min="2" max="16" value="16"><span>2–16 vị</span></div>
+            <label for="alchemyNames">ĐẠO DANH · MỖI DÒNG MỘT TÊN</label>
+            <textarea id="alchemyNames" rows="3" placeholder="Để trống để triệu hồi ngẫu nhiên…"></textarea>
+            <label for="alchemyDuration">THỜI GIAN THI ĐẤU</label>
+            <select id="alchemyDuration"><option value="60">60 giây</option><option value="120">2 phút</option><option value="180" selected>3 phút</option><option value="300">5 phút</option></select>
+            <button id="summonAlchemy" class="btn primary" type="button">✦ TRIỆU HỒI ĐỆ TỬ</button>
+            <p id="alchemyNotice" class="lock-notice" aria-live="polite">Chọn số lượng, sau đó triệu hồi các đệ tử vào Bách Luyện Đài.</p>
+          </div>
+        </section>
+        <button class="summon-collapsed-trigger dan-summon-launcher" type="button" aria-label="Mở bảng triệu hồi" title="Triệu hồi" aria-expanded="false">丹</button>
+
+        <div class="arena-controls dan-arena-controls">
+          <button id="startAlchemy" class="btn primary arena-start" type="button" disabled><span class="btn-icon">▶</span><span class="btn-label">Khai lò</span></button>
+          <button id="pauseAlchemy" class="btn muted arena-pause" type="button" disabled>Ⅱ Tạm ngưng</button>
+          <button id="stopAlchemy" class="btn muted arena-stop" type="button" disabled>■ Dừng</button>
+        </div>
+
+        <div class="camera panel game-camera dan-game-camera">
+          <div class="camera-heading window-heading" title="Thiên Lý Kính · tự động theo dõi người dẫn đầu">
+            <span class="camera-title">Thiên Lý Kính</span>
+            <span class="camera-live"><i></i> LIVE</span>
+            <button class="window-minimize" type="button" aria-label="Thu nhỏ Thiên Lý Kính" aria-expanded="true" title="Thu nhỏ">−</button>
+          </div>
+          <div class="camera-info" aria-live="polite">
+            <div class="camera-top-info"><div class="camera-rank-slot"><strong id="alchemyCameraRank">Hạng --/--</strong></div><span id="alchemyCameraMeta"></span></div>
+            <strong id="alchemyCameraName">Đang chờ khai lò</strong>
+          </div>
+          <div class="camera-screen"><canvas id="alchemyCamera" width="420" height="240" aria-label="Thiên Lý Kính quan sát đệ tử luyện đan"></canvas></div>
+        </div>
+
+        <aside class="ranking panel game-ranking dan-game-ranking">
+          <div class="ranking-heading window-heading">
+            <div><h3>Tiên Bảng</h3><p class="eyebrow">ĐẠI HỘI ĐAN ĐẠO</p></div>
+            <span class="ranking-seal">榜</span>
+            <button class="window-minimize" type="button" aria-label="Thu nhỏ Tiên Bảng" aria-expanded="true" title="Thu nhỏ">−</button>
+          </div>
+          <div class="ranking-meta"><span id="alchemyBoardCount">16 ĐỆ TỬ</span><span id="alchemyBoardStatus">CHƯA KHAI LÒ</span></div>
+          <div class="table-wrap"><div id="alchemyBoard" class="alchemy-board" aria-live="polite"></div></div>
+        </aside>
+
+        <div class="dan-stage-event" aria-live="polite"><span>✧</span><strong id="alchemyEvent">Mười sáu đệ tử chuẩn bị khai lò</strong></div>
+        <div id="alchemyDetail" class="dan-selected-info" aria-live="polite">Chạm vào một đệ tử để xem công đoạn luyện đan.</div>
         <span id="alchemyCount" class="sr-only">0 thành đan · 0 thất bại</span>
       </div>
-      <aside class="scene-ranking">
-        <div class="scene-panel-head"><strong>TIÊN BẢNG</strong><span>16 ĐẠO HỮU</span></div>
-        <div id="alchemyBoard" class="alchemy-board"></div>
-      </aside>
-      <div class="scene-camera">
-        <div class="camera-screen"><canvas id="alchemyCamera" width="480" height="260" aria-label="Thiên Lý Kính phóng to đệ tử đang luyện đan"></canvas><span class="camera-reticle"></span></div>
-        <div class="camera-copy"><small>天 · THIÊN LÝ KÍNH</small><strong id="alchemyCameraName">ĐANG QUAN SÁT</strong><span id="alchemyCameraMeta">Tự động theo dõi người dẫn đầu</span><b id="alchemyChampion">ĐANG QUAN SÁT</b><span id="alchemyAppraisal">Trưởng lão đang quan sát quá trình luyện đan.</span></div>
-      </div>
-      <div class="scene-legend"><span><i class="fire-dot"></i> Đan hỏa</span><span><i class="jade-dot"></i> Linh khí</span></div>
+      <div class="stage-bottomline"><span>ĐAN HƯƠNG NGƯNG TỤ</span><span>VẠN LÒ TRANH PHONG · ĐAN ĐẠO CHÍ TÔN</span></div>
     </section>
-
-    <nav class="dan-tabs" aria-label="Bảng thông tin Đan Các">
-      <button type="button" class="dan-tab active" data-panel="tournament-panel">Đại hội Đan Đạo</button>
-      <button type="button" class="dan-tab" data-panel="league-panel">Tam Quan</button>
-      <button type="button" class="dan-tab" data-panel="appraisal-panel">Giám định</button>
-    </nav>
-
-    <section class="dan-panels">
-      <section class="tournament-panel dan-panel active" id="tournament-panel" aria-label="Đại hội Đan Đạo">
-        <div class="panel-toolbar"><div><small>VẠN LÒ TRANH TÀI</small><h2>ĐẠI HỘI ĐAN ĐẠO</h2><p id="tournamentState">ĐANG TRANH TÀI</p></div><button id="restartAlchemy" type="button" class="jade-button">Khai mở lượt mới</button></div>
-        <div class="tournament-summary"><strong id="tournamentChampion">ĐANG TRANH TÀI</strong><span id="tournamentAppraisal">Theo dõi tiến độ và phẩm chất đan dược.</span></div>
-        <div class="tournament-grid">
-          <div class="ranking-card"><h3>BẢNG VÀNG THI ĐẤU</h3><div class="ranking-caption">Xếp hạng tổng hợp · cập nhật trực tiếp</div><div id="alchemyBoardSecondary" class="alchemy-board-secondary" aria-hidden="true"></div></div>
-          <div class="appraisal-card"><h3>HỒ SƠ LÒ LUYỆN</h3><p class="appraisal-hint">Chạm một lò trên bản đồ hoặc tên đệ tử để xem chi tiết.</p><div id="alchemyDetail" class="alchemy-detail"><strong>LÒ 01 · LĂNG VÂN</strong><span>Đang chuẩn bị luyện đan</span></div><div class="scoring-legend"><span>Tốc độ <b>25%</b></span><span>Kỹ thuật <b>35%</b></span><span>Phẩm chất <b>40%</b></span></div></div>
-        </div>
-      </section>
-
-      <section class="league-panel dan-panel" id="league-panel" aria-label="Đại hội Đan Đạo nhiều vòng" hidden>
-        <div class="league-head"><div><small>ĐAN ĐẠO THÁNH ĐIỂN · HỆ THỐNG MÙA GIẢI</small><h2>ĐẠI HỘI ĐAN ĐẠO · TAM QUAN</h2><p id="leagueState">ĐANG CHỜ KHAI MẠC</p></div><div class="league-pill"><small>ĐAN PHƯƠNG THI ĐẤU</small><strong id="leaguePill">Tụ Khí Đan</strong></div></div>
-        <div class="league-roundline"><strong id="leagueRound">Sơ tuyển · TOP 16 → TOP 8</strong><span id="leagueClock">THỜI GIAN: 0.0s · 16 ĐẠO HỮU DỰ THI</span></div>
-        <div class="league-actions"><button id="startLeague">Khai mạc vòng thi</button><button id="nextLeague" disabled>Tiến vào vòng kế</button><button id="newLeague">Mùa giải mới</button></div>
-        <div class="league-columns"><div class="league-board-wrap"><h3>BẢNG VÀNG MÙA GIẢI</h3><div id="leagueBoard" class="league-board"></div></div><div class="league-side"><h3>ĐAN VƯƠNG ĐƯƠNG NHIỆM</h3><strong id="leagueChampion">Chưa có Đan Vương</strong><div id="leagueDetail"></div><h3>VINH DANH CÁC MÙA</h3><div id="leagueHistory"></div></div></div>
-      </section>
-
-      <section class="dan-panel appraisal-panel" id="appraisal-panel" hidden>
-        <div class="appraisal-full"><small>GIÁM ĐỊNH ĐAN DƯỢC</small><h2>HỒ SƠ LUYỆN ĐAN</h2><div id="appraisalDetailMirror">Chọn một đệ tử hoặc lò luyện đan trên bản đồ để xem hồ sơ chi tiết.</div></div>
-      </section>
-    </section>
-    <footer class="dan-footer"><span>‹</span> TRỞ VỀ VẠN KIẾM ĐÀI</footer>
   </main>
-  <script src="dan-vuong.js?v=ingame-v4"></script>
-  <script src="dan-vuong-league.js?v=ingame-v4"></script>
-  <script>
-  (() => {
-    const tabs=[...document.querySelectorAll(".dan-tab")];
-    const panels=[...document.querySelectorAll(".dan-panel")];
-    tabs.forEach(tab=>tab.addEventListener("click",()=>{
-      const id=tab.dataset.panel;
-      tabs.forEach(x=>x.classList.toggle("active",x===tab));
-      panels.forEach(panel=>{const active=panel.id===id;panel.classList.toggle("active",active);panel.hidden=!active;});
-    }));
-    const observer=new MutationObserver(()=>{
-      const detail=document.getElementById("alchemyDetail");
-      const mirror=document.getElementById("appraisalDetailMirror");
-      if(detail&&mirror)mirror.innerHTML=detail.innerHTML;
-      const sourceAppraisal=document.getElementById("alchemyAppraisal");
-      const summaryAppraisal=document.getElementById("tournamentAppraisal");
-      if(sourceAppraisal&&summaryAppraisal)summaryAppraisal.textContent=sourceAppraisal.textContent;
-      const champ=document.getElementById("alchemyChampion");
-      const summary=document.getElementById("tournamentChampion");
-      if(champ&&summary)summary.textContent=champ.textContent;
-    });
-    const detail=document.getElementById("alchemyDetail");if(detail)observer.observe(detail,{childList:true,subtree:true,characterData:true});
-    const champNode=document.getElementById("alchemyChampion");if(champNode)observer.observe(champNode,{childList:true,characterData:true,subtree:true});
-    const appraisalNode=document.getElementById("alchemyAppraisal");if(appraisalNode)observer.observe(appraisalNode,{childList:true,characterData:true,subtree:true});
-  })();
-  </script>
+  <script src="dan-vuong.js?v=ingame-v5"></script>
 </body>
 </html>
