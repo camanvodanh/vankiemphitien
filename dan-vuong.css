@@ -377,3 +377,7 @@ body.dan-page .dan-game-stage .dan-arena-frame{
  body.dan-page .dan-game-stage{padding:6px;border-radius:11px}
  body.dan-page .dan-game-stage .dan-arena-frame{min-height:clamp(510px,145vw,760px)!important;aspect-ratio:4/3!important}
 }
+
+@media(max-width:760px){
+  .dan-stage-event{display:none!important}
+}
