@@ -276,3 +276,13 @@ body.dan-page{background:radial-gradient(ellipse at 50% 0%,#25483a 0,#142b25 48%
  .vkp-dan-mode-topline{min-height:25px!important;font-size:7px!important}
  .vkp-dan-mode-bottomline{font-size:6px!important}
 }
+/* v5 layout refinements */
+.dan-game-app{width:100%;max-width:1600px}
+.dan-arena-frame>.arena-overlay-top{left:50%;right:auto;top:9px;transform:translateX(-50%)}
+.dan-stage-event{bottom:56px}
+.dan-selected-info{bottom:56px}
+@media(max-width:760px){
+ .dan-arena-frame>.arena-overlay-top{top:5px;left:50%;right:auto;transform:translateX(-50%)}
+ .dan-stage-event{bottom:39px}
+ .dan-selected-info{bottom:39px}
+}
