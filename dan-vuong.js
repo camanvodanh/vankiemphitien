@@ -218,6 +218,18 @@
     drawDisciple(x,y+38,s*.94,index,t);
     ctx.fillStyle="#d9c99f";ctx.font="11px Arial";ctx.textAlign="center";const n=npcs[index];ctx.fillStyle=n.done?(n.success?"#ffe49b":"#d58d7c"):"#d9c99f";ctx.font="bold 11px Arial";ctx.textAlign="center";ctx.fillText("LÔ "+String(index+1).padStart(2,"0")+" · "+n.status,x,y+62);ctx.fillStyle="#30291f";ctx.fillRect(x-34,y+68,68,4);ctx.fillStyle=n.done?(n.success?"#e8c36d":"#9c5d50"):"#9bc6a8";ctx.fillRect(x-34,y+68,68*n.progress,4);
   }
+  function drawAudienceRails(t){
+    // Khán giả hai cánh sân dùng cùng dáng áo trường sam, đầu tóc và chuyển động tay
+    // nhất quán với phong cách nhân vật của Vạn Kiếm Phi Tiên.
+    for(let side=0;side<2;side++){
+      const xBase=side===0?42:1558;
+      for(let i=0;i<9;i++){
+        const y=555+i*43;
+        const x=xBase+(side===0?1:-1)*Math.sin(t*.0018+i*.7)*3;
+        drawDisciple(x,y,.34+(i%3)*.025,(i+side*3)%robes.length,t+i*110);
+      }
+    }
+  }
   function drawCourtyard(t){
     // floor perspective lines
     ctx.fillStyle="#796b4d";ctx.beginPath();ctx.moveTo(0,510);ctx.lineTo(1600,510);ctx.lineTo(1600,1000);ctx.lineTo(0,1000);ctx.fill();
@@ -250,6 +262,26 @@
     if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}
     ctx.setTransform(w/W,0,0,h/H,0,0);
   }
+  canvas.addEventListener("click",event=>{
+    const rect=canvas.getBoundingClientRect();
+    if(!rect.width||!rect.height)return;
+    const x=(event.clientX-rect.left)*W/rect.width;
+    const y=(event.clientY-rect.top)*H/rect.height;
+    let nearest=-1,best=Infinity;
+    for(let i=0;i<16;i++){
+      const row=Math.floor(i/4),col=i%4;
+      const sx=300+col*335+(row%2?18:-18),sy=590+row*111;
+      const d=Math.hypot((x-sx)*.8,y-sy);
+      if(d<best){best=d;nearest=i;}
+    }
+    if(nearest>=0&&best<105){
+      selectedNpc=nearest;
+      renderSelected();
+      renderTournament(performance.now());
+      const tab=document.querySelector('.dan-tab[data-panel="appraisal-panel"]');
+      if(tab)tab.setAttribute("aria-label","Giám định · Lò "+String(nearest+1).padStart(2,"0"));
+    }
+  });
   function frame(now){
     raf=requestAnimationFrame(frame);
     if(now-last<30)return;
