@@ -10,6 +10,24 @@
   const gold="#d6b66f";
   const robes=["#807b69","#4d83a1","#d8dfd0","#d2ad5b","#c7d5e6","#755b91"];
   const darks=["#4d493f","#294f6c","#668d88","#805b2c","#526d91","#443451"];
+  // Cùng bảng màu cấp bậc nhân vật với trường đua Vạn Kiếm Phi Tiên.
+  const ROLE={
+    servant:{robe:"#817b6a",dark:"#4f4b42",belt:"#a99b77",aura:null,scale:.72},
+    outer:{robe:"#4d83a1",dark:"#294f6c",belt:"#c3a86b",aura:null,scale:.8},
+    inner:{robe:"#d8dfd0",dark:"#719b9a",belt:"#d5b86e",aura:"#b5e5d8",scale:.88},
+    core:{robe:"#d6b45e",dark:"#89602e",belt:"#fff0b2",aura:"#ffe3a0",scale:.98},
+    disciple:{robe:"#c9d7e8",dark:"#526d91",belt:"#f3d88b",aura:"#b9d8ff",scale:1.08},
+    elder:{robe:"#755b91",dark:"#443451",belt:"#e5c67d",aura:"#d8c2ff",scale:1.15},
+    master:{robe:"#a83f36",dark:"#592b2b",belt:"#f6d88b",aura:"#ffe8a4",scale:1.38}
+  };
+  function drawAura(x,y,radius,color,time,phase=0){
+    if(!color)return;
+    const pulse=1+Math.sin(time*.003+phase)*.08;
+    const g=ctx.createRadialGradient(x,y,2,x,y,radius*pulse);
+    g.addColorStop(0,color+"55");g.addColorStop(.45,color+"22");g.addColorStop(1,color+"00");
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,radius*pulse,0,TAU);ctx.fill();
+  }
+
   const flames=Array.from({length:16},(_,i)=>({phase:i*.83,heat:.72+(i%4)*.055}));
   // Phase 2: autonomous alchemy simulation (observer mode)
   const PHASES=[{name:"Khống hỏa",end:.22},{name:"Tinh luyện",end:.47},{name:"Dung hợp",end:.72},{name:"Ngưng đan",end:1}];
@@ -218,6 +236,49 @@
     drawDisciple(x,y+38,s*.94,index,t);
     ctx.fillStyle="#d9c99f";ctx.font="11px Arial";ctx.textAlign="center";const n=npcs[index];ctx.fillStyle=n.done?(n.success?"#ffe49b":"#d58d7c"):"#d9c99f";ctx.font="bold 11px Arial";ctx.textAlign="center";ctx.fillText("LÔ "+String(index+1).padStart(2,"0")+" · "+n.status,x,y+62);ctx.fillStyle="#30291f";ctx.fillRect(x-34,y+68,68,4);ctx.fillStyle=n.done?(n.success?"#e8c36d":"#9c5d50"):"#9bc6a8";ctx.fillRect(x-34,y+68,68*n.progress,4);
   }
+
+  // Bộ vẽ khán giả đồng bộ hình thể, đạo bào, tóc và cử động với audience.js
+  // của trường đua: tạp dịch vẫy tay, ngoại môn reo hò, nội môn kết kiếm quyết.
+  function drawSpectator(x,y,scale,roleName,time,phase=0){
+    const role=ROLE[roleName]||ROLE.outer;
+    const seed=Math.abs(Math.floor(phase*13+({servant:0,outer:1,inner:2}[roleName]||0)*3));
+    const female=seed%2===1,skin=["#f6d2b5","#e9b993","#d69a76","#f0c5a0","#bd805f"][seed%5];
+    const hair=["#211a25","#39251f","#171d2c","#5a3027","#29242a"][(seed*3)%5];
+    const sway=Math.sin(time*.004+phase),beat=time*.012+phase*.7;
+    const jump=Math.max(0,Math.sin(beat))*3.5;
+    ctx.save();ctx.translate(x,y+Math.sin(time*.006+phase)*.8-jump);ctx.scale(scale*role.scale,scale);
+    ctx.fillStyle="rgba(20,30,25,.28)";ctx.beginPath();ctx.ellipse(0,21,15,4,0,0,TAU);ctx.fill();
+    if(role.aura)drawAura(0,-9,roleName==="inner"?26:22,role.aura,time,phase);
+    ctx.fillStyle=role.dark;ctx.beginPath();
+    if(female){ctx.moveTo(-7,-8);ctx.lineTo(7,-8);ctx.lineTo(12,5);ctx.lineTo(20,20);ctx.quadraticCurveTo(0,27,-20,20);ctx.lineTo(-12,5);ctx.closePath();}
+    else{ctx.moveTo(-13,-8);ctx.lineTo(13,-8);ctx.lineTo(17,19);ctx.lineTo(-17,19);ctx.closePath();}ctx.fill();
+    ctx.fillStyle=role.robe;ctx.beginPath();
+    if(female){ctx.moveTo(-7,-9);ctx.lineTo(7,-9);ctx.lineTo(10,4);ctx.lineTo(17,18);ctx.quadraticCurveTo(0,24,-17,18);ctx.lineTo(-10,4);ctx.closePath();}
+    else{ctx.moveTo(-11,-9);ctx.lineTo(11,-9);ctx.lineTo(14,18);ctx.lineTo(-14,18);ctx.closePath();}ctx.fill();
+    ctx.fillStyle=role.dark;
+    if(female){ctx.beginPath();ctx.moveTo(-4,1);ctx.lineTo(0,4);ctx.lineTo(-10,22);ctx.lineTo(-17,19);ctx.closePath();ctx.fill();ctx.beginPath();ctx.moveTo(4,1);ctx.lineTo(0,4);ctx.lineTo(10,22);ctx.lineTo(17,19);ctx.closePath();ctx.fill();ctx.strokeStyle=role.belt;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(7,7);ctx.quadraticCurveTo(16,16,22,26+sway*2);ctx.stroke();}
+    else{ctx.beginPath();ctx.moveTo(-10,-7);ctx.lineTo(-16,-1);ctx.lineTo(-12,5);ctx.lineTo(-6,-3);ctx.closePath();ctx.fill();ctx.beginPath();ctx.moveTo(10,-7);ctx.lineTo(16,-1);ctx.lineTo(12,5);ctx.lineTo(6,-3);ctx.closePath();ctx.fill();ctx.strokeStyle=role.belt;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-5,7);ctx.lineTo(-3,19);ctx.moveTo(5,7);ctx.lineTo(3,19);ctx.stroke();}
+    ctx.strokeStyle=role.belt;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-10,5);ctx.lineTo(10,5);ctx.stroke();
+    ctx.fillStyle=role.robe;ctx.beginPath();
+    if(female){ctx.moveTo(-8,-5);ctx.lineTo(-16,1);ctx.lineTo(-20,11);ctx.lineTo(-13,14);ctx.lineTo(-5,3);ctx.closePath();ctx.moveTo(8,-5);ctx.lineTo(16,1);ctx.lineTo(20,11);ctx.lineTo(13,14);ctx.lineTo(5,3);ctx.closePath();}
+    else{ctx.moveTo(-10,-5);ctx.lineTo(-19,0);ctx.lineTo(-17,10);ctx.lineTo(-10,9);ctx.lineTo(-6,1);ctx.closePath();ctx.moveTo(10,-5);ctx.lineTo(19,0);ctx.lineTo(17,10);ctx.lineTo(10,9);ctx.lineTo(6,1);ctx.closePath();}ctx.fill();
+    ctx.strokeStyle=skin;ctx.lineWidth=4.5;ctx.lineCap="round";
+    let lh=[-22,-31+Math.sin(beat)*3],rh=[22,-31-Math.sin(beat)*3],le=[-18,-17],re=[18,-17];
+    if(roleName==="servant"){lh=[-21,-17+Math.sin(beat)*9];rh=[21,-17-Math.sin(beat)*9];le=[-17,-5];re=[17,-5];}
+    else if(roleName==="outer"){lh=[-22,-25+Math.sin(beat)*8];rh=[22,-7-Math.sin(beat+1)*5];le=[-17,-8];re=[17,-2];}
+    else{lh=[-8,-24+Math.sin(beat)*4];rh=[19,-18-Math.sin(beat)*5];le=[-15,-9];re=[15,-8];}
+    ctx.beginPath();ctx.moveTo(-9,-5);ctx.lineTo(le[0],le[1]);ctx.lineTo(lh[0],lh[1]);ctx.moveTo(9,-5);ctx.lineTo(re[0],re[1]);ctx.lineTo(rh[0],rh[1]);ctx.stroke();
+    ctx.fillStyle=role.robe;ctx.beginPath();ctx.arc(lh[0],lh[1],3.2,0,TAU);ctx.arc(rh[0],rh[1],3.2,0,TAU);ctx.fill();
+    if(roleName==="inner"){ctx.strokeStyle="#e6d18e";ctx.lineWidth=1.7;ctx.beginPath();ctx.moveTo(rh[0]+2,rh[1]-2);ctx.lineTo(rh[0]+5,rh[1]-15);ctx.stroke();}
+    ctx.strokeStyle="rgba(255,231,158,.85)";ctx.lineWidth=1.4;for(let k=0;k<3;k++){const side=k-1;ctx.beginPath();ctx.moveTo(side*9,-43-Math.sin(beat+k)*2);ctx.lineTo(side*9-3,-49-Math.sin(beat+k)*2);ctx.stroke();}
+    ctx.fillStyle=skin;ctx.beginPath();ctx.ellipse(0,-19,female?6:6.6,7.7,0,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle=hair;
+    if(female){ctx.beginPath();ctx.arc(0,-23,7.2,Math.PI,Math.PI*2);ctx.fill();ctx.fillRect(-7,-23,3,23);ctx.fillRect(4,-23,3,23);ctx.beginPath();ctx.ellipse(0,-30,4.8,3.8,0,0,TAU);ctx.fill();ctx.strokeStyle="#e8cf8d";ctx.lineWidth=1.8;ctx.beginPath();ctx.moveTo(2,-30);ctx.lineTo(13,-35);ctx.stroke();}
+    else{ctx.beginPath();ctx.arc(0,-24,7.2,Math.PI,Math.PI*2);ctx.fill();ctx.fillRect(-7,-24,3,6);ctx.fillRect(4,-24,3,6);ctx.beginPath();ctx.ellipse(0,-33,4.2,5.5,0,0,TAU);ctx.fill();}
+    ctx.fillStyle="#392b27";ctx.beginPath();ctx.arc(-2.5,-19,1,0,TAU);ctx.arc(2.5,-19,1,0,TAU);ctx.fill();
+    ctx.strokeStyle="#8b5144";ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(0,-17);ctx.lineTo(-.5,-15);ctx.quadraticCurveTo(0,-12,2,-13);ctx.stroke();
+    ctx.restore();
+  }
   function drawAudienceRails(t){
     // Khán giả hai cánh sân dùng cùng dáng áo trường sam, đầu tóc và chuyển động tay
     // nhất quán với phong cách nhân vật của Vạn Kiếm Phi Tiên.
@@ -226,7 +287,8 @@
       for(let i=0;i<9;i++){
         const y=555+i*43;
         const x=xBase+(side===0?1:-1)*Math.sin(t*.0018+i*.7)*3;
-        drawDisciple(x,y,.34+(i%3)*.025,(i+side*3)%robes.length,t+i*110);
+        const role=i<2?"inner":i<5?"outer":"servant";
+        drawSpectator(x,y,.52+(i%3)*.025,role,t,i+side*11);
       }
     }
   }
