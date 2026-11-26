@@ -1,20 +1,21 @@
 "use strict";
 (() => {
-  // Đan Vương Điện được nạp như một lớp độc lập, không thay đổi Canvas hay trạng thái cuộc đua.
+  // Đan Vương Điện là lớp độc lập; không khởi tạo lại hoặc sửa trạng thái cuộc đua.
   const canvas = document.getElementById("game");
-  if (!canvas || window.__vkpDanVuongEntryInstalled) return;
+  const arena = canvas?.closest(".arena-frame");
+  if (!canvas || !arena || window.__vkpDanVuongEntryInstalled) return;
   window.__vkpDanVuongEntryInstalled = true;
 
-  const HIT = { left: 365, right: 475, top: 235, bottom: 342 };
+  // Tọa độ theo hệ quy chiếu nội tại 1100×900 của canvas.
+  // Bao trọn mái, thân lầu và bậc thềm ĐAN CÁC (tâm tại x=420, y=326).
+  const HIT = { left: 365, right: 480, top: 235, bottom: 365 };
   let overlay = null;
-  let frame = null;
   let previousOverflow = "";
 
   function closeDanVuong() {
     if (!overlay) return;
     overlay.remove();
     overlay = null;
-    frame = null;
     document.documentElement.style.overflow = previousOverflow;
     canvas.focus?.({ preventScroll: true });
   }
@@ -22,6 +23,7 @@
   function openDanVuong() {
     if (overlay) return;
     previousOverflow = document.documentElement.style.overflow;
+
     overlay = document.createElement("section");
     overlay.id = "vkpDanVuongOverlay";
     overlay.setAttribute("role", "dialog");
@@ -55,26 +57,13 @@
     closeButton.addEventListener("click", closeDanVuong);
     topbar.appendChild(closeButton);
 
-    frame = document.createElement("iframe");
+    const frame = document.createElement("iframe");
     frame.title = "Đan Vương Điện";
-    frame.src = "dan-vuong.html?embedded=1";
+    frame.src = new URL("dan-vuong.html?embedded=1", document.baseURI).href;
     frame.setAttribute("allow", "fullscreen");
     Object.assign(frame.style, {
       display: "block", width: "100%", height: "100%",
       flex: "1 1 auto", border: "0", background: "#101715"
-    });
-    frame.addEventListener("load", () => {
-      try {
-        const back = frame.contentDocument?.querySelector(".dan-back");
-        if (back) {
-          back.addEventListener("click", event => {
-            event.preventDefault();
-            closeDanVuong();
-          }, { once: true });
-        }
-      } catch (_) {
-        // Nút đóng bên ngoài iframe vẫn luôn khả dụng.
-      }
     });
 
     overlay.append(topbar, frame);
@@ -83,30 +72,43 @@
     closeButton.focus({ preventScroll: true });
   }
 
-  function hitDanGe(event) {
-    if (overlay || event.defaultPrevented || event.button !== 0) return;
+  function pointInDanGe(event) {
     const rect = canvas.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
+    if (!rect.width || !rect.height) return false;
     const x = (event.clientX - rect.left) * canvas.width / rect.width;
     const y = (event.clientY - rect.top) * canvas.height / rect.height;
-    if (x >= HIT.left && x <= HIT.right && y >= HIT.top && y <= HIT.bottom) {
-      event.preventDefault();
-      openDanVuong();
-    }
+    return x >= HIT.left && x <= HIT.right && y >= HIT.top && y <= HIT.bottom;
   }
 
-  canvas.addEventListener("click", hitDanGe);
+  // Bắt ở capture trên khung sân: vẫn nhận được thao tác nếu một lớp HUD
+  // nằm phía trên canvas, nhưng chỉ mở khi điểm chạm rơi đúng vùng ĐAN CÁC.
+  function onArenaPointerDown(event) {
+    if (overlay || event.defaultPrevented || event.isPrimary === false) return;
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    if (!pointInDanGe(event)) return;
+    event.preventDefault();
+    event.stopPropagation();
+    openDanVuong();
+  }
+
+  arena.addEventListener("pointerdown", onArenaPointerDown, true);
+  // Dự phòng cho trình duyệt cũ không phát PointerEvent.
+  arena.addEventListener("click", event => {
+    if (overlay || event.defaultPrevented || event.button !== 0) return;
+    if (!pointInDanGe(event)) return;
+    event.preventDefault();
+    event.stopPropagation();
+    openDanVuong();
+  }, true);
+
   canvas.addEventListener("pointermove", event => {
     if (overlay) return;
-    const rect = canvas.getBoundingClientRect();
-    const x = (event.clientX - rect.left) * canvas.width / rect.width;
-    const y = (event.clientY - rect.top) * canvas.height / rect.height;
-    canvas.style.cursor = x >= HIT.left && x <= HIT.right && y >= HIT.top && y <= HIT.bottom
-      ? "pointer" : "";
+    canvas.style.cursor = pointInDanGe(event) ? "pointer" : "";
   }, { passive: true });
   canvas.addEventListener("pointerleave", () => { canvas.style.cursor = ""; });
   document.addEventListener("keydown", event => {
     if (event.key === "Escape" && overlay) closeDanVuong();
   });
-  canvas.setAttribute("aria-label", "Hoạt cảnh trường đua. Chạm Đan Các để mở Đan Vương Điện.");
+
+  canvas.setAttribute("aria-label", "Hoạt cảnh trường đua. Chạm tòa lầu Đan Các để mở Đan Vương Điện.");
 })();
