@@ -290,3 +290,11 @@ body.dan-page{background:radial-gradient(ellipse at 50% 0%,#25483a 0,#142b25 48%
 /* Keep the summon shortcut hidden until the panel is collapsed. */
 .dan-arena-frame>.dan-summon-launcher{display:none!important}
 .dan-arena-frame>.dan-summon-panel.is-minimized~.dan-summon-launcher{display:grid!important;place-items:center!important}
+
+/* Override the base race page's fixed arena aspect ratio: this mode fills the iframe height. */
+body.dan-page .dan-game-app .dan-game-stage{height:100%;min-height:0;overflow:hidden}
+body.dan-page .dan-game-app .dan-game-stage .dan-arena-frame{
+  position:relative!important;display:block!important;flex:1 1 auto!important;
+  width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;
+  aspect-ratio:auto!important;overflow:hidden!important;
+}
