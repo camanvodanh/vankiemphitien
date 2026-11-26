@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#14251f">
   <title>Đan Vương Điện · Vạn Kiếm Phi Tiên</title>
-  <link rel="stylesheet" href="dan-vuong.css?v=ingame-v2">
+  <link rel="stylesheet" href="dan-vuong.css?v=ingame-v3">
 </head>
 <body class="dan-page">
   <main class="dan-app">
@@ -65,8 +65,8 @@
     </section>
     <footer class="dan-footer"><span>‹</span> TRỞ VỀ VẠN KIẾM ĐÀI</footer>
   </main>
-  <script src="dan-vuong.js?v=ingame-v2"></script>
-  <script src="dan-vuong-league.js?v=ingame-v2"></script>
+  <script src="dan-vuong.js?v=ingame-v3"></script>
+  <script src="dan-vuong-league.js?v=ingame-v3"></script>
   <script>
   (() => {
     const tabs=[...document.querySelectorAll(".dan-tab")];
@@ -79,12 +79,17 @@
     const observer=new MutationObserver(()=>{
       const detail=document.getElementById("alchemyDetail");
       const mirror=document.getElementById("appraisalDetailMirror");
-      if(detail&&mirror)mirror.innerHTML=detail.innerHTML;\n      const sourceAppraisal=document.getElementById("alchemyAppraisal");\n      const summaryAppraisal=document.getElementById("tournamentAppraisal");\n      if(sourceAppraisal&&summaryAppraisal)summaryAppraisal.textContent=sourceAppraisal.textContent;
+      if(detail&&mirror)mirror.innerHTML=detail.innerHTML;
+      const sourceAppraisal=document.getElementById("alchemyAppraisal");
+      const summaryAppraisal=document.getElementById("tournamentAppraisal");
+      if(sourceAppraisal&&summaryAppraisal)summaryAppraisal.textContent=sourceAppraisal.textContent;
       const champ=document.getElementById("alchemyChampion");
       const summary=document.getElementById("tournamentChampion");
       if(champ&&summary)summary.textContent=champ.textContent;
     });
-    const detail=document.getElementById("alchemyDetail");if(detail)observer.observe(detail,{childList:true,subtree:true,characterData:true});\n    const champNode=document.getElementById("alchemyChampion");if(champNode)observer.observe(champNode,{childList:true,characterData:true,subtree:true});\n    const appraisalNode=document.getElementById("alchemyAppraisal");if(appraisalNode)observer.observe(appraisalNode,{childList:true,characterData:true,subtree:true});
+    const detail=document.getElementById("alchemyDetail");if(detail)observer.observe(detail,{childList:true,subtree:true,characterData:true});
+    const champNode=document.getElementById("alchemyChampion");if(champNode)observer.observe(champNode,{childList:true,characterData:true,subtree:true});
+    const appraisalNode=document.getElementById("alchemyAppraisal");if(appraisalNode)observer.observe(appraisalNode,{childList:true,characterData:true,subtree:true});
   })();
   </script>
 </body>
