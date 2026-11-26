@@ -220,6 +220,35 @@ Object.assign(DICT.cn,{
   "Chúc mừng tam giáp! Các vị đã làm rạng danh tiên môn.":"恭喜前三！诸位为宗门争得荣耀。"
 });
 
+Object.assign(DICT.en,{
+ "ĐAN VƯƠNG CÁC":"ALCHEMY KING PAVILION","BÁCH LUYỆN ĐÀI":"HUNDRED REFINING ARENA","VẠN LÒ TRANH PHONG":"MYRIAD FURNACES COMPETE",
+ "ĐẠI HỘI ĐAN ĐẠO":"ALCHEMY TOURNAMENT","Đan Môn · Triệu Hồi":"ALCHEMY SECT · SUMMON","SỐ ĐỆ TỬ THAM DỰ":"CONTESTANTS",
+ "ĐẠO DANH · MỖI DÒNG MỘT TÊN":"DISCIPLE NAMES · ONE PER LINE","Để trống để triệu hồi ngẫu nhiên…":"Leave blank for random disciples…",
+ "THỜI GIAN THI ĐẤU":"TOURNAMENT DURATION","2 phút":"2 minutes","3 phút":"3 minutes","5 phút":"5 minutes",
+ "✦ TRIỆU HỒI ĐỆ TỬ":"✦ SUMMON DISCIPLES","Chọn số lượng, sau đó triệu hồi các đệ tử vào Bách Luyện Đài.":"Choose the number of disciples, then summon them to the Hundred Refining Arena.",
+ "Đã triệu hồi ":"Summoned "," đệ tử. Nhấn Khai lò để bắt đầu đại hội.":" disciples. Press Ignite Furnace to begin.",
+ "Khai lò":"Ignite Furnace","Đang luyện":"Refining","Đã hoàn tất":"Completed","Tạm ngưng":"Pause","Tiếp tục":"Resume","Dừng":"Stop",
+ "16 ĐỆ TỬ":"16 DISCIPLES","ĐAN HƯƠNG NGƯNG TỤ":"ALCHEMY AURA GATHERS","Chạm vào một đệ tử để xem công đoạn luyện đan.":"Tap a disciple to inspect their alchemy stage.",
+ "CHƯA KHAI LÒ":"NOT STARTED","ĐANG THI ĐẤU":"IN COMPETITION","ĐÃ KẾT THÚC":"COMPLETED","TẠM NGƯNG":"PAUSED",
+ "KHỐNG HỎA":"FLAME CONTROL","TINH LUYỆN":"REFINING","DUNG HỢP":"FUSION","NGƯNG ĐAN":"PILL CONDENSATION",
+ "ĐÃ THÀNH ĐAN":"PILL FORMED","THÀNH ĐAN":"PILL FORMED","LÒ ĐAN THẤT BẠI":"FURNACE FAILED",
+ "Đang chuẩn bị":"Preparing","Đã thành đan":"Pill formed","Thất bại":"Failed","Tốc độ":"Speed","Chất lượng":"Quality","Cân bằng":"Balanced","Mạo hiểm":"Risky"
+});
+Object.assign(DICT.cn,{
+ "ĐAN VƯƠNG CÁC":"丹王阁","BÁCH LUYỆN ĐÀI":"百炼台","VẠN LÒ TRANH PHONG":"万炉争锋",
+ "ĐẠI HỘI ĐAN ĐẠO":"丹道大会","Đan Môn · Triệu Hồi":"丹门 · 召唤","SỐ ĐỆ TỬ THAM DỰ":"参赛弟子数量",
+ "ĐẠO DANH · MỖI DÒNG MỘT TÊN":"道号 · 每行一个名字","Để trống để triệu hồi ngẫu nhiên…":"留空则随机召唤弟子…",
+ "THỜI GIAN THI ĐẤU":"比赛时长","2 phút":"2分钟","3 phút":"3分钟","5 phút":"5分钟",
+ "✦ TRIỆU HỒI ĐỆ TỬ":"✦ 召唤弟子","Chọn số lượng, sau đó triệu hồi các đệ tử vào Bách Luyện Đài.":"选择人数，然后召唤弟子进入百炼台。",
+ "Đã triệu hồi ":"已召唤"," đệ tử. Nhấn Khai lò để bắt đầu đại hội.":"位弟子。点击开炉开始大会。",
+ "Khai lò":"开炉","Đang luyện":"炼丹中","Đã hoàn tất":"已完成","Tạm ngưng":"暂停","Tiếp tục":"继续","Dừng":"停止",
+ "16 ĐỆ TỬ":"16位弟子","ĐAN HƯƠNG NGƯNG TỤ":"丹香凝聚","Chạm vào một đệ tử để xem công đoạn luyện đan.":"点击弟子查看炼丹阶段。",
+ "CHƯA KHAI LÒ":"尚未开炉","ĐANG THI ĐẤU":"正在比赛","ĐÃ KẾT THÚC":"比赛结束","TẠM NGƯNG":"暂停中",
+ "KHỐNG HỎA":"控火","TINH LUYỆN":"提炼","DUNG HỢP":"融合","NGƯNG ĐAN":"凝丹",
+ "ĐÃ THÀNH ĐAN":"炼丹成功","THÀNH ĐAN":"成丹","LÒ ĐAN THẤT BẠI":"丹炉失败",
+ "Đang chuẩn bị":"准备中","Đã thành đan":"炼丹成功","Thất bại":"失败","Tốc độ":"速度","Chất lượng":"品质","Cân bằng":"均衡","Mạo hiểm":"冒险"
+});
+
 const LANGS={vi:"VN",en:"EN",cn:"CN"};
 const STORAGE_KEY="vankiemphitien-language";
 let language="vi";
