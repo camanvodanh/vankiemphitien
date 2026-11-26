@@ -79,12 +79,12 @@
     const observer=new MutationObserver(()=>{
       const detail=document.getElementById("alchemyDetail");
       const mirror=document.getElementById("appraisalDetailMirror");
-      if(detail&&mirror)mirror.innerHTML=detail.innerHTML;
+      if(detail&&mirror)mirror.innerHTML=detail.innerHTML;\n      const sourceAppraisal=document.getElementById("alchemyAppraisal");\n      const summaryAppraisal=document.getElementById("tournamentAppraisal");\n      if(sourceAppraisal&&summaryAppraisal)summaryAppraisal.textContent=sourceAppraisal.textContent;
       const champ=document.getElementById("alchemyChampion");
       const summary=document.getElementById("tournamentChampion");
       if(champ&&summary)summary.textContent=champ.textContent;
     });
-    const detail=document.getElementById("alchemyDetail");if(detail)observer.observe(detail,{childList:true,subtree:true,characterData:true});
+    const detail=document.getElementById("alchemyDetail");if(detail)observer.observe(detail,{childList:true,subtree:true,characterData:true});\n    const champNode=document.getElementById("alchemyChampion");if(champNode)observer.observe(champNode,{childList:true,characterData:true,subtree:true});\n    const appraisalNode=document.getElementById("alchemyAppraisal");if(appraisalNode)observer.observe(appraisalNode,{childList:true,characterData:true,subtree:true});
   })();
   </script>
 </body>
