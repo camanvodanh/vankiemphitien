@@ -362,3 +362,18 @@ body.dan-page .dan-game-app .dan-game-stage .dan-arena-frame{
 @media(max-width:390px){
  .dan-stage-event{top:25px;max-width:27%}
 }
+
+/* Match the original Vạn Kiếm arena proportions; the arena itself scrolls within the fixed header/footer shell. */
+html,body.dan-page{height:auto;min-height:100%;overflow-x:hidden;overflow-y:auto}
+body.dan-page{overflow-y:auto}
+body.dan-page .dan-game-app{width:min(1600px,calc(100% - 28px));height:auto;min-height:100%;display:block;padding-bottom:18px}
+body.dan-page .dan-game-stage{display:block;height:auto;min-height:0;overflow:visible;box-sizing:border-box}
+body.dan-page .dan-game-stage .dan-arena-frame{
+  display:block!important;flex:none!important;width:100%!important;height:auto!important;
+  min-height:0!important;max-height:none!important;aspect-ratio:4/3!important;overflow:hidden!important;
+}
+@media(max-width:760px){
+ body.dan-page .dan-game-app{width:calc(100% - 10px);padding-bottom:8px}
+ body.dan-page .dan-game-stage{padding:6px;border-radius:11px}
+ body.dan-page .dan-game-stage .dan-arena-frame{min-height:clamp(510px,145vw,760px)!important;aspect-ratio:4/3!important}
+}
