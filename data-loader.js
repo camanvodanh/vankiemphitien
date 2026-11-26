@@ -19,7 +19,7 @@
   "race-events.js?v=race-events-v2",
   "audio.js?v=audio-v1",
   "journey-world.js?v=journey-world-v22",
-  "i18n.js?v=dan-alchemy-v2",
+  "i18n.js?v=dan-alchemy-v3",
   "tournament.js?v=tournament-v34",
   "dan-vuong-entry.js?v=ingame-v7",
  ];
