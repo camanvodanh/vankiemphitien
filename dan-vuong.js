@@ -438,7 +438,7 @@
     const dpr=Math.min(window.devicePixelRatio||1,1.6);
     const rect=canvas.getBoundingClientRect();
     const w=Math.max(1,Math.round(rect.width*dpr));
-    const h=Math.max(1,Math.round(rect.width*H/W*dpr));
+    const h=Math.max(1,Math.round(rect.height*dpr));
     if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}
     ctx.setTransform(w/W,0,0,h/H,0,0);
   }
