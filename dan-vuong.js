@@ -75,7 +75,9 @@
   let selectedNpc=0,lastBoardUpdate=0,finalAnnounced=false,cameraFocusUntil=0;
   const pillRank=q=>{let rank=PILL_RANKS[0][0];for(const r of PILL_RANKS)if(q>=r[1])rank=r[0];return rank};
   function scoreNpc(n){
-    const speed=clamp(100-(n.elapsed/2600),0,100);
+    const times=npcs.filter(x=>x.done).map(x=>x.elapsed);
+    const fastest=times.length?Math.min(...times):0,slowest=times.length?Math.max(...times):0;
+    const speed=n.done?(slowest-fastest<1?100:clamp(100-((n.elapsed-fastest)/(slowest-fastest))*100,0,100)):clamp(100-n.progress*65,35,100);
     const technique=clamp((n.stats.alchemy*.28+n.stats.fire*.22+n.stats.sense*.22+n.stats.spirit*.16+n.stats.calm*.12)*(n.success?1:.55),0,100);
     const quality=n.success?n.quality:0;
     n.scores={speed,technique,quality,total:speed*.25+technique*.35+quality*.40};
