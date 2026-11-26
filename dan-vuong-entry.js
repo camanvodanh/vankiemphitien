@@ -53,7 +53,7 @@
 
     const shell=document.createElement("div");
     shell.className="vkp-dan-mode-shell";
-    Object.assign(shell.style,{width:"min(1600px,calc(100% - 20px))",height:"100dvh",minHeight:"0",display:"flex",flexDirection:"column",margin:"0 auto",padding:"0 0 max(4px,env(safe-area-inset-bottom))",boxSizing:"border-box"});
+    Object.assign(shell.style,{width:"min(1600px,calc(100% - 20px))",height:"100dvh",minHeight:"0",display:"flex",flexDirection:"column",margin:"0 auto",padding:"max(0px,env(safe-area-inset-top)) 0 max(4px,env(safe-area-inset-bottom))",boxSizing:"border-box"});
 
     const topLine=document.createElement("div");
     topLine.className="vkp-dan-mode-topline";
