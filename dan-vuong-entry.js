@@ -6,6 +6,23 @@
   const header=document.querySelector(".game-header");
   const footer=document.querySelector(".site-footer");
   const app=document.querySelector(".game-app");
+  const heroEyebrow=header?.querySelector(".eyebrow");
+  const heroTitle=header?.querySelector("h1");
+  const heroSubtitle=header?.querySelector(".subtitle");
+  const heroLogo=header?.querySelector(".logo");
+  const originalHero={
+    eyebrow:heroEyebrow?.textContent||"",
+    title:heroTitle?.textContent||"",
+    subtitle:heroSubtitle?.textContent||"",
+    logo:heroLogo?.textContent||""
+  };
+  function setDanHeader(active){
+    if(!heroEyebrow||!heroTitle||!heroSubtitle||!heroLogo)return;
+    heroEyebrow.textContent=active?"THIÊN ĐỊA CHÍ TÔN · VẠN ĐAN TRANH HÙNG":originalHero.eyebrow;
+    heroTitle.textContent=active?"ĐAN VƯƠNG CÁC":originalHero.title;
+    heroSubtitle.textContent=active?"NHẤT LÒ THÀNH ĐAN · VẠN ĐẠO QUY TÔNG":originalHero.subtitle;
+    heroLogo.textContent=active?"丹":originalHero.logo;
+  }
   if(!canvas||!arena||!header||!footer||!app||window.__vkpDanVuongEntryInstalled)return;
   window.__vkpDanVuongEntryInstalled=true;
 
@@ -18,12 +35,14 @@
     if(header.parentNode!==app)app.insertBefore(header,arena.closest(".game-stage"));
     if(footer.parentNode!==app)app.insertBefore(footer,footerNext&&footerNext.parentNode===app?footerNext:null);
     overlay.remove();overlay=null;
+    setDanHeader(false);
     document.documentElement.style.overflow=previousOverflow;
     canvas.focus?.({preventScroll:true});
   }
 
   function openDanVuong(){
     if(overlay)return;
+    setDanHeader(true);
     previousOverflow=document.documentElement.style.overflow;
     headerNext=header.nextSibling;footerNext=footer.nextSibling;
     overlay=document.createElement("section");
@@ -38,7 +57,7 @@
 
     const topLine=document.createElement("div");
     topLine.className="vkp-dan-mode-topline";
-    topLine.innerHTML='<span>丹 · ĐAN VƯƠNG CÁC</span><small>BÁCH LUYỆN ĐÀI · ĐẠI HỘI ĐAN ĐẠO</small>';
+    topLine.innerHTML='<span>丹 · ĐAN VƯƠNG CÁC</span><small>BÁCH LUYỆN ĐÀI · VẠN LÒ TRANH PHONG</small>';
     Object.assign(topLine.style,{flex:"0 0 auto",display:"flex",alignItems:"center",justifyContent:"space-between",gap:"8px",minHeight:"29px",padding:"0 5px 5px",color:"#e8d3a2",font:"800 9px Arial,sans-serif",letterSpacing:"1.1px"});
     const closeButton=document.createElement("button");
     closeButton.type="button";closeButton.textContent="✕  Trở về";
@@ -49,12 +68,12 @@
 
     const bottomLine=document.createElement("div");
     bottomLine.className="vkp-dan-mode-bottomline";
-    bottomLine.textContent="ĐAN HƯƠNG NGƯNG TỤ · VẠN LÒ TRANH PHONG";
+    bottomLine.textContent="ĐAN ĐẠO CHÍ TÔN · VẠN LÒ TRANH PHONG";
     Object.assign(bottomLine.style,{flex:"0 0 auto",minHeight:"18px",padding:"4px 4px 0",color:"#a38b5b",font:"800 7px Arial,sans-serif",letterSpacing:"1.1px",textAlign:"center"});
 
     const frame=document.createElement("iframe");
     frame.title="Đan Vương Các · Bách Luyện Đài";
-    frame.src=new URL("dan-vuong.html?embedded=1&v=ingame-v5",document.baseURI).href;
+    frame.src=new URL("dan-vuong.html?embedded=1&v=ingame-v6",document.baseURI).href;
     frame.setAttribute("allow","fullscreen");
     Object.assign(frame.style,{display:"block",width:"100%",height:"100%",minHeight:"0",flex:"1 1 auto",border:"0",background:"#102b27"});
 
