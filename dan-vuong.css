@@ -343,3 +343,22 @@ body.dan-page .dan-game-app .dan-game-stage .dan-arena-frame{
  .dan-arena-frame .arena-chip{padding:2px 4px;font-size:5px}
  .dan-stage-event{top:25px;max-width:29%}
 }
+
+
+/* Keep the same corner arrangement as the sword-race HUD on all screen sizes. */
+.dan-game-camera.is-minimized .camera-info,.dan-game-camera.is-minimized .camera-screen{display:none!important}
+.dan-game-camera.is-minimized .camera-heading{margin:0;padding:0;border:0}
+.dan-game-ranking.is-minimized .ranking-meta,.dan-game-ranking.is-minimized .table-wrap{display:none!important}
+.dan-game-ranking.is-minimized .ranking-heading{margin:0;padding:0;border:0}
+.dan-game-ranking.is-minimized .ranking-heading>div{display:none}
+.dan-game-ranking.is-minimized .ranking-seal{margin:0}
+.dan-selected-info{display:none!important}
+.dan-arena-frame>.arena-overlay-top{left:50%;right:auto;transform:translateX(-50%);top:8px}
+.dan-stage-event{left:50%;top:42px;bottom:auto;max-width:38%;padding:5px 9px}
+@media(max-width:760px){
+ .dan-arena-frame>.arena-overlay-top{top:5px}
+ .dan-stage-event{top:29px;max-width:31%;padding:3px 5px}
+}
+@media(max-width:390px){
+ .dan-stage-event{top:25px;max-width:27%}
+}
