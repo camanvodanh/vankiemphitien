@@ -332,6 +332,8 @@
     // outer columns and banners
     for(const x of [90,1510]){ctx.fillStyle="#7d382b";ctx.fillRect(x-17,390,34,390);ctx.fillStyle="#d5b36a";ctx.fillRect(x-24,390,48,12);ctx.fillRect(x-24,770,48,14);ctx.fillStyle="#c9a65c";ctx.fillRect(x-5,430,10,310)}
     for(const x of [165,1435]){ctx.fillStyle="#7b332b";ctx.fillRect(x-30,330,60,130);ctx.strokeStyle="#e0c37e";ctx.lineWidth=3;ctx.strokeRect(x-30,330,60,130);ctx.fillStyle="#f0d9a4";ctx.font="24px serif";ctx.textAlign="center";ctx.fillText("丹",x,410);ctx.fillStyle="#7a3029";ctx.fillRect(x-35,460,70,140)}
+    // Khán giả hai bên đài luyện đan, cùng phong cách đệ tử trường đua
+    drawAudienceRails(t);
     // main furnace and elder platform
     drawMainFurnace(t);
     drawElder(t);
