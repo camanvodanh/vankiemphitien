@@ -21,7 +21,7 @@
   "journey-world.js?v=journey-world-v22",
   "i18n.js?v=race-phase1-v184",
   "tournament.js?v=tournament-v34",
-  "dan-vuong-entry.js?v=ingame-v4",
+  "dan-vuong-entry.js?v=ingame-v5",
  ];
  for(const src of scripts){
   await new Promise((resolve,reject)=>{
