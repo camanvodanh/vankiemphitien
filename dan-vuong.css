@@ -60,7 +60,7 @@ button{font:inherit}
 .tournament-summary{display:flex;align-items:center;gap:12px;margin:10px 0;padding:8px 10px;border-left:3px solid #c9a45c;background:#101f19aa}
 .tournament-summary strong{color:#f0d99f;font:600 11px 'Noto Serif SC',serif}
 .tournament-summary span{color:#b9c4b0;font:10px Arial,sans-serif}
-.tournament-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:9px}
+.tournament-grid{display:grid;grid-template-columns:1fr;gap:9px}.ranking-card{display:none}
 .ranking-card,.appraisal-card,.league-board-wrap,.league-side,.appraisal-full{min-width:0;padding:10px;border:1px solid #b9955533;border-radius:6px;background:#111f19a8}
 .ranking-card h3,.appraisal-card h3,.league-board-wrap h3,.league-side h3{margin:0 0 4px;color:#e8d5a5;font:600 12px 'Noto Serif SC',serif}
 .ranking-caption,.appraisal-hint{margin:0 0 8px;color:#aeb8a8;font:9px Arial,sans-serif}
