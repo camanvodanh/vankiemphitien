@@ -270,7 +270,7 @@
     for(let j=0;j<2;j++){const yy=-53-((t*.035+j*24+index*9)%55);const xx=Math.sin(t*.0018+index+j)*9;ctx.strokeStyle=j?"#d2e5d088":"#f1d5a277";ctx.lineWidth=2.3;ctx.beginPath();ctx.moveTo(xx,yy+15);ctx.bezierCurveTo(xx-13,yy,xx+13,yy-12,xx,yy-25);ctx.stroke()}
     ctx.restore();
   }
-  function drawDisciple(x,y,s,index,t){
+  function drawDiscipleFallback(x,y,s,index,t){
     const robe=robes[index%robes.length],dark=darks[index%darks.length],n=npcs[index];
     const beat=Math.sin(t*.0032+index*1.7),phase=n.done?(n.success?4:5):n.phase;
     let left,right,glow="#f2b65f";
@@ -305,9 +305,36 @@
     ctx.fillStyle="#2b2020";ctx.fillRect(-4,-50,8,2);
     ctx.restore();
   }
+  function drawDisciple(x,y,s,index,t){
+    const n=npcs[index],phase=n.done?(n.success?4:5):n.phase;
+    const raceRenderer=window.parent&&window.parent.drawRacer;
+    if(typeof raceRenderer==="function"){
+      try{raceRenderer.call(window.parent,ctx,n.raceLook,x,y,s*.88,t);}
+      catch(error){drawDiscipleFallback(x,y,s,index,t);}
+    }else drawDiscipleFallback(x,y,s,index,t);
+    if(phase>3)return;
+    const beat=Math.sin(t*.003+index),glow=["#ffb65c","#9be0b5","#c6a5f4","#fff0a5"][phase];
+    ctx.save();ctx.translate(x,y);ctx.scale(s,s);
+    // Động tác kết ấn và dẫn linh lực theo từng công đoạn, đồng bộ với tư thế nhân vật gốc của trường đua.
+    ctx.globalAlpha=.9;ctx.strokeStyle=glow;ctx.lineWidth=2.1;ctx.lineCap="round";ctx.shadowColor=glow;ctx.shadowBlur=8;
+    const handY=phase===0?-34:phase===1?-43:phase===2?-52:-60;
+    for(const side of [-1,1]){
+      const hx=side*(18+beat*2);
+      ctx.beginPath();ctx.moveTo(hx,handY+10);ctx.quadraticCurveTo(side*32,handY-8,side*(23+Math.sin(t*.004+index)*5),-72);ctx.stroke();
+      ctx.fillStyle=glow;ctx.beginPath();ctx.arc(hx,handY+8,2.8,0,TAU);ctx.fill();
+    }
+    if(phase===1){
+      for(let k=0;k<3;k++){const ang=t*.0025+index+k*TAU/3,rx=Math.cos(ang)*18,ry=-84+Math.sin(ang)*7;ctx.fillStyle="#b6e5a5";ctx.beginPath();ctx.ellipse(rx,ry,3,6,ang,0,TAU);ctx.fill();}
+    }else{
+      const orbY=phase===0?-75:phase===2?-82:-91,orb=ctx.createRadialGradient(0,orbY,1,0,orbY,15);
+      orb.addColorStop(0,"#fffde5");orb.addColorStop(.35,glow);orb.addColorStop(1,glow+"00");
+      ctx.fillStyle=orb;ctx.beginPath();ctx.arc(0,orbY,12+Math.sin(t*.006+index)*2.2,0,TAU);ctx.fill();
+    }
+    ctx.shadowBlur=0;ctx.globalAlpha=.55;ctx.strokeStyle=glow;ctx.lineWidth=1.2;ctx.beginPath();ctx.ellipse(0,-28,34+Math.sin(t*.003+index)*3,9,0,t*.001,t*.001+Math.PI*1.5);ctx.stroke();
+    ctx.restore();
+  }
   function drawStation(index,t){
-    const row=Math.floor(index/4),col=index%4;
-    const x=300+col*335+(row%2?18:-18),y=590+row*111,s=.68+row*.12,n=npcs[index];
+    const p=stationPosition(index),x=p.x,y=p.y,s=p.s,n=npcs[index];
     if(index===selectedNpc){ctx.save();ctx.strokeStyle="#f4d98e";ctx.lineWidth=2;ctx.setLineDash([7,5]);ctx.beginPath();ctx.ellipse(x,y+25,78*s,66*s,0,0,TAU);ctx.stroke();ctx.restore();}
     drawPavilion(x,y,s);drawCauldron(x,y-26,s,t,index);drawDisciple(x,y+38,s*.94,index,t);
     ctx.textAlign="center";ctx.font="bold 12px Arial";ctx.fillStyle=n.done?(n.success?"#ffe49b":"#e39b8c"):"#fff0c8";ctx.fillText(n.name,x,y+58);
@@ -315,25 +342,19 @@
     ctx.fillStyle="#30291f";ctx.fillRect(x-39,y+74,78,4);ctx.fillStyle=n.done?(n.success?"#e8c36d":"#9c5d50"):"#9bc6a8";ctx.fillRect(x-39,y+74,78*n.progress,4);
   }
   function drawAlchemyCamera(now){
-    if(!cameraCtx||!cameraCanvas)return;
+    if(!cameraCtx||!cameraCanvas||!npcs.length)return;
     const focus=now<cameraFocusUntil?npcs[selectedNpc]:[...npcs].sort((a,b)=>b.progress-a.progress)[0];
     if(!focus)return;
-    const row=Math.floor((focus.id-1)/4),col=(focus.id-1)%4;
-    const cx=300+col*335+(row%2?18:-18),cy=590+row*111+4;
-    const sw=490,sh=266,sx=clamp(cx-sw/2,0,W-sw),sy=clamp(cy-sh/2,0,H-sh);
+    const p=stationPosition(focus.id-1),sw=500,sh=290,sx=clamp(p.x-sw/2,0,W-sw),sy=clamp(p.y-sh/2,0,H-sh);
     cameraCtx.setTransform(1,0,0,1,0,0);cameraCtx.clearRect(0,0,cameraCanvas.width,cameraCanvas.height);
     cameraCtx.drawImage(canvas,sx*canvas.width/W,sy*canvas.height/H,sw*canvas.width/W,sh*canvas.height/H,0,0,cameraCanvas.width,cameraCanvas.height);
     cameraCtx.strokeStyle="#f2d58b";cameraCtx.lineWidth=3;cameraCtx.strokeRect(2,2,cameraCanvas.width-4,cameraCanvas.height-4);
-    cameraCtx.strokeStyle="#fff0b188";cameraCtx.lineWidth=1;cameraCtx.beginPath();
-    cameraCtx.moveTo(cameraCanvas.width/2-12,cameraCanvas.height/2);cameraCtx.lineTo(cameraCanvas.width/2+12,cameraCanvas.height/2);
-    cameraCtx.moveTo(cameraCanvas.width/2,cameraCanvas.height/2-12);cameraCtx.lineTo(cameraCanvas.width/2,cameraCanvas.height/2+12);cameraCtx.stroke();
-    const name=document.getElementById("alchemyCameraName"),meta=document.getElementById("alchemyCameraMeta");
+    const ranked=[...npcs].sort((a,b)=>scoreNpc(b).total-scoreNpc(a).total),rank=ranked.findIndex(n=>n.id===focus.id)+1;
+    const name=document.getElementById("alchemyCameraName"),meta=document.getElementById("alchemyCameraMeta"),rankEl=document.getElementById("alchemyCameraRank");
     if(name)name.textContent=focus.name;
-    if(meta)meta.textContent=(now<cameraFocusUntil?"ĐANG THEO DÕI":"TỰ ĐỘNG BÁM DẪN ĐẦU")+" · "+focus.status.toUpperCase()+" · "+Math.floor(focus.progress*100)+"%";
+    if(meta)meta.textContent=focus.status.toUpperCase()+" · "+Math.floor(focus.progress*100)+"%";
+    if(rankEl)rankEl.textContent="HẠNG "+rank+"/"+npcs.length;
   }
-
-  // Bộ vẽ khán giả đồng bộ hình thể, đạo bào, tóc và cử động với audience.js
-  // của trường đua: tạp dịch vẫy tay, ngoại môn reo hò, nội môn kết kiếm quyết.
   function drawSpectator(x,y,scale,roleName,time,phase=0){
     const role=ROLE[roleName]||ROLE.outer;
     const seed=Math.abs(Math.floor(phase*13+({servant:0,outer:1,inner:2}[roleName]||0)*3));
