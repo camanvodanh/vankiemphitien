@@ -30,45 +30,66 @@
     ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,radius*pulse,0,TAU);ctx.fill();
   }
 
-  const flames=Array.from({length:16},(_,i)=>({phase:i*.83,heat:.72+(i%4)*.055}));
-  // Phase 2: autonomous alchemy simulation (observer mode)
-  const PHASES=[{name:"Khống hỏa",end:.22},{name:"Tinh luyện",end:.47},{name:"Dung hợp",end:.72},{name:"Ngưng đan",end:1}];
+  const DEFAULT_NAMES=["Lăng Vân","Mặc Trần","Tử Yên","Thanh Huyền","Bạch Ly","Cố Minh","Diệp Khanh","Hàn Phong","Vân Chi","Tạ Nguyệt","Lục Dương","Thẩm Dao","Kỷ Ninh","Tô Mặc","Ninh Tuyết","Phong Dật"];
+  const RANDOM_NAMES=["Tiêu Dao Tử","Mộ Dung Tuyết","Bạch Vân Sinh","Lạc Thanh Trúc","Tần Vô Song","Hạ Trường Khanh","Vân Mộng Dao","Cố Trường Sinh","Thẩm Tinh Hà","Diệp Linh Lung","Tô Cửu Ca","Hàn Ngọc Khanh"];
+  const PALETTE=[["#d95c4b","#853c35"],["#4d8db2","#315a7a"],["#a78ac9","#66517f"],["#d4a64d","#8c682e"],["#5b9b76","#376447"],["#d17b9c","#8e4c68"],["#b8b9c6","#747583"],["#c77a45","#804b2e"],["#6c9eaa","#426c75"],["#b4a05d","#76652f"]];
   const STRATEGIES=["Tốc độ","Chất lượng","Cân bằng","Mạo hiểm"];
-  let seed=20261126;const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296};
-  const npcs=Array.from({length:16},(_,i)=>({id:i+1,name:["Lăng Vân","Mặc Trần","Tử Yên","Thanh Huyền","Bạch Ly","Cố Minh","Diệp Khanh","Hàn Phong","Vân Chi","Tạ Nguyệt","Lục Dương","Thẩm Dao","Kỷ Ninh","Tô Mặc","Ninh Tuyết","Phong Dật"][i],
-    stats:{alchemy:58+Math.floor(rand()*39),fire:55+Math.floor(rand()*42),sense:54+Math.floor(rand()*43),spirit:55+Math.floor(rand()*42),speed:55+Math.floor(rand()*42),calm:52+Math.floor(rand()*46)},
-    strategy:STRATEGIES[i%4],progress:0,phase:0,status:"Đang chuẩn bị",done:false,success:false,quality:0,event:"",elapsed:0}));
-  let simElapsed=0,lastSim=0,simStarted=false,eventText="Mười sáu đệ tử chuẩn bị khai lò";
-  function beginSimulation(){if(simStarted)return;simStarted=true;lastSim=performance.now()}
+  const PHASES=[{name:"Khống hỏa",end:.22},{name:"Tinh luyện",end:.47},{name:"Dung hợp",end:.72},{name:"Ngưng đan",end:1}];
+  let seed=20261126;const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};
+  const makeNpc=(name,i)=>{const palette=PALETTE[i%PALETTE.length];return {id:i+1,name,stats:{alchemy:58+Math.floor(rand()*39),fire:55+Math.floor(rand()*42),sense:54+Math.floor(rand()*43),spirit:55+Math.floor(rand()*43),speed:55+Math.floor(rand()*42),calm:52+Math.floor(rand()*46)},strategy:STRATEGIES[i%4],progress:0,phase:0,status:"Đang chuẩn bị",done:false,success:false,quality:0,event:"",elapsed:0,raceLook:{id:"dan-"+(i+1),name,gender:/nữ|tiên tử|thánh nữ|tiểu thư|cô nương|nguyệt|tuyết|yên|dao|linh/i.test(name)?"female":(i%2?"female":"male"),appearanceSeed:i%5,color:palette[0],dark:palette[1],phase:i*.73,swordStyle:i%12,effectTimer:0,effectDuration:0,effectType:"",effectName:"",speedMultiplier:1,progress:0,finished:false,isLegendaryThanSau:false}};};
+  let npcs=DEFAULT_NAMES.map(makeNpc),flames=Array.from({length:16},(_,i)=>({phase:i*.83,heat:.72+(i%4)*.055}));
+  let simElapsed=0,lastSim=0,simStarted=false,simPaused=false,simFinished=false,simDuration=180000,eventText="Mười sáu đệ tử chuẩn bị khai lò";
+  function stationPosition(index){
+    const count=npcs.length,cols=Math.min(4,Math.max(2,Math.ceil(Math.sqrt(count*1.15)))),rows=Math.ceil(count/cols);
+    const col=index%cols,row=Math.floor(index/cols),spacing=cols===1?0:Math.min(330,1120/(cols-1));
+    const x=800-(cols-1)*spacing/2+col*spacing,rowGap=rows<=1?0:Math.min(112,330/(rows-1)),y=rows===1?735:590+row*rowGap;
+    return {x,y,s:clamp(.78-(rows-4)*.035,.62,.82)};
+  }
+  function setAlchemyControls(){
+    const start=document.getElementById("startAlchemy"),pause=document.getElementById("pauseAlchemy"),stop=document.getElementById("stopAlchemy");
+    if(start){start.disabled=!npcs.length||simFinished||simStarted&&!simPaused;start.querySelector(".btn-label").textContent=simPaused?"Tiếp tục":simStarted?"Đang luyện":simFinished?"Đã hoàn tất":"Khai lò";}
+    if(pause){pause.disabled=!simStarted||simPaused||simFinished;pause.textContent="Ⅱ Tạm ngưng";}
+    if(stop)stop.disabled=!simStarted&&!simPaused;
+  }
+  function buildRoster(count,names){
+    seed=20261126+count*97;
+    const used=names.slice(0,count);
+    while(used.length<count){const candidate=RANDOM_NAMES[(used.length*7+Math.floor(rand()*RANDOM_NAMES.length))%RANDOM_NAMES.length]+" "+(used.length+1);used.push(candidate);}
+    npcs=used.slice(0,count).map(makeNpc);
+    flames=Array.from({length:count},(_,i)=>({phase:i*.83,heat:.72+(i%4)*.055}));
+    simElapsed=0;lastSim=0;simStarted=false;simPaused=false;simFinished=false;finalAnnounced=false;lastBoardUpdate=0;selectedNpc=0;eventText="Đệ tử đã tề tựu · chờ hiệu lệnh khai lò";
+    renderTournament(performance.now()+1000);renderSelected();setAlchemyControls();
+  }
+  function beginSimulation(){if(simStarted&&!simPaused)return;simStarted=true;simPaused=false;lastSim=performance.now();eventText="Đại hội khai lò · các đệ tử bắt đầu luyện đan";setAlchemyControls();}
   function updateSimulation(now){
-    if(!simStarted)beginSimulation();const dt=Math.min(100,Math.max(0,now-lastSim));lastSim=now;simElapsed+=dt;
+    if(!simStarted||simPaused||simFinished)return;
+    const dt=Math.min(100,Math.max(0,now-lastSim));lastSim=now;simElapsed+=dt;
     for(let i=0;i<npcs.length;i++){const n=npcs[i];if(n.done)continue;
       const avg=(n.stats.alchemy+n.stats.fire+n.stats.sense+n.stats.spirit+n.stats.speed+n.stats.calm)/6;
       const strategyBoost=n.strategy==="Tốc độ"?1.2:n.strategy==="Chất lượng"?.91:n.strategy==="Mạo hiểm"?1.08:1;
-      const target=210000*(1.12-avg/500)/strategyBoost;
+      const target=simDuration*(1.12-avg/500)/strategyBoost;
       n.progress=clamp(n.progress+dt/target,0,1);n.elapsed+=dt;
-      const phase=PHASES.findIndex(p=>n.progress<=p.end);n.phase=phase<0?3:phase;
-      n.status=PHASES[n.phase].name;
+      const phase=PHASES.findIndex(p=>n.progress<=p.end);n.phase=phase<0?3:phase;n.status=PHASES[n.phase].name;
+      n.raceLook.progress=n.progress;n.raceLook.effectType=["formation_seal","qi_pill","formation","pill"][n.phase];
       flames[i].heat=clamp(.58+n.stats.fire/220+(n.phase===0?.13:n.phase===3?.08:0)+Math.sin(now*.002+i)*.035,.55,1.15);
       if(n.progress>=1){n.done=true;n.success=rand()<(0.68+n.stats.alchemy/500+n.stats.calm/900-(n.strategy==="Mạo hiểm"?.16:0));
         n.quality=clamp(Math.round((n.stats.alchemy*.34+n.stats.sense*.24+n.stats.spirit*.18+n.stats.fire*.14+n.stats.calm*.1)+(n.strategy==="Chất lượng"?7:0)+(n.strategy==="Mạo hiểm"?rand()*18-8:0)),1,100);
         const events=["Đan văn hiện thế","Đan khí ngưng tụ","Một lò thành song đan","Đan lô chấn động","Hỏa thế nghịch chuyển"];
-        if(n.success&&n.quality>88&&rand()>.45){n.event=events[Math.floor(rand()*events.length)];eventText="Lò "+String(n.id).padStart(2,"0")+": "+n.event}
-        else if(!n.success){n.event="Luyện đan thất bại";eventText="Lò "+String(n.id).padStart(2,"0")+": đan lô tắt lửa"}
-        n.status=n.success?"Đã thành đan":"Thất bại";
+        if(n.success&&n.quality>88&&rand()>.45){n.event=events[Math.floor(rand()*events.length)];eventText="Lò "+String(n.id).padStart(2,"0")+": "+n.event;}
+        else if(!n.success){n.event="Luyện đan thất bại";eventText="Lò "+String(n.id).padStart(2,"0")+": đan lô tắt lửa";}
+        n.status=n.success?"Đã thành đan":"Thất bại";n.raceLook.finished=true;
       }
     }
-    const done=npcs.filter(n=>n.done).length;const running=npcs.filter(n=>!n.done);
-    const leader=[...npcs].sort((a,b)=>b.progress-a.progress)[0];
-    const phase=running.length?PHASES[running.reduce((a,n)=>a+n.phase,0)/running.length|0].name:"Hoàn tất";
-    const time=document.getElementById("alchemyTime");if(time)time.textContent="TIẾN TRÌNH "+Math.floor(simElapsed/1000)+"s · "+done+"/16 lò hoàn tất";
-    const phaseEl=document.getElementById("alchemyPhase");if(phaseEl)phaseEl.textContent="CÔNG ĐOẠN CHỦ ĐẠO: "+phase;
+    if(npcs.length&&npcs.every(n=>n.done)){simFinished=true;simPaused=false;eventText="Đại hội kết thúc · công bố Đan Vương";}
+    const done=npcs.filter(n=>n.done).length,running=npcs.filter(n=>!n.done),leader=[...npcs].sort((a,b)=>b.progress-a.progress)[0];
+    const phase=running.length?PHASES[Math.floor(running.reduce((a,n)=>a+n.phase,0)/running.length)].name:"Hoàn tất";
+    const time=document.getElementById("alchemyTime");if(time)time.textContent="THỜI GIAN "+Math.floor(simElapsed/1000)+"s · "+done+"/"+npcs.length+" HOÀN TẤT";
+    const phaseEl=document.getElementById("alchemyPhase");if(phaseEl)phaseEl.textContent="CÔNG ĐOẠN: "+phase.toUpperCase();
     const eventEl=document.getElementById("alchemyEvent");if(eventEl)eventEl.textContent=eventText;
-    const leadEl=document.getElementById("alchemyLeader");if(leadEl)leadEl.textContent="DẪN ĐẦU: "+leader.name+" · "+Math.floor(leader.progress*100)+"%";
     const countEl=document.getElementById("alchemyCount");if(countEl)countEl.textContent=npcs.filter(n=>n.success).length+" thành đan · "+npcs.filter(n=>n.done&&!n.success).length+" thất bại";
-    renderTournament(now);
+    const boardStatus=document.getElementById("alchemyBoardStatus");if(boardStatus)boardStatus.textContent=simFinished?"ĐÃ KẾT THÚC":simPaused?"TẠM NGƯNG":"ĐANG THI ĐẤU";
+    renderTournament(now);setAlchemyControls();
   }
-
 
   // Phase 3: live tournament scoring, appraisal, leaderboard and station inspection.
   const PILL_RANKS=[["Phàm phẩm",0],["Hạ phẩm",48],["Trung phẩm",60],["Thượng phẩm",72],["Cực phẩm",82],["Linh phẩm",90],["Địa phẩm",95],["Thiên phẩm",98],["Tiên phẩm",100]];
