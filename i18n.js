@@ -249,6 +249,8 @@ Object.assign(DICT.cn,{
  "Đang chuẩn bị":"准备中","Đã thành đan":"炼丹成功","Thất bại":"失败","Tốc độ":"速度","Chất lượng":"品质","Cân bằng":"均衡","Mạo hiểm":"冒险"
 });
 
+Object.assign(DICT.en,{"ĐỆ TỬ":"DISCIPLES","CÔNG ĐOẠN":"STAGE","HOÀN TẤT":"COMPLETED","HẠNG ":"RANK ","DẪN ĐẦU":"IN THE LEAD","ĐIỂM":"POINTS","THÀNH PHẨM":"PILL RESULT","Đan thuật":"Alchemy","Khống hỏa":"Flame control","Thần thức":"Spiritual sense","Linh lực":"Spiritual power","Tâm cảnh":"Composure"});
+Object.assign(DICT.cn,{"ĐỆ TỬ":"弟子","CÔNG ĐOẠN":"阶段","HOÀN TẤT":"完成","HẠNG ":"排名","DẪN ĐẦU":"领先","ĐIỂM":"分","THÀNH PHẨM":"丹药成果","Đan thuật":"丹术","Khống hỏa":"控火","Thần thức":"神识","Linh lực":"灵力","Tâm cảnh":"心境"});
 const LANGS={vi:"VN",en:"EN",cn:"CN"};
 const STORAGE_KEY="vankiemphitien-language";
 let language="vi";
