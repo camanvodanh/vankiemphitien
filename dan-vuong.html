@@ -3,54 +3,89 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#171d1b">
+  <meta name="theme-color" content="#14251f">
   <title>Đan Vương Điện · Vạn Kiếm Phi Tiên</title>
-  <link rel="stylesheet" href="dan-vuong.css?v=phase4-2">
+  <link rel="stylesheet" href="dan-vuong.css?v=ingame-v1">
 </head>
 <body class="dan-page">
   <main class="dan-app">
-    <header class="dan-header">
-      <a class="dan-back" href="index.html" aria-label="Trở về Vạn Kiếm Phi Tiên">‹ <span>Vạn Kiếm Phi Tiên</span></a>
-      <div class="dan-brand">
-        <span class="dan-seal">丹</span>
-        <div><p>TIÊN MÔN · ĐAN ĐẠO THÁNH ĐỊA</p><h1>ĐAN VƯƠNG ĐIỆN</h1><small>VẠN LÒ TRANH DIỄM · NHẤT ĐAN THÀNH DANH</small></div>
-      </div>
-      <div class="dan-status"><i></i> BÁCH LUYỆN ĐÀI</div>
+    <header class="dan-topbar">
+      <div class="dan-brand"><span class="dan-seal">丹</span><div><strong>ĐAN VƯƠNG ĐIỆN</strong><small>BÁCH LUYỆN ĐÀI · VẠN LÒ TRANH DIỄM</small></div></div>
+      <div class="dan-live"><i></i> THI ĐẤU TRỰC TIẾP</div>
     </header>
 
-    <section class="dan-stage" aria-label="Toàn cảnh Đan Vương Điện">
-      <div class="stage-vignette"></div>
-      <canvas id="danScene" width="1600" height="1000" aria-label="Đan Vương Điện với mười sáu lò luyện đan và các đệ tử"></canvas>
-      <div class="alchemy-hud" aria-live="polite"><strong id="alchemyTime">TIẾN TRÌNH 0s · 0/16 lò hoàn tất</strong><span id="alchemyPhase">CÔNG ĐOẠN CHỦ ĐẠO: KHỐNG HỎA</span><span id="alchemyLeader">DẪN ĐẦU: LĂNG VÂN · 0%</span><span id="alchemyCount">0 thành đan · 0 thất bại</span><em id="alchemyEvent">Mười sáu đệ tử chuẩn bị khai lò</em></div>
-      <div class="stage-caption">
-        <span class="caption-kicker">ĐAN ĐẠO CHÍ TÔN</span>
-        <strong>BÁCH LUYỆN ĐÀI</strong>
-        <small>16 ĐAN LÔ · 16 ĐỆ TỬ · TỰ ĐỘNG LUYỆN ĐAN</small>
+    <section class="dan-stage" aria-label="Bản đồ thi đấu Đan Các">
+      <canvas id="danScene" width="1600" height="1000" aria-label="Bách Luyện Đài với mười sáu đệ tử và lò luyện đan"></canvas>
+      <div class="stage-shade"></div>
+      <div class="stage-title"><span>TIÊN MÔN · ĐAN ĐẠO</span><strong>BÁCH LUYỆN ĐÀI</strong></div>
+      <div class="alchemy-hud" aria-live="polite">
+        <div><small>THỜI GIAN LUYỆN ĐAN</small><strong id="alchemyTime">TIẾN TRÌNH 0s · 0/16 lò hoàn tất</strong></div>
+        <div><small>CÔNG ĐOẠN</small><strong id="alchemyPhase">KHỐNG HỎA</strong></div>
+        <div><small>ĐANG DẪN ĐẦU</small><strong id="alchemyLeader">LĂNG VÂN · 0%</strong></div>
+        <div class="hud-event"><small>BIẾN CỐ</small><strong id="alchemyEvent">Mười sáu đệ tử chuẩn bị khai lò</strong></div>
+        <span id="alchemyCount" class="sr-only">0 thành đan · 0 thất bại</span>
       </div>
-      <div class="stage-legend"><span><i class="fire-dot"></i> Đan hỏa đang vận chuyển</span><span><i class="jade-dot"></i> Linh khí tụ hội</span></div>
+      <aside class="scene-ranking">
+        <div class="scene-panel-head"><strong>ĐAN BẢNG</strong><span>TOP 5</span></div>
+        <div id="alchemyBoard" class="alchemy-board"></div>
+      </aside>
+      <div class="scene-camera">
+        <div class="camera-mark">天</div>
+        <div><small>THIÊN LÝ KÍNH · LÒ DẪN ĐẦU</small><strong id="alchemyChampion">ĐANG QUAN SÁT</strong><span id="alchemyAppraisal">Trưởng lão đang quan sát quá trình luyện đan.</span></div>
+      </div>
+      <div class="scene-legend"><span><i class="fire-dot"></i> Đan hỏa</span><span><i class="jade-dot"></i> Linh khí</span></div>
     </section>
 
+    <nav class="dan-tabs" aria-label="Bảng thông tin Đan Các">
+      <button type="button" class="dan-tab active" data-panel="tournament-panel">Đại hội Đan Đạo</button>
+      <button type="button" class="dan-tab" data-panel="league-panel">Tam Quan</button>
+      <button type="button" class="dan-tab" data-panel="appraisal-panel">Giám định</button>
+    </nav>
 
-    <section class="tournament-panel" aria-label="Đại hội Đan Đạo">
-      <div class="tournament-heading"><div><small>VẠN LÒ TRANH TÀI</small><h2>ĐẠI HỘI ĐAN ĐẠO</h2><p id="tournamentState">ĐẠI HỘI ĐAN ĐẠO · ĐANG TRANH TÀI</p></div><button id="restartAlchemy" type="button">Khai mở lượt mới</button></div>
-      <div class="tournament-summary"><strong id="alchemyChampion">TẠM DẪN ĐẦU: LĂNG VÂN</strong><span id="alchemyAppraisal">Trưởng lão đang quan sát quá trình luyện đan.</span></div>
-      <div class="tournament-grid"><div class="ranking-card"><h3>BẢNG VÀNG THI ĐẤU</h3><div class="ranking-caption">Xếp hạng tổng hợp · cập nhật trực tiếp</div><div id="alchemyBoard" class="alchemy-board"></div></div><div class="appraisal-card"><h3>GIÁM ĐỊNH ĐAN DƯỢC</h3><p class="appraisal-hint">Chạm vào một lò luyện đan trên sân hoặc tên đệ tử trong bảng vàng để xem hồ sơ.</p><div id="alchemyDetail" class="alchemy-detail"><strong>LÒ 01 · LĂNG VÂN</strong><span>Đang chuẩn bị luyện đan</span></div><div class="scoring-legend"><span>Tốc độ <b>25%</b></span><span>Kỹ thuật <b>35%</b></span><span>Phẩm chất <b>40%</b></span></div></div></div>
-    </section>
+    <section class="dan-panels">
+      <section class="tournament-panel dan-panel active" id="tournament-panel" aria-label="Đại hội Đan Đạo">
+        <div class="panel-toolbar"><div><small>VẠN LÒ TRANH TÀI</small><h2>ĐẠI HỘI ĐAN ĐẠO</h2><p id="tournamentState">ĐANG TRANH TÀI</p></div><button id="restartAlchemy" type="button" class="jade-button">Khai mở lượt mới</button></div>
+        <div class="tournament-summary"><strong id="tournamentChampion">ĐANG TRANH TÀI</strong><span id="tournamentAppraisal">Theo dõi tiến độ và phẩm chất đan dược.</span></div>
+        <div class="tournament-grid">
+          <div class="ranking-card"><h3>BẢNG VÀNG THI ĐẤU</h3><div class="ranking-caption">Xếp hạng tổng hợp · cập nhật trực tiếp</div><div id="alchemyBoardSecondary" class="alchemy-board-secondary" aria-hidden="true"></div></div>
+          <div class="appraisal-card"><h3>HỒ SƠ LÒ LUYỆN</h3><p class="appraisal-hint">Chạm một lò trên bản đồ hoặc tên đệ tử để xem chi tiết.</p><div id="alchemyDetail" class="alchemy-detail"><strong>LÒ 01 · LĂNG VÂN</strong><span>Đang chuẩn bị luyện đan</span></div><div class="scoring-legend"><span>Tốc độ <b>25%</b></span><span>Kỹ thuật <b>35%</b></span><span>Phẩm chất <b>40%</b></span></div></div>
+        </div>
+      </section>
 
-    <section class="league-panel" aria-label="Đại hội Đan Đạo nhiều vòng">
-      <div class="league-head"><div><small>ĐAN ĐẠO THÁNH ĐIỂN · HỆ THỐNG MÙA GIẢI</small><h2>ĐẠI HỘI ĐAN ĐẠO · TAM QUAN</h2><p id="leagueState">ĐANG CHỜ KHAI MẠC</p></div><div class="league-pill"><small>ĐAN PHƯƠNG THI ĐẤU</small><strong id="leaguePill">Tụ Khí Đan</strong></div></div>
-      <div class="league-roundline"><strong id="leagueRound">Sơ tuyển · TOP 16 → TOP 8</strong><span id="leagueClock">THỜI GIAN: 0.0s · 16 ĐẠO HỮU DỰ THI</span></div>
-      <div class="league-actions"><button id="startLeague">Khai mạc vòng thi</button><button id="nextLeague" disabled>Tiến vào vòng kế</button><button id="newLeague">Mùa giải mới</button></div>
-      <div class="league-columns"><div class="league-board-wrap"><h3>BẢNG VÀNG MÙA GIẢI</h3><div id="leagueBoard" class="league-board"></div></div><div class="league-side"><h3>ĐAN VƯƠNG ĐƯƠNG NHIỆM</h3><strong id="leagueChampion">Chưa có Đan Vương</strong><div id="leagueDetail"></div><h3>VINH DANH CÁC MÙA</h3><div id="leagueHistory"></div></div></div>
+      <section class="league-panel dan-panel" id="league-panel" aria-label="Đại hội Đan Đạo nhiều vòng" hidden>
+        <div class="league-head"><div><small>ĐAN ĐẠO THÁNH ĐIỂN · HỆ THỐNG MÙA GIẢI</small><h2>ĐẠI HỘI ĐAN ĐẠO · TAM QUAN</h2><p id="leagueState">ĐANG CHỜ KHAI MẠC</p></div><div class="league-pill"><small>ĐAN PHƯƠNG THI ĐẤU</small><strong id="leaguePill">Tụ Khí Đan</strong></div></div>
+        <div class="league-roundline"><strong id="leagueRound">Sơ tuyển · TOP 16 → TOP 8</strong><span id="leagueClock">THỜI GIAN: 0.0s · 16 ĐẠO HỮU DỰ THI</span></div>
+        <div class="league-actions"><button id="startLeague">Khai mạc vòng thi</button><button id="nextLeague" disabled>Tiến vào vòng kế</button><button id="newLeague">Mùa giải mới</button></div>
+        <div class="league-columns"><div class="league-board-wrap"><h3>BẢNG VÀNG MÙA GIẢI</h3><div id="leagueBoard" class="league-board"></div></div><div class="league-side"><h3>ĐAN VƯƠNG ĐƯƠNG NHIỆM</h3><strong id="leagueChampion">Chưa có Đan Vương</strong><div id="leagueDetail"></div><h3>VINH DANH CÁC MÙA</h3><div id="leagueHistory"></div></div></div>
+      </section>
+
+      <section class="dan-panel appraisal-panel" id="appraisal-panel" hidden>
+        <div class="appraisal-full"><small>GIÁM ĐỊNH ĐAN DƯỢC</small><h2>HỒ SƠ LUYỆN ĐAN</h2><div id="appraisalDetailMirror">Chọn một đệ tử hoặc lò luyện đan trên bản đồ để xem hồ sơ chi tiết.</div></div>
+      </section>
     </section>
-    <section class="dan-info">
-      <article class="info-card"><span class="info-icon">炉</span><div><small>ĐAN LÔ</small><strong>16 tòa</strong><p>Khống hỏa · Tinh luyện · Dung hợp · Ngưng đan</p></div></article>
-      <article class="info-card"><span class="info-icon">修</span><div><small>ĐỆ TỬ THAM DỰ</small><strong>16 vị</strong><p>Sáu thuộc tính · Bốn chiến thuật luyện đan</p></div></article>
-      <article class="info-card"><span class="info-icon">尊</span><div><small>GIÁM ĐAN TRƯỞNG LÃO</small><strong>Đan Vương trưởng lão</strong><p>Theo dõi thành đan, phẩm chất và biến cố</p></div></article>
-    </section>
-    <footer class="dan-footer">VẠN KIẾM PHI TIÊN <span>✦</span> ĐAN VƯƠNG ĐIỆN · GIAI ĐOẠN 4</footer>
+    <footer class="dan-footer"><span>‹</span> TRỞ VỀ VẠN KIẾM ĐÀI</footer>
   </main>
-  <script src="dan-vuong.js?v=phase4-2"></script>
-  <script src="dan-vuong-league.js?v=phase4-2"></script>
+  <script src="dan-vuong.js?v=ingame-v1"></script>
+  <script src="dan-vuong-league.js?v=ingame-v1"></script>
+  <script>
+  (() => {
+    const tabs=[...document.querySelectorAll(".dan-tab")];
+    const panels=[...document.querySelectorAll(".dan-panel")];
+    tabs.forEach(tab=>tab.addEventListener("click",()=>{
+      const id=tab.dataset.panel;
+      tabs.forEach(x=>x.classList.toggle("active",x===tab));
+      panels.forEach(panel=>{const active=panel.id===id;panel.classList.toggle("active",active);panel.hidden=!active;});
+    }));
+    const observer=new MutationObserver(()=>{
+      const detail=document.getElementById("alchemyDetail");
+      const mirror=document.getElementById("appraisalDetailMirror");
+      if(detail&&mirror)mirror.innerHTML=detail.innerHTML;
+      const champ=document.getElementById("alchemyChampion");
+      const summary=document.getElementById("tournamentChampion");
+      if(champ&&summary)summary.textContent=champ.textContent;
+    });
+    const detail=document.getElementById("alchemyDetail");if(detail)observer.observe(detail,{childList:true,subtree:true,characterData:true});
+  })();
+  </script>
 </body>
 </html>
