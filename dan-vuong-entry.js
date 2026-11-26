@@ -73,7 +73,7 @@
 
     const frame=document.createElement("iframe");
     frame.title="Đan Vương Các · Bách Luyện Đài";
-    frame.src=new URL("dan-vuong.html?embedded=1&v=ingame-v7",document.baseURI).href;
+    frame.src=new URL("dan-vuong.html?embedded=1&v=ingame-v8",document.baseURI).href;
     frame.setAttribute("allow","fullscreen");
     Object.assign(frame.style,{display:"block",width:"100%",height:"100%",minHeight:"0",flex:"1 1 auto",border:"0",background:"#102b27"});
 
