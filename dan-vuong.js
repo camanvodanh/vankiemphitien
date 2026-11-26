@@ -336,10 +336,12 @@
   function drawStation(index,t){
     const p=stationPosition(index),x=p.x,y=p.y,s=p.s,n=npcs[index];
     if(index===selectedNpc){ctx.save();ctx.strokeStyle="#f4d98e";ctx.lineWidth=2;ctx.setLineDash([7,5]);ctx.beginPath();ctx.ellipse(x,y+25,78*s,66*s,0,0,TAU);ctx.stroke();ctx.restore();}
-    drawPavilion(x,y,s);drawCauldron(x,y-26,s,t,index);drawDisciple(x,y+38,s*.94,index,t);
-    ctx.textAlign="center";ctx.font="bold 12px Arial";ctx.fillStyle=n.done?(n.success?"#ffe49b":"#e39b8c"):"#fff0c8";ctx.fillText(n.name,x,y+58);
-    ctx.font="9px Arial";ctx.fillStyle="#d9d0b8";ctx.fillText(n.done?(n.success?"THÀNH ĐAN · "+pillRank(n.quality):"LÒ ĐAN THẤT BẠI"):n.status.toUpperCase(),x,y+69);
-    ctx.fillStyle="#30291f";ctx.fillRect(x-39,y+74,78,4);ctx.fillStyle=n.done?(n.success?"#e8c36d":"#9c5d50"):"#9bc6a8";ctx.fillRect(x-39,y+74,78*n.progress,4);
+    drawPavilion(x,y,s);drawDisciple(x,y+20,s*.94,index,t);drawCauldron(x,y-26,s,t,index);
+    // Mặt bàn phía trước che phần phi kiếm, tạo cảm giác đệ tử đứng sau đan lô để thao tác.
+    ctx.fillStyle="#493328";ctx.fillRect(x-59,y+38,118,14);ctx.fillStyle="#c69d58";ctx.fillRect(x-61,y+36,122,3);ctx.fillStyle="#d9bd7c";ctx.fillRect(x-55,y+50,110,2);
+    ctx.textAlign="center";ctx.font="bold 12px Arial";ctx.fillStyle=n.done?(n.success?"#ffe49b":"#e39b8c"):"#fff0c8";ctx.fillText(n.name,x,y+66);
+    ctx.font="9px Arial";ctx.fillStyle="#d9d0b8";ctx.fillText(n.done?(n.success?"THÀNH ĐAN · "+pillRank(n.quality):"LÒ ĐAN THẤT BẠI"):n.status.toUpperCase(),x,y+77);
+    ctx.fillStyle="#30291f";ctx.fillRect(x-39,y+82,78,4);ctx.fillStyle=n.done?(n.success?"#e8c36d":"#9c5d50"):"#9bc6a8";ctx.fillRect(x-39,y+82,78*n.progress,4);
   }
   function drawAlchemyCamera(now){
     if(!cameraCtx||!cameraCanvas||!npcs.length)return;
