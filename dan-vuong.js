@@ -364,11 +364,11 @@
     drawCauldron(x,y-26,s,t,index);
     drawDisciple(x,y+38,s*.94,index,t);
     // Bàn đá phía trước che thanh phi kiếm của bộ nhân vật gốc, giữ nguyên gương mặt và trường bào.
-    ctx.fillStyle="#30261f99";ctx.beginPath();ctx.ellipse(x,y+57,74*s,10*s,0,0,TAU);ctx.fill();
-    const bench=ctx.createLinearGradient(0,y+43,0,y+66);bench.addColorStop(0,"#d2b276");bench.addColorStop(.22,"#8d6840");bench.addColorStop(1,"#4a3528");
-    ctx.fillStyle=bench;ctx.beginPath();ctx.moveTo(x-65*s,y+43*s);ctx.quadraticCurveTo(x,y+51*s,x+65*s,y+43*s);ctx.lineTo(x+60*s,y+62*s);ctx.quadraticCurveTo(x,y+69*s,x-60*s,y+62*s);ctx.closePath();ctx.fill();
-    ctx.strokeStyle="#f2d796";ctx.lineWidth=2*s;ctx.beginPath();ctx.moveTo(x-65*s,y+43*s);ctx.quadraticCurveTo(x,y+51*s,x+65*s,y+43*s);ctx.stroke();
-    ctx.fillStyle="#e4c783";ctx.fillRect(x-48*s,y+57*s,96*s,2*s);
+    ctx.fillStyle="#30261f99";ctx.beginPath();ctx.ellipse(x,y+69,74*s,10*s,0,0,TAU);ctx.fill();
+    const bench=ctx.createLinearGradient(0,y+51,0,y+72);bench.addColorStop(0,"#d2b276");bench.addColorStop(.22,"#8d6840");bench.addColorStop(1,"#4a3528");
+    ctx.fillStyle=bench;ctx.beginPath();ctx.moveTo(x-65*s,y+52);ctx.quadraticCurveTo(x,y+59,x+65*s,y+52);ctx.lineTo(x+60*s,y+70);ctx.quadraticCurveTo(x,y+76,x-60*s,y+70);ctx.closePath();ctx.fill();
+    ctx.strokeStyle="#f2d796";ctx.lineWidth=2*s;ctx.beginPath();ctx.moveTo(x-65*s,y+52);ctx.quadraticCurveTo(x,y+59,x+65*s,y+52);ctx.stroke();
+    ctx.fillStyle="#e4c783";ctx.fillRect(x-48*s,y+66,96*s,2*s);
     ctx.textAlign="center";ctx.font="bold 12px Arial";ctx.fillStyle=n.done?(n.success?"#ffe49b":"#e39b8c"):"#fff0c8";ctx.fillText(n.name,x,y+82);
     ctx.font="9px Arial";ctx.fillStyle="#d9d0b8";ctx.fillText(n.done?(n.success?"THÀNH ĐAN · "+pillRank(n.quality):"LÒ ĐAN THẤT BẠI"):n.status.toUpperCase()+" · "+Math.floor(n.progress*100)+"%",x,y+93);
     ctx.fillStyle="#30291f";ctx.fillRect(x-42,y+99,84,4);ctx.fillStyle=n.done?(n.success?"#e8c36d":"#9c5d50"):"#9bc6a8";ctx.fillRect(x-42,y+99,84*n.progress,4);
@@ -476,9 +476,9 @@
     for(let i=0;i<npcs.length;i++)drawStation(i,t);
     // Họa tiết đan văn ở mép trước sân.
     ctx.save();ctx.globalAlpha=.42;ctx.strokeStyle="#e3c579";ctx.lineWidth=3;
-    ctx.beginPath();ctx.ellipse(800,958,260,30,0,0,TAU);ctx.stroke();
-    ctx.beginPath();ctx.ellipse(800,958,220,22,0,0,TAU);ctx.stroke();
-    for(let i=0;i<12;i++){const a=i*TAU/12;ctx.beginPath();ctx.moveTo(800+Math.cos(a)*220,958+Math.sin(a)*22);ctx.lineTo(800+Math.cos(a)*260,958+Math.sin(a)*30);ctx.stroke();}
+    ctx.beginPath();ctx.ellipse(800,980,260,15,0,0,TAU);ctx.stroke();
+    ctx.beginPath();ctx.ellipse(800,980,220,10,0,0,TAU);ctx.stroke();
+    for(let i=0;i<12;i++){const a=i*TAU/12;ctx.beginPath();ctx.moveTo(800+Math.cos(a)*220,980+Math.sin(a)*10);ctx.lineTo(800+Math.cos(a)*260,980+Math.sin(a)*15);ctx.stroke();}
     ctx.restore();
   }
   function drawAtmosphere(t){
