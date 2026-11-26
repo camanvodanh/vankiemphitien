@@ -46,7 +46,58 @@
     const eventEl=document.getElementById("alchemyEvent");if(eventEl)eventEl.textContent=eventText;
     const leadEl=document.getElementById("alchemyLeader");if(leadEl)leadEl.textContent="DẪN ĐẦU: "+leader.name+" · "+Math.floor(leader.progress*100)+"%";
     const countEl=document.getElementById("alchemyCount");if(countEl)countEl.textContent=npcs.filter(n=>n.success).length+" thành đan · "+npcs.filter(n=>n.done&&!n.success).length+" thất bại";
+    renderTournament(now);
   }
+
+
+  // Phase 3: live tournament scoring, appraisal, leaderboard and station inspection.
+  const PILL_RANKS=[["Phàm phẩm",0],["Hạ phẩm",48],["Trung phẩm",60],["Thượng phẩm",72],["Cực phẩm",82],["Linh phẩm",90],["Địa phẩm",95],["Thiên phẩm",98],["Tiên phẩm",100]];
+  let selectedNpc=0,lastBoardUpdate=0,finalAnnounced=false;
+  const pillRank=q=>{let rank=PILL_RANKS[0][0];for(const r of PILL_RANKS)if(q>=r[1])rank=r[0];return rank};
+  function scoreNpc(n){
+    const speed=clamp(100-(n.elapsed/2600),0,100);
+    const technique=clamp((n.stats.alchemy*.28+n.stats.fire*.22+n.stats.sense*.22+n.stats.spirit*.16+n.stats.calm*.12)*(n.success?1:.55),0,100);
+    const quality=n.success?n.quality:0;
+    n.scores={speed,technique,quality,total:speed*.25+technique*.35+quality*.40};
+    return n.scores;
+  }
+  function renderTournament(now){
+    if(now-lastBoardUpdate<450)return;lastBoardUpdate=now;
+    const ranked=[...npcs].map(n=>({n,s:scoreNpc(n)})).sort((a,b)=>b.s.total-a.s.total);
+    const board=document.getElementById("alchemyBoard");
+    if(board)board.innerHTML=ranked.map((item,i)=>{const n=item.n,s=item.s;const medal=i===0?"👑":i===1?"🥈":i===2?"🥉":String(i+1).padStart(2,"0");return '<button class="rank-row '+(n.id-1===selectedNpc?'is-selected':'')+'" data-npc="'+(n.id-1)+'"><b>'+medal+'</b><span class="rank-name">'+n.name+'<small>'+ (n.done?(n.success?pillRank(n.quality):"Luyện đan thất bại"):n.status)+'</small></span><span class="rank-score">'+s.total.toFixed(1)+'<small>điểm</small></span></button>'}).join("");
+    board?.querySelectorAll("[data-npc]").forEach(el=>el.addEventListener("click",()=>{selectedNpc=Number(el.dataset.npc);renderSelected()}));
+    const finished=npcs.every(n=>n.done);
+    const champion=ranked[0].n;
+    const title=document.getElementById("tournamentState");
+    if(title)title.textContent=finished?"ĐÃ KẾT THÚC · CÔNG BỐ BẢNG VÀNG":"ĐẠI HỘI ĐAN ĐẠO · ĐANG TRANH TÀI";
+    const champ=document.getElementById("alchemyChampion");
+    if(champ)champ.textContent=finished?"ĐAN VƯƠNG: "+champion.name+" · "+pillRank(champion.quality)+" · "+ranked[0].s.total.toFixed(1)+" điểm":"TẠM DẪN ĐẦU: "+champion.name+" · "+ranked[0].s.total.toFixed(1)+" điểm";
+    const appraisal=document.getElementById("alchemyAppraisal");
+    if(appraisal)appraisal.textContent=finished?"Trưởng lão đã giám định toàn bộ đan dược. Người đứng đầu được tôn xưng Đan Vương.":npcs.filter(n=>n.done).length+" / 16 đan lô đã đưa đan dược vào Giám Đan Các.";
+    renderSelected();
+    if(finished&&!finalAnnounced){finalAnnounced=true;eventText="Đại hội kết thúc · "+champion.name+" đoạt Đan Vương";const ev=document.getElementById("alchemyEvent");if(ev)ev.textContent=eventText}
+  }
+  function renderSelected(){
+    const n=npcs[selectedNpc];if(!n)return;const s=scoreNpc(n);
+    const el=document.getElementById("alchemyDetail");if(!el)return;
+    el.innerHTML='<strong>LÒ '+String(n.id).padStart(2,"0")+' · '+n.name+'</strong><span>'+n.status+' · '+n.strategy+'</span><span>Đan thuật '+n.stats.alchemy+' · Khống hỏa '+n.stats.fire+' · Thần thức '+n.stats.sense+'</span><span>Linh lực '+n.stats.spirit+' · Tốc độ '+n.stats.speed+' · Tâm cảnh '+n.stats.calm+'</span><span>Điểm tốc độ '+s.speed.toFixed(1)+' · Kỹ thuật '+s.technique.toFixed(1)+' · Chất lượng '+s.quality.toFixed(1)+'</span><em>'+(n.done?(n.success?"Thành phẩm: "+pillRank(n.quality)+" · "+n.event:"Đan lô thất bại · "+n.event):"Tiến độ luyện đan: "+Math.floor(n.progress*100)+"%")+'</em>';
+  }
+  function resetTournament(){
+    seed=20261126;
+    npcs.forEach((n,i)=>{n.progress=0;n.phase=0;n.status="Đang chuẩn bị";n.done=false;n.success=false;n.quality=0;n.event="";n.elapsed=0;});
+    flames.forEach((f,i)=>f.heat=.72+(i%4)*.055);
+    simElapsed=0;lastSim=performance.now();simStarted=true;eventText="Đại hội Đan Đạo khai lò · 16 vị đệ tử vào cuộc";finalAnnounced=false;lastBoardUpdate=0;
+    const ev=document.getElementById("alchemyEvent");if(ev)ev.textContent=eventText;
+    renderTournament(lastBoardUpdate+1000);
+  }
+  canvas.addEventListener("click",e=>{
+    const r=canvas.getBoundingClientRect();const x=(e.clientX-r.left)/r.width*W,y=(e.clientY-r.top)/r.height*H;
+    let best=-1,dist=1e9;
+    for(let i=0;i<16;i++){const row=Math.floor(i/4),col=i%4,s=.68+row*.12,px=300+col*335+(row%2?18:-18),py=590+row*111,d=Math.hypot((x-px)/s,(y-py)/s);if(d<dist){dist=d;best=i}}
+    if(best>=0&&dist<95){selectedNpc=best;renderSelected();renderTournament(performance.now()+1000)}
+  });
+  document.getElementById("restartAlchemy")?.addEventListener("click",resetTournament);
 
   function path(points,fill,stroke=null,lw=1){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lw;ctx.stroke()}}
   function roof(cx,y,w,h,color="#283b35"){
