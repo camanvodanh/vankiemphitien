@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;600;700&display=swap');
+:root{color-scheme:dark;--gold:#d7b46b;--gold-soft:#f0dba6;--jade:#8cc9ac;--ink:#151b19;--panel:#202a25}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#111715;color:#eee3c5;font-family:Georgia,'Noto Serif',serif}
+body{background:radial-gradient(ellipse at 50% 0,#39453b 0,#1a211e 48%,#101513 100%)}
+.dan-app{width:min(1800px,100%);margin:auto;padding:clamp(12px,2vw,28px)}
+.dan-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:4px 4px 20px;border-bottom:1px solid #b9955555}
+.dan-back{color:#d7c79f;text-decoration:none;font:600 13px Arial,sans-serif;white-space:nowrap;opacity:.85}
+.dan-back:hover{color:#fff0c4}
+.dan-brand{display:flex;align-items:center;gap:16px;text-align:center}
+.dan-seal{display:grid;place-items:center;width:56px;height:56px;border:1px solid #d7b46b;border-radius:50%;box-shadow:inset 0 0 0 4px #d7b46b22,0 0 22px #d7b46b22;color:#f4d99b;font:700 30px 'Noto Serif SC',serif}
+.dan-brand p,.dan-brand small{margin:0;color:#bca675;font:10px Arial,sans-serif;letter-spacing:.22em}
+.dan-brand h1{margin:3px 0 2px;color:#f4e4bb;font:700 clamp(24px,3vw,38px) 'Noto Serif SC',serif;letter-spacing:.16em;text-shadow:0 2px 16px #d8a94a55}
+.dan-status{font:10px Arial,sans-serif;letter-spacing:.14em;color:#d8c89f;white-space:nowrap}
+.dan-status i{display:inline-block;width:7px;height:7px;margin-right:7px;border-radius:50%;background:#83c9a2;box-shadow:0 0 10px #83c9a2}
+.dan-stage{position:relative;margin:20px auto 0;overflow:hidden;border:1px solid #b9955570;border-radius:12px;background:#1b2522;box-shadow:0 24px 70px #0009,inset 0 0 0 5px #e4c77b0c}
+#danScene{display:block;width:100%;height:auto;aspect-ratio:8/5}
+.stage-vignette{position:absolute;inset:0;pointer-events:none;z-index:1;box-shadow:inset 0 0 110px 20px #080d0c99,inset 0 -50px 70px #080d0c66}
+.stage-caption{position:absolute;z-index:2;top:20px;left:50%;transform:translateX(-50%);text-align:center;pointer-events:none;text-shadow:0 2px 8px #080d0c}
+.stage-caption span,.stage-caption small{display:block;color:#e5c981;font:10px Arial,sans-serif;letter-spacing:.25em}
+.stage-caption strong{display:block;margin:4px 0;color:#fff0c7;font:700 clamp(16px,2.1vw,25px) 'Noto Serif SC',serif;letter-spacing:.2em}
+.stage-caption small{color:#d3c39e;font-size:9px;letter-spacing:.16em}
+.stage-legend{position:absolute;z-index:2;right:18px;bottom:14px;display:flex;gap:18px;color:#dfd2ae;font:10px Arial,sans-serif;text-shadow:0 1px 5px #000}
+.stage-legend i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px}
+.fire-dot{background:#f1a54f;box-shadow:0 0 8px #f1a54f}.jade-dot{background:#8bd7bd;box-shadow:0 0 8px #8bd7bd}
+.dan-info{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.info-card{display:flex;align-items:center;gap:14px;padding:15px 17px;border:1px solid #b9955544;border-radius:9px;background:linear-gradient(135deg,#28332d,#1b2420);box-shadow:0 8px 24px #0003}
+.info-icon{display:grid;place-items:center;flex:0 0 42px;height:42px;border:1px solid #c7a55d88;border-radius:50%;color:#e4c77e;font:22px 'Noto Serif SC',serif}
+.info-card small{display:block;color:#bca675;font:9px Arial,sans-serif;letter-spacing:.17em}
+.info-card strong{display:block;margin:4px 0;color:#f0dfb4;font:600 17px 'Noto Serif SC',serif}
+.info-card p{margin:0;color:#a9ad9d;font:11px Arial,sans-serif}
+.dan-footer{text-align:center;padding:22px 0 5px;color:#988b6b;font:9px Arial,sans-serif;letter-spacing:.2em}
+.dan-footer span{padding:0 8px;color:#d5b66d}
+@media(max-width:700px){.dan-app{padding:10px}.dan-header{gap:8px;padding-bottom:12px}.dan-back{font-size:0}.dan-back:first-letter{font-size:24px}.dan-brand{gap:8px}.dan-seal{width:38px;height:38px;font-size:21px}.dan-brand p,.dan-brand small{font-size:7px;letter-spacing:.12em}.dan-brand h1{font-size:20px;letter-spacing:.1em}.dan-status{font-size:0}.dan-status i{width:8px;height:8px;margin:0}.dan-stage{margin-top:12px;border-radius:7px}.stage-caption{top:8px}.stage-caption span,.stage-caption small{font-size:6px;letter-spacing:.12em}.stage-caption strong{font-size:12px}.stage-legend{right:7px;bottom:6px;gap:9px;font-size:7px}.stage-legend i{width:5px;height:5px}.dan-info{grid-template-columns:1fr;gap:7px;margin-top:9px}.info-card{padding:10px 12px}.info-icon{flex-basis:34px;height:34px;font-size:18px}.info-card strong{font-size:14px}.info-card p{font-size:10px}.dan-footer{font-size:8px;padding-top:15px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
