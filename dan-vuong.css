@@ -298,3 +298,48 @@ body.dan-page .dan-game-app .dan-game-stage .dan-arena-frame{
   width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;
   aspect-ratio:auto!important;overflow:hidden!important;
 }
+
+
+/* v6 — gọn khung game, giữ đúng các góc HUD như trường đua phi kiếm */
+.dan-arena-frame>.arena-overlay-top{
+  top:9px;left:50%;right:auto;transform:translateX(-50%);
+  z-index:14;display:flex;align-items:center;justify-content:center;gap:7px;
+  pointer-events:none;
+}
+.dan-arena-frame .arena-chip{
+  padding:5px 9px;border:1px solid #e0c17b;
+  background:rgba(13,36,30,.92);color:#f6e5bc;
+  box-shadow:0 3px 12px #0006;font:800 9px Arial,sans-serif;letter-spacing:.06em;
+}
+.dan-stage-event{
+  top:43px;bottom:auto;left:50%;max-width:min(38%,520px);
+  padding:5px 10px;z-index:5;background:rgba(17,43,35,.84);
+}
+.dan-selected-info{display:none!important}
+.dan-game-camera.is-minimized{width:auto;min-width:0;padding:6px}
+.dan-game-camera.is-minimized .camera-info,
+.dan-game-camera.is-minimized .camera-screen{display:none!important}
+.dan-game-camera.is-minimized .camera-heading{margin:0;padding:0;border:0}
+.dan-game-ranking.is-minimized{width:auto;max-height:none;padding:7px}
+.dan-game-ranking.is-minimized .ranking-meta,
+.dan-game-ranking.is-minimized .table-wrap{display:none!important}
+.dan-game-ranking.is-minimized .ranking-heading{margin:0;padding:0;border:0}
+.dan-game-ranking.is-minimized .ranking-heading>div{display:none}
+.dan-game-ranking.is-minimized .ranking-seal{margin:0}
+.dan-game-stage .stage-title strong{letter-spacing:.1em}
+.dan-game-stage .stage-title small{letter-spacing:.09em}
+.dan-game-ranking .rank-row{transition:background .16s ease,box-shadow .16s ease}
+.dan-game-ranking .rank-row:active{background:#c5a15c33}
+@media(max-width:760px){
+ .dan-arena-frame>.arena-overlay-top{top:7px;gap:3px}
+ .dan-arena-frame .arena-chip{padding:3px 5px;font-size:6px;letter-spacing:0}
+ .dan-stage-event{top:31px;max-width:32%;padding:3px 5px}
+ .dan-stage-event strong{font-size:6px}
+ .dan-game-camera.is-minimized{padding:5px}
+ .dan-game-ranking.is-minimized{padding:5px}
+}
+@media(max-width:390px){
+ .dan-arena-frame>.arena-overlay-top{top:4px}
+ .dan-arena-frame .arena-chip{padding:2px 4px;font-size:5px}
+ .dan-stage-event{top:25px;max-width:29%}
+}
