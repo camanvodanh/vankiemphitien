@@ -36,7 +36,13 @@
   const STRATEGIES=["Tốc độ","Chất lượng","Cân bằng","Mạo hiểm"];
   const PHASES=[{name:"Khống hỏa",end:.22},{name:"Tinh luyện",end:.47},{name:"Dung hợp",end:.72},{name:"Ngưng đan",end:1}];
   let seed=20261126;const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};
-  const makeNpc=(name,i)=>{const palette=PALETTE[i%PALETTE.length];return {id:i+1,name,stats:{alchemy:58+Math.floor(rand()*39),fire:55+Math.floor(rand()*42),sense:54+Math.floor(rand()*43),spirit:55+Math.floor(rand()*43),speed:55+Math.floor(rand()*42),calm:52+Math.floor(rand()*46)},strategy:STRATEGIES[i%4],progress:0,phase:0,status:"Đang chuẩn bị",done:false,success:false,quality:0,event:"",elapsed:0,raceLook:{id:"dan-"+(i+1),name,gender:/nữ|tiên tử|thánh nữ|tiểu thư|cô nương|nguyệt|tuyết|yên|dao|linh/i.test(name)?"female":(i%2?"female":"male"),appearanceSeed:i%5,color:palette[0],dark:palette[1],phase:i*.73,swordStyle:i%12,effectTimer:0,effectDuration:0,effectType:"",effectName:"",speedMultiplier:1,progress:0,finished:false,isLegendaryThanSau:false}};};
+  const makeNpc=(name,i)=>{
+    const racePalette=window.parent?.VKP_DATA?.characters?.racerPalette||PALETTE;
+    const palette=racePalette[i%racePalette.length];
+    const gender=/nữ|tiên tử|thánh nữ|tiểu thư|cô nương|nguyệt|thanh huyền|linh nhi|nhược|tử yên|băng tâm/i.test(name)?"female":(i%2?"female":"male");
+    const appearanceSeed=(i*3+1)%5;
+    return {id:i+1,name,stats:{alchemy:58+Math.floor(rand()*39),fire:55+Math.floor(rand()*42),sense:54+Math.floor(rand()*43),spirit:55+Math.floor(rand()*43),speed:55+Math.floor(rand()*42),calm:52+Math.floor(rand()*46)},strategy:STRATEGIES[i%4],progress:0,phase:0,status:"Đang chuẩn bị",done:false,success:false,quality:0,event:"",elapsed:0,raceLook:{id:"dan-"+(i+1),name,gender,appearanceSeed,color:palette[0],dark:palette[1],phase:(i*.73)+rand()*1.4,swordStyle:i%12,talent:null,isLegendaryThanSau:false,thanSauBunCooldown:4,thanSauEatingTimer:0,progress:0,targetFinishTime:0,finished:false,finishTime:null,speedMultiplier:1,effectTimer:0,effectDuration:0,effectType:"",effectName:"",effectPolarity:"",rankChangeText:"",rankChangeTimer:0,rankMovement:"",rankMovementTimer:0}};
+  };
   let npcs=DEFAULT_NAMES.map(makeNpc),flames=Array.from({length:16},(_,i)=>({phase:i*.83,heat:.72+(i%4)*.055}));
   let simElapsed=0,lastSim=0,simStarted=false,simPaused=false,simFinished=false,simDuration=180000,eventText="Mười sáu đệ tử chuẩn bị khai lò";
   function stationPosition(index){
@@ -108,7 +114,7 @@
     if(now-lastBoardUpdate<450)return;lastBoardUpdate=now;
     const ranked=[...npcs].map(n=>({n,s:scoreNpc(n)})).sort((a,b)=>b.s.total-a.s.total);
     const board=document.getElementById("alchemyBoard");
-    if(board)board.innerHTML=ranked.map((item,i)=>{const n=item.n,s=item.s;const medal=i===0?"👑":i===1?"🥈":i===2?"🥉":String(i+1).padStart(2,"0");return '<button class="rank-row '+(n.id-1===selectedNpc?'is-selected':'')+'" data-npc="'+(n.id-1)+'"><b>'+medal+'</b><span class="rank-name">'+n.name+'<small>'+ (n.done?(n.success?pillRank(n.quality):"Luyện đan thất bại"):n.status)+'</small></span><span class="rank-score">'+s.total.toFixed(1)+'<small>điểm</small></span></button>'}).join("");
+    if(board)board.innerHTML=ranked.map((item,i)=>{const n=item.n,s=item.s;const medal=i===0?"👑":i===1?"🥈":i===2?"🥉":String(i+1).padStart(2,"0");return '<button class="rank-row '+(n.id-1===selectedNpc?'is-selected':'')+'" data-npc="'+(n.id-1)+'"><b>'+medal+'</b><span class="rank-name">'+n.name+'<small>'+ (n.done?(n.success?pillRank(n.quality):"Luyện đan thất bại"):n.status+" · "+Math.floor(n.progress*100)+"%")+'</small></span><span class="rank-score">'+s.total.toFixed(1)+'<small>điểm</small></span></button>'}).join("");
     board?.querySelectorAll("[data-npc]").forEach(el=>el.addEventListener("click",()=>{selectedNpc=Number(el.dataset.npc);cameraFocusUntil=performance.now()+7000;renderSelected();renderTournament(performance.now()+500);}));
     const finished=simFinished;
     const champion=ranked[0].n;
@@ -174,14 +180,6 @@
       button.textContent=minimized?"+":"−";button.setAttribute("aria-expanded",String(!minimized));
     }));
   }
-  canvas.addEventListener("click",e=>{
-    const r=canvas.getBoundingClientRect();if(!r.width||!r.height)return;
-    const x=(e.clientX-r.left)/r.width*W,y=(e.clientY-r.top)/r.height*H;
-    let best=-1,dist=1e9;
-    for(let i=0;i<npcs.length;i++){const p=stationPosition(i),d=Math.hypot((x-p.x)/p.s,(y-p.y)/p.s);if(d<dist){dist=d;best=i;}}
-    if(best>=0&&dist<95){selectedNpc=best;cameraFocusUntil=performance.now()+7000;renderSelected();renderTournament(performance.now()+1000);}
-  });
-
   function path(points,fill,stroke=null,lw=1){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lw;ctx.stroke()}}
   function roof(cx,y,w,h,color="#283b35"){
     path([[cx-w/2,y],[cx-w*.39,y-h*.52],[cx-w*.18,y-h*.78],[cx,y-h],[cx+w*.18,y-h*.78],[cx+w*.39,y-h*.52],[cx+w/2,y]],color,"#c8a75e",3);
@@ -307,7 +305,7 @@
   }
   function drawDisciple(x,y,s,index,t){
     const n=npcs[index],phase=n.done?(n.success?4:5):n.phase;
-    const raceRenderer=window.parent&&window.parent.drawRacer;
+    const raceRenderer=window.parent&&typeof window.parent.drawRacer==="function"?window.parent.drawRacer:null;
     if(typeof raceRenderer==="function"){
       try{raceRenderer.call(window.parent,ctx,n.raceLook,x,y,s*.88,t);}
       catch(error){drawDiscipleFallback(x,y,s,index,t);}
@@ -335,19 +333,25 @@
   }
   function drawStation(index,t){
     const p=stationPosition(index),x=p.x,y=p.y,s=p.s,n=npcs[index];
-    if(index===selectedNpc){ctx.save();ctx.strokeStyle="#f4d98e";ctx.lineWidth=2;ctx.setLineDash([7,5]);ctx.beginPath();ctx.ellipse(x,y+25,78*s,66*s,0,0,TAU);ctx.stroke();ctx.restore();}
-    drawPavilion(x,y,s);drawDisciple(x,y+20,s*.94,index,t);drawCauldron(x,y-26,s,t,index);
-    // Mặt bàn phía trước che phần phi kiếm, tạo cảm giác đệ tử đứng sau đan lô để thao tác.
-    ctx.fillStyle="#493328";ctx.fillRect(x-59,y+38,118,14);ctx.fillStyle="#c69d58";ctx.fillRect(x-61,y+36,122,3);ctx.fillStyle="#d9bd7c";ctx.fillRect(x-55,y+50,110,2);
-    ctx.textAlign="center";ctx.font="bold 12px Arial";ctx.fillStyle=n.done?(n.success?"#ffe49b":"#e39b8c"):"#fff0c8";ctx.fillText(n.name,x,y+66);
-    ctx.font="9px Arial";ctx.fillStyle="#d9d0b8";ctx.fillText(n.done?(n.success?"THÀNH ĐAN · "+pillRank(n.quality):"LÒ ĐAN THẤT BẠI"):n.status.toUpperCase(),x,y+77);
-    ctx.fillStyle="#30291f";ctx.fillRect(x-39,y+82,78,4);ctx.fillStyle=n.done?(n.success?"#e8c36d":"#9c5d50"):"#9bc6a8";ctx.fillRect(x-39,y+82,78*n.progress,4);
+    if(index===selectedNpc){ctx.save();ctx.strokeStyle="#f4d98e";ctx.lineWidth=2;ctx.setLineDash([7,5]);ctx.beginPath();ctx.ellipse(x,y+34,82*s,74*s,0,0,TAU);ctx.stroke();ctx.restore();}
+    drawPavilion(x,y,s);
+    drawCauldron(x,y-26,s,t,index);
+    drawDisciple(x,y+38,s*.94,index,t);
+    // Bàn đá phía trước che thanh phi kiếm của bộ nhân vật gốc, giữ nguyên gương mặt và trường bào.
+    ctx.fillStyle="#30261f99";ctx.beginPath();ctx.ellipse(x,y+57,74*s,10*s,0,0,TAU);ctx.fill();
+    const bench=ctx.createLinearGradient(0,y+43,0,y+66);bench.addColorStop(0,"#d2b276");bench.addColorStop(.22,"#8d6840");bench.addColorStop(1,"#4a3528");
+    ctx.fillStyle=bench;ctx.beginPath();ctx.moveTo(x-65*s,y+43*s);ctx.quadraticCurveTo(x,y+51*s,x+65*s,y+43*s);ctx.lineTo(x+60*s,y+62*s);ctx.quadraticCurveTo(x,y+69*s,x-60*s,y+62*s);ctx.closePath();ctx.fill();
+    ctx.strokeStyle="#f2d796";ctx.lineWidth=2*s;ctx.beginPath();ctx.moveTo(x-65*s,y+43*s);ctx.quadraticCurveTo(x,y+51*s,x+65*s,y+43*s);ctx.stroke();
+    ctx.fillStyle="#e4c783";ctx.fillRect(x-48*s,y+57*s,96*s,2*s);
+    ctx.textAlign="center";ctx.font="bold 12px Arial";ctx.fillStyle=n.done?(n.success?"#ffe49b":"#e39b8c"):"#fff0c8";ctx.fillText(n.name,x,y+82);
+    ctx.font="9px Arial";ctx.fillStyle="#d9d0b8";ctx.fillText(n.done?(n.success?"THÀNH ĐAN · "+pillRank(n.quality):"LÒ ĐAN THẤT BẠI"):n.status.toUpperCase()+" · "+Math.floor(n.progress*100)+"%",x,y+93);
+    ctx.fillStyle="#30291f";ctx.fillRect(x-42,y+99,84,4);ctx.fillStyle=n.done?(n.success?"#e8c36d":"#9c5d50"):"#9bc6a8";ctx.fillRect(x-42,y+99,84*n.progress,4);
   }
   function drawAlchemyCamera(now){
     if(!cameraCtx||!cameraCanvas||!npcs.length)return;
     const focus=now<cameraFocusUntil?npcs[selectedNpc]:[...npcs].sort((a,b)=>scoreNpc(b).total-scoreNpc(a).total)[0];
     if(!focus)return;
-    const p=stationPosition(focus.id-1),sw=500,sh=290,sx=clamp(p.x-sw/2,0,W-sw),sy=clamp(p.y-sh/2,0,H-sh);
+    const p=stationPosition(focus.id-1),sw=540,sh=330,sx=clamp(p.x-sw/2,0,W-sw),sy=clamp(p.y-sh/2-8,0,H-sh);
     cameraCtx.setTransform(1,0,0,1,0,0);cameraCtx.clearRect(0,0,cameraCanvas.width,cameraCanvas.height);
     cameraCtx.drawImage(canvas,sx*canvas.width/W,sy*canvas.height/H,sw*canvas.width/W,sh*canvas.height/H,0,0,cameraCanvas.width,cameraCanvas.height);
     cameraCtx.strokeStyle="#f2d58b";cameraCtx.lineWidth=3;cameraCtx.strokeRect(2,2,cameraCanvas.width-4,cameraCanvas.height-4);
