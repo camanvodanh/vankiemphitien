@@ -27,7 +27,7 @@
   if(detail){const n=sorted[0];detail.innerHTML=n?'<b>'+n.name+'</b><span>Đan thuật '+n.alchemy+' · Khống hỏa '+n.fire+' · Thần thức '+n.sense+'</span><span>Linh lực '+n.spirit+' · Tâm cảnh '+n.calm+'</span><span>Điểm mùa giải: '+n.score.toFixed(1)+'</span>':"Chưa có dữ liệu"}
   if(historyEl)historyEl.innerHTML=history.slice().reverse().map(h=>'<div class="league-history-row"><b>Mùa '+h.season+'</b><span>'+h.pill+'</span><strong>'+h.winner+'</strong></div>').join("")||'<p class="league-muted">Chưa có mùa giải hoàn tất.</p>';
   const start=$("startLeague"),next=$("nextLeague");
-  if(start)start.disabled=active;
+  if(start)start.disabled=active||results.some(r=>r.round===rounds[roundIndex].name);
   if(next)next.disabled=active||roundIndex>=2||!results.length;
  }
  function startRound(){
